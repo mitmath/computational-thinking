@@ -36,11 +36,13 @@ This might take a couple of minutes, go get yourself a cup of tea!
 
 You can now close the terminal.
 
-# Step 3: install Mozilla Firefox or Google Chrome
+## Step 3: install Mozilla Firefox or Google Chrome
 We need a modern browser to view Pluto notebooks with. Firefox and Chrome work best.
 
 # Second time: _running Pluto, opening a notebook_
 Repeat the following steps whenever you want to work on a homework assignment.
+
+## Step 1: start Pluto
 
 Start the Julia REPL, like you did during the setup. In the REPL, type:
 ```julia
