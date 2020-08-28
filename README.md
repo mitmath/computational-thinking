@@ -4,7 +4,7 @@
 
 Welcome to the new MIT course 18.S191!
 
-This is an introductory course on Computational Thinking, using the [Julia programming language](www.julialang.org), to approach real-world problems in the following areas via data analysis and computational modeling:
+This is an introductory course on Computational Thinking, using the [Julia programming language](www.julialang.org), to approach real-world problems in the following areas via data analysis and computational and mathematical modeling:
 
 - Image analysis
 - Particle dynamics and ray tracing
