@@ -26,7 +26,7 @@ If you do so, please add punctuation, and please change the colour of the part y
 Alan Edelman, David P. Sanders, Grant Sanderson, James Schloss
 
 ## Logistics
-TR 1&ndash;2pm, online
+TR 2:30&ndash;3:30pm, online
 
 - Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
 
