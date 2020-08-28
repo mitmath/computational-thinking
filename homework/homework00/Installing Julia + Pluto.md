@@ -97,4 +97,4 @@ Click _Choose_.
 
 ## Step 4: sharing a notebook
 
-After working on your notebook (your code is autosaved when you run it), you will find your notebook file in the folder we created in step 3. This the file that you can share with other, or submit as your homework assignment to canvas.
+After working on your notebook (your code is autosaved when you run it), you will find your notebook file in the folder we created in step 3. This the file that you can share with others, or submit as your homework assignment to canvas.
