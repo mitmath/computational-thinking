@@ -6,7 +6,7 @@
 
 Go to [https://julialang.org/downloads/platform/](https://julialang.org/downloads/platform/) follow the installation instructions for your system (Linux x86, Windows, etc). We recommend installing regular Julia 1.5.1, we don't need JuliaPro for this course.
 
-After installing, **make sure that you can run Julia**. On some systems, this means searching for the "Julia 1.5.1" program isntalled on your computer, in others it means running the command `julia` in a terminal. Make sure that you can run `1+1`:
+After installing, **make sure that you can run Julia**. On some systems, this means searching for the "Julia 1.5.1" program installed on your computer, in others it means running the command `julia` in a terminal. Make sure that you can run `1+1`:
 
 ![image](https://user-images.githubusercontent.com/6933510/91439734-c573c780-e86d-11ea-8169-0c97a7013e8d.png)
 
