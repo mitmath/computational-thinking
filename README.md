@@ -4,7 +4,7 @@
 
 Welcome to the new MIT course 18.S191!
 
-This is an introductory course on Computational Thinking, using the Julia programming language, to approach real-world problems in the following areas via data analysis and computational modeling:
+This is an introductory course on Computational Thinking, using the [Julia programming language](www.julialang.org), to approach real-world problems in the following areas via data analysis and computational modeling:
 
 - Image analysis
 - Particle dynamics and ray tracing
@@ -14,6 +14,8 @@ This is an introductory course on Computational Thinking, using the Julia progra
 
 ### Course Materials
 Course materials will be posted [here](syllabus.md).
+
+Julia learning materials may be found [here](www.julialang.org/learning)
 
 <!-- 
 
@@ -26,14 +28,14 @@ Alan Edelman, David P. Sanders, Grant Sanderson, James Schloss
 ## Logistics
 TR 1&ndash;2pm, online
 
-- Tuesdays: Prerecorded videosk, released on YouTube (link to follow later)
+- Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
 
-- Thursdays: Live sessions
+- Thursdays: Live sessions and office hours; link to follow
 
 Start date: September 1, 2020.
 
+Additional office hours will be added as needed.
 
-Office hours TBD
 
 
 
