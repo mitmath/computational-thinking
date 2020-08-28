@@ -28,14 +28,14 @@ Alan Edelman, David P. Sanders, Grant Sanderson, James Schloss
 ## Logistics
 TR 1&ndash;2pm, online
 
-- Tuesdays: Prerecorded videosk, released on YouTube (link to follow later)
+- Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
 
-- Thursdays: Live sessions
+- Thursdays: Live sessions and office hours; link to follow
 
 Start date: September 1, 2020.
 
+Additional office hours will be added as needed.
 
-Office hours TBD
 
 
 
