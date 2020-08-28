@@ -51,7 +51,7 @@ You will need to install Julia by carefully following the detailed instructions 
 
 *   12 weekly problem sets with equal weight; your lowest score will be dropped. 
 
-*   Released on Thursdays and due before the following Thursday's class.
+*   Released on Thursdays and due before the following Thursday's class. (No problem set during Thanskgiving week.)
 
 *   To pass, you must submit at least 11 problem sets with passing grades. 
 
