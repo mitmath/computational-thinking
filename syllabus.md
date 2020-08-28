@@ -6,7 +6,7 @@ These are in the form of Pluto notebooks.
 
 HW0 is for you to get your system set up correctly and to test our grading software. You must submit it but it will not count towards your grade.
 
-||Homework|Due date|Resources|
+|Homework|Due date|Link|Resources|
 |--|--|--|--|
 |HW0 (not graded) | Thursday 3 September |  <ul> <li>[Homework 0][md:hw0] </li> </ul> | <ul> <li>[Set up Julia and Pluto][md:setup]</li> </ul> | 
 
