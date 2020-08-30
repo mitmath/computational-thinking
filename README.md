@@ -49,9 +49,7 @@ Office hours TBD.
 
 *   Released on Thursdays and due before the following Thursday's class. (No problem set during Thanskgiving week.)
 
-*   To pass, you must submit at least 11 problem sets with passing grades. 
-
-*   No final exam
+*   No exams
 
 Problem sets consist of coding and will be submitted online via Canvas.
 
