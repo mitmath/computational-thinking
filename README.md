@@ -34,7 +34,7 @@ TR 2:30&ndash;3:30pm, online
 
 Start date: September 1, 2020.
 
-Additional office hours will be added as needed.
+Office hours TBD.
 
 
 
