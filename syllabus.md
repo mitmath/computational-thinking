@@ -2,7 +2,7 @@
 <h2> Introduction to Computational Thinking with Application to Real-World Problems</h2>
 
 <h3> Homeworks </h3>
-These are in the form of Pluto notebooks.
+These are in the form of Pluto notebooks.  Homeworks will be released on Thursdays and due on Thursdays 11:59pm Eastern time.
 
 HW0 is for you to get your system set up correctly and to test our grading software. You must submit it but it will not count towards your grade.
 
