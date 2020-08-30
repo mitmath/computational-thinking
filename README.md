@@ -40,7 +40,9 @@ Office hours TBD.
 
 
 ### Discussion forum and homework submission
-[Canvas](https://canvas.mit.edu/courses/5637)
+- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): discussion
+
+- [Canvas](https://canvas.mit.edu/courses/5637): homework submission
 
 
 ### Evaluation
