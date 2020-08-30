@@ -32,7 +32,7 @@ TR 2:30&ndash;3:30pm, online
 
 - Thursdays: Live sessions (same YouTube link 2:30&ndash;3) and MIT-only discussion (3-3:30); link to follow
 
-Start date: September 1, 2020.
+Start date: September 1, 2020
 
 Office hours TBD.
 
