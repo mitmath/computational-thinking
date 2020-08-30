@@ -30,7 +30,7 @@ TR 2:30&ndash;3:30pm, online
 
 - Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
 
-- Thursdays: Live sessions and office hours; link to follow
+- Thursdays: Live sessions (same YouTube link 2:30-3) and office hours (3-3:30); link to follow
 
 Start date: September 1, 2020.
 
