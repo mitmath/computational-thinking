@@ -61,7 +61,7 @@ The terminal tells us to go to `http://localhost:1234/`. Let's open Firefox or C
 
 This is the main menu - here you can create new notebooks, or open existing ones. Our homework assignments will always be based on a _template notebook_, available in this github repository. To start from a template notebook on the web, you can _paste the URL into the blue box_ and press ENTER.
 
-For example, homework 0 is available here: [/homework/homework00/hw0.jl](/homework/homework00/hw0.jl). Copy this link (right click -> Copy Link), and paste it into the box. Press ENTER, and select OK in the confirmation box.
+For example, homework 0 is available here: [/homework/homework0/hw0.jl](/homework/homework0/hw0.jl). Copy this link (right click -> Copy Link), and paste it into the box. Press ENTER, and select OK in the confirmation box.
 
 ![image](https://user-images.githubusercontent.com/6933510/91441968-6b750100-e871-11ea-974e-3a6dfd80234a.png)
 
