@@ -8,7 +8,7 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 
 |Homework|Due date|Link|Resources|
 |--|--|--|--|
-|HW0 (not graded) | Thursday 3 September |  <ul> <li>[Homework 0 Set up Julia and Pluto (Part 1)][md:setup] </li> <li>[The Pluto notebook (static view, live file to the right)](https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.html) </ul> | <ul> <li>[The Pluto notebook][md:hw0]</li> </ul> | 
+|HW0 (not graded) | Thursday 3 September |  <ul> <li>[Homework 0 Set up Julia and Pluto (Part 1)][md:setup] </li> <li>[The Pluto notebook (static view)](https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.html) </ul> | <ul> <li>[The Pluto notebook (right click for link)][md:hw0]</li> </ul> | 
 
 
 [md:setup]:https://github.com/mitmath/18S191/blob/master/homework/homework0/Installing%20Julia%20%2B%20Pluto.md
