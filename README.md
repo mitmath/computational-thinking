@@ -30,7 +30,7 @@ TR 2:30&ndash;3:30pm, online
 
 - Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
 
-- Thursdays: Live sessions (same YouTube link 2:30-3) and office hours (3-3:30); link to follow
+- Thursdays: Live sessions (same YouTube link 2:30&ndash;3) and MIT-only discussion (3-3:30); link to follow
 
 Start date: September 1, 2020.
 
@@ -41,10 +41,6 @@ Office hours TBD.
 
 ### Discussion forum and homework submission
 [Canvas](https://canvas.mit.edu/courses/5637)
-
-## Installation of Julia
-You will need to install Julia by carefully following the detailed instructions [here](https://github.com/mitmath/18S191/blob/master/homework/homework00/Installing%20Julia%20%2B%20Pluto.md).
-
 
 
 ### Evaluation
