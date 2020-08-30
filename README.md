@@ -4,7 +4,7 @@
 
 Welcome to the new MIT course 18.S191!
 
-This is an introductory course on Computational Thinking, using the [Julia programming language](www.julialang.org), to approach real-world problems in the following areas via data analysis and computational modeling:
+This is an introductory course on Computational Thinking, using the modern [Julia programming language](http://www.julialang.org), to approach real-world problems in the following areas via data analysis and computational and mathematical modeling:
 
 - Image analysis
 - Particle dynamics and ray tracing
@@ -15,7 +15,7 @@ This is an introductory course on Computational Thinking, using the [Julia progr
 ### Course Materials
 Course materials will be posted [here](syllabus.md).
 
-Julia learning materials may be found [here](www.julialang.org/learning)
+Julia learning materials may be found [here](http://www.julialang.org/learning)
 
 <!-- 
 
@@ -26,7 +26,7 @@ If you do so, please add punctuation, and please change the colour of the part y
 Alan Edelman, David P. Sanders, Grant Sanderson, James Schloss
 
 ## Logistics
-TR 1&ndash;2pm, online
+TR 2:30&ndash;3:30pm, online
 
 - Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
 
@@ -34,7 +34,7 @@ TR 1&ndash;2pm, online
 
 Start date: September 1, 2020.
 
-Additional office hours will be added as needed.
+Office hours TBD.
 
 
 
@@ -51,7 +51,7 @@ You will need to install Julia by carefully following the detailed instructions 
 
 *   12 weekly problem sets with equal weight; your lowest score will be dropped. 
 
-*   Released on Thursdays and due before the following Thursday's class.
+*   Released on Thursdays and due before the following Thursday's class. (No problem set during Thanskgiving week.)
 
 *   To pass, you must submit at least 11 problem sets with passing grades. 
 

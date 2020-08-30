@@ -2,13 +2,13 @@
 <h2> Introduction to Computational Thinking with Application to Real-World Problems</h2>
 
 <h3> Homeworks </h3>
-These are in the form of Pluto notebooks.
+These are in the form of Pluto notebooks.  Homeworks will be released on Thursdays and due on Thursdays 11:59pm Eastern time.
 
 HW0 is for you to get your system set up correctly and to test our grading software. You must submit it but it will not count towards your grade.
 
 |Homework|Due date|Link|Resources|
 |--|--|--|--|
-|HW0 (not graded) | Thursday 3 September |  <ul> <li>[Homework 0][md:hw0] </li> </ul> | <ul> <li>[Set up Julia and Pluto][md:setup]</li> </ul> | 
+|HW0 (not graded) | Thursday 3 September |  <ul> <li>[Homework 0 Set up Julia and Pluto (Part 1)][md:setup] </li> </ul> | <ul> <li>[The Pluto notebook][md:hw0]</li> </ul> | 
 
 
 [md:setup]:https://github.com/mitmath/18S191/blob/master/homework/homework00/Installing%20Julia%20%2B%20Pluto.md
