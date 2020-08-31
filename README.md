@@ -1,6 +1,6 @@
 # 18.S191: Introduction to computational thinking for real-world problems
 
-## Fall 2020
+## Fall 2020 (9 Units)
 
 Welcome to the new MIT course 18.S191!
 
