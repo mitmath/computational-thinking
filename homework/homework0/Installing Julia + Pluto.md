@@ -55,7 +55,9 @@ Repeat the following steps whenever you want to work on a project or homework as
 
 Start the Julia REPL, like you did during the setup. In the REPL, type:
 ```julia
-julia> import Pluto; Pluto.run()
+julia> using Pluto
+
+julia> Pluto.run()
 ```
 
 ![image](https://user-images.githubusercontent.com/6933510/91441094-eb01d080-e86f-11ea-856f-e667fdd9b85c.png)
@@ -64,7 +66,7 @@ The terminal tells us to go to `http://localhost:1234/` (or a similar URL). Let'
 
 ![image](https://user-images.githubusercontent.com/6933510/91441391-6a8f9f80-e870-11ea-94d0-4ef91b4e2242.png)
 
-> If you're curious about what a _Pluto notebook_ is, have a look at the **sample notebooks**. Samples 1, 2 and 6 are also useful to learn about some Julia programming basics.
+> If you're curious about what a _Pluto notebook_ looks like, have a look at the **sample notebooks**. Samples 1, 2 and 6 may be useful for learning some basics of Julia programming.
 
 ## Step 2a: Opening a notebook from the web
 
