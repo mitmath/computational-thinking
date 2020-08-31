@@ -31,7 +31,7 @@ julia> ]
 
 The line turns blue and the prompt changes to `pkg>`, telling you that you are now in _package manager mode_. This mode allows you to do operations on **packages** (also called libraries).
 
-To install Pluto, run the following command to *add* (install) the package to your system by downloading it from the internet.
+To install Pluto, run the following (case sensitive) command to *add* (install) the package to your system by downloading it from the internet.
 You should only need to do this *once* for each installation of Julia:
 
 ```julia
