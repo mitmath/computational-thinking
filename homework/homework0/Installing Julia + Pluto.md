@@ -68,6 +68,8 @@ The terminal tells us to go to `http://localhost:1234/` (or a similar URL). Let'
 
 > If you're curious about what a _Pluto notebook_ looks like, have a look at the **sample notebooks**. Samples 1, 2 and 6 may be useful for learning some basics of Julia programming.
 
+If nothing happens in the browser the first time, close Julia and try again. And please let us know!
+
 ## Step 2a: Opening a notebook from the web
 
 This is the main menu - here you can create new notebooks, or open existing ones. Our homework assignments will always be based on a _template notebook_, available in this GitHub repository. To start from a template notebook on the web, you can _paste the URL into the blue box_ and press ENTER.
