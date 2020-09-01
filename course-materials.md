@@ -1,4 +1,4 @@
-<h1> 18.S191 Fall 2020 Syllabus</h1>
+<h1> 18.S191 Fall 2020 Course materials</h1>
 <h2> Introduction to Computational Thinking with Application to Real-World Problems</h2>
 
 <h3> Homeworks </h3>
