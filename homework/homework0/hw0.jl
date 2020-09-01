@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.8
+# v0.11.10
 
 using Markdown
 using InteractiveUtils
@@ -19,7 +19,7 @@ md"_homework 0, version 2_"
 # ╔═╡ 7308bc54-e6cd-11ea-0eab-83f7535edf25
 # edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
 
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
+student = (name = "peng yu", kerberos_id = "peng.yu@non-mit")
 
 # press the ▶ button in the bottom right of this cell to run your edits
 # or use Shift+Enter
@@ -81,7 +81,14 @@ This is because the square root must be between the numbers `x/a` and `a`. Why?
 
 # ╔═╡ bccf0e88-e754-11ea-3ab8-0170c2d44628
 ex_1_1 = md"""
-your answer here
+x/√x = √x 
+if a>√x
+	x/a < x/√x 
+	x/a < √x 
+	x/a<√x<x
+elif a < √x
+	x/a > x/√x
+	x/a > √x
 """ 
 
 # you might need to wait until all other cells in this notebook have completed running. 
@@ -99,8 +106,17 @@ Write a function newton_sqrt(x) which implements the above algorithm."
 
 # ╔═╡ 4896bf0c-e754-11ea-19dc-1380bb356ab6
 function newton_sqrt(x, error_margin=0.01, a=x / 2) # a=x/2 is the default value of `a`
-	return x # this is wrong, write your code here!
+	while abs(a*a - x) >= error_margin
+			a = (a+x/a)/2
+	end
+	return a
 end
+
+# ╔═╡ b0ecc57e-ec8b-11ea-1128-2544e0d03d1f
+
+
+# ╔═╡ b260bce4-ec8b-11ea-182d-47298a42362b
+
 
 # ╔═╡ 7a01a508-e78a-11ea-11da-999d38785348
 newton_sqrt(2)
@@ -216,7 +232,11 @@ area_sierpinski(1) = 0.??
 
 # ╔═╡ ca8d2f72-e7b6-11ea-1893-f1e6d0a20dc7
 function area_sierpinski(n)
+	if n == 0
 	return 1.0
+	else
+		return 3/4*area_sierpinski(n-1)
+	end
 end
 
 # ╔═╡ 71c78614-e7bc-11ea-0959-c7a91a10d481
@@ -319,7 +339,9 @@ has area **$(area_sierpinski(n))**
 # ╟─e7abd366-e7a6-11ea-30d7-1b6194614d0a
 # ╟─d62f223c-e754-11ea-2470-e72a605a9d7e
 # ╠═4896bf0c-e754-11ea-19dc-1380bb356ab6
-# ╠═7a01a508-e78a-11ea-11da-999d38785348
+# ╠═b0ecc57e-ec8b-11ea-1128-2544e0d03d1f
+# ╠═b260bce4-ec8b-11ea-182d-47298a42362b
+# ╟─7a01a508-e78a-11ea-11da-999d38785348
 # ╟─682db9f8-e7b1-11ea-3949-6b683ca8b47b
 # ╟─088cc652-e7a8-11ea-0ca7-f744f6f3afdd
 # ╟─c18dce7a-e7a7-11ea-0a1a-f944d46754e5
