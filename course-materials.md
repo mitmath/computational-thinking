@@ -23,7 +23,7 @@ Lectures will be uploaded to the Julia youtube channel. View the [full playlist 
 
 | Lecture         | Date        |  Extras                                               | Lectures               | 
 | -----------     | ----------- |  ---------------------------------------------------- | ---------------------- |
-| 1               | September 1 | [Introductions][video:1intros], [Installation][video:1pluto], [TED talk about Julia][video:1ted] | <ul><li>Images - [lecture][video:1images] & [notebook][jl:1images]</li><li> Arrays - [lecture][video:1arrays]</li></ul> |
+| 1               | September 1 | <ul><li>[Introductions][video:1intros]</li><li> [Installation][video:1pluto]</li><li> [TED talk about Julia][video:1ted]</li></ul> | <ul><li>Images - [lecture][video:1images] & [notebook][jl:1images]</li><li> Arrays - [lecture][video:1arrays]</li></ul> |
  
  
 
