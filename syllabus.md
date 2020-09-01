@@ -21,11 +21,25 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 [pdf:hw4]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS4.pdf
 [pdf:hw5]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS5.pdf
 
-<h3> Lectures  ([Playlist](https://www.youtube.com/playlist?list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ))  </h3>
+<h3> Lectures  </h3>
+
+- [Playlist](https://www.youtube.com/playlist?list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ)
 
 - [Lecture 1](https://www.youtube.com/playlist?list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ) (September 1)
  
+
+
+| Lecture         | Date        |  Link  |
+| -----------     | ----------- |        |
+| 1               | September 1 | Video[video:1images] |
+
+
 [video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
+
+
+https://www.youtube.com/watch?v=DGojI9xcCfg
+
+| 1. Analyzing covid-19 data <br> (March 30,2020) | <ul><li> [Welcome Slides][welcome]</li><li> [Lecture 1 Slides][1] </li></ul> | <ul> <li> [Welcome Video][video:welcome] </li>  <li> [Data Analysis][video:dataanal] </li> </ul> |  <ul><li>[Exploring Data on Covid-19][notebook:exploring] </li></ul>| <ul>  <li> [Video: 3Blue1Brown:Simulating an Epidemic][res1] </li> <li> [Video: How to Tell If We're Beating COVID-19][res2] </li> <li>   [Blog: COVID-19 in Denmark][res3]</ul> |
 
 <!-- 
 |Lecture| Slides | Video  | Notebook | Other Resources |
