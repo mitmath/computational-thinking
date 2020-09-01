@@ -1,5 +1,7 @@
 # 18.S191: Introduction to computational thinking for real-world problems
 
+<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> Go to Lectures and Problem Sets :balloon:</a></p>
+
 ## Fall 2020 (9 Units)
 
 Welcome to the new MIT course 18.S191!
