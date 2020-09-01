@@ -23,7 +23,7 @@ Please help edit the automatically-generated subtitles in the [lecture transcrip
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
 ## Professors
-Alan Edelman, David P. Sanders, Grant Sanderson, James Schloss
+[Alan Edelman](https://math.mit.edu/directory/profile.php?pid=63), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), & [James Schloss](https://eapsweb.mit.edu/people/jars)
 
 ## Logistics
 TR 2:30&ndash;3:30pm, online
