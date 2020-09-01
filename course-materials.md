@@ -8,11 +8,12 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 
 |Homework|Due date|Link|Resources|
 |--|--|--|--|
-|HW0 (not graded) | Thursday 3 September |  <ul> <li>[The Pluto notebook (right click for link)][md:hw0]</li><li>[The Pluto notebook (static preview)](https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.html)</li>  </ul> | <ul> <li>Set up Julia and Pluto - [guide][md:setup] & [video][video:1pluto] </li> </ul> | 
+|HW0 (not graded) | Thursday 3 September |  <ul> <li>[The Pluto notebook (right click for link)][jl:hw0]</li><li>[The Pluto notebook (static preview)][html:hw0]</li>  </ul> | <ul> <li>Set up Julia and Pluto - [guide][md:setup] & [video][video:1pluto] </li> </ul> | 
 
 
 [md:setup]:https://github.com/mitmath/18S191/blob/master/homework/homework0/Installing%20Julia%20%2B%20Pluto.md
-[md:hw0]:https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.jl
+[jl:hw0]:https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.jl
+[html:hw0]:https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.html
 
 <h3> Lectures  </h3>
 
@@ -22,7 +23,7 @@ Lectures will be uploaded to the Julia youtube channel. View the [full playlist 
 
 | Lecture         | Date        |  Extras                                               | Lectures               | 
 | -----------     | ----------- |  ---------------------------------------------------- | ---------------------- |
-| 1               | September 1 | [Introductions][video:1intros], [Installation][video:1pluto], [TED talk about Julia][video:1ted] | [Images][video:1images], [Arrays][video:1arrays] |
+| 1               | September 1 | [Introductions][video:1intros], [Installation][video:1pluto], [TED talk about Julia][video:1ted] | <ul><li>Images - [lecture][video:1images] & [notebook][jl:1images]</li><li> Arrays - [lecture][video:1arrays]</li></ul> |
  
  
 
@@ -32,5 +33,6 @@ Lectures will be uploaded to the Julia youtube channel. View the [full playlist 
 [video:1pluto]:https://www.youtube.com/watch?v=OOjKEgbt8AI
 
 [video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
+[jl:1images]:https://github.com/mitmath/18S191/blob/master/lecture_notebooks/Lecture%201%20-%20Images.jl
 [video:1arrays]:https://www.youtube.com/watch?v=foN1_hAGfNg&list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ&index=4&t=0s
 
