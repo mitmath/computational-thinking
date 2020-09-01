@@ -1,6 +1,6 @@
 # 18.S191: Introduction to computational thinking for real-world problems
 
-<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> Go to Lectures and Problem Sets :balloon:</a></p>
+<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to Lectures and Problem Sets</b> :balloon:</a></p>
 
 ## Fall 2020 (9 Units)
 
@@ -59,3 +59,5 @@ Office hours TBD.
 
 Problem sets consist of coding and will be submitted online via Canvas.
 
+
+<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to Lectures and Problem Sets</b> :balloon:</a></p>
