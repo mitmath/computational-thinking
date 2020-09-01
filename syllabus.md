@@ -23,7 +23,7 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 
 <h3> Lectures </h3>
 
-- [Lecture 1](https://www.youtube.com/playlist?list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ)
+- [Lecture 1](https://www.youtube.com/playlist?list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ) (September 1)
  
 [video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
 
