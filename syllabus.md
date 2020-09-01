@@ -29,9 +29,9 @@ HW0 is for you to get your system set up correctly and to test our grading softw
  
 
 
-| Lecture         | Date        |  Link  |
-| -----------     | ----------- |        |
-| 1               | September 1 | Video[video:1images] |
+| Lecture         | Date        |  Link                  |
+| -----------     | ----------- |  ----                  |
+| 1               | September 1 | [Video][video:1images] |
 
 
 [video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
