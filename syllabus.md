@@ -22,8 +22,9 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 [pdf:hw5]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS5.pdf
 
 <h3> Lectures
-
-Links to lecture videos and materials will be posted here.
+ [Lecture 1][video:1images]
+ 
+[video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
 
 <!-- 
 |Lecture| Slides | Video  | Notebook | Other Resources |
