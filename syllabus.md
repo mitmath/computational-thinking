@@ -35,6 +35,6 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 
 
 [video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
-[video:introas]:https://www.youtube.com/watch?v=vxjRWtWoD
+[video:intros]:https://www.youtube.com/watch?v=vxjRWtWoD
 
 
