@@ -15,7 +15,7 @@ This is an introductory course on Computational Thinking, using the modern [Juli
 
 
 ### Course Materials
-Course materials will be posted [here](syllabus.md).
+Course materials will be posted [here](course-materials.md).
 
 Julia learning materials may be found [here](http://www.julialang.org/learning)
 
