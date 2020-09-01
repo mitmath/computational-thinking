@@ -14,28 +14,23 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 [md:setup]:https://github.com/mitmath/18S191/blob/master/homework/homework0/Installing%20Julia%20%2B%20Pluto.md
 [md:hw0]:https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.jl
 
-
-[pdf:hw1]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS1.pdf
-[pdf:hw2]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS2.pdf
-[pdf:hw3]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS3.pdf
-[pdf:hw4]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS4.pdf
-[pdf:hw5]:https://docs.google.com/viewer?url=https://github.com/mitmath/6S083/raw/master/problem_sets/PS5.pdf
-
 <h3> Lectures  </h3>
 
 Lectures will be uploaded to the Julia youtube channel. View the [full playlist here](https://www.youtube.com/playlist?list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ).
 
  
 
-| Lecture         | Date        |  Links                                                | Extra                  | 
+| Lecture         | Date        |  Extras                                               | Lectures               | 
 | -----------     | ----------- |  ---------------------------------------------------- | ---------------------- |
-| 1               | September 1 | [Installation][video:1pluto], [Images][video:1images] | [Intros][video:intros] |
+| 1               | September 1 | [Introductions][video:1intros], [Installation][video:1pluto], [TED talk about Julia][video:1ted] | [Images][video:1images], [Arrays][video:1arrays] |
  
  
 
 
+[video:1intros]:https://www.youtube.com/watch?v=vxjRWtWoD_w
+[video:1ted]:https://www.youtube.com/watch?v=qGW0GT1rCvs&list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ&index=6&t=0s
 [video:1pluto]:https://www.youtube.com/watch?v=OOjKEgbt8AI
-[video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
-[video:intros]:https://www.youtube.com/watch?v=vxjRWtWoD_w
 
+[video:1images]:https://www.youtube.com/watch?v=DGojI9xcCfg
+[video:1arrays]:https://www.youtube.com/watch?v=foN1_hAGfNg&list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ&index=4&t=0s
 
