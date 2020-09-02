@@ -1,0 +1,20 @@
+<!-- CONTENT ENDS HERE -->
+    </div>  <!-- div: content container -->
+    {{ if hasmath }}
+        {{ insert foot_katex.html }}
+    {{ end }}
+    <script>
+        var els =  document.querySelectorAll(".language-julia")
+        for (var i=0, l = els.length; i < l; i++) {
+            var el = els[i]
+            var out = el.parentNode.nextSibling
+            if (out.tagName === "PRE") {
+                out.className = out.className + " code-output"
+            }
+        }
+    </script>
+    {{ if hascode }}
+        {{ insert foot_highlight.html }}
+    {{ end }}
+  </body>
+</html>
