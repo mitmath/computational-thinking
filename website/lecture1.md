@@ -1,6 +1,12 @@
+     @def airtime = "2020-09-01 2:30pm"
+
+@def sequence = ["installation", "images-intro", "array-intro", "cute-one"]
+@def airtime = "2020-09-02 7:00am"
 ~~~
 <h1>Lecture<img src="/assets/cute-one.png" style="display:inline; width:auto; height: 1.33em; margin-bottom: -.24em; margin-left:-1.85em;">: Images and Arrays</h1>
 ~~~
+
+Aired on: {{showtime airtime}}
 
 **Table of Contents**
 

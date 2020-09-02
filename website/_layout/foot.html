@@ -1,5 +1,11 @@
 <!-- CONTENT ENDS HERE -->
+
     </div>  <!-- div: content container -->
+
+    {{isdef airtime}}
+        {{go_live}}
+    {{end}}
+
     {{ if hasmath }}
         {{ insert foot_katex.html }}
     {{ end }}
