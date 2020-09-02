@@ -1,1 +1,6 @@
 [deps]
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+Franklin = "713c75ef-9fc9-4b05-94a9-213340da978e"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
+PkgPage = "e7214860-93a8-4f22-b43d-bd447d1a2094"
