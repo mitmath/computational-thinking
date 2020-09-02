@@ -3,7 +3,7 @@ function play_live(tstr, tz, sequence, durations, seek) {
     var t_since = moment().diff(airtime, "s")
 
     console.log(tstr, tz, sequence, durations, seek)
-    console.log("t_since", t)
+    console.log("t_since", t_since)
 
     if (t_since < 0) {
         setTimeout(function () {
