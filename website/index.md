@@ -40,7 +40,9 @@ Office hours TBD.
 
 
 ### Discussion forum and homework submission
-- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): discussion
+- [Discord](https://discord.gg/amhdfp): discussion
+
+- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): allows for anonymity to other students, discussion
 
 - [Canvas](https://canvas.mit.edu/courses/5637): homework submission
 
@@ -53,5 +55,4 @@ Office hours TBD.
 
 *   No exams
 
-Problem sets consist of coding and will be submitted online via Canvas.
-
+Problem sets consist of code. MIT students enrolled in the course must submit homeworks via Canvas. If you are not a student then we encourage you to join the Discord and find a cross-grading partner.
