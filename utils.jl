@@ -6,6 +6,9 @@ using Markdown, Dates
 
 include("youtube_videos.jl")
 
+const DATEFMT = dateformat"yyyy-mm-dd HH:MMp"
+const TZ = "America/New_York"
+
 function hfun_doc(params)
     fname = join(params[1:max(1, length(params)-2)], " ")
     head = params[end-1]
@@ -43,7 +46,7 @@ function hfun_showtime(params)
         return ""
     end
     try
-        DateTime(str, dateformat"yyyy-mm-dd HH:MMp")
+        DateTime(str, DATEFMT)
     catch err
         @warn "There was an error parsing date $str, the format is yyyy-mm-dd HH:MMp (see ?DateFormat)"
         rethrow(err)
@@ -99,13 +102,14 @@ function hfun_go_live()
     durations = [parse_duration(video["contentDetails"]["duration"])
                  for video in dict["items"]]
 
-    csum = cumsum(durations)
 
     jrepr(x) = sprint(io->JSON.print(io, x))
     """
+    <script src="/assets/moment.min.js"></script>
+    <script src="/assets/moment-timezone.js"></script>
     <script src="/assets/live-player.js"></script>
     <script>
-    play_live($(jrepr(airtime)), $(jrepr(seq)), $(jrepr(csum)))
+    play_live($(jrepr(string(DateTime(airtime, DATEFMT)))), $(jrepr(TZ)), $(jrepr(seq)), $(jrepr(durations)))
     </script>
     """
 end
