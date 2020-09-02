@@ -2,14 +2,15 @@ function play_live(tstr, tz, sequence, durations, seek) {
     var airtime = moment.tz(tstr, tz); // Construct the time in the given timezone
     var t_since = moment().diff(airtime, "s")
 
-    console.log(seek, time_left)
+    if (t_since < 0) {
+        return; // Live class hasn't started
+    }
 
     var total_time = durations.reduce(function (x,y) { return x+y });
     if (t_since > total_time) {
         return; // Live class is over
     }
 
-    console.log(t_since, durations)
     var j = 0
     var prev_t = 0
     var t = 0
@@ -33,7 +34,6 @@ function play_live(tstr, tz, sequence, durations, seek) {
         seek = 0;
     }
 
-    console.log(iframe)
     // Start playing!
     iframe.src = iframe.src + "?start=" + seek + "&autoplay=1"
 
