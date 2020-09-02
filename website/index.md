@@ -1,9 +1,9 @@
 
-## 18.S191
+# Introduction to Computational Thinking
 
-# Introduction to computational thinking
+Welcome to the new **18.S191** course!
 
-\blurb{This is an introductory course on Computational Thinking, using the modern [Julia programming language](http://www.julialang.org), to approach real-world problems in the following areas via data analysis and computational and mathematical modeling.  In this class you will learn applications, computer science, software, algorithms, and mathematics as an integrated whole.}
+\blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
 Topics include:
 
