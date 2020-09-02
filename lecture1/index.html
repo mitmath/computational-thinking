@@ -50,12 +50,13 @@
 <div class="franklin-content">
 <h1>Lecture<img src="/18S191/assets/cute-one.png" style="display:inline; width:auto; height: 1.33em; margin-bottom: -.24em; margin-left:-1.85em;">: Images and Arrays</h1>
 
+<p>Aired on: 2020-09-02T07:00:00</p>
 <p><strong>Table of Contents</strong></p>
 <div class="franklin-toc"><ol><li><a href="#prerequisites_installing_the_software_environment">Prerequisites: Installing the software environment</a></li><li><a href="#introduction_to_images_in_julia">Introduction to Images in Julia</a></li><li><a href="#introduction_to_arrays_in_julia">Introduction to Arrays in Julia</a></li><li><a href="#a_taste_of_abstraction">A taste of abstraction</a></li></ol></div>
 <h2 id="prerequisites_installing_the_software_environment"><a href="#prerequisites_installing_the_software_environment">Prerequisites: Installing the software environment</a></h2>
 <p>Check out the <a href="/18S191/installation/">installation</a> page on this website, or just watch the following video to learn how to set up Julia and Pluto – two software you will need to run the course materials on your own computer.</p>
 <br/>
-<iframe width="800" height="474"
+<iframe id="installation" width="800" height="474"
 src="https://www.youtube.com/embed/OOjKEgbt8AI"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -63,7 +64,7 @@ allowfullscreen></iframe>
 
 <h2 id="introduction_to_images_in_julia"><a href="#introduction_to_images_in_julia">Introduction to Images in Julia</a></h2>
 <p>In this segment, we understand what an image is when represented on a computer, and how you can use the Images.jl to start manipulating image data.</p>
-<iframe width="800" height="474"
+<iframe id="images-intro" width="800" height="474"
 src="https://www.youtube.com/embed/DGojI9xcCfg"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -71,7 +72,7 @@ allowfullscreen></iframe>
 
 <h2 id="introduction_to_arrays_in_julia"><a href="#introduction_to_arrays_in_julia">Introduction to Arrays in Julia</a></h2>
 <p>In the previous video we learnt that images are arrays of RGB values. Now we will do a quick tour of arrays in general. This video will reiterate some of the same commands, and help you practice your array skills.</p>
-<iframe width="800" height="474"
+<iframe id="array-intro" width="800" height="474"
 src="https://www.youtube.com/embed/CwDI-YOjWhc"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -79,7 +80,7 @@ allowfullscreen></iframe>
 
 <h2 id="a_taste_of_abstraction"><a href="#a_taste_of_abstraction">A taste of abstraction</a></h2>
 <p>Abstraction is the process of hiding the details. Here we play with matrices of various types of elements, and show an example of abstraction where the mechanics of arrays is hidden from the mechanics of elements stored in the arrays.</p>
-<iframe width="800" height="474"
+<iframe id="cute-one" width="800" height="474"
 src="https://www.youtube.com/embed/foN1_hAGfNg"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -91,7 +92,17 @@ allowfullscreen></iframe>
   </div>
 </div>
 </div><!-- CONTENT ENDS HERE -->
+
     </div>  <!-- div: content container -->
+
+    
+        <script src="/18S191/assets/live-player.js"></script>
+<script>
+play_live("2020-09-02 7:00am", ["installation","images-intro","array-intro","cute-one"], [416,1591,1879,2354])
+</script>
+
+    
+
     
     <script>
         var els =  document.querySelectorAll(".language-julia")
