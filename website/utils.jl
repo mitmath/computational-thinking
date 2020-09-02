@@ -10,7 +10,7 @@ function hfun_doc(params)
     fname = join(params[1:max(1, length(params)-2)], " ")
     head = params[end-1]
     type = params[end]
-    doc = eval(Meta.parse("using FileTrees; @doc FileTrees.$fname"))
+    doc = eval(Meta.parse("@doc $fname"))
     txt = Markdown.plain(doc)
     # possibly further processing here
     body = Franklin.fd2html(txt, internal=true)
