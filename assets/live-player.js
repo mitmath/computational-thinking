@@ -3,6 +3,9 @@ function play_live(tstr, tz, sequence, durations, seek) {
     var t_since = moment().diff(airtime, "s")
 
     if (t_since < 0) {
+        setTimeout(function () {
+            play_live(tstr, tz, sequence, durations, 0);
+        }, 1000*(-t_since + 2)); // start playing when class starts
         return; // Live class hasn't started
     }
 
