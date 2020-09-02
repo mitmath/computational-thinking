@@ -1,6 +1,6 @@
 # 18.S191: Introduction to computational thinking for real-world problems
 
-<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> Go to Lectures and Problem Sets :balloon:</a></p>
+<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to Lectures and Problem Sets</b> :balloon:</a></p>
 
 ## Fall 2020 (9 Units)
 
@@ -15,7 +15,7 @@ This is an introductory course on Computational Thinking, using the modern [Juli
 
 
 ### Course Materials
-Course materials will be posted [here](syllabus.md).
+Course materials will be posted [here](course-materials.md).
 
 Julia learning materials may be found [here](http://www.julialang.org/learning)
 
@@ -42,7 +42,9 @@ Office hours TBD.
 
 
 ### Discussion forum and homework submission
-- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): discussion
+- [Discord](https://discord.gg/amhdfp): discussion
+
+- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): allows for anonymity to other students, discussion
 
 - [Canvas](https://canvas.mit.edu/courses/5637): homework submission
 
@@ -57,3 +59,5 @@ Office hours TBD.
 
 Problem sets consist of coding and will be submitted online via Canvas.
 
+
+<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to Lectures and Problem Sets</b> :balloon:</a></p>
