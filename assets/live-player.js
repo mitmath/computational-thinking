@@ -2,6 +2,9 @@ function play_live(tstr, tz, sequence, durations, seek) {
     var airtime = moment.tz(tstr, tz); // Construct the time in the given timezone
     var t_since = moment().diff(airtime, "s")
 
+    console.log(tstr, tz, sequence, durations, seek)
+    console.log("t_since", t)
+
     if (t_since < 0) {
         setTimeout(function () {
             play_live(tstr, tz, sequence, durations, 0);
