@@ -43,7 +43,12 @@ jobs:
             run(`$(npm_cmd()) install highlight.js purgecss`);
             import PkgPage;
             PkgPage.optimize(input="website", output="Fall20");
-            write("website/__site/index.html", "<script>window.location.href=\"Fall20\"</script>");'
+            write("website/__site/index.html", """
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset="utf-8"><script>
+                window.location.href=\"Fall20\"</script></head>
+                <body></body></html>""");'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
