@@ -26,9 +26,12 @@ If you do so, please add punctuation, and please change the colour of the part y
 {{youtube course-intro}}
 
 ## Logistics
-TR 2:30&ndash;3:30pm, online
 
-- Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
+Summary of course materials released so far: [on Github](https://github.com/mitmath/18S191/blob/master/course-materials.md)
+
+TR 2:30&ndash;3:30pm EST, online (Go to the lecture page on this site to stream it.)
+
+- Tuesdays: Prerecorded videos, released on YouTube and played live on this site.
 
 - Thursdays: Live sessions (same YouTube link 2:30&ndash;3) and MIT-only discussion (3-3:30); link to follow
 
@@ -37,14 +40,12 @@ Start date: September 1, 2020
 Office hours TBD.
 
 
-
-
 ### Discussion forum and homework submission
-- [Discord](https://discord.gg/amhdfp): discussion
+- [Discord](https://discord.gg/RAyDRr): discussion (we encourage you to hang out here during class!)
 
-- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): allows for anonymity to other students, discussion
+- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) allows for anonymity to other students, discussion
 
-- [Canvas](https://canvas.mit.edu/courses/5637): homework submission
+- [Canvas](https://canvas.mit.edu/courses/5637): (MIT only) homework submission. If you're a non-MIT student, please find a partner to cross-grade homeworks via Discord.
 
 
 ### Evaluation
