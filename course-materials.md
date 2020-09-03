@@ -1,4 +1,7 @@
 <h1> 18.S191 Fall 2020 Course materials</h1>
+
+<p align="center"><a href="http://mitmath.github.io/18S191/Fall20"> <b>Go to course website</b> :balloon:</a></p>
+
 <h2> Introduction to Computational Thinking with Application to Real-World Problems</h2>
 
 <h3> Homeworks </h3>
@@ -36,3 +39,4 @@ Lectures will be uploaded to the Julia youtube channel. View the [full playlist 
 [jl:1images]:https://github.com/mitmath/18S191/blob/master/lecture_notebooks/Lecture%201%20-%20Images.jl
 [video:1arrays]:https://www.youtube.com/watch?v=foN1_hAGfNg&list=PLP8iPy9hna6Q2Kr16aWPOKE0dz9OnsnIJ&index=4&t=0s
 
+<p align="center"><a href="http://mitmath.github.io/18S191/Fall20"> <b>Go to course website</b> :balloon:</a></p>
