@@ -42,7 +42,9 @@ jobs:
             using NodeJS;
             run(`$(npm_cmd()) install highlight.js purgecss`);
             import PkgPage;
-            PkgPage.optimize(input="website", output="")'
+            PkgPage.optimize(input="website", output="Fall20");
+            ls;
+            pwd;'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
