@@ -322,7 +322,7 @@ begin
 		return missing
 	end
 	
-	function noisify(c::AbstractRGB, s)
+	function noisify(color::AbstractRGB, s)
 		# you will write me in a later exercise!
 		return missing
 	end
