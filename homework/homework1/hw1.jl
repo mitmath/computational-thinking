@@ -727,7 +727,7 @@ md"""
 ## **Exercise 5** - _Lecture transcript_
 _(MIT students only)_
 
-Please see the Piazza post for transcript document [here](https://canvas.mit.edu/courses/5637/discussion_topics/27880).
+Please see the Canvas post for transcript document [here](https://canvas.mit.edu/courses/5637/discussion_topics/27880).
 
 👉 Which lines of the transcripts did you edit?
 """
