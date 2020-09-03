@@ -10,7 +10,7 @@
 
 \toc
 
-## Segment 1: Convolution
+## Segment 1: Convolutions in image processing
 
 {{youtube convolution}}
 
