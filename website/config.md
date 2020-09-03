@@ -19,7 +19,7 @@ The latter allows you to plug in values that you would have defined here.
              deployed page to be in a subfolder e.g.: `YourPackage.jl/web/`.
 -->
 @def title       = "18.S191 Introduction to Computational Thinking"
-@def prepath     = "18S191"
+@def prepath     = "18S191/Fall20"
 @def description = """
                    Introduction to Computational thinking. Online course website.
                    """
