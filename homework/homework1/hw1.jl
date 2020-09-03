@@ -14,7 +14,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
-md"_homework 1, version 2_"
+md"_homework 1, version 3_"
 
 # ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
 md"""
@@ -520,7 +520,7 @@ end
 # ╔═╡ 809f5330-ee09-11ea-0e5b-415044b6ac1f
 md"""
 #### Exercise 3.4
-👉 Apply the box blur to your vector `v`. Show the original and the new vector by creating two cells that call `colored_line`. Make the parameter $\ell$ interactive, and call it `l_box` instead of just `l` to avoid a variable naming conflict.
+👉 Apply the box blur to your vector `v`. Show the original and the new vector by creating two cells that call `colored_line`. Make the parameter $\ell$ interactive.
 """
 
 # ╔═╡ ca1ac5f4-ee1c-11ea-3d00-ff5268866f87
@@ -564,11 +564,14 @@ md"""
 #### Exercise 3.6
 👉 Write a function `gaussian_kernel`.
 
-Here, don't forget that the definition of a Gaussian in 2D will be:
+The definition of a Gaussian in 1D is
 
-$$G(x,y)=\frac{1}{2\pi \sigma^2}e^{\frac{-(x^2+y^2)}{2\sigma^2}}$$
+$$G(x) = \frac{1}{2\pi \sigma^2} \exp \left( \frac{-x^2}{2\sigma^2} \right)$$
 
-Write a 1D version:
+We need to **sample** (i.e. evaluate) this at each pixel in a region of size $n^2$,
+and then **normalize** so that the sum of the resulting kernel is 1.
+
+For simplicity you can take $\sigma=1$.
 """
 
 # ╔═╡ 1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
@@ -620,6 +623,10 @@ Now let's move to 2D images. The convolution is then given by a **kernel** matri
 $$M'_{i, j} = \sum_{k, l}  \, M_{i- k, j - l} \, K_{k, l},$$
     
 where the sum is over the possible values of $k$ and $l$ in the window. Again we think of the window as being *centered* at $(i, j)$.
+
+A common notation for this operation is $*$:
+
+$$M' = M * K.$$
 """
 
 # ╔═╡ 7c1bc062-ee15-11ea-30b1-1b1e76520f13
@@ -706,7 +713,7 @@ md"""
 #### Exercise 4.3
 👉 Apply a **Gaussian blur** to an image.
 
-Here, the kernel will be defined as before:
+Here, the 2D Gaussian kernel will be defined as
 
 $$G(x,y)=\frac{1}{2\pi \sigma^2}e^{\frac{-(x^2+y^2)}{2\sigma^2}}$$
 """
@@ -725,35 +732,42 @@ md"""
 #### Exercise 4.4
 👉 Create a **Sobel edge detection filter**.
 
-Here, we will need to create two separate filters and apply them back-to-back before adding them in quadrature for the final gradient.
-
-More explicitly:
+Here, we will need to create two separate filters that separately detect edges in the horizontal and vertical directions:
 
 ```math
 \begin{align}
-G_x &= \begin{bmatrix}
+
+G_x &= \left(\begin{bmatrix}
 1 \\
 2 \\
 1 \\
-\end{bmatrix} \times [1~0~-1] * A = \begin{bmatrix}
+\end{bmatrix} \otimes [1~0~-1]
+\right) * A = \begin{bmatrix}
 1 & 0 & -1 \\
 2 & 0 & -2 \\
 1 & 0 & -1 \\
 \end{bmatrix}*A\\
-G_y &= \begin{bmatrix}
+G_y &= \left(
+\begin{bmatrix}
 1 \\
 0 \\
 -1 \\
-\end{bmatrix} \times [1~2~1] * A= \begin{bmatrix}
+\end{bmatrix} \otimes [1~2~1]
+\right) * A = \begin{bmatrix}
 1 & 2 & 1 \\
 0 & 0 & 0 \\
 -1 & -2 & -1 \\
-\end{bmatrix}*A\\
-G_{total} &= \sqrt{G_x^2 + G_y^2}
+\end{bmatrix}*A
 \end{align}
 ```
+Here $A$ is the array corresponding to your image.
+We can think of these as derivatives in the $x$ and $y$ directions.
 
-Where $A$ is your some array signifying your image.
+Then we combine them by finding the magnitude of the **gradient** (in the sense of multivariate calculus) by defining
+
+$$G_\text{total} = \sqrt{G_x^2 + G_y^2}.$$
+
+For simplicity you can choose one of the "channels" (colours) in the image to apply this to.
 """
 
 # ╔═╡ 9eeb876c-ee15-11ea-1794-d3ea79f47b75
@@ -811,9 +825,6 @@ hint(md"`num_rows, num_columns = size(M)`")
 
 # ╔═╡ 0cabed84-ee1e-11ea-11c1-7d8a4b4ad1af
 hint(md"`num_rows, num_columns = size(K)`")
-
-# ╔═╡ 9def5f32-ee15-11ea-1f74-f7e6690f2efa
-hint(md"Can we just copy the 1D code? What is different in 2D?")
 
 # ╔═╡ 57360a7a-edee-11ea-0c28-91463ece500d
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
@@ -1336,7 +1347,7 @@ sobel_camera_image = Gray.(process_raw_camera_data(sobel_raw_camera_data));
 with_sobel_edge_detect(sobel_camera_image)
 
 # ╔═╡ Cell order:
-# ╟─83eb9ca0-ed68-11ea-0bc5-99a09c68f867
+# ╠═83eb9ca0-ed68-11ea-0bc5-99a09c68f867
 # ╟─8ef13896-ed68-11ea-160b-3550eeabbd7d
 # ╟─ac8ff080-ed61-11ea-3650-d9df06123e1f
 # ╠═911ccbce-ed68-11ea-3606-0384e7580d7c
@@ -1455,7 +1466,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╠═93284f92-ee12-11ea-0342-833b1a30625c
 # ╟─cf73f9f8-ee12-11ea-39ae-0107e9107ef5
 # ╟─7ffd14f8-ee1d-11ea-0343-b54fb0333aea
-# ╠═80b7566a-ee09-11ea-3939-6fab470f9ec8
+# ╟─80b7566a-ee09-11ea-3939-6fab470f9ec8
 # ╠═1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
 # ╟─f8bd22b8-ee14-11ea-04aa-ab16fd01826e
 # ╠═2a9dd06a-ee13-11ea-3f84-67bb309c77a8
@@ -1464,7 +1475,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─bc1c20a4-ee14-11ea-3525-63c9fa78f089
 # ╠═24c21c7c-ee14-11ea-1512-677980db1288
 # ╟─27847dc4-ee0a-11ea-0651-ebbbb3cfd58c
-# ╟─b01858b6-edf3-11ea-0826-938d33c19a43
+# ╠═b01858b6-edf3-11ea-0826-938d33c19a43
 # ╟─7c1bc062-ee15-11ea-30b1-1b1e76520f13
 # ╠═7c2ec6c6-ee15-11ea-2d7d-0d9401a5e5d1
 # ╟─649df270-ee24-11ea-397e-79c4355e38db
@@ -1487,7 +1498,6 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╠═e7f8b41a-ee25-11ea-287a-e75d33fbd98b
 # ╟─8a335044-ee19-11ea-0255-b9391246d231
 # ╠═7c50ea80-ee15-11ea-328f-6b4e4ff20b7e
-# ╟─9def5f32-ee15-11ea-1f74-f7e6690f2efa
 # ╠═aad67fd0-ee15-11ea-00d4-274ec3cda3a3
 # ╟─8ae59674-ee18-11ea-3815-f50713d0fa08
 # ╟─94c0798e-ee18-11ea-3212-1533753eabb6
