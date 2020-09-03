@@ -88,7 +88,7 @@ pre.code-output {
     }
 }
 .sidebar .container.sidebar-sticky {
-    top: 2rem;
+    top: 1rem;
 }
 .sidebar-nav .sidebar-nav-item.active {
     box-sizing: border-box;
