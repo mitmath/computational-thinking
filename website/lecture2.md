@@ -17,9 +17,7 @@
 \\
 During the session, a couple of polling-style questions asked by Grant will appear below.
 
-~~~
 <iframe src="https://itempool.com/3b1b/live" width="100%" height="500px"></iframe>
-~~~
 
 ## Segment 2: MIT only live session
 
