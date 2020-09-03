@@ -31,9 +31,7 @@ Julia learning materials may be found [here](http://www.julialang.org/learning)
 
 ## Logistics
 
-Summary of course materials released so far: [on Github](https://github.com/mitmath/18S191/blob/master/course-materials.md)
-
-TR 2:30&ndash;3:30pm EST, online (Go to the lecture page on this site to stream it.)
+TR 2:30&ndash;3:30pm Eastern, online (Go to the lecture page on this site to stream it.)
 
 - Tuesdays: Prerecorded videos, released on YouTube and played live on this site.
 
