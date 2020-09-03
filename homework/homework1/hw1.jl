@@ -565,7 +565,10 @@ md"""
 👉 Write a function `gaussian_kernel`.
 
 Here, don't forget that the definition of a Gaussian in 2D will be:
+
 $$G(x,y)=\frac{1}{2\pi \sigma^2}e^{\frac{-(x^2+y^2)}{2\sigma^2}}$$
+
+Write a 1D version:
 """
 
 # ╔═╡ 1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
@@ -703,7 +706,8 @@ md"""
 #### Exercise 4.3
 👉 Apply a **Gaussian blur** to an image.
 
-Here, the kernel will be defined as before: 
+Here, the kernel will be defined as before:
+
 $$G(x,y)=\frac{1}{2\pi \sigma^2}e^{\frac{-(x^2+y^2)}{2\sigma^2}}$$
 """
 
@@ -725,7 +729,7 @@ Here, we will need to create two separate filters and apply them back-to-back be
 
 More explicitly:
 
-$$
+```math
 \begin{align}
 G_x &= \begin{bmatrix}
 1 \\
@@ -747,7 +751,7 @@ G_y &= \begin{bmatrix}
 \end{bmatrix}*A\\
 G_{total} &= \sqrt{G_x^2 + G_y^2}
 \end{align}
-$$
+```
 
 Where $A$ is your some array signifying your image.
 """
@@ -1451,7 +1455,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╠═93284f92-ee12-11ea-0342-833b1a30625c
 # ╟─cf73f9f8-ee12-11ea-39ae-0107e9107ef5
 # ╟─7ffd14f8-ee1d-11ea-0343-b54fb0333aea
-# ╟─80b7566a-ee09-11ea-3939-6fab470f9ec8
+# ╠═80b7566a-ee09-11ea-3939-6fab470f9ec8
 # ╠═1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
 # ╟─f8bd22b8-ee14-11ea-04aa-ab16fd01826e
 # ╠═2a9dd06a-ee13-11ea-3f84-67bb309c77a8
@@ -1482,7 +1486,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─6e53c2e6-ee1e-11ea-21bd-c9c05381be07
 # ╠═e7f8b41a-ee25-11ea-287a-e75d33fbd98b
 # ╟─8a335044-ee19-11ea-0255-b9391246d231
-# ╟─7c50ea80-ee15-11ea-328f-6b4e4ff20b7e
+# ╠═7c50ea80-ee15-11ea-328f-6b4e4ff20b7e
 # ╟─9def5f32-ee15-11ea-1f74-f7e6690f2efa
 # ╠═aad67fd0-ee15-11ea-00d4-274ec3cda3a3
 # ╟─8ae59674-ee18-11ea-3815-f50713d0fa08
