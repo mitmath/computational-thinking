@@ -14,7 +14,9 @@
 
 {{youtube convolution}}
 
-During the session, open [this link](https://itempool.com/3b1b/live) to answer Grant's live poll-style questions.
+\\
+
+**Live quiz:** During the session, open [this link](https://itempool.com/3b1b/live) to answer Grant's live poll-style questions!
 
 ## Segment 2: MIT only live session
 
