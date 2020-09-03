@@ -14,7 +14,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
-md"_homework 1, version 0_"
+md"_homework 1, version 1_"
 
 # ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
 md"""
@@ -384,7 +384,7 @@ decimate(image, ratio=5) = image[1:ratio:end, 1:ratio:end]
 # ╔═╡ c8ecfe5c-ee05-11ea-322b-4b2714898831
 philip = let
 	original = Images.load(philip_file)
-	decimate(original, 6)
+	decimate(original, 8)
 end
 
 # ╔═╡ 5be9b144-ee0d-11ea-2a8d-8775de265a1d
@@ -634,8 +634,23 @@ md"_Let's test it!_"
 # ╔═╡ cf6b05e2-ee16-11ea-3317-8919565cb56e
 small_image = Gray.(rand(5,5))
 
+# ╔═╡ e3616062-ee27-11ea-04a9-b9ec60842a64
+md"Extended with `0`:"
+
+# ╔═╡ e5b6cd34-ee27-11ea-0d60-bd4796540b18
+[get(small_image, (i, j), Gray(0)) for (i,j) in Iterators.product(-1:7,-1:7)]
+
+# ╔═╡ d06ea762-ee27-11ea-2e9c-1bcff86a3fe0
+md"Extended with your `extend`:"
+
 # ╔═╡ e1dc0622-ee16-11ea-274a-3b6ec9e15ab5
 [extend_mat(small_image, i, j) for (i,j) in Iterators.product(-1:7,-1:7)]
+
+# ╔═╡ 3cd535e4-ee26-11ea-2482-fb4ad43dda19
+let
+	philip_head = philip[250:430,110:230]
+	[extend_mat(philip_head, i, j) for (i,j) in Iterators.product(-50:size(philip_head,1)+51, (-50:size(philip_head,2)+51))]
+end
 
 # ╔═╡ 7c41f0ca-ee15-11ea-05fb-d97a836659af
 md"""
@@ -653,27 +668,31 @@ end
 md"_Let's test it out! 🎃_"
 
 # ╔═╡ 577c6daa-ee1e-11ea-1275-b7abc7a27d73
-small_image
+test_image_with_border = [get(small_image, (i, j), Gray(0)) for (i,j) in Iterators.product(-1:7,-1:7)]
 
 # ╔═╡ 275a99c8-ee1e-11ea-0a76-93e3618c9588
 K_test = [
-	0   0   0
-	1/3 1/3 1/3
-	0   0   0
+	0   0  0
+	1/2 0  1/2
+	0   0  0
 ]
 
 # ╔═╡ 42dfa206-ee1e-11ea-1fcd-21671042064c
-convolve_image(small_image, K_test)
+convolve_image(test_image_with_border, K_test)
 
 # ╔═╡ 6e53c2e6-ee1e-11ea-21bd-c9c05381be07
 md"_Edit_ `K_test` _to create your own test case!_"
 
-# ╔═╡ 88c888b4-ee19-11ea-2ea8-3d4cf1700aa0
-
+# ╔═╡ e7f8b41a-ee25-11ea-287a-e75d33fbd98b
+convolve_image(philip, K_test)
 
 # ╔═╡ 8a335044-ee19-11ea-0255-b9391246d231
 md"""
+---
+
 You can create all sorts of effects by choosing the kernel in a smart way. Today, we will implement two special kernels, to produce a **Gaussian blur** and a **Sobel edge detect** filter.
+
+Make sure that you have watched [the lecture](https://www.youtube.com/watch?v=8rrHTtUzyZA) about convolutions!
 """
 
 # ╔═╡ 7c50ea80-ee15-11ea-328f-6b4e4ff20b7e
@@ -746,6 +765,9 @@ hint(md"Have a look at Exercise 2 to see an example of adding interactivity with
 
 # ╔═╡ e9aadeee-ee1d-11ea-3525-95f6ba5fda31
 hint(md"`l = (length(k) - 1) ÷ 2`")
+
+# ╔═╡ 649df270-ee24-11ea-397e-79c4355e38db
+hint(md"`num_rows, num_columns = size(M)`")
 
 # ╔═╡ 0cabed84-ee1e-11ea-11c1-7d8a4b4ad1af
 hint(md"`num_rows, num_columns = size(K)`")
@@ -1268,7 +1290,7 @@ gauss_camera_image = process_raw_camera_data(gauss_raw_camera_data);
 with_gaussian_blur(gauss_camera_image)
 
 # ╔═╡ 1ff6b5cc-ee19-11ea-2ca8-7f00c204f587
-sobel_camera_image = process_raw_camera_data(sobel_raw_camera_data);
+sobel_camera_image = Gray.(process_raw_camera_data(sobel_raw_camera_data));
 
 # ╔═╡ 1bf94c00-ee19-11ea-0e3c-e12bc68d8e28
 with_sobel_edge_detect(sobel_camera_image)
@@ -1405,19 +1427,24 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─b01858b6-edf3-11ea-0826-938d33c19a43
 # ╟─7c1bc062-ee15-11ea-30b1-1b1e76520f13
 # ╠═7c2ec6c6-ee15-11ea-2d7d-0d9401a5e5d1
+# ╟─649df270-ee24-11ea-397e-79c4355e38db
 # ╟─9afc4dca-ee16-11ea-354f-1d827aaa61d2
 # ╠═cf6b05e2-ee16-11ea-3317-8919565cb56e
-# ╠═e1dc0622-ee16-11ea-274a-3b6ec9e15ab5
+# ╟─e3616062-ee27-11ea-04a9-b9ec60842a64
+# ╟─e5b6cd34-ee27-11ea-0d60-bd4796540b18
+# ╟─d06ea762-ee27-11ea-2e9c-1bcff86a3fe0
+# ╟─e1dc0622-ee16-11ea-274a-3b6ec9e15ab5
 # ╟─efd1ceb4-ee1c-11ea-350e-f7e3ea059024
+# ╟─3cd535e4-ee26-11ea-2482-fb4ad43dda19
 # ╟─7c41f0ca-ee15-11ea-05fb-d97a836659af
 # ╠═8b96e0bc-ee15-11ea-11cd-cfecea7075a0
 # ╟─0cabed84-ee1e-11ea-11c1-7d8a4b4ad1af
 # ╟─5a5135c6-ee1e-11ea-05dc-eb0c683c2ce5
-# ╠═577c6daa-ee1e-11ea-1275-b7abc7a27d73
+# ╟─577c6daa-ee1e-11ea-1275-b7abc7a27d73
 # ╠═275a99c8-ee1e-11ea-0a76-93e3618c9588
 # ╠═42dfa206-ee1e-11ea-1fcd-21671042064c
 # ╟─6e53c2e6-ee1e-11ea-21bd-c9c05381be07
-# ╟─88c888b4-ee19-11ea-2ea8-3d4cf1700aa0
+# ╠═e7f8b41a-ee25-11ea-287a-e75d33fbd98b
 # ╟─8a335044-ee19-11ea-0255-b9391246d231
 # ╟─7c50ea80-ee15-11ea-328f-6b4e4ff20b7e
 # ╟─9def5f32-ee15-11ea-1f74-f7e6690f2efa
