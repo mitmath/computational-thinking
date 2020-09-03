@@ -563,6 +563,9 @@ md"_Edit the cell above, or create a new cell with your own test cases!_"
 md"""
 #### Exercise 3.6
 👉 Write a function `gaussian_kernel`.
+
+Here, don't forget that the definition of a Gaussian in 2D will be:
+$$G(x,y)=\frac{1}{2\pi \sigma^2}e^{\frac{-(x^2+y^2)}{2\sigma^2}}$$
 """
 
 # ╔═╡ 1c8b4658-ee0c-11ea-2ede-9b9ed7d3125e
@@ -699,6 +702,9 @@ Make sure that you have watched [the lecture](https://www.youtube.com/watch?v=8r
 md"""
 #### Exercise 4.3
 👉 Apply a **Gaussian blur** to an image.
+
+Here, the kernel will be defined as before: 
+$$G(x,y)=\frac{1}{2\pi \sigma^2}e^{\frac{-(x^2+y^2)}{2\sigma^2}}$$
 """
 
 # ╔═╡ aad67fd0-ee15-11ea-00d4-274ec3cda3a3
@@ -714,6 +720,36 @@ md"_Let's make it interactive. 💫_"
 md"""
 #### Exercise 4.4
 👉 Create a **Sobel edge detection filter**.
+
+Here, we will need to create two separate filters and apply them back-to-back before adding them in quadrature for the final gradient.
+
+More explicitly:
+
+$$
+\begin{align}
+G_x &= \begin{bmatrix}
+1 \\
+2 \\
+1 \\
+\end{bmatrix} \times [1~0~-1] * A = \begin{bmatrix}
+1 & 0 & -1 \\
+2 & 0 & -2 \\
+1 & 0 & -1 \\
+\end{bmatrix}*A\\
+G_y &= \begin{bmatrix}
+1 \\
+0 \\
+-1 \\
+\end{bmatrix} \times [1~2~1] * A= \begin{bmatrix}
+1 & 2 & 1 \\
+0 & 0 & 0 \\
+-1 & -2 & -1 \\
+\end{bmatrix}*A\\
+G_{total} &= \sqrt{G_x^2 + G_y^2}
+\end{align}
+$$
+
+Where $A$ is your some array signifying your image.
 """
 
 # ╔═╡ 9eeb876c-ee15-11ea-1794-d3ea79f47b75
