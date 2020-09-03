@@ -1,23 +1,19 @@
 # 18.S191: Introduction to computational thinking for real-world problems
 
-<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to Lectures and Problem Sets</b> :balloon:</a></p>
+<p align="center"><a href="http://mitmath.github.io/18S191/Fall20"> <b>Go to course website</b> :balloon:</a></p>
+<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md">  :balloon:<b>Overview of course materials</b></a></p>
 
-## Fall 2020 (9 Units)
+Welcome to the new **18.S191** course!
 
-Welcome to the new MIT course 18.S191!
+\blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
-This is an introductory course on Computational Thinking, using the modern [Julia programming language](http://www.julialang.org), to approach real-world problems in the following areas via data analysis and computational and mathematical modeling.  In this class you will learn applications, computer science, software, algorithms, and mathematics as an integrated whole.
+Topics include:
 
 - Image analysis
 - Particle dynamics and ray tracing
 - Epidemic propagation
 - Climate modeling
 
-
-### Course Materials
-Course materials will be posted [here](course-materials.md).
-
-Julia learning materials may be found [here](http://www.julialang.org/learning)
 
 <!-- 
 
@@ -27,10 +23,19 @@ If you do so, please add punctuation, and please change the colour of the part y
 ## Professors
 [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), & [James Schloss](https://eapsweb.mit.edu/people/jars)
 
-## Logistics
-TR 2:30&ndash;3:30pm, online
+### Course Materials
 
-- Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
+A summary of all course materials posted so far is [here](course-materials.md).
+
+Julia learning materials may be found [here](http://www.julialang.org/learning)
+
+## Logistics
+
+Summary of course materials released so far: [on Github](https://github.com/mitmath/18S191/blob/master/course-materials.md)
+
+TR 2:30&ndash;3:30pm EST, online (Go to the lecture page on this site to stream it.)
+
+- Tuesdays: Prerecorded videos, released on YouTube and played live on this site.
 
 - Thursdays: Live sessions (same YouTube link 2:30&ndash;3) and MIT-only discussion (3-3:30); link to follow
 
@@ -39,14 +44,12 @@ Start date: September 1, 2020
 Office hours TBD.
 
 
-
-
 ### Discussion forum and homework submission
-- [Discord](https://discord.gg/amhdfp): discussion
+- [Discord](https://discord.gg/RAyDRr): discussion (we encourage you to hang out here during class!)
 
-- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): allows for anonymity to other students, discussion
+- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) allows for anonymity to other students, discussion
 
-- [Canvas](https://canvas.mit.edu/courses/5637): homework submission
+- [Canvas](https://canvas.mit.edu/courses/5637): (MIT only) homework submission. If you're a non-MIT student, please find a partner to cross-grade homeworks via Discord.
 
 
 ### Evaluation
@@ -57,7 +60,11 @@ Office hours TBD.
 
 *   No exams
 
-Problem sets consist of coding and will be submitted online via Canvas.
+Problem sets consist of code. MIT students enrolled in the course must submit homeworks via Canvas. If you are not a student then we encourage you to join the Discord and find a cross-grading partner.
+<!-- 
 
+Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
+If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
-<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to Lectures and Problem Sets</b> :balloon:</a></p>
+<p align="center"><a href="http://mitmath.github.io/18S191/Fall20">  :balloon:<b>Overview of course materials</b></a></p>
+<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to course website</b> :balloon:</a></p>

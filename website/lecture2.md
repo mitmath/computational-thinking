@@ -4,7 +4,7 @@
 <h1>Lecture 2: Convolutions</h1>
 ~~~
 
-Airs on: <div class="moment">{{showtime airtime}}</div>
+~~~Airs on: <span class="moment">~~~{{showtime airtime}}~~~</span>~~~
 
 **Table of Contents**
 
