@@ -1,0 +1,256 @@
+/* ==================================================================
+    DEFAULT FONT AND LAYOUT
+================================================================== */
+
+html {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size  : 17px;
+    color: #1c1c1c;
+}
+
+/* ==================================================================
+    BASIC GRID FOR PROFILE PIC
+================================================================== */
+
+.franklin-content .row {
+  display: block; }
+
+.franklin-content .left {
+  float: left;
+  margin-right: 15px; }
+
+.franklin-content .right {
+    float: right; }
+
+.franklin-content .container img {
+    width: auto;
+    padding-left: 0;
+    border-radius: 10px; }
+
+.franklin-content .footnote {
+    position: relative;
+    top: -0.5em;
+    font-size: 70%;
+}
+
+/* ==================================================================
+    FOOT / COPYRIGHT
+================================================================== */
+
+.franklin-content .page-foot a {
+    text-decoration: none;
+    color: #a6a2a0;
+    text-decoration: underline; }
+
+.page-foot {
+    font-size: 80%;
+    font-family: Arial, serif;
+    color: #a6a2a0;
+    text-align: center;
+    margin-top: 6em;
+    border-top: 1px solid lightgrey;
+    padding-top: 2em;
+    margin-bottom: 4em; }
+
+/* ==================================================================
+    TEXT GEOMETRY
+================================================================== */
+
+.franklin-content {
+    position: relative;
+    padding-left: 12.5%;
+    padding-right: 12.5%;
+    line-height: 1.35em; }
+
+/* on wide screens, fix content width to a max value */
+@media (min-width: 940px) {
+    .franklin-content {
+        width: 705px;
+        margin-left: auto;
+        margin-right: auto; }
+    }
+
+/* on narrow device, reduce margins */
+@media (max-width: 480px) {
+    .franklin-content {
+        padding-left: 6%;
+        padding-right: 6%; }
+    }
+
+/* ==================================================================
+    TITLES
+================================================================== */
+
+.franklin-content h1 { font-size: 24px; }
+.franklin-content h2 { font-size: 22px; }
+.franklin-content h3 { font-size: 20px; }
+
+.franklin-content h1, h2, h3, h4, h5, h6 {
+    text-align: left; }
+
+.franklin-content h1 {
+    padding-bottom: 0.5em;
+    border-bottom: 3px double lightgrey;
+    margin-top: 1.5em;
+    margin-bottom: 1em; }
+
+.franklin-content h2 {
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid lightgrey;
+    margin-top: 2em;
+    margin-bottom: 1em; }
+
+.franklin-content h1 a { color: inherit; }
+.franklin-content h1 a:hover {text-decoration: none;}
+.franklin-content h2 a { color: inherit; }
+.franklin-content h2 a:hover {text-decoration: none;}
+.franklin-content h3 a { color: inherit; }
+.franklin-content h3 a:hover {text-decoration: none;}
+.franklin-content h4 a { color: inherit; }
+.franklin-content h4 a:hover {text-decoration: none;}
+.franklin-content h5 a { color: inherit; }
+.franklin-content h5 a:hover {text-decoration: none;}
+.franklin-content h6 a { color: inherit; }
+.franklin-content h6 a:hover {text-decoration: none;}
+
+.franklin-content table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    text-align: center;}
+.franklin-content th, td{
+    padding: 10px;
+    border: 1px solid black;}
+
+.franklin-content blockquote {
+    background: #eeeeee;
+    border-left: 7px solid #a8a8a8;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    font-style: italic;}
+
+.franklin-content blockquote p {
+    display: inline; }
+
+/* ==================================================================
+    GENERAL FORMATTING
+================================================================== */
+
+/* spacing between bullet points */
+.franklin-content li p {
+        margin: 10px 0; }
+
+.franklin-content a {
+    color: #004de6;
+    text-decoration: none; }
+
+.franklin-content a:hover {
+    text-decoration: underline; }
+
+/* ==================================================================
+    HYPERREFS AND FOOTNOTES
+================================================================== */
+
+.franklin-content .eqref a  { color: green; }
+.franklin-content .bibref a { color: green; }
+
+.franklin-content sup {
+    font-size: 70%;
+    vertical-align: super;
+    line-height: 0; }
+
+.franklin-content table.fndef  {
+    margin: 0;
+    margin-bottom: 10px;}
+.franklin-content .fndef tr, td {
+    padding: 0;
+    border: 0;
+    text-align: left;}
+.franklin-content .fndef tr {
+    border-left: 2px solid lightgray;
+    }
+.franklin-content .fndef td.fndef-backref {
+    vertical-align: top;
+    font-size: 70%;
+    padding-left: 5px;}
+.franklin-content .fndef td.fndef-content {
+    font-size: 80%;
+    padding-left: 10px;}
+
+/* ==================================================================
+    IMAGES in CONTENT
+================================================================== */
+
+.franklin-content img {
+    width: 70%;
+    text-align: center;
+    padding-left: 10%; }
+
+.franklin-content .img-small img {
+    width: 50%;
+    text-align: center;
+    padding-left: 20%; }
+
+/* ==================================================================
+    KATEX
+================================================================== */
+
+body { counter-reset: eqnum; }
+
+.katex { font-size: 1em !important; }
+
+.katex-display .katex {
+    display: inline-block; } /* overwrite katex settings */
+
+.katex-display::after {
+    counter-increment: eqnum;
+    content: "(" counter(eqnum) ")";
+    position: relative;
+    float: right;
+    padding-right: 5px; }
+
+/* ==================================================================
+    CODE & HIGHLIGHT.JS
+================================================================== */
+
+code {
+    background-color: rgba(27,31,35,0.05);
+    padding: 0.1em 0.2em;
+    border-radius: 2px;
+    font-size: 90%;
+}
+
+/* .franklin-content code { */
+    /* background-color: rgba(27,31,35,0.05); */
+    /* padding: 0.1em 0.2em; */
+    /* border-radius: 2px; */
+    /* font-size: 90%; } */
+
+.hljs {
+    font-size: 90%;
+    line-height: 1.35em;
+    border-radius: 10px; }
+
+.hljs-meta, .hljs-metas, .hljs-metap { font-weight: bold; }
+
+.hljs-meta { color: rgb(25, 179, 51); }
+
+.hljs-metas { color: red; }
+
+.hljs-metap { color: rgb(51, 131, 231); }
+
+/* ==================================================================
+    BOXES
+================================================================== */
+
+.franklin-content .colbox-blue {
+    background-color: #EEF3F5;
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-bottom: 5px;
+    margin-left: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    border-radius: 0 10px 10px 0;
+    border-left: 5px solid #4C9CF1; }
