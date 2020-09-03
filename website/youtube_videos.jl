@@ -7,4 +7,5 @@ videos = Dict(
               "array-intro"  => "CwDI-YOjWhc",
               "cute-one"     => "foN1_hAGfNg",
               "images-intro" => "DGojI9xcCfg",
+              "convolution"  => "8rrHTtUzyZA",
 )
