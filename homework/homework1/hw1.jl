@@ -133,7 +133,7 @@ end
 copy_of_random_vect = copy(random_vect); # in case demean modifies `x`
 
 # ╔═╡ 38155b5a-edf0-11ea-3e3f-7163da7433fb
-mean(demean(copy_of_random_vect)) ≈ 0
+mean(demean(copy_of_random_vect))
 
 # ╔═╡ a5f8bafe-edf0-11ea-0da3-3330861ae43a
 md"""
@@ -918,7 +918,7 @@ else
 			still_missing()
 		elseif isnothing(result)
 			keep_working(md"Did you forget to write `return`?")
-		elseif !(result ≈ shouldbe) && !(result ≈ shouldbe2)
+		elseif !(result == shouldbe) && !(result == shouldbe2)
 			keep_working()
 		else
 			correct()
@@ -1322,7 +1322,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╟─2b1ccaca-edee-11ea-34b0-c51659f844d0
 # ╟─e2863d4c-edef-11ea-1d67-332ddca03cc4
 # ╠═ec5efe8c-edef-11ea-2c6f-afaaeb5bc50c
-# ╠═29e10640-edf0-11ea-0398-17dbf4242de3
+# ╟─29e10640-edf0-11ea-0398-17dbf4242de3
 # ╟─6f67657e-ee1a-11ea-0c2f-3d567bcfa6ea
 # ╠═38155b5a-edf0-11ea-3e3f-7163da7433fb
 # ╠═73ef1d50-edf0-11ea-343c-d71706874c82
