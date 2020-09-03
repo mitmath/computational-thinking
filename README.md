@@ -28,7 +28,7 @@ If you do so, please add punctuation, and please change the colour of the part y
 [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), & [James Schloss](https://eapsweb.mit.edu/people/jars)
 
 ## Logistics
-TR 2:30&ndash;3:30pm, online
+TR 2:30&ndash;3:30pm EDT, online
 
 - Tuesdays: Prerecorded videos, released on YouTube (link to follow later)
 
