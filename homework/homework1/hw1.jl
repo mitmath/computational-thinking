@@ -781,14 +781,16 @@ md"""
 ## **Exercise 5** - _Lecture transcript_
 _(MIT students only)_
 
-Please see the Canvas post for transcript document [here](https://canvas.mit.edu/courses/5637/discussion_topics/27880).
+Please see the Canvas post for transcript document for week 1 [here](https://canvas.mit.edu/courses/5637/discussion_topics/27880).
 
-👉 Which lines of the transcripts did you edit?
+We need each of you to correct about 100 lines (see instructions in the beginning of the document.)
+
+👉 Please mention the name of the video and the line ranges you edited:
 """
 
 # ╔═╡ 477d0a3c-ee10-11ea-11cf-07b0e0ce6818
 lines_i_edited = md"""
-Lecture 1, lines 10-50 (_for example_)
+Convolution, lines 100-0 (_for example_)
 """
 
 # ╔═╡ 8ffe16ce-ee20-11ea-18bd-15640f94b839
@@ -1509,7 +1511,7 @@ with_sobel_edge_detect(sobel_camera_image)
 # ╠═1bf94c00-ee19-11ea-0e3c-e12bc68d8e28
 # ╟─1ff6b5cc-ee19-11ea-2ca8-7f00c204f587
 # ╟─0001f782-ee0e-11ea-1fb4-2b5ef3d241e2
-# ╟─1b85ee76-ee10-11ea-36d7-978340ef61e6
+# ╠═1b85ee76-ee10-11ea-36d7-978340ef61e6
 # ╠═477d0a3c-ee10-11ea-11cf-07b0e0ce6818
 # ╟─91f4778e-ee20-11ea-1b7e-2b0892bd3c0f
 # ╟─8ffe16ce-ee20-11ea-18bd-15640f94b839
