@@ -1,7 +1,7 @@
 @def sequence = ["installation", "images-intro", "array-intro", "cute-one"]
 @def airtime = "2020-09-02 10:45am"
 ~~~
-<h1>Lecture<img src="/assets/cute-one.png" style="display:inline; width:auto; height: 1.33em; margin-bottom: -.24em; margin-left:-1.85em;">: Images and Arrays</h1>
+<h1>Lecture<img src="/assets/cute-one.png" style="display:inline; width:auto; height: 1.33em; margin-bottom: -.24em; margin-left:-1.85em;">: Images and Abstraction</h1>
 ~~~
 
 Aired on: {{showtime airtime}}
@@ -24,15 +24,27 @@ In this segment, we understand what an image is when represented on a computer, 
 
 {{youtube images-intro}}
 
+## Introduction to abstraction
 
-## Introduction to Arrays in Julia
+Abstraction is the process of hiding the details. Here we play with matrices of various types of elements, and show an example of abstraction where the mechanics of arrays is hidden from the mechanics of elements stored in the arrays.
+
+{{youtube cute-one}}
+
+
+## Basics of Arrays in Julia
 
 In the previous video we learnt that images are arrays of RGB values. Now we will do a quick tour of arrays in general. This video will reiterate some of the same commands, and help you practice your array skills.
 
 {{youtube array-intro}}
 
-## A taste of abstraction
+## TED Talk: A language to heal the planet together
 
-Abstraction is the process of hiding the details. Here we play with matrices of various types of elements, and show an example of abstraction where the mechanics of arrays is hidden from the mechanics of elements stored in the arrays.
+This talk motivates the need for an easy-to-use yet efficient programming language in science
 
-{{youtube cute-one}}
+{{youtube ted-talk}}
+
+## Introduction to your professors
+
+Meet the professors for this course!
+
+{{youtube course-intro}}
