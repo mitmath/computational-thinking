@@ -8,4 +8,5 @@ videos = Dict(
               "cute-one"     => "foN1_hAGfNg",
               "images-intro" => "DGojI9xcCfg",
               "convolution"  => "8rrHTtUzyZA",
+              "ted-talk"     => "qGW0GT1rCvs",
 )
