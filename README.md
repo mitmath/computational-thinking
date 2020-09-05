@@ -43,7 +43,7 @@ Office hours TBD.
 
 
 ### Discussion forum and homework submission
-- [Discord](https://discord.gg/RAyDRr): discussion (we encourage you to hang out here during class!)
+- [Discord](https://discord.gg/Z5qnVf8): discussion (we encourage you to hang out here during class!)
 
 - [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) allows for anonymity to other students, discussion
 
