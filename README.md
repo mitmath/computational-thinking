@@ -59,7 +59,7 @@ Office hours TBD.
 
 Problem sets consist of code. MIT students enrolled in the course must submit homeworks via Canvas. If you are not a student then we encourage you to join the Discord and find a cross-grading partner.
 
-### Quickstart
+### Quickstart Using Docker
 You can install docker from https://docs.docker.com/get-docker/ and run:
 ```bash
 docker build --tag=18s191 .
