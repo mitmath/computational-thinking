@@ -59,6 +59,14 @@ Office hours TBD.
 *   No exams
 
 Problem sets consist of code. MIT students enrolled in the course must submit homeworks via Canvas. If you are not a student then we encourage you to join the Discord and find a cross-grading partner.
+
+### Quickstart
+You can install docker from https://docs.docker.com/get-docker/ and run:
+```bash
+docker build --tag=18s191 .
+docker run --name=pluto -p1234:1234 18s191
+```
+Pluto should be accesible at localhost:1234. You may need to restart your computer for the docker installation to take effect.
 <!-- 
 
 Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
