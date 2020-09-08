@@ -1,4 +1,4 @@
-@def sequence = ["array-views", "conv-gpus","image-seam-reminiscing","conv-real-world"];
+@def sequence = ["image-seam", "array-views", "conv-gpus","image-seam-reminiscing","conv-real-world"];
 @def airtime = "2020-09-08 02:35pm"
 
 ~~~
