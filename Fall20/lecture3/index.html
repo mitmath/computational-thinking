@@ -38,12 +38,12 @@
     <style>
     </style>
     <nav class="sidebar-nav" style="opacity: 0.9">
-      <a class="sidebar-nav-item active" href="/18S191/Fall20/">Course home</a>
+      <a class="sidebar-nav-item " href="/18S191/Fall20/">Course home</a>
       <a class="sidebar-nav-item " href="/18S191/Fall20/installation/">Software installation</a>
       <a class="sidebar-nav-item " href="/18S191/Fall20/hw0/">Homework 0</a>
       <a class="sidebar-nav-item " href="/18S191/Fall20/lecture1/">Lecture 1: Images and Abstraction</a>
       <a class="sidebar-nav-item " href="/18S191/Fall20/lecture2/">Lecture 2: Convolutions</a>
-      <a class="sidebar-nav-item " href="/18S191/Fall20/lecture3/">Lecture 3: Dynamic programming, Views and GPUs</a>
+      <a class="sidebar-nav-item active" href="/18S191/Fall20/lecture3/">Lecture 3: Dynamic programming, Views and GPUs</a>
       <a class="sidebar-nav-item " href="/18S191/Fall20/hw1/">Homework 1</a>
       <small style="text-transform: uppercase; font-size: 0.75em">Extras</small>
       <a class="sidebar-nav-item " href="/18S191/Fall20/cheatsheets/">Cheatsheets</a>
@@ -54,59 +54,46 @@
 <div class="content container">
 
 <!-- Content appended here -->
-<div class="franklin-content"><h1 id="introduction_to_computational_thinking"><a href="#introduction_to_computational_thinking">Introduction to Computational Thinking</a></h1>
-<p>Welcome to the new course <strong>MIT 18.S191</strong>, the debut edition, <strong>Fall 2020</strong>&#33;</p>
-<p style="font-size: 1.15em; color: #333; line-height:1.5em"> This is an introductory course on Computational Thinking. We use the <a href="http://www.julialang.org">Julia programming language</a> to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.</p>
-<p>Topics include:</p>
-<ul>
-<li><p>Image analysis</p>
-</li>
-<li><p>Particle dynamics and ray tracing</p>
-</li>
-<li><p>Epidemic propagation</p>
-</li>
-<li><p>Climate modeling</p>
-</li>
-</ul>
-<h2 id="professors"><a href="#professors">Professors</a></h2>
-<p><a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a>, <a href="https://www.3blue1brown.com/about">Grant Sanderson</a>, &amp; <a href="https://eapsweb.mit.edu/people/jars">James Schloss</a></p>
-<h2 id="introduction_video"><a href="#introduction_video">Introduction video</a></h2>
-<iframe id="course-intro" width="800" height="474"
-src="https://www.youtube.com/embed/vxjRWtWoD_w"
+<div class="franklin-content">
+<h1>Lecture 3: Shrinking images and dynamic programming</h1>
+
+<div class="franklin-toc"><ol><li><a href="#seam_carving">Seam carving</a></li><li><a href="#array_slices_and_views">Array slices and views</a></li><li><a href="#convolution_on_gpus">Convolution on GPUs</a></li><li><a href="#image_seam_reminiscing">Image seam reminiscing</a></li><li><a href="#convolution_in_the_real_world">Convolution in the real world</a></li></ol></div>
+<h1 id="seam_carving"><a href="#seam_carving">Seam carving</a></h1>
+<p>An application of the Sobel filter with an introduction to dynamic programming</p>
+<iframe id="image-seam" width="800" height="474"
+src="https://www.youtube.com/embed/rpB6zQNsbQU"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>
 
-<h2 id="logistics"><a href="#logistics">Logistics</a></h2>
-<p>Course materials will be published on the accompanying website: <a href="https://mitmath.github.io/18S191/Fall20/">https://mitmath.github.io/18S191/Fall20/</a></p>
-<p>TR 2:30&ndash;3:30pm EST, online &#40;Go to the lecture page on this site to stream it.&#41;</p>
-<ul>
-<li><p>Tuesdays: Prerecorded videos, released on YouTube and played live on this site.</p>
-</li>
-<li><p>Thursdays: Live sessions &#40;same YouTube link 2:30&ndash;3&#41; and MIT-only discussion &#40;3-3:30&#41;; link to follow</p>
-</li>
-</ul>
-<p>Start date: September 1, 2020</p>
-<p>Office hours TBD.</p>
-<h3 id="discussion_forum_and_homework_submission"><a href="#discussion_forum_and_homework_submission">Discussion forum and homework submission</a></h3>
-<ul>
-<li><p><a href="https://discord.gg/Z5qnVf8">Discord</a>: discussion &#40;we encourage you to hang out here during class&#33;&#41;</p>
-</li>
-<li><p><a href="https://piazza.com/class/kd33x1xnfyq3b1">Piazza</a>: &#40;MIT only&#41; allows for anonymity to other students, discussion</p>
-</li>
-<li><p><a href="https://canvas.mit.edu/courses/5637">Canvas</a>: &#40;MIT only&#41; homework submission. If you&#39;re a non-MIT student, please find a partner to cross-grade homeworks via Discord.</p>
-</li>
-</ul>
-<h3 id="evaluation"><a href="#evaluation">Evaluation</a></h3>
-<ul>
-<li><p>12 weekly problem sets with equal weight; your lowest score will be dropped. </p>
-</li>
-<li><p>Released on Thursdays and due before the following Thursday&#39;s class. &#40;No problem set during Thanskgiving week.&#41;</p>
-</li>
-<li><p>No exams</p>
-</li>
-</ul>
-<p>Problem sets consist of code. MIT students enrolled in the course must submit homeworks via Canvas. If you are not a student then we encourage you to join the Discord and find a cross-grading partner.</p>
+<h1 id="array_slices_and_views"><a href="#array_slices_and_views">Array slices and views</a></h1>
+<iframe id="array-views" width="800" height="474"
+src="https://www.youtube.com/embed/gTGJ80HayK0"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
+
+<h1 id="convolution_on_gpus"><a href="#convolution_on_gpus">Convolution on GPUs</a></h1>
+<iframe id="conv-gpus" width="800" height="474"
+src="https://www.youtube.com/embed/aa3JkX_cj_I"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
+
+<h1 id="image_seam_reminiscing"><a href="#image_seam_reminiscing">Image seam reminiscing</a></h1>
+<iframe id="image-seam-reminiscing" width="800" height="474"
+src="https://www.youtube.com/embed/IQxN1Q8W6bI"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
+
+<h1 id="convolution_in_the_real_world"><a href="#convolution_in_the_real_world">Convolution in the real world</a></h1>
+<iframe id="conv-real-world" width="800" height="474"
+src="https://www.youtube.com/embed/e6WnzfvnFlY"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
+
 <div class="page-foot">
   <div class="copyright">
     Last modified: September 08, 2020. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>.
@@ -115,6 +102,14 @@ allowfullscreen></iframe>
 </div><!-- CONTENT ENDS HERE -->
 
     </div>  <!-- div: content container -->
+
+    
+        <script src="/18S191/Fall20/assets/moment.min.js"></script>
+<script src="/18S191/Fall20/assets/moment-timezone.js"></script>
+<script src="/18S191/Fall20/assets/live-player.js"></script>
+<script>
+play_live("2020-09-08T14:30:00", "America/New_York", ["array-views","conv-gpus","image-seam-reminiscing","conv-real-world"], [685,567,154,336])
+</script>
 
     
 
