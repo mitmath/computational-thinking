@@ -5,6 +5,8 @@
 <h1>Lecture 3: Shrinking images and dynamic programming</h1>
 ~~~
 
+\toc
+
 # Convolution on GPUs
 
 {{youtube conv-gpus}}
