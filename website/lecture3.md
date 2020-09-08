@@ -1,5 +1,5 @@
 @def sequence = ["array-views", "conv-gpus","image-seam-reminiscing","conv-real-world"];
-@def airtime = "2020-09-08 02:30pm"
+@def airtime = "2020-09-08 02:35pm"
 
 ~~~
 <h1>Lecture 3: Shrinking images and dynamic programming</h1>
