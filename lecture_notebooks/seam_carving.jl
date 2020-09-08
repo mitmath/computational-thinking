@@ -15,12 +15,15 @@ end
 
 # ╔═╡ 877df834-f078-11ea-303b-e98273ef98a4
 begin
-	using Pkg
-	Pkg.activate(tempname())
+	import Pkg
+	Pkg.activate(mktempdir())
 end
 
 # ╔═╡ 0316b94c-eef6-11ea-19bc-dbc959901bb5
 begin
+	# Poor man's Project.toml
+	Pkg.add(["Images", "ImageMagick", "PlutoUI", "Hyperscript", "ImageFiltering"])
+	
 	using Images
 	using ImageMagick
 	using Statistics
@@ -32,13 +35,6 @@ end
 using PlutoUI
 
 # ╔═╡ e196fa66-eef5-11ea-2afe-c9fcb6c48937
-# Poor man's Project.toml
-
-Pkg.add(["Images",
-		 "ImageMagick",
-		 "PlutoUI",
-		 "Hyperscript",
-		 "ImageFiltering"])
 
 
 # ╔═╡ cb335074-eef7-11ea-24e8-c39a325166a1
