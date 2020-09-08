@@ -18,6 +18,8 @@ using Pkg
 
 # ╔═╡ 21e744b8-f0d1-11ea-2e09-7ffbcdf43c37
 begin
+	Pkg.activate(mktempdir())
+	
 	Pkg.add("Gadfly")
 	Pkg.add("Compose")
 	Pkg.add("Statistics")
@@ -39,7 +41,7 @@ begin
 end
 
 # ╔═╡ 1ab1c808-f0d1-11ea-03a7-e9854427d45f
-Pkg.activate(mktempdir())
+
 
 # ╔═╡ 10f850fc-f0d1-11ea-2a58-2326a9ea1e2a
 set_default_plot_size(12cm, 12cm)
