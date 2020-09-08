@@ -9,6 +9,7 @@ videos = Dict(
               "images-intro" => "DGojI9xcCfg",
               "convolution"  => "8rrHTtUzyZA",
               "ted-talk"     => "qGW0GT1rCvs",
+              "array-views"  => "gTGJ80HayK0",
               "image-seam-reminiscing" => "IQxN1Q8W6bI",
               "conv-gpus"    => "aa3JkX_cj_I",
               "conv-real-world" => "e6WnzfvnFlY",
