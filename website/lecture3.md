@@ -6,6 +6,11 @@
 ~~~
 
 \toc
+# Seam carving
+
+An application of the Sobel filter with an introduction to dynamic programming
+
+{{youtube image-seam}}
 
 # Array slices and views
 
