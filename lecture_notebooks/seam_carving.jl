@@ -33,9 +33,6 @@ begin
 	using LinearAlgebra
 end
 
-# ╔═╡ e196fa66-eef5-11ea-2afe-c9fcb6c48937
-
-
 # ╔═╡ cb335074-eef7-11ea-24e8-c39a325166a1
 md"""
 # Seam Carving
@@ -45,9 +42,11 @@ md"""
    bits of an image in order to shrink it.
 """
 
-# ╔═╡ d2ae6dd2-eef9-11ea-02df-255ec3b46a36
-begin
-	example_urls = [
+# ╔═╡ bf750d0e-f35c-11ea-0245-713584583fcf
+md"Select an image below!"
+
+# ╔═╡ 90f44be8-f35c-11ea-2fc6-c361fd4966af
+@bind image_url Select([
 "https://cdn.shortpixel.ai/spai/w_1086+q_lossy+ret_img+to_webp/https://wisetoast.com/wp-content/uploads/2015/10/The-Persistence-of-Memory-salvador-deli-painting.jpg",
 
 "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg/1014px-Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg",
@@ -61,11 +60,12 @@ begin
 
 "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/758px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
 		"https://web.mit.edu/facilities/photos/construction/Projects/stata/1_large.jpg",
-	]
-	img = load(download(example_urls[1]))
-end
+	])
 
-# ╔═╡ 8340cf20-f079-11ea-1665-f5864bc49cb9
+# ╔═╡ d2ae6dd2-eef9-11ea-02df-255ec3b46a36
+img = load(download(image_url))
+
+# ╔═╡ 8ded023c-f35c-11ea-317c-11f5d1b67998
 
 
 # ╔═╡ 0b6010a8-eef6-11ea-3ad6-c1f10e30a413
@@ -265,7 +265,7 @@ show_colored_array(least_e)
 # ╔═╡ b507480a-ef01-11ea-21c4-63d19fac19ab
 # direction the path should take at every pixel.
 reduce((x,y)->x*y*"\n",
-	reduce(*, getindex.(([" ", "↙", "↓", "↘"],), dirs[1:25, 1:76].+3), dims=2, init=""), init="") |> Text
+	reduce(*, getindex.(([" ", "↙", "↓", "↘"],), dirs[1:25, 1:60].+3), dims=2, init=""), init="") |> Text
 
 # ╔═╡ 7d8b20a2-ef03-11ea-1c9e-fdf49a397619
 md"## Remove seams"
@@ -434,11 +434,12 @@ end
 
 # ╔═╡ Cell order:
 # ╠═877df834-f078-11ea-303b-e98273ef98a4
-# ╠═e196fa66-eef5-11ea-2afe-c9fcb6c48937
 # ╠═0316b94c-eef6-11ea-19bc-dbc959901bb5
 # ╟─cb335074-eef7-11ea-24e8-c39a325166a1
-# ╠═d2ae6dd2-eef9-11ea-02df-255ec3b46a36
-# ╠═8340cf20-f079-11ea-1665-f5864bc49cb9
+# ╟─bf750d0e-f35c-11ea-0245-713584583fcf
+# ╟─90f44be8-f35c-11ea-2fc6-c361fd4966af
+# ╟─d2ae6dd2-eef9-11ea-02df-255ec3b46a36
+# ╠═8ded023c-f35c-11ea-317c-11f5d1b67998
 # ╟─0b6010a8-eef6-11ea-3ad6-c1f10e30a413
 # ╠═fc1c43cc-eef6-11ea-0fc4-a90ac4336964
 # ╟─82c0d0c8-efec-11ea-1bb9-83134ecb877e
