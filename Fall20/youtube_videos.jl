@@ -12,6 +12,7 @@ videos = Dict(
               "image-seam"   => "rpB6zQNsbQU",
               "array-views"  => "gTGJ80HayK0",
               "image-seam-reminiscing" => "IQxN1Q8W6bI",
+              "james-image-seam" => "ALcohd1q3dk",
               "conv-gpus"    => "aa3JkX_cj_I",
               "conv-real-world" => "e6WnzfvnFlY",
 )
