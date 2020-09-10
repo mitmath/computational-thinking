@@ -138,9 +138,6 @@ First, as an example, let's benchmark the `remove_in_each_row` function we defin
 # ╔═╡ e501ea28-f326-11ea-252a-53949fd9ef57
 performance_experiment_default = @benchmark remove_in_each_row(img, 1:size(img, 1))
 
-# ╔═╡ 02195466-f327-11ea-0dd4-6bc6179c9fed
-
-
 # ╔═╡ f7915918-f366-11ea-2c46-2f4671ae8a22
 md"""
 #### Exercise 1.1
@@ -225,18 +222,6 @@ md"Final tally:"
 	views = performance_experiment_views,
 )
 
-# ╔═╡ e3195e42-f387-11ea-35bf-23e60a063837
-
-
-# ╔═╡ e3011080-f387-11ea-1185-9381e016199a
-
-
-# ╔═╡ 341ae618-f387-11ea-0147-3381a8fe7624
-ma = minimum(performance_experiment_views)
-
-# ╔═╡ c5a9531c-f387-11ea-0313-b50c88681f4f
-
-
 # ╔═╡ dc63d32a-f387-11ea-37e2-6f3666a72e03
 ⧀(a, b) = minimum(a).allocs + size(img, 1) ÷ 2  < minimum(b).allocs;
 
@@ -307,12 +292,6 @@ begin
 	end
 end
 
-# ╔═╡ f7eba2b6-f388-11ea-06ad-0b861c764d61
-
-
-# ╔═╡ f7d12b70-f388-11ea-28f2-1d5f47b9644d
-
-
 # ╔═╡ 87afabf8-f317-11ea-3cb3-29dced8e265a
 md"""
 ## **Exercise 2** - _Building up to dynamic programming_
@@ -332,28 +311,59 @@ The function should return a vector of as many integers as there are rows in the
 md"""
 #### Exercise 2.1 - _The greedy approach_
 
-👉 Implement the greedy approach [discussed in the lecture](https://youtu.be/rpB6zQNsbQU?t=777),
+The first approach discussed in the lecture (included below) is the _greedy approach_: you start from your top pixel, and at each step, you just look at the three neighbors below to find the next pixel in the seam. This is the neighbor with the lowest energy.
+"""
+
+# ╔═╡ f5a74dfc-f388-11ea-2577-b543d31576c6
+html"""
+<iframe width="100%" height="450px" src="https://www.youtube.com/embed/rpB6zQNsbQU?start=777&end=833" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+"""
+
+# ╔═╡ c3543ea4-f393-11ea-39c8-37747f113b96
+md"""
+👉 Implement the greedy approach.
 """
 
 # ╔═╡ abf20aa0-f31b-11ea-2548-9bea4fab4c37
 function greedy_seam(energies, starting_pixel::Int)
-	m, n = size(energies) # delete the body of this function it's just a placeholder.
-	[starting_pixel for i=1:m]
+	# you can delete the body of this function - it's just a placeholder.
+	num_rows, num_cols = size(energies)
+	[rand(1:num_cols) for i=1:num_rows]
 end
+
+# ╔═╡ 1d158bd4-f3a1-11ea-2d3f-a12f868729b4
+random_seam(m, n, s=[3]) = m==0 ? s : vcat(max(min(n, s[end] + rand([-1,0,1])), 1), random_seam(m-1, n, s))
+
+# ╔═╡ 66b35dca-f3a1-11ea-2e50-051046701d13
+random_seam(10,10, [2])
+
+# ╔═╡ 9d0dc5ea-f3a1-11ea-3981-35174edb3747
+clamp
+
+# ╔═╡ 2f9cbea8-f3a1-11ea-20c6-01fd1464a592
+reduce((a, b) -> [a..., clamp(last(a) + rand(-1:1), 1, 10)], 1:100; init=[5])
+
+# ╔═╡ 5430d772-f397-11ea-2ed8-03ee06d02a22
+md"Before we apply your function to our test image, let's try it out on a small _energy map_ just like in the lecture snippet above. Light pixels have high energy, dark pixels signify low energy."
+
+# ╔═╡ f580527e-f397-11ea-055f-bb9ea8f12015
+# try
+# 	if length(Set(greedy_seam(greedy_test, 5))) == 1
+# 		md"Right now you are seeing the placeholder function. (You haven't done the exercise yet!) This is a straight line from the starting pixel."
+# 	end
+# catch end
+
+# ╔═╡ 7ddee6fc-f394-11ea-31fc-5bd665a65bef
+greedy_test = Gray.(rand(Float64, (8,10)));
+
+# ╔═╡ 6f52c1a2-f395-11ea-0c8a-138a77f03803
+md"Starting pixel: $(@bind greedy_starting_pixel Slider(1:size(greedy_test, 2); show_value=true))"
+
+# ╔═╡ 9945ae78-f395-11ea-1d78-cf6ad19606c8
+md"_Let's try it on the bigger image!_"
 
 # ╔═╡ 87efe4c2-f38d-11ea-39cc-bdfa11298317
 md"Compute shrunk image: $(@bind shrink_greedy CheckBox())"
-
-# ╔═╡ f60ae380-f388-11ea-3d5d-c3247e5ae68c
-
-
-# ╔═╡ f5bcfce0-f388-11ea-0271-a1c9c19ec434
-https://youtu.be/rpB6zQNsbQU?start=777&end=833
-
-# ╔═╡ f5a74dfc-f388-11ea-2577-b543d31576c6
-html"""
-<iframe width="785" height="442" src="https://www.youtube.com/embed/rpB6zQNsbQU?start=777&end=833" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-"""
 
 # ╔═╡ 52452d26-f36c-11ea-01a6-313114b4445d
 md"""
@@ -394,7 +404,7 @@ end
 md"""
 #### Exercise 2.3 - _Exhaustive search with recursion_
 
-Now use the `least_energy` function you defined above to define `recursive_seam` function which takes the energies matrix and a starting pixel, and computes the seam with the lowest energy from that starting pixel.
+Now use the `least_energy` function you defined above to define the `recursive_seam` function which takes the energies matrix and a starting pixel, and computes the seam with the lowest energy from that starting pixel.
 
 This will give you the method used in the lecture to perform [exhaustive search of all possible paths](https://youtu.be/rpB6zQNsbQU?t=839).
 """
@@ -402,7 +412,7 @@ This will give you the method used in the lecture to perform [exhaustive search 
 # ╔═╡ 85033040-f372-11ea-2c31-bb3147de3c0d
 function recursive_seam(energies, starting_pixel)
 	m, n = size(energies) # delete the body of this function it's just a placeholder.
-	[starting_pixel for i=1:m]
+	[rand(1:starting_pixel) for i=1:num_rows]
 end
 
 # ╔═╡ 1d55333c-f393-11ea-229a-5b1e9cabea6a
@@ -441,16 +451,31 @@ As stated in the video, a the function `least_energy` is called with the same nu
 Lets implement memoization on this function with first a [dictionary](https://docs.julialang.org/en/v1/base/collections/#Dictionaries) for storage and then a matrix.
 """
 
+# ╔═╡ f52d4b94-f39c-11ea-15af-f7c18b921d48
+function expensive_function(x)
+	sleep(1)
+	return sqrt(x)
+end
+
+# ╔═╡ 0161e120-f39d-11ea-347f-6f58e5391f6a
+expensive_function(100)
+
 # ╔═╡ 56a7f954-f374-11ea-0391-f79b75195f4d
 md"""
 #### Exercise 3.1 - _Dictionary as storage_
 
 First we will start a memoized version of
+
+
+	memoized_seam(energies, starting_pixel, memory)
+
+has to be recursive
 """
 
 # ╔═╡ b1d09bc8-f320-11ea-26bb-0101c9a204e2
 function memoized_seam(energies, starting_pixel, memory=Dict{Int}())
 	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	
 	[starting_pixel for i=1:m]
 end
 
@@ -496,30 +521,10 @@ function seam_from_precomputed_least_energy(least_energies, starting_pixel::Int)
 	[starting_pixel for i=1:m]
 end
 
-# ╔═╡ 437ba6ce-f37d-11ea-1010-5f6a6e282f9b
-function shrink_n(img, n, min_seam, imgs=[])
-	n==0 && return push!(imgs, img)
-
-	e = energy(img)
-	seam_energy(seam) = sum(e[i, seam[i]]  for i in 1:size(img, 1))
-	_, min_j = findmin(map(j->seam_energy(min_seam(e, j)), 1:size(e, 2)))
-	min_seam_vec = min_seam(e, min_j)
-	img′ = remove_in_each_row(img, min_seam_vec)
-	push!(imgs, img′)
-	shrink_n(img′, n-1, min_seam, imgs)
-end
-
-# ╔═╡ f626b222-f388-11ea-0d94-1736759b5f52
-if shrink_greedy
-	greedy_carved[greedy_n]
-end
-
-# ╔═╡ e66ef06a-f392-11ea-30ab-7160e7723a17
-if shrink_recursive
-	greedy_carved[greedy_n]
-end
-
 # ╔═╡ edb3af6e-f38d-11ea-03ef-29443ce3d1a4
+
+
+# ╔═╡ b91ae104-f3a2-11ea-0546-eb4b02e69943
 
 
 # ╔═╡ d6a980b6-f38d-11ea-3290-2dd8a8a0289c
@@ -529,7 +534,7 @@ end
 function mark_path(img, path)
 	img′ = copy(img)
 	m = size(img, 2)
-	for (i, j) in path
+	for (i, j) in enumerate(path)
 		# To make it easier to see, we'll color not just
 		# the pixels of the seam, but also those adjacent to it
 		for j′ in j-1:j+1
@@ -537,6 +542,45 @@ function mark_path(img, path)
 		end
 	end
 	img′
+end
+
+# ╔═╡ 437ba6ce-f37d-11ea-1010-5f6a6e282f9b
+function shrink_n(img, n, min_seam, imgs=[]; show_lightning=true)
+	n==0 && return push!(imgs, img)
+
+	e = energy(img)
+	seam_energy(seam) = sum(e[i, seam[i]]  for i in 1:size(img, 1))
+	_, min_j = findmin(map(j->seam_energy(min_seam(e, j)), 1:size(e, 2)))
+	min_seam_vec = min_seam(e, min_j)
+	img′ = remove_in_each_row(img, min_seam_vec)
+	if show_lightning
+		push!(imgs, mark_path(img, min_seam_vec))
+	else
+		push!(imgs, img′)
+	end
+	shrink_n(img′, n-1, min_seam, imgs)
+end
+
+# ╔═╡ f6571d86-f388-11ea-0390-05592acb9195
+if shrink_greedy
+	greedy_carved = shrink_n(img, 200, greedy_seam)
+	md"Shrink by: $(@bind greedy_n Slider(1:200; show_value=true))"
+end
+
+# ╔═╡ f626b222-f388-11ea-0d94-1736759b5f52
+if shrink_greedy
+	greedy_carved[greedy_n]
+end
+
+# ╔═╡ d88bc272-f392-11ea-0efd-15e0e2b2cd4e
+if shrink_recursive
+	recursive_carved = shrink_n(img, 20, recursive_seam)
+	md"Shrink by: $(@bind recursive_n Slider(1:200)) greedy_n"
+end
+
+# ╔═╡ e66ef06a-f392-11ea-30ab-7160e7723a17
+if shrink_recursive
+	recursive_carved[greedy_n]
 end
 
 # ╔═╡ ef26374a-f388-11ea-0b4e-67314a9a9094
@@ -588,6 +632,27 @@ still_missing(text=md"Replace `missing` with your answer.") = Markdown.MD(Markdo
 # ╔═╡ ffde44ae-f380-11ea-29fb-2dfcc9cda8b4
 keep_working(text=md"The answer is not quite right.") = Markdown.MD(Markdown.Admonition("danger", "Keep working on it!", [text]))
 
+# ╔═╡ 980b1104-f394-11ea-0948-21002f26ee25
+function visualize_seam_algorithm(algorithm, test_img, starting_pixel)
+	seam = algorithm(test_img, starting_pixel)
+	
+	display_img = RGB.(test_img)
+	for (i, j) in enumerate(seam)
+		try
+			display_img[i, j] = RGB(0.9, 0.3, 0.6)
+		catch ex
+			if ex isa BoundsError
+				return keep_working("")
+			end
+			# the solution might give an illegal index
+		end
+	end
+	display_img
+end;
+
+# ╔═╡ 2a7e49b8-f395-11ea-0058-013e51baa554
+visualize_seam_algorithm(greedy_seam, greedy_test, greedy_starting_pixel)
+
 # ╔═╡ ffe326e0-f380-11ea-3619-61dd0592d409
 yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!", md"Good job!", md"Awesome!", md"You got the right answer!", md"Let's move on to the next section."]
 
@@ -625,6 +690,24 @@ if !@isdefined(views_observation)
 	not_defined(:views_observation)
 end
 
+# ╔═╡ 946b69a0-f3a2-11ea-2670-819a5dafe891
+if !@isdefined(seam_from_precomputed_least_energy)
+	not_defined(:seam_from_precomputed_least_energy)
+else
+	let
+		result = seam_from_precomputed_least_energy([1,2,3])
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif result != 2
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
 # ╔═╡ 00115b6e-f381-11ea-0bc6-61ca119cb628
 bigbreak = html"<br><br><br><br><br>";
 
@@ -634,20 +717,14 @@ bigbreak
 # ╔═╡ 8d558c4c-f328-11ea-0055-730ead5d5c34
 bigbreak
 
-# ╔═╡ 48089a00-f321-11ea-1479-e74ba71df067
+# ╔═╡ f7eba2b6-f388-11ea-06ad-0b861c764d61
 bigbreak
 
-# ╔═╡ d88bc272-f392-11ea-0efd-15e0e2b2cd4e
-if shrink_recursive
-	greedy_carved = shrink_n(img, 20, greedy_seam)
-	md"Shrink by: $(@bind recursive_n Slider(1:200)) greedy_n"
-end
+# ╔═╡ 4f48c8b8-f39d-11ea-25d2-1fab031a514f
+bigbreak
 
-# ╔═╡ f6571d86-f388-11ea-0390-05592acb9195
-if shrink_greedy
-	greedy_carved = shrink_n(img, 200, greedy_seam)
-	md"Shrink by: $(@bind greedy_n Slider(1:200)) greedy_n"
-end
+# ╔═╡ 48089a00-f321-11ea-1479-e74ba71df067
+bigbreak
 
 # ╔═╡ Cell order:
 # ╟─e6b6760a-f37f-11ea-3ae1-65443ef5a81a
@@ -668,7 +745,6 @@ end
 # ╟─1d893998-f366-11ea-0828-512de0c44915
 # ╟─59991872-f366-11ea-1036-afe313fb4ec1
 # ╠═e501ea28-f326-11ea-252a-53949fd9ef57
-# ╠═02195466-f327-11ea-0dd4-6bc6179c9fed
 # ╟─f7915918-f366-11ea-2c46-2f4671ae8a22
 # ╠═37d4ea5c-f327-11ea-2cc5-e3774c232c2b
 # ╠═67717d02-f327-11ea-0988-bfe661f57f77
@@ -680,13 +756,9 @@ end
 # ╟─837c43a4-f368-11ea-00a3-990a45cb0cbd
 # ╠═90a22cc6-f327-11ea-1484-7fda90283797
 # ╠═3335e07c-f328-11ea-0e6c-8d38c8c0ad5b
-# ╠═d4ea4222-f388-11ea-3c8d-db0d651f5282
+# ╟─d4ea4222-f388-11ea-3c8d-db0d651f5282
 # ╟─40d6f562-f329-11ea-2ee4-d7806a16ede3
 # ╟─4f0975d8-f329-11ea-3d10-59a503f8d6b2
-# ╠═e3195e42-f387-11ea-35bf-23e60a063837
-# ╠═e3011080-f387-11ea-1185-9381e016199a
-# ╠═341ae618-f387-11ea-0147-3381a8fe7624
-# ╠═c5a9531c-f387-11ea-0313-b50c88681f4f
 # ╟─dc63d32a-f387-11ea-37e2-6f3666a72e03
 # ╟─7eaa57d2-f368-11ea-1a70-c7c7e54bd0b1
 # ╠═fd819dac-f368-11ea-33bb-17148387546a
@@ -702,22 +774,31 @@ end
 # ╠═f010933c-f318-11ea-22c5-4d2e64cd9629
 # ╟─5fccc7cc-f369-11ea-3b9e-2f0eca7f0f0e
 # ╠═6f37b34c-f31a-11ea-2909-4f2079bf66ec
-# ╠═f7eba2b6-f388-11ea-06ad-0b861c764d61
-# ╠═f7d12b70-f388-11ea-28f2-1d5f47b9644d
+# ╟─f7eba2b6-f388-11ea-06ad-0b861c764d61
 # ╟─87afabf8-f317-11ea-3cb3-29dced8e265a
 # ╟─8ba9f5fc-f31b-11ea-00fe-79ecece09c25
+# ╟─f5a74dfc-f388-11ea-2577-b543d31576c6
+# ╟─c3543ea4-f393-11ea-39c8-37747f113b96
 # ╠═abf20aa0-f31b-11ea-2548-9bea4fab4c37
-# ╠═87efe4c2-f38d-11ea-39cc-bdfa11298317
-# ╠═f6571d86-f388-11ea-0390-05592acb9195
+# ╠═1d158bd4-f3a1-11ea-2d3f-a12f868729b4
+# ╠═66b35dca-f3a1-11ea-2e50-051046701d13
+# ╠═9d0dc5ea-f3a1-11ea-3981-35174edb3747
+# ╠═2f9cbea8-f3a1-11ea-20c6-01fd1464a592
+# ╟─5430d772-f397-11ea-2ed8-03ee06d02a22
+# ╟─f580527e-f397-11ea-055f-bb9ea8f12015
+# ╟─6f52c1a2-f395-11ea-0c8a-138a77f03803
+# ╟─2a7e49b8-f395-11ea-0058-013e51baa554
+# ╟─7ddee6fc-f394-11ea-31fc-5bd665a65bef
+# ╟─980b1104-f394-11ea-0948-21002f26ee25
+# ╟─9945ae78-f395-11ea-1d78-cf6ad19606c8
+# ╟─87efe4c2-f38d-11ea-39cc-bdfa11298317
+# ╟─f6571d86-f388-11ea-0390-05592acb9195
 # ╠═f626b222-f388-11ea-0d94-1736759b5f52
-# ╠═f60ae380-f388-11ea-3d5d-c3247e5ae68c
-# ╠═f5bcfce0-f388-11ea-0271-a1c9c19ec434
-# ╠═f5a74dfc-f388-11ea-2577-b543d31576c6
 # ╟─52452d26-f36c-11ea-01a6-313114b4445d
 # ╟─9101d5a0-f371-11ea-1c04-f3f43b96ca4a
 # ╠═8ec27ef8-f320-11ea-2573-c97b7b908cb7
 # ╟─9f18efe2-f38e-11ea-0871-6d7760d0b2f6
-# ╟─8bc930f0-f372-11ea-06cb-79ced2834720
+# ╠═8bc930f0-f372-11ea-06cb-79ced2834720
 # ╠═85033040-f372-11ea-2c31-bb3147de3c0d
 # ╠═1d55333c-f393-11ea-229a-5b1e9cabea6a
 # ╠═d88bc272-f392-11ea-0efd-15e0e2b2cd4e
@@ -728,18 +809,23 @@ end
 # ╠═f3aecb86-f388-11ea-2c14-7d622dd4ce02
 # ╠═f365a714-f388-11ea-1a76-353e5fac5f0e
 # ╟─ea417c2a-f373-11ea-3bb0-b1b5754f2fac
-# ╠═56a7f954-f374-11ea-0391-f79b75195f4d
+# ╠═f52d4b94-f39c-11ea-15af-f7c18b921d48
+# ╠═0161e120-f39d-11ea-347f-6f58e5391f6a
+# ╟─56a7f954-f374-11ea-0391-f79b75195f4d
 # ╠═b1d09bc8-f320-11ea-26bb-0101c9a204e2
-# ╠═cf39fa2a-f374-11ea-0680-55817de1b837
+# ╟─cf39fa2a-f374-11ea-0680-55817de1b837
 # ╠═be7d40e2-f320-11ea-1b56-dff2a0a16e8d
+# ╟─4f48c8b8-f39d-11ea-25d2-1fab031a514f
 # ╟─24792456-f37b-11ea-07b2-4f4c8caea633
 # ╠═ff055726-f320-11ea-32f6-2bf38d7dd310
 # ╟─92e19f22-f37b-11ea-25f7-e321337e375e
 # ╠═795eb2c4-f37b-11ea-01e1-1dbac3c80c13
-# ╟─437ba6ce-f37d-11ea-1010-5f6a6e282f9b
 # ╠═edb3af6e-f38d-11ea-03ef-29443ce3d1a4
+# ╠═b91ae104-f3a2-11ea-0546-eb4b02e69943
+# ╠═946b69a0-f3a2-11ea-2670-819a5dafe891
 # ╠═d6a980b6-f38d-11ea-3290-2dd8a8a0289c
-# ╟─ef88c388-f388-11ea-3828-ff4db4d1874e
+# ╠═437ba6ce-f37d-11ea-1010-5f6a6e282f9b
+# ╠═ef88c388-f388-11ea-3828-ff4db4d1874e
 # ╟─ef26374a-f388-11ea-0b4e-67314a9a9094
 # ╠═56c0146e-f389-11ea-39f2-176bd3f2f5e7
 # ╠═eeb6fefa-f388-11ea-1a71-0fc3e65c7362
