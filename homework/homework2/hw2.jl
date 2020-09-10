@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.14
+# v0.11.12
 
 using Markdown
 using InteractiveUtils
@@ -253,7 +253,10 @@ You should use this function whenever the problem set asks you to deal with _bri
 """
 
 # ╔═╡ 6c7e4b54-f318-11ea-2055-d9f9c0199341
-brightness(c::RGB) = mean((c.r, c.g, c.b))
+begin
+	brightness(c::RGB) = mean((c.r, c.g, c.b))
+	brightness(c::RGBA) = mean((c.r, c.g, c.b))
+end
 
 # ╔═╡ 74059d04-f319-11ea-29b4-85f5f8f5c610
 Gray.(brightness.(img))
@@ -324,24 +327,14 @@ md"""
 👉 Implement the greedy approach.
 """
 
+# ╔═╡ 2f9cbea8-f3a1-11ea-20c6-01fd1464a592
+random_seam(m, n, i) = reduce((a, b) -> [a..., clamp(last(a) + rand(-1:1), 1, n)], 1:m-1; init=[i])
+
 # ╔═╡ abf20aa0-f31b-11ea-2548-9bea4fab4c37
 function greedy_seam(energies, starting_pixel::Int)
 	# you can delete the body of this function - it's just a placeholder.
-	num_rows, num_cols = size(energies)
-	[rand(1:num_cols) for i=1:num_rows]
+	random_seam(size(energies)..., starting_pixel)
 end
-
-# ╔═╡ 1d158bd4-f3a1-11ea-2d3f-a12f868729b4
-random_seam(m, n, s=[3]) = m==0 ? s : vcat(max(min(n, s[end] + rand([-1,0,1])), 1), random_seam(m-1, n, s))
-
-# ╔═╡ 66b35dca-f3a1-11ea-2e50-051046701d13
-random_seam(10,10, [2])
-
-# ╔═╡ 9d0dc5ea-f3a1-11ea-3981-35174edb3747
-clamp
-
-# ╔═╡ 2f9cbea8-f3a1-11ea-20c6-01fd1464a592
-reduce((a, b) -> [a..., clamp(last(a) + rand(-1:1), 1, 10)], 1:100; init=[5])
 
 # ╔═╡ 5430d772-f397-11ea-2ed8-03ee06d02a22
 md"Before we apply your function to our test image, let's try it out on a small _energy map_ just like in the lecture snippet above. Light pixels have high energy, dark pixels signify low energy."
@@ -371,10 +364,32 @@ md"""
 
 A common trope in algorithm design is the possibility of solving a problem as the combination of solutions to subproblems.
 
+The classic example, it a [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number) generator.
+
+The recursive implementation of Fibonacci looks something like this
+"""
+
+# ╔═╡ 2a98f268-f3b6-11ea-1eea-81c28256a19e
+function fib(n)
+    # base case (basis)
+	if n == 0 || n == 1
+		return 1
+	end
+
+    # recursion (induction)
+	fib(n-1) + fib(n-2)
+end
+
+# ╔═╡ 32e9a944-f3b6-11ea-0e82-1dff6c2eef8d
+md"""
+Notice that you can call a function from within itself which may call itself and so on until a base case is reached. Then the program will combine the result from the base case up to the final result.
+
+In the case of the Fibonacci function, we added the solutions to the subproblems `fib(n-1)`, `fib(n-2)` to produce `fib(n)`.
+
 An analogy can be drawn to the process of mathematical induction in mathematics. And as with mathematical induction there are parts to constructing such a recursive algorithm:
 
 - Defining a base case
-- Defining an induction step, i.e. finding a solution to the problem as a combination of solutions to smaller problems.
+- Defining an recursion i.e. finding a solution to the problem as a combination of solutions to smaller problems.
 
 """
 
@@ -397,7 +412,38 @@ function least_energy(energies, i, j)
 	# end
 	#
 	# induction
-	# combine results from smaller sub-problems
+	# combine results from recursive calls to `least_energy`.
+	m,n=size(energies)
+	if m == i
+		return energies[i,j]
+	else
+		return energies[i,j] + min(least_energy(energies, i+1, clamp(j-1, 1, n)),
+			                       least_energy(energies, i+1, j),
+								   least_energy(energies, i+1, clamp(j+1, 1, n)))
+	end
+end
+
+# ╔═╡ a7f3d9f8-f3bb-11ea-0c1a-55bbb8408f09
+md"""
+This is so elegant, correct, but inefficient! If you check this checkbox $(@bind compute_access CheckBox()), you will see the number of access to the energies array it took to compute the least energy from the pixel (1,7):
+"""
+
+# ╔═╡ 18e0fd8a-f3bc-11ea-0713-fbf74d5fa41a
+md"Whoa!"
+
+# ╔═╡ cbf29020-f3ba-11ea-2cb0-b92836f3d04b
+begin
+	struct AccessTrackerArray{T,N} <: AbstractArray{T, N}
+		data::Array{T,N}
+		accesses::Ref{Int}
+	end
+	track_access(x) = AccessTrackerArray(x, Ref(0))
+	
+	Base.IndexStyle(::Type{AccessTrackerArray}) = IndexLinear()
+	
+	Base.size(x::AccessTrackerArray) = size(x.data)
+	Base.getindex(x::AccessTrackerArray, i::Int...) = (x.accesses[] += 1; x.data[i...])
+	Base.setindex!(x::AccessTrackerArray, v, i...) = (x.accesses[] += 1; x.data[i...] = v;)
 end
 
 # ╔═╡ 8bc930f0-f372-11ea-06cb-79ced2834720
@@ -412,7 +458,7 @@ This will give you the method used in the lecture to perform [exhaustive search 
 # ╔═╡ 85033040-f372-11ea-2c31-bb3147de3c0d
 function recursive_seam(energies, starting_pixel)
 	m, n = size(energies) # delete the body of this function it's just a placeholder.
-	[rand(1:starting_pixel) for i=1:num_rows]
+	[rand(1:starting_pixel) for i=1:m]
 end
 
 # ╔═╡ 1d55333c-f393-11ea-229a-5b1e9cabea6a
@@ -423,22 +469,13 @@ md"""
 #### Exercise 2.4
 
 - State clearly why this algorithm does an exhaustive search of all possible paths.
-- How many such paths are there in an image of size `m×n`?
+- How many valid seams are there in an image of size `m×n`?
 """
 
 # ╔═╡ 6d993a5c-f373-11ea-0dde-c94e3bbd1552
 exhaustive_observation = md"""
 <your answer here>
 """
-
-# ╔═╡ f3fea662-f388-11ea-2252-55ca763aefc6
-
-
-# ╔═╡ f3aecb86-f388-11ea-2c14-7d622dd4ce02
-
-
-# ╔═╡ f365a714-f388-11ea-1a76-353e5fac5f0e
-
 
 # ╔═╡ ea417c2a-f373-11ea-3bb0-b1b5754f2fac
 md"""
@@ -448,53 +485,63 @@ Memoization is the name given to the technique of storing results to expensive f
 
 As stated in the video, a the function `least_energy` is called with the same number of arguments. In fact, we call it on the order of $3^n$ times when there are only really $m×n$ unique ways to call it!
 
-Lets implement memoization on this function with first a [dictionary](https://docs.julialang.org/en/v1/base/collections/#Dictionaries) for storage and then a matrix.
+Lets implement memoization on this function with first a [dictionary](https://docs.julialang.org/en/v1/base/collections/#Dictionaries) for storage.
 """
-
-# ╔═╡ f52d4b94-f39c-11ea-15af-f7c18b921d48
-function expensive_function(x)
-	sleep(1)
-	return sqrt(x)
-end
-
-# ╔═╡ 0161e120-f39d-11ea-347f-6f58e5391f6a
-expensive_function(100)
 
 # ╔═╡ 56a7f954-f374-11ea-0391-f79b75195f4d
 md"""
 #### Exercise 3.1 - _Dictionary as storage_
 
-First we will start a memoized version of
+Let's make a memoized version of least_energy function which takes a dictionary and
+first checks to see if the dictionary contains the key (i,j) if it does, returns the value stored in that place, if not, will compute it, and store it in the dictionary at key (i, j) and return the value it computed.
 
 
-	memoized_seam(energies, starting_pixel, memory)
+`memoized_least_energy(energies, starting_pixel, memory)`
 
-has to be recursive
+This function must recursively call itself, and pass the `memory` object as well.
 """
 
 # ╔═╡ b1d09bc8-f320-11ea-26bb-0101c9a204e2
-function memoized_seam(energies, starting_pixel, memory=Dict{Int}())
+function memoized_least_energy(energies, i, j, memory)
 	m, n = size(energies) # delete the body of this function it's just a placeholder.
-	
 	[starting_pixel for i=1:m]
+end
+
+# ╔═╡ 3e8b0868-f3bd-11ea-0c15-011bbd6ac051
+function recursive_memoized_seam(energies, starting_pixel)
+	memory = Dict{Tuple{Int,Int}, Float64}() # location => least energy.
+	                                         # pass this every time you call memoized_least_energy.
+	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	[rand(1:starting_pixel) for i=1:m]
 end
 
 # ╔═╡ cf39fa2a-f374-11ea-0680-55817de1b837
 md"""
 ### Exercise 3.2 - _Matrix as storage_
 
-While the dictionary works just as well, and more generally if we were stor
+The dictionary-based memoization we tried above works well in general as there is no restriction on what type of keys can be used.
+
+But in our particular case, we can use a matrix as a storage, since a matrix is naturally keyed by two integers.
+
+Write a variation of `matrix_memoized_least_energy` and `matrix_memoized_seam` which use a matrix as storage.
 """
 
+# ╔═╡ c8724b5e-f3bd-11ea-0034-b92af21ca12d
+function matrix_memoized_least_energy(energies, i, j, memory)
+	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	[starting_pixel for i=1:m]
+end
+
 # ╔═╡ be7d40e2-f320-11ea-1b56-dff2a0a16e8d
-function matrix_memoized_seam(energies, starting_pixel, memory=copy(energies))
+function matrix_memoized_seam(energies, starting_pixel)
+	memory = zeros(size(energies)) # use this as storage
 	m, n = size(energies) # delete the body of this function it's just a placeholder.
 	[starting_pixel for i=1:m]
 end
 
 # ╔═╡ 24792456-f37b-11ea-07b2-4f4c8caea633
 md"""
-## **Exercise 4** - _Memoization without recursion_ 
+## **Exercise 4** - _Dynamic programming without recursion_ 
 
 Now it's easy to see that the above algorithm is equivalent to one that populates the memory matrix in a for loop.
 
@@ -521,14 +568,18 @@ function seam_from_precomputed_least_energy(least_energies, starting_pixel::Int)
 	[starting_pixel for i=1:m]
 end
 
-# ╔═╡ edb3af6e-f38d-11ea-03ef-29443ce3d1a4
+# ╔═╡ 0fbe2af6-f381-11ea-2f41-23cd1cf930d9
+if student.kerberos_id === "jazz"
+	md"""
+!!! danger "Oops!"
+    **Before you submit**, remember to fill in your name and kerberos ID at the top of this notebook!
+	"""
+end
 
+# ╔═╡ 6b4d6584-f3be-11ea-131d-e5bdefcc791b
+md"## Function library
 
-# ╔═╡ b91ae104-f3a2-11ea-0546-eb4b02e69943
-
-
-# ╔═╡ d6a980b6-f38d-11ea-3290-2dd8a8a0289c
-
+Just some helper functions used in the notebook."
 
 # ╔═╡ ef88c388-f388-11ea-3828-ff4db4d1874e
 function mark_path(img, path)
@@ -574,8 +625,8 @@ end
 
 # ╔═╡ d88bc272-f392-11ea-0efd-15e0e2b2cd4e
 if shrink_recursive
-	recursive_carved = shrink_n(img, 20, recursive_seam)
-	md"Shrink by: $(@bind recursive_n Slider(1:200)) greedy_n"
+	recursive_carved = shrink_n(img, 200, recursive_seam)
+	md"Shrink by: $(@bind recursive_n Slider(1:200, show_value=true))"
 end
 
 # ╔═╡ e66ef06a-f392-11ea-30ab-7160e7723a17
@@ -589,32 +640,23 @@ function pencil(X)
 	map(f, X ./ maximum(X))
 end
 
-# ╔═╡ 56c0146e-f389-11ea-39f2-176bd3f2f5e7
-
-
-# ╔═╡ eeb6fefa-f388-11ea-1a71-0fc3e65c7362
-
-
-# ╔═╡ 0e706bc4-f321-11ea-1e9a-71352fbe2e95
-md"""
-- write a thing that shows them the result -- with a slider to repeatedly apply it.
-- write a thing that plots the time taken
-"""
-
-# ╔═╡ 4240988e-f321-11ea-1e56-a90b3bf4d7ce
-TestImages.shepp_logan(112)
-
 # ╔═╡ 6bdbcf4c-f321-11ea-0288-fb16ff1ec526
 function decimate(img, n)
 	img[1:n:end, 1:n:end]
 end
 
-# ╔═╡ 0fbe2af6-f381-11ea-2f41-23cd1cf930d9
-if student.kerberos_id === "jazz"
-	md"""
-!!! danger "Oops!"
-    **Before you submit**, remember to fill in your name and kerberos ID at the top of this notebook!
-	"""
+# ╔═╡ ddba07dc-f3b7-11ea-353e-0f67713727fc
+# Do not make this image bigger, it will be infeasible to compute.
+pika = decimate(load(download("https://art.pixilart.com/901d53bcda6b27b.png")),77)
+
+# ╔═╡ 73b52fd6-f3b9-11ea-14ed-ebfcab1ce6aa
+size(pika)
+
+# ╔═╡ fa8e2772-f3b6-11ea-30f7-699717693164
+if compute_access
+	tracked = track_access(energy(pika))
+	least_energy(tracked, 1,7)
+	tracked.accesses[]
 end
 
 # ╔═╡ ffc17f40-f380-11ea-30ee-0fe8563c0eb1
@@ -690,22 +732,14 @@ if !@isdefined(views_observation)
 	not_defined(:views_observation)
 end
 
+# ╔═╡ e0622780-f3b4-11ea-1f44-59fb9c5d2ebd
+if !@isdefined(least_energy_matrix)
+	not_defined(:least_energy_matrix)
+end
+
 # ╔═╡ 946b69a0-f3a2-11ea-2670-819a5dafe891
 if !@isdefined(seam_from_precomputed_least_energy)
 	not_defined(:seam_from_precomputed_least_energy)
-else
-	let
-		result = seam_from_precomputed_least_energy([1,2,3])
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != 2
-			keep_working()
-		else
-			correct()
-		end
-	end
 end
 
 # ╔═╡ 00115b6e-f381-11ea-0bc6-61ca119cb628
@@ -779,11 +813,8 @@ bigbreak
 # ╟─8ba9f5fc-f31b-11ea-00fe-79ecece09c25
 # ╟─f5a74dfc-f388-11ea-2577-b543d31576c6
 # ╟─c3543ea4-f393-11ea-39c8-37747f113b96
+# ╟─2f9cbea8-f3a1-11ea-20c6-01fd1464a592
 # ╠═abf20aa0-f31b-11ea-2548-9bea4fab4c37
-# ╠═1d158bd4-f3a1-11ea-2d3f-a12f868729b4
-# ╠═66b35dca-f3a1-11ea-2e50-051046701d13
-# ╠═9d0dc5ea-f3a1-11ea-3981-35174edb3747
-# ╠═2f9cbea8-f3a1-11ea-20c6-01fd1464a592
 # ╟─5430d772-f397-11ea-2ed8-03ee06d02a22
 # ╟─f580527e-f397-11ea-055f-bb9ea8f12015
 # ╟─6f52c1a2-f395-11ea-0c8a-138a77f03803
@@ -792,48 +823,48 @@ bigbreak
 # ╟─980b1104-f394-11ea-0948-21002f26ee25
 # ╟─9945ae78-f395-11ea-1d78-cf6ad19606c8
 # ╟─87efe4c2-f38d-11ea-39cc-bdfa11298317
-# ╟─f6571d86-f388-11ea-0390-05592acb9195
+# ╠═f6571d86-f388-11ea-0390-05592acb9195
 # ╠═f626b222-f388-11ea-0d94-1736759b5f52
-# ╟─52452d26-f36c-11ea-01a6-313114b4445d
+# ╠═52452d26-f36c-11ea-01a6-313114b4445d
+# ╠═2a98f268-f3b6-11ea-1eea-81c28256a19e
+# ╟─32e9a944-f3b6-11ea-0e82-1dff6c2eef8d
 # ╟─9101d5a0-f371-11ea-1c04-f3f43b96ca4a
+# ╠═ddba07dc-f3b7-11ea-353e-0f67713727fc
+# ╠═73b52fd6-f3b9-11ea-14ed-ebfcab1ce6aa
 # ╠═8ec27ef8-f320-11ea-2573-c97b7b908cb7
 # ╟─9f18efe2-f38e-11ea-0871-6d7760d0b2f6
-# ╠═8bc930f0-f372-11ea-06cb-79ced2834720
+# ╟─a7f3d9f8-f3bb-11ea-0c1a-55bbb8408f09
+# ╟─fa8e2772-f3b6-11ea-30f7-699717693164
+# ╟─18e0fd8a-f3bc-11ea-0713-fbf74d5fa41a
+# ╟─cbf29020-f3ba-11ea-2cb0-b92836f3d04b
+# ╟─8bc930f0-f372-11ea-06cb-79ced2834720
 # ╠═85033040-f372-11ea-2c31-bb3147de3c0d
 # ╠═1d55333c-f393-11ea-229a-5b1e9cabea6a
 # ╠═d88bc272-f392-11ea-0efd-15e0e2b2cd4e
 # ╠═e66ef06a-f392-11ea-30ab-7160e7723a17
 # ╟─c572f6ce-f372-11ea-3c9a-e3a21384edca
 # ╠═6d993a5c-f373-11ea-0dde-c94e3bbd1552
-# ╠═f3fea662-f388-11ea-2252-55ca763aefc6
-# ╠═f3aecb86-f388-11ea-2c14-7d622dd4ce02
-# ╠═f365a714-f388-11ea-1a76-353e5fac5f0e
 # ╟─ea417c2a-f373-11ea-3bb0-b1b5754f2fac
-# ╠═f52d4b94-f39c-11ea-15af-f7c18b921d48
-# ╠═0161e120-f39d-11ea-347f-6f58e5391f6a
 # ╟─56a7f954-f374-11ea-0391-f79b75195f4d
 # ╠═b1d09bc8-f320-11ea-26bb-0101c9a204e2
+# ╠═3e8b0868-f3bd-11ea-0c15-011bbd6ac051
 # ╟─cf39fa2a-f374-11ea-0680-55817de1b837
+# ╠═c8724b5e-f3bd-11ea-0034-b92af21ca12d
 # ╠═be7d40e2-f320-11ea-1b56-dff2a0a16e8d
 # ╟─4f48c8b8-f39d-11ea-25d2-1fab031a514f
 # ╟─24792456-f37b-11ea-07b2-4f4c8caea633
 # ╠═ff055726-f320-11ea-32f6-2bf38d7dd310
+# ╟─e0622780-f3b4-11ea-1f44-59fb9c5d2ebd
 # ╟─92e19f22-f37b-11ea-25f7-e321337e375e
 # ╠═795eb2c4-f37b-11ea-01e1-1dbac3c80c13
-# ╠═edb3af6e-f38d-11ea-03ef-29443ce3d1a4
-# ╠═b91ae104-f3a2-11ea-0546-eb4b02e69943
-# ╠═946b69a0-f3a2-11ea-2670-819a5dafe891
-# ╠═d6a980b6-f38d-11ea-3290-2dd8a8a0289c
-# ╠═437ba6ce-f37d-11ea-1010-5f6a6e282f9b
-# ╠═ef88c388-f388-11ea-3828-ff4db4d1874e
-# ╟─ef26374a-f388-11ea-0b4e-67314a9a9094
-# ╠═56c0146e-f389-11ea-39f2-176bd3f2f5e7
-# ╠═eeb6fefa-f388-11ea-1a71-0fc3e65c7362
-# ╠═0e706bc4-f321-11ea-1e9a-71352fbe2e95
-# ╠═4240988e-f321-11ea-1e56-a90b3bf4d7ce
-# ╠═6bdbcf4c-f321-11ea-0288-fb16ff1ec526
+# ╟─946b69a0-f3a2-11ea-2670-819a5dafe891
 # ╟─0fbe2af6-f381-11ea-2f41-23cd1cf930d9
 # ╟─48089a00-f321-11ea-1479-e74ba71df067
+# ╟─6b4d6584-f3be-11ea-131d-e5bdefcc791b
+# ╟─437ba6ce-f37d-11ea-1010-5f6a6e282f9b
+# ╟─ef88c388-f388-11ea-3828-ff4db4d1874e
+# ╟─ef26374a-f388-11ea-0b4e-67314a9a9094
+# ╟─6bdbcf4c-f321-11ea-0288-fb16ff1ec526
 # ╟─ffc17f40-f380-11ea-30ee-0fe8563c0eb1
 # ╟─ffc40ab2-f380-11ea-2136-63542ff0f386
 # ╟─ffceaed6-f380-11ea-3c63-8132d270b83f
