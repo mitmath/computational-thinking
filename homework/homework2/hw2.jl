@@ -43,6 +43,19 @@ end
 # ╔═╡ e6b6760a-f37f-11ea-3ae1-65443ef5a81a
 md"_homework 2, version 1_"
 
+# ╔═╡ 85cfbd10-f384-11ea-31dc-b5693630a4c5
+md"""
+
+# **Homework 2** - _seam carving_
+`18.S191`, fall 2020
+
+This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
+
+_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
+
+Feel free to ask questions!
+"""
+
 # ╔═╡ 33e43c7c-f381-11ea-3abc-c942327456b1
 # edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
 
@@ -57,6 +70,9 @@ md"""
 Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 """
 
+# ╔═╡ 938185ec-f384-11ea-21dc-b56b7469f798
+md"_Let's create a package environment:_"
+
 # ╔═╡ 0d144802-f319-11ea-0028-cd97a776a3d0
 #img = load(download("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Piet_Mondriaan%2C_1930_-_Mondrian_Composition_II_in_Red%2C_Blue%2C_and_Yellow.jpg/300px-Piet_Mondriaan%2C_1930_-_Mondrian_Composition_II_in_Red%2C_Blue%2C_and_Yellow.jpg"))
 #img = load(download("https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Hilma_af_Klint_-_Group_IX_SUW%2C_The_Swan_No._1_%2813947%29.jpg/477px-Hilma_af_Klint_-_Group_IX_SUW%2C_The_Swan_No._1_%2813947%29.jpg"))
@@ -64,7 +80,7 @@ img = load(download("http://www.museumsyndicate.com/images/1/2957.jpg"))
 
 # ╔═╡ cc9fcdae-f314-11ea-1b9a-1f68b792f005
 md"""
-# Exercise 1: views
+# Arrays: Slices and views
 
 In the lecture (included below) we learned about what array views are. In this exercise we will add to that understanding and look at an important use of `view`s: to reduce the amount of memory allocations when reading sub-sequences within an array.
 
@@ -73,7 +89,7 @@ We will use the `BenchmarkTools` package to emperically understand the effects o
 
 # ╔═╡ b49a21a6-f381-11ea-1a98-7f144c55c9b7
 html"""
-<iframe width="100%" height="500px" src="https://www.youtube.com/embed/gTGJ80HayK0?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="100%" height="450px" src="https://www.youtube.com/embed/gTGJ80HayK0?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 """
 
 # ╔═╡ b49e8cc8-f381-11ea-1056-91668ac6ae4e
@@ -84,9 +100,6 @@ Below is a function called `remove_in_each_row(img, pixels)`. It takes a matrix 
 
 Read it and convince yourself that it is correct.
 """
-
-# ╔═╡ 7af62c60-f381-11ea-077a-b581565a282c
-
 
 # ╔═╡ e799be82-f317-11ea-3ae4-6d13ece3fe10
 function remove_in_each_row(img, column_numbers)
@@ -102,19 +115,24 @@ function remove_in_each_row(img, column_numbers)
 	img′
 end
 
+# ╔═╡ c075a8e6-f382-11ea-2263-cd9507324f4f
+md"Let's use it to remove the pixels on the diagonal. These are the image dimensions before and after doing so:"
+
 # ╔═╡ 9cced1a8-f326-11ea-0759-0b2f22e5a1db
-size(img), size(remove_in_each_row(img, 1:size(img, 1))) # this removes the diagonal pixels!
+(before=size(img), after=size(remove_in_each_row(img, 1:size(img, 1))))
 
 # ╔═╡ 1d893998-f366-11ea-0828-512de0c44915
 md"""
-## Making it efficient
+## **Exercise 1** - _Making it efficient_
 
-We can use the `@benchmark` macro from the [BenchmarkTools.jl](https://github.com/JuliaCI/BenchmarkTools.jl) package. To benchmark fragments of Julia code. `@benchmark` takes an expression and runs it a number of times to obtain statistics about the run time and memory allocation. We generally take the minimum time as the most stable measurement of performance ([for reasons discussed in the paper on BenchmarkTools](http://www-math.mit.edu/~edelman/publications/robust_benchmarking.pdf))
+We can use the `@benchmark` macro from the [BenchmarkTools.jl](https://github.com/JuliaCI/BenchmarkTools.jl) package to benchmark fragments of Julia code. 
+
+`@benchmark` takes an expression and runs it a number of times to obtain statistics about the run time and memory allocation. We generally take the minimum time as the most stable measurement of performance ([for reasons discussed in the paper on BenchmarkTools](http://www-math.mit.edu/~edelman/publications/robust_benchmarking.pdf))
 """
 
 # ╔═╡ 59991872-f366-11ea-1036-afe313fb4ec1
 md"""
-First, as an example, let's benchmark the remove_in_each_row function we defined above by passing in our image and a some indices to remove.
+First, as an example, let's benchmark the `remove_in_each_row` function we defined above by passing in our image and a some indices to remove.
 """
 
 # ╔═╡ e501ea28-f326-11ea-252a-53949fd9ef57
@@ -128,13 +146,13 @@ view_performance_experiments = Dict(
 
 # ╔═╡ f7915918-f366-11ea-2c46-2f4671ae8a22
 md"""
-## 1.1
+#### Exercise 1.1
 
-`vcat(x, y)` is used in julia to concatenate two arrays vertically. This actually creates a new array of size `length(x) + length(y)` and copies `x` and `y` into it.  We use it in `remove_in_each_row` to create rows which have one less pixel.
+`vcat(x, y)` is used in julia to concatenate two arrays vertically. This actually creates a new array of size `length(x) + length(y)` and copies `x` and `y` into it.  We use it in `remove_in_each_row` to create rows which have one pixel less.
 
-While use of `vcat` might make it easy to write the first version of our function, it's strictly not necessary.
+While using `vcat` might make it easy to write the first version of our function, it's strictly not necessary.
 
-In `remove_in_each_row_no_vcat`, figure out a way to avoid the use of `vcat` and modify the function to avoid it.
+👉 In `remove_in_each_row_no_vcat` below, figure out a way to avoid the use of `vcat` and modify the function to avoid it.
 """
 
 # ╔═╡ 37d4ea5c-f327-11ea-2cc5-e3774c232c2b
@@ -158,22 +176,22 @@ view_performance_experiments["without_vcat"] = @benchmark remove_in_each_row_no_
 md"""
 If you did it correctly, you should see that this benchmark shows the function running faster! And "memory estimate" should also show a smaller number, and so should "allocs estimate" which is the number of allocations done per call.
 
-## 1.2
+#### Exercise 1.2
 
-How many estimated allocations did this optimization reduce, and how can you explain most of them?
+👉 How many estimated allocations did this optimization reduce, and how can you explain most of them?
 """
 
 # ╔═╡ e49235a4-f367-11ea-3913-f54a4a6b2d6b
-no_vcat_summary = md"""
+no_vcat_observation = md"""
 <Your answer here>
 """
 
 # ╔═╡ 837c43a4-f368-11ea-00a3-990a45cb0cbd
 md"""
 
-## 1.3 view-based optimization
+#### Exercise 1.3 - `view`-based optimization
 
-In the below `remove_in_each_row_views` function, implement both the optimization to remove `vcat` and use `@view` or `@views` to avoid creating copies or slices of the `img` array.
+👉 In the below `remove_in_each_row_views` function, implement the same optimization to remove `vcat` and use `@view` or `@views` to avoid creating copies or slices of the `img` array.
 
 Pluto will automatically time your change with `@benchmark` below.
 """
@@ -192,9 +210,6 @@ function remove_in_each_row_views(img, column_numbers)
 	img′
 end
 
-# ╔═╡ 538e9324-f368-11ea-38aa-a37a082f8f79
-
-
 # ╔═╡ 3335e07c-f328-11ea-0e6c-8d38c8c0ad5b
 view_performance_experiments["views"] = @benchmark remove_in_each_row_views(img, 1:size(img, 1))
 
@@ -204,36 +219,34 @@ md"Final tally:"
 # ╔═╡ 4f0975d8-f329-11ea-3d10-59a503f8d6b2
 view_performance_experiments
 
+# ╔═╡ 1b0afa76-f384-11ea-2f35-71e60eff8f45
+md"🙋 Run the cell above again to see the latest results!"
+
 # ╔═╡ 7eaa57d2-f368-11ea-1a70-c7c7e54bd0b1
 md"""
 
-## 1.4
+#### Exercise 1.4
 
 Nice! If you did your optimizations right, you should be able to get down the etimated allocations to a single digit number!
 
-How many allocations were avoided by adding the `@view` optimization over the `vcat` optimization? Why is this?
-
-(do not edit the name of the variable below, you will trip up the auto grader)
+👉 How many allocations were avoided by adding the `@view` optimization over the `vcat` optimization? Why is this?
 """
 
 # ╔═╡ fd819dac-f368-11ea-33bb-17148387546a
-views_result = md"""
+views_observation = md"""
 <your answer here>
 """
 
-# ╔═╡ 8d558c4c-f328-11ea-0055-730ead5d5c34
-
-
 # ╔═╡ 318a2256-f369-11ea-23a9-2f74c566549b
 md"""
-## Brightness and Energy
+## **Exercise 2** - _Brightness and Energy_
 """
 
 # ╔═╡ 7a44ba52-f318-11ea-0406-4731c80c1007
 md"""
 First, we will define a `brightness` function for a pixel (a color) as the mean of the red, green and blue values.
 
-You should call this function whenever the problem set asks you to deal with brightness of a pixel.
+You should call this function whenever the problem set asks you to deal with _brightness_ of a pixel.
 """
 
 # ╔═╡ 6c7e4b54-f318-11ea-2055-d9f9c0199341
@@ -296,7 +309,7 @@ The function should return a vector of as many integers as there are rows in the
 md"""
 ## 2.1 The greedy approach
 
-Implement the greedy approach [discussed in the lecture](https://youtu.be/rpB6zQNsbQU?t=777),
+👉 Implement the greedy approach [discussed in the lecture](https://youtu.be/rpB6zQNsbQU?t=777),
 """
 
 # ╔═╡ abf20aa0-f31b-11ea-2548-9bea4fab4c37
@@ -489,8 +502,24 @@ correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!",
 # ╔═╡ 00026442-f381-11ea-2b41-bde1fff66011
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
 
+# ╔═╡ 145c0f58-f384-11ea-2b71-09ae83f66da2
+if !@isdefined(views_observation)
+	not_defined(:views_observation)
+end
+
+# ╔═╡ d7a9c000-f383-11ea-1516-cf71102d8e94
+if !@isdefined(views_observation)
+	not_defined(:views_observation)
+end
+
 # ╔═╡ 00115b6e-f381-11ea-0bc6-61ca119cb628
 bigbreak = html"<br><br><br><br><br>";
+
+# ╔═╡ c086bd1e-f384-11ea-3b26-2da9e24360ca
+bigbreak
+
+# ╔═╡ 8d558c4c-f328-11ea-0055-730ead5d5c34
+bigbreak
 
 # ╔═╡ 48089a00-f321-11ea-1479-e74ba71df067
 bigbreak
@@ -498,16 +527,19 @@ bigbreak
 # ╔═╡ Cell order:
 # ╟─e6b6760a-f37f-11ea-3ae1-65443ef5a81a
 # ╟─ec66314e-f37f-11ea-0af4-31da0584e881
+# ╟─85cfbd10-f384-11ea-31dc-b5693630a4c5
 # ╠═33e43c7c-f381-11ea-3abc-c942327456b1
+# ╟─938185ec-f384-11ea-21dc-b56b7469f798
 # ╠═86e1ee96-f314-11ea-03f6-0f549b79e7c9
 # ╠═a4937996-f314-11ea-2ff9-615c888afaa8
 # ╟─0d144802-f319-11ea-0028-cd97a776a3d0
 # ╟─cc9fcdae-f314-11ea-1b9a-1f68b792f005
 # ╟─b49a21a6-f381-11ea-1a98-7f144c55c9b7
 # ╟─b49e8cc8-f381-11ea-1056-91668ac6ae4e
-# ╠═7af62c60-f381-11ea-077a-b581565a282c
 # ╠═e799be82-f317-11ea-3ae4-6d13ece3fe10
+# ╟─c075a8e6-f382-11ea-2263-cd9507324f4f
 # ╠═9cced1a8-f326-11ea-0759-0b2f22e5a1db
+# ╟─c086bd1e-f384-11ea-3b26-2da9e24360ca
 # ╟─1d893998-f366-11ea-0828-512de0c44915
 # ╟─59991872-f366-11ea-1036-afe313fb4ec1
 # ╠═e501ea28-f326-11ea-252a-53949fd9ef57
@@ -517,14 +549,16 @@ bigbreak
 # ╠═67717d02-f327-11ea-0988-bfe661f57f77
 # ╟─9e149cd2-f367-11ea-28ef-b9533e8a77bb
 # ╠═e49235a4-f367-11ea-3913-f54a4a6b2d6b
+# ╟─145c0f58-f384-11ea-2b71-09ae83f66da2
 # ╟─837c43a4-f368-11ea-00a3-990a45cb0cbd
 # ╠═90a22cc6-f327-11ea-1484-7fda90283797
-# ╠═538e9324-f368-11ea-38aa-a37a082f8f79
 # ╠═3335e07c-f328-11ea-0e6c-8d38c8c0ad5b
 # ╟─40d6f562-f329-11ea-2ee4-d7806a16ede3
 # ╠═4f0975d8-f329-11ea-3d10-59a503f8d6b2
-# ╟─7eaa57d2-f368-11ea-1a70-c7c7e54bd0b1
+# ╟─1b0afa76-f384-11ea-2f35-71e60eff8f45
+# ╠═7eaa57d2-f368-11ea-1a70-c7c7e54bd0b1
 # ╠═fd819dac-f368-11ea-33bb-17148387546a
+# ╟─d7a9c000-f383-11ea-1516-cf71102d8e94
 # ╟─8d558c4c-f328-11ea-0055-730ead5d5c34
 # ╟─318a2256-f369-11ea-23a9-2f74c566549b
 # ╟─7a44ba52-f318-11ea-0406-4731c80c1007
