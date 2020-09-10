@@ -63,4 +63,4 @@ Problem sets consist of code. MIT students enrolled in the course must submit ho
 Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
-<p align="center"><a href="https://github.com/mitmath/18S191/blob/master/course-materials.md"> <b>Go to course website</b> :balloon:</a></p>
+<p align="center"><a href="http://mitmath.github.io/18S191/Fall20"> <b>Go to course website</b> :balloon:</a></p>
