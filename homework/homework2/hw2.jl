@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.12
+# v0.11.14
 
 using Markdown
 using InteractiveUtils
@@ -21,23 +21,41 @@ end
 
 # ╔═╡ a4937996-f314-11ea-2ff9-615c888afaa8
 begin
-	Pkg.add("Images")
-	Pkg.add("Compose")
-	Pkg.add("ImageFiltering")
-	Pkg.add("ImageMagick")
-	Pkg.add("TestImages")
-	Pkg.add("Statistics")
-	Pkg.add("PlutoUI")
-	Pkg.add("BenchmarkTools")
+	Pkg.add([
+			"Images",
+			"ImageMagick",
+			"Compose",
+			"ImageFiltering",
+			"TestImages",
+			"Statistics",
+			"PlutoUI",
+			"BenchmarkTools"
+			])
 
 	using Images
-	using ImageMagick
 	using TestImages
 	using ImageFiltering
 	using Statistics
 	using PlutoUI
 	using BenchmarkTools
 end
+
+# ╔═╡ e6b6760a-f37f-11ea-3ae1-65443ef5a81a
+md"_homework 2, version 1_"
+
+# ╔═╡ 33e43c7c-f381-11ea-3abc-c942327456b1
+# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
+
+student = (name = "Jazzy Doe", kerberos_id = "jazz")
+
+# you might need to wait until all other cells in this notebook have completed running. 
+# scroll around the page to see what's up
+
+# ╔═╡ ec66314e-f37f-11ea-0af4-31da0584e881
+md"""
+
+Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
+"""
 
 # ╔═╡ 0d144802-f319-11ea-0028-cd97a776a3d0
 #img = load(download("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Piet_Mondriaan%2C_1930_-_Mondrian_Composition_II_in_Red%2C_Blue%2C_and_Yellow.jpg/300px-Piet_Mondriaan%2C_1930_-_Mondrian_Composition_II_in_Red%2C_Blue%2C_and_Yellow.jpg"))
@@ -48,17 +66,27 @@ img = load(download("http://www.museumsyndicate.com/images/1/2957.jpg"))
 md"""
 # Exercise 1: views
 
-In [the lecture](https://www.youtube.com/watch?v=gTGJ80HayK0) we learnt about what array views are. In this exercise we will add to that understanding and look at an important use of `view`s: to reduce the amount of memory allocations when reading sub-sequences within an array.
-
+In the lecture (included below) we learned about what array views are. In this exercise we will add to that understanding and look at an important use of `view`s: to reduce the amount of memory allocations when reading sub-sequences within an array.
 
 We will use the `BenchmarkTools` package to emperically understand the effects of using views.
+"""
 
-## shrinking an array
+# ╔═╡ b49a21a6-f381-11ea-1a98-7f144c55c9b7
+html"""
+<iframe width="100%" height="500px" src="https://www.youtube.com/embed/gTGJ80HayK0?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+"""
 
-Below is a function called `remove_in_each_row(img, pixels)` it takes a matrix `img` and a vector of integers `pixels` and shrinks the image by 1 pixel in width by removing the element `img[i, pixels[i]]` in every row. This function is one of the building blocks of the Image Seam algorithm we saw in the lecture.
+# ╔═╡ b49e8cc8-f381-11ea-1056-91668ac6ae4e
+md"""
+## Shrinking an array
+
+Below is a function called `remove_in_each_row(img, pixels)`. It takes a matrix `img` and a vector of integers, `pixels`, and shrinks the image by 1 pixel in width by removing the element `img[i, pixels[i]]` in every row. This function is one of the building blocks of the Image Seam algorithm we saw in the lecture.
 
 Read it and convince yourself that it is correct.
 """
+
+# ╔═╡ 7af62c60-f381-11ea-077a-b581565a282c
+
 
 # ╔═╡ e799be82-f317-11ea-3ae4-6d13ece3fe10
 function remove_in_each_row(img, column_numbers)
@@ -432,14 +460,52 @@ function decimate(img, n)
 	img[1:n:end, 1:n:end]
 end
 
-# ╔═╡ 48089a00-f321-11ea-1479-e74ba71df067
+# ╔═╡ 0fbe2af6-f381-11ea-2f41-23cd1cf930d9
+if student.kerberos_id === "jazz"
+	md"""
+!!! danger "Oops!"
+    **Before you submit**, remember to fill in your name and kerberos ID at the top of this notebook!
+	"""
+end
 
+# ╔═╡ ffc17f40-f380-11ea-30ee-0fe8563c0eb1
+hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
+
+# ╔═╡ ffc40ab2-f380-11ea-2136-63542ff0f386
+almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
+
+# ╔═╡ ffceaed6-f380-11ea-3c63-8132d270b83f
+still_missing(text=md"Replace `missing` with your answer.") = Markdown.MD(Markdown.Admonition("warning", "Here we go!", [text]))
+
+# ╔═╡ ffde44ae-f380-11ea-29fb-2dfcc9cda8b4
+keep_working(text=md"The answer is not quite right.") = Markdown.MD(Markdown.Admonition("danger", "Keep working on it!", [text]))
+
+# ╔═╡ ffe326e0-f380-11ea-3619-61dd0592d409
+yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!", md"Good job!", md"Awesome!", md"You got the right answer!", md"Let's move on to the next section."]
+
+# ╔═╡ fff5aedc-f380-11ea-2a08-99c230f8fa32
+correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
+
+# ╔═╡ 00026442-f381-11ea-2b41-bde1fff66011
+not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
+
+# ╔═╡ 00115b6e-f381-11ea-0bc6-61ca119cb628
+bigbreak = html"<br><br><br><br><br>";
+
+# ╔═╡ 48089a00-f321-11ea-1479-e74ba71df067
+bigbreak
 
 # ╔═╡ Cell order:
+# ╟─e6b6760a-f37f-11ea-3ae1-65443ef5a81a
+# ╟─ec66314e-f37f-11ea-0af4-31da0584e881
+# ╠═33e43c7c-f381-11ea-3abc-c942327456b1
 # ╠═86e1ee96-f314-11ea-03f6-0f549b79e7c9
 # ╠═a4937996-f314-11ea-2ff9-615c888afaa8
 # ╟─0d144802-f319-11ea-0028-cd97a776a3d0
 # ╟─cc9fcdae-f314-11ea-1b9a-1f68b792f005
+# ╟─b49a21a6-f381-11ea-1a98-7f144c55c9b7
+# ╟─b49e8cc8-f381-11ea-1056-91668ac6ae4e
+# ╠═7af62c60-f381-11ea-077a-b581565a282c
 # ╠═e799be82-f317-11ea-3ae4-6d13ece3fe10
 # ╠═9cced1a8-f326-11ea-0759-0b2f22e5a1db
 # ╟─1d893998-f366-11ea-0828-512de0c44915
@@ -495,4 +561,13 @@ end
 # ╠═0e706bc4-f321-11ea-1e9a-71352fbe2e95
 # ╠═4240988e-f321-11ea-1e56-a90b3bf4d7ce
 # ╠═6bdbcf4c-f321-11ea-0288-fb16ff1ec526
-# ╠═48089a00-f321-11ea-1479-e74ba71df067
+# ╟─0fbe2af6-f381-11ea-2f41-23cd1cf930d9
+# ╟─48089a00-f321-11ea-1479-e74ba71df067
+# ╟─ffc17f40-f380-11ea-30ee-0fe8563c0eb1
+# ╟─ffc40ab2-f380-11ea-2136-63542ff0f386
+# ╟─ffceaed6-f380-11ea-3c63-8132d270b83f
+# ╟─ffde44ae-f380-11ea-29fb-2dfcc9cda8b4
+# ╟─ffe326e0-f380-11ea-3619-61dd0592d409
+# ╟─fff5aedc-f380-11ea-2a08-99c230f8fa32
+# ╟─00026442-f381-11ea-2b41-bde1fff66011
+# ╟─00115b6e-f381-11ea-0bc6-61ca119cb628
