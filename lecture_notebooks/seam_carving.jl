@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.10
+# v0.11.13
 
 using Markdown
 using InteractiveUtils
@@ -22,17 +22,16 @@ end
 # ╔═╡ 0316b94c-eef6-11ea-19bc-dbc959901bb5
 begin
 	# Poor man's Project.toml
-	Pkg.add(["Images", "ImageMagick", "PlutoUI", "Hyperscript", "ImageFiltering"])
+	Pkg.add(["Images", "ImageMagick", "PlutoUI", "ImageFiltering"])
 	
 	using Images
-	using ImageMagick
+	using PlutoUI
+	using ImageFiltering
+	
+	# these are "Standard Libraries" - they are included in every environment
 	using Statistics
 	using LinearAlgebra
-	using ImageFiltering
 end
-
-# ╔═╡ fe19ad0a-ef04-11ea-1e5f-1bfcbbb51302
-using PlutoUI
 
 # ╔═╡ e196fa66-eef5-11ea-2afe-c9fcb6c48937
 
@@ -463,7 +462,6 @@ end
 # ╠═b507480a-ef01-11ea-21c4-63d19fac19ab
 # ╟─7d8b20a2-ef03-11ea-1c9e-fdf49a397619
 # ╠═f690b06a-ef31-11ea-003b-4f2b2f82a9c3
-# ╠═fe19ad0a-ef04-11ea-1e5f-1bfcbbb51302
 # ╠═977b6b98-ef03-11ea-0176-551fc29729ab
 # ╠═9abbb158-ef03-11ea-39df-a3e8aa792c50
 # ╠═772a4d68-ef04-11ea-366a-f7ae9e1634f6
