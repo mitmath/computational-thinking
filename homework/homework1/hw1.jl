@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.12
+# v0.11.13
 
 using Markdown
 using InteractiveUtils
@@ -566,7 +566,7 @@ md"""
 
 The definition of a Gaussian in 1D is
 
-$$G(x) = \frac{1}{2\pi \sigma^2} \exp \left( \frac{-x^2}{2\sigma^2} \right)$$
+$$G(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left( \frac{-x^2}{2\sigma^2} \right)$$
 
 We need to **sample** (i.e. evaluate) this at each pixel in a region of size $n^2$,
 and then **normalize** so that the sum of the resulting kernel is 1.
