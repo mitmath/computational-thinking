@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.11.10
+# v0.11.12
 
 using Markdown
 using InteractiveUtils
@@ -12,6 +12,9 @@ macro bind(def, element)
         el
     end
 end
+
+# ╔═╡ fe19ad0a-ef04-11ea-1e5f-1bfcbbb51302
+using PlutoUI
 
 # ╔═╡ 877df834-f078-11ea-303b-e98273ef98a4
 begin
@@ -30,9 +33,6 @@ begin
 	using LinearAlgebra
 	using ImageFiltering
 end
-
-# ╔═╡ fe19ad0a-ef04-11ea-1e5f-1bfcbbb51302
-using PlutoUI
 
 # ╔═╡ e196fa66-eef5-11ea-2afe-c9fcb6c48937
 
@@ -481,6 +481,6 @@ end
 # ╠═7038abe4-ef36-11ea-11a5-75e57ab51032
 # ╟─2d6c6820-ef2d-11ea-1704-49bb5188cfcc
 # ╠═fa6a2152-ef0f-11ea-0e67-0d1a6599e779
-# ╟─71b16dbe-f08b-11ea-2343-5f1583074029
-# ╟─1fd26a60-f089-11ea-1f56-bb6eba7d9651
+# ╠═71b16dbe-f08b-11ea-2343-5f1583074029
+# ╠═1fd26a60-f089-11ea-1f56-bb6eba7d9651
 # ╟─15d1e5dc-ef2f-11ea-093a-417108bcd495
