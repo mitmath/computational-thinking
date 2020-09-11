@@ -46,7 +46,7 @@ md"_homework 2, version 1_"
 # ╔═╡ 85cfbd10-f384-11ea-31dc-b5693630a4c5
 md"""
 
-# **Homework 2** - _dynamic programming_
+# **Homework 2**: _Dynamic programming_
 `18.S191`, fall 2020
 
 This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
@@ -107,7 +107,8 @@ function remove_in_each_row(img, column_numbers)
 	m, n = size(img)
 	local img′ = similar(img, m, n-1) # create a similar image with one less column
 
-	@show(size(img′))
+	# The prime (′) in the variable name is written as \prime<TAB>
+    # You cannot use apostrophe for this! (Apostrophe means the transpose of a matrix)
 
 	for (i, j) in enumerate(column_numbers)
 		img′[i, :] = vcat(img[i, 1:j-1], img[i, j+1:end])
@@ -230,7 +231,7 @@ md"""
 
 #### Exercise 1.4
 
-Nice! If you did your optimizations right, you should be able to get down the etimated allocations to a single digit number!
+Nice! If you did your optimizations right, you should be able to get down the estimated allocations to a single digit number!
 
 👉 How many allocations were avoided by adding the `@view` optimization over the `vcat` optimization? Why is this?
 """
@@ -262,27 +263,20 @@ end
 Gray.(brightness.(img))
 
 # ╔═╡ 0b9ead92-f318-11ea-3744-37150d649d43
-md"""
-In the previous problem set, we computed wrote code to compute the convolution of an image with a kernel. Here we will use the implementation of the same from the Julia package [ImageFiltering.jl](https://juliaimages.org/ImageFiltering.jl/stable/#Demonstration-1). Convolution is called `imfilter` in this package ("filter" is a term used in the signal processing world for convolution, and other operations that are like convolution.)
-
-`imfilter` takes a"""
+md"""We provide you with a convolve function below.
+"""
 
 # ╔═╡ d184e9cc-f318-11ea-1a1e-994ab1330c1a
-convolve(img, k) = imfilter(img, reflect(k))
+convolve(img, k) = imfilter(img, reflect(k)) # uses ImageFiltering.jl package
+# behaves the same way as the `convolve` function used in Lecture 2
+# You were asked to implement this in homework 1.
 
 # ╔═╡ cdfb3508-f319-11ea-1486-c5c58a0b9177
 float_to_color(x) = RGB(max(0, -x), max(0, x), 0)
 
-# ╔═╡ f010933c-f318-11ea-22c5-4d2e64cd9629
-begin
-	img,
-	float_to_color.(convolve(brightness.(img), Kernel.sobel()[1])),
-	float_to_color.(convolve(brightness.(img), Kernel.sobel()[2]))
-end
-
 # ╔═╡ 5fccc7cc-f369-11ea-3b9e-2f0eca7f0f0e
 md"""
-finally we define the `energy` function which takes the gradients along x and y directions and computes the norm
+finally we define the `energy` function which takes the Sobel gradients along x and y directions and computes the norm of the gradient for each pixel.
 """
 
 # ╔═╡ 6f37b34c-f31a-11ea-2909-4f2079bf66ec
@@ -295,11 +289,14 @@ begin
 	end
 end
 
+# ╔═╡ 9fa0cd3a-f3e1-11ea-2f7e-bd73b8e3f302
+float_to_color.(energy(img))
+
 # ╔═╡ 87afabf8-f317-11ea-3cb3-29dced8e265a
 md"""
 ## **Exercise 2** - _Building up to dynamic programming_
 
-In this exercise, we will use the image resizing example computational problem of Seam carving. We will think through all the "gut reaction" solutions, and then finally end up with the dynamic programming solution that we saw in the lecture.
+In this exercise and the following ones, we will use the computational problem of Seam carving. We will think through all the "gut reaction" solutions, and then finally end up with the dynamic programming solution that we saw in the lecture.
 
 In the process we will understand the performance and accuracy of each iteration of our solution.
 
@@ -314,7 +311,8 @@ The function should return a vector of as many integers as there are rows in the
 md"""
 #### Exercise 2.1 - _The greedy approach_
 
-The first approach discussed in the lecture (included below) is the _greedy approach_: you start from your top pixel, and at each step, you just look at the three neighbors below to find the next pixel in the seam. This is the neighbor with the lowest energy.
+The first approach discussed in the lecture (included below) is the _greedy approach_: you start from your top pixel, and at each step you just look at the three neighbors below. The next pixel in the seam is the neighbor with the lowest energy.
+
 """
 
 # ╔═╡ f5a74dfc-f388-11ea-2577-b543d31576c6
@@ -337,7 +335,7 @@ function greedy_seam(energies, starting_pixel::Int)
 end
 
 # ╔═╡ 5430d772-f397-11ea-2ed8-03ee06d02a22
-md"Before we apply your function to our test image, let's try it out on a small _energy map_ just like in the lecture snippet above. Light pixels have high energy, dark pixels signify low energy."
+md"Before we apply your function to our test image, let's try it out on a small matrix of energies (displayed here in grayscale), just like in the lecture snippet above (clicking on the video will take you to the right part of the video). Light pixels have high energy, dark pixels signify low energy."
 
 # ╔═╡ f580527e-f397-11ea-055f-bb9ea8f12015
 # try
@@ -362,9 +360,9 @@ md"Compute shrunk image: $(@bind shrink_greedy CheckBox())"
 md"""
 #### Exercise 2.2 - _Recursion_
 
-A common trope in algorithm design is the possibility of solving a problem as the combination of solutions to subproblems.
+A common pattern in algorithm design is the idea of solving a problem as the combination of solutions to subproblems.
 
-The classic example, it a [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number) generator.
+The classic example, is a [Fibonacci number](https://en.wikipedia.org/wiki/Fibonacci_number) generator.
 
 The recursive implementation of Fibonacci looks something like this
 """
@@ -372,12 +370,12 @@ The recursive implementation of Fibonacci looks something like this
 # ╔═╡ 2a98f268-f3b6-11ea-1eea-81c28256a19e
 function fib(n)
     # base case (basis)
-	if n == 0 || n == 1
+	if n == 0 || n == 1      # `||` means "or"
 		return 1
 	end
 
     # recursion (induction)
-	fib(n-1) + fib(n-2)
+	return fib(n-1) + fib(n-2)
 end
 
 # ╔═╡ 32e9a944-f3b6-11ea-0e82-1dff6c2eef8d
@@ -395,10 +393,10 @@ An analogy can be drawn to the process of mathematical induction in mathematics.
 
 # ╔═╡ 9101d5a0-f371-11ea-1c04-f3f43b96ca4a
 md"""
-👉 Define `least_energy` function which returns:
-1. the lowest possible total energy for a seam starting at the pixel at (i, j).
-2. the column to jump to on the next move (in row i+1),
-which is one of j-1,j or j+1, up to	boundary conditions.
+👉 Define a `least_energy` function which returns:
+1. the lowest possible total energy for a seam starting at the pixel at $(i, j)$;
+2. the column to jump to on the next move (in row $i + 1$),
+which is one of $j-1$, $j$ or $j+1$, up toboundary conditions.
 
 Return these two values in a tuple.
 """
@@ -413,19 +411,11 @@ function least_energy(energies, i, j)
 	#
 	# induction
 	# combine results from recursive calls to `least_energy`.
-	m,n=size(energies)
-	if m == i
-		return energies[i,j]
-	else
-		return energies[i,j] + min(least_energy(energies, i+1, clamp(j-1, 1, n)),
-			                       least_energy(energies, i+1, j),
-								   least_energy(energies, i+1, clamp(j+1, 1, n)))
-	end
 end
 
 # ╔═╡ a7f3d9f8-f3bb-11ea-0c1a-55bbb8408f09
 md"""
-This is so elegant, correct, but inefficient! If you check this checkbox $(@bind compute_access CheckBox()), you will see the number of access to the energies array it took to compute the least energy from the pixel (1,7):
+This is so elegant, correct, but inefficient! If you **check this checkbox** $(@bind compute_access CheckBox()), you will see the number of accesses made to the energies array it took to compute the least energy from the pixel (1,7):
 """
 
 # ╔═╡ 18e0fd8a-f3bc-11ea-0713-fbf74d5fa41a
@@ -457,7 +447,8 @@ This will give you the method used in the lecture to perform [exhaustive search 
 
 # ╔═╡ 85033040-f372-11ea-2c31-bb3147de3c0d
 function recursive_seam(energies, starting_pixel)
-	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	m, n = size(energies)
+	# Replace the following line with your code.
 	[rand(1:starting_pixel) for i=1:m]
 end
 
@@ -481,9 +472,9 @@ exhaustive_observation = md"""
 md"""
 ## **Exercise 3** - _Memoization_
 
-Memoization is the name given to the technique of storing results to expensive function calls that will be accessed more than once.
+**Memoization** is the name given to the technique of storing results to expensive function calls that will be accessed more than once.
 
-As stated in the video, a the function `least_energy` is called with the same number of arguments. In fact, we call it on the order of $3^n$ times when there are only really $m×n$ unique ways to call it!
+As stated in the video, the function `least_energy` is called repeatedly with the same arguments. In fact, we call it on the order of $3^n$ times, when there are only really $m \times n$ unique ways to call it!
 
 Lets implement memoization on this function with first a [dictionary](https://docs.julialang.org/en/v1/base/collections/#Dictionaries) for storage.
 """
@@ -498,12 +489,20 @@ first checks to see if the dictionary contains the key (i,j) if it does, returns
 
 `memoized_least_energy(energies, starting_pixel, memory)`
 
-This function must recursively call itself, and pass the `memory` object as well.
+This function must recursively call itself, and pass the same `memory` object it received as an argument.
+
+You are expected to read and understand the [documentation on dictionaries](https://docs.julialang.org/en/v1/base/collections/#Dictionaries) to find out how to:
+
+1. Create a dictionary
+2. Check if a key is stored in the dictionary
+3. Access contents of the dictionary by a key.
 """
 
 # ╔═╡ b1d09bc8-f320-11ea-26bb-0101c9a204e2
 function memoized_least_energy(energies, i, j, memory)
-	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	m, n = size(energies)
+	
+	# Replace the following line with your code.
 	[starting_pixel for i=1:m]
 end
 
@@ -511,7 +510,9 @@ end
 function recursive_memoized_seam(energies, starting_pixel)
 	memory = Dict{Tuple{Int,Int}, Float64}() # location => least energy.
 	                                         # pass this every time you call memoized_least_energy.
-	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	m, n = size(energies)
+	
+	# Replace the following line with your code.
 	[rand(1:starting_pixel) for i=1:m]
 end
 
@@ -531,14 +532,18 @@ Write a variation of `matrix_memoized_least_energy` and `matrix_memoized_seam` w
 
 # ╔═╡ c8724b5e-f3bd-11ea-0034-b92af21ca12d
 function matrix_memoized_least_energy(energies, i, j, memory)
-	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	m, n = size(energies)
+	
+	# Replace the following line with your code.
 	[starting_pixel for i=1:m]
 end
 
 # ╔═╡ be7d40e2-f320-11ea-1b56-dff2a0a16e8d
 function matrix_memoized_seam(energies, starting_pixel)
-	memory = zeros(size(energies)) # use this as storage
-	m, n = size(energies) # delete the body of this function it's just a placeholder.
+	memory = zeros(size(energies)) # use this as storage -- intially it's all zeros
+	m, n = size(energies)
+	
+	# Replace the following line with your code.
 	[starting_pixel for i=1:m]
 end
 
@@ -565,14 +570,15 @@ end
 md"""
 #### Exercise 4.2
 
-👉 Write a function which when given the matrix returned by `least_energy_matrix` and a starting pixel (on the first row), computes the least energy seam from that pixel.
+👉 Write a function which, when given the matrix returned by `least_energy_matrix` and a starting pixel (on the first row), computes the least energy seam from that pixel.
 """
 
 # ╔═╡ 795eb2c4-f37b-11ea-01e1-1dbac3c80c13
 function seam_from_precomputed_least_energy(energies, starting_pixel::Int)
 	least_energies = least_energy_matrix(energies)
 	m, n = size(least_energies)
-	# delete the following line, it's just a placeholder.
+	
+	# Replace the following line with your code.
 	[starting_pixel for i=1:m]
 end
 
@@ -786,6 +792,27 @@ if !@isdefined(seam_from_precomputed_least_energy)
 	not_defined(:seam_from_precomputed_least_energy)
 end
 
+# ╔═╡ fbf6b0fa-f3e0-11ea-2009-573a218e2460
+function hbox(x, y, gap=16; sy=size(y), sx=size(x))
+	w,h = (max(sx[1], sy[1]),
+		   gap + sx[2] + sy[2])
+	
+	slate = fill(RGB(1,1,1), w,h)
+	slate[1:size(x,1), 1:size(x,2)] .= RGB.(x)
+	slate[1:size(y,1), size(x,2) + gap .+ (1:size(y,2))] .= RGB.(y)
+	slate
+end
+
+# ╔═╡ f010933c-f318-11ea-22c5-4d2e64cd9629
+begin
+	hbox(
+		float_to_color.(convolve(brightness.(img), Kernel.sobel()[1])),
+		float_to_color.(convolve(brightness.(img), Kernel.sobel()[2])))
+end
+
+# ╔═╡ 256edf66-f3e1-11ea-206e-4f9b4f6d3a3d
+vbox(x,y, gap=16) = hbox(x', y')'
+
 # ╔═╡ 00115b6e-f381-11ea-0bc6-61ca119cb628
 bigbreak = html"<br><br><br><br><br>";
 
@@ -852,6 +879,7 @@ bigbreak
 # ╠═f010933c-f318-11ea-22c5-4d2e64cd9629
 # ╟─5fccc7cc-f369-11ea-3b9e-2f0eca7f0f0e
 # ╠═6f37b34c-f31a-11ea-2909-4f2079bf66ec
+# ╠═9fa0cd3a-f3e1-11ea-2f7e-bd73b8e3f302
 # ╟─f7eba2b6-f388-11ea-06ad-0b861c764d61
 # ╟─87afabf8-f317-11ea-3cb3-29dced8e265a
 # ╟─8ba9f5fc-f31b-11ea-00fe-79ecece09c25
@@ -867,9 +895,9 @@ bigbreak
 # ╟─980b1104-f394-11ea-0948-21002f26ee25
 # ╟─9945ae78-f395-11ea-1d78-cf6ad19606c8
 # ╟─87efe4c2-f38d-11ea-39cc-bdfa11298317
-# ╠═f6571d86-f388-11ea-0390-05592acb9195
-# ╠═f626b222-f388-11ea-0d94-1736759b5f52
-# ╠═52452d26-f36c-11ea-01a6-313114b4445d
+# ╟─f6571d86-f388-11ea-0390-05592acb9195
+# ╟─f626b222-f388-11ea-0d94-1736759b5f52
+# ╟─52452d26-f36c-11ea-01a6-313114b4445d
 # ╠═2a98f268-f3b6-11ea-1eea-81c28256a19e
 # ╟─32e9a944-f3b6-11ea-0e82-1dff6c2eef8d
 # ╟─9101d5a0-f371-11ea-1c04-f3f43b96ca4a
@@ -888,7 +916,7 @@ bigbreak
 # ╠═e66ef06a-f392-11ea-30ab-7160e7723a17
 # ╟─c572f6ce-f372-11ea-3c9a-e3a21384edca
 # ╠═6d993a5c-f373-11ea-0dde-c94e3bbd1552
-# ╟─ea417c2a-f373-11ea-3bb0-b1b5754f2fac
+# ╠═ea417c2a-f373-11ea-3bb0-b1b5754f2fac
 # ╟─56a7f954-f374-11ea-0391-f79b75195f4d
 # ╠═b1d09bc8-f320-11ea-26bb-0101c9a204e2
 # ╠═3e8b0868-f3bd-11ea-0c15-011bbd6ac051
@@ -925,4 +953,6 @@ bigbreak
 # ╟─ffe326e0-f380-11ea-3619-61dd0592d409
 # ╟─fff5aedc-f380-11ea-2a08-99c230f8fa32
 # ╟─00026442-f381-11ea-2b41-bde1fff66011
+# ╟─fbf6b0fa-f3e0-11ea-2009-573a218e2460
+# ╟─256edf66-f3e1-11ea-206e-4f9b4f6d3a3d
 # ╟─00115b6e-f381-11ea-0bc6-61ca119cb628
