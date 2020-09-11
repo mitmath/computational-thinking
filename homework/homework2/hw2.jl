@@ -515,6 +515,9 @@ function recursive_memoized_seam(energies, starting_pixel)
 	[rand(1:starting_pixel) for i=1:m]
 end
 
+# ╔═╡ 4e3bcf88-f3c5-11ea-3ada-2ff9213647b7
+md"Compute shrunk image: $(@bind shrink_dict CheckBox())"
+
 # ╔═╡ cf39fa2a-f374-11ea-0680-55817de1b837
 md"""
 ### Exercise 3.2 - _Matrix as storage_
@@ -538,6 +541,9 @@ function matrix_memoized_seam(energies, starting_pixel)
 	m, n = size(energies) # delete the body of this function it's just a placeholder.
 	[starting_pixel for i=1:m]
 end
+
+# ╔═╡ 507f3870-f3c5-11ea-11f6-ada3bb087634
+md"Compute shrunk image: $(@bind shrink_matrix CheckBox())"
 
 # ╔═╡ 24792456-f37b-11ea-07b2-4f4c8caea633
 md"""
@@ -563,10 +569,15 @@ md"""
 """
 
 # ╔═╡ 795eb2c4-f37b-11ea-01e1-1dbac3c80c13
-function seam_from_precomputed_least_energy(least_energies, starting_pixel::Int)
-	m, n = size(energies) # delete the body of this function it's just a placeholder.
+function seam_from_precomputed_least_energy(energies, starting_pixel::Int)
+	least_energies = least_energy_matrix(energies)
+	m, n = size(least_energies)
+	# delete the following line, it's just a placeholder.
 	[starting_pixel for i=1:m]
 end
+
+# ╔═╡ 51df0c98-f3c5-11ea-25b8-af41dc182bac
+md"Compute shrunk image: $(@bind shrink_bottomup CheckBox())"
 
 # ╔═╡ 0fbe2af6-f381-11ea-2f41-23cd1cf930d9
 if student.kerberos_id === "jazz"
@@ -632,6 +643,39 @@ end
 # ╔═╡ e66ef06a-f392-11ea-30ab-7160e7723a17
 if shrink_recursive
 	recursive_carved[greedy_n]
+end
+
+# ╔═╡ 4e3ef866-f3c5-11ea-3fb0-27d1ca9a9a3f
+if shrink_dict
+	dict_carved = shrink_n(img, 200, recursive_memoized_seam)
+	md"Shrink by: $(@bind dict_n Slider(1:200, show_value=true))"
+end
+
+# ╔═╡ 6e73b1da-f3c5-11ea-145f-6383effe8a89
+if shrink_dict
+	dict_carved[dict_n]
+end
+
+# ╔═╡ 50829af6-f3c5-11ea-04a8-0535edd3b0aa
+if shrink_matrix
+	matrix_carved = shrink_n(img, 200, matrix_memoized_seam)
+	md"Shrink by: $(@bind matrix_n Slider(1:200, show_value=true))"
+end
+
+# ╔═╡ 9e56ecfa-f3c5-11ea-2e90-3b1839d12038
+if shrink_matrix
+	matrix_carved[matrix_n]
+end
+
+# ╔═╡ 51e28596-f3c5-11ea-2237-2b72bbfaa001
+if shrink_bottomup
+	bottomup_carved = shrink_n(img, 200, seam_from_precomputed_least_energy)
+	md"Shrink by: $(@bind bottomup_n Slider(1:200, show_value=true))"
+end
+
+# ╔═╡ 0a10acd8-f3c6-11ea-3e2f-7530a0af8c7f
+if shrink_bottomup
+	bottomup_carved[bottomup_n]
 end
 
 # ╔═╡ ef26374a-f388-11ea-0b4e-67314a9a9094
@@ -848,15 +892,24 @@ bigbreak
 # ╟─56a7f954-f374-11ea-0391-f79b75195f4d
 # ╠═b1d09bc8-f320-11ea-26bb-0101c9a204e2
 # ╠═3e8b0868-f3bd-11ea-0c15-011bbd6ac051
+# ╠═4e3bcf88-f3c5-11ea-3ada-2ff9213647b7
+# ╠═4e3ef866-f3c5-11ea-3fb0-27d1ca9a9a3f
+# ╠═6e73b1da-f3c5-11ea-145f-6383effe8a89
 # ╟─cf39fa2a-f374-11ea-0680-55817de1b837
 # ╠═c8724b5e-f3bd-11ea-0034-b92af21ca12d
 # ╠═be7d40e2-f320-11ea-1b56-dff2a0a16e8d
+# ╟─507f3870-f3c5-11ea-11f6-ada3bb087634
+# ╠═50829af6-f3c5-11ea-04a8-0535edd3b0aa
+# ╠═9e56ecfa-f3c5-11ea-2e90-3b1839d12038
 # ╟─4f48c8b8-f39d-11ea-25d2-1fab031a514f
 # ╟─24792456-f37b-11ea-07b2-4f4c8caea633
 # ╠═ff055726-f320-11ea-32f6-2bf38d7dd310
 # ╟─e0622780-f3b4-11ea-1f44-59fb9c5d2ebd
 # ╟─92e19f22-f37b-11ea-25f7-e321337e375e
 # ╠═795eb2c4-f37b-11ea-01e1-1dbac3c80c13
+# ╠═51df0c98-f3c5-11ea-25b8-af41dc182bac
+# ╠═51e28596-f3c5-11ea-2237-2b72bbfaa001
+# ╠═0a10acd8-f3c6-11ea-3e2f-7530a0af8c7f
 # ╟─946b69a0-f3a2-11ea-2670-819a5dafe891
 # ╟─0fbe2af6-f381-11ea-2f41-23cd1cf930d9
 # ╟─48089a00-f321-11ea-1479-e74ba71df067
