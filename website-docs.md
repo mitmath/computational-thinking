@@ -1,6 +1,6 @@
 # Documentation on course website
 
-This document is for course staff and anyone who would like to edit the course website that is available at [http://mitmath.github.io/18S191/](http://mitmath.github.io/18S191/).
+This document is for course staff and anyone who would like to edit the course website that is available at [computationalthinking.mit.edut/Fall20](computationalthinking.mit.edut/Fall20).
 
 The code for the website is in the `website/` directory in this repo. It is processed by [Franklin.jl](https://franklinjl.org/) to generate the website whenever any file in this repository is changed.
 

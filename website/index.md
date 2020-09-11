@@ -27,7 +27,7 @@ If you do so, please add punctuation, and please change the colour of the part y
 
 ## Logistics
 
-Course materials will be published on the accompanying website: [https://mitmath.github.io/18S191/Fall20/](https://mitmath.github.io/18S191/Fall20/)
+Course materials will be published on this website.
 
 TR 2:30&ndash;3:30pm EST, online (Go to the lecture page on this site to stream it.)
 
