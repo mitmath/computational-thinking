@@ -648,7 +648,7 @@ end
 
 # ╔═╡ e66ef06a-f392-11ea-30ab-7160e7723a17
 if shrink_recursive
-	recursive_carved[greedy_n]
+	recursive_carved[recursive_n]
 end
 
 # ╔═╡ 4e3ef866-f3c5-11ea-3fb0-27d1ca9a9a3f
