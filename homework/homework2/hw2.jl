@@ -460,7 +460,7 @@ md"""
 #### Exercise 2.4
 
 - State clearly why this algorithm does an exhaustive search of all possible paths.
-- How many valid seams are there in an image of size `m×n`?
+- How does the number of possible seam grow as n increases for a `m×n` image? (Big O notation is fine, or an approximation is fine).
 """
 
 # ╔═╡ 6d993a5c-f373-11ea-0dde-c94e3bbd1552
