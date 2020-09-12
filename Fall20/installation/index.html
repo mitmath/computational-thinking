@@ -77,12 +77,12 @@ allowfullscreen></iframe>
 <p>Open the <strong>Julia REPL</strong>. This is the command-line interface to Julia, similar to the previous screenshot.</p>
 <p>Here you type <em>Julia commands</em>, and when you press ENTER, it runs, and you see the result.</p>
 <p>To install Pluto, we want to run a <em>package manager command</em>. To switch from <em>Julia</em> mode to <em>Pkg</em> mode, type <code>&#93;</code> &#40;closing square bracket&#41; at the <code>julia&gt;</code> prompt:</p>
-<pre><code class="julia hljs">julia&gt; ]
+<pre><code class="julia hljs">julia&amp;gt; &amp;<span class="hljs-comment">#93;</span>
 
-(<span class="hljs-meta">@v1</span><span class="hljs-number">.5</span>) pkg&gt;</code></pre>
+&amp;<span class="hljs-comment">#40;@v1.5&amp;#41; pkg&amp;gt;</span></code></pre>
 <p>The line turns blue and the prompt changes to <code>pkg&gt;</code>, telling you that you are now in <em>package manager mode</em>. This mode allows you to do operations on <strong>packages</strong> &#40;also called libraries&#41;.</p>
 <p>To install Pluto, run the following &#40;case sensitive&#41; command to <em>add</em> &#40;install&#41; the package to your system by downloading it from the internet. You should only need to do this <em>once</em> for each installation of Julia:</p>
-<pre><code class="julia hljs">(<span class="hljs-meta">@v1</span><span class="hljs-number">.5</span>) pkg&gt; add Pluto</code></pre>
+<pre><code class="julia hljs">&amp;<span class="hljs-comment">#40;@v1.5&amp;#41; pkg&amp;gt; add Pluto</span></code></pre>
 <p>This might take a couple of minutes, so you can go get yourself a cup of tea&#33;</p>
 <p><img src="https://user-images.githubusercontent.com/6933510/91440380-ceb16400-e86e-11ea-9352-d164911774cf.png" alt="image" /></p>
 <p>You can now close the terminal.</p>
@@ -92,9 +92,9 @@ allowfullscreen></iframe>
 <p>Repeat the following steps whenever you want to work on a project or homework assignment.</p>
 <h2 id="step_1_start_pluto"><a href="#step_1_start_pluto">Step 1: Start Pluto</a></h2>
 <p>Start the Julia REPL, like you did during the setup. In the REPL, type:</p>
-<pre><code class="julia hljs">julia&gt; <span class="hljs-keyword">using</span> Pluto
+<pre><code class="julia hljs">julia&amp;gt; <span class="hljs-keyword">using</span> Pluto
 
-julia&gt; Pluto.run()</code></pre>
+julia&amp;gt; Pluto.run&amp;<span class="hljs-comment">#40;&amp;#41;</span></code></pre>
 <p><img src="https://user-images.githubusercontent.com/6933510/91441094-eb01d080-e86f-11ea-856f-e667fdd9b85c.png" alt="image" /></p>
 <p>The terminal tells us to go to <code>http://localhost:1234/</code> &#40;or a similar URL&#41;. Let&#39;s open Firefox or Chrome and type that into the address bar.</p>
 <p><img src="https://user-images.githubusercontent.com/6933510/91441391-6a8f9f80-e870-11ea-94d0-4ef91b4e2242.png" alt="image" /></p>
