@@ -396,7 +396,7 @@ md"""
 👉 Define a `least_energy` function which returns:
 1. the lowest possible total energy for a seam starting at the pixel at $(i, j)$;
 2. the column to jump to on the next move (in row $i + 1$),
-which is one of $j-1$, $j$ or $j+1$, up toboundary conditions.
+which is one of $j-1$, $j$ or $j+1$, up to boundary conditions.
 
 Return these two values in a tuple.
 """
@@ -642,7 +642,7 @@ end
 
 # ╔═╡ d88bc272-f392-11ea-0efd-15e0e2b2cd4e
 if shrink_recursive
-	recursive_carved = shrink_n(img, 200, recursive_seam)
+	recursive_carved = shrink_n(img, 3, recursive_seam)
 	md"Shrink by: $(@bind recursive_n Slider(1:200, show_value=true))"
 end
 
@@ -697,7 +697,7 @@ end
 
 # ╔═╡ ddba07dc-f3b7-11ea-353e-0f67713727fc
 # Do not make this image bigger, it will be infeasible to compute.
-pika = decimate(load(download("https://art.pixilart.com/901d53bcda6b27b.png")),77)
+pika = decimate(load(download("https://art.pixilart.com/901d53bcda6b27b.png")),150)
 
 # ╔═╡ 73b52fd6-f3b9-11ea-14ed-ebfcab1ce6aa
 size(pika)
