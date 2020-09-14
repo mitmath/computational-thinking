@@ -11,7 +11,7 @@
 
 ## Step 1: Install Julia 1.5.1
 
-Go to https://julialang.org/downloads and download the current stable release, Julia 1.5.1, using the correct version for your operating system (Linux x86, Mac, Windows, etc).
+Go to [https://julialang.org/downloads](https://julialang.org/downloads) and download the current stable release, Julia 1.5.1, using the correct version for your operating system (Linux x86, Mac, Windows, etc).
 
 ## Step 2: Run Julia
 
@@ -21,9 +21,9 @@ After installing, **make sure that you can run Julia**. On some systems, this me
 
 *Make sure that you are able to launch Julia and calculate `1+1` before proceeding!*
 
-## Step 3: Install `Pluto`
+## Step 3: Install [`Pluto`](https://github.com/fonsp/Pluto.jl)
 
-Next we will install the **Pluto notebook** that we will be using during the course.
+Next we will install the [**Pluto notebook**](https://github.com/fonsp/Pluto.jl/blob/master/README.md) that we will be using during the course. Pluto is a Julia _programming environment_ designed for interactivity and quick experiments.
 
 Open the **Julia REPL**. This is the command-line interface to Julia, similar to the previous screenshot.
 
@@ -73,7 +73,9 @@ The terminal tells us to go to `http://localhost:1234/` (or a similar URL). Let'
 
 ![image](https://user-images.githubusercontent.com/6933510/91441391-6a8f9f80-e870-11ea-94d0-4ef91b4e2242.png)
 
-> If you're curious about what a _Pluto notebook_ looks like, have a look at the **sample notebooks**. Samples 1, 2 and 6 may be useful for learning some basics of Julia programming.
+> If you're curious about what a _Pluto notebook_ looks like, have a look at the **sample notebooks**. Samples 1, 2 and 6 may be useful for learning some basics of Julia programming. 
+> 
+> If you want to hear the story behind Pluto, have a look a the [JuliaCon presentation](https://www.youtube.com/watch?v=IAF8DjrQSSk).
 
 If nothing happens in the browser the first time, close Julia and try again. And please let us know!
 
