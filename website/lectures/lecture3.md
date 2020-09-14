@@ -1,7 +1,7 @@
 @def sequence = ["image-seam", "array-views", "conv-gpus","image-seam-reminiscing","conv-real-world"];
 @def airtime = "2020-09-08 02:35pm"
 
-{{redirect /lecture3/index.html}}
+{{redirect /Fall20/lecture3/index.html}}
 
 ~~~
 <h1>Lecture 3: Shrinking images and dynamic programming</h1>
