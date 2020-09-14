@@ -17,6 +17,9 @@ html, body {
 }
 
 
+.sidebar {
+    z-index: 2;
+}
 
 .content {
     padding-top: 0;
@@ -109,4 +112,18 @@ h1 {
 }
 h2 {
     margin-top: 1em;
+}
+
+
+.page-foot img.github-logo {
+    width: 1em;
+    height: 1em;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin-bottom: -2px;
+}
+
+.page-foot {
+    margin-bottom: 0;
 }
