@@ -1,5 +1,7 @@
 # Homework 2: Dynamic programming and seam carving
 
+{{redirect /hw2/index.html}}
+
 Homeworks are in the form of Pluto notebooks. Your must complete them and submit them on Canvas (if you are an MIT student.). If you are not an MIT student, we encourage you to join discord and find someone to cross-grade.
 
 **HW2 due date: Thursday, 17th Sep 2020 at 11:59pm EST**
