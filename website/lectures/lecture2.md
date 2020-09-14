@@ -1,5 +1,7 @@
 @def sequence = ["convolution"]
 @def airtime = "2020-09-02 02:30pm"
+
+{{redirect /lecture2/index.html}}
 ~~~
 <h1>Lecture 2: Convolutions</h1>
 ~~~

@@ -1,5 +1,7 @@
 # Homework 0: Getting set up
 
+{{redirect /hw0/index.html}}
+
 Homeworks are in the form of Pluto notebooks. Your must complete them and submit them on Canvas (if you are an MIT student.). If you are not an MIT student, we encourage you to join discord and find someone to cross-grade.
 
 HW0 due date: Thursday, 10th Sep 2020
