@@ -22,9 +22,11 @@ If you do so, please add punctuation, and please change the colour of the part y
 ## Professors
 [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), & [James Schloss](https://eapsweb.mit.edu/people/jars)
 
-### Course Materials
+### Course Material
 
-A summary of all course materials posted so far is [here](course-materials.md).
+The course material includes **recorded lectures** and **Pluto notebooks**, these are available on the [course website](https://computationalthinking.mit.edu/Fall20), which will be updated regularly. 
+
+Every week comes with a problem set where you apply the material to a real problem. Homework sets are **interactive [Pluto notebooks](https://github.com/fonsp/Pluto.jl)** - you get automatic visualizations and verification while you work on your code.
 
 Julia learning materials may be found [here](http://www.julialang.org/learning)
 

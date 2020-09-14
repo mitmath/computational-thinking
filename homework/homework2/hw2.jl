@@ -41,7 +41,7 @@ begin
 end
 
 # ╔═╡ e6b6760a-f37f-11ea-3ae1-65443ef5a81a
-md"_homework 2, version 2_"
+md"_homework 2, version 2.1_"
 
 # ╔═╡ 85cfbd10-f384-11ea-31dc-b5693630a4c5
 md"""
@@ -642,7 +642,7 @@ end
 
 # ╔═╡ d88bc272-f392-11ea-0efd-15e0e2b2cd4e
 if shrink_recursive
-	recursive_carved = shrink_n(img, 3, recursive_seam)
+	recursive_carved = shrink_n(pika, 3, recursive_seam)
 	md"Shrink by: $(@bind recursive_n Slider(1:3, show_value=true))"
 end
 
