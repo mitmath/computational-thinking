@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   
-  
+   <link rel="stylesheet" href="/Fall20/libs/highlight/github.min.css">
+   
   <link rel="stylesheet" href="/Fall20/css/franklin.css">
 <link rel="stylesheet" href="/Fall20/css/poole_hyde.css">
 <link rel="stylesheet" href="/Fall20/css/custom.css">
@@ -42,7 +43,7 @@
       <a class="sidebar-nav-item " href="/Fall20/installation/">Software installation</a>
       <a class="sidebar-nav-item " href="/Fall20/hw0/">Homework 0</a>
       <a class="sidebar-nav-item " href="/Fall20/lecture1/">Lecture 1: Images and Abstraction</a>
-      <a class="sidebar-nav-item active" href="/Fall20/lecture2/">Lecture 2: Convolutions</a>
+      <a class="sidebar-nav-item " href="/Fall20/lecture2/">Lecture 2: Convolutions</a>
       <a class="sidebar-nav-item " href="/Fall20/hw1/">Homework 1</a>
       <a class="sidebar-nav-item " href="/Fall20/lecture3/">Lecture 3: Dynamic programming, Views and GPUs</a>
       <a class="sidebar-nav-item " href="/Fall20/lecture4/">Lecture 4: Live coding seam carving</a>
@@ -56,24 +57,26 @@
 <div class="content container">
 
 <!-- Content appended here -->
-<div class="franklin-content">
-<h1>Lecture 2: Convolutions</h1>
-
-<p>Airs on: <span class="moment">2020-09-02T14:30:00</span></p>
-<p><strong>Table of Contents</strong></p>
-<div class="franklin-toc"><ol><li><a href="#segment_1_convolutions_in_image_processing">Segment 1: Convolutions in image processing</a></li><li><a href="#segment_2_mit_only_live_session">Segment 2: MIT only live session</a></li></ol></div>
-<h2 id="segment_1_convolutions_in_image_processing"><a href="#segment_1_convolutions_in_image_processing">Segment 1: Convolutions in image processing</a></h2>
-<iframe id="convolution" width="100%" height="300"
-src="https://www.youtube.com/embed/8rrHTtUzyZA"
-frameborder="0"
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-allowfullscreen></iframe>
-
-<br/>
-<br/>
-<p><strong>Live quiz:</strong> During the session, open <a href="https://itempool.com/3b1b/live">this link</a> to answer Grant&#39;s live poll-style questions&#33;</p>
-<h2 id="segment_2_mit_only_live_session"><a href="#segment_2_mit_only_live_session">Segment 2: MIT only live session</a></h2>
-<p>&#40;see Canvas for details&#41;</p>
+<div class="franklin-content"><h1 id="18s191_course_website"><a href="#18s191_course_website">18S191 course website</a></h1>
+<p>The website was written in Franklin.jl - a static site generator with Julia as templating language.</p>
+<p>Whenever you push to this folder of the repository, the website will automatically rebuild and update. To test your changes locally before pushing, follow these steps:</p>
+<ol>
+<li><p>In a terminal, navigate to this folder using <code>cd</code>.</p>
+</li>
+<li><p>Run Julia with this folder as the active project, and <code>instantiate</code>:</p>
+</li>
+</ol>
+<pre><code class="julia hljs">$ julia --project
+julia&gt; ]
+(website) pkg&gt; instantiate</code></pre>
+<ol start="3">
+<li><p>Import &amp; run our buddy Franklin:</p>
+</li>
+</ol>
+<pre><code class="julia hljs">julia&gt; <span class="hljs-keyword">using</span> Franklin
+<span class="hljs-comment"># ignore some warnings</span>
+julia&gt; serve()</code></pre>
+<p>Franklin will now launch a <em>live dev server</em>: whenever you change a file, your browser tab will automatically refresh.</p>
 <div class="page-foot">
   <div class="copyright">
     <a href="https://github.com/mitmath/18S191/tree/master/website"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></img></b></a></br>
@@ -82,14 +85,6 @@ allowfullscreen></iframe>
 </div></div><!-- CONTENT ENDS HERE -->
 
     </div>  <!-- div: content container -->
-
-    
-        <script src="/Fall20/assets/moment.min.js"></script>
-<script src="/Fall20/assets/moment-timezone.js"></script>
-<script src="/Fall20/assets/live-player.js"></script>
-<script>
-play_live("2020-09-02T14:30:00", "America/New_York", ["convolution"], [2170])
-</script>
 
     
 
@@ -104,6 +99,10 @@ play_live("2020-09-02T14:30:00", "America/New_York", ["convolution"], [2170])
             }
         }
     </script>
+    
+        
+
+
     
 
     <!-- Global site tag (gtag.js) - Google Analytics -->

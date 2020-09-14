@@ -59,7 +59,7 @@
 <!-- Content appended here -->
 <div class="franklin-content"><h1 id="first-time_setup_install_julia_amp_pluto"><a href="#first-time_setup_install_julia_amp_pluto">First-time setup: Install Julia &amp; Pluto</a></h1>
 <p><strong>Video version:</strong></p>
-<iframe id="installation" width="800" height="474"
+<iframe id="installation" width="100%" height="300"
 src="https://www.youtube.com/embed/OOjKEgbt8AI"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
@@ -67,22 +67,22 @@ allowfullscreen></iframe>
 
 <p><br/> <br/> <br/> <strong>Text and pictures version:</strong></p>
 <h2 id="step_1_install_julia_151"><a href="#step_1_install_julia_151">Step 1: Install Julia 1.5.1</a></h2>
-<p>Go to https://julialang.org/downloads and download the current stable release, Julia 1.5.1, using the correct version for your operating system &#40;Linux x86, Mac, Windows, etc&#41;.</p>
+<p>Go to <a href="https://julialang.org/downloads">https://julialang.org/downloads</a> and download the current stable release, Julia 1.5.1, using the correct version for your operating system &#40;Linux x86, Mac, Windows, etc&#41;.</p>
 <h2 id="step_2_run_julia"><a href="#step_2_run_julia">Step 2: Run Julia</a></h2>
 <p>After installing, <strong>make sure that you can run Julia</strong>. On some systems, this means searching for the &quot;Julia 1.5.1&quot; program installed on your computer; in others, it means running the command <code>julia</code> in a terminal. Make sure that you can execute <code>1 &#43; 1</code>:</p>
 <p><img src="https://user-images.githubusercontent.com/6933510/91439734-c573c780-e86d-11ea-8169-0c97a7013e8d.png" alt="image" /></p>
 <p><em>Make sure that you are able to launch Julia and calculate <code>1&#43;1</code> before proceeding&#33;</em></p>
-<h2 id="step_3_install_pluto"><a href="#step_3_install_pluto">Step 3: Install <code>Pluto</code></a></h2>
-<p>Next we will install the <strong>Pluto notebook</strong> that we will be using during the course.</p>
+<h2 id="step_3_install_a_hrefhttpsgithubcomfonspplutojlpluto"><a href="#step_3_install_a_hrefhttpsgithubcomfonspplutojlpluto">Step 3: Install <a href="https://github.com/fonsp/Pluto.jl"><code>Pluto</code></a></a></h2>
+<p>Next we will install the <a href="https://github.com/fonsp/Pluto.jl/blob/master/README.md"><strong>Pluto notebook</strong></a> that we will be using during the course. Pluto is a Julia <em>programming environment</em> designed for interactivity and quick experiments.</p>
 <p>Open the <strong>Julia REPL</strong>. This is the command-line interface to Julia, similar to the previous screenshot.</p>
 <p>Here you type <em>Julia commands</em>, and when you press ENTER, it runs, and you see the result.</p>
 <p>To install Pluto, we want to run a <em>package manager command</em>. To switch from <em>Julia</em> mode to <em>Pkg</em> mode, type <code>&#93;</code> &#40;closing square bracket&#41; at the <code>julia&gt;</code> prompt:</p>
-<pre><code class="julia hljs">julia&amp;gt; &amp;<span class="hljs-comment">#93;</span>
+<pre><code class="julia hljs">julia&gt; ]
 
-&amp;<span class="hljs-comment">#40;@v1.5&amp;#41; pkg&amp;gt;</span></code></pre>
+(<span class="hljs-meta">@v1</span><span class="hljs-number">.5</span>) pkg&gt;</code></pre>
 <p>The line turns blue and the prompt changes to <code>pkg&gt;</code>, telling you that you are now in <em>package manager mode</em>. This mode allows you to do operations on <strong>packages</strong> &#40;also called libraries&#41;.</p>
 <p>To install Pluto, run the following &#40;case sensitive&#41; command to <em>add</em> &#40;install&#41; the package to your system by downloading it from the internet. You should only need to do this <em>once</em> for each installation of Julia:</p>
-<pre><code class="julia hljs">&amp;<span class="hljs-comment">#40;@v1.5&amp;#41; pkg&amp;gt; add Pluto</span></code></pre>
+<pre><code class="julia hljs">(<span class="hljs-meta">@v1</span><span class="hljs-number">.5</span>) pkg&gt; add Pluto</code></pre>
 <p>This might take a couple of minutes, so you can go get yourself a cup of tea&#33;</p>
 <p><img src="https://user-images.githubusercontent.com/6933510/91440380-ceb16400-e86e-11ea-9352-d164911774cf.png" alt="image" /></p>
 <p>You can now close the terminal.</p>
@@ -92,14 +92,15 @@ allowfullscreen></iframe>
 <p>Repeat the following steps whenever you want to work on a project or homework assignment.</p>
 <h2 id="step_1_start_pluto"><a href="#step_1_start_pluto">Step 1: Start Pluto</a></h2>
 <p>Start the Julia REPL, like you did during the setup. In the REPL, type:</p>
-<pre><code class="julia hljs">julia&amp;gt; <span class="hljs-keyword">using</span> Pluto
+<pre><code class="julia hljs">julia&gt; <span class="hljs-keyword">using</span> Pluto
 
-julia&amp;gt; Pluto.run&amp;<span class="hljs-comment">#40;&amp;#41;</span></code></pre>
+julia&gt; Pluto.run()</code></pre>
 <p><img src="https://user-images.githubusercontent.com/6933510/91441094-eb01d080-e86f-11ea-856f-e667fdd9b85c.png" alt="image" /></p>
 <p>The terminal tells us to go to <code>http://localhost:1234/</code> &#40;or a similar URL&#41;. Let&#39;s open Firefox or Chrome and type that into the address bar.</p>
 <p><img src="https://user-images.githubusercontent.com/6933510/91441391-6a8f9f80-e870-11ea-94d0-4ef91b4e2242.png" alt="image" /></p>
 <blockquote>
-<p>If you&#39;re curious about what a <em>Pluto notebook</em> looks like, have a look at the <strong>sample notebooks</strong>. Samples 1, 2 and 6 may be useful for learning some basics of Julia programming.</p>
+<p>If you&#39;re curious about what a <em>Pluto notebook</em> looks like, have a look at the <strong>sample notebooks</strong>. Samples 1, 2 and 6 may be useful for learning some basics of Julia programming. </p>
+<p>If you want to hear the story behind Pluto, have a look a the <a href="https://www.youtube.com/watch?v&#61;IAF8DjrQSSk">JuliaCon presentation</a>.</p>
 </blockquote>
 <p>If nothing happens in the browser the first time, close Julia and try again. And please let us know&#33;</p>
 <h2 id="step_2a_opening_a_notebook_from_the_web"><a href="#step_2a_opening_a_notebook_from_the_web">Step 2a: Opening a notebook from the web</a></h2>
@@ -131,11 +132,10 @@ julia&amp;gt; Pluto.run&amp;<span class="hljs-comment">#40;&amp;#41;</span></cod
 <p>After working on your notebook &#40;your code is autosaved when you run it&#41;, you will find your notebook file in the folder we created in step 3. This the file that you can share with others, or submit as your homework assignment to Canvas.</p>
 <div class="page-foot">
   <div class="copyright">
-     <a href="https://github.com/mitmath/18S191/tree/master/website"><b>Click here to Contribute to this Website</b></a></br>
-    Last modified: September 12, 2020. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>.
+    <a href="https://github.com/mitmath/18S191/tree/master/website"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></img></b></a></br>
+    Last modified: September 14, 2020. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>.
   </div>
-</div>
-</div><!-- CONTENT ENDS HERE -->
+</div></div><!-- CONTENT ENDS HERE -->
 
     </div>  <!-- div: content container -->
 
