@@ -19,6 +19,8 @@ html, body {
 
 .sidebar {
     z-index: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .content {
