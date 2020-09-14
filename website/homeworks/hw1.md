@@ -1,6 +1,6 @@
 # Homework 1: Image convolution and kernels
 
-{{redirect /Fall20/hw1/index.html}}
+{{redirect /hw1/index.html}}
 
 Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl). Your must complete them and submit them on [Canvas](https://canvas.mit.edu/courses/5637) (if you are an MIT student.). If you are not an MIT student, we encourage you to [join discord](https://discord.gg/Z5qnVf8) and find someone to cross-grade.
 

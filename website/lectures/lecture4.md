@@ -1,7 +1,7 @@
 @def sequence = ["james-image-seam"];
 @def airtime = "2020-09-10 02:35pm"
 
-{{redirect /Fall20/lecture4/index.html}}
+{{redirect /lecture4/index.html}}
 
 ~~~
 <h1>Lecture 4: Seam carving live coding session</h1>
