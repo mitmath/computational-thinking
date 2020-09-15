@@ -5,10 +5,6 @@
 <h1>Lecture 5: Structure and Dispatch</h1>
 ~~~
 
-## Structure
-
-{{youtube structure}}
-
 ## Introduction to types in Julia
 
 {{youtube types}}
@@ -19,7 +15,17 @@
 
 ## Introduction to metaprogramming
 
+(just a word about macros)
+
 {{youtube macros-intro}}
+
+~~~
+<!---
+## Structure
+
+{{youtube structure}}
+-->
+~~~
 
 
 ## Programming environments for Julia
