@@ -31,3 +31,7 @@
 ## Programming environments for Julia
 
 {{youtube ides}}
+
+## Segment 2: Structure
+
+Live webinar starts at 3:05PM EST at [mit.zoom.us/j/93758834506](https://mit.zoom.us/j/93758834506)
