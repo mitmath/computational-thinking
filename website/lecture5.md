@@ -2,13 +2,22 @@
 @def airtime = "2020-09-15 02:35pm"
 
 ~~~
-<h1>Lecture 5: Types, Dispatch, Macros, IDEs and Structured Arrays</h1>
+<h1>Lecture 5: Structure and Dispatch</h1>
 ~~~
+
+## Introduction to types in Julia
 
 {{youtube types}}
 
+## Introduction to multiple-dispatch
+
 {{youtube dispatch}}
 
+## Introduction to metaprogramming
+
 {{youtube macros-intro}}
+
+
+## Programming environments for Julia
 
 {{youtube ides}}
