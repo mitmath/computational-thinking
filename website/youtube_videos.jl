@@ -15,4 +15,9 @@ videos = Dict(
               "james-image-seam" => "ALcohd1q3dk",
               "conv-gpus"    => "aa3JkX_cj_I",
               "conv-real-world" => "e6WnzfvnFlY",
+              "structure"    => "yU8P_cHPn8Q",
+              "types"        => "yU8P_cHPn8Q",
+              "dispatch"     => "DXtbaSP_LFI",
+              "ides"         => "PgeLMzw_-Ww",
+              "macros-intro" => "e6LGMeoQhfs",
 )
