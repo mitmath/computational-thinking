@@ -17,6 +17,15 @@ function play_live(tstr, tz, sequence, durations, seek) {
         return; // Live class is over
     }
 
+    debugger
+    var checkbox = document.getElementById("sync-play");
+    var checkbox_wrap = document.getElementById("sync-play-wrap");
+    checkbox_wrap.style.display = "block";
+
+    if (!(checkbox.checked)) {
+        return;
+    }
+
     var j = 0
     var prev_t = 0
     var t = 0
