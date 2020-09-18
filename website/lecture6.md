@@ -1,13 +1,13 @@
 @def sequence = ["understanding-data"]
 @def airtime = "2020-09-17 02:35pm"
 ~~~
-<h1>Lecture 2: Convolutions</h1>
+<h1>Lecture 6: Understanding data</h1>
 ~~~
 
 ~~~Airs on: <span class="moment">~~~{{showtime airtime}}~~~</span>~~~
 
 
-## Segment 1: Convolutions in image processing
+## Segment 1: Understanding structure in data
 
 {{youtube understanding-data}}
 
