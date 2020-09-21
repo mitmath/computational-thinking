@@ -34,7 +34,7 @@ begin
 end
 
 # ╔═╡ e6b6760a-f37f-11ea-3ae1-65443ef5a81a
-md"_homework 3, version 1_"
+md"_homework 3, version 2_"
 
 # ╔═╡ 85cfbd10-f384-11ea-31dc-b5693630a4c5
 md"""
@@ -705,7 +705,7 @@ Given an array of ngrams (i.e. an array of arrays of words), generate a sequence
 """
 function generate_from_ngrams(grams, num_words)
 	n = length(first(grams))
-	cache = continutations_cache(grams)
+	cache = completions_cache(grams)
 	
 	# we need to start the sequence with at least n-1 words.
 	# a simple way to do so is to pick a random ngram!
@@ -717,9 +717,9 @@ function generate_from_ngrams(grams, num_words)
 		tail = sequence[end-(n-2):end]
 		
 		# possible next words
-		continuations = cache[tail]
+		completions = cache[tail]
 		
-		choice = rand(continuations)
+		choice = rand(completions)
 		push!(sequence, choice)
 	end
 	sequence
