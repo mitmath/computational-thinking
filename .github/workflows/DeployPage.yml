@@ -45,7 +45,7 @@ jobs:
             using Franklin;
             optimize();
             mkdir("__site2");
-            mv("__site", "__site2/Fall2020");
+            mv("__site", "__site2/fall20");
             write("__site2/index.html", """
                 <!DOCTYPE html>
                 <html>
