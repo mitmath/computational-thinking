@@ -1,6 +1,6 @@
 # Thanks @tlienart
 
-using Franklin, PkgPage, JSON
+using Franklin, JSON
 
 using Markdown, Dates
 
