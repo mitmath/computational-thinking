@@ -183,7 +183,7 @@ import Unicode
 """
 Turn `"áéíóúüñ asdf"` into `"aeiouun asdf"`.
 """
-unaccent(str) = Unicode.normalize(french_word, stripmark=true)
+unaccent(str) = Unicode.normalize(str, stripmark=true)
 
 # ╔═╡ d67034d0-f92d-11ea-31c2-f7a38ebb412f
 samples = (
