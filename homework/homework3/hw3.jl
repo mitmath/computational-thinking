@@ -791,7 +791,7 @@ Uncomment the cell below to generate some Jane Austen text:
 if student.name == "Jazzy Doe"
 	md"""
 	!!! danger "Before you submit"
-	    Remember to fill in your **name** nad **Kerberos ID** at the top of this notebook.
+	    Remember to fill in your **name** and **Kerberos ID** at the top of this notebook.
 	"""
 end
 
