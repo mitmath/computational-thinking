@@ -42,7 +42,7 @@ jobs:
             using NodeJS;
             run(`$(npm_cmd()) install highlight.js purgecss`);
             import PkgPage;
-            PkgPage.optimize(input="website", output="Fall20");
+            PkgPage.optimize(input="website", output="Fall20", purge=false);
             write("website/__site/index.html", """
                 <!DOCTYPE html>
                 <html>
