@@ -34,7 +34,7 @@ begin
 end
 
 # ╔═╡ e6b6760a-f37f-11ea-3ae1-65443ef5a81a
-md"_homework 3, version 2_"
+md"_homework 3, version 3_"
 
 # ╔═╡ 85cfbd10-f384-11ea-31dc-b5693630a4c5
 md"""
@@ -306,7 +306,7 @@ transition_frequencies = normalize_array ∘ transition_counts;
 transition_frequencies(first_sample)
 
 # ╔═╡ 689ed82a-f9ae-11ea-159c-331ff6660a75
-md"What we get is a **27 by 27 matrix**. Each entry corresponds to a character pair. The _column_ corresponds to the first character, the row is the second pair. Let's visualize this:"
+md"What we get is a **27 by 27 matrix**. Each entry corresponds to a character pair. The _row_ corresponds to the first character, the _column_ is the second character. Let's visualize this:"
 
 # ╔═╡ 0b67789c-f931-11ea-113c-35e5edafcbbf
 md"""
@@ -315,6 +315,14 @@ Answer the following questions with respect to the **cleaned English sample text
 
 # ╔═╡ 6896fef8-f9af-11ea-0065-816a70ba9670
 sample_freq_matrix = transition_frequencies(first_sample);
+
+# ╔═╡ 39152104-fc49-11ea-04dd-bb34e3600f2f
+if first_sample === missing
+	md"""
+	!!! danger "Don't worry!"
+	    👆 These errors will disappear automatically once you have completed the earlier exercises!
+	"""
+end
 
 # ╔═╡ e91c6fd8-f930-11ea-01ac-476bbde79079
 md"""👉 What is the frequency of the combination `"th"`?"""
@@ -804,7 +812,9 @@ end
 String(rand(alphabet, 400)) |> Quote
 
 # ╔═╡ be55507c-f9a7-11ea-189c-4ffe8377212e
-String([rand_sample_letter(sample_freqs) for _ in 1:400]) |> Quote
+if sample_freqs !== missing
+	String([rand_sample_letter(sample_freqs) for _ in 1:400]) |> Quote
+end
 
 # ╔═╡ 46c905d8-f9b0-11ea-36ed-0515e8ed2621
 String(rand(alphabet, 400)) |> Quote
@@ -989,7 +999,12 @@ end
 if !@isdefined(unused_letters)
 	not_defined(:unused_letters)
 else
-	if unused_letters isa Missing
+	if sample_freqs === missing
+		md"""
+		!!! warning "Oopsie!"
+		    You need to complete the previous exercises first.
+		"""
+	elseif unused_letters isa Missing
 		still_missing()
 	elseif unused_letters isa String
 		keep_working(md"Use `collect` to turn a string into an array of characters.")
@@ -1184,6 +1199,7 @@ bigbreak
 # ╠═ace3dc76-f9ae-11ea-2bee-3d0bfa57cfbc
 # ╟─0b67789c-f931-11ea-113c-35e5edafcbbf
 # ╠═6896fef8-f9af-11ea-0065-816a70ba9670
+# ╟─39152104-fc49-11ea-04dd-bb34e3600f2f
 # ╟─e91c6fd8-f930-11ea-01ac-476bbde79079
 # ╠═1b4c0c28-f9ab-11ea-03a6-69f69f7f90ed
 # ╟─1f94e0a2-f9ab-11ea-1347-7dd906ebb09d
