@@ -177,19 +177,13 @@ Finally, we need to deal with **accents**: simply deleting accented characters f
 # ╔═╡ d236b51e-f997-11ea-0c55-abb11eb35f4d
 french_word = "Égalité!"
 
+import Unicode
+
 # ╔═╡ 734851c6-f92d-11ea-130d-bf2a69e89255
 """
 Turn `"áéíóúüñ asdf"` into `"aeiouun asdf"`.
 """
-function unaccent(str)
-	originals = collect("áâàéèêëíìîóôòúùüûñç")
-	bases = collect("aaaeeeeiiiooouuuunc")
-	
-    for (ñ, n) in zip([originals; uppercase.(originals)], [bases; uppercase.(bases)])
-        str = replace(str, ñ=>n)
-    end
-    str
-end
+unaccent(str) = Unicode.normalize(french_word, stripmark=true)
 
 # ╔═╡ d67034d0-f92d-11ea-31c2-f7a38ebb412f
 samples = (
