@@ -27,12 +27,12 @@
 <div class="sidebar">
   <div class="container sidebar-sticky">
     <div class="sidebar-about">
-        <br>
-        <img src="/Fall20/assets/MIT_logo.svg" style="width: 80px; height: auto; display: inline">
-        <img src="/Fall20/assets/julia-logo.svg" style="margin-left:1em; width: 80px; height: auto; display: inline">
-        <div style="opacity: 0.85; font-weight: bold; margin-bottom: 0.5em">MIT 18.S191 / Fall 2020</div>
-        <h1 style="font-size:1em; opacity: 0.95;"><a href="/Fall20/">Introduction to Computational Thinking</a></h1>
-<div style="line-height:18px; font-size: 15px; opacity: 0.85">by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a>, <a href="https://www.3blue1brown.com/about">Grant Sanderson</a>, &amp; <a href="https://eapsweb.mit.edu/people/jars">James Schloss</a></div>
+      <br>
+      <img src="/Fall20/assets/MIT_logo.svg" style="width: 80px; height: auto; display: inline">
+      <img src="/Fall20/assets/julia-logo.svg" style="margin-left:1em; width: 80px; height: auto; display: inline">
+      <div style="opacity: 0.85; font-weight: bold; margin-bottom: 0.5em">MIT 18.S191 / Fall 2020</div>
+      <h1 style="font-size:1em; opacity: 0.95;"><a href="/Fall20/">Introduction to Computational Thinking</a></h1>
+      <div style="line-height:18px; font-size: 15px; opacity: 0.85">by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a>, <a href="https://www.3blue1brown.com/about">Grant Sanderson</a>, &amp; <a href="https://eapsweb.mit.edu/people/jars">James Schloss</a></div>
     </div>
     <br>
     <style>
@@ -40,15 +40,22 @@
     <nav class="sidebar-nav" style="opacity: 0.9">
       <a class="sidebar-nav-item " href="/Fall20/">Course home</a>
       <a class="sidebar-nav-item " href="/Fall20/installation/">Software installation</a>
-      <a class="sidebar-nav-item " href="/Fall20/hw0/">Homework 0</a>
-      <a class="sidebar-nav-item " href="/Fall20/lecture1/">Lecture 1: Images and Abstraction</a>
-      <a class="sidebar-nav-item " href="/Fall20/lecture2/">Lecture 2: Convolutions</a>
-      <a class="sidebar-nav-item active" href="/Fall20/hw1/">Homework 1</a>
-      <a class="sidebar-nav-item " href="/Fall20/lecture3/">Lecture 3: Dynamic programming, Views and GPUs</a>
-      <a class="sidebar-nav-item " href="/Fall20/lecture4/">Lecture 4: Live coding seam carving</a>
-      <a class="sidebar-nav-item active" href="/Fall20/hw2/">Homework 2</a>
-      <a class="sidebar-nav-item " href="/Fall20/lecture5/"> Lecture 5: Structure and Dispatch</a>
-      <a class="sidebar-nav-item " href="/Fall20/lecture6/"> <span style="padding: 0.4em; background: red; font-size: 0.8em; border-radius: 0.2em">LIVE</span> Lecture 6: Understanding data</a>
+      <a class="sidebar-nav-item " href="/Fall20/hw0/"><b>Homework 0</b></a>
+      <br>
+      <small style="text-transform: uppercase; font-size: 0.75em">Course content</small>
+      <div class="week">week 1</div>
+      <a class="sidebar-nav-item " href="/Fall20/lecture1/"><b>Lecture 1</b> - <em>Images and Abstraction</em></a>
+      <a class="sidebar-nav-item " href="/Fall20/lecture2/"><b>Lecture 2</b> - <em>Convolutions</em></a>
+      <a class="sidebar-nav-item active" href="/Fall20/hw1/"><b>Homework 1</b></a>
+      <div class="week">week 2</div>
+      <a class="sidebar-nav-item " href="/Fall20/lecture3/"><b>Lecture 3</b> - <em>Dynamic programming, Views and GPUs</em></a>
+      <a class="sidebar-nav-item " href="/Fall20/lecture4/"><b>Lecture 4</b> - <em>Live coding seam carving</em></a>
+      <a class="sidebar-nav-item " href="/Fall20/hw2/"><b>Homework 2</b></a>
+      <div class="week">week 3</div>
+      <a class="sidebar-nav-item " href="/Fall20/lecture5/"><b>Lecture 5</b> - <em>Structure and Dispatch</em></a>
+      <a class="sidebar-nav-item " href="/Fall20/lecture6/"><b>Lecture 6</b> - <em>Understanding data</em></a>
+      <a class="sidebar-nav-item " href="/Fall20/hw3/"><b>Homework 3</b></a>
+      <br>
       <small style="text-transform: uppercase; font-size: 0.75em">Extras</small>
       <a class="sidebar-nav-item " href="/Fall20/cheatsheets/">Cheatsheets</a>
     </nav>
@@ -58,17 +65,16 @@
 <div class="content container">
 
 
-
 <!-- Content appended here -->
-<div class="franklin-content"><h1 id="homework_1_image_convolution_and_kernels"><a href="#homework_1_image_convolution_and_kernels">Homework 1: Image convolution and kernels</a></h1>
+<div class="franklin-content"><h1 id="homework_1_-_image_convolution_and_kernels"><a href="#homework_1_-_image_convolution_and_kernels">Homework 1 - Image convolution and kernels</a></h1>
 <p>Homeworks are in the form of <a href="https://github.com/fonsp/Pluto.jl">Pluto notebooks</a>. Your must complete them and submit them on <a href="https://canvas.mit.edu/courses/5637">Canvas</a> &#40;if you are an MIT student.&#41;. If you are not an MIT student, we encourage you to <a href="https://discord.gg/Z5qnVf8">join discord</a> and find someone to cross-grade.</p>
 <p><strong>HW1 due date: Thursday, 10th Sep 2020 at 11:59pm EST</strong></p>
 <p><a href="https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/master/homework/homework1/hw1.html">The Pluto notebook &#40;static view&#41;</a></p>
-<p><a href="https://github.com/mitmath/18S191/blob/master/homework/homework1/hw1.jl">The Pluto notebook &#40;right click for link&#41;</a></p>
+<p><a href="https://raw.githubusercontent.com/mitmath/18S191/master/homework/homework1/hw1.jl">The Pluto notebook &#40;right click for link&#41;</a></p>
 <div class="page-foot">
   <div class="copyright">
     <a href="https://github.com/mitmath/18S191/tree/master/website"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></img></b></a></br>
-    Last modified: September 18, 2020. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>.
+    Last modified: September 21, 2020. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a>.
   </div>
 </div></div><!-- CONTENT ENDS HERE -->
 

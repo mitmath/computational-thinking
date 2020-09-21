@@ -97,7 +97,7 @@ pre.code-output {
 }
 .sidebar-nav .sidebar-nav-item.active {
     box-sizing: border-box;
-    border-bottom: 1px #f1f1f1 solid;
+    background: #f0f8ff40;
     margin-right: -1em;
     margin-left: -0.5em;
     padding-left: 0.5em;
@@ -107,6 +107,25 @@ pre.code-output {
 .sidebar-nav .sidebar-nav-item {
     color: #cccccc;
     margin: 0.25em 0;
+}
+
+.sidebar-nav .week {
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    color: #c08282;
+}
+.sidebar-nav .week::before,
+.sidebar-nav .week::after {
+    content: " ";
+    flex: 1;
+    border-bottom: 1px dashed #c08282;
+}
+.sidebar-nav .week::before {
+    margin-right: .25em;
+}
+.sidebar-nav .week::after {
+    margin-left: .25em;
 }
 
 h1 {
