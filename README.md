@@ -20,7 +20,7 @@ Please help edit the automatically-generated subtitles in the [lecture transcrip
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
 ## Professors
-[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), & [James Schloss](https://eapsweb.mit.edu/people/jars)
+[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html)
 
 ### Course Material
 
