@@ -4,16 +4,16 @@ This document is for course staff and anyone who would like to edit the course w
 
 The code for the website is in the `website/` directory in this repo. It is processed by [Franklin.jl](https://franklinjl.org/) to generate the website whenever any file in this repository is changed.
 
- cd to the `website/` and launch Julia. Then run the following to install PkgPage, a Franklin.jl helper package that we require.
+ cd to the `website/` and launch Julia. Then run the following to install Franklin
 ```julia
 using Pkg
-Pkg.add("PkgPage")
+Pkg.add("Franklin")
 ```
 
 Then run this in the Julia REPL to bring up the website server.
 
 ```julia
-using PkgPage
+using Franklin
 serve()
 ```
 
@@ -43,4 +43,3 @@ Once you have added this entry, you can embed the video into a markdown file wit
 ```
 {{youtube my-video}}
 ```
-
