@@ -6,5 +6,5 @@ Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl
 
 [The Pluto notebook (static view)](https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/master/homework/homework2/hw2.html)
 
-[The Pluto notebook (right click for link)](https://github.com/mitmath/18S191/blob/master/homework/homework2/hw2.jl)
+[The Pluto notebook (right click for link)](https://raw.githubusercontent.com/mitmath/18S191/master/homework/homework2/hw2.jl)
 
