@@ -42,6 +42,7 @@ jobs:
             using NodeJS;
             cd("website");
             run(`$(npm_cmd()) install highlight.js`);
+            using Franklin;
             optimize();
             mkdir("__site2");
             mv("__site", "__site2/Fall2020");
