@@ -24,15 +24,15 @@ We use the COVID-19 dataset as an example to show how you can load and plot data
 
 {{youtube covid-data}}
 
-## Segment 3: DataFrames
-
-A brief introduction to working with tabular data.
-
-{{youtube dataframes}}
-
-## Segment 4: Functions are Objects
+## Segment 3: Functions are Objects
 
 All functions are objects, they can be passed as arguments to other functions. What does this actually give us?
 
 {{youtube functions-are-objects}}
+
+## Segment 4: DataFrames
+
+A brief introduction to working with tabular data.
+
+{{youtube dataframes}}
 
