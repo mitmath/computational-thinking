@@ -21,4 +21,8 @@ videos = Dict(
               "structure"    => "ConoBmjlivs",
               "macros-intro" => "e6LGMeoQhfs",
               "understanding-data" => "KrQV6mZ8hvI",
+              "introspection" => "IuOXXQR7dAo",
+              "covid-data" => "loading",
+              "dataframes" => "loading",
+              "functions-are-objects" => "_O-HBDZMLrM",
 )
