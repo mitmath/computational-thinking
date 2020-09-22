@@ -18,7 +18,7 @@ Looking under the hood as Julia code executes:
 
 {{youtube introspection}}
 
-## Segment 2: COVID-19 Data visualization
+## Segment 2: Analysing COVID-19 Data
 
 We use the COVID-19 dataset as an example to show how you can load and plot data of your choice in Julia.
 
