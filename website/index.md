@@ -3,6 +3,12 @@
 
 Welcome to the new course **MIT 18.S191**, the debut edition, **Fall 2020**!
 
+~~~
+<p>
+<a href="/lecture7/" style="font-size: 1.5em; line-height:1.5em"><span style="padding: 0.4em; background: red; color:white; font-size: 0.8em; border-radius: 0.2em">LIVE NOW</span> <b>Lecture 7</b> - <em>Introspection, COVID visualization</em></a>
+</p>
+~~~
+
 \blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
 Topics include:
@@ -19,7 +25,7 @@ Please help edit the automatically-generated subtitles in the [lecture transcrip
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
 ## Professors
-[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), & [James Schloss](https://eapsweb.mit.edu/people/jars)
+[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html)
 
 ## Introduction video
 
@@ -27,7 +33,7 @@ If you do so, please add punctuation, and please change the colour of the part y
 
 ## Logistics
 
-Course materials will be published on the accompanying website: [https://mitmath.github.io/18S191/Fall20/](https://mitmath.github.io/18S191/Fall20/)
+Course materials will be published on this website.
 
 TR 2:30&ndash;3:30pm EST, online (Go to the lecture page on this site to stream it.)
 

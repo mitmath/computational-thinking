@@ -38,12 +38,15 @@ jobs:
     # `@def prepath = "YourPackage.jl/web"`
     - run: julia -e '
             using Pkg;
-            Pkg.add(["NodeJS", "JSON", "Franklin", "PkgPage"]);
+            Pkg.add(["NodeJS", "JSON", "Franklin"]);
             using NodeJS;
-            run(`$(npm_cmd()) install highlight.js purgecss`);
-            import PkgPage;
-            PkgPage.optimize(input="website", output="Fall20");
-            write("website/__site/index.html", """
+            cd("website");
+            run(`$(npm_cmd()) install highlight.js`);
+            using Franklin;
+            optimize();
+            mkdir("__site2");
+            mv("__site", "__site2/Fall20");
+            write("__site2/index.html", """
                 <!DOCTYPE html>
                 <html>
                 <head><meta charset="utf-8"><script>
@@ -54,4 +57,4 @@ jobs:
       with:
         SSH: true
         BRANCH: gh-pages
-        FOLDER: website/__site
+        FOLDER: website/__site2

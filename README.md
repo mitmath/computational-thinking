@@ -1,6 +1,6 @@
 # 18.S191: Introduction to computational thinking for real-world problems
 
-<p align="center"><a href="http://mitmath.github.io/18S191/Fall20"> <b>Go to course website</b> :balloon:</a></p>
+<p align="center"><a href="https://computationalthinking.mit.edu/Fall20"> <b>Go to course website</b> :balloon:</a></p>
 
 Welcome to the new **18.S191** course!
 
@@ -20,11 +20,13 @@ Please help edit the automatically-generated subtitles in the [lecture transcrip
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
 ## Professors
-[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), & [James Schloss](https://eapsweb.mit.edu/people/jars)
+[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html)
 
-### Course Materials
+### Course Material
 
-A summary of all course materials posted so far is [here](course-materials.md).
+The course material includes **recorded lectures** and **Pluto notebooks**, these are available on the [course website](https://computationalthinking.mit.edu/Fall20), which will be updated regularly. 
+
+Every week comes with a problem set where you apply the material to a real problem. Homework sets are **interactive [Pluto notebooks](https://github.com/fonsp/Pluto.jl)** - you get automatic visualizations and verification while you work on your code.
 
 Julia learning materials may be found [here](http://www.julialang.org/learning)
 
@@ -63,4 +65,4 @@ Problem sets consist of code. MIT students enrolled in the course must submit ho
 Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
-<p align="center"><a href="http://mitmath.github.io/18S191/Fall20"> <b>Go to course website</b> :balloon:</a></p>
+<p align="center"><a href="https://computationalthinking.mit.edu/Fall20"> <b>Go to course website</b> :balloon:</a></p>
