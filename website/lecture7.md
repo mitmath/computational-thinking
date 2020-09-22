@@ -18,11 +18,15 @@ Looking under the hood as Julia code executes:
 
 {{youtube introspection}}
 
+[Pluto notebook](https://github.com/mitmath/18S191/blob/master/lecture_notebooks/week4/01-introspection.jl)
+
 ## Segment 2: Analysing COVID-19 Data
 
 We use the COVID-19 dataset as an example to show how you can load and plot data of your choice in Julia.
 
 {{youtube covid-data}}
+
+[Pluto notebook](https://github.com/mitmath/18S191/blob/master/lecture_notebooks/week4/02-covid_data.jl)
 
 ## Segment 3: Functions are Objects
 
