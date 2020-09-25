@@ -996,6 +996,8 @@ else
 			else
 				keep_working()
 			end
+		elseif quantize(0.56) != .5
+			almost(md"What should quantize(`0.68`) be?")
 		else
 			correct()
 		end
