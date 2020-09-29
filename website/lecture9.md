@@ -16,6 +16,10 @@ Let's take a break to play with a probability puzzle.
 
 {{youtube computational-illustrated}}
 
+## Graphs are matrices
+
+{{youtube matrix-graphs}}
+
 ## Verbs and nouns in Julia programming
 
 {{youtube verbs-nouns}}
