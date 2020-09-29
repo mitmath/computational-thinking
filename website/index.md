@@ -1,7 +1,7 @@
 
 # Introduction to Computational Thinking
 
-Welcome to the new course **MIT 18.S191**, the debut edition, **Fall 2020**!
+Welcome to the new course **MIT 18.S191 aka 6.S083**, **Fall 2020** edition!
 
 ~~~
 <p>
