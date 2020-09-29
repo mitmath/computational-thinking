@@ -29,5 +29,5 @@ videos = Dict(
               "grant-epidemic" => "tbd",
               "computational-illustrated" => "6bBFkBCzwh4",
               "matrix-graphs" => "zxHVpNnFt1U",
-              "verbs-nouns" => "tbd",
+              "verbs-nouns" => "LvoLXE0U5og",
 )
