@@ -1,4 +1,4 @@
-@def sequence = ["computational-illustrated", "matrix-graphs", "verbs-nouns", "grant-epidemic"]
+@def sequence = ["computational-illustrated", "matrix-graphs", "verbs-nouns"]
 @def airtime = "2020-09-29 02:35pm"
 ~~~
 <h1>Lecture 9 - Graphs, verbs and nouns</h1>
@@ -19,8 +19,3 @@ Let's take a break to play with a probability puzzle.
 ## Verbs and nouns in Julia programming
 
 {{youtube verbs-nouns}}
-
-
-## Epidemic modeling
-
-{{youtube grant-epidemic}}
