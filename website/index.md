@@ -1,7 +1,7 @@
 
 # Introduction to Computational Thinking
 
-Welcome to the new course **MIT 18.S191 aka 6.S083**, **Fall 2020** edition!
+Welcome to the new course **MIT 18.S191 aka 6.S083 aka 22.S092**, **Fall 2020** edition!
 
 ~~~
 <a href="/lecture10/" style="font-size: 1.5em; line-height:1.5em"><span style="padding: 0.4em; background: red; color:white; font-size: 0.8em; border-radius: 0.2em">LIVE NOW</span> <b>Lecture 10</b> - <em>Graphs and disease spread</em></a>
