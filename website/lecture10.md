@@ -1,3 +1,4 @@
+@def sequence = ["emb7nhWWuWU"]
 @def airtime = "2020-10-01 02:35pm"
 ~~~
 <h1>Lecture 8 - Probability via computation</h1>
