@@ -1,7 +1,7 @@
 @def sequence = ["computational-illustrated", "matrix-graphs", "verbs-nouns", "grant-epidemic"]
 @def airtime = "2020-09-29 02:35pm"
 ~~~
-<h1>Lecture 9 - Modeling epidemics</h1>
+<h1>Lecture 9 - Graphs, verbs and nouns</h1>
 ~~~
 
 ~~~Airs on: <span class="moment">~~~{{showtime airtime}}~~~ EST</span>~~~
