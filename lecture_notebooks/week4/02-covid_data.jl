@@ -16,7 +16,7 @@ end
 # ╔═╡ db4c1f10-7c37-4513-887a-2467ce673458
 begin
 	using Pkg   
-	Pkg.add.(["CSV", "DataFrames", "PlutoUI", "Shapefile", "ZipFile", "LsqFit"])
+	Pkg.add.(["CSV", "DataFrames", "PlutoUI", "Shapefile", "ZipFile", "LsqFit", "Plots"])
 
 	using CSV
 	using DataFrames
@@ -24,10 +24,11 @@ begin
 	using Shapefile
 	using ZipFile
 	using LsqFit
+	using Plots
 end
 
 # ╔═╡ a26b8742-6a16-445a-ae77-25a4189c0f14
-using Plots
+
 
 # ╔═╡ cbd9c1aa-fc37-11ea-29d9-e3361406796f
 using Dates
