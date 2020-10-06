@@ -1,7 +1,7 @@
 @def sequence = ["grant-epidemic", "r0", "self-doc", "paramtypes"]
 @def airtime = "2020-10-06 02:35pm"
 ~~~
-<h1>Lecture 11 - Epidemic modeling continued</h1>
+<h1>Lecture 11 - Epidemic modeling & Documenting code</h1>
 ~~~
 
 ~~~Airs on: <span class="moment">~~~{{showtime airtime}}~~~ EST</span>~~~
