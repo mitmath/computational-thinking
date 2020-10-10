@@ -1,7 +1,7 @@
 @def sequence = ["IKFdN74vy10"]
 @def airtime = "2020-10-01 02:35pm"
 ~~~
-<h1>Lecture 12</h1>
+<h1>Lecture 12 - Macroscopic models: discrete vs continuous</h1>
 ~~~
 
 ~~~Airs on: <span class="moment">~~~{{showtime airtime}}~~~ EST</span>~~~
