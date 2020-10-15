@@ -1,4 +1,4 @@
-@def sequence = ["tbd"]
+@def sequence = ["TLlPH8XzsFM"]
 @def airtime = "2020-10-15 02:35pm"
 ~~~
 <h1>Lecture 13</h1>
@@ -8,7 +8,7 @@
 
 ## Segment 1: Live session
 
-{{youtube tbd}}
+{{youtube TLlPH8XzsFM}}
 
 
 ## Segment 2: MIT only live session
