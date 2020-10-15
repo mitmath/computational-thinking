@@ -1094,9 +1094,9 @@ bigbreak
 # ╔═╡ dfb7c6be-ee0d-11ea-194e-9758857f7b20
 function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.png")
 """
-<span class="pl-image waiting-for-permission">
+<span class="pl-image waiting-for-permission webcam-span">
 <style>
-	
+
 	.pl-image.popped-out {
 		position: fixed;
 		top: 0;
@@ -1141,7 +1141,7 @@ function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.pn
 		position: absolute;
 		flex-direction: column;
 	}
-	
+
 	.pl-image .bar#bottom {
 		background: black;
 		border-radius: 0 0 1rem 1rem;
@@ -1177,119 +1177,120 @@ function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.pn
 	}
 </style>
 
-	<div id="video-container">
-		<div id="top" class="bar">
-			<button id="stop" title="Stop video">✖</button>
-			<button id="pop-out" title="Pop out/pop in">⏏</button>
-		</div>
-		<video playsinline autoplay></video>
-		<div id="bottom" class="bar">
-		<button id="shutter" title="Click to take a picture">📷</button>
-		</div>
+<div id="video-container">
+	<div id="top" class="bar">
+		<button id="stop" title="Stop video">✖</button>
+		<button id="pop-out" title="Pop out/pop in">⏏</button>
 	</div>
-		
-	<div id="prompt">
-		<span>
-		Enable webcam
-		</span>
+	<video playsinline autoplay></video>
+	<div id="bottom" class="bar">
+	<button id="shutter" title="Click to take a picture">📷</button>
 	</div>
+</div>
+
+<div id="prompt">
+	<span>
+	Enable webcam
+	</span>
+</div>
 
 <script>
 	// based on https://github.com/fonsp/printi-static (by the same author)
 
-	const span = this.currentScript.parentElement
-	const video = span.querySelector("video")
-	const popout = span.querySelector("button#pop-out")
-	const stop = span.querySelector("button#stop")
-	const shutter = span.querySelector("button#shutter")
-	const prompt = span.querySelector(".pl-image #prompt")
+	document.querySelectorAll(".webcam-span").forEach(span => {
+		const video = span.querySelector("video")
+		const popout = span.querySelector("button#pop-out")
+		const stop = span.querySelector("button#stop")
+		const shutter = span.querySelector("button#shutter")
+		const prompt = span.querySelector(".pl-image #prompt")
 
-	const maxsize = $(max_size)
+		const maxsize = $(max_size)
 
-	const send_source = (source, src_width, src_height) => {
-		const scale = Math.min(1.0, maxsize / src_width, maxsize / src_height)
+		const send_source = (source, src_width, src_height) => {
+			const scale = Math.min(1.0, maxsize / src_width, maxsize / src_height)
 
-		const width = Math.floor(src_width * scale)
-		const height = Math.floor(src_height * scale)
+			const width = Math.floor(src_width * scale)
+			const height = Math.floor(src_height * scale)
 
-		const canvas = html`<canvas width=\${width} height=\${height}>`
-		const ctx = canvas.getContext("2d")
-		ctx.drawImage(source, 0, 0, width, height)
+			const canvas = html`<canvas width=\${width} height=\${height}>`
+			const ctx = canvas.getContext("2d")
+			ctx.drawImage(source, 0, 0, width, height)
 
-		span.value = {
-			width: width,
-			height: height,
-			data: ctx.getImageData(0, 0, width, height).data,
+			span.value = {
+				width: width,
+				height: height,
+				data: ctx.getImageData(0, 0, width, height).data,
+			}
+			span.dispatchEvent(new CustomEvent("input"))
 		}
-		span.dispatchEvent(new CustomEvent("input"))
-	}
-	
-	const clear_camera = () => {
-		window.stream.getTracks().forEach(s => s.stop());
-		video.srcObject = null;
 
-		span.classList.add("waiting-for-permission");
-	}
+		const clear_camera = () => {
+			window.stream.getTracks().forEach(s => s.stop());
+			video.srcObject = null;
 
-	prompt.onclick = () => {
-		navigator.mediaDevices.getUserMedia({
-			audio: false,
-			video: {
-				facingMode: "environment",
-			},
-		}).then(function(stream) {
+			span.classList.add("waiting-for-permission");
+		}
 
-			stream.onend = console.log
+		prompt.onclick = () => {
+			navigator.mediaDevices.getUserMedia({
+				audio: false,
+				video: {
+					facingMode: "environment",
+				},
+			}).then(function(stream) {
 
-			window.stream = stream
-			video.srcObject = stream
-			window.cameraConnected = true
-			video.controls = false
-			video.play()
-			video.controls = false
+				stream.onend = console.log
 
-			span.classList.remove("waiting-for-permission");
+				window.stream = stream
+				video.srcObject = stream
+				window.cameraConnected = true
+				video.controls = false
+				video.play()
+				video.controls = false
 
-		}).catch(function(error) {
-			console.log(error)
-		});
-	}
-	stop.onclick = () => {
-		clear_camera()
-	}
-	popout.onclick = () => {
-		span.classList.toggle("popped-out")
-	}
+				span.classList.remove("waiting-for-permission");
 
-	shutter.onclick = () => {
-		const cl = video.classList
-		cl.remove("takepicture")
-		void video.offsetHeight
-		cl.add("takepicture")
-		video.play()
-		video.controls = false
-		console.log(video)
-		send_source(video, video.videoWidth, video.videoHeight)
-	}
-	
-	
-	document.addEventListener("visibilitychange", () => {
-		if (document.visibilityState != "visible") {
+			}).catch(function(error) {
+				console.log(error)
+			});
+		}
+		stop.onclick = () => {
 			clear_camera()
 		}
-	})
+		popout.onclick = () => {
+			span.classList.toggle("popped-out")
+		}
+
+		shutter.onclick = () => {
+			const cl = video.classList
+			cl.remove("takepicture")
+			void video.offsetHeight
+			cl.add("takepicture")
+			video.play()
+			video.controls = false
+			console.log(video)
+			send_source(video, video.videoWidth, video.videoHeight)
+		}
 
 
-	// Set a default image
+		document.addEventListener("visibilitychange", () => {
+			if (document.visibilityState != "visible") {
+				clear_camera()
+			}
+		})
 
-	const img = html`<img crossOrigin="anonymous">`
 
-	img.onload = () => {
-	console.log("helloo")
-		send_source(img, img.width, img.height)
-	}
-	img.src = "$(default_url)"
-	console.log(img)
+		// Set a default image
+
+		const img = html`<img crossOrigin="anonymous">`
+
+		img.onload = () => {
+		console.log("helloo")
+			send_source(img, img.width, img.height)
+		}
+		img.src = "$(default_url)"
+		console.log(img)
+	});
 </script>
 </span>
 """ |> HTML
