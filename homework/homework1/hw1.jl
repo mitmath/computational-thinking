@@ -1197,7 +1197,16 @@ function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.pn
 <script>
 	// based on https://github.com/fonsp/printi-static (by the same author)
 
-	const span = this.currentScript.parentElement
+  let span;
+  try {
+    span = this.currentScript.parentElement
+  } catch (e) {
+    if (e instanceof TypeError) {
+      span = currentScript.parentElement
+    } else {
+      throw e;
+    }
+  }
 	const video = span.querySelector("video")
 	const popout = span.querySelector("button#pop-out")
 	const stop = span.querySelector("button#stop")
