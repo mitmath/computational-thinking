@@ -1,7 +1,7 @@
 @def sequence = ["FLDheVUjns0"]
 @def airtime = "2020-10-22 02:35pm"
 ~~~
-<h1>Lecture 13 - Graphs and Network Dynamics</h1>
+<h1>Lecture 15 </h1>
 ~~~
 
 ~~~Airs on: <span class="moment">~~~{{showtime airtime}}~~~ EST</span>~~~
