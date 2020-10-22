@@ -757,6 +757,21 @@ if student.name == "Jazzy Doe" || student.kerberos_id == "jazz"
 	"""
 end
 
+# ╔═╡ 112eb7b2-1428-11eb-1c60-15105fa0e5fa
+md"""
+## Exercise XX - Lecture transcript
+(MIT students only)
+Please see the link for hw 6 transcript document on [Canvas](https://canvas.mit.edu/courses/5637).
+We want each of you to correct about 500 lines, but don’t spend more than 20 minutes on it.
+See the the beginning of the document for more instructions.
+:point_right: Please mention the name of the video(s) and the line ranges you edited:
+"""
+
+# ╔═╡ 5ac7dcea-1429-11eb-1429-0fdbd4e9b5b1
+lines_i_edited = md"""
+Abstraction, lines 1-219; Array Basics, lines 1-137; Course Intro, lines 1-144 (_for example_)
+"""
+
 # ╔═╡ b94f9df8-106d-11eb-3be8-c5a1bb79d0d4
 md"## Function library
 
@@ -1362,6 +1377,8 @@ end
 # ╠═6e1b5b6a-12e8-11eb-3655-fb10c4566cdc
 # ╟─106670f2-12d6-11eb-1854-5bf0fc6f4dfb
 # ╟─b94b7610-106d-11eb-2852-25337ce6ec3a
+# ╟─112eb7b2-1428-11eb-1c60-15105fa0e5fa
+# ╠═5ac7dcea-1429-11eb-1429-0fdbd4e9b5b1
 # ╟─b94f9df8-106d-11eb-3be8-c5a1bb79d0d4
 # ╟─b9586d66-106d-11eb-0204-a91c8f8355f7
 # ╟─b9616f92-106d-11eb-1bd1-ede92a617fdb
