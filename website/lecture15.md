@@ -1,4 +1,4 @@
-@def sequence = ["F4UXGYrnlPM"]
+@def sequence = ["FLDheVUjns0"]
 @def airtime = "2020-10-22 02:35pm"
 ~~~
 <h1>Lecture 13 - Graphs and Network Dynamics</h1>
@@ -8,7 +8,7 @@
 
 ## Segment 1: Live session
 
-{{youtube F4UXGYrnlPM}}
+{{youtube FLDheVUjns0}}
 
 
 ## Segment 2: MIT only live session
