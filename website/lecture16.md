@@ -10,3 +10,7 @@
 
 {{youtube raytracing2}}
 
+## Resistors, Equilibrium and Poisson's equation
+
+{{youtube resistors}}
+
