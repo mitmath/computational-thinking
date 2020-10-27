@@ -1,5 +1,5 @@
 @def sequence = ["raytracing2"]
-@def airtime = "2020-10-20 02:35pm"
+@def airtime = "2020-10-27 02:35pm"
 ~~~
 <h1>Lecture 16 - Ray tracing in 3D</h1>
 ~~~
