@@ -36,4 +36,5 @@ videos = Dict(
               "raytracing1"  => "MkkZb5V6HqM",
               "byop"         => "dczkYlOM2sg",
               "what-is-array" => "gUZVpMUY4qY",
+              "raytracing2" => "JwyQezsQkkw",
 )
