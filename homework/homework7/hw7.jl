@@ -890,6 +890,22 @@ md"""
 # ╔═╡ 270762e4-1ca4-11eb-2fb4-392e5c3b3e04
 
 
+# ╔═╡ bbf730c8-1ca6-11eb-3bb0-1188046339ac
+md"""
+## **Exercise XX:** _Lecture transcript_
+(MIT students only)
+Please see the link for hw 7 transcript document on [Canvas](https://canvas.mit.edu/courses/5637).
+We want each of you to correct about 500 lines, but don’t spend more than 20 minutes on it.
+See the the beginning of the document for more instructions.
+
+👉 Please mention the name of the video(s) and the line ranges you edited:
+"""
+
+# ╔═╡ cbd8f164-1ca6-11eb-1440-bdaabf73a6c7
+lines_i_edited = md"""
+Abstraction, lines 1-219; Array Basics, lines 1-137; Course Intro, lines 1-144 (_for example_)
+"""
+
 # ╔═╡ ebd05bf0-19c3-11eb-2559-7d0745a84025
 if student.name == "Jazzy Doe" || student.kerberos_id == "jazz"
 	md"""
@@ -1136,6 +1152,8 @@ TODO_note(text) = Markdown.MD(Markdown.Admonition("warning", "TODO note", [text]
 # ╟─c00eb0a6-cab2-11ea-3887-070ebd8d56e2
 # ╟─3dd0a48c-1ca3-11eb-1127-e7c43b5d1666
 # ╠═270762e4-1ca4-11eb-2fb4-392e5c3b3e04
+# ╟─bbf730c8-1ca6-11eb-3bb0-1188046339ac
+# ╠═cbd8f164-1ca6-11eb-1440-bdaabf73a6c7
 # ╟─ebd05bf0-19c3-11eb-2559-7d0745a84025
 # ╟─ec275590-19c3-11eb-23d0-cb3d9f62ba92
 # ╟─ec31dce0-19c3-11eb-1487-23cc20cd5277
