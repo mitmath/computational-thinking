@@ -12,7 +12,7 @@
 
 ## Iterative and Greedy numerical schemes for Poisson and Laplace
 
-{{youtube pde-schems}}
+{{youtube pde-schemes}}
 
 ## Multigrid methods
 
