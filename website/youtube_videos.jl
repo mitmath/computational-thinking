@@ -38,4 +38,7 @@ videos = Dict(
               "what-is-array" => "gUZVpMUY4qY",
               "raytracing2" => "JwyQezsQkkw",
               "resistors"   => "UKG-xk2F3Ak",
+              "hier-thinking" => "rJyJZ_fMy9Q",
+              "pde-schemes" => "f7g1LTfNmnA",
+              "multigrid" => "rRCGNvMdLEY",
 )
