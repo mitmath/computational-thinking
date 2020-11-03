@@ -225,8 +225,8 @@ We are able to make a `Coordinate` perform one random step, by adding a move to 
 Possible steps:
 - Use `rand(possible_moves, n)` to generate a vector of `n` random moves. Each possible move will be equally likely.
 - To compute the trajectory you can use either of the following two approaches:
-  1. 🆒 Use the function `accumulate` (see the live docs for `accumulate`). Use `move` as the function passed to `accumulate` and the `w` as the starting value (`init` keyword argument). 
-  1. Use a `for` loop calling `move`. 
+  1. 🆒 Use the function `accumulate` (see the live docs for `accumulate`). Use `+` as the function passed to `accumulate` and the `w` as the starting value (`init` keyword argument). 
+  1. Use a `for` loop calling `+`. 
 
 """
 
@@ -331,7 +331,7 @@ md"""
 
 In this exercise we will create Agents which have a location as well as some infection state information.
 
-Let's define a type `Agent`. `Agent` contains a `position` (of type `Coordinate`), as well as a `state` of type `InfectionStatus` (as in Homework 4).)
+Let's define a type `Agent`. `Agent` contains a `position` (of type `Coordinate`), as well as a `status` of type `InfectionStatus` (as in Homework 4).)
 
 (For simplicity we will not use a `num_infected` field, but feel free to do so!)
 """
