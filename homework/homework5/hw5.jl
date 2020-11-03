@@ -331,7 +331,7 @@ md"""
 
 In this exercise we will create Agents which have a location as well as some infection state information.
 
-Let's define a type `Agent`. `Agent` contains a `position` (of type `Coordinate`), as well as a `state` of type `InfectionStatus` (as in Homework 4).)
+Let's define a type `Agent`. `Agent` contains a `position` (of type `Coordinate`), as well as a `status` of type `InfectionStatus` (as in Homework 4).)
 
 (For simplicity we will not use a `num_infected` field, but feel free to do so!)
 """
