@@ -4,7 +4,7 @@
 Welcome to the new course **MIT 18.S191 aka 6.S083 aka 22.S092**, **Fall 2020** edition!
 
 ~~~
-<a href="/lecture18/" style="font-size: 1.5em; line-height:1.5em"><span style="padding: 0.4em; background: red; color:white; font-size: 0.8em; border-radius: 0.2em">LIVE NOW</span> <b>Lecture 18</b> - <em>Hierarchical Thinking, Greedy Algorithms, Jacobi's Method, and Multigrid</em></a>
+<a href="/lecture19/" style="font-size: 1.5em; line-height:1.5em"><span style="padding: 0.4em; background: red; color:white; font-size: 0.8em; border-radius: 0.2em">LIVE NOW</span> <b>Lecture 19</b> Floating Point Arithmetic<em></em></a>
 ~~~
 
 \blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
