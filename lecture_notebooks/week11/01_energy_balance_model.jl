@@ -17,12 +17,14 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add("Plots")
-	Pkg.add("PlutoUI")
-	Pkg.add("LaTeXStrings")
-	Pkg.add("CSV")
-	Pkg.add("HTTP")
-	Pkg.add("DataFrames")
+	Pkg.add([
+		"Plots",
+		"PlutoUI",
+		"LaTeXStrings",
+		"CSV",
+		"HTTP",
+		"DataFrames",
+	])
 	using LaTeXStrings
 	using Plots
 	using PlutoUI
