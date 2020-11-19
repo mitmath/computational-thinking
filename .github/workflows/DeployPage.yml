@@ -15,7 +15,7 @@ jobs:
       continue-on-error: true
       uses: webfactory/ssh-agent@v0.2.0
       with:
-        ssh-private-key: ${{ secrets.FRANKLIN_PRIV }}
+        ssh-private-key: ${{ secrets.FRANKLIN_PRIV_2 }}
     # NOTE: uncomment the following lines if you intend to use PyPlot
     # - name: Install python
     #   uses: actions/setup-python@v1
