@@ -15,7 +15,7 @@ jobs:
       continue-on-error: true
       uses: webfactory/ssh-agent@v0.2.0
       with:
-        ssh-private-key: ${{ secrets.FRANKLIN_PRIV_2 }}
+        ssh-private-key: ${{ secrets.FRANKLIN_PRIV }}
     # NOTE: uncomment the following lines if you intend to use PyPlot
     # - name: Install python
     #   uses: actions/setup-python@v1
@@ -55,6 +55,6 @@ jobs:
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        SSH: true
+        ACCESS_TOKEN: ${{ secrets.FRANKLIN_ACCESS_TOKEN }}
         BRANCH: gh-pages
         FOLDER: website/__site2
