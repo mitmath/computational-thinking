@@ -110,6 +110,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>lecture23/index.html</loc>
+    <lastmod>2020-11-19</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>hw1/index.html</loc>
     <lastmod>2020-11-19</lastmod>
     <changefreq>monthly</changefreq>
