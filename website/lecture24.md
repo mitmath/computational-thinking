@@ -1,22 +1,22 @@
-@def sequence = ["WNpcJfw307Y", "kSbCYaB2KhQ", "GJFJXhgM0S4", "Zy8E_ylMQt4"]
+@def sequence = ["GJFJXhgM0S4", "kSbCYaB2KhQ", "WNpcJfw307Y", "Zy8E_ylMQt4"]
 @def airtime = "2020-12-01 02:35pm"
 ~~~
-<h1>Lecture 24 -- Diffusion Equation; Time and Space evolution</h1>
+<h1>Lecture 24 -- Ocean Modeling and Generic Programming</h1>
 ~~~
 
 ~~~Airs on: <span class="moment">~~~{{showtime airtime}}~~~ EST</span>~~~
 
-## Why we don't game on supercomputers
+## Building an ocean model from scratch
 
-{{youtube WNpcJfw307Y}}
+{{youtube GJFJXhgM0S4}}
 
-## Oceananigans.jl
+## Fluid Dynamics with Oceananigans.jl
 
 {{youtube kSbCYaB2KhQ}}
 
-## The Diffusion Equation
+## Why we don't game on supercomputers
 
-{{youtube GJFJXhgM0S4}}
+{{youtube WNpcJfw307Y}}
 
 ## Generic Programming
 
