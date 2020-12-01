@@ -11,31 +11,10 @@ jobs:
       uses: actions/checkout@v2
       with:
         persist-credentials: false
-    - name: Install SSH Client
-      continue-on-error: true
-      uses: webfactory/ssh-agent@v0.2.0
-      with:
-        ssh-private-key: ${{ secrets.FRANKLIN_PRIV }}
-    # NOTE: uncomment the following lines if you intend to use PyPlot
-    # - name: Install python
-    #   uses: actions/setup-python@v1
-    #   with:
-    #     python-version: '3.x'
-    # - run: pip install matplotlib
     - name: Install Julia
       uses: julia-actions/setup-julia@v1
       with:
-        version: 1.4
-    # NOTE
-    # Adjust the `input=""` on the last line to indicate where
-    # the source of the package page is (`page/` by default).
-    #
-    # Adjust also `output=""` on the last line if you want
-    # the page to be deployed in a specific folder on gh-pages
-    # if you do that, make sure that you adjust the `prepath`
-    # variable in `config.md` accordingly! so for instance
-    # if you set here `folder="web"` change prepath for
-    # `@def prepath = "YourPackage.jl/web"`
+        version: 1.5
     - run: julia -e '
             using Pkg;
             Pkg.add(["NodeJS", "JSON", "Franklin"]);
@@ -55,6 +34,6 @@ jobs:
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
-        SSH: true
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: website/__site2

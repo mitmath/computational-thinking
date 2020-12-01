@@ -1,7 +1,7 @@
 # 18S191 course website
 
 The website was written in Franklin.jl - a static site generator with Julia as templating language.
-
+ 
 Whenever you push to this folder of the repository, the website will automatically rebuild and update. To test your changes locally before pushing, follow these steps:
 
 1. In a terminal, navigate to this folder using `cd`.
