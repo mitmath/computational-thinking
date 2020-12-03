@@ -1,4 +1,4 @@
-@def sequence = ["GJFJXhgM0S4", "kSbCYaB2KhQ", "WNpcJfw307Y", "Zy8E_ylMQt4"]
+@def sequence = ["GJFJXhgM0S4", "kSbCYaB2KhQ", "WNpcJfw307Y", "_LyXN5rAhZ8"]
 @def airtime = "2020-12-01 02:35pm"
 ~~~
 <h1>Lecture 24 -- Ocean Modeling and Generic Programming</h1>
@@ -20,5 +20,5 @@
 
 ## Generic Programming
 
-{{youtube Zy8E_ylMQt4}}
+{{youtube _LyXN5rAhZ8}}
 
