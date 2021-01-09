@@ -15,6 +15,8 @@ Topics include:
 
 The course has now concluded, but you can still take it at your own pace from this website! Feel free to hang out in the course [discord server](https://discord.gg/Z5qnVf8) and ask questions!
 
+> See also the course repository [github.com/mitmath/18S191](https://github.com/mitmath/18S191). [Lecture notebooks are here.](https://github.com/mitmath/18S191/tree/master/lecture_notebooks)
+
 ## What people are saying about the course
 
 ~~~
