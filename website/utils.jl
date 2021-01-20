@@ -9,6 +9,23 @@ include("youtube_videos.jl")
 const DATEFMT = dateformat"yyyy-mm-dd HH:MMp"
 const TZ = "America/New_York"
 
+function hfun_plutonotebookview(params)
+    path = params[1]
+    path_html = if endswith(path, ".jl")
+        path[1:end-3] * ".html"
+    else
+        path * ".html"
+    end
+
+    return """
+    <iframe id="$id" width="100%" height="100%"
+    src="./$(path_html)"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+    """
+end
+
 function hfun_doc(params)
     fname = join(params[1:max(1, length(params)-2)], " ")
     head = params[end-1]
