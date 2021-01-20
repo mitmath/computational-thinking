@@ -1,0 +1,33 @@
+name: Export Pluto notebooks
+on:
+    push:
+        branches:
+            - Spring21
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Install Julia
+              uses: julia-actions/setup-julia@v1
+              with:
+                  version: 1.5
+            - name: Run Pluto notebooks
+              run: julia -e 'import Pkg;
+                  env = mktempdir();
+                  Pkg.activate(env);
+                  Pkg.add([
+                  Pkg.PackageSpec(url="https://github.com/fonsp/PlutoUtils.jl", rev="ac10069"),
+                  Pkg.PackageSpec(url="https://github.com/fonsp/Pluto.jl", rev="9edb7b2"),
+                  ]);
+                  import PlutoUtils;
+
+                  PlutoUtils.Export.github_action(; export_dir=".", offer_binder=true);'
+            - name: Deploy to gh-pages
+              uses: JamesIves/github-pages-deploy-action@releases/v3
+              with:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  BRANCH: Spring21-pluto-output
+                  FOLDER: .
