@@ -18,8 +18,8 @@ function hfun_plutonotebookview(params)
     end
 
     return """
-    <iframe id="$id" width="100%" height="100%"
-    src="./$(path_html)"
+    <iframe width="100%" height="100%"
+    src="$(path_html)"
     frameborder="0"
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen></iframe>
