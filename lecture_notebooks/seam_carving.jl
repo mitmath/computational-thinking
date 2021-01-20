@@ -1,1 +1,0 @@
-week2/01-seam_carving.jl

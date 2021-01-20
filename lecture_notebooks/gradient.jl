@@ -1,1 +1,0 @@
-week2/02-sobel_gradient.jl
