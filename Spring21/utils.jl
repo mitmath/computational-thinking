@@ -11,7 +11,7 @@ const TZ = "America/New_York"
 
 function hfun_plutonotebookpage(params)
     path = params[1]
-    path_html = if endswith(path, ".jl")
+    path_to_html = if endswith(path, ".jl")
         path[1:end-3] * ".html"
     else
         path * ".html"
@@ -36,18 +36,24 @@ function hfun_plutonotebookpage(params)
     .plutopage {
         height: 100vh;
     }
+    .smallscreenlink {
+        display: none;
+    }
     @media (max-width: 768px) {
         .franklin-content {
             padding: 0px;
         }
     }
     </style>
+    
     <iframe width="100%" height="100%"
-    src="$(path_html)"
+    src="$(path_to_html)"
     class="plutopage"
     frameborder="0"
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen></iframe>
+
+    <a class="smallscreenlink" href="$(path_to_html)"></a>
     """
 end
 
