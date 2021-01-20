@@ -108,8 +108,33 @@
 </div>
 
 <!-- Content appended here -->
-<div class="franklin-content"><iframe width="100%" height="100%"
-src="notebooks/week1/index.html"
+<div class="franklin-content"><style>
+
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
+    }
+}
+</style>
+<iframe width="100%" height="100%"
+src="../notebooks/week1/index.html"
+class="plutopage"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>

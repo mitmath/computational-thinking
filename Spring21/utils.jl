@@ -9,7 +9,7 @@ include("youtube_videos.jl")
 const DATEFMT = dateformat"yyyy-mm-dd HH:MMp"
 const TZ = "America/New_York"
 
-function hfun_plutonotebookview(params)
+function hfun_plutonotebookpage(params)
     path = params[1]
     path_html = if endswith(path, ".jl")
         path[1:end-3] * ".html"
@@ -18,8 +18,33 @@ function hfun_plutonotebookview(params)
     end
 
     return """
+    <style>
+
+    .content {
+        max-width: 100%;
+        margin-right: 0px;
+        padding: 0px;
+        overflow-y: hidden;
+        height: 100vh;
+    }
+    .franklin-content {
+        padding: 0px;
+    }
+    .page-foot {
+        display: none;
+    }
+    .plutopage {
+        height: 100vh;
+    }
+    @media (max-width: 768px) {
+        .franklin-content {
+            padding: 0px;
+        }
+    }
+    </style>
     <iframe width="100%" height="100%"
     src="$(path_html)"
+    class="plutopage"
     frameborder="0"
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen></iframe>

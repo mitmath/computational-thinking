@@ -108,24 +108,37 @@
 </div>
 
 <!-- Content appended here -->
-<div class="franklin-content">
-<h1>Lecture 2 - Convolutions</h1>
+<div class="franklin-content"><style>
 
-<p>Airs on: <span class="moment">2020-09-02T14:30:00</span></p>
-<p><strong>Table of Contents</strong></p>
-<div class="franklin-toc"><ol><li><a href="#segment_1_convolutions_in_image_processing">Segment 1: Convolutions in image processing</a></li><li><a href="#segment_2_mit_only_live_session">Segment 2: MIT only live session</a></li></ol></div>
-<h2 id="segment_1_convolutions_in_image_processing"><a href="#segment_1_convolutions_in_image_processing">Segment 1: Convolutions in image processing</a></h2>
-<iframe id="convolution" width="100%" height="360"
-src="https://www.youtube.com/embed/8rrHTtUzyZA"
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
+    }
+}
+</style>
+<iframe width="100%" height="100%"
+src="../notebooks/week2/index.html"
+class="plutopage"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>
 
-<br/>
-<br/>
-<p><strong>Live quiz:</strong> During the session, open <a href="https://itempool.com/3b1b/live">this link</a> to answer Grant&#39;s live poll-style questions&#33;</p>
-<h2 id="segment_2_mit_only_live_session"><a href="#segment_2_mit_only_live_session">Segment 2: MIT only live session</a></h2>
-<p>&#40;see Canvas for details&#41;</p>
 <div class="page-foot">
   <div class="copyright">
     <a href="https://github.com/mitmath/18S191/tree/master/website"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></img></b></a></br>
