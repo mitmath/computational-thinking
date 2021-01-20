@@ -1,4 +1,4 @@
-name: Spring 21 - Export Pluto notebooks
+name: Spring 21 - Export Pluto notebooks & Deploy
 on:
     push:
         branches:
@@ -25,9 +25,29 @@ jobs:
                   import PlutoUtils;
 
                   PlutoUtils.Export.github_action(; export_dir=".", offer_binder=true);'
-            - name: Deploy to gh-pages
+            - name: Franklin
+              run: julia -e '
+                  using Pkg;
+                  Pkg.add(["NodeJS", "JSON", "Franklin"]);
+                  using NodeJS;
+
+                  cp("notebooks", "website/notebooks")
+                  cd("website");
+
+                  run(`$(npm_cmd()) install highlight.js`);
+                  using Franklin;
+                  optimize();
+                  mkdir("__site2");
+                  mv("__site", "__site2/Spring21");
+                  write("__site2/index.html", """
+                  <!DOCTYPE html>
+                  <html>
+                  <head><meta charset="utf-8"><script>
+                  window.location.href=\"Spring21\"</script></head>
+                  <body></body></html>""");'
+            - name: Build and Deploy
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  BRANCH: Spring21-pluto-output
-                  FOLDER: .
+                  BRANCH: Spring21-franklin-output
+                  FOLDER: website/__site2
