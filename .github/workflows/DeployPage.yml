@@ -1,8 +1,8 @@
-name: Build and Deploy
+name: Spring 21 - Franklin
 on:
   push:
     branches:
-      - main
+      - Spring21
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -24,16 +24,16 @@ jobs:
             using Franklin;
             optimize();
             mkdir("__site2");
-            mv("__site", "__site2/Fall20");
+            mv("__site", "__site2/Spring21");
             write("__site2/index.html", """
                 <!DOCTYPE html>
                 <html>
                 <head><meta charset="utf-8"><script>
-                window.location.href=\"Fall20\"</script></head>
+                window.location.href=\"Spring21\"</script></head>
                 <body></body></html>""");'
     - name: Build and Deploy
       uses: JamesIves/github-pages-deploy-action@releases/v3
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        BRANCH: gh-pages
+        BRANCH: Spring21-franklin-output
         FOLDER: website/__site2
