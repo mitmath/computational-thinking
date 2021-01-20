@@ -1,21 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=PT+Sans+Caption:wght@700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans+Caption:wght@700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 h1 {
     border-bottom: 1px solid #999 !important;
     margin-bottom: 1em !important;
 }
 
-h1, h2 {
+h1,
+h2 {
     color: #555;
-    font-family: 'PT Sans Caption';
+    font-family: "PT Sans Caption";
     font-weight: bold;
 }
 
-html, body {
-    font-family: 'PT Sans', sans-serif;
+html,
+body {
+    font-family: "PT Sans", sans-serif;
     font-size: 18px;
 }
-
 
 .sidebar {
     z-index: 2;
@@ -31,12 +32,12 @@ html, body {
     margin-top: 2em;
 }
 .franklin-content pre > code {
-    border: 1px solid #6B8E2340;
+    border: 1px solid #6b8e2340;
     padding: 1.5em;
     border-radius: 0;
 }
 pre.code-output {
-    background: #6B8E2340;
+    background: #6b8e2340;
     padding-left: 0.5em;
 }
 
@@ -67,7 +68,7 @@ pre.code-output {
 
 .docstring .doc-type {
     font-size: 1em;
-    color: #6B8E2350;
+    color: #6b8e2350;
     float: right;
 }
 
@@ -84,7 +85,7 @@ pre.code-output {
 }
 
 .sidebar-about h1 {
-    font-family: 'Recursive', sans-serif;
+    font-family: "Recursive", sans-serif;
     border-bottom: none !important;
 }
 
@@ -109,23 +110,23 @@ pre.code-output {
     margin: 0.25em 0;
 }
 
-.sidebar-nav .week {
+.sidebar-nav .course-section {
     font-style: italic;
     display: flex;
     align-items: center;
     color: #c08282;
 }
-.sidebar-nav .week::before,
-.sidebar-nav .week::after {
+.sidebar-nav .course-section::before,
+.sidebar-nav .course-section::after {
     content: " ";
     flex: 1;
     border-bottom: 1px dashed #c08282;
 }
-.sidebar-nav .week::before {
-    margin-right: .25em;
+.sidebar-nav .course-section::before {
+    margin-right: 0.25em;
 }
-.sidebar-nav .week::after {
-    margin-left: .25em;
+.sidebar-nav .course-section::after {
+    margin-left: 0.25em;
 }
 
 h1 {
@@ -134,7 +135,6 @@ h1 {
 h2 {
     margin-top: 1em;
 }
-
 
 .page-foot img.github-logo {
     width: 1em;
