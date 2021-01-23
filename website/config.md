@@ -142,4 +142,4 @@ commands that are defined and used in PkgPage.jl
 \newcommand{\out}[1]{@@code-output \show{#1} @@}
 
 \newcommand{\blurb}[1]{~~~<p style="font-size: 1.15em; color: #333; line-height:1.5em">~~~#1~~~</p>~~~}
-\newcommand{\youtube}[1]{~~~<iframe width="1020" height="574" src="https://video.cs50.io/~~~#1~~~" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>~~~}
+\newcommand{\youtube}[1]{~~~<iframe width="1020" height="574" src="https://youtube.com/embed/~~~#1~~~" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>~~~}
