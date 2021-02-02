@@ -119,7 +119,7 @@ Now we use the aptly-named `download` function to download the image file to our
 """
 
 # ╔═╡ 34ffc3d8-601e-11eb-161c-6f9a07c5fd78
-download(url, "philip.jpg")  # download to a local file
+philip_filename = download(url)  # download to a local file
 
 # ╔═╡ abaaa980-601e-11eb-0f71-8ff02269b775
 md"""
@@ -127,7 +127,7 @@ Using the `Images.jl` package we can **load** the file, which automatically conv
 """
 
 # ╔═╡ aafe76a6-601e-11eb-1ff5-01885c5238da
-my_image = load("philip.jpg")
+my_image = load(philip_filename)
 
 # ╔═╡ c99d2aa8-601e-11eb-3469-497a246db17c
 md"""
