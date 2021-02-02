@@ -17,7 +17,7 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add(["Images", "ImageMagick", "Colors", "PlutoUI"])
+	Pkg.add(["Images", "ImageIO", "Colors", "PlutoUI"])
 
 	using Images
 	using Colors
