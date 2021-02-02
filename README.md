@@ -1,16 +1,16 @@
 # 18.S191: Introduction to computational thinking for real-world problems
 
-<p align="center"><a href="https://computationalthinking.mit.edu/Fall20"> <b>Go to course website</b> :balloon:</a></p>
+<p align="center"><a href="https://computational-thinking-demo.netlify.app/spring21/"> <b>Go to (preview) course website</b> :balloon:</a></p>
 
-Welcome to the fall 2020 **18.S191** course!
+Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 
-This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.
+\blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
 Topics include:
 
 - Image analysis
 - Particle dynamics and ray tracing
-- Epidemic propagation
+- Network theory
 - Climate modeling
 
 
@@ -19,50 +19,58 @@ Topics include:
 Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
-## Professors
-[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html)
+## Meet our staff
+**Lecturers:** [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html)
 
-### Course Material
+**Teaching assistants:** _to be announced_
 
-The course material includes **recorded lectures** and **Pluto notebooks**, these are available on the [course website](https://computationalthinking.mit.edu/Fall20), which will be updated regularly. 
+**Technical assistants:** [Fons van der Plas](), [Logan Kilpatrick](https://scholar.harvard.edu/logankilpatrick/home)
 
-Every week comes with a problem set where you apply the material to a real problem. Homework sets are **interactive [Pluto notebooks](https://github.com/fonsp/Pluto.jl)** - you get automatic visualizations and verification while you work on your code.
+**Guest lecturers:** _to be announced_
 
-Julia learning materials may be found [here](http://www.julialang.org/learning)
+## Introduction video
+
+{{youtube course-intro}}
 
 ## Logistics
 
-TR 2:30&ndash;3:30pm Eastern, online (Go to the lecture page on this site to stream it.)
+Course materials will be published on this website on **Monday 1:00pm**. Each week is a new _chapter_, which includes:
+- Asynchronous video lectures _(total 60 minutes)_
+- Interactive visualizations
+- Exercises
 
-- Tuesdays: Prerecorded videos, released on YouTube and played live on this site.
+### Live lectures
+On **Monday 1:00pm - 2:30pm**, after the material is published, there will also be:
+- Q&A on Discord
+- Live overview lecture _(30 minutes)_
 
-- Thursdays: Live sessions (same YouTube link 2:30&ndash;3) and MIT-only discussion (3-3:30); link to follow
+On **Wednesday 1:00pm 2:30pm** _(MIT students only)_, you will meet with fellow students and your TA to:
+- Review the lecture
+- Work on problem sets in small groups or individually, with the opportunity to ask questions to your TA
 
-Start date: September 1, 2020
-
-Office hours TBD.
+Start date: February 16, 2021
 
 
 ### Discussion forum and homework submission
 - [Discord](https://discord.gg/Z5qnVf8): discussion (we encourage you to hang out here during class!)
 
-- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) allows for anonymity to other students, discussion
+- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) questions, discussion with staff, announcements
 
-- [Canvas](https://canvas.mit.edu/courses/5637): (MIT only) homework submission. If you're a non-MIT student, please find a partner to cross-grade homeworks via Discord.
+- [Canvas](https://canvas.mit.edu/courses/5637): (MIT only) homework submissions. If you're a non-MIT student, don't worry, the **homework has built-in answers checks**, or you can find a partner to cross-grade homeworks via Discord.
 
 
 ### Evaluation
 
-*   12 weekly problem sets with equal weight; your lowest score will be dropped. 
+The final grade is 80% problem sets, and 20% MITx _quick questions_.
 
-*   Released on Thursdays and due before the following Thursday's class. (No problem set during Thanskgiving week.)
+*   Problem sets are released on Tuesdays and due before Sunday (11:59pm). They have equal weight; your lowest score will be dropped.
 
-*   No exams
+*   MITx exercises (_quick questions_) are due before Wednesday (11:59pm), but are best done on Monday, during or right after the lectures.
 
-Problem sets consist of code. MIT students enrolled in the course must submit homeworks via Canvas. If you are not a student then we encourage you to join the Discord and find a cross-grading partner.
+
 <!-- 
 
 Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
-<p align="center"><a href="https://computationalthinking.mit.edu/Fall20"> <b>Go to course website</b> :balloon:</a></p>
+<p align="center"><a href="https://computational-thinking-demo.netlify.app/spring21/"> <b>Go to (preview) course website</b> :balloon:</a></p>
