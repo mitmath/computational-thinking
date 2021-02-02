@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.19
+# v0.12.20
 
 using Markdown
 using InteractiveUtils
@@ -13,6 +13,17 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 74b008f6-ed6b-11ea-291f-b3791d6d1b35
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add(["Images", "Colors", "PlutoUI"])
+
+	using Images
+	using Colors
+	using PlutoUI
+end
+
 # ╔═╡ e91d7926-ec6e-41e7-aba2-9dca333c8aa5
 html"""
 
@@ -23,6 +34,9 @@ html"""
 
 """
 
+# ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
+PlutoUI.TableOfContents(aside=true)
+
 # ╔═╡ ca1b507e-6017-11eb-34e6-6b85cd189002
 md"""
 # Introduction
@@ -31,35 +45,40 @@ Welcome to the Computational Thinking using Julia for Real-World Problems, at MI
 The aim of this course is to bring together concepts from computer science and applied math with coding in the modern **Julia language**, and to see how to apply these techniques to study interesting applications.
 
 ## Data are all around us
-Applications of computer science in the real world use **data**, i.e. information that we can capture and **measure** in some way. Data take many forms, for example:
+Applications of computer science in the real world use **data**, i.e. information that we can **measure** in some way. Data take many different forms, for example:
 
-- Time series: 
-  - Your favourite song broadcast over web "radio"
+- Numbers that change over time (**time series**): 
   - Stock price each second / minute / day
   - Weekly number of infections
 
 - Video:
   - The view from a window of a self-driving car
   - A hurricane monitoring station
-  - A news report about the latest political situation
 
 - Images:
   - Diseased versus healthy tissue in a medical scan
-  - Deep space via the Hubble telescope
   - Your social media account labelling your friends in your photos
 
-In each case we will need to know how to **input** the data of interest, by downloading it, reading in the resulting file, and converting it into a form that we can use, usually numbers or text. We will also want to be able to **output** it, by visualising it in some way.
+#### Exercise: 
+> Think of another two examples in each category. Can you think of other categories of data?
 
-And we will need to write algorithms to **process** the data to extract the information we need, or use machine learning to "automatically" extract some date.
+
+To use any data source, we need to **input** the data of interest, for example by downloading it, reading in the resulting file, and converting it into a form that we can use in the computer. Then we need to **process** it in some way to extract information of interest. We usually want to **visualize** the results, and we may want to **output** them, for example by saving to disc or putting them on a website.
+
+We also may want to make a mathematical or computational **model** that can help us to understand and predict the behavior of the system of interest.
+
+In this course we aim to show how programming, computer science and applied math combine to help us with these goals.
 """
 
 # ╔═╡ 127daf08-601b-11eb-28c1-2139c8d1a65a
 md"""
 
-## Images 
+# Images 
 
 Let's start off by looking at **images** and how we can process them. 
-Although our goal is to understand how to manipulate an image in precisely the way we want to by coding algorithms, we'll take advantage of the fact that Julia already has various tools to do more mundane tasks, such as converting an image input file from its particular format into numerical data that we can use.
+Our goal is to process the data contained in an image in some way, which we will do by developing and coding certain **algorithms**.
+
+To begin, though, let's take advantage of the fact that Julia already has various tools that have been written for more mundane tasks, such as converting an image input file from its particular format into numerical data that we can use.
 """
 
 # ╔═╡ 9eb6efd2-6018-11eb-2db8-c3ce41d9e337
@@ -72,24 +91,6 @@ Note that an image is already an **approximation** of the real world -- it is a 
 
 """
 
-# ╔═╡ dd183eca-6018-11eb-2a83-2fcaeea62942
-md"""
-### CS: Arrays
-
-In the computer we need to **store** the number or numbers that make up the data itself, namely some representation of the colour of each pixel, and also **represent** the fact that we have a two-dimensional grid containing colours, for example what size it is, where the data lives in memory, and how it is arrranged in memory.
-
-A two-dimensional grid is called a **two-dimensional array** in computer science, also called a **matrix** (which is the name in mathmematics). In general, an **array** means a collection of data, stored in a block in the computer's memory.
-
-We think of the location of one piece of data as an integer $(x, y)$ coordinate pair, for example $(2, 5)$. We will need a way to **access** the current value stored at that position in the array, and to **modify** it to a new value. 
-
-
-### Representing colours
-
-Colour is a complicated concept, having to to with the interaction of the physical properties of light with the physiological mechanisms and mental procsses by which we detect it.
-
-We will ignore this complexity by using a standard method of representing colours in the computer as an **RGB triple** of three numbers $(r, g, b)$, giving the amount of red, of green and of blue in a colour. The final colour that we perceive is the result of "adding" the corresponding amount light of each colour; the details are fascinating, but beyond the scope of this course!
-"""
-
 # ╔═╡ e37e4d40-6018-11eb-3e1d-093266c98507
 md"""
 ## Julia: Reading in an image file
@@ -97,19 +98,24 @@ md"""
 
 # ╔═╡ e1c9742a-6018-11eb-23ba-d974e57f78f9
 md"""
-To make the above concepts concrete, let's use Julia to load in an actual image and play around with it.
+To make things more concrete, let's use Julia to load in an actual image and play around with it.
 
-We'll use the `Images.jl` package to load an image from the web.
+One nice option is to use your computer's webcam to take a photo of yourself; another is to download one from the web.
 
-First we define a **string** containing the URL (web address). String "literals" are written using double quotes, `"..."`:
+We can use the `Images.jl` package to load an image file.
+"""
+
+# ╔═╡ 62fa19da-64c6-11eb-0038-5d40a6890cf5
+md"""
+First we specify the URL to download from:
 """
 
 # ╔═╡ 34ee0954-601e-11eb-1912-97dc2937fd52
-url = "https://i.imgur.com/VGPeJ6s.jpg"   # defines a variable called `url`
+url = "https://i.imgur.com/VGPeJ6s.jpg" 
 
 # ╔═╡ 9180fbcc-601e-11eb-0c22-c920dc7ee9a9
 md"""
-Now let's download the image file to our local machine using the `download` function:
+Now we use the aptly-named `download` function to download the image file to our own computer:
 """
 
 # ╔═╡ 34ffc3d8-601e-11eb-161c-6f9a07c5fd78
@@ -121,12 +127,22 @@ Using the `Images.jl` package we can **load** the file, which automatically conv
 """
 
 # ╔═╡ aafe76a6-601e-11eb-1ff5-01885c5238da
-image = load("philip.jpg")
+my_image = load("philip.jpg")
 
 # ╔═╡ c99d2aa8-601e-11eb-3469-497a246db17c
 md"""
-Without us doing anything extra, we see that the Pluto notebook that we are using has recognised that we have an image object, and has automatically displayed the resulting image of Philip, the cute Welsh Pembroke corgi and co-professor of this course.
+We see that the Pluto notebook has recognised that we created an object representing an image, and automatically displayed the resulting image of Philip, the cute Welsh Pembroke corgi and co-professor of this course.
 Poor Philip will undergo quite a few transformations as we go along!
+"""
+
+# ╔═╡ cef1a95a-64c6-11eb-15e7-636a3621d727
+md"""
+## Working with images
+"""
+
+# ╔═╡ f26d9326-64c6-11eb-1166-5d82586422ed
+md"""
+### Image size
 """
 
 # ╔═╡ 6f928b30-602c-11eb-1033-71d442feff93
@@ -135,292 +151,326 @@ The first thing we might want to know is the size of the image:
 """
 
 # ╔═╡ 75c5c85a-602c-11eb-2fb1-f7e7f2c5d04b
-size(image)
+size(my_image)
 
 # ╔═╡ 77f93eb8-602c-11eb-1f38-efa56cc93ca5
 md"""
-Julia returns a **tuple** (ordered pair) of two numbers. Comparing these with the picture of the image, we see that the first number is the height, i.e. the vertical number of pixels, and the second is the width.
+Julia returns a pair of two numbers. Comparing these with the picture of the image, we see that the first number is the height, i.e. the vertical number of pixels, and the second is the width.
 """
 
-# ╔═╡ d51b24ea-6026-11eb-1040-9751bc5d0144
+# ╔═╡ f9244264-64c6-11eb-23a6-cfa76f8aff6d
 md"""
-## Julia: types
+### Locations in an image: Indexing
+
+Now suppose that we want to examine a piece of the image in more detail. We need some way of specifying which piece of the image we want. 
+
+Thinking of the image as a grid of pixels, we need a way to tell the computer which pixel or group of pixels we want to refer to. 
+Since the image is a two-dimensional grid, we can use two integers (whole numbers) to give the coordinates of a single pixel.  Specifying coordinates like this is called **indexing**: think of the index of a book, which tells you *on which page* an idea is discussed.
+
+In Julia we use (square) brackets, `[` and `]` for indexing: 
 """
 
-# ╔═╡ df2c1606-6026-11eb-3fa6-db4da33f5ee7
+# ╔═╡ bd22d09a-64c7-11eb-146f-67733b8be241
+a_pixel = my_image[1000, 1500]
+
+# ╔═╡ 28860d48-64c8-11eb-240f-e1232b3638df
 md"""
-The image we have just loaded is represented as a collection of numbers. How do we know what those numbers represent? Julia gives us some information about what an object represents via the **type** of the object. This is a label that tells us how to interpret the data stored in the object. Let's ask for the type of the image object:
+We see that Julia knows to draw our pixel object for us a block of the relevant color.
 """
 
-# ╔═╡ 1b682d12-6027-11eb-0e29-ad3ba8eea2b5
-typeof(image)
-
-# ╔═╡ 1e6d9058-6027-11eb-1fe3-0730aff1479a
+# ╔═╡ 622f514e-64c8-11eb-0c67-c7940e894973
 md"""
-We see that `image` is the name of an object of type `Array{...,2}`, which is a 2D array, as expected. [On Julia 1.6 and later, this will display `Matrix{...}` instead.]
-
-The types inside the **(curly) braces**(`{` and `}`) tell us the type of the objects  stored inside the matrix -- in our case, they are `RGB` objects. `N0f8`, in turn, denotes the way that the numbers themselves are stored inside `RGB` objects. [In fact, they are fixed-point numbers with 8 bits, normalised to the range 0 to 1.]
+When we index into an image like this, the first number indicates the *row* in the image, starting from the top, and the second the *column*, starting from the left. In Julia, the first row and column are numbered starting from 1, not from 0 as in some other programming languages.
 """
 
-# ╔═╡ 754f1d18-6027-11eb-1f1c-cbcbfd080094
+# ╔═╡ 4504577c-64c8-11eb-343b-3369b6d10d8b
 md"""
-## Julia: Indexing into an array
+### Representing colors
+
+We can also use indexing to *modify* a pixel's color. To do so we need a way to specify a new color.
+
+Color turns out to be a complicated concept, having to do with the interaction of the physical properties of light with the physiological mechanisms and mental processes by which we detect it!
+
+We will ignore this complexity by using a standard method of representing colours in the computer as an **RGB triple**, i.e. a triple of three numbers $(r, g, b)$, giving the amount of red, of green and of blue in a colour, respectively. These are numbers between 0 (none) and 1 (full). The final colour that we perceive is the result of "adding" the corresponding amount of light of each colour; the details are fascinating, but beyond the scope of this course!
 """
 
-# ╔═╡ 794d1802-6027-11eb-161a-9d520ba94a1b
+# ╔═╡ 40886d36-64c9-11eb-3c69-4b68673a6dde
 md"""
-Let's drill down into the data by extracting one single pixel using **indexing**; in Julia we index using **(square) brackets** (`[` and `]`):
+We can create a new color in Julia as follows:
 """
 
-# ╔═╡ 88128656-6027-11eb-1b70-2f5fb92415d6
-pixel = image[1000, 1500]
+# ╔═╡ 552235ec-64c9-11eb-1f7f-f76da2818cb3
+RGB(1.0, 0.0, 0.0)
 
-# ╔═╡ a2966c1c-6028-11eb-0d7f-cb4848097e2a
+# ╔═╡ 5a0cc342-64c9-11eb-1211-f1b06d652497
 md"""
-We see that in Julia an image is *just* a matrix of colour objects, and Pluto automatically knows how to display those.
+# Image processing
+
+Now that we have access to image data, we can start to **process** that data to extract information and/or modify it in some way.
+
+We might want to detect what type of objects are in the image, say to detect whether a patient has a certain disease. To achieve a high-level goal like this, we will need to perform mid-level operations, such as detecting edges that separate different objects based on their color. And, in turn, to carry that out we will need to do low-level operations like comparing colors of neighboring pixels and somehow deciding if they are "different".
+
 """
 
-# ╔═╡ 89e91286-6029-11eb-20b4-ff3d4fd97e98
+# ╔═╡ 2ee543b2-64d6-11eb-3c39-c5660141787e
 md"""
-## Julia: Colours
+
+## Modifying a pixel
+
+Let's start by seeing how to modify an image, e.g. in order to hide sensitive information.
+
+We do this by assigning a new value to the color of a pixel:
 """
 
-# ╔═╡ 9995ba72-6029-11eb-332a-3766a6d9725b
+# ╔═╡ 62da7c94-64c9-11eb-10dd-a374ce105d81
+my_image[1000, 1500] = RGB(1.0, 0.0, 0.0)
+
+# ╔═╡ 81b88cbe-64c9-11eb-3b26-39011efb2089
 md"""
-What is stored inside the `pixel` object? We can find out by typing `pixel.<TAB>`.
-This gives a list of possible **completions**, which in this case are the names of the attributes of the object, i.e. the data stored inside it. Try this out in a new cell!
+Be careful: We are actually *modifying* the original image here, even though if we look at the image it is hard to spot, since a single pixel is so small:
 """
 
-# ╔═╡ b33f54e2-6029-11eb-36e7-63d2196873cf
+# ╔═╡ 73511646-64c9-11eb-24a2-05a55c9c7500
+my_image
+
+# ╔═╡ ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
 md"""
-We see that there are variables `r`, `g` and `b` stored inside. We can extract them using `pixel.r`, etc.:
+## Groups of pixels
+
+We probably want to examine and modify several pixels at once.
+For example, we can extract a horizontal strip 1 pixel tall:
 """
 
-# ╔═╡ c11deb6c-6029-11eb-18ea-bb28465d7c4f
-pixel.r
+# ╔═╡ e29b7954-64cb-11eb-2768-47de07766055
+my_image[1000, 1500:1700]
 
-# ╔═╡ ca7c83e6-6029-11eb-0d2a-4b6c6b0ea2cc
+# ╔═╡ 8e7c4866-64cc-11eb-0457-85be566a8966
 md"""
-We can convert this fixed-point number to a normal floating-point number using
+Here, Julia is showing the strip as a collection of rectangles in a row.
 """
 
-# ╔═╡ c2701070-6029-11eb-1431-a7ecf55471a8
-Float64(pixel.r)
-
-# ╔═╡ b9f135fe-60eb-11eb-20e9-eb899fc3ee13
-
-
-# ╔═╡ 38a2bd3c-6029-11eb-1615-f3943cf4e466
+# ╔═╡ f2ad501a-64cb-11eb-1707-3365d05b300a
 md"""
-We can make a colour object by treating the type `RGB` [from the `Colors.jl` package] as a function that takes three inputs, and passing in three floating-point numbers between 0 and 1:
+And then modify it:
 """
 
-# ╔═╡ 4ccc3e8c-6029-11eb-2c91-bf915dc56e2b
-RGB(0.1, 0.3, 0.5)
+# ╔═╡ b21eb2f2-64c9-11eb-2cec-d9e61c41cfe2
+my_image[1000, 1500:1700] .= RGB(1.0, 0.0, 0.0)
 
-# ╔═╡ c6bfc07c-60eb-11eb-139e-f9571daace71
+# ╔═╡ 2808339c-64cc-11eb-21d1-c76a9854aa5b
 md"""
-## Pluto: Interactivity using `@bind`
+Similarly we can modify a whole rectangular block of pixels:
 """
 
-# ╔═╡ 54c06316-6029-11eb-3e7b-9f9bda9465db
+# ╔═╡ 33ec0666-64cc-11eb-009f-7502ac8be05f
+my_image[1000:1100, 1500:1700] .= RGB(1.0, 0.0, 0.0)
+
+# ╔═╡ 841af282-64cc-11eb-2f98-cb9d43b55ff7
 md"""
-The Pluto notebook allows us to create sliders to manipulate the value of variables, by writing e.g.
-
-	@bind v Slider(0:0.1:1)
-
-to map the value of the variable `v` to a slider in the given range. [`@bind` is defined in the `PlutoUI.jl` package.]
-
-Let's use this for the constituent parts of a colour:
+and look at the result:
 """
 
-# ╔═╡ f99eefce-6029-11eb-221f-75110c1a1162
+# ╔═╡ 3679a622-64cc-11eb-007f-5bb908aec7c3
+my_image
+
+# ╔═╡ 693af19c-64cc-11eb-31f3-57ab2fbae597
 md"""
-`rr` = $(@bind rr Slider(0:0.01:1, show_value=true))    
-; `gg` = $(@bind gg Slider(0:0.01:1, show_value=true))    
-; `bb` = $(@bind bb Slider(0:0.01:1, show_value=true))   
+## Reducing the size of an image
 """
 
-# ╔═╡ f5ae3026-6029-11eb-2316-dff58f4c8df5
-RGB(rr, gg, bb)
+# ╔═╡ 6361d102-64cc-11eb-31b7-fb631b632040
+md"""
+Maybe we would also like to reduce the size of this image, since it's rather large. For example, we could take every 10th row and every 10th column and make a new image from the result:
+"""
+
+# ╔═╡ ae542fe4-64cc-11eb-29fc-73b7a66314a9
+reduced_image = my_image[1:10:end, 1:10:end]
+
+# ╔═╡ c29292b8-64cc-11eb-28db-b52c46e865e6
+md"""
+Note that the resulting image doesn't look very good, since we seem to have lost too much detail. 
+
+#### Exercise
+
+> Think about what we might do to reduce the size of an image without losing so much detail.
+"""
+
+# ╔═╡ 5319c03c-64cc-11eb-0743-a1612476e2d3
+md"""
+## Saving an image
+
+Finally, we want to be able to save our new creation to a file: 
+"""
+
+# ╔═╡ 3db09d92-64cc-11eb-0333-45193c0fd1fe
+save("reduced_phil.jpg", reduced_image)
+
+# ╔═╡ dd183eca-6018-11eb-2a83-2fcaeea62942
+md"""
+# Computer science: Arrays
+
+An image is a concrete example of a fundamental concept in computer science, namely an **array**. 
+
+Just as an image is a rectangular grid, where each grid cell contains a single color,
+an array is a rectangular grid for storing data. Data is stored and retrieved using indexing, just as in the image examples: each cell in the grid can store a single "piece of data" of a given type.
+
+
+## Dimension of an array
+
+An array can be one-dimensional, like the strip of pixels above, two-dimensional, three-dimensional, and so on. The dimension tells us the number of indices that we need to specify a unique location in the grid.
+The array object also needs to know the length of the data in each dimension.
+
+## Names for different types of array
+
+One-dimensional arrays are often called **vectors** (or, in some other languages, "lists") and two-dimensional arrays are **matrices**. Higher-dimensional arrays are  **tensors**.
+
+
+## Arrays as data structures
+
+An array is an example of a **data structure**, i.e. a way of arranging data such that we can access it. A key theme in computer science is that of designing different data structures that represent data in different ways.
+
+Conceptually, we can think of an array as a block of data that has a position or location in space. This can be a useful way to arrange data if, for example, we want to represent the fact that values in nearby locations in array are somehow near to one another.
+
+Images are a good example of this: neighbouring pixels often represent different pieces of the same object, for example the rug or floor, or Philip himself, in the photo. We thus expect neighbouring pixels to be of a similar color. On the other hand, if they are not, this is also useful information, since that may correspond to the edge of an object.
+
+"""
 
 # ╔═╡ 8ddcb286-602a-11eb-3ae0-07d3c77a0f8c
 md"""
-## Julia: Array comprehensions
+# Julia: Syntax for creating arrays
 
-Now that we can make single colours, how about a whole palette of colours!
-Let's start with all the possible colours interpolating between black, `RGB(0, 0, 0)`, and red, `RGB(1, 0, 0)`. 
+## Creating vectors and matrices
+Julia has strong support for arrays of any dimension.
 
-We need a way to generate a **`Vector`**, i.e. a 1-dimensional array, of colours, where the red component varies from 0 to 1.  One way to do so is with an **array comprehension**. Again, square brackets correspond to an array; now we are creating one:
+Vectors, or one-dimensional arrays, are written using square brackets and commas:
 """
 
-# ╔═╡ f2ecfff8-602a-11eb-129f-29e28a17a773
-@bind num_reds Slider(1:100, show_value=true)
+# ╔═╡ 1b2b2b18-64d4-11eb-2d43-e31cb8bc25d1
+[RGB(1, 0, 0), RGB(0, 1, 0), RGB(0, 0, 1)]
+
+# ╔═╡ 2b0e6450-64d4-11eb-182b-ff1bd515b56f
+md"""
+Matrices, or two-dimensional arrays, also use square brackets, but with spaces and new lines instead of commas:
+"""
+
+# ╔═╡ 3b2b041a-64d4-11eb-31dd-47d7321ee909
+[RGB(1, 0, 0)  RGB(0, 1, 0)
+ RGB(0, 0, 1)  RGB(0.5, 0.5, 0.5)]
+
+# ╔═╡ 0f35603a-64d4-11eb-3baf-4fef06d82daa
+md"""
+
+## Array comprehensions
+
+It's clear that if we want to create an array with more than a few elements, it will be *very* tedious to do so by hand like this.
+Rather, we want to *automate* the process of creating an array by following some pattern, for example to create a whole palette of colors!
+
+Let's start with all the possible colors interpolating between black, `RGB(0, 0, 0)`, and red, `RGB(1, 0, 0)`.  Since only one of the values is changing, we can represent this as a vector, i.e. a one-dimensional array.
+
+A neat method to do this is an **array comprehension**. Again we use square brackets  to create an array, but now we use a **variable** that varies over a given **range** values:
+"""
+
+# ╔═╡ e69b02c6-64d6-11eb-02f1-21c4fb5d1043
+[RGB(i, 0, 0) for i in 0:0.1:1]
+
+# ╔═╡ fce76132-64d6-11eb-259d-b130038bbae6
+md"""
+Here, `0:0.1:1` is a **range**; the first and last numbers are the start and end values, and the middle number is the size of the step.
+"""
+
+# ╔═╡ 17a69736-64d7-11eb-2c6c-eb5ebf51b285
+md"""
+In a similar way we can create two-dimensional matrices, by separating the two variables for each dimension with a comma (`,`):
+"""
+
+# ╔═╡ 291b04de-64d7-11eb-1ee0-d998dccb998c
+[RGB(i, j, 0) for i in 0:0.1:1, j in 0:0.1:1]
+
+# ╔═╡ 5e52d12e-64d7-11eb-0905-c9038a404e24
+md"""
+# Pluto: Interactivity using sliders
+"""
+
+# ╔═╡ 6aba7e62-64d7-11eb-2c49-7944e9e2b94b
+md"""
+Suppose we want to see the effect of changing the number of colors in our vector or matrix. We could, of course, do so by manually fiddling with the range.
+
+It would be nice if we could do so using a **user interface**, for example with a **slider**. Fortunately, the Pluto notebook allows us to do so!
+"""
+
+# ╔═╡ afc66dac-64d7-11eb-1ad0-7f62c20ffefb
+md"""
+We can define a slider using
+"""
+
+# ╔═╡ b37c9868-64d7-11eb-3033-a7b5d3065f7f
+@bind number_reds Slider(1:100, show_value=true)
+
+# ╔═╡ b1dfe122-64dc-11eb-1104-1b8852b2c4c5
+md"""
+[The `Slider` type is defined in the `PlutoUI.jl` package.]
+"""
+
+# ╔═╡ cfc55140-64d7-11eb-0ff6-e59c70d01d67
+md"""
+This creates a new variable called `number_reds`, whose value is the value shown by the slider. When we move the slider, the value of the variable gets updated. Since Pluto is a **reactive** notebook, other cells which use the value of this variable will *automatically be updated too*!
+"""
+
+# ╔═╡ fca72490-64d7-11eb-1464-f5e0582c4d18
+md"""
+Let's use this to make a slider for our one-dimensional collection of reds:
+"""
 
 # ╔═╡ 88933746-6028-11eb-32de-13eb6ff43e29
-[RGB(i/num_reds, 0, 0) for i in 0:num_reds]
+[RGB(red_value / number_reds, 0, 0) for red_value in 0:number_reds]
 
-# ╔═╡ 35542e8c-6028-11eb-3d4f-0feb1ddbf6c6
+# ╔═╡ 1c539b02-64d8-11eb-3505-c9288357d139
 md"""
-Similarly way we can also create a two-dimensional matrix using an array comprehension, separating the variables using a comma (`,`):
+When you move the slider, you should see the number of red color patches change!
 """
 
-# ╔═╡ 43c7c7dc-602b-11eb-10f7-098609493a6e
+# ╔═╡ 10f6e6da-64d8-11eb-366f-11f16e73043b
 md"""
-red = $(@bind num_reds2 Slider(1:100, show_value=true, default=10))
-; blue = $(@bind num_blues2 Slider(1:100, show_value=true, default=10))
+What is going on here is that we are creating a vector in which `red_value` takes each value in turn from the range from `0` up to the current value of `number_reds`. If we change `number_reds`, then we create a new vector with that new number of red patches.
 """
 
-# ╔═╡ 6dcca0a2-602b-11eb-15b2-53292368c1b4
-[RGB(i/num_reds2, j/num_blues2, 0) for i in 0:num_reds2, j in 0:num_blues2]
-
-# ╔═╡ d5ac1146-6027-11eb-1254-3309a68dc47c
+# ╔═╡ 576d5e3a-64d8-11eb-10c9-876be31f7830
 md"""
-## Julia: Extracting subarrays with ranges
+We can do the same to create different size matrices, by creating two sliders, one for reds and one for greens. Try it out!
 """
 
-# ╔═╡ 0f1339f8-602c-11eb-2c28-1f9ce4be8bf2
+# ╔═╡ 82a8314c-64d8-11eb-1acb-e33625381178
 md"""
-Let's go back to our image. We already know how to index into the array to extract one pixel. What if we wanted a block of pixels? To do that we index using a **range** object, where we specify the start and finish of the range as `start:finish`, separated by a colon:
-"""
+#### Exercise
 
-# ╔═╡ 44f8c36c-602c-11eb-073d-e5cd4605308b
-image[1000:1200, 1500:1800]
-
-# ╔═╡ 5b33bef2-602c-11eb-0fc0-9b7fc9758452
-md"""
-We see that indeed we have a **subarray**, that is the corresponding small piece of the total image.
-"""
-
-# ╔═╡ d86aedb2-60ec-11eb-160c-afebe6dd8f63
-md"""
-Suppose that instead of a subregion we instead decided that the image was too large and we wanted to reduce its size. It is, in general, impossible to do so without throwing away some of the information in the original image.
-
-The simplest thing to do is to just pick out, say, every 10th row and column. We can do this using an extra argument in the middle of a range, which is a **step size**:
-"""
-
-# ╔═╡ 362ddfe0-60ed-11eb-2d05-2d1dbd9ea509
-reduced_image = image[1:10:end, 1:10:end]
-
-# ╔═╡ 544dec90-60ed-11eb-2c61-ffc2a7491391
-md"""
-Note that we can also use `end` instead of having to write explicitly the size of the array in each direction.
-"""
-
-# ╔═╡ 22974f50-6065-11eb-0027-f1ebdc3fbeda
-md"""
-## Julia: What is a range object?
-"""
-
-# ╔═╡ 328157d0-6065-11eb-12fb-b5e412332129
-md"""
-What does a range like `2:10` mean? It represents the (ordered) collection of all the integers (whole numbers) from 2 to 10. But it's not so easy to get Julia to tell us that:
-"""
-
-# ╔═╡ 5b0c5b76-6065-11eb-191c-ed9a0b1ba7e0
-my_range = 2:10
-
-# ╔═╡ a9cda1fc-6065-11eb-36f3-516ddf6549c0
-md"""
-In fact, to see the numbers spelled out we need to make an array instead, for example using an array comprehension:
-"""
-
-# ╔═╡ b985c8e0-6065-11eb-17e7-214233185691
-[i for i in 2:10]
-
-# ╔═╡ bd6d2372-6065-11eb-1da1-f3b5185da3d7
-md"""
-or using by converting the range into an `Array`, which in this case gives us a one-dimensional vector:
-"""
-
-# ╔═╡ c66edb0c-6065-11eb-2e64-911c45e36ba9
-v = Array(2:10)
-
-# ╔═╡ 96c50f64-60ec-11eb-3e11-2792214f9e19
-typeof(v)
-
-# ╔═╡ 688dbf24-6065-11eb-08f0-a59fa2b71bef
-md"""
-In fact, ranges are special: this range *does not store* the values from 2 to 10 -- rather, *only* the start and end points are stored, and arithmetic is used to *calculate* the intermediate values!  Nonetheless, we can still **index** into the range using brackets:
-"""
-
-# ╔═╡ 608cc414-6065-11eb-28f4-f33c12d5b1b8
-my_range[1]
-
-# ╔═╡ e75a2e94-6065-11eb-0f4d-e380e32fd333
-my_range[4]
-
-# ╔═╡ e9f8d152-6065-11eb-0324-551b0c536814
-md"""
-So we see that ranges *behave like* arrays, even though they are not arrays in the standard sense, since they don't store their data in a block in memory. In Julia, anything that *behaves like* an array is treated like an array; such objects are called **abstract arrays**. From the point of view of a user who looks at the object just via indexing, they *do not know* how the data is actually stored inside the object.
-"""
-
-# ╔═╡ c40435c2-60ec-11eb-26f9-4983b35b6853
-md"""
-## Modifying an array
-"""
-
-# ╔═╡ 8c03360e-60ed-11eb-30b8-87f9efcb9656
-md"""
-We can modify a single entry in an array by treating it as a variable and assigning it a new value using `=`:
-"""
-
-# ╔═╡ 95aab790-60ed-11eb-036f-c1b694312a42
-reduced_image[100, 200] = RGB(0, 0, 0)
-
-# ╔═╡ 9ce0272a-60ed-11eb-2e7b-6f06c69d7c29
-md"""
-If we want to modify a whole subregion, this doesn't work:
-"""
-
-# ╔═╡ f3ff32d0-60ed-11eb-07bc-f992cd3da9e8
-image[10:20, 30:40] = RGB(0, 0, 0)
-
-# ╔═╡ c13418d4-60ed-11eb-311c-55b5c28893bf
-md"""
-As the error message says, it makes no sense to modify an array by trying to assign a *single* value to a whole subregion. Rather, we want to assign that value to *each* element in the subregion. Julia uses the syntax `.=` to do this; we can read the `.` as "elementwise" or "pointwise", or "vectorised", meaning that the operation is carried out for *each* element:
-"""
-
-# ╔═╡ bc9082c2-60ed-11eb-2b3a-3b8cb3e11428
-reduced_image[200:300, 100:150] .= RGB(1, 0, 0);
-
-# ╔═╡ 3ac7ffa8-60ee-11eb-21da-910b06e87557
-md"""
-[Note that writing a semi-colon, `;`, at the end of a line suppresses (does not show) the output. In general, Julia always returns and displays the output of the last operation.]
-"""
-
-# ╔═╡ 15da808c-60ee-11eb-350c-07d3f7d2b641
-reduced_image
-
-# ╔═╡ 5b8f7626-60ee-11eb-160a-e9079209dec7
-md"""
-## Julia: Joining (concatenating) matrices
+> Make three sliders with variables `r`, `g` and `b`. Then make a single color patch with the RGB color given by those values.
 """
 
 # ╔═╡ 647fddf2-60ee-11eb-124d-5356c7014c3b
 md"""
-We can join (concatenate) matrices together into a larger matrix:
+### Joining matrices
+
+We often want to join vectors and matrices together. We can do so using an extension of the array creation syntax:
 """
 
 # ╔═╡ 7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
 [reduced_image  reduced_image]
 
 # ╔═╡ 8433b862-60ee-11eb-0cfc-add2b72997dc
-[reduced_image  reverse(reduced_image, dims=2)]
+[reduced_image                   reverse(reduced_image, dims=2)
+ reverse(reduced_image, dims=1)  reverse(reduced_image)]
 
 # ╔═╡ ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 md"""
-## Summary
+# Summary
 """
 
 # ╔═╡ b08e57e4-60ee-11eb-0e1a-2f49c496668b
 md"""
-Here is a summary of the main ideas from today's notebook:
-- Images are **arrays** of colours
-- Colours are **objects** containing three numbers
-- We can see into and modify arrays using **indexing**
-- We can make arrays quickly with **array comprehensions**
-- Ranges **behave like** arrays, but store data in a different way
+Let's summarize the main ideas from this notebook:
+- Images are **arrays** of colors
+- We can inspect and modify arrays using **indexing**
+- We can create arrays directly or using **array comprehensions**
 """
 
 # ╔═╡ 9025a5b4-6066-11eb-20e8-099e9b8f859e
@@ -433,42 +483,11 @@ html"""
 <div style="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ a9e60a8d-f194-4efa-8108-4092e429564c
-md"""
-#### Is Julia fun???
-
-$(@bind choice Radio(["Yes", "No", "Maybe"]))
-
-"""
-
-# ╔═╡ 3cd25438-989a-41e1-ba55-691d1992849b
-md"""
-
-
-
-
-First grant video chunks:
-
-- overview of images
-- input and output for image data
-
-
-
-
-- data representation #1: image == arrays
-- Julia: 
-- data representation #2: what is colour?
-
-
-
-
-"""
-
 # ╔═╡ c8e1b044-891d-45d0-9946-253804470943
 
 
 # ╔═╡ 57ddff1a-d414-4bd2-8799-5b42a878cb68
-md"## Computer Science: Arrays"
+md"# Homework: Arrays"
 
 # ╔═╡ 540ccfcc-ee0a-11ea-15dc-4f8120063397
 md"""
@@ -617,31 +636,6 @@ student = (name = "Jazzy Doe", kerberos_id = "jazz")
 
 # ╔═╡ 5f95e01a-ee0a-11ea-030c-9dba276aba92
 md"_Let's create a package environment:_"
-
-# ╔═╡ 65780f00-ed6b-11ea-1ecf-8b35523a7ac0
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-end
-
-# ╔═╡ 74b008f6-ed6b-11ea-291f-b3791d6d1b35
-begin
-	Pkg.add(["Images", "ImageMagick", "Colors"])
-	using Images
-	using Colors
-end
-
-# ╔═╡ 6b30dc38-ed6b-11ea-10f3-ab3f121bf4b8
-begin
-	Pkg.add("PlutoUI")
-	using PlutoUI
-end
-
-# ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
-PlutoUI.TableOfContents(aside=false)
-
-# ╔═╡ 67461396-ee0a-11ea-3679-f31d46baa9b4
-md"_We set up Images.jl again:_"
 
 # ╔═╡ e083b3e8-ed61-11ea-2ec9-217820b0a1b4
 md"""
@@ -852,13 +846,6 @@ yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!
 
 # ╔═╡ e09af1a2-601b-11eb-14c8-57a46546f6ce
 correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
-
-# ╔═╡ f2108acd-67e9-491a-91ef-776d67bf44da
-if choice === "Yes"
-	correct()
-else
-	keep_working()
-end
 
 # ╔═╡ e0a4fc10-601b-11eb-211d-03570aca2726
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
@@ -1269,6 +1256,12 @@ end
 # ╔═╡ 81510a30-ee0e-11ea-0062-8b3327428f9d
 
 
+# ╔═╡ 6b30dc38-ed6b-11ea-10f3-ab3f121bf4b8
+# begin
+# 	Pkg.add("PlutoUI")
+# 	using PlutoUI
+# end
+
 # ╔═╡ edf900be-601b-11eb-0456-3f7cfc5e876b
 md"_Lecture 1, Spring 2021, version 0_"
 
@@ -1298,90 +1291,82 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 
 # ╔═╡ Cell order:
 # ╟─e91d7926-ec6e-41e7-aba2-9dca333c8aa5
-# ╟─d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
+# ╠═d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 # ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
 # ╟─127daf08-601b-11eb-28c1-2139c8d1a65a
 # ╟─9eb6efd2-6018-11eb-2db8-c3ce41d9e337
-# ╟─dd183eca-6018-11eb-2a83-2fcaeea62942
 # ╟─e37e4d40-6018-11eb-3e1d-093266c98507
 # ╟─e1c9742a-6018-11eb-23ba-d974e57f78f9
+# ╟─62fa19da-64c6-11eb-0038-5d40a6890cf5
 # ╠═34ee0954-601e-11eb-1912-97dc2937fd52
-# ╟─9180fbcc-601e-11eb-0c22-c920dc7ee9a9
+# ╠═9180fbcc-601e-11eb-0c22-c920dc7ee9a9
 # ╠═34ffc3d8-601e-11eb-161c-6f9a07c5fd78
 # ╟─abaaa980-601e-11eb-0f71-8ff02269b775
 # ╠═aafe76a6-601e-11eb-1ff5-01885c5238da
-# ╠═c99d2aa8-601e-11eb-3469-497a246db17c
-# ╠═6f928b30-602c-11eb-1033-71d442feff93
+# ╟─c99d2aa8-601e-11eb-3469-497a246db17c
+# ╟─cef1a95a-64c6-11eb-15e7-636a3621d727
+# ╟─f26d9326-64c6-11eb-1166-5d82586422ed
+# ╟─6f928b30-602c-11eb-1033-71d442feff93
 # ╠═75c5c85a-602c-11eb-2fb1-f7e7f2c5d04b
 # ╟─77f93eb8-602c-11eb-1f38-efa56cc93ca5
-# ╟─d51b24ea-6026-11eb-1040-9751bc5d0144
-# ╟─df2c1606-6026-11eb-3fa6-db4da33f5ee7
-# ╠═1b682d12-6027-11eb-0e29-ad3ba8eea2b5
-# ╟─1e6d9058-6027-11eb-1fe3-0730aff1479a
-# ╟─754f1d18-6027-11eb-1f1c-cbcbfd080094
-# ╟─794d1802-6027-11eb-161a-9d520ba94a1b
-# ╠═88128656-6027-11eb-1b70-2f5fb92415d6
-# ╟─a2966c1c-6028-11eb-0d7f-cb4848097e2a
-# ╟─89e91286-6029-11eb-20b4-ff3d4fd97e98
-# ╟─9995ba72-6029-11eb-332a-3766a6d9725b
-# ╟─b33f54e2-6029-11eb-36e7-63d2196873cf
-# ╠═c11deb6c-6029-11eb-18ea-bb28465d7c4f
-# ╟─ca7c83e6-6029-11eb-0d2a-4b6c6b0ea2cc
-# ╠═c2701070-6029-11eb-1431-a7ecf55471a8
-# ╠═b9f135fe-60eb-11eb-20e9-eb899fc3ee13
-# ╟─38a2bd3c-6029-11eb-1615-f3943cf4e466
-# ╠═4ccc3e8c-6029-11eb-2c91-bf915dc56e2b
-# ╟─c6bfc07c-60eb-11eb-139e-f9571daace71
-# ╟─54c06316-6029-11eb-3e7b-9f9bda9465db
-# ╟─f99eefce-6029-11eb-221f-75110c1a1162
-# ╠═f5ae3026-6029-11eb-2316-dff58f4c8df5
+# ╟─f9244264-64c6-11eb-23a6-cfa76f8aff6d
+# ╠═bd22d09a-64c7-11eb-146f-67733b8be241
+# ╟─28860d48-64c8-11eb-240f-e1232b3638df
+# ╟─622f514e-64c8-11eb-0c67-c7940e894973
+# ╟─4504577c-64c8-11eb-343b-3369b6d10d8b
+# ╟─40886d36-64c9-11eb-3c69-4b68673a6dde
+# ╠═552235ec-64c9-11eb-1f7f-f76da2818cb3
+# ╟─5a0cc342-64c9-11eb-1211-f1b06d652497
+# ╟─2ee543b2-64d6-11eb-3c39-c5660141787e
+# ╠═62da7c94-64c9-11eb-10dd-a374ce105d81
+# ╟─81b88cbe-64c9-11eb-3b26-39011efb2089
+# ╠═73511646-64c9-11eb-24a2-05a55c9c7500
+# ╟─ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
+# ╠═e29b7954-64cb-11eb-2768-47de07766055
+# ╟─8e7c4866-64cc-11eb-0457-85be566a8966
+# ╟─f2ad501a-64cb-11eb-1707-3365d05b300a
+# ╠═b21eb2f2-64c9-11eb-2cec-d9e61c41cfe2
+# ╟─2808339c-64cc-11eb-21d1-c76a9854aa5b
+# ╠═33ec0666-64cc-11eb-009f-7502ac8be05f
+# ╟─841af282-64cc-11eb-2f98-cb9d43b55ff7
+# ╠═3679a622-64cc-11eb-007f-5bb908aec7c3
+# ╟─693af19c-64cc-11eb-31f3-57ab2fbae597
+# ╟─6361d102-64cc-11eb-31b7-fb631b632040
+# ╠═ae542fe4-64cc-11eb-29fc-73b7a66314a9
+# ╟─c29292b8-64cc-11eb-28db-b52c46e865e6
+# ╟─5319c03c-64cc-11eb-0743-a1612476e2d3
+# ╠═3db09d92-64cc-11eb-0333-45193c0fd1fe
+# ╟─dd183eca-6018-11eb-2a83-2fcaeea62942
 # ╟─8ddcb286-602a-11eb-3ae0-07d3c77a0f8c
-# ╠═f2ecfff8-602a-11eb-129f-29e28a17a773
+# ╠═1b2b2b18-64d4-11eb-2d43-e31cb8bc25d1
+# ╟─2b0e6450-64d4-11eb-182b-ff1bd515b56f
+# ╠═3b2b041a-64d4-11eb-31dd-47d7321ee909
+# ╟─0f35603a-64d4-11eb-3baf-4fef06d82daa
+# ╠═e69b02c6-64d6-11eb-02f1-21c4fb5d1043
+# ╟─fce76132-64d6-11eb-259d-b130038bbae6
+# ╟─17a69736-64d7-11eb-2c6c-eb5ebf51b285
+# ╠═291b04de-64d7-11eb-1ee0-d998dccb998c
+# ╟─5e52d12e-64d7-11eb-0905-c9038a404e24
+# ╟─6aba7e62-64d7-11eb-2c49-7944e9e2b94b
+# ╟─afc66dac-64d7-11eb-1ad0-7f62c20ffefb
+# ╠═b37c9868-64d7-11eb-3033-a7b5d3065f7f
+# ╟─b1dfe122-64dc-11eb-1104-1b8852b2c4c5
+# ╟─cfc55140-64d7-11eb-0ff6-e59c70d01d67
+# ╟─fca72490-64d7-11eb-1464-f5e0582c4d18
 # ╠═88933746-6028-11eb-32de-13eb6ff43e29
-# ╟─35542e8c-6028-11eb-3d4f-0feb1ddbf6c6
-# ╠═43c7c7dc-602b-11eb-10f7-098609493a6e
-# ╠═6dcca0a2-602b-11eb-15b2-53292368c1b4
-# ╟─d5ac1146-6027-11eb-1254-3309a68dc47c
-# ╟─0f1339f8-602c-11eb-2c28-1f9ce4be8bf2
-# ╠═44f8c36c-602c-11eb-073d-e5cd4605308b
-# ╟─5b33bef2-602c-11eb-0fc0-9b7fc9758452
-# ╟─d86aedb2-60ec-11eb-160c-afebe6dd8f63
-# ╠═362ddfe0-60ed-11eb-2d05-2d1dbd9ea509
-# ╟─544dec90-60ed-11eb-2c61-ffc2a7491391
-# ╟─22974f50-6065-11eb-0027-f1ebdc3fbeda
-# ╟─328157d0-6065-11eb-12fb-b5e412332129
-# ╠═5b0c5b76-6065-11eb-191c-ed9a0b1ba7e0
-# ╟─a9cda1fc-6065-11eb-36f3-516ddf6549c0
-# ╠═b985c8e0-6065-11eb-17e7-214233185691
-# ╟─bd6d2372-6065-11eb-1da1-f3b5185da3d7
-# ╠═c66edb0c-6065-11eb-2e64-911c45e36ba9
-# ╠═96c50f64-60ec-11eb-3e11-2792214f9e19
-# ╟─688dbf24-6065-11eb-08f0-a59fa2b71bef
-# ╠═608cc414-6065-11eb-28f4-f33c12d5b1b8
-# ╠═e75a2e94-6065-11eb-0f4d-e380e32fd333
-# ╟─e9f8d152-6065-11eb-0324-551b0c536814
-# ╟─c40435c2-60ec-11eb-26f9-4983b35b6853
-# ╟─8c03360e-60ed-11eb-30b8-87f9efcb9656
-# ╠═95aab790-60ed-11eb-036f-c1b694312a42
-# ╟─9ce0272a-60ed-11eb-2e7b-6f06c69d7c29
-# ╠═f3ff32d0-60ed-11eb-07bc-f992cd3da9e8
-# ╟─c13418d4-60ed-11eb-311c-55b5c28893bf
-# ╠═bc9082c2-60ed-11eb-2b3a-3b8cb3e11428
-# ╟─3ac7ffa8-60ee-11eb-21da-910b06e87557
-# ╠═15da808c-60ee-11eb-350c-07d3f7d2b641
-# ╟─5b8f7626-60ee-11eb-160a-e9079209dec7
+# ╟─1c539b02-64d8-11eb-3505-c9288357d139
+# ╟─10f6e6da-64d8-11eb-366f-11f16e73043b
+# ╟─576d5e3a-64d8-11eb-10c9-876be31f7830
+# ╟─82a8314c-64d8-11eb-1acb-e33625381178
 # ╟─647fddf2-60ee-11eb-124d-5356c7014c3b
 # ╠═7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
 # ╠═8433b862-60ee-11eb-0cfc-add2b72997dc
 # ╟─ace86c8a-60ee-11eb-34ef-93c54abc7b1a
-# ╠═b08e57e4-60ee-11eb-0e1a-2f49c496668b
+# ╟─b08e57e4-60ee-11eb-0e1a-2f49c496668b
 # ╟─9025a5b4-6066-11eb-20e8-099e9b8f859e
 # ╟─635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
-# ╟─a9e60a8d-f194-4efa-8108-4092e429564c
-# ╟─f2108acd-67e9-491a-91ef-776d67bf44da
-# ╠═3cd25438-989a-41e1-ba55-691d1992849b
 # ╠═c8e1b044-891d-45d0-9946-253804470943
-# ╠═57ddff1a-d414-4bd2-8799-5b42a878cb68
+# ╟─57ddff1a-d414-4bd2-8799-5b42a878cb68
 # ╟─540ccfcc-ee0a-11ea-15dc-4f8120063397
 # ╟─467856dc-eded-11ea-0f83-13d939021ef3
 # ╠═56ced344-eded-11ea-3e81-3936e9ad5777
@@ -1420,8 +1405,6 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 # ╟─bd540d08-8d17-4bc2-ad0d-1fd65f25fe5d
 # ╠═911ccbce-ed68-11ea-3606-0384e7580d7c
 # ╟─5f95e01a-ee0a-11ea-030c-9dba276aba92
-# ╠═65780f00-ed6b-11ea-1ecf-8b35523a7ac0
-# ╟─67461396-ee0a-11ea-3679-f31d46baa9b4
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
 # ╟─54056a02-ee0a-11ea-101f-47feb6623bec
 # ╟─e083b3e8-ed61-11ea-2ec9-217820b0a1b4
