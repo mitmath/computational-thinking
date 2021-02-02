@@ -22,6 +22,7 @@ body {
     z-index: 2;
     overflow-y: auto;
     overflow-x: hidden;
+    background-color: #282936;
 }
 
 .content {
@@ -114,13 +115,14 @@ pre.code-output {
     font-style: italic;
     display: flex;
     align-items: center;
-    color: #c08282;
+    color: #d9a200;
+    margin-top: 1em;
 }
 .sidebar-nav .course-section::before,
 .sidebar-nav .course-section::after {
     content: " ";
     flex: 1;
-    border-bottom: 1px dashed #c08282;
+    border-bottom: 1px dashed #d9a200;
 }
 .sidebar-nav .course-section::before {
     margin-right: 0.25em;

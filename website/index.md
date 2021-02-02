@@ -1,7 +1,7 @@
 
 # Introduction to Computational Thinking
 
-Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Fall 2020** edition!
+Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 
 \blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
@@ -9,13 +9,11 @@ Topics include:
 
 - Image analysis
 - Particle dynamics and ray tracing
-- Epidemic propagation
+- Network theory
 - Climate modeling
 
 
-The course has now concluded, but you can still take it at your own pace from this website! Feel free to hang out in the course [discord server](https://discord.gg/Z5qnVf8) and ask questions!
-
-> See also the course repository [github.com/mitmath/18S191](https://github.com/mitmath/18S191). [Lecture notebooks are here.](https://github.com/mitmath/18S191/tree/master/lecture_notebooks)
+> See also the course repository [github.com/mitmath/18S191](https://github.com/mitmath/18S191).
 
 ## What people are saying about the course
 
@@ -32,8 +30,14 @@ The course has now concluded, but you can still take it at your own pace from th
 Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
-## Professors
-[Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html)
+## Meet our staff
+**Lecturers:** [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html)
+
+**Teaching assistants:** _to be announced_
+
+**Technical assistants:** [Fons van der Plas](), [Logan Kilpatrick](https://scholar.harvard.edu/logankilpatrick/home)
+
+**Guest lecturers:** _to be announced_
 
 ## Introduction video
 
@@ -41,33 +45,36 @@ If you do so, please add punctuation, and please change the colour of the part y
 
 ## Logistics
 
-Course materials will be published on this website.
+Course materials will be published on this website on **Monday 1:00pm**. Each week is a new _chapter_, which includes:
+- Asynchronous video lectures _(total 60 minutes)_
+- Interactive visualizations
+- Exercises
 
-TR 2:30&ndash;3:30pm EST, online (Go to the lecture page on this site to stream it.)
+### Live lectures
+On **Monday 1:00pm - 2:30pm**, after the material is published, there will also be:
+- Q&A on Discord
+- Live overview lecture _(30 minutes)_
 
-- Tuesdays: Prerecorded videos, released on YouTube and played live on this site.
+On **Wednesday 1:00pm 2:30pm** _(MIT students only)_, you will meet with fellow students and your TA to:
+- Review the lecture
+- Work on problem sets in small groups or individually, with the opportunity to ask questions to your TA
 
-- Thursdays: Live sessions (same YouTube link 2:30&ndash;3) and MIT-only discussion (3-3:30); link to follow
-
-Start date: September 1, 2020
-
-Office hours TBD.
+Start date: February 16, 2021
 
 
 ### Discussion forum and homework submission
 - [Discord](https://discord.gg/Z5qnVf8): discussion (we encourage you to hang out here during class!)
 
-- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) allows for anonymity to other students, discussion
+- [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) questions, discussion with staff, announcements
 
-- [Canvas](https://canvas.mit.edu/courses/5637): (MIT only) homework submission. If you're a non-MIT student, please find a partner to cross-grade homeworks via Discord.
+- [Canvas](https://canvas.mit.edu/courses/5637): (MIT only) homework submissions. If you're a non-MIT student, don't worry, the **homework has built-in answers checks**, or you can find a partner to cross-grade homeworks via Discord.
 
 
 ### Evaluation
 
-*   12 weekly problem sets with equal weight; your lowest score will be dropped. 
+The final grade is 80% problem sets, and 20% MITx _quick questions_.
 
-*   Released on Thursdays and due before the following Thursday's class. (No problem set during Thanskgiving week.)
+*   Problem sets are released on Tuesdays and due before Sunday (11:59pm). They have equal weight; your lowest score will be dropped.
 
-*   No exams
+*   MITx exercises (_quick questions_) are due before Wednesday (11:59pm), but are best done on Monday, during or right after the lectures.
 
-Problem sets consist of code. MIT students enrolled in the course must submit homeworks via Canvas. If you are not a student then we encourage you to join the Discord and find a cross-grading partner.
