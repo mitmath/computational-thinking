@@ -17,19 +17,29 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add(["Images", "ImageMagick", "Colors", "PlutoUI"])
+	Pkg.add(["Images", "ImageMagick", "Colors", "PlutoUI", "HypertextLiteral"])
 
 	using Images
 	using Colors
 	using PlutoUI
+	using HypertextLiteral
 end
 
 # ╔═╡ e91d7926-ec6e-41e7-aba2-9dca333c8aa5
 html"""
-
 <div style="margin: 5rem 0;">
-<h3> <em>Chapter 1</em> </h3>
-<h1 style="text-align: center; "><em>Working with images<br>and arrays</em></h1>
+
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;"><em>Chapter 1</em></p>
+
+<p style="text-align: center; font-size: 2rem;">
+<em>Working with images<br>and arrays</em>
+</p>
+
 </div>
 
 """
@@ -57,17 +67,17 @@ Applications of computer science in the real world use **data**, i.e. informatio
 
 - Images:
   - Diseased versus healthy tissue in a medical scan
-  - Your social media account labelling your friends in your photos
+  - Pictures of your favourite dog
 
 #### Exercise: 
 > Think of another two examples in each category. Can you think of other categories of data?
 
-
+#### Input, model, output, visualize
 To use any data source, we need to **input** the data of interest, for example by downloading it, reading in the resulting file, and converting it into a form that we can use in the computer. Then we need to **process** it in some way to extract information of interest. We usually want to **visualize** the results, and we may want to **output** them, for example by saving to disc or putting them on a website.
 
 We also may want to make a mathematical or computational **model** that can help us to understand and predict the behavior of the system of interest.
 
-In this course we aim to show how programming, computer science and applied math combine to help us with these goals.
+> In this course we aim to show how programming, computer science and applied math combine to help us with these goals.
 """
 
 # ╔═╡ 127daf08-601b-11eb-28c1-2139c8d1a65a
@@ -79,6 +89,11 @@ Let's start off by looking at **images** and how we can process them.
 Our goal is to process the data contained in an image in some way, which we will do by developing and coding certain **algorithms**.
 
 To begin, though, let's take advantage of the fact that Julia already has various tools that have been written for more mundane tasks, such as converting an image input file from its particular format into numerical data that we can use.
+"""
+
+# ╔═╡ 635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
+html"""
+<div style="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
 # ╔═╡ 9eb6efd2-6018-11eb-2db8-c3ce41d9e337
@@ -98,11 +113,7 @@ md"""
 
 # ╔═╡ e1c9742a-6018-11eb-23ba-d974e57f78f9
 md"""
-To make things more concrete, let's use Julia to load in an actual image and play around with it.
-
-One nice option is to use your computer's webcam to take a photo of yourself; another is to download one from the web.
-
-We can use the `Images.jl` package to load an image file.
+To make things more concrete, let's use Julia to load in an actual image and play around with it. We can use the `Images.jl` package to load an image file.
 """
 
 # ╔═╡ 62fa19da-64c6-11eb-0038-5d40a6890cf5
@@ -111,7 +122,7 @@ First we specify the URL to download from:
 """
 
 # ╔═╡ 34ee0954-601e-11eb-1912-97dc2937fd52
-url = "https://i.imgur.com/VGPeJ6s.jpg" 
+url = "https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28-11eb-8c7b-41aaf6618935.png" 
 
 # ╔═╡ 9180fbcc-601e-11eb-0c22-c920dc7ee9a9
 md"""
@@ -119,7 +130,7 @@ Now we use the aptly-named `download` function to download the image file to our
 """
 
 # ╔═╡ 34ffc3d8-601e-11eb-161c-6f9a07c5fd78
-philip_filename = download(url)  # download to a local file
+philip_filename = download(url) # download to a local file. The filename is returned
 
 # ╔═╡ abaaa980-601e-11eb-0f71-8ff02269b775
 md"""
@@ -127,7 +138,10 @@ Using the `Images.jl` package we can **load** the file, which automatically conv
 """
 
 # ╔═╡ aafe76a6-601e-11eb-1ff5-01885c5238da
-my_image = load(philip_filename)
+philip = load(philip_filename)
+
+# ╔═╡ e86ed944-ee05-11ea-3e0f-d70fc73b789c
+md"_Hi there Philip_"
 
 # ╔═╡ c99d2aa8-601e-11eb-3469-497a246db17c
 md"""
@@ -151,12 +165,18 @@ The first thing we might want to know is the size of the image:
 """
 
 # ╔═╡ 75c5c85a-602c-11eb-2fb1-f7e7f2c5d04b
-size(my_image)
+philip_size = size(philip)
 
 # ╔═╡ 77f93eb8-602c-11eb-1f38-efa56cc93ca5
 md"""
 Julia returns a pair of two numbers. Comparing these with the picture of the image, we see that the first number is the height, i.e. the vertical number of pixels, and the second is the width.
 """
+
+# ╔═╡ 96b7d801-c427-4e27-ab1f-e2fd18fc24d0
+philip_height = philip_size[1]
+
+# ╔═╡ f08d02af-6e38-4ace-8b11-7af4930b64ea
+philip_width = philip_size[2]
 
 # ╔═╡ f9244264-64c6-11eb-23a6-cfa76f8aff6d
 md"""
@@ -171,7 +191,24 @@ In Julia we use (square) brackets, `[` and `]` for indexing:
 """
 
 # ╔═╡ bd22d09a-64c7-11eb-146f-67733b8be241
-a_pixel = my_image[1000, 1500]
+a_pixel = philip[200, 100]
+
+# ╔═╡ d25843c6-337c-435a-8f34-2fcc39084d3e
+# begin
+	
+# 	@bind pixel_location_y Scrubbable(200, 1:size(philip)[1])
+# 	@bind pixel_location_x Scrubbable(100, 1:size(philip)[2])
+# 	md"""
+	
+
+# ╔═╡ 08d61afb-c641-4aa9-b995-2552af89f3b8
+@bind pixel_location_y Slider(1:size(philip)[1], show_value=true)
+
+# ╔═╡ 6511a498-7ac9-445b-9c15-ec02d09783fe
+@bind pixel_location_x Slider(1:size(philip)[2], show_value=true)
+
+# ╔═╡ ff762861-b186-4eb0-9582-0ce66ca10f60
+philip[pixel_location_y, pixel_location_x]
 
 # ╔═╡ 28860d48-64c8-11eb-240f-e1232b3638df
 md"""
@@ -183,11 +220,66 @@ md"""
 When we index into an image like this, the first number indicates the *row* in the image, starting from the top, and the second the *column*, starting from the left. In Julia, the first row and column are numbered starting from 1, not from 0 as in some other programming languages.
 """
 
+# ╔═╡ c9ed950c-dcd9-4296-a431-ee0f36d5b557
+md"""
+### Locations in an image: Range indexing
+
+We saw that we can use the **row number** and **column number** to index a _single pixel_ of our image. Next, we will use a **range of numbers** to index _multiple rows or columns_ at once, returning a subarray:
+"""
+
+# ╔═╡ f0796032-8105-4f6d-b5ee-3647b052f2f6
+philip[550:650, 1:philip_width]
+
+# ╔═╡ b9be8761-a9c9-49eb-ba1b-527d12097362
+md"""
+Here, we use `a:b` to mean "_all numbers between `a` and `b`_". For example:
+
+"""
+
+# ╔═╡ d515286b-4ad4-449b-8967-06b9b4c87684
+collect(1:10)
+
+# ╔═╡ eef8fbc8-8887-4628-8ba8-114575d6b91f
+md"""
+
+You can also use a `:` without start and end to mean "_every index_"
+"""
+
+# ╔═╡ 4e6a31d6-1ef8-4a69-b346-ad58cfc4d8a5
+philip[550:650, :]
+
+# ╔═╡ e11f0e47-02d9-48a6-9b1a-e313c18db129
+md"""
+Let's get a single row of pixels:
+"""
+
+# ╔═╡ 9e447eab-14b6-45d8-83ab-1f7f1f1c70d2
+philip[550, :]
+
+# ╔═╡ c926435c-c648-419c-9951-ac8a1d4f3b92
+philip_head = philip[470:800, 140:410]
+
+# ╔═╡ 32e7e51c-dd0d-483d-95cb-e6043f2b2975
+md"""
+#### Try it yourself!
+
+Use the widget below to zoom in on Philip's nose.
+"""
+
+# ╔═╡ 4b64e1f2-d0ca-4e22-a89d-1d9a16bd6788
+@bind range_rows RangeSlider(1:size(philip_head)[1])
+
+# ╔═╡ 85919db9-1444-4904-930f-ba572cff9460
+@bind range_cols RangeSlider(1:size(philip_head)[2])
+
+# ╔═╡ 2ac47b91-bbc3-49ae-9bf5-4def30ff46f4
+nose = philip_head[range_rows, range_cols]
+
 # ╔═╡ 4504577c-64c8-11eb-343b-3369b6d10d8b
 md"""
 ### Representing colors
 
-We can also use indexing to *modify* a pixel's color. To do so we need a way to specify a new color.
+We can also use indexing to *modify* a pixel's color. To do so, we need a way to specify a new color.
 
 Color turns out to be a complicated concept, having to do with the interaction of the physical properties of light with the physiological mechanisms and mental processes by which we detect it!
 
@@ -201,6 +293,50 @@ We can create a new color in Julia as follows:
 
 # ╔═╡ 552235ec-64c9-11eb-1f7f-f76da2818cb3
 RGB(1.0, 0.0, 0.0)
+
+# ╔═╡ c2907d1a-47b1-4634-8669-a68022706861
+begin
+	md"""
+	A pixel with $(@bind test_r Scrubbable(0:0.1:1; default=0.1)) red, $(@bind test_g Scrubbable(0:0.1:1; default=0.5)) green and $(@bind test_b Scrubbable(0:0.1:1; default=1.0)) blue looks like:
+	"""
+end
+	
+
+# ╔═╡ ff9eea3f-cab0-4030-8337-f519b94316c5
+RGB(test_r, test_g, test_b)
+
+# ╔═╡ f6cc03a0-ee07-11ea-17d8-013991514d42
+md"""
+#### Exercise 2.5
+👉 Write a function `invert` that inverts a color, i.e. sends $(r, g, b)$ to $(1 - r, 1-g, 1-b)$.
+"""
+
+# ╔═╡ 63e8d636-ee0b-11ea-173d-bd3327347d55
+function invert(color::AbstractRGB)
+	
+	return missing
+end
+
+# ╔═╡ 2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
+md"Let's invert some colors:"
+
+# ╔═╡ b8f26960-ee0a-11ea-05b9-3f4bc1099050
+black = RGB(0.0, 0.0, 0.0)
+
+# ╔═╡ 5de3a22e-ee0b-11ea-230f-35df4ca3c96d
+invert(black)
+
+# ╔═╡ 4e21e0c4-ee0b-11ea-3d65-b311ae3f98e9
+red = RGB(0.8, 0.1, 0.1)
+
+# ╔═╡ 6dbf67ce-ee0b-11ea-3b71-abc05a64dc43
+invert(red)
+
+# ╔═╡ 846b1330-ee0b-11ea-3579-7d90fafd7290
+md"Can you invert the picture of Philip?"
+
+# ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
+philip_inverted = missing
 
 # ╔═╡ 5a0cc342-64c9-11eb-1211-f1b06d652497
 md"""
@@ -222,16 +358,17 @@ Let's start by seeing how to modify an image, e.g. in order to hide sensitive in
 We do this by assigning a new value to the color of a pixel:
 """
 
-# ╔═╡ 62da7c94-64c9-11eb-10dd-a374ce105d81
-my_image[1000, 1500] = RGB(1.0, 0.0, 0.0)
+# ╔═╡ 53bad296-4c7b-471f-b481-0e9423a9288a
+let
+	temp = copy(philip_head)
+	temp[100, 200] = RGB(1.0, 0.0, 0.0)
+	temp
+end
 
 # ╔═╡ 81b88cbe-64c9-11eb-3b26-39011efb2089
 md"""
-Be careful: We are actually *modifying* the original image here, even though if we look at the image it is hard to spot, since a single pixel is so small:
+Be careful: We are actually *modifying* the original image here, even though if we look at the image it is hard to spot, since a single pixel is so small.
 """
-
-# ╔═╡ 73511646-64c9-11eb-24a2-05a55c9c7500
-my_image
 
 # ╔═╡ ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
 md"""
@@ -242,11 +379,13 @@ For example, we can extract a horizontal strip 1 pixel tall:
 """
 
 # ╔═╡ e29b7954-64cb-11eb-2768-47de07766055
-my_image[1000, 1500:1700]
+philip_head[50, 50:100]
 
 # ╔═╡ 8e7c4866-64cc-11eb-0457-85be566a8966
 md"""
 Here, Julia is showing the strip as a collection of rectangles in a row.
+
+
 """
 
 # ╔═╡ f2ad501a-64cb-11eb-1707-3365d05b300a
@@ -254,24 +393,37 @@ md"""
 And then modify it:
 """
 
-# ╔═╡ b21eb2f2-64c9-11eb-2cec-d9e61c41cfe2
-my_image[1000, 1500:1700] .= RGB(1.0, 0.0, 0.0)
+# ╔═╡ 4f03f651-56ed-4361-b954-e6848ac56089
+let
+	temp = copy(philip_head)
+	temp[50, 50:100] .= RGB(1.0, 0.0, 0.0)
+	temp
+end
 
 # ╔═╡ 2808339c-64cc-11eb-21d1-c76a9854aa5b
 md"""
 Similarly we can modify a whole rectangular block of pixels:
 """
 
-# ╔═╡ 33ec0666-64cc-11eb-009f-7502ac8be05f
-my_image[1000:1100, 1500:1700] .= RGB(1.0, 0.0, 0.0)
+# ╔═╡ 1bd53326-d705-4d1a-bf8f-5d7f2a4e696f
+let
+	temp = copy(philip_head)
+	temp[50:100, 50:100] .= RGB(1.0, 0.0, 0.0)
+	temp
+end
 
-# ╔═╡ 841af282-64cc-11eb-2f98-cb9d43b55ff7
+# ╔═╡ a5f8bafe-edf0-11ea-0da3-3330861ae43a
 md"""
-and look at the result:
+#### Exercise 1.2
+
+👉 Generate a vector of 100 zeros. Change the center 20 elements to 1.
 """
 
-# ╔═╡ 3679a622-64cc-11eb-007f-5bb908aec7c3
-my_image
+# ╔═╡ b6b65b94-edf0-11ea-3686-fbff0ff53d08
+function create_bar()
+	
+	return missing
+end
 
 # ╔═╡ 693af19c-64cc-11eb-31f3-57ab2fbae597
 md"""
@@ -284,7 +436,7 @@ Maybe we would also like to reduce the size of this image, since it's rather lar
 """
 
 # ╔═╡ ae542fe4-64cc-11eb-29fc-73b7a66314a9
-reduced_image = my_image[1:10:end, 1:10:end]
+reduced_image = philip[1:10:end, 1:10:end]
 
 # ╔═╡ c29292b8-64cc-11eb-28db-b52c46e865e6
 md"""
@@ -299,11 +451,11 @@ Note that the resulting image doesn't look very good, since we seem to have lost
 md"""
 ## Saving an image
 
-Finally, we want to be able to save our new creation to a file: 
+Finally, we want to be able to save our new creation to a file. To do so, you can **right click** on a displayed image, or you can write it to a file. Fill in a path below:
 """
 
 # ╔═╡ 3db09d92-64cc-11eb-0333-45193c0fd1fe
-save("reduced_phil.jpg", reduced_image)
+save("reduced_phil.png", reduced_image)
 
 # ╔═╡ dd183eca-6018-11eb-2a83-2fcaeea62942
 md"""
@@ -345,6 +497,9 @@ Julia has strong support for arrays of any dimension.
 Vectors, or one-dimensional arrays, are written using square brackets and commas:
 """
 
+# ╔═╡ f4b0aa23-2d76-4d88-b2a4-3807e88d27ce
+[1, 20, "hello"]
+
 # ╔═╡ 1b2b2b18-64d4-11eb-2d43-e31cb8bc25d1
 [RGB(1, 0, 0), RGB(0, 1, 0), RGB(0, 0, 1)]
 
@@ -371,7 +526,7 @@ A neat method to do this is an **array comprehension**. Again we use square brac
 """
 
 # ╔═╡ e69b02c6-64d6-11eb-02f1-21c4fb5d1043
-[RGB(i, 0, 0) for i in 0:0.1:1]
+[RGB(x, 0, 0) for x in 0:0.1:1]
 
 # ╔═╡ fce76132-64d6-11eb-259d-b130038bbae6
 md"""
@@ -454,11 +609,11 @@ We often want to join vectors and matrices together. We can do so using an exten
 """
 
 # ╔═╡ 7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
-[reduced_image  reduced_image]
+[philip_head  philip_head]
 
 # ╔═╡ 8433b862-60ee-11eb-0cfc-add2b72997dc
-[reduced_image                   reverse(reduced_image, dims=2)
- reverse(reduced_image, dims=1)  reverse(reduced_image)]
+[philip_head                   reverse(philip_head, dims=2)
+ reverse(philip_head, dims=1)  reverse(philip_head)]
 
 # ╔═╡ ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 md"""
@@ -478,126 +633,8 @@ md"""
 ----
 """
 
-# ╔═╡ 635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
-html"""
-<div style="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-"""
-
-# ╔═╡ c8e1b044-891d-45d0-9946-253804470943
-
-
-# ╔═╡ 57ddff1a-d414-4bd2-8799-5b42a878cb68
-md"# Homework: Arrays"
-
-# ╔═╡ 540ccfcc-ee0a-11ea-15dc-4f8120063397
-md"""
-## **Part 1** - _Manipulating vectors (1D images)_
-
-A `Vector` is a 1D array. We can think of that as a 1D image.
-
-"""
-
 # ╔═╡ 467856dc-eded-11ea-0f83-13d939021ef3
 example_vector = [0.5, 0.4, 0.3, 0.2, 0.1, 0.0, 0.7, 0.0, 0.7, 0.9]
-
-# ╔═╡ ad6a33b0-eded-11ea-324c-cfabfd658b56
-md"#### Exerise 1.1
-👉 Make a random vector `random_vect` of length 10 using the `rand` function.
-"
-
-# ╔═╡ f51333a6-eded-11ea-34e6-bfbb3a69bcb0
-random_vect = missing # replace this with your code!
-
-# ╔═╡ cf738088-eded-11ea-2915-61735c2aa990
-md"👉 Make a function `mean` using a `for` loop, which computes the mean/average of a vector of numbers."
-
-# ╔═╡ 0ffa8354-edee-11ea-2883-9d5bfea4a236
-function mean(x)
-	
-	return missing
-end
-
-# ╔═╡ 1f104ce4-ee0e-11ea-2029-1d9c817175af
-mean([1, 2, 3])
-
-# ╔═╡ 1f229ca4-edee-11ea-2c56-bb00cc6ea53c
-md"👉 Define `m` to be the mean of `random_vect`."
-
-# ╔═╡ 2a391708-edee-11ea-124e-d14698171b68
-m = missing
-
-# ╔═╡ e2863d4c-edef-11ea-1d67-332ddca03cc4
-md"""👉 Write a function `demean`, which takes a vector `x` and subtracts the mean from each value in `x`."""
-
-# ╔═╡ ec5efe8c-edef-11ea-2c6f-afaaeb5bc50c
-function demean(x)
-	
-	return missing
-end
-
-# ╔═╡ 29e10640-edf0-11ea-0398-17dbf4242de3
-md"Let's check that the mean of the `demean(random_vect)` is 0:
-
-_Due to floating-point round-off error it may *not* be *exactly* 0._"
-
-# ╔═╡ 6f67657e-ee1a-11ea-0c2f-3d567bcfa6ea
-if ismissing(random_vect)
-	md"""
-	!!! info
-	    The following cells error because `random_vect` is not yet defined. Have you done the first exercise?
-	"""
-end
-
-# ╔═╡ 73ef1d50-edf0-11ea-343c-d71706874c82
-copy_of_random_vect = copy(random_vect); # in case demean modifies `x`
-
-# ╔═╡ 38155b5a-edf0-11ea-3e3f-7163da7433fb
-mean(demean(copy_of_random_vect))
-
-# ╔═╡ a5f8bafe-edf0-11ea-0da3-3330861ae43a
-md"""
-#### Exercise 1.2
-
-👉 Generate a vector of 100 zeros. Change the center 20 elements to 1.
-"""
-
-# ╔═╡ b6b65b94-edf0-11ea-3686-fbff0ff53d08
-function create_bar()
-	
-	return missing
-end
-
-# ╔═╡ 22f28dae-edf2-11ea-25b5-11c369ae1253
-md"""
-#### Exercise 1.3
-
-👉 Write a function that turns a `Vector` of `Vector`s into a `Matrix`.
-"""
-
-# ╔═╡ 8c19fb72-ed6c-11ea-2728-3fa9219eddc4
-function vecvec_to_matrix(vecvec)
-	
-	return missing
-end
-
-# ╔═╡ c4761a7e-edf2-11ea-1e75-118e73dadbed
-vecvec_to_matrix([[1,2], [3,4]])
-
-# ╔═╡ 393667ca-edf2-11ea-09c5-c5d292d5e896
-md"""
-
-
-👉 Write a function that turns a `Matrix` into a`Vector` of `Vector`s .
-"""
-
-# ╔═╡ 9f1c6d04-ed6c-11ea-007b-75e7e780703d
-function matrix_to_vecvec(matrix)
-	
-	return missing
-end
-
-# ╔═╡ 70955aca-ed6e-11ea-2330-89b4d20b1795
-matrix_to_vecvec([6 7; 8 9])
 
 # ╔═╡ 5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 begin
@@ -605,232 +642,14 @@ begin
 	colored_line(x::Any) = nothing
 end
 
-# ╔═╡ 56ced344-eded-11ea-3e81-3936e9ad5777
-colored_line(example_vector)
-
-# ╔═╡ b18e2c54-edf1-11ea-0cbf-85946d64b6a2
-colored_line(random_vect)
-
 # ╔═╡ d862fb16-edf1-11ea-36ec-615d521e6bc0
 colored_line(create_bar())
 
-# ╔═╡ bd540d08-8d17-4bc2-ad0d-1fd65f25fe5d
-md"""
-This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
-
-_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
-
-Feel free to ask questions!
-"""
-
-# ╔═╡ 911ccbce-ed68-11ea-3606-0384e7580d7c
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# press the ▶ button in the bottom right of this cell to run your edits
-# or use Shift+Enter
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll down the page to see what's up
-
-# ╔═╡ 5f95e01a-ee0a-11ea-030c-9dba276aba92
-md"_Let's create a package environment:_"
-
-# ╔═╡ e083b3e8-ed61-11ea-2ec9-217820b0a1b4
-md"""
-## **Part 2** - _Manipulating images_
-
-In this exercise we will get familiar with matrices (2D arrays) in Julia, by manipulating images.
-Recall that in Julia images are matrices of `RGB` color objects.
-
-Let's load a picture of Philip again.
-"""
-
-# ╔═╡ c5484572-ee05-11ea-0424-f37295c3072d
-philip_file = download("https://i.imgur.com/VGPeJ6s.jpg")
-
-# ╔═╡ e86ed944-ee05-11ea-3e0f-d70fc73b789c
-md"_Hi there Philip_"
-
-# ╔═╡ c54ccdea-ee05-11ea-0365-23aaf053b7d7
-md"""
-#### Exercise 2.1
-👉 Write a function **`mean_colors`** that accepts an object called `image`. It should calculate the mean (average) amounts of red, green and blue in the image and return a tuple `(r, g, b)` of those means.
-"""
-
-# ╔═╡ f6898df6-ee07-11ea-2838-fde9bc739c11
-function mean_colors(image)
-	
-	return missing
-end
-
-# ╔═╡ d75ec078-ee0d-11ea-3723-71fb8eecb040
-
-
-# ╔═╡ f68d4a36-ee07-11ea-0832-0360530f102e
-md"""
-#### Exercise 2.2
-👉 Look up the documentation on the `floor` function. Use it to write a function `quantize(x::Number)` that takes in a value $x$ (which you can assume is between 0 and 1) and "quantizes" it into bins of width 0.1. For example, check that 0.267 gets mapped to 0.2.
-"""
-
-# ╔═╡ f6991a50-ee07-11ea-0bc4-1d68eb028e6a
-begin
-	function quantize(x::Number)
-		
-		return missing
-	end
-	
-	function quantize(color::AbstractRGB)
-		# you will write me in a later exercise!
-		return missing
-	end
-	
-	function quantize(image::AbstractMatrix)
-		# you will write me in a later exercise!
-		return missing
-	end
-end
-
-# ╔═╡ f6a655f8-ee07-11ea-13b6-43ca404ddfc7
-quantize(0.267), quantize(0.91)
-
-# ╔═╡ f6b218c0-ee07-11ea-2adb-1968c4fd473a
-md"""
-#### Exercise 2.3
-👉 Write the second **method** of the function `quantize`, i.e. a new *version* of the function with the *same* name. This method will accept a color object called `color`, of the type `AbstractRGB`. 
-
-_Write the function in the same cell as `quantize(x::Number)` from the last exercise. 👆_
-    
-Here, `::AbstractRGB` is a **type annotation**. This ensures that this version of the function will be chosen when passing in an object whose type is a **subtype** of the `AbstractRGB` abstract type. For example, both the `RGB` and `RGBX` types satisfy this.
-
-The method you write should return a new `RGB` object, in which each component ($r$, $g$ and $b$) are quantized.
-"""
-
-# ╔═╡ f6bf64da-ee07-11ea-3efb-05af01b14f67
-md"""
-#### Exercise 2.4
-👉 Write a method `quantize(image::AbstractMatrix)` that quantizes an image by quantizing each pixel in the image. (You may assume that the matrix is a matrix of color objects.)
-
-_Write the function in the same cell as `quantize(x::Number)` from the last exercise. 👆_
-"""
-
-# ╔═╡ 25dad7ce-ee0b-11ea-3e20-5f3019dd7fa3
-md"Let's apply your method!"
-
-# ╔═╡ f6cc03a0-ee07-11ea-17d8-013991514d42
-md"""
-#### Exercise 2.5
-👉 Write a function `invert` that inverts a color, i.e. sends $(r, g, b)$ to $(1 - r, 1-g, 1-b)$.
-"""
-
-# ╔═╡ 63e8d636-ee0b-11ea-173d-bd3327347d55
-function invert(color::AbstractRGB)
-	
-	return missing
-end
-
-# ╔═╡ 2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
-md"Let's invert some colors:"
-
-# ╔═╡ b8f26960-ee0a-11ea-05b9-3f4bc1099050
-black = RGB(0.0, 0.0, 0.0)
-
-# ╔═╡ 5de3a22e-ee0b-11ea-230f-35df4ca3c96d
-invert(black)
-
-# ╔═╡ 4e21e0c4-ee0b-11ea-3d65-b311ae3f98e9
-red = RGB(0.8, 0.1, 0.1)
-
-# ╔═╡ 6dbf67ce-ee0b-11ea-3b71-abc05a64dc43
-invert(red)
-
-# ╔═╡ 846b1330-ee0b-11ea-3579-7d90fafd7290
-md"Can you invert the picture of Philip?"
-
-# ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
-philip_inverted = missing
-
-# ╔═╡ f6d6c71a-ee07-11ea-2b63-d759af80707b
-md"""
-#### Exercise 2.6
-👉 Write a function `noisify(x::Number, s)` to add randomness of intensity $s$ to a value $x$, i.e. to add a random value between $-s$ and $+s$ to $x$. If the result falls outside the range $(0, 1)$ you should "clamp" it to that range. (Note that Julia has a `clamp` function, but you should write your own function `myclamp(x)`.)
-"""
-
-# ╔═╡ f6e2cb2a-ee07-11ea-06ee-1b77e34c1e91
-begin
-	function noisify(x::Number, s)
-
-		return missing
-	end
-	
-	function noisify(color::AbstractRGB, s)
-		# you will write me in a later exercise!
-		return missing
-	end
-	
-	function noisify(image::AbstractMatrix, s)
-		# you will write me in a later exercise!
-		return missing
-	end
-end
-
-# ╔═╡ f6fc1312-ee07-11ea-39a0-299b67aee3d8
-md"""
-👉  Write the second method `noisify(c::AbstractRGB, s)` to add random noise of intensity $s$ to each of the $(r, g, b)$ values in a colour. 
-
-_Write the function in the same cell as `noisify(x::Number)` from the last exercise. 👆_
-"""
-
-# ╔═╡ 774b4ce6-ee1b-11ea-2b48-e38ee25fc89b
-@bind color_noise Slider(0:0.01:1, show_value=true)
-
-# ╔═╡ 7e4aeb70-ee1b-11ea-100f-1952ba66f80f
-noisify(red, color_noise)
-
-# ╔═╡ 6a05f568-ee1b-11ea-3b6c-83b6ada3680f
-
-
-# ╔═╡ f70823d2-ee07-11ea-2bb3-01425212aaf9
-md"""
-👉 Write the third method `noisify(image::AbstractMatrix, s)` to noisify each pixel of an image.
-
-_Write the function in the same cell as `noisify(x::Number)` from the last exercise. 👆_
-"""
-
-# ╔═╡ e70a84d4-ee0c-11ea-0640-bf78653ba102
-@bind philip_noise Slider(0:0.01:8, show_value=true)
-
-# ╔═╡ 9604bc44-ee1b-11ea-28f8-7f7af8d0cbb2
-
-
-# ╔═╡ f714699e-ee07-11ea-08b6-5f5169861b57
-md"""
-👉 For which noise intensity does it become unrecognisable? 
-
-You may need noise intensities larger than 1. Why?
-
-"""
-
-# ╔═╡ bdc2df7c-ee0c-11ea-2e9f-7d2c085617c1
-answer_about_noise_intensity = md"""
-The image is unrecognisable with intensity ...
-"""
+# ╔═╡ 56ced344-eded-11ea-3e81-3936e9ad5777
+colored_line(example_vector)
 
 # ╔═╡ e074560a-601b-11eb-340e-47acd64f03b2
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
-
-# ╔═╡ b1d5ca28-edf6-11ea-269e-75a9fb549f1d
-hint(md"You can find out more about any function (like `rand`) by creating a new cell and typing:
-	
-```
-?rand
-```
-
-Once the Live Docs are open, you can select any code to learn more about it. It might be useful to leave it open all the time, and get documentation while you type code.")
-
-# ╔═╡ f6ef2c2e-ee07-11ea-13a8-2512e7d94426
-hint(md"The `rand` function generates (uniform) random floating-point numbers between $0$ and $1$.")
 
 # ╔═╡ e0776548-601b-11eb-2563-57ba2cf1d5d1
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
@@ -849,50 +668,6 @@ correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!",
 
 # ╔═╡ e0a4fc10-601b-11eb-211d-03570aca2726
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
-
-# ╔═╡ 397941fc-edee-11ea-33f2-5d46c759fbf7
-if !@isdefined(random_vect)
-	not_defined(:random_vect)
-elseif ismissing(random_vect)
-	still_missing()
-elseif !(random_vect isa Vector)
-	keep_working(md"`random_vect` should be a `Vector`.")
-elseif length(random_vect) != 10
-	keep_working(md"`random_vect` does not have the correct size.")
-else
-	correct()
-end
-
-# ╔═╡ 38dc80a0-edef-11ea-10e9-615255a4588c
-if !@isdefined(mean)
-	not_defined(:mean)
-else
-	let
-		result = mean([1,2,3])
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != 2
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
-# ╔═╡ 2b1ccaca-edee-11ea-34b0-c51659f844d0
-if !@isdefined(m)
-	not_defined(:m)
-elseif ismissing(m)
-	still_missing()
-elseif !(m isa Number)
-	keep_working(md"`m` should be a number.")
-elseif m != mean(random_vect)
-	keep_working()
-else
-	correct()
-end
 
 # ╔═╡ e3394c8a-edf0-11ea-1bb8-619f7abb6881
 if !@isdefined(create_bar)
@@ -914,105 +689,10 @@ else
 	end
 end
 
-# ╔═╡ adfbe9b2-ed6c-11ea-09ac-675262f420df
-if !@isdefined(vecvec_to_matrix)
-	not_defined(:vecvec_to_matrix)
-else
-	let
-		input = [[6,7],[8,9]]
-
-		result = vecvec_to_matrix(input)
-		shouldbe = [6 7; 8 9]
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result isa Matrix)
-			keep_working(md"The result should be a `Matrix`")
-		elseif result != shouldbe && result != shouldbe'
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
-# ╔═╡ e06b7fbc-edf2-11ea-1708-fb32599dded3
-if !@isdefined(matrix_to_vecvec)
-	not_defined(:matrix_to_vecvec)
-else
-	let
-		input = [6 7 8; 8 9 10]
-		result = matrix_to_vecvec(input)
-		shouldbe = [[6,7,8],[8,9,10]]
-		shouldbe2 = [[6,8], [7,9], [8,10]]
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != shouldbe && result != shouldbe2
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
-# ╔═╡ 4d0158d0-ee0d-11ea-17c3-c169d4284acb
-if !@isdefined(mean_colors)
-	not_defined(:mean_colors)
-else
-	let
-		input = reshape([RGB(1.0, 1.0, 1.0), RGB(1.0, 1.0, 0.0)], (2,1))
-		
-		result = mean_colors(input)
-		shouldbe = (1.0, 1.0, 0.5)
-		shouldbe2 = RGB(shouldbe...)
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result == shouldbe) && !(result == shouldbe2)
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
-# ╔═╡ c905b73e-ee1a-11ea-2e36-23b8e73bfdb6
-if !@isdefined(quantize)
-	not_defined(:quantize)
-else
-	let
-		result = quantize(.3)
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != .3
-			if quantize(0.35) == .3
-				almost(md"What should quantize(`0.2`) be?")
-			else
-				keep_working()
-			end
-		else
-			correct()
-		end
-	end
-end
-
 # ╔═╡ e0a6031c-601b-11eb-27a5-65140dd92897
 bigbreak = html"<br><br><br><br><br>";
 
 # ╔═╡ 45815734-ee0a-11ea-2982-595e1fc0e7b1
-bigbreak
-
-# ╔═╡ 54056a02-ee0a-11ea-101f-47feb6623bec
 bigbreak
 
 # ╔═╡ e0b15582-601b-11eb-26d6-bbf708933bc8
@@ -1253,83 +933,174 @@ function process_raw_camera_data(raw_camera_data)
 	RGB.(reds, greens, blues)
 end
 
-# ╔═╡ 81510a30-ee0e-11ea-0062-8b3327428f9d
+# ╔═╡ 3ef77236-1867-4d02-8af2-ff4777fcd6d9
+exercise_css = html"""
+<style>
+
+ct-exercise > h4 {
+    background: #73789a;
+    color: white;
+    padding: 0rem 1.5rem;
+    font-size: 1.2rem;
+    border-radius: .6rem .6rem 0rem 0rem;
+	margin-left: .5rem;
+	display: inline-block;
+}
+ct-exercise > section {
+	    background: #31b3ff1a;
+    border-radius: 0rem 1rem 1rem 1rem;
+    padding: .7rem;
+    margin: .5rem;
+    margin-top: 0rem;
+    position: relative;
+}
 
 
-# ╔═╡ 6b30dc38-ed6b-11ea-10f3-ab3f121bf4b8
-# begin
-# 	Pkg.add("PlutoUI")
-# 	using PlutoUI
-# end
+/*ct-exercise > section::before {
+	content: "👉";
+    display: block;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    background: #ffffff8c;
+    border-radius: 100%;
+    width: 1rem;
+    height: 1rem;
+    padding: .5rem .5rem;
+    font-size: 1rem;
+    line-height: 1rem;
+    left: -1rem;
+}*/
+
+
+ct-answer {
+	display: flex;
+}
+</style>
+
+"""
+
+# ╔═╡ 61b29e7d-5aba-4bc8-870b-c1c43919c236
+exercise(x, number="") = 
+@htl("""
+	<ct-exercise class="exercise">
+	<h4>Exercise <span>$(number)</span></h4>
+	<section>$(x)
+	</section>
+	</ct-exercise>
+	""")
+
+# ╔═╡ 1f67c22e-56ce-4e17-913b-c1e27f7a1d10
+exercise(md"Diagonal of philip")
+
+# ╔═╡ a9fef6c9-e911-4d8c-b141-a4832b40a260
+quick_question(x, number, options, correct) = let
+	name = join(rand('a':'z',16))
+@htl("""
+	<ct-exercise class="quick-question">
+	<h4>Quick Question <span>$(number)</span></h4>
+	<section>$(x)
+	<ct-answers>
+	$(map(enumerate(options)) do (i,o)
+		@htl("<ct-answer><input type=radio name=$(name) id=$(i) >$(o)</ct-answer>")
+	end)
+	</ct-answers>
+	</section>
+	</ct-exercise>
+	""")
+end
+
+# ╔═╡ dd8c5f17-fd78-455e-b6b7-9ae8bb39521e
+quick_question()
+
+# ╔═╡ 53bacc8f-2d2a-4846-a257-6bf6e4059305
+quick_question(md"Blablabllba Write a function **`mean_colors`** that accepts an object called `image`. It should calculate the mean (average) amounts of red, green and blue in the image and return a tuple `(r, g, b)` of those means.", "1.2", 
+	[
+		md"Somsefoms fe sdaf asdf asd",
+		"Somsefoms fe sdaf asdf asd",
+		md"Somsefoms fe sdaf asdf asd",
+	],
+	2)
 
 # ╔═╡ edf900be-601b-11eb-0456-3f7cfc5e876b
 md"_Lecture 1, Spring 2021, version 0_"
 
-# ╔═╡ e3b03628-ee05-11ea-23b6-27c7b0210532
-decimate(image, ratio=5) = image[1:ratio:end, 1:ratio:end]
-
-# ╔═╡ c8ecfe5c-ee05-11ea-322b-4b2714898831
-philip = let
-	original = Images.load(philip_file)
-	decimate(original, 8)
-end
-
-# ╔═╡ 5be9b144-ee0d-11ea-2a8d-8775de265a1d
-mean_colors(philip)
-
-# ╔═╡ 9751586e-ee0c-11ea-0cbb-b7eda92977c9
-quantize(philip)
-
-# ╔═╡ ac15e0d0-ee0c-11ea-1eaf-d7f88b5df1d7
-noisify(philip, philip_noise)
-
-# ╔═╡ ef56f47a-601b-11eb-0c3f-7904034396f1
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
-
 # ╔═╡ Cell order:
 # ╟─e91d7926-ec6e-41e7-aba2-9dca333c8aa5
+# ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
 # ╠═d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 # ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
 # ╟─127daf08-601b-11eb-28c1-2139c8d1a65a
+# ╠═635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
 # ╟─9eb6efd2-6018-11eb-2db8-c3ce41d9e337
 # ╟─e37e4d40-6018-11eb-3e1d-093266c98507
 # ╟─e1c9742a-6018-11eb-23ba-d974e57f78f9
 # ╟─62fa19da-64c6-11eb-0038-5d40a6890cf5
 # ╠═34ee0954-601e-11eb-1912-97dc2937fd52
-# ╠═9180fbcc-601e-11eb-0c22-c920dc7ee9a9
+# ╟─9180fbcc-601e-11eb-0c22-c920dc7ee9a9
 # ╠═34ffc3d8-601e-11eb-161c-6f9a07c5fd78
 # ╟─abaaa980-601e-11eb-0f71-8ff02269b775
 # ╠═aafe76a6-601e-11eb-1ff5-01885c5238da
+# ╟─e86ed944-ee05-11ea-3e0f-d70fc73b789c
 # ╟─c99d2aa8-601e-11eb-3469-497a246db17c
 # ╟─cef1a95a-64c6-11eb-15e7-636a3621d727
 # ╟─f26d9326-64c6-11eb-1166-5d82586422ed
 # ╟─6f928b30-602c-11eb-1033-71d442feff93
 # ╠═75c5c85a-602c-11eb-2fb1-f7e7f2c5d04b
 # ╟─77f93eb8-602c-11eb-1f38-efa56cc93ca5
+# ╠═96b7d801-c427-4e27-ab1f-e2fd18fc24d0
+# ╠═f08d02af-6e38-4ace-8b11-7af4930b64ea
 # ╟─f9244264-64c6-11eb-23a6-cfa76f8aff6d
 # ╠═bd22d09a-64c7-11eb-146f-67733b8be241
+# ╠═d25843c6-337c-435a-8f34-2fcc39084d3e
+# ╠═08d61afb-c641-4aa9-b995-2552af89f3b8
+# ╠═6511a498-7ac9-445b-9c15-ec02d09783fe
+# ╠═ff762861-b186-4eb0-9582-0ce66ca10f60
 # ╟─28860d48-64c8-11eb-240f-e1232b3638df
 # ╟─622f514e-64c8-11eb-0c67-c7940e894973
+# ╟─c9ed950c-dcd9-4296-a431-ee0f36d5b557
+# ╠═f0796032-8105-4f6d-b5ee-3647b052f2f6
+# ╟─b9be8761-a9c9-49eb-ba1b-527d12097362
+# ╠═d515286b-4ad4-449b-8967-06b9b4c87684
+# ╟─eef8fbc8-8887-4628-8ba8-114575d6b91f
+# ╠═4e6a31d6-1ef8-4a69-b346-ad58cfc4d8a5
+# ╟─e11f0e47-02d9-48a6-9b1a-e313c18db129
+# ╠═9e447eab-14b6-45d8-83ab-1f7f1f1c70d2
+# ╠═c926435c-c648-419c-9951-ac8a1d4f3b92
+# ╟─32e7e51c-dd0d-483d-95cb-e6043f2b2975
+# ╠═4b64e1f2-d0ca-4e22-a89d-1d9a16bd6788
+# ╠═85919db9-1444-4904-930f-ba572cff9460
+# ╠═2ac47b91-bbc3-49ae-9bf5-4def30ff46f4
 # ╟─4504577c-64c8-11eb-343b-3369b6d10d8b
 # ╟─40886d36-64c9-11eb-3c69-4b68673a6dde
 # ╠═552235ec-64c9-11eb-1f7f-f76da2818cb3
+# ╟─c2907d1a-47b1-4634-8669-a68022706861
+# ╠═ff9eea3f-cab0-4030-8337-f519b94316c5
+# ╠═dd8c5f17-fd78-455e-b6b7-9ae8bb39521e
+# ╟─f6cc03a0-ee07-11ea-17d8-013991514d42
+# ╠═63e8d636-ee0b-11ea-173d-bd3327347d55
+# ╟─2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
+# ╟─b8f26960-ee0a-11ea-05b9-3f4bc1099050
+# ╠═5de3a22e-ee0b-11ea-230f-35df4ca3c96d
+# ╠═4e21e0c4-ee0b-11ea-3d65-b311ae3f98e9
+# ╠═6dbf67ce-ee0b-11ea-3b71-abc05a64dc43
+# ╟─846b1330-ee0b-11ea-3579-7d90fafd7290
+# ╠═943103e2-ee0b-11ea-33aa-75a8a1529931
 # ╟─5a0cc342-64c9-11eb-1211-f1b06d652497
 # ╟─2ee543b2-64d6-11eb-3c39-c5660141787e
-# ╠═62da7c94-64c9-11eb-10dd-a374ce105d81
+# ╠═53bad296-4c7b-471f-b481-0e9423a9288a
 # ╟─81b88cbe-64c9-11eb-3b26-39011efb2089
-# ╠═73511646-64c9-11eb-24a2-05a55c9c7500
 # ╟─ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
 # ╠═e29b7954-64cb-11eb-2768-47de07766055
-# ╟─8e7c4866-64cc-11eb-0457-85be566a8966
+# ╠═8e7c4866-64cc-11eb-0457-85be566a8966
 # ╟─f2ad501a-64cb-11eb-1707-3365d05b300a
-# ╠═b21eb2f2-64c9-11eb-2cec-d9e61c41cfe2
+# ╠═4f03f651-56ed-4361-b954-e6848ac56089
 # ╟─2808339c-64cc-11eb-21d1-c76a9854aa5b
-# ╠═33ec0666-64cc-11eb-009f-7502ac8be05f
-# ╟─841af282-64cc-11eb-2f98-cb9d43b55ff7
-# ╠═3679a622-64cc-11eb-007f-5bb908aec7c3
+# ╠═1bd53326-d705-4d1a-bf8f-5d7f2a4e696f
+# ╟─a5f8bafe-edf0-11ea-0da3-3330861ae43a
+# ╠═b6b65b94-edf0-11ea-3686-fbff0ff53d08
+# ╟─d862fb16-edf1-11ea-36ec-615d521e6bc0
+# ╟─e3394c8a-edf0-11ea-1bb8-619f7abb6881
 # ╟─693af19c-64cc-11eb-31f3-57ab2fbae597
 # ╟─6361d102-64cc-11eb-31b7-fb631b632040
 # ╠═ae542fe4-64cc-11eb-29fc-73b7a66314a9
@@ -1338,6 +1109,7 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 # ╠═3db09d92-64cc-11eb-0333-45193c0fd1fe
 # ╟─dd183eca-6018-11eb-2a83-2fcaeea62942
 # ╟─8ddcb286-602a-11eb-3ae0-07d3c77a0f8c
+# ╠═f4b0aa23-2d76-4d88-b2a4-3807e88d27ce
 # ╠═1b2b2b18-64d4-11eb-2d43-e31cb8bc25d1
 # ╟─2b0e6450-64d4-11eb-182b-ff1bd515b56f
 # ╠═3b2b041a-64d4-11eb-31dd-47d7321ee909
@@ -1346,6 +1118,7 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 # ╟─fce76132-64d6-11eb-259d-b130038bbae6
 # ╟─17a69736-64d7-11eb-2c6c-eb5ebf51b285
 # ╠═291b04de-64d7-11eb-1ee0-d998dccb998c
+# ╠═1f67c22e-56ce-4e17-913b-c1e27f7a1d10
 # ╟─5e52d12e-64d7-11eb-0905-c9038a404e24
 # ╟─6aba7e62-64d7-11eb-2c49-7944e9e2b94b
 # ╟─afc66dac-64d7-11eb-1ad0-7f62c20ffefb
@@ -1364,88 +1137,10 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 # ╟─ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 # ╟─b08e57e4-60ee-11eb-0e1a-2f49c496668b
 # ╟─9025a5b4-6066-11eb-20e8-099e9b8f859e
-# ╟─635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
-# ╠═c8e1b044-891d-45d0-9946-253804470943
-# ╟─57ddff1a-d414-4bd2-8799-5b42a878cb68
-# ╟─540ccfcc-ee0a-11ea-15dc-4f8120063397
 # ╟─467856dc-eded-11ea-0f83-13d939021ef3
 # ╠═56ced344-eded-11ea-3e81-3936e9ad5777
-# ╟─ad6a33b0-eded-11ea-324c-cfabfd658b56
-# ╠═f51333a6-eded-11ea-34e6-bfbb3a69bcb0
-# ╟─b18e2c54-edf1-11ea-0cbf-85946d64b6a2
-# ╟─397941fc-edee-11ea-33f2-5d46c759fbf7
-# ╟─b1d5ca28-edf6-11ea-269e-75a9fb549f1d
-# ╟─cf738088-eded-11ea-2915-61735c2aa990
-# ╠═0ffa8354-edee-11ea-2883-9d5bfea4a236
-# ╠═1f104ce4-ee0e-11ea-2029-1d9c817175af
-# ╟─38dc80a0-edef-11ea-10e9-615255a4588c
-# ╟─1f229ca4-edee-11ea-2c56-bb00cc6ea53c
-# ╠═2a391708-edee-11ea-124e-d14698171b68
-# ╟─2b1ccaca-edee-11ea-34b0-c51659f844d0
-# ╟─e2863d4c-edef-11ea-1d67-332ddca03cc4
-# ╠═ec5efe8c-edef-11ea-2c6f-afaaeb5bc50c
-# ╟─29e10640-edf0-11ea-0398-17dbf4242de3
-# ╟─6f67657e-ee1a-11ea-0c2f-3d567bcfa6ea
-# ╠═38155b5a-edf0-11ea-3e3f-7163da7433fb
-# ╠═73ef1d50-edf0-11ea-343c-d71706874c82
-# ╟─a5f8bafe-edf0-11ea-0da3-3330861ae43a
-# ╠═b6b65b94-edf0-11ea-3686-fbff0ff53d08
-# ╟─d862fb16-edf1-11ea-36ec-615d521e6bc0
-# ╟─e3394c8a-edf0-11ea-1bb8-619f7abb6881
-# ╟─22f28dae-edf2-11ea-25b5-11c369ae1253
-# ╠═8c19fb72-ed6c-11ea-2728-3fa9219eddc4
-# ╠═c4761a7e-edf2-11ea-1e75-118e73dadbed
-# ╟─adfbe9b2-ed6c-11ea-09ac-675262f420df
-# ╟─393667ca-edf2-11ea-09c5-c5d292d5e896
-# ╠═9f1c6d04-ed6c-11ea-007b-75e7e780703d
-# ╠═70955aca-ed6e-11ea-2330-89b4d20b1795
-# ╟─e06b7fbc-edf2-11ea-1708-fb32599dded3
 # ╟─5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 # ╟─45815734-ee0a-11ea-2982-595e1fc0e7b1
-# ╟─bd540d08-8d17-4bc2-ad0d-1fd65f25fe5d
-# ╠═911ccbce-ed68-11ea-3606-0384e7580d7c
-# ╟─5f95e01a-ee0a-11ea-030c-9dba276aba92
-# ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
-# ╟─54056a02-ee0a-11ea-101f-47feb6623bec
-# ╟─e083b3e8-ed61-11ea-2ec9-217820b0a1b4
-# ╠═c5484572-ee05-11ea-0424-f37295c3072d
-# ╠═c8ecfe5c-ee05-11ea-322b-4b2714898831
-# ╟─e86ed944-ee05-11ea-3e0f-d70fc73b789c
-# ╟─c54ccdea-ee05-11ea-0365-23aaf053b7d7
-# ╠═f6898df6-ee07-11ea-2838-fde9bc739c11
-# ╠═5be9b144-ee0d-11ea-2a8d-8775de265a1d
-# ╟─4d0158d0-ee0d-11ea-17c3-c169d4284acb
-# ╠═d75ec078-ee0d-11ea-3723-71fb8eecb040
-# ╟─f68d4a36-ee07-11ea-0832-0360530f102e
-# ╠═f6991a50-ee07-11ea-0bc4-1d68eb028e6a
-# ╠═f6a655f8-ee07-11ea-13b6-43ca404ddfc7
-# ╟─c905b73e-ee1a-11ea-2e36-23b8e73bfdb6
-# ╟─f6b218c0-ee07-11ea-2adb-1968c4fd473a
-# ╟─f6bf64da-ee07-11ea-3efb-05af01b14f67
-# ╟─25dad7ce-ee0b-11ea-3e20-5f3019dd7fa3
-# ╠═9751586e-ee0c-11ea-0cbb-b7eda92977c9
-# ╟─f6cc03a0-ee07-11ea-17d8-013991514d42
-# ╠═63e8d636-ee0b-11ea-173d-bd3327347d55
-# ╟─2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
-# ╟─b8f26960-ee0a-11ea-05b9-3f4bc1099050
-# ╠═5de3a22e-ee0b-11ea-230f-35df4ca3c96d
-# ╠═4e21e0c4-ee0b-11ea-3d65-b311ae3f98e9
-# ╠═6dbf67ce-ee0b-11ea-3b71-abc05a64dc43
-# ╟─846b1330-ee0b-11ea-3579-7d90fafd7290
-# ╠═943103e2-ee0b-11ea-33aa-75a8a1529931
-# ╟─f6d6c71a-ee07-11ea-2b63-d759af80707b
-# ╠═f6e2cb2a-ee07-11ea-06ee-1b77e34c1e91
-# ╟─f6ef2c2e-ee07-11ea-13a8-2512e7d94426
-# ╟─f6fc1312-ee07-11ea-39a0-299b67aee3d8
-# ╟─774b4ce6-ee1b-11ea-2b48-e38ee25fc89b
-# ╠═7e4aeb70-ee1b-11ea-100f-1952ba66f80f
-# ╟─6a05f568-ee1b-11ea-3b6c-83b6ada3680f
-# ╟─f70823d2-ee07-11ea-2bb3-01425212aaf9
-# ╠═e70a84d4-ee0c-11ea-0640-bf78653ba102
-# ╠═ac15e0d0-ee0c-11ea-1eaf-d7f88b5df1d7
-# ╟─9604bc44-ee1b-11ea-28f8-7f7af8d0cbb2
-# ╟─f714699e-ee07-11ea-08b6-5f5169861b57
-# ╠═bdc2df7c-ee0c-11ea-2e9f-7d2c085617c1
 # ╟─e074560a-601b-11eb-340e-47acd64f03b2
 # ╟─e0776548-601b-11eb-2563-57ba2cf1d5d1
 # ╟─e083bef6-601b-11eb-2134-e3063d5c4253
@@ -1456,8 +1151,8 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 # ╠═e0a6031c-601b-11eb-27a5-65140dd92897
 # ╟─e0b15582-601b-11eb-26d6-bbf708933bc8
 # ╟─e891fce0-601b-11eb-383b-bde5b128822e
-# ╟─81510a30-ee0e-11ea-0062-8b3327428f9d
-# ╠═6b30dc38-ed6b-11ea-10f3-ab3f121bf4b8
+# ╟─53bacc8f-2d2a-4846-a257-6bf6e4059305
+# ╟─3ef77236-1867-4d02-8af2-ff4777fcd6d9
+# ╟─61b29e7d-5aba-4bc8-870b-c1c43919c236
+# ╟─a9fef6c9-e911-4d8c-b141-a4832b40a260
 # ╟─edf900be-601b-11eb-0456-3f7cfc5e876b
-# ╠═e3b03628-ee05-11ea-23b6-27c7b0210532
-# ╟─ef56f47a-601b-11eb-0c3f-7904034396f1
