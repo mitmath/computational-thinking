@@ -1,0 +1,15 @@
+spec:
+  name: pluto-do
+  services:
+  - dockerfile_path: Dockerfile
+    github:
+      branch: Spring21
+      deploy_on_push: true
+      repo: mitmath/18S191
+    http_port: 1234
+    instance_count: 1
+    instance_size_slug: basic-m
+    name: pluto-article-do-18s191
+    routes:
+    - path: /
+    run_command: julia --project=/home/pluto -e "import PlutoBindServer; PlutoBindServer.run_directory(\".\"; port=1234 , host=\"0.0.0.0\", workspace_use_distributed=true)"
