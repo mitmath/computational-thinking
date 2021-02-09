@@ -1,0 +1,1 @@
+http://github.com/fonsp/jupyter-server-proxy/tarball/3a58aa5005f942d0c208eab9a480f6ab171142ef#egg=jupyter-server-proxy-1.5.1002
