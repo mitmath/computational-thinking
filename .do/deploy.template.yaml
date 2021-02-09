@@ -1,5 +1,5 @@
 spec:
-  name: pluto-do
+  name: bind-server-do
   services:
   - dockerfile_path: Dockerfile
     github:
