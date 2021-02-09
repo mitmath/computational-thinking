@@ -12,6 +12,12 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
 
+            - name: Checkout Fall 20 page
+              uses: actions/checkout@v2
+              with:
+                  path: Fall20-franklin-output
+                  ref: Fall20-franklin-output
+
             - name: Install Julia
               uses: julia-actions/setup-julia@v1
               with:
@@ -37,6 +43,7 @@ jobs:
                   optimize(;minify=false);
                   mkdir("__site2");
                   mv("__site", "__site2/Spring21");
+                  mv("../Fall20-franklin-output", "__site2/Fall20")
                   write("__site2/index.html", """
                   <!DOCTYPE html>
                   <html>
