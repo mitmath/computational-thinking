@@ -28,7 +28,7 @@ jobs:
                   Pkg.instantiate();
 
                   import PlutoUtils;
-                  PlutoUtils.Export.github_action(; export_dir=".", offer_binder=true, binder_url="https://mybinder.org/v2/gh/mitmath/18S191/f83eb92", bind_server_url="https://computationalthinking-bindserver.plutojl.org");'
+                  PlutoUtils.Export.github_action(; export_dir=".", offer_binder=true, binder_url="https://mybinder.org/v2/gh/mitmath/18S191/d11dfc8", bind_server_url="https://computationalthinking-bindserver.plutojl.org");'
             - name: Franklin
               run: julia -e '
                   using Pkg;
@@ -43,7 +43,7 @@ jobs:
                   optimize(;minify=false);
                   mkdir("__site2");
                   mv("__site", "__site2/Spring21");
-                  mv("../Fall20-franklin-output", "__site2/Fall20");
+                  mv("../Fall20-franklin-output/Fall20", "__site2/Fall20");
                   write("__site2/index.html", """
                   <!DOCTYPE html>
                   <html>
