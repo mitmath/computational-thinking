@@ -16,14 +16,12 @@ jobs:
               uses: julia-actions/setup-julia@v1
               with:
                   version: 1.5
-            - run: pwd
             - name: Run Pluto notebooks
               run: julia --project=bind-server-environment -e '
-                  pwd();
                   import Pkg;
-                  Pkg.status();
-                  import PlutoUtils;
+                  Pkg.instantiate();
 
+                  import PlutoUtils;
                   PlutoUtils.Export.github_action(; export_dir=".", offer_binder=true, bind_server_url="https://computationalthinking-bindserver.plutojl.org");'
             - name: Franklin
               run: julia -e '
