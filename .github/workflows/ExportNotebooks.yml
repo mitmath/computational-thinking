@@ -4,7 +4,7 @@ on:
         branches:
             - Spring21
     workflow_dispatch:
-    
+
 jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
@@ -17,16 +17,10 @@ jobs:
               with:
                   version: 1.5
             - name: Run Pluto notebooks
-              run: julia -e 'import Pkg;
-                  env = mktempdir();
-                  Pkg.activate(env);
-                  Pkg.add([
-                  Pkg.PackageSpec(url="https://github.com/fonsp/PlutoUtils.jl", rev="ac10069"),
-                  Pkg.PackageSpec(url="https://github.com/fonsp/Pluto.jl", rev="9edb7b2"),
-                  ]);
+              run: julia --project=bind-server-environment -e '
                   import PlutoUtils;
 
-                  PlutoUtils.Export.github_action(; export_dir=".", offer_binder=true);'
+                  PlutoUtils.Export.github_action(; export_dir=".", offer_binder=true, bind_server_url="https://computationalthinking-bindserver.plutojl.org");'
             - name: Franklin
               run: julia -e '
                   using Pkg;
@@ -46,7 +40,8 @@ jobs:
                   <html>
                   <head><meta charset="utf-8"><script>
                   window.location.href=\"Spring21\"</script></head>
-                  <body></body></html>""");'
+                  <body></body></html>""");
+                  write("__site2/CNAME", "computationalthinking.mit.edu");'
             - name: Build and Deploy
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:
