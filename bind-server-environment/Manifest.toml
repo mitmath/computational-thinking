@@ -138,8 +138,8 @@ version = "0.1.0"
 
 [[PlutoUtils]]
 deps = ["Base64", "GitHubActions", "HTTP", "Logging", "Pkg", "Pluto", "SHA", "Sockets"]
-git-tree-sha1 = "970140e2dc6fc4525f291bb890fdca3e6a919e51"
-repo-rev = "2736778"
+git-tree-sha1 = "57d86daaac097283f05e57b74e5356f67bec4f79"
+repo-rev = "e36c984"
 repo-url = "https://github.com/fonsp/PlutoUtils.jl"
 uuid = "a5ec66cb-57bb-4ae5-9259-3342d9ed6c94"
 version = "0.1.0"
