@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.19
+# v0.12.20
 
 using Markdown
 using InteractiveUtils
@@ -208,32 +208,34 @@ In Julia we use (square) brackets, `[` and `]` for indexing:
 # ╔═╡ bd22d09a-64c7-11eb-146f-67733b8be241
 a_pixel = philip[200, 100]
 
-# ╔═╡ d25843c6-337c-435a-8f34-2fcc39084d3e
-# begin
-	
-# 	@bind pixel_location_y Scrubbable(200, 1:size(philip)[1])
-# 	@bind pixel_location_x Scrubbable(100, 1:size(philip)[2])
-# 	md"""
-	
-
-# ╔═╡ 08d61afb-c641-4aa9-b995-2552af89f3b8
-@bind pixel_location_y Slider(1:size(philip)[1], show_value=true)
-
-# ╔═╡ 6511a498-7ac9-445b-9c15-ec02d09783fe
-@bind pixel_location_x Slider(1:size(philip)[2], show_value=true)
-
-# ╔═╡ ff762861-b186-4eb0-9582-0ce66ca10f60
-philip[pixel_location_y, pixel_location_x]
-
 # ╔═╡ 28860d48-64c8-11eb-240f-e1232b3638df
 md"""
 We see that Julia knows to draw our pixel object for us a block of the relevant color.
-"""
 
-# ╔═╡ 622f514e-64c8-11eb-0c67-c7940e894973
-md"""
 When we index into an image like this, the first number indicates the *row* in the image, starting from the top, and the second the *column*, starting from the left. In Julia, the first row and column are numbered starting from 1, not from 0 as in some other programming languages.
 """
+
+# ╔═╡ 4ef99715-4d8d-4f9d-bf0b-8df9907a14cf
+
+
+# ╔═╡ a510fc33-406e-4fb5-be83-9e4b5578717c
+md"""
+We can also use variables as indices...
+"""
+
+# ╔═╡ 13844ebf-52c4-47e9-bda4-106a02fad9d7
+md"""
+...and these variables can be controlled by sliders!
+"""
+
+# ╔═╡ 08d61afb-c641-4aa9-b995-2552af89f3b8
+@bind row_i Slider(1:size(philip)[1])
+
+# ╔═╡ 6511a498-7ac9-445b-9c15-ec02d09783fe
+@bind col_i Slider(1:size(philip)[2])
+
+# ╔═╡ ff762861-b186-4eb0-9582-0ce66ca10f60
+philip[row_i, col_i]
 
 # ╔═╡ c9ed950c-dcd9-4296-a431-ee0f36d5b557
 md"""
@@ -626,10 +628,6 @@ We often want to join vectors and matrices together. We can do so using an exten
 # ╔═╡ 7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
 [philip_head  philip_head]
 
-# ╔═╡ 8433b862-60ee-11eb-0cfc-add2b72997dc
-[philip_head                   reverse(philip_head, dims=2)
- reverse(philip_head, dims=1)  reverse(philip_head)]
-
 # ╔═╡ ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 md"""
 # Summary
@@ -711,7 +709,7 @@ bigbreak = html"<br><br><br><br><br>";
 bigbreak
 
 # ╔═╡ e0b15582-601b-11eb-26d6-bbf708933bc8
-function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.png")
+function camera_input(;max_size=150, default_url="https://i.imgur.com/SUmi94P.png")
 """
 <span class="pl-image waiting-for-permission">
 <style>
@@ -914,7 +912,11 @@ function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.pn
 """ |> HTML
 end
 
+# ╔═╡ 2a94a2cf-b697-4b0b-afd0-af2e35af2bb1
+@bind webcam_data camera_input()
+
 # ╔═╡ e891fce0-601b-11eb-383b-bde5b128822e
+
 function process_raw_camera_data(raw_camera_data)
 	# the raw image data is a long byte array, we need to transform it into something
 	# more "Julian" - something with more _structure_.
@@ -947,6 +949,15 @@ function process_raw_camera_data(raw_camera_data)
 	
 	RGB.(reds, greens, blues)
 end
+
+# ╔═╡ 3e0ece65-b8a7-4be7-ae44-6d7210c2e15b
+myface = process_raw_camera_data(webcam_data);
+
+# ╔═╡ 4ee18bee-13e6-4478-b2ca-ab66100e57ec
+[
+	myface              myface[   :    , end:-1:1]
+	myface[end:-1:1, :] myface[end:-1:1, end:-1:1]
+]
 
 # ╔═╡ 3ef77236-1867-4d02-8af2-ff4777fcd6d9
 exercise_css = html"""
@@ -1044,9 +1055,9 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─e91d7926-ec6e-41e7-aba2-9dca333c8aa5
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
 # ╠═d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
-# ╠═ca1b507e-6017-11eb-34e6-6b85cd189002
+# ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
 # ╟─127daf08-601b-11eb-28c1-2139c8d1a65a
-# ╠═635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
+# ╟─635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
 # ╟─9eb6efd2-6018-11eb-2db8-c3ce41d9e337
 # ╟─e37e4d40-6018-11eb-3e1d-093266c98507
 # ╟─e1c9742a-6018-11eb-23ba-d974e57f78f9
@@ -1067,12 +1078,13 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╠═f08d02af-6e38-4ace-8b11-7af4930b64ea
 # ╟─f9244264-64c6-11eb-23a6-cfa76f8aff6d
 # ╠═bd22d09a-64c7-11eb-146f-67733b8be241
-# ╠═d25843c6-337c-435a-8f34-2fcc39084d3e
+# ╟─28860d48-64c8-11eb-240f-e1232b3638df
+# ╟─4ef99715-4d8d-4f9d-bf0b-8df9907a14cf
+# ╟─a510fc33-406e-4fb5-be83-9e4b5578717c
+# ╠═ff762861-b186-4eb0-9582-0ce66ca10f60
+# ╟─13844ebf-52c4-47e9-bda4-106a02fad9d7
 # ╠═08d61afb-c641-4aa9-b995-2552af89f3b8
 # ╠═6511a498-7ac9-445b-9c15-ec02d09783fe
-# ╠═ff762861-b186-4eb0-9582-0ce66ca10f60
-# ╟─28860d48-64c8-11eb-240f-e1232b3638df
-# ╟─622f514e-64c8-11eb-0c67-c7940e894973
 # ╟─c9ed950c-dcd9-4296-a431-ee0f36d5b557
 # ╠═f0796032-8105-4f6d-b5ee-3647b052f2f6
 # ╟─b9be8761-a9c9-49eb-ba1b-527d12097362
@@ -1107,7 +1119,7 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─81b88cbe-64c9-11eb-3b26-39011efb2089
 # ╟─ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
 # ╠═e29b7954-64cb-11eb-2768-47de07766055
-# ╠═8e7c4866-64cc-11eb-0457-85be566a8966
+# ╟─8e7c4866-64cc-11eb-0457-85be566a8966
 # ╟─f2ad501a-64cb-11eb-1707-3365d05b300a
 # ╠═4f03f651-56ed-4361-b954-e6848ac56089
 # ╟─2808339c-64cc-11eb-21d1-c76a9854aa5b
@@ -1148,7 +1160,9 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─82a8314c-64d8-11eb-1acb-e33625381178
 # ╟─647fddf2-60ee-11eb-124d-5356c7014c3b
 # ╠═7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
-# ╠═8433b862-60ee-11eb-0cfc-add2b72997dc
+# ╠═2a94a2cf-b697-4b0b-afd0-af2e35af2bb1
+# ╠═3e0ece65-b8a7-4be7-ae44-6d7210c2e15b
+# ╠═4ee18bee-13e6-4478-b2ca-ab66100e57ec
 # ╟─ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 # ╟─b08e57e4-60ee-11eb-0e1a-2f49c496668b
 # ╟─9025a5b4-6066-11eb-20e8-099e9b8f859e
