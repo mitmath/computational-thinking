@@ -52,7 +52,20 @@ md"""
 # Introduction
 Welcome to the Computational Thinking using Julia for Real-World Problems, at MIT in Spring 2021!
 
-The aim of this course is to bring together concepts from computer science and applied math with coding in the modern **Julia language**, and to see how to apply these techniques to study interesting applications.
+The aim of this course is to bring together concepts from computer science and applied math with coding in the modern **Julia language**, and to see how to apply these techniques to study interesting applications (and of course to have fun).
+
+
+## Alan's Essay: Are all programming languages the same? 
+
+>Superficially, many programming languages are very similar.  "Showoffs" will compare functional programming vs imperative programming.  Others will compare compiled languages vs dynamic languages.  I will avoid such fancy terms in this little essay, preferring to provide this course's pedagogical viewpoint.
+>
+>Generally speaking beginning programmers should learn to create "arrays" write "for loops", "conditionals", "comparisons", express mathematical formulas, etc. So why Julia at a time when Python seems to be the language of teaching, and Java and C++ so prominent in the corporate world?
+>
+>As you might imagine, we believe Julia is special.   Oh you will still have the nitty gritty of when to use a bracket and a comma.  You might have strong opinions as to whether arrays should begin with 0 or 1 (joke: some say it's time to compromise and use ½.)  Getting past these irrelevant issues,  you will begin to experience one by one what makes Julia so very special.  For starters, a language that runs fast is more fun.  We can have you try things that would just be so slow in other languages it would be boring.  We also think you will start to notice how natural Julia is, how it feels like the mathematics, and how flexible it can be.  
+>
+>Getting to see the true value of fancy terms like multiple dispatch, strong typing, generic programming, and composable software will take a little longer, but stick with us, and you too will see why Julia is so very special.
+
+
 
 ## Data are all around us
 Applications of computer science in the real world use **data**, i.e. information that we can **measure** in some way. Data take many different forms, for example:
@@ -60,10 +73,12 @@ Applications of computer science in the real world use **data**, i.e. informatio
 - Numbers that change over time (**time series**): 
   - Stock price each second / minute / day
   - Weekly number of infections
+  - Earth's global average temperature
 
 - Video:
   - The view from a window of a self-driving car
   - A hurricane monitoring station
+  - Ultrasound e.g. prenatal
 
 - Images:
   - Diseased versus healthy tissue in a medical scan
@@ -72,10 +87,10 @@ Applications of computer science in the real world use **data**, i.e. informatio
 #### Exercise: 
 > Think of another two examples in each category. Can you think of other categories of data?
 
-#### Input, model, output, visualize
+#### Input ⟶ process ⟶ model ⟶ visualize ⟶ output
 To use any data source, we need to **input** the data of interest, for example by downloading it, reading in the resulting file, and converting it into a form that we can use in the computer. Then we need to **process** it in some way to extract information of interest. We usually want to **visualize** the results, and we may want to **output** them, for example by saving to disc or putting them on a website.
 
-We also may want to make a mathematical or computational **model** that can help us to understand and predict the behavior of the system of interest.
+We often want to make a mathematical or computational **model** that can help us to understand and predict the behavior of the system of interest.
 
 > In this course we aim to show how programming, computer science and applied math combine to help us with these goals.
 """
@@ -1029,7 +1044,7 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─e91d7926-ec6e-41e7-aba2-9dca333c8aa5
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
 # ╠═d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
-# ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
+# ╠═ca1b507e-6017-11eb-34e6-6b85cd189002
 # ╟─127daf08-601b-11eb-28c1-2139c8d1a65a
 # ╠═635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
 # ╟─9eb6efd2-6018-11eb-2db8-c3ce41d9e337
