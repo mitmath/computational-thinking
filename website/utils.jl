@@ -17,6 +17,8 @@ function hfun_plutonotebookpage(params)
         path * ".html"
     end
 
+    # https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy#directives
+
     return """
     <style>
 
@@ -50,7 +52,7 @@ function hfun_plutonotebookpage(params)
     src="$(path_to_html)"
     class="plutopage"
     frameborder="0"
-    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; wake-lock; screen-wake-lock; vr; web-share; xr-spatial-tracking"
     allowfullscreen></iframe>
 
     <a class="smallscreenlink" href="$(path_to_html)"></a>
