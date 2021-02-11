@@ -49,11 +49,18 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ ca1b507e-6017-11eb-34e6-6b85cd189002
 md"""
-# Introduction
+# Lecture 1: Images as examples of data  all around us
 Welcome to the Computational Thinking using Julia for Real-World Problems, at MIT in Spring 2021!
 
 The aim of this course is to bring together concepts from computer science and applied math with coding in the modern **Julia language**, and to see how to apply these techniques to study interesting applications (and of course to have fun).
 
+We would be pleased if students who have been interested in computer science now become interested in computational science and those interested in scientific applications learn computer science they may not see elsewhere.
+... and for all students, we wish to share the value of 
+the Julia  language as the best of both worlds.
+"""
+
+# ╔═╡ e9ff96d8-6bc1-11eb-0f6a-234b9fae047e
+md"""
 
 ## Alan's Essay: Are all programming languages the same? 
 
@@ -64,10 +71,15 @@ The aim of this course is to bring together concepts from computer science and a
 >As you might imagine, we believe Julia is special.   Oh you will still have the nitty gritty of when to use a bracket and a comma.  You might have strong opinions as to whether arrays should begin with 0 or 1 (joke: some say it's time to compromise and use ½.)  Getting past these irrelevant issues,  you will begin to experience one by one what makes Julia so very special.  For starters, a language that runs fast is more fun.  We can have you try things that would just be so slow in other languages it would be boring.  We also think you will start to notice how natural Julia is, how it feels like the mathematics, and how flexible it can be.  
 >
 >Getting to see the true value of fancy terms like multiple dispatch, strong typing, generic programming, and composable software will take a little longer, but stick with us, and you too will see why Julia is so very special.
+"""
 
+# ╔═╡ 9111db10-6bc3-11eb-38e5-cf3f58536914
+md"""
+## Computer Science and Computational Science Working Together
+"""
 
-
-## Data are all around us
+# ╔═╡ fb8a99ac-6bc1-11eb-0835-3146734a1c99
+md"""
 Applications of computer science in the real world use **data**, i.e. information that we can **measure** in some way. Data take many different forms, for example:
 
 - Numbers that change over time (**time series**): 
@@ -83,11 +95,20 @@ Applications of computer science in the real world use **data**, i.e. informatio
 - Images:
   - Diseased versus healthy tissue in a medical scan
   - Pictures of your favourite dog
+"""
 
+# ╔═╡ b795dcb4-6bc3-11eb-20ec-db2cc4b89bfb
+md"""
 #### Exercise: 
 > Think of another two examples in each category. Can you think of other categories of data?
+"""
 
-#### Input ⟶ process ⟶ model ⟶ visualize ⟶ output
+# ╔═╡ 8691e434-6bc4-11eb-07d1-8169158484e6
+md"""
+Computational science can be summed up by a simplified workflow:
+#### data ⟶  input  ⟶ process ⟶ model ⟶ visualize ⟶ output
+
+$(html"<br>")
 To use any data source, we need to **input** the data of interest, for example by downloading it, reading in the resulting file, and converting it into a form that we can use in the computer. Then we need to **process** it in some way to extract information of interest. We usually want to **visualize** the results, and we may want to **output** them, for example by saving to disc or putting them on a website.
 
 We often want to make a mathematical or computational **model** that can help us to understand and predict the behavior of the system of interest.
@@ -95,15 +116,11 @@ We often want to make a mathematical or computational **model** that can help us
 > In this course we aim to show how programming, computer science and applied math combine to help us with these goals.
 """
 
-# ╔═╡ 127daf08-601b-11eb-28c1-2139c8d1a65a
+# ╔═╡ 132f6596-6bc6-11eb-29f1-1b2478c929af
 md"""
-
-# Images 
-
+# Data: Images (as an example of data)
 Let's start off by looking at **images** and how we can process them. 
 Our goal is to process the data contained in an image in some way, which we will do by developing and coding certain **algorithms**.
-
-To begin, though, let's take advantage of the fact that Julia already has various tools that have been written for more mundane tasks, such as converting an image input file from its particular format into numerical data that we can use.
 """
 
 # ╔═╡ 635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
@@ -113,9 +130,12 @@ html"""
 
 # ╔═╡ 9eb6efd2-6018-11eb-2db8-c3ce41d9e337
 md"""
-## What is an image? 
+
 
 If we open an image on our computer or the web and zoom in enough, we will see that it consists of many tiny squares, or **pixels** ("picture elements"). Each pixel is a block of one single colour, and the pixels are arranged in a two-dimensional square grid. 
+
+You probably already know that these pixels are stored in a computer numerically
+perhaps in some form of RGB (red,green,blue) format.  This is the computer's represenation of the data.   
 
 Note that an image is already an **approximation** of the real world -- it is a two-dimensional, discrete representation of a three-dimensional reality.
 
@@ -123,17 +143,26 @@ Note that an image is already an **approximation** of the real world -- it is a 
 
 # ╔═╡ e37e4d40-6018-11eb-3e1d-093266c98507
 md"""
-## Julia: Reading in an image file
+# Input and Visualize: loading and viewing an Image (in Julia)
 """
 
 # ╔═╡ e1c9742a-6018-11eb-23ba-d974e57f78f9
 md"""
-To make things more concrete, let's use Julia to load in an actual image and play around with it. We can use the `Images.jl` package to load an image file.
+Let's use Julia to load  actual images and play around with them. We can download images from the internet, your own file, or your own webcam.
+"""
+
+# ╔═╡ 9b004f70-6bc9-11eb-128c-914eadfc9a0e
+md"""
+## Downloading an image from the internet or a local file
+We can use the `Images.jl` package to load an image file in three steps.
 """
 
 # ╔═╡ 62fa19da-64c6-11eb-0038-5d40a6890cf5
 md"""
-First we specify the URL to download from:
+Step 1: (from internet) we specify the URL (web address) to download from:
+$(html"<br>")
+(note that Pluto places results before commands because some people believe
+output is more interesting than code.  This takes some getting used to.)
 """
 
 # ╔═╡ 34ee0954-601e-11eb-1912-97dc2937fd52
@@ -141,7 +170,7 @@ url = "https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28
 
 # ╔═╡ 9180fbcc-601e-11eb-0c22-c920dc7ee9a9
 md"""
-Now we use the aptly-named `download` function to download the image file to our own computer:
+Step 2: Now we use the aptly-named `download` function to download the image file to our own computer. (Philip is Prof. Edelman's corgi.)
 """
 
 # ╔═╡ 34ffc3d8-601e-11eb-161c-6f9a07c5fd78
@@ -149,7 +178,8 @@ philip_filename = download(url) # download to a local file. The filename is retu
 
 # ╔═╡ abaaa980-601e-11eb-0f71-8ff02269b775
 md"""
-Using the `Images.jl` package we can **load** the file, which automatically converts it into usable data. We'll store the result in a variable:
+Step 3:
+Using the `Images.jl` package (loaded at the start of this notebook; scroll up and take a look.) we can **load** the file, which automatically converts it into usable data. We'll store the result in a variable. (Remember the code is after the output.)
 """
 
 # ╔═╡ aafe76a6-601e-11eb-1ff5-01885c5238da
@@ -164,9 +194,20 @@ We see that the Pluto notebook has recognised that we created an object represen
 Poor Philip will undergo quite a few transformations as we go along!
 """
 
+# ╔═╡ 11dff4ce-6bca-11eb-1056-c1345c796ed4
+md"""
+- Exercise : change the url.
+- Exercise: download a file that is already on your own computer.
+"""
+
+# ╔═╡ efef3a32-6bc9-11eb-17e9-dd2171be9c21
+md"""
+## Capturing an Image from your own camera
+"""
+
 # ╔═╡ cef1a95a-64c6-11eb-15e7-636a3621d727
 md"""
-## Working with images
+## Inspecting your data
 """
 
 # ╔═╡ f26d9326-64c6-11eb-1166-5d82586422ed
@@ -292,11 +333,21 @@ Use the widget below to zoom in on Philip's nose.
 # ╔═╡ 2ac47b91-bbc3-49ae-9bf5-4def30ff46f4
 nose = philip_head[range_rows, range_cols]
 
+# ╔═╡ 5a0cc342-64c9-11eb-1211-f1b06d652497
+md"""
+# Process: Modifying an image
+
+Now that we have access to image data, we can start to **process** that data to extract information and/or modify it in some way.
+
+We might want to detect what type of objects are in the image, say to detect whether a patient has a certain disease. To achieve a high-level goal like this, we will need to perform mid-level operations, such as detecting edges that separate different objects based on their color. And, in turn, to carry that out we will need to do low-level operations like comparing colors of neighboring pixels and somehow deciding if they are "different".
+
+"""
+
 # ╔═╡ 4504577c-64c8-11eb-343b-3369b6d10d8b
 md"""
-### Representing colors
+## Representing colors
 
-We can also use indexing to *modify* a pixel's color. To do so, we need a way to specify a new color.
+We can  use indexing to *modify* a pixel's color. To do so, we need a way to specify a new color.
 
 Color turns out to be a complicated concept, having to do with the interaction of the physical properties of light with the physiological mechanisms and mental processes by which we detect it!
 
@@ -354,16 +405,6 @@ md"Can you invert the picture of Philip?"
 
 # ╔═╡ 943103e2-ee0b-11ea-33aa-75a8a1529931
 philip_inverted = missing
-
-# ╔═╡ 5a0cc342-64c9-11eb-1211-f1b06d652497
-md"""
-# Image processing
-
-Now that we have access to image data, we can start to **process** that data to extract information and/or modify it in some way.
-
-We might want to detect what type of objects are in the image, say to detect whether a patient has a certain disease. To achieve a high-level goal like this, we will need to perform mid-level operations, such as detecting edges that separate different objects based on their color. And, in turn, to carry that out we will need to do low-level operations like comparing colors of neighboring pixels and somehow deciding if they are "different".
-
-"""
 
 # ╔═╡ 2ee543b2-64d6-11eb-3c39-c5660141787e
 md"""
@@ -464,15 +505,28 @@ Note that the resulting image doesn't look very good, since we seem to have lost
 > Think about what we might do to reduce the size of an image without losing so much detail.
 """
 
+# ╔═╡ 7b04331a-6bcb-11eb-34fa-1f5b151e5510
+md"""
+# Model: Creating synthetic images 
+
+Think about your favorite Pixar movie (e.g. Monsters Inc.) Movie frames are images that are generated from complicated mathematical models.  Ray tracing (which may be covered in this class)
+is a method for making images feel realistic.  
+"""
+
 # ╔═╡ 5319c03c-64cc-11eb-0743-a1612476e2d3
 md"""
-## Saving an image
+# Output: Saving an image to a file
 
 Finally, we want to be able to save our new creation to a file. To do so, you can **right click** on a displayed image, or you can write it to a file. Fill in a path below:
 """
 
 # ╔═╡ 3db09d92-64cc-11eb-0333-45193c0fd1fe
 save("reduced_phil.png", reduced_image)
+
+# ╔═╡ 61606acc-6bcc-11eb-2c80-69ceec9f9702
+md"""
+# $(html"<br>")   
+"""
 
 # ╔═╡ dd183eca-6018-11eb-2a83-2fcaeea62942
 md"""
@@ -506,7 +560,7 @@ Images are a good example of this: neighbouring pixels often represent different
 
 # ╔═╡ 8ddcb286-602a-11eb-3ae0-07d3c77a0f8c
 md"""
-# Julia: Syntax for creating arrays
+# Julia: constructing arrays
 
 ## Creating vectors and matrices
 Julia has strong support for arrays of any dimension.
@@ -557,6 +611,10 @@ In a similar way we can create two-dimensional matrices, by separating the two v
 
 # ╔═╡ 291b04de-64d7-11eb-1ee0-d998dccb998c
 [RGB(i, j, 0) for i in 0:0.1:1, j in 0:0.1:1]
+
+# ╔═╡ 8433b862-60ee-11eb-0cfc-add2b72997dc
+[philip_head                   reverse(philip_head, dims=2)
+ reverse(philip_head, dims=1)  rot180(philip_head)]
 
 # ╔═╡ 5e52d12e-64d7-11eb-0905-c9038a404e24
 md"""
@@ -620,7 +678,7 @@ md"""
 
 # ╔═╡ 647fddf2-60ee-11eb-124d-5356c7014c3b
 md"""
-### Joining matrices
+## Joining matrices
 
 We often want to join vectors and matrices together. We can do so using an extension of the array creation syntax:
 """
@@ -646,9 +704,6 @@ md"""
 ----
 """
 
-# ╔═╡ 467856dc-eded-11ea-0f83-13d939021ef3
-example_vector = [0.5, 0.4, 0.3, 0.2, 0.1, 0.0, 0.7, 0.0, 0.7, 0.9]
-
 # ╔═╡ 5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 begin
 	colored_line(x::Vector{<:Real}) = Gray.(Float64.((hcat(x)')))
@@ -657,9 +712,6 @@ end
 
 # ╔═╡ d862fb16-edf1-11ea-36ec-615d521e6bc0
 colored_line(create_bar())
-
-# ╔═╡ 56ced344-eded-11ea-3e81-3936e9ad5777
-colored_line(example_vector)
 
 # ╔═╡ e074560a-601b-11eb-340e-47acd64f03b2
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
@@ -912,6 +964,9 @@ function camera_input(;max_size=150, default_url="https://i.imgur.com/SUmi94P.pn
 """ |> HTML
 end
 
+# ╔═╡ d6742ea0-1106-4f3c-a5b8-a31a48d33f19
+@bind webcam_data1 camera_input()
+
 # ╔═╡ 2a94a2cf-b697-4b0b-afd0-af2e35af2bb1
 @bind webcam_data camera_input()
 
@@ -949,6 +1004,15 @@ function process_raw_camera_data(raw_camera_data)
 	
 	RGB.(reds, greens, blues)
 end
+
+# ╔═╡ 1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
+myface1 = process_raw_camera_data(webcam_data1);
+
+# ╔═╡ 6224c74b-8915-4983-abf0-30e6ba04a46d
+[
+	myface1              myface1[   :    , end:-1:1]
+	myface1[end:-1:1, :] myface1[end:-1:1, end:-1:1]
+]
 
 # ╔═╡ 3e0ece65-b8a7-4be7-ae44-6d7210c2e15b
 myface = process_raw_camera_data(webcam_data);
@@ -1016,9 +1080,6 @@ exercise(x, number="") =
 	</ct-exercise>
 	""")
 
-# ╔═╡ 1f67c22e-56ce-4e17-913b-c1e27f7a1d10
-exercise(md"Diagonal of philip")
-
 # ╔═╡ a9fef6c9-e911-4d8c-b141-a4832b40a260
 quick_question(x, number, options, correct) = let
 	name = join(rand('a':'z',16))
@@ -1027,7 +1088,7 @@ quick_question(x, number, options, correct) = let
 	<h4>Quick Question <span>$(number)</span></h4>
 	<section>$(x)
 	<ct-answers>
-	$(map(enumerate(options)) do (i,o)
+	$(map(enumerate(options)) do (i, o)
 		@htl("<ct-answer><input type=radio name=$(name) id=$(i) >$(o)</ct-answer>")
 	end)
 	</ct-answers>
@@ -1035,18 +1096,6 @@ quick_question(x, number, options, correct) = let
 	</ct-exercise>
 	""")
 end
-
-# ╔═╡ dd8c5f17-fd78-455e-b6b7-9ae8bb39521e
-quick_question()
-
-# ╔═╡ 53bacc8f-2d2a-4846-a257-6bf6e4059305
-quick_question(md"Blablabllba Write a function **`mean_colors`** that accepts an object called `image`. It should calculate the mean (average) amounts of red, green and blue in the image and return a tuple `(r, g, b)` of those means.", "1.2", 
-	[
-		md"Somsefoms fe sdaf asdf asd",
-		"Somsefoms fe sdaf asdf asd",
-		md"Somsefoms fe sdaf asdf asd",
-	],
-	2)
 
 # ╔═╡ edf900be-601b-11eb-0456-3f7cfc5e876b
 md"_Lecture 1, Spring 2021, version 0_"
@@ -1056,11 +1105,17 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
 # ╠═d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 # ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
-# ╟─127daf08-601b-11eb-28c1-2139c8d1a65a
+# ╟─e9ff96d8-6bc1-11eb-0f6a-234b9fae047e
+# ╟─9111db10-6bc3-11eb-38e5-cf3f58536914
+# ╟─fb8a99ac-6bc1-11eb-0835-3146734a1c99
+# ╟─b795dcb4-6bc3-11eb-20ec-db2cc4b89bfb
+# ╟─8691e434-6bc4-11eb-07d1-8169158484e6
+# ╟─132f6596-6bc6-11eb-29f1-1b2478c929af
 # ╟─635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
 # ╟─9eb6efd2-6018-11eb-2db8-c3ce41d9e337
 # ╟─e37e4d40-6018-11eb-3e1d-093266c98507
 # ╟─e1c9742a-6018-11eb-23ba-d974e57f78f9
+# ╟─9b004f70-6bc9-11eb-128c-914eadfc9a0e
 # ╟─62fa19da-64c6-11eb-0038-5d40a6890cf5
 # ╠═34ee0954-601e-11eb-1912-97dc2937fd52
 # ╟─9180fbcc-601e-11eb-0c22-c920dc7ee9a9
@@ -1069,6 +1124,11 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╠═aafe76a6-601e-11eb-1ff5-01885c5238da
 # ╟─e86ed944-ee05-11ea-3e0f-d70fc73b789c
 # ╟─c99d2aa8-601e-11eb-3469-497a246db17c
+# ╟─11dff4ce-6bca-11eb-1056-c1345c796ed4
+# ╟─efef3a32-6bc9-11eb-17e9-dd2171be9c21
+# ╟─d6742ea0-1106-4f3c-a5b8-a31a48d33f19
+# ╟─1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
+# ╟─6224c74b-8915-4983-abf0-30e6ba04a46d
 # ╟─cef1a95a-64c6-11eb-15e7-636a3621d727
 # ╟─f26d9326-64c6-11eb-1166-5d82586422ed
 # ╟─6f928b30-602c-11eb-1033-71d442feff93
@@ -1098,12 +1158,12 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╠═4b64e1f2-d0ca-4e22-a89d-1d9a16bd6788
 # ╠═85919db9-1444-4904-930f-ba572cff9460
 # ╠═2ac47b91-bbc3-49ae-9bf5-4def30ff46f4
+# ╟─5a0cc342-64c9-11eb-1211-f1b06d652497
 # ╟─4504577c-64c8-11eb-343b-3369b6d10d8b
 # ╟─40886d36-64c9-11eb-3c69-4b68673a6dde
 # ╠═552235ec-64c9-11eb-1f7f-f76da2818cb3
 # ╟─c2907d1a-47b1-4634-8669-a68022706861
 # ╠═ff9eea3f-cab0-4030-8337-f519b94316c5
-# ╠═dd8c5f17-fd78-455e-b6b7-9ae8bb39521e
 # ╟─f6cc03a0-ee07-11ea-17d8-013991514d42
 # ╠═63e8d636-ee0b-11ea-173d-bd3327347d55
 # ╟─2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
@@ -1113,7 +1173,6 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╠═6dbf67ce-ee0b-11ea-3b71-abc05a64dc43
 # ╟─846b1330-ee0b-11ea-3579-7d90fafd7290
 # ╠═943103e2-ee0b-11ea-33aa-75a8a1529931
-# ╟─5a0cc342-64c9-11eb-1211-f1b06d652497
 # ╟─2ee543b2-64d6-11eb-3c39-c5660141787e
 # ╠═53bad296-4c7b-471f-b481-0e9423a9288a
 # ╟─81b88cbe-64c9-11eb-3b26-39011efb2089
@@ -1132,8 +1191,10 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─6361d102-64cc-11eb-31b7-fb631b632040
 # ╠═ae542fe4-64cc-11eb-29fc-73b7a66314a9
 # ╟─c29292b8-64cc-11eb-28db-b52c46e865e6
+# ╟─7b04331a-6bcb-11eb-34fa-1f5b151e5510
 # ╟─5319c03c-64cc-11eb-0743-a1612476e2d3
 # ╠═3db09d92-64cc-11eb-0333-45193c0fd1fe
+# ╟─61606acc-6bcc-11eb-2c80-69ceec9f9702
 # ╟─dd183eca-6018-11eb-2a83-2fcaeea62942
 # ╟─8ddcb286-602a-11eb-3ae0-07d3c77a0f8c
 # ╠═f4b0aa23-2d76-4d88-b2a4-3807e88d27ce
@@ -1145,7 +1206,7 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─fce76132-64d6-11eb-259d-b130038bbae6
 # ╟─17a69736-64d7-11eb-2c6c-eb5ebf51b285
 # ╠═291b04de-64d7-11eb-1ee0-d998dccb998c
-# ╠═1f67c22e-56ce-4e17-913b-c1e27f7a1d10
+# ╠═8433b862-60ee-11eb-0cfc-add2b72997dc
 # ╟─5e52d12e-64d7-11eb-0905-c9038a404e24
 # ╟─6aba7e62-64d7-11eb-2c49-7944e9e2b94b
 # ╟─afc66dac-64d7-11eb-1ad0-7f62c20ffefb
@@ -1166,10 +1227,8 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 # ╟─b08e57e4-60ee-11eb-0e1a-2f49c496668b
 # ╟─9025a5b4-6066-11eb-20e8-099e9b8f859e
-# ╟─467856dc-eded-11ea-0f83-13d939021ef3
-# ╠═56ced344-eded-11ea-3e81-3936e9ad5777
-# ╟─5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 # ╟─45815734-ee0a-11ea-2982-595e1fc0e7b1
+# ╟─5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 # ╟─e074560a-601b-11eb-340e-47acd64f03b2
 # ╟─e0776548-601b-11eb-2563-57ba2cf1d5d1
 # ╟─e083bef6-601b-11eb-2134-e3063d5c4253
@@ -1180,7 +1239,6 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╠═e0a6031c-601b-11eb-27a5-65140dd92897
 # ╟─e0b15582-601b-11eb-26d6-bbf708933bc8
 # ╟─e891fce0-601b-11eb-383b-bde5b128822e
-# ╟─53bacc8f-2d2a-4846-a257-6bf6e4059305
 # ╟─3ef77236-1867-4d02-8af2-ff4777fcd6d9
 # ╟─61b29e7d-5aba-4bc8-870b-c1c43919c236
 # ╟─a9fef6c9-e911-4d8c-b141-a4832b40a260
