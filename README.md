@@ -9,7 +9,7 @@ This is an introductory course on Computational Thinking. We use the [Julia prog
 Topics include:
 
 -   Image analysis
--   Particle dynamics and ray tracing
+-   Machine Learning?
 -   Network theory
 -   Climate modeling
 
@@ -52,9 +52,9 @@ Start date: February 16, 2021
 
 ### Discussion forum and homework submission
 
--   [Discord](https://discord.gg/Z5qnVf8): discussion (we encourage you to hang out here during class!)
+-   [Discord](https://discord.gg/BfWAUSrEhD): discussion (we encourage you to hang out here during class!)
 
--   [Piazza](https://piazza.com/class/kd33x1xnfyq3b1): (MIT only) questions, discussion with staff, announcements
+-   [Piazza](https://piazza.com/mit/spring2021/6s083): (MIT only) questions, discussion with staff, announcements
 
 -   [Canvas](https://canvas.mit.edu/courses/5637): (MIT only) homework submissions. If you're a non-MIT student, don't worry, the **homework has built-in answers checks**, or you can find a partner to cross-grade homeworks via Discord.
 

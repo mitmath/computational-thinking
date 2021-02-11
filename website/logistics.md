@@ -1,5 +1,6 @@
 # Course logistics
-[![Discord Chat](https://img.shields.io/discord/809537761707163729.svg#badge)](https://discord.gg/BfWAUSrEhD)
+
+[![Discord Chat](https://img.shields.io/discord/809537761707163729?style=plastic#badge)](https://discord.gg/BfWAUSrEhD)
 
 Course materials will be published on this website on **Monday 1:00pm**. Each week is a new _chapter_, which includes:
 
