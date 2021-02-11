@@ -9,13 +9,13 @@
 \\
 **Text and pictures version:**
 
-## Step 1: Install Julia 1.5.1
+## Step 1: Install Julia 1.5.3
 
-Go to [https://julialang.org/downloads](https://julialang.org/downloads) and download the current stable release, Julia 1.5.1, using the correct version for your operating system (Linux x86, Mac, Windows, etc).
+Go to [https://julialang.org/downloads](https://julialang.org/downloads) and download the current stable release, Julia 1.5.3, using the correct version for your operating system (Linux x86, Mac, Windows, etc).
 
 ## Step 2: Run Julia
 
-After installing, **make sure that you can run Julia**. On some systems, this means searching for the "Julia 1.5.1" program installed on your computer; in others, it means running the command `julia` in a terminal. Make sure that you can execute `1 + 1`:
+After installing, **make sure that you can run Julia**. On some systems, this means searching for the "Julia 1.5.3" program installed on your computer; in others, it means running the command `julia` in a terminal. Make sure that you can execute `1 + 1`:
 
 ![image](https://user-images.githubusercontent.com/6933510/91439734-c573c780-e86d-11ea-8169-0c97a7013e8d.png)
 
