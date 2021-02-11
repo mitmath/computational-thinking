@@ -30,21 +30,23 @@ html"""
 
 <div style="
 position: absolute;
-width: calc(100% - 20px);
+width: calc(100% - 30px);
 border: 50vw solid #282936;
 border-top: 500px solid #282936;
 border-bottom: none;
 box-sizing: content-box;
-left: calc(-50vw + 10px);
+left: calc(-50vw + 15px);
 top: -500px;
-height: 200px;
+height: 400px;
+pointer-events: none;
 "></div>
 
 <div style="
-height: 200px;
+height: 400px;
 width: 100%;
 background: #282936;
 color: #fff;
+padding-top: 68px;
 ">
 <span style="
 font-family: Vollkorn, serif;
