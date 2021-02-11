@@ -56,6 +56,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>notebooks/week0/hw0/</loc>
+    <lastmod>2021-02-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>notebooks/week2/index/</loc>
     <lastmod>2021-02-11</lastmod>
     <changefreq>monthly</changefreq>
