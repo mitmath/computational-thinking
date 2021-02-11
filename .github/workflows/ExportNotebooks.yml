@@ -12,11 +12,11 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
 
-            - name: Checkout Fall 20 page
+            - name: Checkout Spring 21 page
               uses: actions/checkout@v2
               with:
-                  path: Fall20-franklin-output
-                  ref: Fall20-franklin-output
+                  path: Spring21-franklin-output
+                  ref: Spring21-franklin-output
 
             - name: Install Julia
               uses: julia-actions/setup-julia@v1
@@ -43,7 +43,7 @@ jobs:
                   optimize(;minify=false);
                   mkdir("__site2");
                   mv("__site", "__site2/Spring21");
-                  mv("../Fall20-franklin-output/Fall20", "__site2/Fall20");
+                  mv("../Spring21-franklin-output/Spring21", "__site2/Spring21");
                   write("__site2/index.html", """
                   <!DOCTYPE html>
                   <html>
