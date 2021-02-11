@@ -27,21 +27,43 @@ end
 
 # ╔═╡ e91d7926-ec6e-41e7-aba2-9dca333c8aa5
 html"""
-<div style="margin: 5rem 0;">
 
+<div style="
+position: absolute;
+width: calc(100% - 20px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 10px);
+top: -500px;
+height: 200px;
+"></div>
+
+<div style="
+height: 200px;
+width: 100%;
+background: #282936;
+color: #fff;
+">
 <span style="
 font-family: Vollkorn, serif;
 font-weight: 700;
 font-feature-settings: 'lnum', 'pnum';
 "> <p style="
-font-size: 1.5rem;"><em>Chapter 1</em></p>
-
+font-size: 1.5rem;
+opacity: .8;
+"><em>Chapter 1</em></p>
 <p style="text-align: center; font-size: 2rem;">
 <em>Working with images<br>and arrays</em>
 </p>
-
 </div>
 
+<style>
+body {
+overflow-x: hidden;
+}
+</style>
 """
 
 # ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
