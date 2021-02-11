@@ -1,4 +1,5 @@
 # Course logistics
+[![Discord Chat](https://img.shields.io/discord/809537761707163729.svg#badge)](https://discord.gg/BfWAUSrEhD)
 
 Course materials will be published on this website on **Monday 1:00pm**. Each week is a new _chapter_, which includes:
 
@@ -22,7 +23,7 @@ Start date: February 16, 2021
 
 ### Discussion forum and homework submission
 
--   [Discord](https://discord.gg/Z5qnVf8): discussion (we encourage you to hang out here during class!)
+-   [Discord](https://discord.gg/BfWAUSrEhD): discussion (we encourage you to hang out here during class!)
 
 -   MIT Only: [Canvas](https://canvas.mit.edu/courses/5637): Homework submissions, Piazza Link. If you're a non-MIT student, don't worry, the **homework has built-in answers checks**, or you can find a partner to cross-grade homeworks via Discord.
 
