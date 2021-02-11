@@ -152,7 +152,7 @@ h2 {
 }
 
 img[src*="#badge"] {
-   height: 25px;
+   height: 20px;
    width:auto;
    display: inline-block;
 }
