@@ -88,6 +88,18 @@ pre.code-output {
 .sidebar-about h1 {
     font-family: "Recursive", sans-serif;
     border-bottom: none !important;
+    font-size:1.1em;
+    opacity: 0.95;
+}
+
+.sidebar-about h2 {
+    font-family: "Recursive", sans-serif;
+    border-bottom: none !important;
+    font-size:0.8em;
+    color:White;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: -1em;
 }
 
 @media (min-width: 768px) {
@@ -151,6 +163,7 @@ h2 {
     margin-bottom: 0;
 }
 
+/* Extra Styling for Logo bagdes*/
 img[src*="#badge"] {
    height: 100px;
    width: auto;
@@ -158,3 +171,29 @@ img[src*="#badge"] {
    padding: 25px;
    align-items: center;
 }
+
+/* Extra Styling for student feedback cards*/
+.column {
+    float:left;
+    width:45%;
+    margin-bottom:16px;
+    padding: 8px; }
+@media (max-width:62rem) {
+.column {
+    width:45%;
+    display:block; }
+}
+@media (max-width:30rem){
+.column {
+    width:45%;
+    display:block;}
+}
+.card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); }
+.container { padding: 4px 16px; }
+.container::after, .row::after{
+    content: "";
+    clear: both;
+    display: table; }
+.title { color: black; font-weight:bold; font-size: large;}
+.semester { color: grey; }
+.feedback { margin-top: 0.5em; }

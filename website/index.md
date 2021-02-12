@@ -19,15 +19,7 @@ Topics include:
 
 > See also the course repository [github.com/mitmath/18S191](https://github.com/mitmath/18S191).
 
-## What people are saying about the course
-
-~~~
-<a style="font-size:1.2em" href="https://medium.com/towards-artificial-intelligence/mits-free-online-course-to-learn-julia-the-rising-star-b00a0e762dfc">MIT's  Free Online Course to Learn Julia — The Rising Star</a> &mdash; <em>Review of 18.S191 by Towards AI Newsletter</em>
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">the course is exceptional🎇🎇🎇</p>&mdash; YT Cai (@Yitao_CAI) <a href="https://twitter.com/Yitao_CAI/status/1338877387510059014?ref_src=twsrc%5Etfw">December 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I cannot recommend this class enough, it’s awesome. <a href="https://t.co/4BsBEygeLd">https://t.co/4BsBEygeLd</a></p><br>&mdash; James Doss-Gollin (@jdossgollin) <a href="https://twitter.com/jdossgollin/status/1339013228194451456?ref_src=twsrc%5Etfw">December 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-~~~
+> _**[What people are saying about the course!](/reviews/)**_
 
 <!-- 
 
