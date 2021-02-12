@@ -52,7 +52,7 @@ Start date: February 16, 2021
 
 ### Discussion forum and homework submission
 
--   [Discord](https://discord.gg/BfWAUSrEhD): discussion (we encourage you to hang out here during class!)
+-   [Discord](https://discord.gg/Z5qnVf8): discussion (we encourage you to hang out here during class!)
 
 -   [Piazza](https://piazza.com/mit/spring2021/6s083): (MIT only) questions, discussion with staff, announcements
 
