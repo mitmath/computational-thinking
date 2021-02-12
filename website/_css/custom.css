@@ -152,7 +152,9 @@ h2 {
 }
 
 img[src*="#badge"] {
-   height: auto;
-   width: 175px;
+   height: 100px;
+   width: auto;
    display: inline-block;
+   padding: 25px;
+   align-items: center;
 }

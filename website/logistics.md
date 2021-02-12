@@ -1,6 +1,9 @@
 # Course logistics
 
-[![Discord Chat](/assets/discord_logo.svg#badge)](https://discord.gg/Z5qnVf8) [![Piazza Forum](/assets/piazza_logo.svg#badge)](https://piazza.com/mit/spring2021/6s083)
+[![Discord Chat](/assets/discord_logo.svg#badge)](https://discord.gg/Z5qnVf8)
+[![Piazza Forum](/assets/piazza_logo.svg#badge)](https://piazza.com/mit/spring2021/6s083)
+[![Canvas LMS](/assets/canvas_logo.svg#badge)](https://canvas.mit.edu/courses/7590)
+[![MITx LMS](/assets/mitx_logo.svg#badge)](https://lms.mitx.mit.edu/courses/course-v1:MITx+6.S083r+2021_Spring/course/)
 
 
 Course materials will be published on this website on **Monday 1:00pm**. Each week is a new _chapter_, which includes:
@@ -27,7 +30,7 @@ Start date: February 16, 2021
 
 -   [Discord](https://discord.gg/Z5qnVf8): discussion (we encourage you to hang out here during class!)
 
--   MIT Only: [Canvas](https://canvas.mit.edu/courses/5637): Homework submissions, Piazza Link. If you're a non-MIT student, don't worry, the **homework has built-in answers checks**, or you can find a partner to cross-grade homeworks via Discord.
+-   MIT Only: [Canvas](https://canvas.mit.edu/courses/7590): Homework submissions, Piazza Link. If you're a non-MIT student, don't worry, the **homework has built-in answers checks**, or you can find a partner to cross-grade homeworks via Discord.
 
 ### Evaluation
 
@@ -35,4 +38,4 @@ The final grade is 80% problem sets, and 20% MITx _quick questions_.
 
 -   Problem sets are released on Tuesdays and due before Sunday (11:59pm). They have equal weight; your lowest score will be dropped.
 
--   MITx exercises (_quick questions_) are due before Wednesday (11:59pm), but are best done on Monday, during or right after the lectures.
+-   [MITx](https://lms.mitx.mit.edu/courses/course-v1:MITx+6.S083r+2021_Spring/course/) exercises (_quick questions_) are due before Wednesday (11:59pm), but are best done on Monday, during or right after the lectures.
