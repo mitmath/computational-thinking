@@ -9,10 +9,10 @@ jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout
+            - name: Checkout Spring 21 source
               uses: actions/checkout@v2
 
-            - name: Checkout Fall 20 page
+            - name: Checkout Fall 20 output
               uses: actions/checkout@v2
               with:
                   path: Fall20-franklin-output
@@ -32,18 +32,27 @@ jobs:
             - name: Franklin
               run: julia -e '
                   using Pkg;
-                  Pkg.add(["NodeJS", "JSON", "Franklin"]);
+                  Pkg.add([
+                    Pkg.PackageSpec(name="NodeJS", version="1.1.1"), 
+                    Pkg.PackageSpec(name="JSON", version="0.21.1"),
+                    Pkg.PackageSpec(name="Franklin", version="0.10.28"),
+                  ]);
                   using NodeJS;
 
-                  cp("notebooks", "website/notebooks");
+                  #= Run Franklin =#
                   cd("website");
-
+                  
                   run(`$(npm_cmd()) install highlight.js`);
                   using Franklin;
                   optimize(;minify=false);
                   mkdir("__site2");
                   mv("__site", "__site2/Spring21");
                   mv("../Fall20-franklin-output/Fall20", "__site2/Fall20");
+
+                  #= Place rendered notebooks in the website folder =#
+                  cp("../notebooks", "__site2/Spring21/notebooks");
+
+                  #= Extra website config files =#
                   write("__site2/index.html", """
                   <!DOCTYPE html>
                   <html>
