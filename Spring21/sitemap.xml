@@ -2,6 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
+    <loc>hw0/index.html</loc>
+    <lastmod>2021-02-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>basic_syntax/index.html</loc>
     <lastmod>2021-02-12</lastmod>
     <changefreq>monthly</changefreq>
@@ -26,18 +32,6 @@
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>notebooks/README/index.html</loc>
-    <lastmod>2021-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
-    <loc>week0/index.html</loc>
-    <lastmod>2021-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
     <loc>cheatsheets/index.html</loc>
     <lastmod>2021-02-12</lastmod>
     <changefreq>monthly</changefreq>
@@ -51,24 +45,6 @@
 </url>
 <url>
     <loc>semesters/index.html</loc>
-    <lastmod>2021-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
-    <loc>notebooks/week0/index/</loc>
-    <lastmod>2021-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
-    <loc>notebooks/week1/index/</loc>
-    <lastmod>2021-02-12</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
-    <loc>notebooks/basic_syntax/index/</loc>
     <lastmod>2021-02-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
