@@ -236,6 +236,12 @@ md"""
 ## Capturing an Image from your own camera
 """
 
+# ╔═╡ e94dcc62-6d4e-11eb-3d53-ff9878f0091e
+md"""
+Even more fun is to use your own webcam. Try pressing the enable button below. Then
+press the camera to capture an image.
+"""
+
 # ╔═╡ cef1a95a-64c6-11eb-15e7-636a3621d727
 md"""
 ## Inspecting your data
@@ -643,6 +649,16 @@ In a similar way we can create two-dimensional matrices, by separating the two v
 # ╔═╡ 291b04de-64d7-11eb-1ee0-d998dccb998c
 [RGB(i, j, 0) for i in 0:0.1:1, j in 0:0.1:1]
 
+# ╔═╡ 647fddf2-60ee-11eb-124d-5356c7014c3b
+md"""
+## Joining matrices
+
+We often want to join vectors and matrices together. We can do so using an extension of the array creation syntax:
+"""
+
+# ╔═╡ 7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
+[philip_head  philip_head]
+
 # ╔═╡ 8433b862-60ee-11eb-0cfc-add2b72997dc
 [philip_head                   reverse(philip_head, dims=2)
  reverse(philip_head, dims=1)  rot180(philip_head)]
@@ -695,11 +711,6 @@ md"""
 What is going on here is that we are creating a vector in which `red_value` takes each value in turn from the range from `0` up to the current value of `number_reds`. If we change `number_reds`, then we create a new vector with that new number of red patches.
 """
 
-# ╔═╡ 576d5e3a-64d8-11eb-10c9-876be31f7830
-md"""
-We can do the same to create different size matrices, by creating two sliders, one for reds and one for greens. Try it out!
-"""
-
 # ╔═╡ 82a8314c-64d8-11eb-1acb-e33625381178
 md"""
 #### Exercise
@@ -707,15 +718,10 @@ md"""
 > Make three sliders with variables `r`, `g` and `b`. Then make a single color patch with the RGB color given by those values.
 """
 
-# ╔═╡ 647fddf2-60ee-11eb-124d-5356c7014c3b
+# ╔═╡ 576d5e3a-64d8-11eb-10c9-876be31f7830
 md"""
-## Joining matrices
-
-We often want to join vectors and matrices together. We can do so using an extension of the array creation syntax:
+We can do the same to create different size matrices, by creating two sliders, one for reds and one for greens. Try it out!
 """
-
-# ╔═╡ 7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
-[philip_head  philip_head]
 
 # ╔═╡ ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 md"""
@@ -1141,7 +1147,7 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─fb8a99ac-6bc1-11eb-0835-3146734a1c99
 # ╟─b795dcb4-6bc3-11eb-20ec-db2cc4b89bfb
 # ╠═8691e434-6bc4-11eb-07d1-8169158484e6
-# ╠═546db74c-6d4e-11eb-2e27-f5bed9dbd9ba
+# ╟─546db74c-6d4e-11eb-2e27-f5bed9dbd9ba
 # ╟─6385d174-6d4e-11eb-093b-6f6fafb79f84
 # ╟─132f6596-6bc6-11eb-29f1-1b2478c929af
 # ╟─635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
@@ -1159,7 +1165,8 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─c99d2aa8-601e-11eb-3469-497a246db17c
 # ╟─11dff4ce-6bca-11eb-1056-c1345c796ed4
 # ╟─efef3a32-6bc9-11eb-17e9-dd2171be9c21
-# ╟─d6742ea0-1106-4f3c-a5b8-a31a48d33f19
+# ╠═e94dcc62-6d4e-11eb-3d53-ff9878f0091e
+# ╠═d6742ea0-1106-4f3c-a5b8-a31a48d33f19
 # ╟─1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
 # ╟─6224c74b-8915-4983-abf0-30e6ba04a46d
 # ╟─cef1a95a-64c6-11eb-15e7-636a3621d727
@@ -1239,6 +1246,8 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─fce76132-64d6-11eb-259d-b130038bbae6
 # ╟─17a69736-64d7-11eb-2c6c-eb5ebf51b285
 # ╠═291b04de-64d7-11eb-1ee0-d998dccb998c
+# ╟─647fddf2-60ee-11eb-124d-5356c7014c3b
+# ╠═7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
 # ╠═8433b862-60ee-11eb-0cfc-add2b72997dc
 # ╟─5e52d12e-64d7-11eb-0905-c9038a404e24
 # ╟─6aba7e62-64d7-11eb-2c49-7944e9e2b94b
@@ -1250,10 +1259,8 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╠═88933746-6028-11eb-32de-13eb6ff43e29
 # ╟─1c539b02-64d8-11eb-3505-c9288357d139
 # ╟─10f6e6da-64d8-11eb-366f-11f16e73043b
-# ╟─576d5e3a-64d8-11eb-10c9-876be31f7830
 # ╟─82a8314c-64d8-11eb-1acb-e33625381178
-# ╟─647fddf2-60ee-11eb-124d-5356c7014c3b
-# ╠═7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
+# ╟─576d5e3a-64d8-11eb-10c9-876be31f7830
 # ╠═2a94a2cf-b697-4b0b-afd0-af2e35af2bb1
 # ╠═3e0ece65-b8a7-4be7-ae44-6d7210c2e15b
 # ╠═4ee18bee-13e6-4478-b2ca-ab66100e57ec
