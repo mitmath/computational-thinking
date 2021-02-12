@@ -239,7 +239,7 @@ md"""
 # ╔═╡ e94dcc62-6d4e-11eb-3d53-ff9878f0091e
 md"""
 Even more fun is to use your own webcam. Try pressing the enable button below. Then
-press the camera to capture an image.
+press the camera to capture an image. Kind of fun to keep pressing the button as you move your hand etc.
 """
 
 # ╔═╡ cef1a95a-64c6-11eb-15e7-636a3621d727
@@ -1166,9 +1166,9 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─11dff4ce-6bca-11eb-1056-c1345c796ed4
 # ╟─efef3a32-6bc9-11eb-17e9-dd2171be9c21
 # ╟─e94dcc62-6d4e-11eb-3d53-ff9878f0091e
-# ╠═d6742ea0-1106-4f3c-a5b8-a31a48d33f19
-# ╟─1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
-# ╟─6224c74b-8915-4983-abf0-30e6ba04a46d
+# ╟─d6742ea0-1106-4f3c-a5b8-a31a48d33f19
+# ╠═1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
+# ╠═6224c74b-8915-4983-abf0-30e6ba04a46d
 # ╟─cef1a95a-64c6-11eb-15e7-636a3621d727
 # ╟─f26d9326-64c6-11eb-1166-5d82586422ed
 # ╟─6f928b30-602c-11eb-1033-71d442feff93
