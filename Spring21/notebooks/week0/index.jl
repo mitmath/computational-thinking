@@ -40,7 +40,7 @@ Before being able to run this note book succesfully locally, you will need to [s
 
 # ╔═╡ 31a8fbf8-e6ce-11ea-2c66-4b4d02b41995
 md"""## Homework Logistics
-Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl). Your must complete them and submit them on [Canvas](https://canvas.mit.edu/courses/5637) (if you are an MIT student.). If you are not an MIT student, we encourage you to [join discord](https://discord.gg/BfWAUSrEhD) and find someone to cross-grade.
+Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl). Your must complete them and submit them on [Canvas](https://canvas.mit.edu/courses/5637) (if you are an MIT student.). If you are not an MIT student, we encourage you to [join discord](https://discord.gg/Z5qnVf8) and find someone to cross-grade.
 
 HW0 due date: Thursday, 18th Feb 2021
 
