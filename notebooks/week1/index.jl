@@ -356,9 +356,9 @@ philip_head = philip[470:800, 140:410]
 
 # ╔═╡ 32e7e51c-dd0d-483d-95cb-e6043f2b2975
 md"""
-#### Try it yourself!
+#### Zoom in on Philip's nose!
 
-Use the widgets below (slide left and right sides) to zoom in on Philip's nose.
+Use the widgets below (slide left and right sides).
 """
 
 # ╔═╡ 4b64e1f2-d0ca-4e22-a89d-1d9a16bd6788
