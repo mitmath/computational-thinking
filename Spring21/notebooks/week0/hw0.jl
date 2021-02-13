@@ -14,7 +14,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ fafae38e-e852-11ea-1208-732b4744e4c2
-md"_homework 0, version 3_"
+md"_Homework 0, version 3 -- Spring 2021_"
 
 # ╔═╡ 7308bc54-e6cd-11ea-0eab-83f7535edf25
 # edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
