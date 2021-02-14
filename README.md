@@ -21,9 +21,9 @@ If you do so, please add punctuation, and please change the colour of the part y
 
 ## Meet our staff
 
-**Lecturers:** [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Charles E. Leiserson](https://people.csail.mit.edu/cel/), [Grant Sanderson](https://www.3blue1brown.com/about), [James Schloss](https://eapsweb.mit.edu/people/jars), [Benoit Forget](https://web.mit.edu/nse/people/faculty/forget.html), [Henri F. Drake](https://hdrake.github.io/)
+**Lecturers:** [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Charles E. Leiserson](https://people.csail.mit.edu/cel/), [Henri F. Drake](https://hdrake.github.io/)
 
-**Teaching assistants:** _to be announced_
+**Teaching assistants:** [Bola Malek]()
 
 **Technical assistants:** [Fons van der Plas](), [Logan Kilpatrick](https://scholar.harvard.edu/logankilpatrick/home)
 
