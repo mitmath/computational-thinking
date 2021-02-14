@@ -156,7 +156,7 @@ Our goal is to process the data contained in an image in some way, which we will
 
 # ╔═╡ 635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
 html"""
-<div style="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
 # ╔═╡ 9eb6efd2-6018-11eb-2db8-c3ce41d9e337
