@@ -174,20 +174,21 @@ img[src*="#badge"] {
 
 /* Extra Styling for student feedback cards*/
 .column {
-    float:left;
-    width:45%;
-    margin-bottom:16px;
-    padding: 8px; }
-@media (max-width:62rem) {
-.column {
-    width:45%;
-    display:block; }
+    width: 100%;
+    float: left;
+    margin-bottom: 16px;
+    padding: 8px;
 }
-@media (max-width:30rem){
-.column {
-    width:45%;
-    display:block;}
+    
+@media (min-width: 768px) {
+    .column {
+        float: left;
+        width: 45%;
+        margin-bottom: 16px;
+        padding: 8px;
+    }        
 }
+
 .card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); }
 .container { padding: 4px 16px; }
 .container::after, .row::after{
