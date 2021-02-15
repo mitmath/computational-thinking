@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.19
+# v0.12.20
 
 using Markdown
 using InteractiveUtils
@@ -70,6 +70,13 @@ overflow-x: hidden;
 
 # ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 PlutoUI.TableOfContents(aside=true)
+
+# ╔═╡ 9b49500c-0164-4556-a17b-7595e35c5ede
+md"""
+#### Intializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ ca1b507e-6017-11eb-34e6-6b85cd189002
 md"""
@@ -1139,8 +1146,9 @@ md"_Lecture 1, Spring 2021, version 0_"
 
 # ╔═╡ Cell order:
 # ╟─e91d7926-ec6e-41e7-aba2-9dca333c8aa5
+# ╟─d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
+# ╟─9b49500c-0164-4556-a17b-7595e35c5ede
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
-# ╠═d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 # ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
 # ╟─e9ff96d8-6bc1-11eb-0f6a-234b9fae047e
 # ╟─9111db10-6bc3-11eb-38e5-cf3f58536914
