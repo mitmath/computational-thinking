@@ -122,8 +122,8 @@ uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [[Pluto]]
 deps = ["Base64", "Dates", "Distributed", "FuzzyCompletions", "HTTP", "InteractiveUtils", "Logging", "Markdown", "MsgPack", "Pkg", "REPL", "Sockets", "TableIOInterface", "Tables", "UUIDs"]
-git-tree-sha1 = "08af0f2b4ba64a7edb935ed773ff5c111ca47c50"
-repo-rev = "d9a3466"
+git-tree-sha1 = "d0da1fa69bb30534f79f4e1d6d4c16bfa027b3f4"
+repo-rev = "addccd1"
 repo-url = "https://github.com/fonsp/Pluto.jl"
 uuid = "c3e4b0f8-55cb-11ea-2926-15256bba5781"
 version = "0.12.20"
