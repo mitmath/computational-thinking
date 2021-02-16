@@ -37,27 +37,37 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 md"""
 # Homework 0: Getting up and running
 
+HW0 release date: Monday, Feb 15, 2021.
+
+**HW0 due date: Thursday, Feb 18, 2021**, _but best completed before Wednesday's lecture if possible_.
+
 First of all, **_welcome to the course!_** We are excited to teach you about real world applications of scientific computing, using the same tools that we work with ourselves.
 
-Before we start next week, we'd like everyone to **submit this zeroth homework assignment**. It will not affect your grade, but it will help us get everything running smoothly when the course starts. If you're stuck or don't have much time, just fill in your name and ID and submit 🙂
+We'd like everyone to **submit this zeroth homework assignment**. It will not affect your grade, but it will help us get everything running smoothly when the course starts. If you're stuck or don't have much time, just fill in your name and ID and submit 🙂
 """
 
 # ╔═╡ 31a8fbf8-e6ce-11ea-2c66-4b4d02b41995
 md"""## Homework Logistics
 Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl). Your must complete them and submit them on [Canvas](https://canvas.mit.edu/courses/5637) (if you are an MIT student.). If you are not an MIT student, we encourage you to [join Discord](https://discord.gg/Z5qnVf8) and find someone to cross-grade.
 
-HW0 due date: Thursday, 18th Feb 2021
-
 Homeworks will be released on Thursdays and due on Thursdays 11:59pm Eastern time.
 
 HW0 is for you to get your system set up correctly and to test our grading software. You must submit it but it will not count towards your grade.
 """
 
+# ╔═╡ f9d7250a-706f-11eb-104d-3f07c59f7174
+md"## Requirements of this HW0
+
+- Install Julia and set up Pluto    
+- Do the required Exercise 0.
+
+That’s it, but if you like you can do the _OPTIONAL_ exercises that follow."
+
 # ╔═╡ 430a260e-6cbb-11eb-34af-31366543c9dc
 md"""# Installation
-Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/installation/)
+Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/Spring21/installation/)
 
-One you have the Julia and Pluto installed, you can click the button at the top right of this page and follow the instructions to edit this notebook locally and submit.
+One you have Julia and Pluto installed, you can click the button at the top right of this page and follow the instructions to edit this notebook locally and submit.
 """
 
 # ╔═╡ a05d2bc8-7024-11eb-08cb-196543bbb8fd
@@ -362,6 +372,7 @@ has area **$(area_sierpinski(n))**
 # ╠═7308bc54-e6cd-11ea-0eab-83f7535edf25
 # ╟─a2181260-e6cd-11ea-2a69-8d9d31d1ef0e
 # ╟─31a8fbf8-e6ce-11ea-2c66-4b4d02b41995
+# ╟─f9d7250a-706f-11eb-104d-3f07c59f7174
 # ╟─430a260e-6cbb-11eb-34af-31366543c9dc
 # ╟─a05d2bc8-7024-11eb-08cb-196543bbb8fd
 # ╠═e02f7ea6-7024-11eb-3672-fd59a6cff79b
