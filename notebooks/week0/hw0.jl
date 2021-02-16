@@ -57,7 +57,7 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 md"""# Installation
 Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/installation/)
 
-One you have the Julia and Pluto installed, you can click the bottom at the top right of this page and follow the instructions to edit this notebook locally and submit.
+One you have the Julia and Pluto installed, you can click the button at the top right of this page and follow the instructions to edit this notebook locally and submit.
 """
 
 # ╔═╡ a05d2bc8-7024-11eb-08cb-196543bbb8fd
@@ -100,9 +100,9 @@ let
 end
 
 # ╔═╡ 348cea34-7025-11eb-3def-41bbc16c7512
-md"That's all that's required for this week. Please submit the notebook. We just wanted to make sure that you're up an running.
+md"That's all that's required for this week. Please submit the notebook. We just wanted to make sure that you're up and running.
 
-If you want to explore further, we have included a few optional exercises below"
+If you want to explore further, we have included a few optional exercises below."
 
 # ╔═╡ b3c7a050-e855-11ea-3a22-3f514da746a4
 if student.kerberos_id === "jazz"
