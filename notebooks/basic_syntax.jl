@@ -5,9 +5,9 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 0d3aec92-edeb-11ea-3adb-cd0dc17cbdab
-md"# A basic Julia syntax cheatsheet
+md"# Get started with Julia - live
 
-This notebook briefly summarizes some of the basic Julia syntax that we will need for the problem sets.
+Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/Spring21/installation/)
 "
 
 
