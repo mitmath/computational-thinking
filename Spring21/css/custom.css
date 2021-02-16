@@ -190,8 +190,8 @@ img[src*="#badge"] {
 }
 
 .card { box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); }
-.container { padding: 4px 16px; }
-.container::after, .row::after{
+.card-container { padding: 4px 16px; }
+.card-container::after, .row::after{
     content: "";
     clear: both;
     display: table; }
