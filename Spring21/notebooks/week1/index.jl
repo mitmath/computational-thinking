@@ -159,6 +159,8 @@ md"""
 # Data: Images (as an example of data)
 Let's start off by looking at **images** and how we can process them. 
 Our goal is to process the data contained in an image in some way, which we will do by developing and coding certain **algorithms**.
+
+Here is the the Fall 2020 version of this lecture (small variations) by 3-Blue-1-Brown (Grant Sanderson) for your reference.
 """
 
 # ╔═╡ 635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
