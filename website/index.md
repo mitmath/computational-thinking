@@ -1,8 +1,10 @@
 
 # Introduction to Computational Thinking
 
-Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition! Class starts Wednesday Feb 17th, 1pm EST. Come to this page to attend live MIT classes open to
-the general public.  We will be broadcasting live at this site and will answer questions on Discord.
+Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
+
+Class starts _Wednesday Feb 17th, 1pm EST_. Come to this page to attend live MIT classes open to
+the general public. We will be _broadcasting live_ at this site and will answer questions on [Discord](https://discord.gg/Z5qnVf8).
 
 > This is **Spring 2021**. For **Fall 2020**, see our [old website](https://computationalthinking.mit.edu/Fall20/).
 

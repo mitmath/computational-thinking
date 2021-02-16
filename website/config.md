@@ -147,7 +147,7 @@ commands that are defined and used in PkgPage.jl
 \newcommand{\card}[3]{
   @@column
   @@card
-    @@container
+    @@card-container
       @@title #1 @@
       @@semester #2 @@
       @@feedback #3 @@
