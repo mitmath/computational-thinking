@@ -39,7 +39,7 @@ md"""
 
 HW0 release date: Monday, Feb 15, 2021.
 
-**HW0 due date: Thursday, Feb 18, 2021**, _but best completed before Wednesday's lecture if possible_.
+**HW0 due date: Thursday, Feb 18, 2021, 11:59pm EST**, _but best completed before Wednesday's lecture if possible_.
 
 First of all, **_welcome to the course!_** We are excited to teach you about real world applications of scientific computing, using the same tools that we work with ourselves.
 
