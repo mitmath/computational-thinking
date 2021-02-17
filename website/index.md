@@ -3,9 +3,7 @@
 
 Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 
-> Class starts _Wednesday Feb 17th, 1pm EST_. Come to this page to attend live MIT classes open to the general public. We will be _broadcasting live_ on this page and will answer questions on [Discord](https://discord.gg/Z5qnVf8).
-
-<img style="display: block; margin: 1em auto" src="assets/staytuned.png">
+> Class starts _Wednesday Feb 17th, 1pm EST_. Come to this page to attend live MIT classes open to the general public. We will be _broadcasting live_ on this page and will answer questions on [Discord](https://discord.gg/Z5qnVf8).  ~~~<img style="display: block; margin: 1em auto" src="assets/staytuned.png">~~~
 
 > Come back at 1:05pm EST on Wednesday 2/17 for the first live lecture!
 
