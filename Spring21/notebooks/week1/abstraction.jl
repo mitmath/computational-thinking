@@ -136,7 +136,7 @@ Now, I want to do something to a collection of ones, that doesn't care about whi
 
 # ╔═╡ 19f4ddb0-ec44-11ea-20b9-5d97fb2b1cf4
 function insert(new, A, i, j)
-	B = convert(Array{Any, 2}, copy(A))
+	B = copy(A)
 	B[i,j] = new
 	return B
 end
@@ -150,10 +150,14 @@ begin
 	"""
 end
 
-# ╔═╡ ee43d808-70fa-11eb-0cc6-337279f41494
-md"I know you're disappointed that `new_array` doesn't print as nicely as the old array. But this is also a demonstration of where specificity can be useful. Julia (or Pluto) know how to make pretty displays when they know the type to display. We took away this information from them when we used `Any` for the components of our array.
+# ╔═╡ 71ac08ea-7145-11eb-237d-5506adfb9533
+begin
+	one_number_array = fill(1,3,4)
+	insert(5, one_number_array, i, j)
+end
 
-But this is still amazing. I can add a corgi (or any other object; just run this notebook yourself and try) to _a collection of one's of **any kind**_."
+# ╔═╡ ee43d808-70fa-11eb-0cc6-337279f41494
+md"This is still amazing. I wrote one function that just cares about how to insert an object into an array, without knowing anything about what's inside, and it worked for two completely different arrays, _collections of one's of **any kind**_."
 
 # ╔═╡ 263a8a0a-70ee-11eb-236d-c941ba63dff3
 md"
@@ -209,7 +213,10 @@ typeof(element)
 array = fill(element,3,4)
 
 # ╔═╡ 5363a400-ec44-11ea-284e-d13a8872551c
-new_array = insert(corgi, array, i, j)
+begin
+	one_image_array = fill(oneimage,3,4)
+	insert(corgi, one_image_array, i, j)
+end
 
 # ╔═╡ Cell order:
 # ╟─5ef51c3a-70a7-11eb-2023-31113399a57f
@@ -230,6 +237,7 @@ new_array = insert(corgi, array, i, j)
 # ╠═19f4ddb0-ec44-11ea-20b9-5d97fb2b1cf4
 # ╠═424f5f10-ec44-11ea-076d-f3cba4435e0c
 # ╠═5363a400-ec44-11ea-284e-d13a8872551c
+# ╠═71ac08ea-7145-11eb-237d-5506adfb9533
 # ╟─ee43d808-70fa-11eb-0cc6-337279f41494
 # ╟─263a8a0a-70ee-11eb-236d-c941ba63dff3
 # ╟─52461588-ea1a-4e7d-aec2-3de388d31656
