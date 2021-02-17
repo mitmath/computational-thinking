@@ -83,7 +83,7 @@ If nothing happens in the browser the first time, close Julia and try again. And
 
 This is the main menu - here you can create new notebooks, or open existing ones. Our homework assignments will always be based on a _template notebook_, available in this GitHub repository. To start from a template notebook on the web, you can _paste the URL into the blue box_ and press ENTER.
 
-For example, homework 0 is available [here](https://github.com/mitmath/18S191/blob/master/homework/homework0/hw0.jl). Copy this link (right click -> Copy Link), and paste it into the box. Press ENTER, and select OK in the confirmation box.
+For example, homework 0 is available [here](/hw0/). Go to this page, and on the top right, click on the button that says "Edit or run this notebook". From these instructions, copy the notebook link, and paste it into the box. Press ENTER, and select OK in the confirmation box.
 
 ![image](https://user-images.githubusercontent.com/6933510/91441968-6b750100-e871-11ea-974e-3a6dfd80234a.png)
 
