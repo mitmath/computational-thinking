@@ -143,6 +143,20 @@ pre.code-output {
     margin-left: 0.25em;
 }
 
+
+.sidebar-nav .book-chapter {
+    align-items: center;
+    color: #d93d00;
+    margin-top: 1em;
+}
+.sidebar-nav .book-chapter::before,
+.sidebar-nav .book-chapter::after {
+    content: " ";
+    flex: 1;
+    border-bottom: 1px dashed #d93d00;
+}
+
+
 h1 {
     margin-top: 2em;
 }

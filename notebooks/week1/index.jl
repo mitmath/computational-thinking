@@ -55,7 +55,7 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Chapter 1</em></p>
+"><em>Section 1.1</em></p>
 <p style="text-align: center; font-size: 2rem;">
 <em>Working with images<br>and arrays</em>
 </p>
