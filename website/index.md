@@ -3,9 +3,15 @@
 
 Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 
-> Class starts _Wednesday Feb 17th, 1pm EST_. Come to this page to attend live MIT classes open to the general public. We will be _broadcasting live_ on this page and will answer questions on [Discord](https://discord.gg/Z5qnVf8).  ~~~<img style="display: block; margin: 1em auto" src="assets/staytuned.png">~~~
+~~~
+<iframe id="installation" width="100%" height="360"
+src="https://www.youtube.com/embed/3zTO3LEY-cM"
+frameborder="0"
+allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allowfullscreen></iframe>
+~~~
 
-> Come back at 1:05pm EST on Wednesday 2/17 for the first live lecture!
+> We streamed our first live lecture on 1:05pm EST on Wednesday 2/17! You can watch it here ☝️
 
 \blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
