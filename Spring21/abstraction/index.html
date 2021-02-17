@@ -40,7 +40,7 @@
     </style>
     <nav class="sidebar-nav" style="opacity: 0.9">
       <a class="sidebar-nav-item " href="/Spring21/"><b>Welcome</b></a>
-      <a class="sidebar-nav-item active" href="/Spring21/reviews/">&emsp;Class Reviews</a>
+      <a class="sidebar-nav-item " href="/Spring21/reviews/">&emsp;Class Reviews</a>
       <a class="sidebar-nav-item " href="/Spring21/logistics/">Class Logistics</a>
       <a class="sidebar-nav-item " href="/Spring21/installation/">Software installation</a>
       <a class="sidebar-nav-item " href="/Spring21/cheatsheets/">Cheatsheets</a>
@@ -52,7 +52,7 @@
       <div class="course-section">Image processing</div>
       <div class="book-chapter"> <b>Chapter 1</b> - <em>Images and Abstraction</em></div>
       <a class="sidebar-nav-item " href="/Spring21/week1/"><b>Section 1.1</b> - <em>Images</em></a>
-      <a class="sidebar-nav-item " href="/Spring21/abstraction/"><b>Section 1.2</b> - <em>Abstraction</em></a>
+      <a class="sidebar-nav-item active" href="/Spring21/abstraction/"><b>Section 1.2</b> - <em>Abstraction</em></a>
       <div class="course-section">Module 2</div>
       <em>Starting in week 4</em>
       <div class="course-section">Module 3</div>
@@ -69,24 +69,48 @@
 
 
 
+<div id="sync-play-wrap" style="margin-left: 4rem; margin-top: 3em; display: none">
+    <input type="checkbox" id="sync-play" name="sync-play" checked>
+    <label for="sync-play">Synchronize play when the class is live</label>
+</div>
+
 <!-- Content appended here -->
-<div class="franklin-content"><h1 id="student_feedback"><a href="#student_feedback">Student feedback</a></h1>
-<div class="cards"><div class="row"> <div class="column"><div class="card"><div class="card-container"><div class="title">Applications Feedback</div>
-<div class="semester">Spring 2020</div>
-<div class="feedback">The Introduction to Computational Thinking with Julia class is a welcome departure from the paradigm of teaching the canonical computer science examples such as sorting algorithms and graph search that are often overused in introductory curricula. The class delves into real-world applications from the very beginning in a way that gives students an opportunity to be excited about the possibilities of computer science and mathematical modelling all while learning how to harness the power and elegance of the modern language of Julia.</div></div></div></div>  <div class="column"><div class="card"><div class="card-container"><div class="title">Class Feedback</div>
-<div class="semester">Spring 2020</div>
-<div class="feedback">This is one of the best classes I have ever taken. I like how the content is divided into four main real-world applications of computational thinking, which made learning very enjoyable and also made working with Julia easier for me. I also found it amazing that this class provided applications of topics in differential equations and linear algebra classes and added a new way to view them. Unfortunately, I haven't found a similar class on computational thinking for the spring as the skills I gain are very practical and needed in research (I was impressed by the number of MISTI research opportunities that asked for experience with agent-based modeling or modeling in general.)</div></div></div></div>  <div class="column"><div class="card"><div class="card-container"><div class="title">Website Feedback</div>
-<div class="semester">Spring 2020</div>
-<div class="feedback">The class website made the class lectures and homework easy to find in addition to the GitHub page and canvas. - The Discord channel and Piazza also made it easier to ask questions and see other students' questions and comments. - The feedback for assignments was very clear, and the instructors were willing to explain my mistakes further by email.</div></div></div></div>  <div class="column"><div class="card"><div class="card-container"><div class="title">Lecture Feedback</div>
-<div class="semester">Spring 2020</div>
-<div class="feedback">The synchronous lectures were very comfortable, and the instructors encouraged us to ask questions.</div></div></div></div> </div></div>
-<h1 id="what_other_people_are_saying"><a href="#what_other_people_are_saying">What other people are saying</a></h1>
+<div class="franklin-content"><style>
 
-<a style="font-size:1.2em" href="https://medium.com/towards-artificial-intelligence/mits-free-online-course-to-learn-julia-the-rising-star-b00a0e762dfc">MIT's  Free Online Course to Learn Julia — The Rising Star</a> &mdash; <em>Review of 18.S191 by Towards AI Newsletter</em>
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+.smallscreenlink {
+    display: none;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
+    }
+}
+</style>
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">the course is exceptional🎇🎇🎇</p>&mdash; YT Cai (@Yitao_CAI) <a href="https://twitter.com/Yitao_CAI/status/1338877387510059014?ref_src=twsrc%5Etfw">December 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<iframe width="100%" height="100%"
+src="../notebooks/week1/abstraction.html"
+class="plutopage"
+frameborder="0"
+allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; wake-lock; screen-wake-lock; vr; web-share; xr-spatial-tracking"
+allowfullscreen></iframe>
 
-<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I cannot recommend this class enough, it’s awesome. <a href="https://t.co/4BsBEygeLd">https://t.co/4BsBEygeLd</a></p><br>&mdash; James Doss-Gollin (@jdossgollin) <a href="https://twitter.com/jdossgollin/status/1339013228194451456?ref_src=twsrc%5Etfw">December 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<a class="smallscreenlink" href="../notebooks/week1/abstraction.html"></a>
 
 <div class="page-foot">
   <div class="copyright">
@@ -97,6 +121,14 @@
 </div><!-- CONTENT ENDS HERE -->
 
     </div>  <!-- div: content container -->
+
+    
+        <script src="/Spring21/assets/moment.min.js"></script>
+<script src="/Spring21/assets/moment-timezone.js"></script>
+<script src="/Spring21/assets/live-player.js"></script>
+<script>
+play_live("2021-02-16T10:45:00", "America/New_York", ["abstration"], [])
+</script>
 
     
 
