@@ -316,10 +316,13 @@ md"""
 """
 
 # ╔═╡ 08d61afb-c641-4aa9-b995-2552af89f3b8
-@bind row_i Slider(1:size(philip)[1])
+@bind row_i Slider(1:size(philip)[1], show_value=true)
 
 # ╔═╡ 6511a498-7ac9-445b-9c15-ec02d09783fe
-@bind col_i Slider(1:size(philip)[2])
+@bind col_i Slider(1:size(philip)[2], show_value=true)
+
+# ╔═╡ 94b77934-713e-11eb-18cf-c5dc5e7afc5b
+row_i,col_i
 
 # ╔═╡ ff762861-b186-4eb0-9582-0ce66ca10f60
 philip[row_i, col_i]
@@ -1191,6 +1194,7 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─28860d48-64c8-11eb-240f-e1232b3638df
 # ╟─4ef99715-4d8d-4f9d-bf0b-8df9907a14cf
 # ╟─a510fc33-406e-4fb5-be83-9e4b5578717c
+# ╠═94b77934-713e-11eb-18cf-c5dc5e7afc5b
 # ╠═ff762861-b186-4eb0-9582-0ce66ca10f60
 # ╟─13844ebf-52c4-47e9-bda4-106a02fad9d7
 # ╠═08d61afb-c641-4aa9-b995-2552af89f3b8
