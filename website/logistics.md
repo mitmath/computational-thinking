@@ -5,6 +5,8 @@
 [![Canvas LMS](/assets/canvas_logo.svg#badge)](https://canvas.mit.edu/courses/7590)
 [![MITx LMS](/assets/mitx_logo.svg#badge)](https://lms.mitx.mit.edu/courses/course-v1:MITx+6.S083r+2021_Spring/course/)
 
+Counts as 6.0001 and 6.0002 credit, or can be taken in addition.  Counts as a course
+6 elective.
 
 Course materials will be published on this website on **Monday 1:00pm**. Each week is a new _chapter_, which includes:
 
