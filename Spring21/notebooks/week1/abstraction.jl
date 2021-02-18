@@ -114,7 +114,7 @@ Now, I want to make a collection of ones for some reason. Below is a way for you
 md"""
 Before we even look at the output, I am amazed that this code even ran. Are you telling me that the computer doesn't care which _one_ I am using in my array?
 
-Yes! That's exactly what abstraction is. By stepping back, we can now think and operate at a level that doesn't care about which _specific_ one I am using. This is what we mean by **abtraction is the opposite of specialization**.
+Yes! That's exactly what abstraction is. By stepping back, we can now think and operate at a level that doesn't care about which _specific_ one I am using. This is what we mean by **abstraction is the opposite of specialization**.
 
 The information that Julia gives back is quite informative. Here is an example of the first line of the output for a few different types: 
 
@@ -232,7 +232,7 @@ end
 # ╠═4251f668-70aa-11eb-3d89-35f8d53b7d9b
 # ╠═f1568d10-ec41-11ea-3dd2-a9cb273ce5b8
 # ╠═ab02d850-ec41-11ea-10b2-a1b600b12658
-# ╟─f6886d90-70ed-11eb-07c4-471ee267e7c1
+# ╠═f6886d90-70ed-11eb-07c4-471ee267e7c1
 # ╟─3c1a3cf8-70f8-11eb-3c18-375207f321eb
 # ╠═19f4ddb0-ec44-11ea-20b9-5d97fb2b1cf4
 # ╠═424f5f10-ec44-11ea-076d-f3cba4435e0c
