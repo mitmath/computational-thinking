@@ -4,7 +4,8 @@
 using Markdown
 using InteractiveUtils
 
-# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock 
+# version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
         local el = $(esc(element))
@@ -80,11 +81,13 @@ _When running this notebook for the first time, this could take up to 15 minutes
 md"
 ## Introduction
 
-The goal of this section is to introduce you to the notion of abstraction. You can think of abstraction as an opposite to specialization. We will illustrate this by looking at the following example.
+The goal of this section is to introduce you to the notion of abstraction. You can think of abstraction as an opposite to 
+specialization. We will illustrate this by looking at the following example.
 
 ### What is _one_?
 
-Before we get lost talking about the foundations of number theory, I will present you with a few examples that represent one to me. 
+Before we get lost talking about the foundations of number theory, I will present you with a few examples that represent 
+one to me. 
 "
 
 # ╔═╡ 6fcac482-70ee-11eb-0b80-ff41c708053b
@@ -97,9 +100,11 @@ md"Each of the items in this list is a specific, or **_specialized_** representa
 1. as an 2x2 identity matrix
 1. as a singular dog
 
-Of course, these are just a few examples of _one_. People have been representing _one_ for ages in different langauges, scripts, artistic expression, etc.
+Of course, these are just a few examples of _one_. People have been representing _one_ for ages in different langauges, 
+scripts, artistic expression, etc.
 
-The difference between these ones to me is clear. In fact, I just articulated it to you. Now, let's turn to how a computer sees _one_ differently based on what I type.
+The difference between these ones to me is clear. In fact, I just articulated it to you. Now, let's turn to how a computer 
+sees _one_ differently based on what I type.
 "
 
 # ╔═╡ 9ebc079a-70f0-11eb-07d9-f9e80f3f4584
@@ -108,15 +113,20 @@ md"So to a computer, all of these are different types."
 # ╔═╡ 15f7f90a-70f0-11eb-0d41-63677e4023f4
 md"### What is a collection of _one_'s?
 
-Now, I want to make a collection of ones for some reason. Below is a way for you to experiment building this collection with different _one_'s. As you do this experiment, I want you to look at what stays in the same in the Julia output, and what doesn't."
+Now, I want to make a collection of ones for some reason. Below is a way for you to experiment building this collection 
+with different _one_'s. As you do this experiment, I want you to look at what stays in the same in the Julia output, and 
+what doesn't."
 
 # ╔═╡ f6886d90-70ed-11eb-07c4-471ee267e7c1
 md"""
-Before we even look at the output, I am amazed that this code even ran. Are you telling me that the computer doesn't care which _one_ I am using in my array?
+Before we even look at the output, I am amazed that this code even ran. Are you telling me that the computer doesn't care 
+which _one_ I am using in my array?
 
-Yes! That's exactly what abstraction is. By stepping back, we can now think and operate at a level that doesn't care about which _specific_ one I am using. This is what we mean by **abstraction is the opposite of specialization**.
+Yes! That's exactly what abstraction is. By stepping back, we can now think and operate at a level that doesn't care about 
+which _specific_ one I am using. This is what we mean by **abstraction is the opposite of specialization**.
 
-The information that Julia gives back is quite informative. Here is an example of the first line of the output for a few different types: 
+The information that Julia gives back is quite informative. Here is an example of the first line of the output for a few 
+different types: 
 
 ```
 array = 3x4 Array{Int64, 2}
@@ -131,7 +141,8 @@ Notice that for all of these, we have the same `3x4 Array{***, 2}`.
 md"""
 ## First Taste of Abstraction
 
-Now, I want to do something to a collection of ones, that doesn't care about which one I'm using. So I'm going to write a function that takes in my collection, and add a corgi whereever I desire.
+Now, I want to do something to a collection of ones, that doesn't care about which one I'm using. So I'm going to write a 
+function that takes in my collection, and add a corgi whereever I desire.
 """
 
 # ╔═╡ 19f4ddb0-ec44-11ea-20b9-5d97fb2b1cf4
@@ -157,12 +168,15 @@ begin
 end
 
 # ╔═╡ ee43d808-70fa-11eb-0cc6-337279f41494
-md"This is still amazing. I wrote one function that just cares about how to insert an object into an array, without knowing anything about what's inside, and it worked for two completely different arrays, _collections of one's of **any kind**_."
+md"This is still amazing. I wrote one function that just cares about how to insert an object into an array, without knowing 
+anything about what's inside, and it worked for two completely different arrays, _collections of one's of **any kind**_."
 
 # ╔═╡ 263a8a0a-70ee-11eb-236d-c941ba63dff3
 md"
 ## Conclusion
-The key idea here is that a computer language should allow you to do operations that make sense. Often times, an operation can make sense for many different objects. So we can abstract away the specifics of the object in our implementation. It should let you step back from there.
+The key idea here is that a computer language should allow you to do operations that make sense. Often times, an operation 
+can make sense for many different objects. So we can abstract away the specifics of the object in our implementation. It 
+should let you step back from there.
 "
 
 # ╔═╡ 52461588-ea1a-4e7d-aec2-3de388d31656
@@ -172,8 +186,10 @@ md"""
 
 # ╔═╡ 1a2a9000-ec43-11ea-3f39-8312ea286a92
 begin
-	oneimage = load(download("https://gallery.yopriceville.com/var/albums/Free-Clipart-Pictures/Decorative-Numbers/Cute_Number_One_PNG_Clipart_Image.png?m=1437447301"))
-	corgi = load(download("https://i.barkpost.com/wp-content/uploads/2015/01/corgi2.jpg?q=70&fit=crop&crop=entropy&w=808&h=500"))
+	oneimage = load(download("https://gallery.yopriceville.com/var/albums/Free-Clipart-Pictures/Decorative-Numbers/
+	Cute_Number_One_PNG_Clipart_Image.png?m=1437447301"))
+	corgi = load(download("https://i.barkpost.com/wp-content/uploads/2015/01/corgi2.jpg?q=70&fit=crop&crop=entropy&w=808&
+	h=500"))
 	nothing
 end
 

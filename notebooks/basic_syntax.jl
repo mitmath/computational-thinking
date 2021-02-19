@@ -25,7 +25,8 @@ x = 3
 y = 2x
 
 # ╔═╡ 5e062a24-edeb-11ea-256a-d938f77d7815
-md"By default Julia displays the output of the last operation. (You can suppress the output by adding `;` (a semicolon) at the end.)
+md"By default Julia displays the output of the last operation. (You can suppress the output by adding `;` (a semicolon) at 
+the end.)
 "
 
 # ╔═╡ 7e46f0e8-edeb-11ea-1092-4b5e8acd9ee0
@@ -88,7 +89,8 @@ typeof(1:10)
 
 # ╔═╡ 6c44abb4-edec-11ea-16bd-557800b5f9d2
 md"Above we used a `let` block to define a new local variable `s`. 
-But blocks of code like this are usually better inside functions, so that they can be reused. For example, we could rewrite the above as follows:
+But blocks of code like this are usually better inside functions, so that they can be reused. For example, we could rewrite 
+the above as follows:
 "
 
 # ╔═╡ 683af3e2-eded-11ea-25a5-0d90bf099d98
@@ -132,7 +134,8 @@ else
 end
 
 # ╔═╡ cfb21014-eded-11ea-1261-3bc30952a88e
-md"""Note that the `if` also returns the last value that was evaluated, in this case the string `"small"` or `"big"`, Since Pluto is reactive, changing the definition of `a` above will automatically cause this to be reevaluated!"""
+md"""Note that the `if` also returns the last value that was evaluated, in this case the string `"small"` or `"big"`, Since 
+Pluto is reactive, changing the definition of `a` above will automatically cause this to be reevaluated!"""
 
 # ╔═╡ ffee7d80-eded-11ea-26b1-1331df204c67
 md"## Arrays"
@@ -201,7 +204,8 @@ zeros(Int, 4, 5)
 md"We can then fill in the values we want by manipulating the elements, e.g. with a `for` loop."
 
 # ╔═╡ 54e47e9e-edef-11ea-2d75-b5f550902528
-md"A nice alternative syntax to create matrices following a certain pattern is an array comprehension with a *double* `for` loop:"
+md"A nice alternative syntax to create matrices following a certain pattern is an array comprehension with a *double* `for` 
+loop:"
 
 # ╔═╡ 6348edce-edef-11ea-1ab4-019514eb414f
 [i + j for i in 1:5, j in 1:6]

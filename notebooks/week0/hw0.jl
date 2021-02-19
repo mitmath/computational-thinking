@@ -4,7 +4,8 @@
 using Markdown
 using InteractiveUtils
 
-# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock 
+# version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
         local el = $(esc(element))
@@ -48,11 +49,14 @@ We'd like everyone to **submit this zeroth homework assignment**. It will not af
 
 # ╔═╡ 31a8fbf8-e6ce-11ea-2c66-4b4d02b41995
 md"""## Homework Logistics
-Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl). Your must complete them and submit them on [Canvas](https://canvas.mit.edu/courses/5637) (if you are an MIT student.). If you are not an MIT student, we encourage you to [join Discord](https://discord.gg/Z5qnVf8) and find someone to cross-grade.
+Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl). Your must complete them and submit them 
+on [Canvas](https://canvas.mit.edu/courses/5637) (if you are an MIT student.). If you are not an MIT student, we encourage 
+you to [join Discord](https://discord.gg/Z5qnVf8) and find someone to cross-grade.
 
 Homeworks will be released on Thursdays and due on Thursdays 11:59pm Eastern time.
 
-HW0 is for you to get your system set up correctly and to test our grading software. You must submit it but it will not count towards your grade.
+HW0 is for you to get your system set up correctly and to test our grading software. You must submit it but it will not 
+count towards your grade.
 """
 
 # ╔═╡ f9d7250a-706f-11eb-104d-3f07c59f7174
@@ -65,9 +69,11 @@ That’s it, but if you like you can do the _OPTIONAL_ exercises that follow."
 
 # ╔═╡ 430a260e-6cbb-11eb-34af-31366543c9dc
 md"""# Installation
-Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/Spring21/installation/)
+Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/Spring21/
+installation/)
 
-One you have Julia and Pluto installed, you can click the button at the top right of this page and follow the instructions to edit this notebook locally and submit.
+One you have Julia and Pluto installed, you can click the button at the top right of this page and follow the instructions 
+to edit this notebook locally and submit.
 """
 
 # ╔═╡ a05d2bc8-7024-11eb-08cb-196543bbb8fd
@@ -140,9 +146,11 @@ Output: $\sqrt{x}$
 1. Set a = the average of `x/a` and `a`. (The square root must be between these two numbers. Why?)
 1. Repeat until `x/a` is roughly equal to `a`. Return `a` as the square root.
 
-In general, you will never get to the point where `x/a` is _exactly_ equal to `a`. So if our algorithm keeps going until `x/a == a`, then it will get stuck.
+In general, you will never get to the point where `x/a` is _exactly_ equal to `a`. So if our algorithm keeps going until `x/
+a == a`, then it will get stuck.
 
-So instead, the algorithm takes a parameter `error_margin`, which is used to decide when `x/a` and `a` are close enough to halt.
+So instead, the algorithm takes a parameter `error_margin`, which is used to decide when `x/a` and `a` are close enough to 
+halt.
 "
 
 # ╔═╡ 56866718-e6ce-11ea-0804-d108af4e5653
@@ -219,15 +227,18 @@ md"## (Optional) Exercise 2 - _Sierpinksi's triangle_
 
 Sierpinski's triangle is defined _recursively_:
 
-- Sierpinski's triangle of complexity N is a figure in the form of a triangle which is made of 3 triangular figures which are themselves Sierpinski's triangles of complexity N-1.
+- Sierpinski's triangle of complexity N is a figure in the form of a triangle which is made of 3 triangular figures which 
+are themselves Sierpinski's triangles of complexity N-1.
 
 - A Sierpinski's triangle of complexity 0 is a simple solid equilateral triangle
 "
 
 # ╔═╡ 6b8883f6-e7b3-11ea-155e-6f62117e123b
-md"To draw Sierpinski's triangle, we are going to use an external package, [_Compose.jl_](https://giovineitalia.github.io/Compose.jl/latest/tutorial). Let's set up a package environment and add the package.
+md"To draw Sierpinski's triangle, we are going to use an external package, [_Compose.jl_](https://giovineitalia.github.io/
+Compose.jl/latest/tutorial). Let's set up a package environment and add the package.
 
-A package contains a coherent set of functionality that you can often use a black box according to its specification. There are [lots of Julia packages](https://juliahub.com/ui/Home).
+A package contains a coherent set of functionality that you can often use a black box according to its specification. There 
+are [lots of Julia packages](https://juliahub.com/ui/Home).
 "
 
 # ╔═╡ 851c03a4-e7a4-11ea-1652-d59b7a6599f0
@@ -267,7 +278,8 @@ Hit `Shift+Enter` to affect the change.
 	"""
 else
 	md"""
-**Great!** As you can see, all the cells in this notebook are linked together by the variables they define and use. Just like a spreadsheet!
+**Great!** As you can see, all the cells in this notebook are linked together by the variables they define and use. Just 
+like a spreadsheet!
 	"""
 end
 
@@ -332,7 +344,8 @@ function place_in_3_corners(t)
 	# Uses the Compose library to place 3 copies of t
 	# in the 3 corners of a triangle.
 	# treat this function as a black box,
-	# or learn how it works from the Compose documentation here https://giovineitalia.github.io/Compose.jl/latest/tutorial/#Compose-is-declarative-1
+	# or learn how it works from the Compose documentation here https://giovineitalia.github.io/Compose.jl/latest/tutorial/
+	#Compose-is-declarative-1
 	compose(context(),
 			(context(1 / 4,   0, 1 / 2, 1 / 2), t),
 			(context(0, 1 / 2, 1 / 2, 1 / 2), t),

@@ -1,4 +1,5 @@
 
 .DS_Store
-
+*.png
+*.jpg
 reduced_phil.png

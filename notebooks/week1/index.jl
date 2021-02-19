@@ -4,7 +4,8 @@
 using Markdown
 using InteractiveUtils
 
-# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
+# This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock 
+# version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
     quote
         local el = $(esc(element))
@@ -83,9 +84,11 @@ md"""
 # Lecture 1: Images as examples of data  all around us
 Welcome to the Computational Thinking using Julia for Real-World Problems, at MIT in Spring 2021!
 
-The aim of this course is to bring together concepts from computer science and applied math with coding in the modern **Julia language**, and to see how to apply these techniques to study interesting applications (and of course to have fun).
+The aim of this course is to bring together concepts from computer science and applied math with coding in the modern 
+**Julia language**, and to see how to apply these techniques to study interesting applications (and of course to have fun).
 
-We would be pleased if students who have been interested in computer science now become interested in computational science and those interested in scientific applications learn computer science they may not see elsewhere.
+We would be pleased if students who have been interested in computer science now become interested in computational 
+science and those interested in scientific applications learn computer science they may not see elsewhere.
 ... and for all students, we wish to share the value of 
 the Julia  language as the best of both worlds.
 """
@@ -95,13 +98,18 @@ md"""
 
 ## Alan's Essay: Are all programming languages the same? 
 
->Superficially, many programming languages are very similar.  "Showoffs" will compare functional programming vs imperative programming.  Others will compare compiled languages vs dynamic languages.  I will avoid such fancy terms in this little essay, preferring to provide this course's pedagogical viewpoint.
+>Superficially, many programming languages are very similar.  "Showoffs" will compare functional programming vs imperative >programming.  Others will compare compiled languages vs dynamic languages.  I will avoid such fancy terms in this little >essay, preferring to provide this course's pedagogical viewpoint.
 >
->Generally speaking beginning programmers should learn to create "arrays" write "for loops", "conditionals", "comparisons", express mathematical formulas, etc. So why Julia at a time when Python seems to be the language of teaching, and Java and C++ so prominent in the corporate world?
+>Generally speaking beginning programmers should learn to create "arrays" write "for loops", "conditionals", 
+>"comparisons", express mathematical formulas, etc. So why Julia at a time when Python seems to be the language of 
+>teaching, and Java and C++ so prominent in the corporate world?
 >
->As you might imagine, we believe Julia is special.   Oh you will still have the nitty gritty of when to use a bracket and a comma.  You might have strong opinions as to whether arrays should begin with 0 or 1 (joke: some say it's time to compromise and use ½.)  Getting past these irrelevant issues,  you will begin to experience one by one what makes Julia so very special.  For starters, a language that runs fast is more fun.  We can have you try things that would just be so slow in other languages it would be boring.  We also think you will start to notice how natural Julia is, how it feels like the mathematics, and how flexible it can be.  
+>As you might imagine, we believe Julia is special.   Oh you will still have the nitty gritty of when to use a bracket and 
+>a comma.  You might have strong opinions as to whether arrays should begin with 0 or 1 (joke: some say it's time to 
+>compromise and use ½.)  Getting past these irrelevant issues,  you will begin to experience one by one what makes Julia >so very special.  For starters, a language that runs fast is more fun.  We can have you try things that would just be so >slow in other languages it would be boring.  We also think you will start to notice how natural Julia is, how it feels like >the mathematics, and how flexible it can be.  
 >
->Getting to see the true value of fancy terms like multiple dispatch, strong typing, generic programming, and composable software will take a little longer, but stick with us, and you too will see why Julia is so very special.
+>Getting to see the true value of fancy terms like multiple dispatch, strong typing, generic programming, and composable 
+>software will take a little longer, but stick with us, and you too will see why Julia is so very special.
 """
 
 # ╔═╡ 9111db10-6bc3-11eb-38e5-cf3f58536914
@@ -147,9 +155,13 @@ md"""
 # ╔═╡ 6385d174-6d4e-11eb-093b-6f6fafb79f84
 md"""
 $(html"<br>")
-To use any data source, we need to **input** the data of interest, for example by downloading it, reading in the resulting file, and converting it into a form that we can use in the computer. Then we need to **process** it in some way to extract information of interest. We usually want to **visualize** the results, and we may want to **output** them, for example by saving to disc or putting them on a website.
+To use any data source, we need to **input** the data of interest, for example by downloading it, reading in the resulting 
+file, and converting it into a form that we can use in the computer. Then we need to **process** it in some way to extract 
+information of interest. We usually want to **visualize** the results, and we may want to **output** them, for example by 
+saving to disc or putting them on a website.
 
-We often want to make a mathematical or computational **model** that can help us to understand and predict the behavior of the system of interest.
+We often want to make a mathematical or computational **model** that can help us to understand and predict the behavior of 
+the system of interest.
 
 > In this course we aim to show how programming, computer science and applied math combine to help us with these goals.
 """
@@ -158,26 +170,33 @@ We often want to make a mathematical or computational **model** that can help us
 md"""
 # Data: Images (as an example of data)
 Let's start off by looking at **images** and how we can process them. 
-Our goal is to process the data contained in an image in some way, which we will do by developing and coding certain **algorithms**.
+Our goal is to process the data contained in an image in some way, which we will do by developing and coding certain 
+**algorithms**.
 
-Here is the the Fall 2020 version of this lecture (small variations) by 3-Blue-1-Brown (Grant Sanderson) for your reference.
+Here is the the Fall 2020 version of this lecture (small variations) by 3-Blue-1-Brown (Grant Sanderson) for your 
+reference.
 """
 
 # ╔═╡ 635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/
+DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; 
+picture-in-picture" allowfullscreen></iframe></div>
 """
 
 # ╔═╡ 9eb6efd2-6018-11eb-2db8-c3ce41d9e337
 md"""
 
 
-If we open an image on our computer or the web and zoom in enough, we will see that it consists of many tiny squares, or **pixels** ("picture elements"). Each pixel is a block of one single colour, and the pixels are arranged in a two-dimensional square grid. 
+If we open an image on our computer or the web and zoom in enough, we will see that it consists of many tiny squares, or 
+**pixels** ("picture elements"). Each pixel is a block of one single colour, and the pixels are arranged in a 
+two-dimensional square grid. 
 
 You probably already know that these pixels are stored in a computer numerically
 perhaps in some form of RGB (red,green,blue) format.  This is the computer's represenation of the data.   
 
-Note that an image is already an **approximation** of the real world -- it is a two-dimensional, discrete representation of a three-dimensional reality.
+Note that an image is already an **approximation** of the real world -- it is a two-dimensional, discrete representation 
+of a three-dimensional reality.
 
 """
 
@@ -188,7 +207,8 @@ md"""
 
 # ╔═╡ e1c9742a-6018-11eb-23ba-d974e57f78f9
 md"""
-Let's use Julia to load  actual images and play around with them. We can download images from the internet, your own file, or your own webcam.
+Let's use Julia to load  actual images and play around with them. We can download images from the internet, your own file, 
+or your own webcam.
 """
 
 # ╔═╡ 9b004f70-6bc9-11eb-128c-914eadfc9a0e
@@ -210,7 +230,8 @@ url = "https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28
 
 # ╔═╡ 9180fbcc-601e-11eb-0c22-c920dc7ee9a9
 md"""
-Step 2: Now we use the aptly-named `download` function to download the image file to our own computer. (Philip is Prof. Edelman's corgi.)
+Step 2: Now we use the aptly-named `download` function to download the image file to our own computer. (Philip is Prof. 
+Edelman's corgi.)
 """
 
 # ╔═╡ 34ffc3d8-601e-11eb-161c-6f9a07c5fd78
@@ -219,7 +240,9 @@ philip_filename = download(url) # download to a local file. The filename is retu
 # ╔═╡ abaaa980-601e-11eb-0f71-8ff02269b775
 md"""
 Step 3:
-Using the `Images.jl` package (loaded at the start of this notebook; scroll up and take a look.) we can **load** the file, which automatically converts it into usable data. We'll store the result in a variable. (Remember the code is after the output.)
+Using the `Images.jl` package (loaded at the start of this notebook; scroll up and take a look.) we can **load** the file, 
+which automatically converts it into usable data. We'll store the result in a variable. (Remember the code is after the 
+output.)
 """
 
 # ╔═╡ aafe76a6-601e-11eb-1ff5-01885c5238da
@@ -230,7 +253,8 @@ md"_Hi there Philip_"
 
 # ╔═╡ c99d2aa8-601e-11eb-3469-497a246db17c
 md"""
-We see that the Pluto notebook has recognised that we created an object representing an image, and automatically displayed the resulting image of Philip, the cute Welsh Pembroke corgi and co-professor of this course.
+We see that the Pluto notebook has recognised that we created an object representing an image, and automatically displayed 
+the resulting image of Philip, the cute Welsh Pembroke corgi and co-professor of this course.
 Poor Philip will undergo quite a few transformations as we go along!
 """
 
@@ -271,7 +295,8 @@ philip_size = size(philip)
 
 # ╔═╡ 77f93eb8-602c-11eb-1f38-efa56cc93ca5
 md"""
-Julia returns a pair of two numbers. Comparing these with the picture of the image, we see that the first number is the height, i.e. the vertical number of pixels, and the second is the width.
+Julia returns a pair of two numbers. Comparing these with the picture of the image, we see that the first number is the 
+height, i.e. the vertical number of pixels, and the second is the width.
 """
 
 # ╔═╡ 96b7d801-c427-4e27-ab1f-e2fd18fc24d0
@@ -284,10 +309,13 @@ philip_width = philip_size[2]
 md"""
 ### Locations in an image: Indexing
 
-Now suppose that we want to examine a piece of the image in more detail. We need some way of specifying which piece of the image we want. 
+Now suppose that we want to examine a piece of the image in more detail. We need some way of specifying which piece of the 
+image we want. 
 
-Thinking of the image as a grid of pixels, we need a way to tell the computer which pixel or group of pixels we want to refer to. 
-Since the image is a two-dimensional grid, we can use two integers (whole numbers) to give the coordinates of a single pixel.  Specifying coordinates like this is called **indexing**: think of the index of a book, which tells you *on which page* an idea is discussed.
+Thinking of the image as a grid of pixels, we need a way to tell the computer which pixel or group of pixels we want to 
+refer to. 
+Since the image is a two-dimensional grid, we can use two integers (whole numbers) to give the coordinates of a single 
+pixel.  Specifying coordinates like this is called **indexing**: think of the index of a book, which tells you *on which page* an idea is discussed.
 
 In Julia we use (square) brackets, `[` and `]` for indexing: 
 """
@@ -299,7 +327,9 @@ a_pixel = philip[200, 100]
 md"""
 We see that Julia knows to draw our pixel object for us a block of the relevant color.
 
-When we index into an image like this, the first number indicates the *row* in the image, starting from the top, and the second the *column*, starting from the left. In Julia, the first row and column are numbered starting from 1, not from 0 as in some other programming languages.
+When we index into an image like this, the first number indicates the *row* in the image, starting from the top, and the 
+second the *column*, starting from the left. In Julia, the first row and column are numbered starting from 1, not from 0 
+as in some other programming languages.
 """
 
 # ╔═╡ 4ef99715-4d8d-4f9d-bf0b-8df9907a14cf
@@ -331,7 +361,8 @@ philip[row_i, col_i]
 md"""
 ### Locations in an image: Range indexing
 
-We saw that we can use the **row number** and **column number** to index a _single pixel_ of our image. Next, we will use a **range of numbers** to index _multiple rows or columns_ at once, returning a subarray:
+We saw that we can use the **row number** and **column number** to index a _single pixel_ of our image. Next, we will use 
+a **range of numbers** to index _multiple rows or columns_ at once, returning a subarray:
 """
 
 # ╔═╡ f0796032-8105-4f6d-b5ee-3647b052f2f6
@@ -386,9 +417,13 @@ nose = philip_head[range_rows, range_cols]
 md"""
 # Process: Modifying an image
 
-Now that we have access to image data, we can start to **process** that data to extract information and/or modify it in some way.
+Now that we have access to image data, we can start to **process** that data to extract information and/or modify it in 
+some way.
 
-We might want to detect what type of objects are in the image, say to detect whether a patient has a certain disease. To achieve a high-level goal like this, we will need to perform mid-level operations, such as detecting edges that separate different objects based on their color. And, in turn, to carry that out we will need to do low-level operations like comparing colors of neighboring pixels and somehow deciding if they are "different".
+We might want to detect what type of objects are in the image, say to detect whether a patient has a certain disease. To 
+achieve a high-level goal like this, we will need to perform mid-level operations, such as detecting edges that separate 
+different objects based on their color. And, in turn, to carry that out we will need to do low-level operations like 
+comparing colors of neighboring pixels and somehow deciding if they are "different".
 
 """
 
@@ -398,9 +433,13 @@ md"""
 
 We can  use indexing to *modify* a pixel's color. To do so, we need a way to specify a new color.
 
-Color turns out to be a complicated concept, having to do with the interaction of the physical properties of light with the physiological mechanisms and mental processes by which we detect it!
+Color turns out to be a complicated concept, having to do with the interaction of the physical properties of light with 
+the physiological mechanisms and mental processes by which we detect it!
 
-We will ignore this complexity by using a standard method of representing colours in the computer as an **RGB triple**, i.e. a triple of three numbers $(r, g, b)$, giving the amount of red, of green and of blue in a colour, respectively. These are numbers between 0 (none) and 1 (full). The final colour that we perceive is the result of "adding" the corresponding amount of light of each colour; the details are fascinating, but beyond the scope of this course!
+We will ignore this complexity by using a standard method of representing colours in the computer as an **RGB triple**, i.
+e. a triple of three numbers $(r, g, b)$, giving the amount of red, of green and of blue in a colour, respectively. These 
+are numbers between 0 (none) and 1 (full). The final colour that we perceive is the result of "adding" the corresponding 
+amount of light of each colour; the details are fascinating, but beyond the scope of this course!
 """
 
 # ╔═╡ 40886d36-64c9-11eb-3c69-4b68673a6dde
@@ -414,7 +453,8 @@ RGB(1.0, 0.0, 0.0)
 # ╔═╡ c2907d1a-47b1-4634-8669-a68022706861
 begin
 	md"""
-	A pixel with $(@bind test_r Scrubbable(0:0.1:1; default=0.1)) red, $(@bind test_g Scrubbable(0:0.1:1; default=0.5)) green and $(@bind test_b Scrubbable(0:0.1:1; default=1.0)) blue looks like:
+	A pixel with $(@bind test_r Scrubbable(0:0.1:1; default=0.1)) red, $(@bind test_g Scrubbable(0:0.1:1; default=0.5)) 
+	green and $(@bind test_b Scrubbable(0:0.1:1; default=1.0)) blue looks like:
 	"""
 end
 	
@@ -474,7 +514,8 @@ end
 
 # ╔═╡ 81b88cbe-64c9-11eb-3b26-39011efb2089
 md"""
-Be careful: We are actually *modifying* the original image here, even though if we look at the image it is hard to spot, since a single pixel is so small.
+Be careful: We are actually *modifying* the original image here, even though if we look at the image it is hard to spot, 
+since a single pixel is so small.
 """
 
 # ╔═╡ ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
@@ -539,7 +580,8 @@ md"""
 
 # ╔═╡ 6361d102-64cc-11eb-31b7-fb631b632040
 md"""
-Maybe we would also like to reduce the size of this image, since it's rather large. For example, we could take every 10th row and every 10th column and make a new image from the result:
+Maybe we would also like to reduce the size of this image, since it's rather large. For example, we could take every 10th 
+row and every 10th column and make a new image from the result:
 """
 
 # ╔═╡ ae542fe4-64cc-11eb-29fc-73b7a66314a9
@@ -558,15 +600,16 @@ Note that the resulting image doesn't look very good, since we seem to have lost
 md"""
 # Model: Creating synthetic images 
 
-Think about your favorite Pixar movie (e.g. Monsters Inc.) Movie frames are images that are generated from complicated mathematical models.  Ray tracing (which may be covered in this class)
-is a method for making images feel realistic.  
+Think about your favorite Pixar movie (e.g. Monsters Inc.) Movie frames are images that are generated from complicated 
+mathematical models.  Ray tracing (which may be covered in this class) is a method for making images feel realistic.  
 """
 
 # ╔═╡ 5319c03c-64cc-11eb-0743-a1612476e2d3
 md"""
 # Output: Saving an image to a file
 
-Finally, we want to be able to save our new creation to a file. To do so, you can **right click** on a displayed image, or you can write it to a file. Fill in a path below:
+Finally, we want to be able to save our new creation to a file. To do so, you can **right click** on a displayed image, or 
+you can write it to a file. Fill in a path below:
 """
 
 # ╔═╡ 3db09d92-64cc-11eb-0333-45193c0fd1fe
@@ -584,26 +627,34 @@ md"""
 An image is a concrete example of a fundamental concept in computer science, namely an **array**. 
 
 Just as an image is a rectangular grid, where each grid cell contains a single color,
-an array is a rectangular grid for storing data. Data is stored and retrieved using indexing, just as in the image examples: each cell in the grid can store a single "piece of data" of a given type.
+an array is a rectangular grid for storing data. Data is stored and retrieved using indexing, just as in the image 
+examples: each cell in the grid can store a single "piece of data" of a given type.
 
 
 ## Dimension of an array
 
-An array can be one-dimensional, like the strip of pixels above, two-dimensional, three-dimensional, and so on. The dimension tells us the number of indices that we need to specify a unique location in the grid.
+An array can be one-dimensional, like the strip of pixels above, two-dimensional, three-dimensional, and so on. The 
+dimension tells us the number of indices that we need to specify a unique location in the grid.
 The array object also needs to know the length of the data in each dimension.
 
 ## Names for different types of array
 
-One-dimensional arrays are often called **vectors** (or, in some other languages, "lists") and two-dimensional arrays are **matrices**. Higher-dimensional arrays are  **tensors**.
+One-dimensional arrays are often called **vectors** (or, in some other languages, "lists") and two-dimensional arrays are 
+**matrices**. Higher-dimensional arrays are  **tensors**.
 
 
 ## Arrays as data structures
 
-An array is an example of a **data structure**, i.e. a way of arranging data such that we can access it. A key theme in computer science is that of designing different data structures that represent data in different ways.
+An array is an example of a **data structure**, i.e. a way of arranging data such that we can access it. A key theme in 
+computer science is that of designing different data structures that represent data in different ways.
 
-Conceptually, we can think of an array as a block of data that has a position or location in space. This can be a useful way to arrange data if, for example, we want to represent the fact that values in nearby locations in array are somehow near to one another.
+Conceptually, we can think of an array as a block of data that has a position or location in space. This can be a useful 
+way to arrange data if, for example, we want to represent the fact that values in nearby locations in array are somehow 
+near to one another.
 
-Images are a good example of this: neighbouring pixels often represent different pieces of the same object, for example the rug or floor, or Philip himself, in the photo. We thus expect neighbouring pixels to be of a similar color. On the other hand, if they are not, this is also useful information, since that may correspond to the edge of an object.
+Images are a good example of this: neighbouring pixels often represent different pieces of the same object, for example 
+the rug or floor, or Philip himself, in the photo. We thus expect neighbouring pixels to be of a similar color. On the 
+other hand, if they are not, this is also useful information, since that may correspond to the edge of an object.
 
 """
 
@@ -637,12 +688,16 @@ md"""
 
 ## Array comprehensions
 
-It's clear that if we want to create an array with more than a few elements, it will be *very* tedious to do so by hand like this.
-Rather, we want to *automate* the process of creating an array by following some pattern, for example to create a whole palette of colors!
+It's clear that if we want to create an array with more than a few elements, it will be *very* tedious to do so by hand 
+like this.
+Rather, we want to *automate* the process of creating an array by following some pattern, for example to create a whole 
+palette of colors!
 
-Let's start with all the possible colors interpolating between black, `RGB(0, 0, 0)`, and red, `RGB(1, 0, 0)`.  Since only one of the values is changing, we can represent this as a vector, i.e. a one-dimensional array.
+Let's start with all the possible colors interpolating between black, `RGB(0, 0, 0)`, and red, `RGB(1, 0, 0)`.  Since only 
+one of the values is changing, we can represent this as a vector, i.e. a one-dimensional array.
 
-A neat method to do this is an **array comprehension**. Again we use square brackets  to create an array, but now we use a **variable** that varies over a given **range** values:
+A neat method to do this is an **array comprehension**. Again we use square brackets  to create an array, but now we use a 
+**variable** that varies over a given **range** values:
 """
 
 # ╔═╡ e69b02c6-64d6-11eb-02f1-21c4fb5d1043
@@ -650,12 +705,14 @@ A neat method to do this is an **array comprehension**. Again we use square brac
 
 # ╔═╡ fce76132-64d6-11eb-259d-b130038bbae6
 md"""
-Here, `0:0.1:1` is a **range**; the first and last numbers are the start and end values, and the middle number is the size of the step.
+Here, `0:0.1:1` is a **range**; the first and last numbers are the start and end values, and the middle number is the size 
+of the step.
 """
 
 # ╔═╡ 17a69736-64d7-11eb-2c6c-eb5ebf51b285
 md"""
-In a similar way we can create two-dimensional matrices, by separating the two variables for each dimension with a comma (`,`):
+In a similar way we can create two-dimensional matrices, by separating the two variables for each dimension with a comma 
+(`,`):
 """
 
 # ╔═╡ 291b04de-64d7-11eb-1ee0-d998dccb998c
@@ -682,9 +739,11 @@ md"""
 
 # ╔═╡ 6aba7e62-64d7-11eb-2c49-7944e9e2b94b
 md"""
-Suppose we want to see the effect of changing the number of colors in our vector or matrix. We could, of course, do so by manually fiddling with the range.
+Suppose we want to see the effect of changing the number of colors in our vector or matrix. We could, of course, do so by 
+manually fiddling with the range.
 
-It would be nice if we could do so using a **user interface**, for example with a **slider**. Fortunately, the Pluto notebook allows us to do so!
+It would be nice if we could do so using a **user interface**, for example with a **slider**. Fortunately, the Pluto 
+notebook allows us to do so!
 """
 
 # ╔═╡ afc66dac-64d7-11eb-1ad0-7f62c20ffefb
@@ -702,7 +761,9 @@ md"""
 
 # ╔═╡ cfc55140-64d7-11eb-0ff6-e59c70d01d67
 md"""
-This creates a new variable called `number_reds`, whose value is the value shown by the slider. When we move the slider, the value of the variable gets updated. Since Pluto is a **reactive** notebook, other cells which use the value of this variable will *automatically be updated too*!
+This creates a new variable called `number_reds`, whose value is the value shown by the slider. When we move the slider, 
+the value of the variable gets updated. Since Pluto is a **reactive** notebook, other cells which use the value of this 
+variable will *automatically be updated too*!
 """
 
 # ╔═╡ fca72490-64d7-11eb-1464-f5e0582c4d18
@@ -720,7 +781,9 @@ When you move the slider, you should see the number of red color patches change!
 
 # ╔═╡ 10f6e6da-64d8-11eb-366f-11f16e73043b
 md"""
-What is going on here is that we are creating a vector in which `red_value` takes each value in turn from the range from `0` up to the current value of `number_reds`. If we change `number_reds`, then we create a new vector with that new number of red patches.
+What is going on here is that we are creating a vector in which `red_value` takes each value in turn from the range from 
+`0` up to the current value of `number_reds`. If we change `number_reds`, then we create a new vector with that new number 
+of red patches.
 """
 
 # ╔═╡ 82a8314c-64d8-11eb-1acb-e33625381178
@@ -769,19 +832,23 @@ hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
 
 # ╔═╡ e083bef6-601b-11eb-2134-e3063d5c4253
-still_missing(text=md"Replace `missing` with your answer.") = Markdown.MD(Markdown.Admonition("warning", "Here we go!", [text]))
+still_missing(text=md"Replace `missing` with your answer.") = Markdown.MD(Markdown.Admonition("warning", "Here we go!", 
+[text]))
 
 # ╔═╡ e08ecb84-601b-11eb-0e25-152ed3a262f7
-keep_working(text=md"The answer is not quite right.") = Markdown.MD(Markdown.Admonition("danger", "Keep working on it!", [text]))
+keep_working(text=md"The answer is not quite right.") = Markdown.MD(Markdown.Admonition("danger", "Keep working on it!", 
+[text]))
 
 # ╔═╡ e09036a4-601b-11eb-1a8b-ef70105ab91c
-yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!", md"Good job!", md"Awesome!", md"You got the right answer!", md"Let's move on to the next section."]
+yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!", md"Good job!", md"Awesome!", md"You got the 
+right answer!", md"Let's move on to the next section."]
 
 # ╔═╡ e09af1a2-601b-11eb-14c8-57a46546f6ce
 correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
 
 # ╔═╡ e0a4fc10-601b-11eb-211d-03570aca2726
-not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
+not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable 
+called **$(Markdown.Code(string(variable_name)))**"]))
 
 # ╔═╡ e3394c8a-edf0-11ea-1bb8-619f7abb6881
 if !@isdefined(create_bar)
