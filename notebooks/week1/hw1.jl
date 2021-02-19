@@ -40,6 +40,8 @@ md"""
 # **Homework 1** - _images and arrays_
 `18.S191`, Spring 2021
 
+`Due Date`: **Friday Feb 26, 2021 at 11:59pm EST**
+
 This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
 
 _For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
@@ -103,12 +105,6 @@ colored_line(example_vector)
 
 # ╔═╡ b18e2c54-edf1-11ea-0cbf-85946d64b6a2
 colored_line(random_vect)
-
-# ╔═╡ c5aed290-f8a0-4246-9e66-b1d20a5d3465
-#= md"#### Exerise 1.2
-The function `colored_line` displays a vector of numbers as a sequence of colors.
-
-👉 Create a black line Make a function `my_sum` using a `for` loop, which computes the total of a vector of numbers." =#
 
 # ╔═╡ 77adb065-bfd4-4680-9c2a-ad4d92689dbf
 md"#### Exerise 1.2
@@ -511,6 +507,21 @@ Noise strength:
 # ╔═╡ 774b4ce6-ee1b-11ea-2b48-e38ee25fc89b
 @bind color_noise Slider(0:0.01:1, show_value=true)
 
+# ╔═╡ 48de5bc2-72d3-11eb-3fd9-eff2b686cb75
+md"""
+> ### Note about _list comprehension_
+> At this point, you already know of a few ways to make a new list based on one that already exists.
+> 1. you can use a for loop to go through a list
+> 1. you can use function broadcasting over a list
+> 1. you can use _**list comprehension**_!
+>
+> The third option you are abot to see demonstrated below and following the following syntax:
+>
+> ```[function_to_apply(args) for args in some_iterable_of_your_choice]```
+>
+> This creates a new iterable that matches what you iterate through in the second part of the comprehension. Below is an example with `for` loops thorugh two iterables that creates a 2 -imenional `Array`.
+"""
+
 # ╔═╡ f70823d2-ee07-11ea-2bb3-01425212aaf9
 md"""
 👉 Write the third method `noisify(image::AbstractMatrix, s)` to noisify each pixel of an image. This function should be a single line!
@@ -625,7 +636,7 @@ Try the following:
 
 🙋 **Are you viewing a static preview?** The Live Docs only work if you _run_ the notebook. If you are reading this on our course website, then click the button in the top right to run the notebook.
 
-🙋 **Is your screen to small?** Try resizing your window or zooming out.
+🙋 **Is your screen too small?** Try resizing your window or zooming out.
 """ |> hint
 
 # ╔═╡ 24090306-7395-4f2f-af31-34f7486f3945
@@ -1276,7 +1287,6 @@ md"_homework 1, version 7_"
 # ╟─397941fc-edee-11ea-33f2-5d46c759fbf7
 # ╟─b1d5ca28-edf6-11ea-269e-75a9fb549f1d
 # ╟─5da8cbe8-eded-11ea-2e43-c5b7cc71e133
-# ╟─c5aed290-f8a0-4246-9e66-b1d20a5d3465
 # ╟─77adb065-bfd4-4680-9c2a-ad4d92689dbf
 # ╠═bd907ee1-5253-4cae-b5a5-267dac24362a
 # ╠═6640110a-d171-4b32-8d12-26979a36b718
@@ -1378,6 +1388,7 @@ md"_homework 1, version 7_"
 # ╟─0000b7f8-4c43-4dd8-8665-0dfe59e74c0a
 # ╠═774b4ce6-ee1b-11ea-2b48-e38ee25fc89b
 # ╠═7e4aeb70-ee1b-11ea-100f-1952ba66f80f
+# ╟─48de5bc2-72d3-11eb-3fd9-eff2b686cb75
 # ╠═8e848279-1b3e-4f32-8c0c-45693d12de96
 # ╟─f70823d2-ee07-11ea-2bb3-01425212aaf9
 # ╠═21a5885d-00ab-428b-96c3-c28c98c4ca6d
