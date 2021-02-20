@@ -519,7 +519,7 @@ md"""
 >
 > ```[function_to_apply(args) for args in some_iterable_of_your_choice]```
 >
-> This creates a new iterable that matches what you iterate through in the second part of the comprehension. Below is an example with `for` loops thorugh two iterables that creates a 2-dimenional `Array`.
+> This creates a new iterable that matches what you iterate through in the second part of the comprehension. Below is an example with `for` loops through two iterables that creates a 2-dimensional `Array`.
 """
 
 # ╔═╡ f70823d2-ee07-11ea-2bb3-01425212aaf9
