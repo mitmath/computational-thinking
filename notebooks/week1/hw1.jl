@@ -509,17 +509,17 @@ Noise strength:
 
 # ╔═╡ 48de5bc2-72d3-11eb-3fd9-eff2b686cb75
 md"""
-> ### Note about _list comprehension_
-> At this point, you already know of a few ways to make a new list based on one that already exists.
-> 1. you can use a for loop to go through a list
-> 1. you can use function broadcasting over a list
-> 1. you can use _**list comprehension**_!
+> ### Note about _array comprehension_
+> At this point, you already know of a few ways to make a new array based on one that already exists.
+> 1. you can use a for loop to go through a array
+> 1. you can use function broadcasting over a array
+> 1. you can use _**array comprehension**_!
 >
-> The third option you are abot to see demonstrated below and following the following syntax:
+> The third option you are about to see demonstrated below and following the following syntax:
 >
 > ```[function_to_apply(args) for args in some_iterable_of_your_choice]```
 >
-> This creates a new iterable that matches what you iterate through in the second part of the comprehension. Below is an example with `for` loops thorugh two iterables that creates a 2 -imenional `Array`.
+> This creates a new iterable that matches what you iterate through in the second part of the comprehension. Below is an example with `for` loops thorugh two iterables that creates a 2-dimenional `Array`.
 """
 
 # ╔═╡ f70823d2-ee07-11ea-2bb3-01425212aaf9
