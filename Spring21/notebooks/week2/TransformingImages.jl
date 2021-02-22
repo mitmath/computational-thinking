@@ -132,27 +132,25 @@ md"""
 ## Downsampling / Upsampling
 """
 
+# ╔═╡ 39552b7a-74fb-11eb-04e0-3981ada52c92
+md"""
+How can we pixelate a corgi?
+"""
+
 # ╔═╡ 14f2b85e-74ad-11eb-2682-d9de646aedf3
 pixelated_corgi = load(download("https://i.redd.it/99lhfbnwpgd31.png"))
 
-# ╔═╡ dd8180f6-74ae-11eb-007e-a1184c0e7319
-downsampled_corgi = pixelated_corgi[1:9:end, 1:9:end]
+# ╔═╡ 516e73e2-74fb-11eb-213e-9dbd9472e0db
+philip =  load(download("https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28-11eb-8c7b-41aaf6618935.png"))
 
-# ╔═╡ 998fe88c-74af-11eb-3cae-d7b1ddfc4f07
-upsampled_downsampled_corgi = kron(downsampled_corgi, ones(9,9))
+# ╔═╡ b5d0ef90-74fb-11eb-3126-792f954c7be7
+@bind r Slider(1:40, show_value=true, default=40)
 
-# ╔═╡ d8a531f8-74af-11eb-19a2-a5f05566eb09
-imfilter(downsampled_corgi, fill(1/9,3,3))
+# ╔═╡ 754c3704-74fb-11eb-1199-2b9798d7251f
+downsample_philip = philip[1:r:end, 1:r:end]
 
-# ╔═╡ f48c4ece-74af-11eb-3fdc-b70e6263508b
-
-
-# ╔═╡ 34b1504c-74ad-11eb-39f4-7bb8fbf021df
-size(pixelated_corgi)
-
-# ╔═╡ f3d177c2-74ad-11eb-23e4-3391ddcb245d
-#kernel = Kernel.gaussian((6, 6))
-kernel = fill(1/16,4,4)
+# ╔═╡ 9eb917ba-74fb-11eb-0527-15e981ce9c6a
+upsample_philip = kron(downsample_philip, fill(1,r,r))
 
 # ╔═╡ 339ccfca-74b1-11eb-0c35-774da6b189ed
 md"""
@@ -270,15 +268,14 @@ md"""
 # ╠═bcb69db6-74f9-11eb-100a-29d1d23963ab
 # ╟─fc70c4d2-74f8-11eb-33f5-539c278ed6b6
 # ╠═2f7cde78-74a2-11eb-1e2f-81b5b2465819
-# ╠═e099815e-74a1-11eb-1541-033f6abe9f8e
-# ╠═e82a4dd8-74b0-11eb-1108-6b09e67a80c1
+# ╟─e099815e-74a1-11eb-1541-033f6abe9f8e
+# ╟─e82a4dd8-74b0-11eb-1108-6b09e67a80c1
+# ╟─39552b7a-74fb-11eb-04e0-3981ada52c92
 # ╠═14f2b85e-74ad-11eb-2682-d9de646aedf3
-# ╠═dd8180f6-74ae-11eb-007e-a1184c0e7319
-# ╠═998fe88c-74af-11eb-3cae-d7b1ddfc4f07
-# ╠═d8a531f8-74af-11eb-19a2-a5f05566eb09
-# ╠═f48c4ece-74af-11eb-3fdc-b70e6263508b
-# ╠═34b1504c-74ad-11eb-39f4-7bb8fbf021df
-# ╠═f3d177c2-74ad-11eb-23e4-3391ddcb245d
+# ╠═516e73e2-74fb-11eb-213e-9dbd9472e0db
+# ╠═b5d0ef90-74fb-11eb-3126-792f954c7be7
+# ╠═754c3704-74fb-11eb-1199-2b9798d7251f
+# ╠═9eb917ba-74fb-11eb-0527-15e981ce9c6a
 # ╠═339ccfca-74b1-11eb-0c35-774da6b189ed
 # ╠═13298e68-74ac-11eb-16fc-f56287e7c931
 # ╠═91a1bca4-74aa-11eb-3917-1dfd73d0ad9c
