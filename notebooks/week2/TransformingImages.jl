@@ -252,7 +252,12 @@ and in particular to put a numerical value to this tendency.
 
 # ╔═╡ 215291ec-74a2-11eb-3476-0dab43fd5a5e
 md"""
-## 2.3 Fun with Photoshop
+## 2.3 Fun with Photoshop (What does "filter" mean in this context?)
+"""
+
+# ╔═╡ 61db42c6-7505-11eb-1ddf-05e906234572
+md"""
+[Photshop Filter Reference](https://helpx.adobe.com/photoshop/using/filter-effects-reference.html)
 """
 
 # ╔═╡ cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
@@ -267,7 +272,8 @@ md"""
 
 # ╔═╡ 8a8e3f5e-74b2-11eb-3eed-e5468e573e45
 md"""
-Last semester Grant Sanderson (3Blue1Brown) lectured in this course.  This lecture on convolutions in image processing was popular.  Let's watch an excerpt (from 1:04 to 2:48)
+Last semester Grant Sanderson (3Blue1Brown) lectured in this course.  This lecture on convolutions in image processing was popular.  Let's watch an excerpt (from 1:04 to 2:48).  (We pick a few exercepts, but we wouldn't blame you if you just wanted to
+watch the whole video.)
 """
 
 # ╔═╡ 5864294a-74a5-11eb-23ef-f38a582f2c2d
@@ -282,8 +288,8 @@ md"""
 
 # ╔═╡ 4fab4616-74b0-11eb-0088-6b50237d7d54
 md"""
-Wikipedia Page on Kernels:
-<https://en.wikipedia.org/wiki/Kernel_(image_processing)#Details>
+[Wikipedia Page on Kernels]
+(https://en.wikipedia.org/wiki/Kernel_(image_processing)#Details)
 """
 
 # ╔═╡ 275bf7ac-74b3-11eb-32c3-cda1e4f1f8c2
@@ -300,7 +306,7 @@ Thought Problem: Why are small kernels better than large kernels?
 
 # ╔═╡ 662d73b6-74b3-11eb-333d-f1323a001000
 md"""
-Computer Science: Data Structure: Offset Arrays
+### Computer Science: Data Structure: Offset Arrays
 """
 
 # ╔═╡ 844ed844-74b3-11eb-2ee1-2de664b26bc6
@@ -319,19 +325,55 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=275&end=420" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ a875024e-74a3-11eb-06ae-5d9f4895d3f1
+# ╔═╡ c0aec7ae-7505-11eb-2822-a151aad48fc9
 md"""
-### boundaries
-### blurring = integrals, edge detection = derivatives (might say something about 1d)
+This is often known as Gausssian blur to emphasize the result of this operation.
+[Adobe on Gaussian blur](https://www.adobe.com/creativecloud/photography/discover/gaussian-blur.html).
+"""
+
+# ╔═╡ 0f765670-7506-11eb-2a37-931b15bb387f
+md"""
+## 2.5. Discrete vs Continuous
+"""
+
+# ╔═╡ 82737d28-7507-11eb-1e39-c7dc12e18882
+md"""
+Some folks only like discrete objects, others continuous.  The computer makes clear what many mathematicians already know, that while different language has evolved to describe discrete objects vs continuous objects, often the underlying conceptual idea is similar or the same.  Here is one analogy:
+"""
+
+# ╔═╡ 40d538b2-7506-11eb-116b-efeb16b3478d
+md"""
+### Blurring Kernels :: Integrals  ≡ Sharpening Kernels :: Derivatives
+"""
+
+# ╔═╡ df060a88-7507-11eb-034b-5346d67a0e0d
+md"""
+Think about integrals vs derivatives in one dimension.
+If you replace f(x) with g(x) = ∫ f(t) dt for x-r ≤ t ≤ x+r, that will blur or smooth out the features of f.  However if you take the derivative,you will emphasize the changes, i.e., you will sharpen or "edge-detect."
+"""
+
+# ╔═╡ 60c8db60-7506-11eb-1468-c989809c933a
+md"""
+## 2.6 Respect my Boundaries
+"""
+
+# ╔═╡ 8ed0be60-7506-11eb-2769-5f7da1c66243
+md"""
+Applying the convolution on a boundary requires special thought because it is literally an **edge case**.  Once again Grant said this so very well: (2:53-4:19)
+"""
+
+# ╔═╡ b9d636da-7506-11eb-37a6-3116d47b2787
+html"""
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=173&end=259" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
 # ╔═╡ Cell order:
 # ╟─febfa62a-74fa-11eb-2fe6-df7de43ef4b6
 # ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
-# ╠═8d389d80-74a1-11eb-3452-f38eff03483b
+# ╟─8d389d80-74a1-11eb-3452-f38eff03483b
 # ╟─4d332c7e-74f8-11eb-1f49-a518246d1db8
 # ╟─f7689472-74a8-11eb-32a1-8379ae5c88e1
-# ╠═0f2f9004-74a8-11eb-01a2-973dbe80f166
+# ╟─0f2f9004-74a8-11eb-01a2-973dbe80f166
 # ╠═962143a8-74a7-11eb-26c3-c10548f326ee
 # ╠═c2964c80-74f8-11eb-3a74-b1bdd9e4ae02
 # ╠═caf488d8-74f8-11eb-0075-0586d66c23c1
@@ -369,17 +411,25 @@ md"""
 # ╠═aa541288-74aa-11eb-1edc-ab6d7786f271
 # ╠═c9dcac48-74aa-11eb-31a6-23357180c1c8
 # ╟─30b1c1f0-7504-11eb-1be7-a9463caea809
-# ╠═215291ec-74a2-11eb-3476-0dab43fd5a5e
-# ╠═cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
+# ╟─215291ec-74a2-11eb-3476-0dab43fd5a5e
+# ╟─61db42c6-7505-11eb-1ddf-05e906234572
+# ╟─cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
 # ╟─7489a570-74a3-11eb-1d0b-09d41604ffe1
 # ╟─8a8e3f5e-74b2-11eb-3eed-e5468e573e45
-# ╠═5864294a-74a5-11eb-23ef-f38a582f2c2d
-# ╠═fa9c465e-74b2-11eb-2f3c-4be0e7f93bb5
-# ╠═4fab4616-74b0-11eb-0088-6b50237d7d54
-# ╠═275bf7ac-74b3-11eb-32c3-cda1e4f1f8c2
-# ╠═537c54e4-74b3-11eb-341f-951b4a1e0b40
-# ╠═662d73b6-74b3-11eb-333d-f1323a001000
-# ╠═844ed844-74b3-11eb-2ee1-2de664b26bc6
-# ╠═4ffe927c-74b4-11eb-23a7-a18d7e51c75b
-# ╠═91109e5c-74b3-11eb-1f31-c50e436bc6e0
-# ╠═a875024e-74a3-11eb-06ae-5d9f4895d3f1
+# ╟─5864294a-74a5-11eb-23ef-f38a582f2c2d
+# ╟─fa9c465e-74b2-11eb-2f3c-4be0e7f93bb5
+# ╟─4fab4616-74b0-11eb-0088-6b50237d7d54
+# ╟─275bf7ac-74b3-11eb-32c3-cda1e4f1f8c2
+# ╟─537c54e4-74b3-11eb-341f-951b4a1e0b40
+# ╟─662d73b6-74b3-11eb-333d-f1323a001000
+# ╟─844ed844-74b3-11eb-2ee1-2de664b26bc6
+# ╟─4ffe927c-74b4-11eb-23a7-a18d7e51c75b
+# ╟─91109e5c-74b3-11eb-1f31-c50e436bc6e0
+# ╟─c0aec7ae-7505-11eb-2822-a151aad48fc9
+# ╟─0f765670-7506-11eb-2a37-931b15bb387f
+# ╟─82737d28-7507-11eb-1e39-c7dc12e18882
+# ╟─40d538b2-7506-11eb-116b-efeb16b3478d
+# ╟─df060a88-7507-11eb-034b-5346d67a0e0d
+# ╟─60c8db60-7506-11eb-1468-c989809c933a
+# ╟─8ed0be60-7506-11eb-2769-5f7da1c66243
+# ╟─b9d636da-7506-11eb-37a6-3116d47b2787
