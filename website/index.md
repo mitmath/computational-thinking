@@ -4,14 +4,17 @@
 Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 
 ~~~
+<img style="display: block; margin: 1em auto" src="assets/staytuned.png">
+~~~
+> We streamed our first live lecture on 1:05pm EST on Wednesday 2/17! You can watch it here ☝️
+
+~~~
 <iframe id="installation" width="100%" height="360"
 src="https://www.youtube.com/embed/3zTO3LEY-cM"
 frameborder="0"
 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>
 ~~~
-
-> We streamed our first live lecture on 1:05pm EST on Wednesday 2/17! You can watch it here ☝️
 
 \blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
