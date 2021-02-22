@@ -15,6 +15,18 @@ end
 
 # ╔═╡ 86f770fe-74a1-11eb-01f7-5b3ecf057124
 begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+			Pkg.PackageSpec(name="Unitful", version="1.6"), 
+			Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
+			Pkg.PackageSpec(name="OffsetArrays", version="1.6"),
+			Pkg.PackageSpec(name="Plots", version="1.10")
+			])
+
 	using PlutoUI 
 	using Images
 	using Unitful 
@@ -68,6 +80,13 @@ overflow-x: hidden;
 
 # ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
 PlutoUI.TableOfContents(aside=true)
+
+# ╔═╡ 9f1a72da-7532-11eb-079c-b7baccc6614a
+md"""
+#### Intializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ 4d332c7e-74f8-11eb-1f49-a518246d1db8
 md"""
@@ -487,8 +506,9 @@ html"""
 
 # ╔═╡ Cell order:
 # ╟─febfa62a-74fa-11eb-2fe6-df7de43ef4b6
-# ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
 # ╟─8d389d80-74a1-11eb-3452-f38eff03483b
+# ╟─9f1a72da-7532-11eb-079c-b7baccc6614a
+# ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
 # ╟─4d332c7e-74f8-11eb-1f49-a518246d1db8
 # ╟─f7689472-74a8-11eb-32a1-8379ae5c88e1
 # ╟─0f2f9004-74a8-11eb-01a2-973dbe80f166
@@ -502,7 +522,7 @@ html"""
 # ╠═bcb69db6-74f9-11eb-100a-29d1d23963ab
 # ╟─fc70c4d2-74f8-11eb-33f5-539c278ed6b6
 # ╟─2f7cde78-74a2-11eb-1e2f-81b5b2465819
-# ╠═e099815e-74a1-11eb-1541-033f6abe9f8e
+# ╟─e099815e-74a1-11eb-1541-033f6abe9f8e
 # ╟─e82a4dd8-74b0-11eb-1108-6b09e67a80c1
 # ╟─39552b7a-74fb-11eb-04e0-3981ada52c92
 # ╠═14f2b85e-74ad-11eb-2682-d9de646aedf3
@@ -532,7 +552,7 @@ html"""
 # ╟─1fe70e38-751b-11eb-25b8-c741e1726613
 # ╟─215291ec-74a2-11eb-3476-0dab43fd5a5e
 # ╟─61db42c6-7505-11eb-1ddf-05e906234572
-# ╠═cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
+# ╟─cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
 # ╟─7489a570-74a3-11eb-1d0b-09d41604ffe1
 # ╟─8a8e3f5e-74b2-11eb-3eed-e5468e573e45
 # ╟─5864294a-74a5-11eb-23ef-f38a582f2c2d
@@ -548,7 +568,7 @@ html"""
 # ╠═3ca02e9a-752a-11eb-056a-6b956fb24fdf
 # ╟─844ed844-74b3-11eb-2ee1-2de664b26bc6
 # ╟─4ffe927c-74b4-11eb-23a7-a18d7e51c75b
-# ╠═91109e5c-74b3-11eb-1f31-c50e436bc6e0
+# ╟─91109e5c-74b3-11eb-1f31-c50e436bc6e0
 # ╠═34109062-7525-11eb-10b3-d59d3a6dfda6
 # ╟─9ab89a3a-7525-11eb-186d-29e4b61deb7f
 # ╠═50034058-7525-11eb-345b-3334e71ac50e
@@ -566,7 +586,7 @@ html"""
 # ╠═08642690-7523-11eb-00dd-63d4cf6513dc
 # ╠═deac4cf2-7523-11eb-2832-7b9d31389b08
 # ╠═32887dfa-7524-11eb-35cd-051eff594fa9
-# ╠═0f765670-7506-11eb-2a37-931b15bb387f
+# ╟─0f765670-7506-11eb-2a37-931b15bb387f
 # ╟─82737d28-7507-11eb-1e39-c7dc12e18882
 # ╟─40d538b2-7506-11eb-116b-efeb16b3478d
 # ╟─df060a88-7507-11eb-034b-5346d67a0e0d
