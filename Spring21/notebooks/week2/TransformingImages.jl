@@ -259,7 +259,9 @@ md"""
 so I put forth that the phenomenon applies to corgi faces as much as human faces,
 suggesting maybe that corgi faces are processed in the **face processing** part of the brain,not the **object processing** part of the brain.
 
-(Note, this is 5 minutes of armchair psychology, not a professional opinion.)
+Corgis are human, after all, right?
+
+(Note, this is 5 minutes of armchair science, not a professional opinion.)
 """
 
 # ╔═╡ 215291ec-74a2-11eb-3476-0dab43fd5a5e
