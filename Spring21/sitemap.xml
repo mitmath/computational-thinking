@@ -26,6 +26,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>transforming_images/index.html</loc>
+    <lastmod>2021-02-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>semesters/index.html</loc>
     <lastmod>2021-02-22</lastmod>
     <changefreq>monthly</changefreq>
