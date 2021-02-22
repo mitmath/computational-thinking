@@ -250,6 +250,18 @@ brain's tendency to use world experience to prefer rightside-up corgis,
 and in particular to put a numerical value to this tendency.
 """
 
+# ╔═╡ 1fe70e38-751b-11eb-25b8-c741e1726613
+md"""
+10 seconds with google and I found there is a thing about faces:
+[The Face Inversion effect](https://en.wikipedia.org/wiki/Face_inversion_effect#:~:text=The%20face%20inversion%20effect%20is,same%20for%20non%2Dfacial%20objects.&text=The%20most%20supported%20explanation%20for,is%20the%20configural%20information%20hypothesis.)
+
+... the article suggests objects don't suffer in the same way as faces,
+so I put forth that the phenomenon applies to corgi faces as much as human faces,
+suggesting maybe that corgi faces are processed in the **face processing** part of the brain,not the **object processing** part of the brain.
+
+(Note, this is 5 minutes of armchair psychology, not a professional opinion.)
+"""
+
 # ╔═╡ 215291ec-74a2-11eb-3476-0dab43fd5a5e
 md"""
 ## 2.3 Fun with Photoshop (What does "filter" mean in this context?)
@@ -411,6 +423,7 @@ html"""
 # ╠═aa541288-74aa-11eb-1edc-ab6d7786f271
 # ╠═c9dcac48-74aa-11eb-31a6-23357180c1c8
 # ╟─30b1c1f0-7504-11eb-1be7-a9463caea809
+# ╟─1fe70e38-751b-11eb-25b8-c741e1726613
 # ╟─215291ec-74a2-11eb-3476-0dab43fd5a5e
 # ╟─61db42c6-7505-11eb-1ddf-05e906234572
 # ╟─cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
