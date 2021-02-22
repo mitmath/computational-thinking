@@ -119,7 +119,9 @@ Adding units to numbers **just works** in Julia, and furthermore, does not slow 
 
 # ╔═╡ 2f7cde78-74a2-11eb-1e2f-81b5b2465819
 md"""
-# Remember
+# Reminder
+
+**Try your own pictures everywhere!**
 """
 
 # ╔═╡ e099815e-74a1-11eb-1541-033f6abe9f8e
@@ -129,12 +131,13 @@ md"""
 
 # ╔═╡ e82a4dd8-74b0-11eb-1108-6b09e67a80c1
 md"""
-## Downsampling / Upsampling
+## 2.1. Downsampling / Upsampling
 """
 
 # ╔═╡ 39552b7a-74fb-11eb-04e0-3981ada52c92
 md"""
-How can we pixelate a corgi?
+How can we pixelate a corgi? Found this cute picture online, but we'll pixelate
+a real corgi.
 """
 
 # ╔═╡ 14f2b85e-74ad-11eb-2682-d9de646aedf3
@@ -152,22 +155,83 @@ downsample_philip = philip[1:r:end, 1:r:end]
 # ╔═╡ 9eb917ba-74fb-11eb-0527-15e981ce9c6a
 upsample_philip = kron(downsample_philip, fill(1,r,r))
 
+# ╔═╡ 486d3022-74ff-11eb-1865-e15436bd9aad
+md"""
+  Note the use of kron and fill. See [Wikipedia Kron](https://en.wikipedia.org/wiki/Kronecker_product)
+"""
+
+# ╔═╡ b9da7332-74ff-11eb-241b-fb87e77d646a
+md"""
+Exercise: Use the nose selection tool from Section 1.1 to pixelate a rectangle of an image.  Warning: you'll have to worry about sizes if not exact multiples.
+"""
+
 # ╔═╡ 339ccfca-74b1-11eb-0c35-774da6b189ed
 md"""
-## Combining Images
+## 2.2 Linear Combinations (Combining Images) 
+"""
+
+# ╔═╡ 8711c698-7500-11eb-2505-d35a4de169b4
+md"""
+One big idea in mathematics is the [linear combination](https://en.wikipedia.org/wiki/Linear_combination).
+The idea combines 
+- scaling an object 
+- combining two or more objects
+by combining scaled versions of multiple objects.
+"""
+
+# ╔═╡ 84350cb8-7501-11eb-095e-8f1a7e015f25
+md"""
+Let's scale some corgis.
 """
 
 # ╔═╡ 91a1bca4-74aa-11eb-3917-1dfd73d0ad9c
 corgis = load(download("https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"))
 
-# ╔═╡ 13298e68-74ac-11eb-16fc-f56287e7c931
-kron( corgis, [1 1;1 1])
+# ╔═╡ 8e698bdc-7501-11eb-1d2e-c336ccbde0b0
+@bind c Slider(0:.1:3, show_value=true, default=1)
+
+# ╔═╡ ab2bc924-7501-11eb-03ba-8dfc1ffe3f36
+c .* corgis  # scaling the corgis changes intensity
+
+# ╔═╡ e11d6300-7501-11eb-239a-135596309d20
+md"""
+ You might wonder about the **dot times** or **pointwise times**. You can
+delete the dot, but it is recommended for clarity
+and performance.  The dot emphasizes that the multiplication by c is happening
+pixel by pixel or that the scalar is being "broadcast" to every pixel.
+"""
+
+# ╔═╡ 9a66c07e-7503-11eb-3127-7fce91b3a24a
+md"""
+Scaling too far saturates the image.  (Any r,g,b ≥ 1, saturates at 1.)
+"""
+
+# ╔═╡ 47d40406-7502-11eb-2f43-cd5c848f25a6
+md"""
+We need another image.  We could grab one from somewhere or we can just transform the one we have.  Let's do the latter and turn the corgis upsidedown.
+"""
 
 # ╔═╡ 9ce0b980-74aa-11eb-0678-01209451fb65
 upsidedown_corgis = corgis[ end:-1:1 , :]
 
+# ╔═╡ 68821bf4-7502-11eb-0d3c-03d7a00fdba4
+md"""
+Now let's scaled version of the two images to see what that does.
+"""
+
 # ╔═╡ 447e7c9e-74b1-11eb-27ea-71aa4338b11a
-(upsidedown_corgis./2 .+ corgis./2) 
+(.5 * upsidedown_corgis .+ .5 * corgis) 
+
+# ╔═╡ c9dff6f4-7503-11eb-2715-0bf9d3ece9e1
+md"""
+### Convex Combinations
+"""
+
+# ╔═╡ d834103c-7503-11eb-1a94-1fbad43801ff
+md"""
+If all the coefficients are positive and add to 1, we say we have a **convex combination**.  Let's take α and (1-α) as the two coefficients adding to 1, and
+scale the two corgi pictures with different α's, thereby giving different weights to the rightside-up and upside-down corgis.
+"""
 
 # ╔═╡ aa541288-74aa-11eb-1edc-ab6d7786f271
     @bind α Slider(0:.01:1 , show_value=true, default = 1.0)
@@ -175,9 +239,20 @@ upsidedown_corgis = corgis[ end:-1:1 , :]
 # ╔═╡ c9dcac48-74aa-11eb-31a6-23357180c1c8
 α .* corgis .+ (1-α) .* upsidedown_corgis
 
+# ╔═╡ 30b1c1f0-7504-11eb-1be7-a9463caea809
+md"""
+The moment I did this with α = .5, I noticed my brain's tendency to see the 
+rightsisde-up corgis even though both have equal weight.  For me maybe
+around α = .39 which gives weight .61 to the upside-down corgis "feels" balanced
+to me.  I think this is what the field of psychology called psychometrics 
+tries to measure -- perhaps someone can tell me if there are studies of the
+brain's tendency to use world experience to prefer rightside-up corgis,
+and in particular to put a numerical value to this tendency.
+"""
+
 # ╔═╡ 215291ec-74a2-11eb-3476-0dab43fd5a5e
 md"""
-## Section 2.3 Fun with Photoshop
+## 2.3 Fun with Photoshop
 """
 
 # ╔═╡ cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
@@ -187,7 +262,7 @@ Let's play with photoshop if for no other reason, let's see what image transform
 
 # ╔═╡ 7489a570-74a3-11eb-1d0b-09d41604ffe1
 md"""
-## Section 2.4. Image Filtering (convolutions)
+## 2.4 Image Filtering (convolutions)
 """
 
 # ╔═╡ 8a8e3f5e-74b2-11eb-3eed-e5468e573e45
@@ -246,9 +321,8 @@ html"""
 
 # ╔═╡ a875024e-74a3-11eb-06ae-5d9f4895d3f1
 md"""
-## a little cs = the complexity (number of pixels) * (size of kernel)
-## boundaries
-## blurring = integrals, edge detection = derivatives (might say something about 1d)
+### boundaries
+### blurring = integrals, edge detection = derivatives (might say something about 1d)
 """
 
 # ╔═╡ Cell order:
@@ -267,7 +341,7 @@ md"""
 # ╠═77fbf18a-74f9-11eb-1d9e-3f9d2097388f
 # ╠═bcb69db6-74f9-11eb-100a-29d1d23963ab
 # ╟─fc70c4d2-74f8-11eb-33f5-539c278ed6b6
-# ╠═2f7cde78-74a2-11eb-1e2f-81b5b2465819
+# ╟─2f7cde78-74a2-11eb-1e2f-81b5b2465819
 # ╟─e099815e-74a1-11eb-1541-033f6abe9f8e
 # ╟─e82a4dd8-74b0-11eb-1108-6b09e67a80c1
 # ╟─39552b7a-74fb-11eb-04e0-3981ada52c92
@@ -276,16 +350,28 @@ md"""
 # ╠═b5d0ef90-74fb-11eb-3126-792f954c7be7
 # ╠═754c3704-74fb-11eb-1199-2b9798d7251f
 # ╠═9eb917ba-74fb-11eb-0527-15e981ce9c6a
-# ╠═339ccfca-74b1-11eb-0c35-774da6b189ed
-# ╠═13298e68-74ac-11eb-16fc-f56287e7c931
+# ╟─486d3022-74ff-11eb-1865-e15436bd9aad
+# ╟─b9da7332-74ff-11eb-241b-fb87e77d646a
+# ╟─339ccfca-74b1-11eb-0c35-774da6b189ed
+# ╟─8711c698-7500-11eb-2505-d35a4de169b4
+# ╟─84350cb8-7501-11eb-095e-8f1a7e015f25
 # ╠═91a1bca4-74aa-11eb-3917-1dfd73d0ad9c
+# ╠═8e698bdc-7501-11eb-1d2e-c336ccbde0b0
+# ╠═ab2bc924-7501-11eb-03ba-8dfc1ffe3f36
+# ╟─e11d6300-7501-11eb-239a-135596309d20
+# ╟─9a66c07e-7503-11eb-3127-7fce91b3a24a
+# ╟─47d40406-7502-11eb-2f43-cd5c848f25a6
 # ╠═9ce0b980-74aa-11eb-0678-01209451fb65
+# ╟─68821bf4-7502-11eb-0d3c-03d7a00fdba4
 # ╠═447e7c9e-74b1-11eb-27ea-71aa4338b11a
+# ╟─c9dff6f4-7503-11eb-2715-0bf9d3ece9e1
+# ╟─d834103c-7503-11eb-1a94-1fbad43801ff
 # ╠═aa541288-74aa-11eb-1edc-ab6d7786f271
 # ╠═c9dcac48-74aa-11eb-31a6-23357180c1c8
+# ╟─30b1c1f0-7504-11eb-1be7-a9463caea809
 # ╠═215291ec-74a2-11eb-3476-0dab43fd5a5e
 # ╠═cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
-# ╠═7489a570-74a3-11eb-1d0b-09d41604ffe1
+# ╟─7489a570-74a3-11eb-1d0b-09d41604ffe1
 # ╟─8a8e3f5e-74b2-11eb-3eed-e5468e573e45
 # ╠═5864294a-74a5-11eb-23ef-f38a582f2c2d
 # ╠═fa9c465e-74b2-11eb-2f3c-4be0e7f93bb5
