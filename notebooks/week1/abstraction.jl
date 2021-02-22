@@ -106,9 +106,9 @@ The difference between these ones to me is clear. In fact, I just articulated it
 md"So to a computer, all of these are different types."
 
 # ╔═╡ 15f7f90a-70f0-11eb-0d41-63677e4023f4
-md"### What is a collection of _one_'s?
+md"### What is a collection of _one_s?
 
-Now, I want to make a collection of ones for some reason. Below is a way for you to experiment building this collection with different _one_'s. As you do this experiment, I want you to look at what stays in the same in the Julia output, and what doesn't."
+Now, I want to make a collection of ones for some reason. Below is a way for you to experiment building this collection with different _one_s. As you do this experiment, I want you to look at what stays in the same in the Julia output, and what doesn't."
 
 # ╔═╡ f6886d90-70ed-11eb-07c4-471ee267e7c1
 md"""
@@ -157,7 +157,7 @@ begin
 end
 
 # ╔═╡ ee43d808-70fa-11eb-0cc6-337279f41494
-md"This is still amazing. I wrote one function that just cares about how to insert an object into an array, without knowing anything about what's inside, and it worked for two completely different arrays, _collections of one's of **any kind**_."
+md"This is still amazing. I wrote one function that just cares about how to insert an object into an array, without knowing anything about what's inside, and it worked for two completely different arrays, _collections of ones of **any kind**_."
 
 # ╔═╡ 263a8a0a-70ee-11eb-236d-c941ba63dff3
 md"
