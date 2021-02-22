@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -24,12 +24,17 @@ end
 # ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
 PlutoUI.TableOfContents(aside=true)
 
+# ╔═╡ 4d332c7e-74f8-11eb-1f49-a518246d1db8
+md"""
+# Announcement: Lectures will be nearly an hour
+"""
+
 # ╔═╡ f7689472-74a8-11eb-32a1-8379ae5c88e1
 rotabook = load(download("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1348902666l/1646354.jpg"))
 
 # ╔═╡ 0f2f9004-74a8-11eb-01a2-973dbe80f166
 md"""
- **Never run overtime**
+##  **Never run overtime** (a microcentury with UnitFul)
 
 Running overtime is the one unforgivable error a lecturer can make.
 After fifty minutes (one microcentury as von Neumann used to say)
@@ -39,12 +44,35 @@ lectures. (from "Indiscrete Thoughts" by Rota, Chpt 18, 10 Lessons I Wish I Had 
 """
 
 # ╔═╡ 962143a8-74a7-11eb-26c3-c10548f326ee
-century = 100u"yr"
+century = 100u"yr" #  a u"yr" is a special kind of string denoting a unit of a year
+
+# ╔═╡ c2964c80-74f8-11eb-3a74-b1bdd9e4ae02
+century * 2
+
+# ╔═╡ caf488d8-74f8-11eb-0075-0586d66c23c1
+century/200
+
+# ╔═╡ 02dd4a02-74f9-11eb-3d1e-53d83cee8062
+century^2
+
+# ╔═╡ 10ef13d2-74f9-11eb-2849-fb9f83db6ae9
+g = 9.8u"m"/u"s"^2
 
 # ╔═╡ b76a56f4-74a9-11eb-1739-fbfc5e4958e8
 
-uconvert(u"minute", century * 1e-6 )
+uconvert(u"minute", century * 1e-6 ) # convert into minutes the value of a microcentury
 
+
+# ╔═╡ 77fbf18a-74f9-11eb-1d9e-3f9d2097388f
+PotentialEnergy = (10u"kg") * g * (50u"m")
+
+# ╔═╡ bcb69db6-74f9-11eb-100a-29d1d23963ab
+uconvert( u"J",PotentialEnergy)
+
+# ╔═╡ fc70c4d2-74f8-11eb-33f5-539c278ed6b6
+md"""
+Adding units to numbers **just works** in Julia, and furthermore, does not slow down execution.  We are sneaking in an example of the power of generic programming and Julia's type system, some of the underlying technology that makes us love working with Julia.  More on this later in the book.  Meanwhile if this helps you do your problem sets in some other class, go for it.
+"""
 
 # ╔═╡ 2f7cde78-74a2-11eb-1e2f-81b5b2465819
 md"""
@@ -185,10 +213,18 @@ md"""
 # ╔═╡ Cell order:
 # ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
 # ╠═8d389d80-74a1-11eb-3452-f38eff03483b
+# ╟─4d332c7e-74f8-11eb-1f49-a518246d1db8
 # ╟─f7689472-74a8-11eb-32a1-8379ae5c88e1
-# ╟─0f2f9004-74a8-11eb-01a2-973dbe80f166
+# ╠═0f2f9004-74a8-11eb-01a2-973dbe80f166
 # ╠═962143a8-74a7-11eb-26c3-c10548f326ee
+# ╠═c2964c80-74f8-11eb-3a74-b1bdd9e4ae02
+# ╠═caf488d8-74f8-11eb-0075-0586d66c23c1
+# ╠═02dd4a02-74f9-11eb-3d1e-53d83cee8062
+# ╠═10ef13d2-74f9-11eb-2849-fb9f83db6ae9
 # ╠═b76a56f4-74a9-11eb-1739-fbfc5e4958e8
+# ╠═77fbf18a-74f9-11eb-1d9e-3f9d2097388f
+# ╠═bcb69db6-74f9-11eb-100a-29d1d23963ab
+# ╟─fc70c4d2-74f8-11eb-33f5-539c278ed6b6
 # ╠═2f7cde78-74a2-11eb-1e2f-81b5b2465819
 # ╠═e099815e-74a1-11eb-1541-033f6abe9f8e
 # ╠═e82a4dd8-74b0-11eb-1108-6b09e67a80c1
