@@ -21,6 +21,49 @@ begin
 	using ImageFiltering
 end
 
+# ╔═╡ febfa62a-74fa-11eb-2fe6-df7de43ef4b6
+html"""
+
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 400px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 400px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 1.3</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em>Transformations with Images<br></em>
+</p>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>
+"""
+
 # ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
 PlutoUI.TableOfContents(aside=true)
 
@@ -211,6 +254,7 @@ md"""
 """
 
 # ╔═╡ Cell order:
+# ╟─febfa62a-74fa-11eb-2fe6-df7de43ef4b6
 # ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
 # ╠═8d389d80-74a1-11eb-3452-f38eff03483b
 # ╟─4d332c7e-74f8-11eb-1f49-a518246d1db8
