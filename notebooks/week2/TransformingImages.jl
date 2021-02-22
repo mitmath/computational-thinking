@@ -19,6 +19,8 @@ begin
 	using Images
 	using Unitful 
 	using ImageFiltering
+	using OffsetArrays
+	using Plots
 end
 
 # ╔═╡ febfa62a-74fa-11eb-2fe6-df7de43ef4b6
@@ -277,6 +279,17 @@ md"""
 # ╔═╡ cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
 md"""
 Let's play with photoshop if for no other reason, let's see what image transformations are available considered useful by the pros.
+
+Some worth emphasizing are
+1. Blur
+2. Sharpen
+3. Stylize -> Find Edges
+3. Pixelate
+4. Distort
+
+Some of these transformations (e.g. Blur, Sharpen, Find Edges) are examples of 
+convolutions which are very efficient, and show up these days in 
+machine learning particularly in image recognition.
 """
 
 # ╔═╡ 7489a570-74a3-11eb-1d0b-09d41604ffe1
@@ -315,13 +328,43 @@ The number of multiplications = (Number of Pixels in the Image) * (Number of Cel
 
 # ╔═╡ 537c54e4-74b3-11eb-341f-951b4a1e0b40
 md"""
-Thought Problem: Why are small kernels better than large kernels?
+Thought Problem: Why are small kernels better than large kernels from a complexity viewpoint?
 """
 
-# ╔═╡ 662d73b6-74b3-11eb-333d-f1323a001000
+# ╔═╡ c6e340ee-751e-11eb-3ca7-69595b3693b7
 md"""
-### Computer Science: Data Structure: Offset Arrays
+### Computer Science: Architectures: GPUs or Graphical Processing Units
+
+Some important computations can be greatly accelerated through the use of specialized hardware such as the GPU processors that were originally designed as image renderers but it has turned out that these processors can be quite fast at other very regular computations.  Convolutions is a very GPU friendly operation due to its regular structure.
 """
+
+# ╔═╡ 54448d18-7528-11eb-209a-9717affa0d02
+ kernelize(M) = OffsetArray( M, -1:1, -1:1)	       
+
+# ╔═╡ acbc563a-7528-11eb-3c38-75a5b66c9241
+begin
+	identity = [0 0 0 ; 0 1 0 ; 0 0 0]
+	edge_detect = [0 -1 0; -1 4 -1; 0 -1 0] 
+	sharpen = identity .+ edge_detect  # Superposition!
+	box_blur = [1 1 1;1 1 1;1 1 1]/9
+	∇x = [-1 0 1;-1 0 1;-1 0 1]/2 # centered deriv in x
+	∇y = ∇x'
+	
+	kernels = [identity, edge_detect, sharpen, box_blur, ∇x, ∇y]
+	kernel_keys =["identity", "edge_detect", "sharpen", "box_blur", "∇x", "∇y"]
+	selections = kernel_keys .=> kernel_keys
+	kernel_matrix = Dict(kernel_keys .=> kernels)
+	md"$(@bind kernel_name Select(selections))"
+end
+
+# ╔═╡ 995392ee-752a-11eb-3394-0de331e24f40
+kernel_matrix[kernel_name]
+
+# ╔═╡ d22903d6-7529-11eb-2dcd-132cd27104c2
+[imfilter( corgis, kernelize(kernel_matrix[kernel_name])) Gray.(1.5 .* abs.(imfilter( corgis, kernelize(kernel_matrix[kernel_name])))) ]
+
+# ╔═╡ 3ca02e9a-752a-11eb-056a-6b956fb24fdf
+
 
 # ╔═╡ 844ed844-74b3-11eb-2ee1-2de664b26bc6
 md"""
@@ -339,11 +382,72 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=275&end=420" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
+# ╔═╡ 34109062-7525-11eb-10b3-d59d3a6dfda6
+round.(Kernel.gaussian(1), digits=3)
+
+# ╔═╡ 9ab89a3a-7525-11eb-186d-29e4b61deb7f
+md"""
+We could have defined this ourselves with calls to the exponential function.
+"""
+
+# ╔═╡ 50034058-7525-11eb-345b-3334e71ac50e
+begin
+	G = [exp( -(i^2+j^2)/2) for i=-2:2, j=-2:2]
+	round.(G ./ sum(G), digits=3)
+end
+
 # ╔═╡ c0aec7ae-7505-11eb-2822-a151aad48fc9
 md"""
 This is often known as Gausssian blur to emphasize the result of this operation.
 [Adobe on Gaussian blur](https://www.adobe.com/creativecloud/photography/discover/gaussian-blur.html).
 """
+
+# ╔═╡ 628aea22-7521-11eb-2edc-39ac62683aea
+md"""
+Focus around 5:23
+"""
+
+# ╔═╡ 99eeb11c-7524-11eb-2154-df7d84976445
+@bind gparam Slider(0:9, show_value=true, default=1)
+
+# ╔═╡ 2ddcfb90-7520-11eb-2df7-172d07118b7e
+kernel = Kernel.gaussian(gparam)
+
+# ╔═╡ d62496b0-7524-11eb-3410-7177e7c7f8eb
+plotly()
+
+# ╔═╡ 6aa8a76e-7524-11eb-22b5-015aab4191b0
+surface([kernel;])
+
+# ╔═╡ ee93eeb2-7524-11eb-342d-0343d8aebf59
+md"""
+Note: black lines are contours
+"""
+
+# ╔═╡ 662d73b6-74b3-11eb-333d-f1323a001000
+md"""
+### Computer Science: Data Structure: Offset Arrays
+"""
+
+# ╔═╡ d127303a-7521-11eb-3507-7341a416211f
+kernel[0,0]
+
+# ╔═╡ d4581b56-7522-11eb-2c15-991c0c790e67
+kernel[-2,2]
+
+# ╔═╡ 40c15c3a-7523-11eb-1f2a-bd90b127dad2
+M = [ 1  2  3  4  5
+	  6  7  8  9 10
+	 11 12 13 14 15]
+
+# ╔═╡ 08642690-7523-11eb-00dd-63d4cf6513dc
+Z = OffsetArray(M, -1:1, -2:2)
+
+# ╔═╡ deac4cf2-7523-11eb-2832-7b9d31389b08
+the_indices = [ c.I for c ∈ CartesianIndices(Z)]
+
+# ╔═╡ 32887dfa-7524-11eb-35cd-051eff594fa9
+Z[1,-2]
 
 # ╔═╡ 0f765670-7506-11eb-2a37-931b15bb387f
 md"""
@@ -428,7 +532,7 @@ html"""
 # ╟─1fe70e38-751b-11eb-25b8-c741e1726613
 # ╟─215291ec-74a2-11eb-3476-0dab43fd5a5e
 # ╟─61db42c6-7505-11eb-1ddf-05e906234572
-# ╟─cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
+# ╠═cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
 # ╟─7489a570-74a3-11eb-1d0b-09d41604ffe1
 # ╟─8a8e3f5e-74b2-11eb-3eed-e5468e573e45
 # ╟─5864294a-74a5-11eb-23ef-f38a582f2c2d
@@ -436,12 +540,33 @@ html"""
 # ╟─4fab4616-74b0-11eb-0088-6b50237d7d54
 # ╟─275bf7ac-74b3-11eb-32c3-cda1e4f1f8c2
 # ╟─537c54e4-74b3-11eb-341f-951b4a1e0b40
-# ╟─662d73b6-74b3-11eb-333d-f1323a001000
+# ╟─c6e340ee-751e-11eb-3ca7-69595b3693b7
+# ╠═54448d18-7528-11eb-209a-9717affa0d02
+# ╠═acbc563a-7528-11eb-3c38-75a5b66c9241
+# ╠═995392ee-752a-11eb-3394-0de331e24f40
+# ╠═d22903d6-7529-11eb-2dcd-132cd27104c2
+# ╠═3ca02e9a-752a-11eb-056a-6b956fb24fdf
 # ╟─844ed844-74b3-11eb-2ee1-2de664b26bc6
 # ╟─4ffe927c-74b4-11eb-23a7-a18d7e51c75b
-# ╟─91109e5c-74b3-11eb-1f31-c50e436bc6e0
+# ╠═91109e5c-74b3-11eb-1f31-c50e436bc6e0
+# ╠═34109062-7525-11eb-10b3-d59d3a6dfda6
+# ╟─9ab89a3a-7525-11eb-186d-29e4b61deb7f
+# ╠═50034058-7525-11eb-345b-3334e71ac50e
 # ╟─c0aec7ae-7505-11eb-2822-a151aad48fc9
-# ╟─0f765670-7506-11eb-2a37-931b15bb387f
+# ╟─628aea22-7521-11eb-2edc-39ac62683aea
+# ╠═99eeb11c-7524-11eb-2154-df7d84976445
+# ╠═2ddcfb90-7520-11eb-2df7-172d07118b7e
+# ╠═d62496b0-7524-11eb-3410-7177e7c7f8eb
+# ╠═6aa8a76e-7524-11eb-22b5-015aab4191b0
+# ╟─ee93eeb2-7524-11eb-342d-0343d8aebf59
+# ╟─662d73b6-74b3-11eb-333d-f1323a001000
+# ╠═d127303a-7521-11eb-3507-7341a416211f
+# ╠═d4581b56-7522-11eb-2c15-991c0c790e67
+# ╠═40c15c3a-7523-11eb-1f2a-bd90b127dad2
+# ╠═08642690-7523-11eb-00dd-63d4cf6513dc
+# ╠═deac4cf2-7523-11eb-2832-7b9d31389b08
+# ╠═32887dfa-7524-11eb-35cd-051eff594fa9
+# ╠═0f765670-7506-11eb-2a37-931b15bb387f
 # ╟─82737d28-7507-11eb-1e39-c7dc12e18882
 # ╟─40d538b2-7506-11eb-116b-efeb16b3478d
 # ╟─df060a88-7507-11eb-034b-5346d67a0e0d
