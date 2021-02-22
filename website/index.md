@@ -6,7 +6,7 @@ Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 ~~~
 <img style="display: block; margin: 1em auto" src="assets/staytuned.png">
 ~~~
-> We streamed our first live lecture on 1:05pm EST on Wednesday 2/17! You can watch it here ☝️
+> We streamed our first live lecture on 1:05pm EST on Wednesday 2/17! You can watch it here 👇
 
 ~~~
 <iframe id="installation" width="100%" height="360"
