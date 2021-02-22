@@ -128,7 +128,7 @@ md"""
 
 # ╔═╡ e099815e-74a1-11eb-1541-033f6abe9f8e
 md"""
-# Chapter 2. Transforming Images
+# Transforming Images
 """
 
 # ╔═╡ e82a4dd8-74b0-11eb-1108-6b09e67a80c1
@@ -502,7 +502,7 @@ html"""
 # ╠═bcb69db6-74f9-11eb-100a-29d1d23963ab
 # ╟─fc70c4d2-74f8-11eb-33f5-539c278ed6b6
 # ╟─2f7cde78-74a2-11eb-1e2f-81b5b2465819
-# ╟─e099815e-74a1-11eb-1541-033f6abe9f8e
+# ╠═e099815e-74a1-11eb-1541-033f6abe9f8e
 # ╟─e82a4dd8-74b0-11eb-1108-6b09e67a80c1
 # ╟─39552b7a-74fb-11eb-04e0-3981ada52c92
 # ╠═14f2b85e-74ad-11eb-2682-d9de646aedf3
