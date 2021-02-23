@@ -82,6 +82,14 @@ let announcer = "https://computational-thinking-youtube-link.netlify.app/"
 
 const last = x => x[x.length-1]
 
+const content = {current: ""}
+const set_content = (x) => {
+    if(x !== content.current){
+        content.current = x
+        span.innerHTML = x
+    }
+}
+
 const update_content = async () => {
 
 let data = await (await fetch(new URL("current_live_stream.json", announcer), {
@@ -101,7 +109,7 @@ if(data.show_livestream && data.url.trim().length > 0){
     }
 
 
-    span.innerHTML = `
+    set_content(`
     
     <br>
     <br>
@@ -111,21 +119,21 @@ if(data.show_livestream && data.url.trim().length > 0){
     
     <br>
     <br>
-    `
+    `)
 
 
 
 } else if(data.show_stay_tuned) {
-    span.innerHTML = `<img style="display: block; width: 100%" src="assets/staytuned.png">
+    set_content(`<img style="display: block; width: 100%" src="assets/staytuned.png">
     
-    <blockquote>The live stream is starting soon!</blockqoute>`
+    <blockquote>The live stream is starting soon!</blockqoute>`)
 
     setTimeout(update_content, 3*1000)
 } else {
 
-    span.innerHTML = `<iframe width="100%" height="360" src="https://www.youtube.com/embed/videoseries?list=PLP8iPy9hna6T56GkMHEdSrjCCheNuEwI0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    set_content(`<iframe width="100%" height="360" src="https://www.youtube.com/embed/videoseries?list=PLP8iPy9hna6T56GkMHEdSrjCCheNuEwI0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     
-    <blockquote>You can watch our previous live streams here 👆</blockqoute>`
+    <blockquote>You can watch our previous live streams here 👆</blockqoute>`)
 
     setTimeout(update_content, 30*1000)
 }
