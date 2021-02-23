@@ -73,6 +73,11 @@ md"""
 # ╔═╡ fb509fb4-9608-421d-9c40-a4375f459b3f
 det_A = det(A)
 
+# ╔═╡ 0ec60f6e-7627-11eb-17e5-f965a81f3545
+if det_A != 0
+	invA = inv(A)
+end
+
 # ╔═╡ 40655bcc-6d1e-4d1e-9726-41eab98d8472
 img_sources = [
 	"https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png" => "Corgis",
@@ -107,7 +112,6 @@ function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
 		img[i,j]
 	else
 		zero(eltype(img))
-		# RGBA(1, 1, 1, 0.75)
 	end
 end
 
@@ -139,16 +143,12 @@ else
 	img_original
 end;
 
-# ╔═╡ 8d8ac24a-761d-11eb-1e93-9563dd88e74b
-height, width = size(img)
-
 # ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
 [
 	if det_A == 0
 		RGB(1.0, 1.0, 1.0)
 	else
-		in_x, in_y = A \ [out_x, out_y]
-
+		in_x, in_y = invA*[out_x, out_y]
 		trygetpixel(img, in_x, in_y)
 	end
 	
@@ -161,14 +161,14 @@ height, width = size(img)
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
 # ╟─c0c90fec-0e55-4be3-8ea2-88b8705ee258
 # ╟─60532aa0-740c-11eb-0402-af8ff117f042
-# ╠═8d8ac24a-761d-11eb-1e93-9563dd88e74b
 # ╠═8e0505be-359b-4459-9de3-f87ec7b60c23
 # ╠═35904b8e-7a28-4dbc-bbf9-b45da448452c
 # ╟─f085296d-48b1-4db6-bb87-db863bb54049
 # ╟─d1757b2c-7400-11eb-1406-d937294d5388
 # ╟─c536dafb-4206-4689-ad6d-6935385d8fdf
 # ╟─fb509fb4-9608-421d-9c40-a4375f459b3f
-# ╠═40655bcc-6d1e-4d1e-9726-41eab98d8472
+# ╟─0ec60f6e-7627-11eb-17e5-f965a81f3545
+# ╟─40655bcc-6d1e-4d1e-9726-41eab98d8472
 # ╠═4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
 # ╠═52a8009e-761c-11eb-2dc9-dbccdc5e7886
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
