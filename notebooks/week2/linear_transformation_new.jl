@@ -35,6 +35,9 @@ begin
 	using LinearAlgebra
 end
 
+# ╔═╡ 6399bbd0-7645-11eb-3af4-ffcae99be6d4
+using ForwardDiff
+
 # ╔═╡ 972b2230-7634-11eb-028d-df7fc722ec70
 html"""
 
@@ -160,6 +163,21 @@ begin
 	scalex((x,y)) = (.5*x,y)
 	scaley((x,y)) = (x,.3*y)
 	warp((x,y)) = ( r = √(x^2+y^2); θ=α*r; (cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y))
+end
+
+# ╔═╡ 56689460-7645-11eb-02f4-c1cc1c188ee7
+
+
+# ╔═╡ de5766ec-7645-11eb-2430-77feb1ab2769
+
+
+# ╔═╡ 6af30328-7645-11eb-1c6e-2507c138353c
+warp( [1,2] )
+
+# ╔═╡ 903d5b6c-7645-11eb-0bca-bbe6d89cbb87
+begin
+	 warpvector(x) = [ warp(x)...]
+	ForwardDiff.jacobian( warpvector, [1,2] )
 end
 
 # ╔═╡ 60532aa0-740c-11eb-0402-af8ff117f042
@@ -366,6 +384,11 @@ img
 # ╠═3b57547c-7639-11eb-0fe7-333b90c1eeff
 # ╠═965f7a0e-7637-11eb-25fa-dd75fccae46a
 # ╠═082a1caa-7638-11eb-10e1-83a26e89cc10
+# ╠═56689460-7645-11eb-02f4-c1cc1c188ee7
+# ╠═de5766ec-7645-11eb-2430-77feb1ab2769
+# ╠═6399bbd0-7645-11eb-3af4-ffcae99be6d4
+# ╠═6af30328-7645-11eb-1c6e-2507c138353c
+# ╠═903d5b6c-7645-11eb-0bca-bbe6d89cbb87
 # ╟─60532aa0-740c-11eb-0402-af8ff117f042
 # ╠═8d8ac24a-761d-11eb-1e93-9563dd88e74b
 # ╠═8e0505be-359b-4459-9de3-f87ec7b60c23
