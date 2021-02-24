@@ -72,7 +72,7 @@ font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.4</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Transformations & Autodiff </em>
+<em> Transformations and automatic differentiation </em>
 </p>
 </div>
 
@@ -95,6 +95,15 @@ Last time, recall we defined linear combinations of images.  Remember we
 In general if we perform both of these operations, we get a linear combination.
 """
 
+# ╔═╡ 01a438ae-76cc-11eb-2f1f-b3b2d70fa6cd
+md"""
+The goal of this class is to see linear algebra and multivariate calculus in new ways.
+
+If you haven't already taken these classes, you will get some intuition before learning the details.
+
+If you already know the material, you will improve your intuition using visualizations!
+"""
+
 # ╔═╡ 2cca0638-7635-11eb-3b60-db3fabe6f536
 md"""
 # 4.1 Functions in Math and Julia
@@ -115,42 +124,59 @@ In high school you learned about univariate functions e.g.
 In Julia, functions can be written in short form, anonymous form, or long form.
 """
 
+# ╔═╡ 6a267fb8-76cc-11eb-2d71-8b5a2e6f2840
+md"""
+The short form allows us to write short functions in a single line, using a mathematical-type notation:
+"""
+
 # ╔═╡ 539aeec8-76ab-11eb-32a3-95c6672a0ea9
-# short form
-f₁(x) = x^2 # subscript unicode:   \_1 + <tab>   
+f₁(x) = x^2   # we write the subscript as   `\_1 <TAB>`   
 
 # ╔═╡ 81a00b78-76ab-11eb-072a-6b96847c2ce4
 f₁(5)
 
+# ╔═╡ 816204d8-76cc-11eb-0f9b-87b38197b347
+md"""
+There is an **anonymous** form to define a function without a name:
+"""
+
 # ╔═╡ 2369fb18-76ab-11eb-1189-85309c8f925b
-# anonymous form
-x->sin(x)
+x -> sin(x)
 
 # ╔═╡ 98498f84-76ab-11eb-23cf-857c776a9163
-(x->sin(x))(π/2)
+(x -> sin(x))(π/2)  # evaluate the function
+
+# ╔═╡ 9721ef0e-76cc-11eb-2450-b7fe9f7eda8a
+md"""
+There is also a long form:
+"""
 
 # ╔═╡ c6c860a6-76ab-11eb-1dec-1b2f179a0fa9
-# long form
-function f₃(x,α=3) # default parameter
-	return x^α  # the "return" is optional
+function f₃(x, α=3)   # α=3 specifies a default parameter value
+	return x^α        # the word `return` is optional
 end
 
 # ╔═╡ f07fbc6c-76ab-11eb-3382-87c7d65b4078
- f₃(5)
+ f₃(5)      # the exponent is understood to be 3
 
 # ╔═╡ f4fa8c1a-76ab-11eb-302d-bd410432e3cf
-f₃(5,2)
+f₃(5, 2)    # version specifying the value of the exponent
 
 # ╔═╡ b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
 md"""
-Keywords
+We can also use **keyword arguments**
 """
 
 # ╔═╡ 71c074f0-76ac-11eb-2164-c36381212bff
-f₄(x;α) = x^α
+f₄(x; exponent) = x^exponent
+
+# ╔═╡ db5ad3a2-76cc-11eb-2dbf-a30fa5014cab
+md"""
+To use keyword arguments we must specify the parameter name when we call the function:
+"""
 
 # ╔═╡ 87b99c8a-76ac-11eb-1c94-8f1ffe3be593
-f₄(2, α=5)
+f₄(2, exponent=5)
 
 # ╔═╡ 504076fc-76ac-11eb-30c3-bfa75c991cb2
 md"""
@@ -159,7 +185,7 @@ See [Julia's function documentation](https://docs.julialang.org/en/v1/manual/fun
 
 # ╔═╡ f1dd24d8-76ac-11eb-1de7-a763a1b95668
 md"""
-### 4.1.2 Automatic Differentiation of Univariates
+### 4.1.2 Automatic differentiation of univariate functions
 """
 
 # ╔═╡ fe01da74-76ac-11eb-12e3-8320340b6139
@@ -167,11 +193,32 @@ md"""
 Automatic differentiation is a key enabling technology for machine learning and so much of scientific computing.  It derives the answer in a manner that is interestingly different from the symbolic differentiation of elementary calculus classes and the numerical differentiation of simple finite differences.  See the video at the end of this lecture.
 """
 
+# ╔═╡ 025d6ea6-76cd-11eb-362e-95aabad910d3
+md"""
+Modern programming languages, especially Julia, allow us to apply automatic differentiation, or **differentiable programming**, in situations that are ever more complicated.
+"""
+
+# ╔═╡ 3887636a-76cd-11eb-00ee-258154d5e411
+md"""
+We will use Julia's `ForwardDiff.jl` package:
+"""
+
 # ╔═╡ d42aec08-76ad-11eb-361a-a1f2c90fd4ec
 ForwardDiff.derivative(f₁, 5)
 
 # ╔═╡ 06437040-76ae-11eb-0b1c-23a6470f41c8
-ForwardDiff.derivative( x->f₃(x,3), 5)
+ForwardDiff.derivative(x -> f₃(x, 3), 5)
+
+# ╔═╡ 41a49d6e-76cd-11eb-3df6-59e40209db56
+md"""
+This derivative is being calculated in a different way than you probably expect.
+
+- This is *not* being evaluated using "symbolic differentiation", as you learned in calculus.
+
+- It's also not what you learn in a numerical class, namely a "finite difference".
+
+
+"""
 
 # ╔═╡ 28cd454c-76ae-11eb-0d1e-a56995100d59
 md"""
@@ -194,43 +241,62 @@ end
 ϵ = 10.0^e
 
 # ╔═╡ ca1dfb8a-76b0-11eb-1323-d100bdeedc2d
-(sin(1+ϵ)-sin(1))/ϵ , cos(1), ForwardDiff.derivative(sin,1)
+(sin(1+ϵ) - sin(1)) / ϵ, 
+ cos(1),       # `cos` is the exact, symbolic derivative of the `sin` function
+ ForwardDiff.derivative(sin, 1)
+
+# ╔═╡ a9354596-76cd-11eb-0540-33a9dfd22fbb
+md"""
+As we decrease ϵ in the finite difference, the derivative gets closer to the true value. (But we must not use values of ϵ that are *too* small.)
+"""
 
 # ╔═╡ f7df6cda-76b1-11eb-11e4-8d0af0349651
 md"""
-### 4.1.3 Scalar Valued Multivariate Functions
+### 4.1.3 Scalar-valued multivariate functions
+"""
+
+# ╔═╡ c33ed36c-76cd-11eb-313d-89f63d6638d1
+md"""
+Let's move to subjects from multivariate calculus.
 """
 
 # ╔═╡ 63449b54-76b4-11eb-202f-3bda2f4cff4d
 md"""
-Sometimes we are interested in scalar valued functions of more than 1 variable.
-This can be written in Julia as a function of many variables or a function of
-a vector.
-e.g. $f_5(x) = 5\sin(x_1*x_2) + 2x_2/4x_3$
+Sometimes we are interested in scalar-valued functions of more than one input variable.
+This can be written in Julia either as a function of several variables, or as a function of an input *vector*.
+
+e.g. $f_5(x) = 5\sin(x_1 x_2) + 2x_2 / 4x_3$
 """
 
 # ╔═╡ 8c6b0236-76b4-11eb-2acf-91da23bedf0e
 begin
-	f₅(v) = 5sin(v[1]*v[2]) + 2*v[2]/4v[3]
-	f₅(x,y,z) = 5sin(x*y) + 2*y/4z
+	f₅(v) = 5sin(v[1] * v[2]) + 2v[2] / 4v[3]  # function of an input vector
+
+	f₅(x, y, z) = 5sin(x * y) + 2y / 4z
 end
+
+# ╔═╡ 0546a208-76ce-11eb-3949-799615d21bf5
+md"""
+The second version is more readable, but does not allow you to use a vector as input.
+"""
 
 # ╔═╡ a397d526-76b5-11eb-3cce-4374e33324d1
 f₅(1,2,3), f₅([1,2,3])
 
 # ╔═╡ 4a57d898-76b6-11eb-15ea-7be43393922c
 md"""
-Better yet if you must write it the two ways ( you probably won't need to, but if you must), **don't copy code**, reuse code so if it changes in one place it changes everywhere.
+Better yet if you must write it the two ways (although you often won't need to, but if you must), **don't copy code** -- instead, reuse code so if it changes in one place it changes everywhere.
 """
 
 # ╔═╡ bf23ab30-76b5-11eb-1adb-3d74a52cddfd
 begin
-	f₆( x,y,z)  = 5sin(x*y) + 2*y/4z
-	f₆( v ) = f₆(v[1],v[2],v[3])
+	f₆(x, y, z)  = 5sin(x*y) + 2*y / 4z
+	
+	f₆(v) = f₆(v[1], v[2], v[3])
 end
 
 # ╔═╡ d5d4ac48-76b6-11eb-1687-ed853c2db7c9
-f₆(1,2,3), f₆([1,2,3])
+f₆(1, 2, 3), f₆([1, 2, 3])
 
 # ╔═╡ 89b2d570-76ba-11eb-0389-813bbb33efea
 md"""
@@ -238,14 +304,14 @@ There's one other julia idea that is a trick to make vector code more readable. 
 """
 
 # ╔═╡ a8c28578-76ba-11eb-3f3f-af35ff0b6c74
-f₇((x,y,z)) = 5sin(x*y) + 2*y/4z # more readable then 5sin(v[1]*v[2]) + 2*v[2]/4v[3]
+f₇( (x, y, z) ) = 5sin(x*y) + 2*y / 4z   # more readable then 5sin(v[1]*v[2]) + 2*v[2]/4v[3]
 
 # ╔═╡ d9e07084-76ba-11eb-18ac-c58b1bc972ba
-f₇([1,2,3]) # this works with vector arguments, but not scalars (f₇(1,2,3) errros)
+f₇([1, 2, 3]) # this works with vector arguments, but not scalars (f₇(1,2,3) errros)
 
 # ╔═╡ 42172fb6-76b7-11eb-0a11-b7e10c6881f5
 md"""
-You can see that the functions $f_5$  and $f_6$ has two julia methods, one with one variable, and one with three variables.
+You can see that the functions $f_5$  and $f_6$ has two **methods** in Julia: one with one variable, and one with three variables. These are two different *versions* of the function that work for different input types.
 """
 
 # ╔═╡ 57b0cd3c-76b7-11eb-0ece-810f3a8ede00
@@ -253,34 +319,37 @@ methods(f₅)
 
 # ╔═╡ 6d411cea-76b9-11eb-061b-87d472bc3bdd
 md"""
-### 4.1.4 Automatic Differentiation: Scalar valued multivariate functions
+### 4.1.4 Automatic differentiation of scalar-valued multivariate functions
 """
 
 # ╔═╡ bc2c6afc-76b7-11eb-0631-51f83cd73205
 md"""
-In many applications, including machine learning, one needs to take derivatives of the function in every argument direction.  This is known as the *gradient*.  Automatic differentiation works again:
+In many applications, including machine learning, one needs to take derivatives of the function in the direction of each input argument.  This is known as the *gradient*.  
+
+Automatic differentiation works again:
 """
 
 # ╔═╡ ef06cfd8-76b7-11eb-1530-1fcd7e5c5992
-ForwardDiff.gradient(f₅,[1,2,3])
+ForwardDiff.gradient(f₅, [1, 2, 3])
 
 # ╔═╡ 051db7a0-76b8-11eb-14c7-531f42ef60b8
 md"""
 Remember
-$f_5(x) = 5\sin(x_1*x_2) + 2x_2/4x_3$
+$f_5(x) = 5\sin(x_1 x_2) + 2x_2/4x_3$
 """
 
 # ╔═╡ 5f1afd24-76b8-11eb-36ab-9bbb3d73b930
 md"""
-One can check numerically by adding a small change to each of the arguments.m
+We can check this numerically by adding a small change to each of the arguments in turn:
 """
 
 # ╔═╡ 2705bf34-76b8-11eb-3aaa-d363085784ff
 begin
-	∂f₅∂x =  (f₅(1+ϵ, 2, 3  ) -f₅(1, 2, 3)) / ϵ
-	∂f₅∂y =  (f₅(1, 2+ϵ, 3  ) -f₅(1, 2, 3)) / ϵ
-	∂f₅∂z =  (f₅(1, 2,   3+ϵ) -f₅(1, 2, 3)) / ϵ
-	∇f = [ ∂f₅∂x , ∂f₅∂y, ∂f₅∂z]
+	∂f₅∂x =  (f₅(1+ϵ, 2,   3 ) - f₅(1, 2, 3)) / ϵ
+	∂f₅∂y =  (f₅(1,  2+ϵ,  3 ) - f₅(1, 2, 3)) / ϵ
+	∂f₅∂z =  (f₅(1,   2,  3+ϵ) - f₅(1, 2, 3)) / ϵ
+	
+	∇f = [∂f₅∂x, ∂f₅∂y, ∂f₅∂z]
 end
 
 # ╔═╡ dfb9d74c-76b8-11eb-24ff-e521f1294a6f
@@ -290,7 +359,7 @@ Whether you are an expert at multivariable calculus, or you have never seen this
 
 # ╔═╡ 1049f458-76b9-11eb-1d2d-af0b22480121
 md"""
-**Important Remark**: In machine learning, and other optimization contexts, we want to minimize a scalar function of many parameters known as a "loss function."  Following the negative gradient is a standard technique for minimizing functions especially when there are many variables.  When there are only a few variables, there are better techniques.
+**Important remark**: In machine learning, and other optimization contexts, we want to minimize a scalar function of many parameters known as a "loss function."  Following the negative gradient is a standard technique for minimizing functions especially when there are many variables.  When there are only a few variables, there are better techniques.
 """
 
 # ╔═╡ a0afe3ae-76b9-11eb-2301-cde7260ddd7f
@@ -310,51 +379,55 @@ Let us consider a few functions that take in a vector of size 2 and returns a ve
 
 # ╔═╡ d364f91a-76b9-11eb-1807-75e733940d53
 begin
-	 idy((x,y)) = [x,y]
-	 lin1((x,y)) =  [ 2x + 3y, -5x+4x ]
-	 scalex(α) = ((x,y),) -> (α*x, y)
-	 scaley(α) = ((x,y),) -> (x,   α*y)
-	 rot(θ) = ((x,y),) -> [cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]
-	 shear(α) = ((x,y),) -> [x+α*y,y]
-	 genlin(a,b,c,d) = ((x,y),) -> [ a*x + b*y ; c*x + d*y ]
+	 idy( (x, y) )  = [x, y]
+	 lin1( (x, y) ) =  [ 2x + 3y, -5x + 4x ]
+	 scalex(α) = ( (x,y), ) -> (α*x, y)
+	 scaley(α) = ( (x,y), ) -> (x,   α*y)
+	 rot(θ) = ( (x,y), ) -> [cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]   # rotation
+	 shear(α) = ( (x,y), ) -> [x + α*y, y]
+	 genlin(a, b, c, d) = ( (x,y), ) -> [ a*x + b*y ; c*x + d*y ]   # general linear
 end
 
 # ╔═╡ f25c6308-76b9-11eb-3563-1f0ef4cdf86a
-rot(π/2)([4,5])
+rot(π/2)([4, 5])
 
 # ╔═╡ c9a148f0-76bb-11eb-0778-9d3e84369a19
 md"""
-We bet you have noticed that these functions could all have been defined with matrices. Indeed the general case can be written
-"""
+We bet you have noticed that all of the above functions could have been defined using matrices. Indeed the general case can be written
 
-# ╔═╡ db4bc328-76bb-11eb-28dc-eb9df8892d01
-# [a b;c d] * [x,y]
+	[a b; c d] * [x, y]
 
-# ╔═╡ 89f0bc54-76bb-11eb-271b-3190b4d8cbc0
-md"""
-or in math `` \begin{pmatrix} a & b \\ c & d \end{pmatrix}
-\begin{pmatrix} x \\ y \end{pmatrix}`` .
+in Julia, or
+
+`` \begin{pmatrix} a & b \\ c & d \end{pmatrix}
+\begin{pmatrix} x \\ y \end{pmatrix}`` in mathematical notation.
+
 """
 
 # ╔═╡ f70f7ea8-76b9-11eb-3bd7-87d40a2861b1
 md"""
-By contrast here are a few fun functions that can not be written as matrix times
-vector.  What characterizes the matrix ones from the non-matrix ones?
+By contrast here are a few fun functions that *cannot* be written as matrix times
+vector.  What distinguishes the matrix ones from the non-matrix ones?
 """
 
 # ╔═╡ 78176284-76bc-11eb-3045-f584127f58b9
 begin
 	function warp(α)
-		((x,y),)  -> begin
+		( (x,y), )  -> begin
+			
 			r = √(x^2+y^2)
-			θ=α*r
-			rot(θ)([x,y])
+			θ = α*r
+			rot(θ)([x, y])
+			
 		end
 	end
 	
-	rθ(x) = ( norm(x), atan(x[2],x[1])) # maybe vectors are more readable here?
 	
-	xy((r,θ)) = ( r*cos(θ), r*sin(θ))
+	# conversions between Cartesian and polar coordinates:
+	
+	rθ(x) = ( norm(x), atan(x[2], x[1]) ) # maybe vectors are more readable here?
+	
+	xy( (r,θ) ) = (r*cos(θ), r*sin(θ))
 end
 
 # ╔═╡ bf28c388-76bd-11eb-08a7-af2671218017
@@ -365,19 +438,25 @@ rotation depends on the point where it is applied.
 
 # ╔═╡ 5655d2a6-76bd-11eb-3042-5b2dd3f6f44e
 begin	
-	warp₂(α,x,y) = rot(α*√(x^2+y^2))
-	warp₂(α) = ((x,y),) -> warp₂(α,x,y)([x,y])	
+	warp₂(α, x, y) = rot(α * √(x^2+y^2))
+	
+	warp₂(α) = ( (x,y), ) -> warp₂(α, x, y)([x, y])	
 end
 
 # ╔═╡ 852592d6-76bd-11eb-1265-5f200e39113d
-warp(1)([5,6])
+warp(1)([5, 6])
 
 # ╔═╡ 8e36f4a2-76bd-11eb-2fda-9d1424752812
-warp₂(1.0)([5.0,6.0])
+warp₂(1.0)([5.0, 6.0])
 
 # ╔═╡ 09ed6d38-76be-11eb-255b-3fbf76c21097
 md"""
-### 4.1.6 Automatic Differentiation of Transformations
+### 4.1.6 Automatic differentiation of transformations
+"""
+
+# ╔═╡ c61773d4-76d0-11eb-1d59-ede49736a93f
+md"""
+The word for a higher-dimensional is **jacobian**.
 """
 
 # ╔═╡ 9786e2be-76be-11eb-3755-b5669c37aa64
@@ -385,14 +464,16 @@ ForwardDiff.jacobian( warp(3.0), [4,5] )
 
 # ╔═╡ 963694d6-76be-11eb-1b27-d5d063964d24
 md"""
-What is this thing?
+What is this thing, actually?
+Again we can gain intuition for it by doing it numerically
 """
 
 # ╔═╡ b78ef2fe-76be-11eb-1f55-3d0874b298e8
 begin
-	∂w∂x = (warp(3.0)([4+ϵ, 5]) -   warp(3.0)([4,5]))/ϵ # This is a vector, right?
-	∂w∂y = (warp(3.0)([4,   5+ϵ]) - warp(3.0)([4,5]))/ϵ # This too
-	[∂w∂x ∂w∂y]
+	∂w∂x = (warp(3.0)([4+ϵ, 5]) -   warp(3.0)([4, 5])) / ϵ  # this is a vector, right?
+	∂w∂y = (warp(3.0)([4,   5+ϵ]) - warp(3.0)([4, 5])) / ϵ  # this too
+	
+	[∂w∂x ∂w∂y]   # concatenate the two column vectors
 end
 
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
@@ -405,8 +486,11 @@ Congratulations, you now can do what computers excel at.
 
 # ╔═╡ 4d4e6b32-763b-11eb-3021-8bc61ac07eea
 md"""
-Matrices are often thought of as containers of numbers in a rectangular array, and hence one thinks of manipulating these tables like a spreadsheet, but actually the deeper meaning is that it is a transformation.
+Matrices are often thought of as containers of numbers in a rectangular array, and hence one thinks of manipulating these tables like a spreadsheet, but actually the deeper meaning is that **a matrix is (represents) a transformation**!
 """
+
+# ╔═╡ 1eedb57c-76d1-11eb-10bd-8351b2dcc44b
+
 
 # ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
 md"""
@@ -473,6 +557,11 @@ Check out
 # ╔═╡ 2835e33a-7642-11eb-33fd-79fb8ad27fa7
 md"""
 Geometry of determinant, how areas scale.
+"""
+
+# ╔═╡ 682da874-76cb-11eb-36d0-cd53c3a1c88b
+md"""
+There are too many linear algebra classes that make you think that linear algebra is doing row operations and column operations on a table of numbers. But that totally misses the geometrical picture of what a linear transformation really is.
 """
 
 # ╔═╡ 4c93d784-763d-11eb-1f48-81d4d45d5ce0
@@ -614,32 +703,43 @@ end;
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─58a520ca-763b-11eb-21f4-3f27aafbc498
+# ╟─01a438ae-76cc-11eb-2f1f-b3b2d70fa6cd
 # ╟─2cca0638-7635-11eb-3b60-db3fabe6f536
 # ╟─c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
 # ╟─db56bcda-76aa-11eb-2447-5d9076789244
+# ╟─6a267fb8-76cc-11eb-2d71-8b5a2e6f2840
 # ╠═539aeec8-76ab-11eb-32a3-95c6672a0ea9
 # ╠═81a00b78-76ab-11eb-072a-6b96847c2ce4
+# ╟─816204d8-76cc-11eb-0f9b-87b38197b347
 # ╠═2369fb18-76ab-11eb-1189-85309c8f925b
 # ╠═98498f84-76ab-11eb-23cf-857c776a9163
+# ╟─9721ef0e-76cc-11eb-2450-b7fe9f7eda8a
 # ╠═c6c860a6-76ab-11eb-1dec-1b2f179a0fa9
 # ╠═f07fbc6c-76ab-11eb-3382-87c7d65b4078
 # ╠═f4fa8c1a-76ab-11eb-302d-bd410432e3cf
-# ╟─b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
+# ╠═b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
 # ╠═71c074f0-76ac-11eb-2164-c36381212bff
+# ╟─db5ad3a2-76cc-11eb-2dbf-a30fa5014cab
 # ╠═87b99c8a-76ac-11eb-1c94-8f1ffe3be593
 # ╟─504076fc-76ac-11eb-30c3-bfa75c991cb2
 # ╟─f1dd24d8-76ac-11eb-1de7-a763a1b95668
 # ╟─fe01da74-76ac-11eb-12e3-8320340b6139
+# ╟─025d6ea6-76cd-11eb-362e-95aabad910d3
+# ╟─3887636a-76cd-11eb-00ee-258154d5e411
 # ╠═d42aec08-76ad-11eb-361a-a1f2c90fd4ec
 # ╠═06437040-76ae-11eb-0b1c-23a6470f41c8
+# ╟─41a49d6e-76cd-11eb-3df6-59e40209db56
 # ╟─28cd454c-76ae-11eb-0d1e-a56995100d59
 # ╟─38b51946-76ae-11eb-2c8a-e19b30bf42cb
 # ╟─632a1f8c-76ae-11eb-2088-15c3e3c0a210
 # ╟─8a99f186-76af-11eb-031b-f1c288993c7f
 # ╠═ca1dfb8a-76b0-11eb-1323-d100bdeedc2d
+# ╟─a9354596-76cd-11eb-0540-33a9dfd22fbb
 # ╟─f7df6cda-76b1-11eb-11e4-8d0af0349651
-# ╟─63449b54-76b4-11eb-202f-3bda2f4cff4d
+# ╟─c33ed36c-76cd-11eb-313d-89f63d6638d1
+# ╠═63449b54-76b4-11eb-202f-3bda2f4cff4d
 # ╠═8c6b0236-76b4-11eb-2acf-91da23bedf0e
+# ╟─0546a208-76ce-11eb-3949-799615d21bf5
 # ╟─a397d526-76b5-11eb-3cce-4374e33324d1
 # ╟─4a57d898-76b6-11eb-15ea-7be43393922c
 # ╠═bf23ab30-76b5-11eb-1adb-3d74a52cddfd
@@ -663,8 +763,6 @@ end;
 # ╠═d364f91a-76b9-11eb-1807-75e733940d53
 # ╠═f25c6308-76b9-11eb-3563-1f0ef4cdf86a
 # ╟─c9a148f0-76bb-11eb-0778-9d3e84369a19
-# ╠═db4bc328-76bb-11eb-28dc-eb9df8892d01
-# ╠═89f0bc54-76bb-11eb-271b-3190b4d8cbc0
 # ╟─f70f7ea8-76b9-11eb-3bd7-87d40a2861b1
 # ╠═78176284-76bc-11eb-3045-f584127f58b9
 # ╟─bf28c388-76bd-11eb-08a7-af2671218017
@@ -672,11 +770,13 @@ end;
 # ╠═852592d6-76bd-11eb-1265-5f200e39113d
 # ╠═8e36f4a2-76bd-11eb-2fda-9d1424752812
 # ╟─09ed6d38-76be-11eb-255b-3fbf76c21097
+# ╟─c61773d4-76d0-11eb-1d59-ede49736a93f
 # ╠═9786e2be-76be-11eb-3755-b5669c37aa64
-# ╟─963694d6-76be-11eb-1b27-d5d063964d24
+# ╠═963694d6-76be-11eb-1b27-d5d063964d24
 # ╠═b78ef2fe-76be-11eb-1f55-3d0874b298e8
 # ╟─ad728ee6-7639-11eb-0b23-c37f1366fb4e
 # ╟─4d4e6b32-763b-11eb-3021-8bc61ac07eea
+# ╠═1eedb57c-76d1-11eb-10bd-8351b2dcc44b
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
 # ╟─c0c90fec-0e55-4be3-8ea2-88b8705ee258
 # ╟─ce55beee-7643-11eb-04bc-b517703facff
@@ -690,6 +790,7 @@ end;
 # ╟─d1757b2c-7400-11eb-1406-d937294d5388
 # ╟─5227afd0-7641-11eb-0065-918cb8538d55
 # ╟─2835e33a-7642-11eb-33fd-79fb8ad27fa7
+# ╠═682da874-76cb-11eb-36d0-cd53c3a1c88b
 # ╟─4c93d784-763d-11eb-1f48-81d4d45d5ce0
 # ╟─559660cc-763d-11eb-1ed8-017b93ed4ecb
 # ╟─a66eb6fe-76b3-11eb-1d50-659ec2bf7c44
