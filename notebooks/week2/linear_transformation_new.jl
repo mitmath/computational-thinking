@@ -98,8 +98,100 @@ In general if we perform both of these operations, we get a linear combination.
 
 # ╔═╡ 2cca0638-7635-11eb-3b60-db3fabe6f536
 md"""
-# 4.1 Linear Transformations
+# 4.1 Functions in Math and Julia
 """
+
+# ╔═╡ c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
+md"""
+### 4.1.1 Univariate Functions
+"""
+
+# ╔═╡ db56bcda-76aa-11eb-2447-5d9076789244
+md"""
+In high school you learned about univariate functions e.g. 
+* $f₁(x)=x^2$
+* $f₂(x)=\sin(x)$
+* $f₃(x)=x^\alpha$
+
+In Julia, functions can be written in short form, anonymous form, or long form.
+"""
+
+# ╔═╡ 539aeec8-76ab-11eb-32a3-95c6672a0ea9
+# short form
+f₁(x) = x^2 # subscript unicode:   \_1 + <tab>   
+
+# ╔═╡ 81a00b78-76ab-11eb-072a-6b96847c2ce4
+f₁(5)
+
+# ╔═╡ 2369fb18-76ab-11eb-1189-85309c8f925b
+# anonymous form
+x->sin(x)
+
+# ╔═╡ 98498f84-76ab-11eb-23cf-857c776a9163
+(x->sin(x))(π/2)
+
+# ╔═╡ c6c860a6-76ab-11eb-1dec-1b2f179a0fa9
+# long form
+function f₃(x,α=3) # default parameter
+	return x^α  # the "return" is optional
+end
+
+# ╔═╡ f07fbc6c-76ab-11eb-3382-87c7d65b4078
+ f₃(5)
+
+# ╔═╡ f4fa8c1a-76ab-11eb-302d-bd410432e3cf
+f₃(5,2)
+
+# ╔═╡ b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
+md"""
+Keywords
+"""
+
+# ╔═╡ 71c074f0-76ac-11eb-2164-c36381212bff
+f₄(x;α) = x^α
+
+# ╔═╡ 87b99c8a-76ac-11eb-1c94-8f1ffe3be593
+f₄(2, α=5)
+
+# ╔═╡ 504076fc-76ac-11eb-30c3-bfa75c991cb2
+md"""
+See [Julia's function documentation](https://docs.julialang.org/en/v1/manual/functions/) for more.
+"""
+
+# ╔═╡ f1dd24d8-76ac-11eb-1de7-a763a1b95668
+md"""
+### 4.1.2 Automatic Differentiation
+"""
+
+# ╔═╡ fe01da74-76ac-11eb-12e3-8320340b6139
+md"""
+Automatic differentiation is a key enabling technology for machine learning and so much of scientific computing.  It derives the answer in a manner that is interestingly different from the symbolic differentiation of elementary calculus classes and the numerical differentiation of simple finite differences.  See the video at the end of this lecture.
+"""
+
+# ╔═╡ d42aec08-76ad-11eb-361a-a1f2c90fd4ec
+ForwardDiff.derivative(f₁, 5)
+
+# ╔═╡ 06437040-76ae-11eb-0b1c-23a6470f41c8
+ForwardDiff.derivative( x->f₃(x,3), 5)
+
+# ╔═╡ 28cd454c-76ae-11eb-0d1e-a56995100d59
+md"""
+Notice the use of anonymous functions to fix the parameter α=3
+"""
+
+# ╔═╡ 38b51946-76ae-11eb-2c8a-e19b30bf42cb
+md"""
+In case you have forgotten what a derivative is, we remind you with a simple finite difference approximation:
+"""
+
+# ╔═╡ 632a1f8c-76ae-11eb-2088-15c3e3c0a210
+md"""
+``\log_{10}ϵ=``
+$(@bind ϵ Slider((-1:-1:-6), show_value=true))
+"""
+
+# ╔═╡ 8a99f186-76af-11eb-031b-f1c288993c7f
+ϵ
 
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
@@ -222,12 +314,17 @@ let
 
 range = -1.5:.1:1.5
 md"""
+This is a "scrubbable matrix" -- click on the number and drag to change.	
 	
-a $(@bind a Scrubbable( range; default=1.0))
-b $(@bind b Scrubbable( range; default=0.0))
+``(``	
+a= $(@bind a Scrubbable( range; default=1.0))
+b= $(@bind b Scrubbable( range; default=0.0))
+``)``
 
-c $(@bind c Scrubbable(range; default=0.0 ))
-d $(@bind d Scrubbable(range; default=1.0))
+``(``
+c= $(@bind c Scrubbable(range; default=0.0 ))
+d= $(@bind d Scrubbable(range; default=1.0))
+``)``
 	
 	**Re-run this cell to reset to identity transformation**
 """
@@ -367,7 +464,28 @@ img
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
 # ╠═58a520ca-763b-11eb-21f4-3f27aafbc498
 # ╠═acecb4e0-763b-11eb-1a48-73a4ed908a20
-# ╠═2cca0638-7635-11eb-3b60-db3fabe6f536
+# ╟─2cca0638-7635-11eb-3b60-db3fabe6f536
+# ╟─c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
+# ╟─db56bcda-76aa-11eb-2447-5d9076789244
+# ╠═539aeec8-76ab-11eb-32a3-95c6672a0ea9
+# ╠═81a00b78-76ab-11eb-072a-6b96847c2ce4
+# ╠═2369fb18-76ab-11eb-1189-85309c8f925b
+# ╠═98498f84-76ab-11eb-23cf-857c776a9163
+# ╠═c6c860a6-76ab-11eb-1dec-1b2f179a0fa9
+# ╠═f07fbc6c-76ab-11eb-3382-87c7d65b4078
+# ╠═f4fa8c1a-76ab-11eb-302d-bd410432e3cf
+# ╟─b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
+# ╠═71c074f0-76ac-11eb-2164-c36381212bff
+# ╠═87b99c8a-76ac-11eb-1c94-8f1ffe3be593
+# ╟─504076fc-76ac-11eb-30c3-bfa75c991cb2
+# ╟─f1dd24d8-76ac-11eb-1de7-a763a1b95668
+# ╟─fe01da74-76ac-11eb-12e3-8320340b6139
+# ╠═d42aec08-76ad-11eb-361a-a1f2c90fd4ec
+# ╠═06437040-76ae-11eb-0b1c-23a6470f41c8
+# ╟─28cd454c-76ae-11eb-0d1e-a56995100d59
+# ╟─38b51946-76ae-11eb-2c8a-e19b30bf42cb
+# ╠═632a1f8c-76ae-11eb-2088-15c3e3c0a210
+# ╠═8a99f186-76af-11eb-031b-f1c288993c7f
 # ╠═ad728ee6-7639-11eb-0b23-c37f1366fb4e
 # ╠═0b4b1a7e-763a-11eb-0564-ff4651915311
 # ╠═62b28c02-763a-11eb-1418-c1e30555b1fa
