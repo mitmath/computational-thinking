@@ -62,6 +62,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>transformation_autodiff/index.html</loc>
+    <lastmod>2021-02-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>week1/index.html</loc>
     <lastmod>2021-02-24</lastmod>
     <changefreq>monthly</changefreq>
