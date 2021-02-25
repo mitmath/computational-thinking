@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -57,7 +57,7 @@ font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.1</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em>Working with images<br>and arrays</em>
+<em>Images as data <br>and arrays</em>
 </p>
 </div>
 
@@ -80,7 +80,7 @@ _When running this notebook for the first time, this could take up to 15 minutes
 
 # ╔═╡ ca1b507e-6017-11eb-34e6-6b85cd189002
 md"""
-# Lecture 1: Images as examples of data  all around us
+# Images as examples of data  all around us
 Welcome to the Computational Thinking using Julia for Real-World Problems, at MIT in Spring 2021!
 
 The aim of this course is to bring together concepts from computer science and applied math with coding in the modern **Julia language**, and to see how to apply these techniques to study interesting applications (and of course to have fun).
@@ -1154,7 +1154,7 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 # ╟─9b49500c-0164-4556-a17b-7595e35c5ede
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
-# ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
+# ╠═ca1b507e-6017-11eb-34e6-6b85cd189002
 # ╟─e9ff96d8-6bc1-11eb-0f6a-234b9fae047e
 # ╟─9111db10-6bc3-11eb-38e5-cf3f58536914
 # ╟─fb8a99ac-6bc1-11eb-0835-3146734a1c99
