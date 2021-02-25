@@ -274,7 +274,8 @@ and in particular to put a numerical value to this tendency.
 # ╔═╡ 1fe70e38-751b-11eb-25b8-c741e1726613
 md"""
 10 seconds with google and I found there is a thing about faces:
-[The Face Inversion effect](https://en.wikipedia.org/wiki/Face_inversion_effect#:~:text=The%20face%20inversion%20effect%20is,same%20for%20non%2Dfacial%20objects.&text=The%20most%20supported%20explanation%20for,is%20the%20configural%20information%20hypothesis.)
+[The Face Inversion effect](https://en.wikipedia.org/wiki/Face_inversion_effect#:~:text=The%20face%20inversion%20effect%20is,same%20for%20non%2Dfacial%20objects.&text=The%20most%20supported%20explanation%20for,is%20the%20configural%20information%20hypothesis)
+and also the [Thatcher Effect](https://en.wikipedia.org/wiki/Thatcher_effect#:~:text=The%20Thatcher%20effect%20or%20Thatcher,obvious%20in%20an%20upright%20face) seems related.
 
 ... the article suggests objects don't suffer in the same way as faces,
 so I put forth that the phenomenon applies to corgi faces as much as human faces,
