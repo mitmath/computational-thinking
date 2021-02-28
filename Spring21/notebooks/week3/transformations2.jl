@@ -74,9 +74,9 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 1.4</em></p>
+"><em>Section 1.4 cont </em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Transformations & Autodiff </em>
+<em> Transformations2, Composability,  Linearity/Nonlinearity </em>
 </p>
 </div>
 
@@ -91,255 +91,143 @@ overflow-x: hidden;
 # ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
 PlutoUI.TableOfContents(aside=true)
 
-# ╔═╡ 58a520ca-763b-11eb-21f4-3f27aafbc498
+# ╔═╡ e0b657ce-7a03-11eb-1f9d-f32168cb5394
 md"""
-Last time, recall we defined linear combinations of images.  Remember we
-* scaled an image by  multiplying by a constant
-* combined images by adding the colors in each pixel possibly saturating
-In general if we perform both of these operations, we get a linear combination.
+# The fun stuff.
 """
 
-# ╔═╡ 2cca0638-7635-11eb-3b60-db3fabe6f536
-md"""
-# 4.1 Functions in Math and Julia
-"""
+# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
+md"Show grid lines $(@bind show_grid CheckBox(default=true))"
 
-# ╔═╡ c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
-md"""
-### 4.1.1 Univariate Functions
-"""
-
-# ╔═╡ db56bcda-76aa-11eb-2447-5d9076789244
-md"""
-In high school you learned about univariate functions e.g. 
-* $f₁(x)=x^2$
-* $f₂(x)=\sin(x)$
-* $f₃(x)=x^\alpha$
-
-In Julia, functions can be written in short form, anonymous form, or long form.
-"""
-
-# ╔═╡ 539aeec8-76ab-11eb-32a3-95c6672a0ea9
-# short form
-f₁(x) = x^2 # subscript unicode:   \_1 + <tab>   
-
-# ╔═╡ 81a00b78-76ab-11eb-072a-6b96847c2ce4
-f₁(5)
-
-# ╔═╡ 2369fb18-76ab-11eb-1189-85309c8f925b
-# anonymous form
-x->sin(x)
-
-# ╔═╡ 98498f84-76ab-11eb-23cf-857c776a9163
-(x->sin(x))(π/2)
-
-# ╔═╡ c6c860a6-76ab-11eb-1dec-1b2f179a0fa9
-# long form
-function f₃(x,α=3) # default parameter
-	return x^α  # the "return" is optional
+# ╔═╡ ef3f9cb0-7a03-11eb-177f-65f281148496
+begin
+	
+corgis = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"
+longcorgi = "https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w";
+	
 end
 
-# ╔═╡ f07fbc6c-76ab-11eb-3382-87c7d65b4078
- f₃(5)
+# ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
 
-# ╔═╡ f4fa8c1a-76ab-11eb-302d-bd410432e3cf
-f₃(5,2)
+img_original = load(download(corgis)); 
+#img_original = load(download(longcorgi));
+#img_original = #load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "));
 
-# ╔═╡ b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
+
+# ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
 md"""
-Keywords
+α= $(@bind α Slider(-3:.1:3, show_value=true))
 """
 
-# ╔═╡ 71c074f0-76ac-11eb-2164-c36381212bff
-f₄(x;α) = x^α
-
-# ╔═╡ 87b99c8a-76ac-11eb-1c94-8f1ffe3be593
-f₄(2, α=5)
-
-# ╔═╡ 504076fc-76ac-11eb-30c3-bfa75c991cb2
+# ╔═╡ 23ade8ee-7a09-11eb-0e40-296c6b831d74
 md"""
-See [Julia's function documentation](https://docs.julialang.org/en/v1/manual/functions/) for more.
+Grab a linear or nonlinear transform (see TOC) or make up your own
 """
 
-# ╔═╡ f1dd24d8-76ac-11eb-1de7-a763a1b95668
+# ╔═╡ a7df7346-79f8-11eb-1de6-71f027c46643
 md"""
-### 4.1.2 Automatic Differentiation of Univariates
+# Pedagogical Note: Why the Module 1 application = image processing.
+
+Image processing is a great way to learn Julia, some linear algebra, and some nonlinear mathematics.  We don't presume the audience will become professional image processors, but we do believe that the principles learned transcend so many applications. ... and everybody loves playing with their own images.  
 """
 
-# ╔═╡ fe01da74-76ac-11eb-12e3-8320340b6139
+# ╔═╡ 044e6128-79fe-11eb-18c1-395ae857dc73
 md"""
-Automatic differentiation is a key enabling technology for machine learning and so much of scientific computing.  It derives the answer in a manner that is interestingly different from the symbolic differentiation of elementary calculus classes and the numerical differentiation of simple finite differences.  See the video at the end of this lecture.
+# Last Lecture Leftovers
+"""
+
+# ╔═╡ 78d61e28-79f9-11eb-0605-e77d206cda84
+md"""
+## Interesting question about linear transformations.
+If a transformation takes lines into lines and preserves the origin is it linear?
+Answer = no.
+
+The example of a **perspective map** takes all lines into lines, but paralleograms generally do not become parallelograms. 
+"""
+
+# ╔═╡ aad4d6e4-79f9-11eb-0342-b900a41cfbaf
+md"""
+[A nice interactive demo of perspective maps](https://www.khanacademy.org/humanities/renaissance-reformation/early-renaissance1/beginners-renaissance-florence/a/linear-perspective-interactive) from Khan academy.
 """
 
 # ╔═╡ d42aec08-76ad-11eb-361a-a1f2c90fd4ec
-ForwardDiff.derivative(f₁, 5)
+load(download("https://cdn.kastatic.org/ka-perseus-images/1b351a3653c1a12f713ec24f443a95516f916136.jpg"))
 
-# ╔═╡ 06437040-76ae-11eb-0b1c-23a6470f41c8
-ForwardDiff.derivative( x->f₃(x,3), 5)
-
-# ╔═╡ 28cd454c-76ae-11eb-0d1e-a56995100d59
+# ╔═╡ e965cf5e-79fd-11eb-201d-695b54d08e54
 md"""
-Notice the use of anonymous functions to fix the parameter α=3
+## Julia style (a little advanced): Reminder about defining vector valued functions
 """
 
-# ╔═╡ 38b51946-76ae-11eb-2c8a-e19b30bf42cb
+# ╔═╡ 1e11c1ec-79fe-11eb-1867-9da72b3f3bc4
 md"""
-In case you have forgotten what a derivative is, we remind you with a simple finite difference approximation:
-"""
+Many people find it hard to read 
 
-# ╔═╡ 632a1f8c-76ae-11eb-2088-15c3e3c0a210
-begin
-	md"""
-	$(@bind e Slider(-6:-1, default=-1, show_value=true))
-	"""
-end
 
-# ╔═╡ 8a99f186-76af-11eb-031b-f1c288993c7f
-ϵ = 10.0^e
+`f(v) = [ v[1]+v[2] , v[1]-v[2] ]  ` or 
+`  f = v ->  [ v[1]+v[2] , v[1]-v[2] ]  `
 
-# ╔═╡ ca1dfb8a-76b0-11eb-1323-d100bdeedc2d
-(sin(1+ϵ)-sin(1))/ϵ , cos(1), ForwardDiff.derivative(sin,1)
+favoring instead
 
-# ╔═╡ f7df6cda-76b1-11eb-11e4-8d0af0349651
-md"""
-### 4.1.3 Scalar Valued Multivariate Functions
-"""
+`f((x,y)) = [ x+y , x-y ] ` or
+` f = ((x,y),) -> [ x+y , x-y ] `.
 
-# ╔═╡ 63449b54-76b4-11eb-202f-3bda2f4cff4d
-md"""
-Sometimes we are interested in scalar valued functions of more than 1 variable.
-This can be written in Julia as a function of many variables or a function of
-a vector.
-e.g. $f_5(x) = 5\sin(x_1*x_2) + 2x_2/4x_3$
-"""
+All four of these will take a 2-vector to a 2-vector in the same way for the purposes of this lecture, i.e. f( [1,2] ) can be defined by any of the four forms.
 
-# ╔═╡ 8c6b0236-76b4-11eb-2acf-91da23bedf0e
-begin
-	f₅(v) = 5sin(v[1]*v[2]) + 2*v[2]/4v[3]
-	f₅(x,y,z) = 5sin(x*y) + 2*y/4z
-end
+The forms with the `->` are anonymous forms.  (They are still
+considered anonymous even though we name them `f`.)
 
-# ╔═╡ a397d526-76b5-11eb-3cce-4374e33324d1
-f₅(1,2,3), f₅([1,2,3])
+**The anonymous form** comes in handy when one wants a function to depend on a parameter.
 
-# ╔═╡ 4a57d898-76b6-11eb-15ea-7be43393922c
-md"""
-Better yet if you must write it the two ways ( you probably won't need to, but if you must), **don't copy code**, reuse code so if it changes in one place it changes everywhere.
-"""
+For example 
 
-# ╔═╡ bf23ab30-76b5-11eb-1adb-3d74a52cddfd
-begin
-	f₆( x,y,z)  = 5sin(x*y) + 2*y/4z
-	f₆( v ) = f₆(v[1],v[2],v[3])
-end
+`f(α) = ((x,y),) -> [ x + αy, x - αy]`
 
-# ╔═╡ d5d4ac48-76b6-11eb-1687-ed853c2db7c9
-f₆(1,2,3), f₆([1,2,3])
+allows you to apply the f(7) function to [1,2] by running
+` f(7)([1,2]) ` .
 
-# ╔═╡ 89b2d570-76ba-11eb-0389-813bbb33efea
-md"""
-There's one other julia idea that is a trick to make vector code more readable. If you give a tuple argument, the function works directly on vectors but is defined with readable letters.
-"""
-
-# ╔═╡ a8c28578-76ba-11eb-3f3f-af35ff0b6c74
-f₇((x,y,z)) = 5sin(x*y) + 2*y/4z # more readable then 5sin(v[1]*v[2]) + 2*v[2]/4v[3]
-
-# ╔═╡ d9e07084-76ba-11eb-18ac-c58b1bc972ba
-f₇([1,2,3]) # this works with vector arguments, but not scalars (f₇(1,2,3) errros)
-
-# ╔═╡ 42172fb6-76b7-11eb-0a11-b7e10c6881f5
-md"""
-You can see that the functions $f_5$  and $f_6$ has two julia methods, one with one variable, and one with three variables.
-"""
-
-# ╔═╡ 57b0cd3c-76b7-11eb-0ece-810f3a8ede00
-methods(f₅)
-
-# ╔═╡ 6d411cea-76b9-11eb-061b-87d472bc3bdd
-md"""
-### 4.1.4 Automatic Differentiation: Scalar valued multivariate functions
-"""
-
-# ╔═╡ bc2c6afc-76b7-11eb-0631-51f83cd73205
-md"""
-In many applications, including machine learning, one needs to take derivatives of the function in every argument direction.  This is known as the *gradient*.  Automatic differentiation works again:
-"""
-
-# ╔═╡ ef06cfd8-76b7-11eb-1530-1fcd7e5c5992
-ForwardDiff.gradient(f₅,[1,2,3])
-
-# ╔═╡ 051db7a0-76b8-11eb-14c7-531f42ef60b8
-md"""
-Remember
-$f_5(x) = 5\sin(x_1*x_2) + 2x_2/4x_3$
-"""
-
-# ╔═╡ 5f1afd24-76b8-11eb-36ab-9bbb3d73b930
-md"""
-One can check numerically by adding a small change to each of the arguments.m
-"""
-
-# ╔═╡ 2705bf34-76b8-11eb-3aaa-d363085784ff
-begin
-	∂f₅∂x =  (f₅(1+ϵ, 2, 3  ) -f₅(1, 2, 3)) / ϵ
-	∂f₅∂y =  (f₅(1, 2+ϵ, 3  ) -f₅(1, 2, 3)) / ϵ
-	∂f₅∂z =  (f₅(1, 2,   3+ϵ) -f₅(1, 2, 3)) / ϵ
-	∇f = [ ∂f₅∂x , ∂f₅∂y, ∂f₅∂z]
-end
-
-# ╔═╡ dfb9d74c-76b8-11eb-24ff-e521f1294a6f
-md"""
-Whether you are an expert at multivariable calculus, or you have never seen this before, I hope seeing it numerically makes the idea intuitive.
-"""
-
-# ╔═╡ 1049f458-76b9-11eb-1d2d-af0b22480121
-md"""
-**Important Remark**: In machine learning, and other optimization contexts, we want to minimize a scalar function of many parameters known as a "loss function."  Following the negative gradient is a standard technique for minimizing functions especially when there are many variables.  When there are only a few variables, there are better techniques.
 """
 
 # ╔═╡ a0afe3ae-76b9-11eb-2301-cde7260ddd7f
 md"""
-### 4.1.5. Transformations: Vector Valued Multivariate Functions
-"""
-
-# ╔═╡ ac1ab224-76bb-11eb-13cb-0bd44bea1042
-md"""
-While scalar functions might technically be called a transformation, it is more common to use the term when both the input and output are multidimensional.  
-"""
-
-# ╔═╡ bcf92688-76b9-11eb-30fb-1f320a65f45a
-md"""
-Let us consider a few functions that take in a vector of size 2 and returns a vector of size 2.
+# Linear Transformations (A collection)
 """
 
 # ╔═╡ d364f91a-76b9-11eb-1807-75e733940d53
 begin
 	 id((x,y)) = [x,y]
-	 scalex(α) = ((x,y),) -> (α*x, y)
-	 scaley(α) = ((x,y),) -> (x,   α*y)
-	 
-	 scalexy(α) = ((x,y),) -> (α*x, α*y)
-	 
-	 translate(α,β) = ((x,y),) -> (x+α, y+β)
+	 scalex(α) = ((x,y),) -> [α*x, y]
+	 scaley(α) = ((x,y),) -> [x,   α*y]
+	 scale(α) = ((x,y),)  -> [α*x, α*y]
+	 translate(α,β) = ((x,y),) -> [x+α, y+β]
 	 swap((x,y)) = [y,x]
 	 flipy((x,y)) = [x,-y]
 	 rotate(θ) = ((x,y),) -> [cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]
 	 shear(α) = ((x,y),) -> [x+α*y,y]
-	 nonlin_shear(α) = ((x,y),) -> [x+α*y^2,y+α*x^2]
+	 ## General linear
 	 lin(a,b,c,d) = ((x,y),) -> [ a*x + b*y ; c*x + d*y ]
-	 lin(A) = v-> A*[v...]  # abbreviation for the above
-	 exponentialish = (((x,y),) -> (log(x+1.2), log(y+1.2) ) )
-	 merc = ((x,y),) ->  (log(x^2+y^2)/2 , atan(y,x) ) # (reim(log(complex(y,x)) ))	
+	 lin(A) = v-> A*[v...]  # abbreviation for the above		 	
 end
 
-# ╔═╡ 4fe8418c-7939-11eb-2786-75ffbf99382a
-swap(v::SVector) = [v[2],v[1]]
+# ╔═╡ a290d5e2-7a02-11eb-37db-41bf86b1f3b3
+md"""
+# Nonlinear Transformations (A collection)
+"""
 
-# ╔═╡ e2492b5e-7939-11eb-2618-070c256ab638
-id(v::SVector) = v
+# ╔═╡ b4cdd412-7a02-11eb-149a-df1888a0f465
+begin
+  nonlin_shear(α) = ((x,y),) -> [x+α*y^2,y+α*x^2]
+  warp(α) = ((x,y),) -> rotate(α*√(x^2+y^2))([x,y])
+  xy((r,θ)) = [ r*cos(θ), r*sin(θ) ]
+  rθ(x) = ( norm(x), atan(x[2],x[1])) # maybe vectors are more readable here?
+  # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
+  # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
+end
 
-# ╔═╡ e853d68e-7939-11eb-1f71-31a6d3a2ed2f
-w = @SVector([2.0,4])
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+# T = shear(α)
+T = nonlin_shear(α)
+# T = warp(α)
+
 
 # ╔═╡ c9a148f0-76bb-11eb-0778-9d3e84369a19
 md"""
@@ -361,21 +249,6 @@ By contrast here are a few fun functions that can not be written as matrix times
 vector.  What characterizes the matrix ones from the non-matrix ones?
 """
 
-# ╔═╡ 78176284-76bc-11eb-3045-f584127f58b9
-begin
-	function warp(α)
-		((x,y),)  -> begin
-			r = √(x^2+y^2) + .1
-			θ=α*r
-			rotate(θ)([x,y])
-		end
-	end
-	
-	rθ(x) = ( norm(x), atan(x[2],x[1])) # maybe vectors are more readable here?
-	
-	xy((r,θ)) = ( r*cos(θ), r*sin(θ))
-end
-
 # ╔═╡ bf28c388-76bd-11eb-08a7-af2671218017
 md"""
 This may be a little fancy, but we see that warp is a rotation, but the
@@ -388,31 +261,17 @@ begin
 	warp₂(α) = ((x,y),) -> warp₂(α,x,y)([x,y])	
 end
 
+# ╔═╡ 56f1e4cc-7a03-11eb-187b-c5a917978eb9
+warp3(α) = ((x,y),) -> rotate(α*√(x^2+y^2))([x,y])
+
+# ╔═╡ 70dc4346-7a03-11eb-055e-111d2519a44c
+warp3(1)([1,2])
+
 # ╔═╡ 852592d6-76bd-11eb-1265-5f200e39113d
 warp(1)([5,6])
 
 # ╔═╡ 8e36f4a2-76bd-11eb-2fda-9d1424752812
 warp₂(1.0)([5.0,6.0])
-
-# ╔═╡ 09ed6d38-76be-11eb-255b-3fbf76c21097
-md"""
-### 4.1.6 Automatic Differentiation of Transformations
-"""
-
-# ╔═╡ 9786e2be-76be-11eb-3755-b5669c37aa64
-ForwardDiff.jacobian( warp(3.0), [4,5] )
-
-# ╔═╡ 963694d6-76be-11eb-1b27-d5d063964d24
-md"""
-What is this thing?
-"""
-
-# ╔═╡ b78ef2fe-76be-11eb-1f55-3d0874b298e8
-begin
-	∂w∂x = (warp(3.0)([4+ϵ, 5]) -   warp(3.0)([4,5]))/ϵ # This is a vector, right?
-	∂w∂y = (warp(3.0)([4,   5+ϵ]) - warp(3.0)([4,5]))/ϵ # This too
-	[∂w∂x ∂w∂y]
-end
 
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
@@ -448,14 +307,6 @@ $(@bind d Scrubbable(range; default=1.0))
 """
 end
 
-# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
-md"Show grid lines $(@bind show_grid CheckBox(default=true))"
-
-# ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
-md"""
-α= $(@bind α Slider(-3:.1:3, show_value=true))
-"""
-
 # ╔═╡ 2efaa336-7630-11eb-0c17-a7d4a0141dac
 md"""
 zoom = $(@bind  z Scrubbable(.1:.1:3,  default=1))
@@ -481,14 +332,11 @@ end
 #T =id
 #T = lin(B) ∘ lin(C) ∘  scalexy(1/z)
 #T =   rotate(α) ∘ (((x,y),) -> (log(x+1.2), log(y+1.2) ) )
-T = rotate(α) ∘ merc
+#T = rotate(α) #∘ merc
 
 
 # ╔═╡ e6f3611a-793e-11eb-185f-4757d5a8c2ac
 #U =  lin(B*C) ∘  scalexy(1/z)
-
-# ╔═╡ 04e472c6-78e6-11eb-338d-83095764394b
-size(zz)
 
 # ╔═╡ 67324636-7938-11eb-1afd-e7d5afa41954
 
@@ -504,9 +352,6 @@ begin
 	#inverse(f) = y -> inverse( (u, p) -> f(SVector(u...)), y )
 	inverse(f) = y -> inverse( (u, p) -> f(SVector(u[1],u[2])), y )
 end
-
-# ╔═╡ 329490fe-7939-11eb-2688-8dae60df6e41
-inverse(swap)(w)
 
 # ╔═╡ f085296d-48b1-4db6-bb87-db863bb54049
 A = [
@@ -550,11 +395,6 @@ md"""
 ### 4.4 Automatic Differentiation in 10 mins(ok 11)
 """
 
-# ╔═╡ b9dba026-76b3-11eb-1bfb-ffe9c43ced5d
-html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/vAp6nUMrKYg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-"""
-
 # ╔═╡ 62b28c02-763a-11eb-1418-c1e30555b1fa
 md"""
 What about more than 3 dimensions?
@@ -578,7 +418,6 @@ det_A = det(A)
 # ╔═╡ 40655bcc-6d1e-4d1e-9726-41eab98d8472
 img_sources = [
 	"https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png" => "Corgis",
-	"https://user-images.githubusercontent.com/6933510/108883855-39690f80-7606-11eb-8eb1-e595c6c8d829.png" => "Arrows",
 	"https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w" => "Long Corgi",
 "https://previews.123rf.com/images/camptoloma/camptoloma2002/camptoloma200200020/140962183-pembroke-welsh-corgi-portrait-sitting-gray-background.jpg"=>"Portrait Corgi",
 	"https://www.eaieducation.com/images/products/506618_L.jpg"=>"Graph Paper"
@@ -592,7 +431,7 @@ $(@bind img_source Select(img_sources))
 """
 
 # ╔═╡ 4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
-img_original = load(download(img_source));
+#img_original = load(download(img_source));
 
 # ╔═╡ 52a8009e-761c-11eb-2dc9-dbccdc5e7886
 typeof(img_original)
@@ -611,7 +450,7 @@ function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
 	m = max(cols, rows)	
 		    
 	
-	xy_to_ij =  translate(rows/2,cols/2) ∘  swap ∘  flipy ∘ scalexy(m/2)
+	xy_to_ij =  translate(rows/2,cols/2) ∘  swap ∘  flipy ∘ scale(m/2)
 	i,j = floor.(Int, xy_to_ij([x,y]))
 	
 	
@@ -656,6 +495,21 @@ else
 	img_original
 end;
 
+# ╔═╡ f213ce72-7a06-11eb-0c81-f1cb6067fd30
+[
+	begin
+		in_x, in_y =  T([out_x, out_y]) # apply T inverse
+		trygetpixel(img, in_x, in_y)
+	end
+	
+	
+	for out_y in LinRange(1, -1, 800),
+		out_x in LinRange(-1, 1, 800)
+]
+
+# ╔═╡ 7222a0f2-7a07-11eb-3560-3511fab319a2
+img
+
 # ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
 #[
 	[
@@ -695,87 +549,49 @@ size(img)
 # ╔═╡ Cell order:
 # ╟─4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
+# ╟─6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
-# ╠═6b473b2d-4326-46b4-af38-07b61de287fc
-# ╟─58a520ca-763b-11eb-21f4-3f27aafbc498
-# ╟─2cca0638-7635-11eb-3b60-db3fabe6f536
-# ╟─c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
-# ╟─db56bcda-76aa-11eb-2447-5d9076789244
-# ╠═539aeec8-76ab-11eb-32a3-95c6672a0ea9
-# ╠═81a00b78-76ab-11eb-072a-6b96847c2ce4
-# ╠═2369fb18-76ab-11eb-1189-85309c8f925b
-# ╠═98498f84-76ab-11eb-23cf-857c776a9163
-# ╠═c6c860a6-76ab-11eb-1dec-1b2f179a0fa9
-# ╠═f07fbc6c-76ab-11eb-3382-87c7d65b4078
-# ╠═f4fa8c1a-76ab-11eb-302d-bd410432e3cf
-# ╟─b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
-# ╠═71c074f0-76ac-11eb-2164-c36381212bff
-# ╠═87b99c8a-76ac-11eb-1c94-8f1ffe3be593
-# ╟─504076fc-76ac-11eb-30c3-bfa75c991cb2
-# ╟─f1dd24d8-76ac-11eb-1de7-a763a1b95668
-# ╟─fe01da74-76ac-11eb-12e3-8320340b6139
-# ╠═d42aec08-76ad-11eb-361a-a1f2c90fd4ec
-# ╠═06437040-76ae-11eb-0b1c-23a6470f41c8
-# ╟─28cd454c-76ae-11eb-0d1e-a56995100d59
-# ╟─38b51946-76ae-11eb-2c8a-e19b30bf42cb
-# ╟─632a1f8c-76ae-11eb-2088-15c3e3c0a210
-# ╟─8a99f186-76af-11eb-031b-f1c288993c7f
-# ╠═ca1dfb8a-76b0-11eb-1323-d100bdeedc2d
-# ╟─f7df6cda-76b1-11eb-11e4-8d0af0349651
-# ╟─63449b54-76b4-11eb-202f-3bda2f4cff4d
-# ╠═8c6b0236-76b4-11eb-2acf-91da23bedf0e
-# ╟─a397d526-76b5-11eb-3cce-4374e33324d1
-# ╟─4a57d898-76b6-11eb-15ea-7be43393922c
-# ╠═bf23ab30-76b5-11eb-1adb-3d74a52cddfd
-# ╠═d5d4ac48-76b6-11eb-1687-ed853c2db7c9
-# ╟─89b2d570-76ba-11eb-0389-813bbb33efea
-# ╠═a8c28578-76ba-11eb-3f3f-af35ff0b6c74
-# ╠═d9e07084-76ba-11eb-18ac-c58b1bc972ba
-# ╟─42172fb6-76b7-11eb-0a11-b7e10c6881f5
-# ╠═57b0cd3c-76b7-11eb-0ece-810f3a8ede00
-# ╟─6d411cea-76b9-11eb-061b-87d472bc3bdd
-# ╟─bc2c6afc-76b7-11eb-0631-51f83cd73205
-# ╠═ef06cfd8-76b7-11eb-1530-1fcd7e5c5992
-# ╟─051db7a0-76b8-11eb-14c7-531f42ef60b8
-# ╟─5f1afd24-76b8-11eb-36ab-9bbb3d73b930
-# ╠═2705bf34-76b8-11eb-3aaa-d363085784ff
-# ╟─dfb9d74c-76b8-11eb-24ff-e521f1294a6f
-# ╟─1049f458-76b9-11eb-1d2d-af0b22480121
+# ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
+# ╟─45dccdec-7912-11eb-01b4-a97e30344f39
+# ╟─ef3f9cb0-7a03-11eb-177f-65f281148496
+# ╠═96766502-7a06-11eb-00cc-29849773dbcf
+# ╟─ce55beee-7643-11eb-04bc-b517703facff
+# ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
+# ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
+# ╟─f213ce72-7a06-11eb-0c81-f1cb6067fd30
+# ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
+# ╟─a7df7346-79f8-11eb-1de6-71f027c46643
+# ╟─044e6128-79fe-11eb-18c1-395ae857dc73
+# ╟─78d61e28-79f9-11eb-0605-e77d206cda84
+# ╟─aad4d6e4-79f9-11eb-0342-b900a41cfbaf
+# ╟─d42aec08-76ad-11eb-361a-a1f2c90fd4ec
+# ╟─e965cf5e-79fd-11eb-201d-695b54d08e54
+# ╟─1e11c1ec-79fe-11eb-1867-9da72b3f3bc4
 # ╟─a0afe3ae-76b9-11eb-2301-cde7260ddd7f
-# ╟─ac1ab224-76bb-11eb-13cb-0bd44bea1042
-# ╟─bcf92688-76b9-11eb-30fb-1f320a65f45a
 # ╠═d364f91a-76b9-11eb-1807-75e733940d53
-# ╠═4fe8418c-7939-11eb-2786-75ffbf99382a
-# ╠═e2492b5e-7939-11eb-2618-070c256ab638
-# ╠═e853d68e-7939-11eb-1f71-31a6d3a2ed2f
-# ╠═329490fe-7939-11eb-2688-8dae60df6e41
+# ╟─a290d5e2-7a02-11eb-37db-41bf86b1f3b3
+# ╠═b4cdd412-7a02-11eb-149a-df1888a0f465
 # ╟─c9a148f0-76bb-11eb-0778-9d3e84369a19
 # ╠═db4bc328-76bb-11eb-28dc-eb9df8892d01
 # ╠═89f0bc54-76bb-11eb-271b-3190b4d8cbc0
 # ╟─f70f7ea8-76b9-11eb-3bd7-87d40a2861b1
-# ╠═78176284-76bc-11eb-3045-f584127f58b9
 # ╟─bf28c388-76bd-11eb-08a7-af2671218017
 # ╠═5655d2a6-76bd-11eb-3042-5b2dd3f6f44e
+# ╠═56f1e4cc-7a03-11eb-187b-c5a917978eb9
+# ╠═70dc4346-7a03-11eb-055e-111d2519a44c
 # ╠═852592d6-76bd-11eb-1265-5f200e39113d
 # ╠═8e36f4a2-76bd-11eb-2fda-9d1424752812
-# ╟─09ed6d38-76be-11eb-255b-3fbf76c21097
-# ╠═9786e2be-76be-11eb-3755-b5669c37aa64
-# ╟─963694d6-76be-11eb-1b27-d5d063964d24
-# ╠═b78ef2fe-76be-11eb-1f55-3d0874b298e8
 # ╟─ad728ee6-7639-11eb-0b23-c37f1366fb4e
 # ╟─4d4e6b32-763b-11eb-3021-8bc61ac07eea
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-# ╟─c0c90fec-0e55-4be3-8ea2-88b8705ee258
+# ╠═c0c90fec-0e55-4be3-8ea2-88b8705ee258
 # ╟─005ca75a-7622-11eb-2ba4-9f450e71df1f
-# ╠═45dccdec-7912-11eb-01b4-a97e30344f39
-# ╟─ce55beee-7643-11eb-04bc-b517703facff
 # ╠═2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╠═7f28ac40-7914-11eb-1403-b7bec34aeb94
 # ╠═0897814e-793e-11eb-1483-354b81310eba
 # ╠═ed3caab2-76bf-11eb-2544-21e8181adef5
 # ╠═e6f3611a-793e-11eb-185f-4757d5a8c2ac
 # ╠═8e0505be-359b-4459-9de3-f87ec7b60c23
-# ╠═04e472c6-78e6-11eb-338d-83095764394b
 # ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
 # ╠═67324636-7938-11eb-1afd-e7d5afa41954
 # ╠═62a9201c-7938-11eb-144c-15690c06be94
@@ -787,7 +603,6 @@ size(img)
 # ╟─4c93d784-763d-11eb-1f48-81d4d45d5ce0
 # ╟─559660cc-763d-11eb-1ed8-017b93ed4ecb
 # ╟─a66eb6fe-76b3-11eb-1d50-659ec2bf7c44
-# ╟─b9dba026-76b3-11eb-1bfb-ffe9c43ced5d
 # ╟─62b28c02-763a-11eb-1418-c1e30555b1fa
 # ╟─c536dafb-4206-4689-ad6d-6935385d8fdf
 # ╟─fb509fb4-9608-421d-9c40-a4375f459b3f
