@@ -456,6 +456,31 @@ $T(c_1 v_1 + c_2 v_2) = c_1 Tv_1 + c_2 T v_2$ for all numbers $c_1,c_2$ and vect
 
 """
 
+# ╔═╡ b0e6d1ac-7a7d-11eb-0a9e-1310dcb5957f
+md"""
+### The matrix
+"""
+
+# ╔═╡ 7e4ad37c-7a84-11eb-1490-25090e133a7c
+load(download("https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg"))
+
+# ╔═╡ 96f47252-7a84-11eb-3d18-e3ba79dd20c2
+md"""
+No not that matrix!
+"""
+
+# ╔═╡ ae5b3a32-7a84-11eb-04c0-337a74105a58
+md"""
+The matrix of a linear transformation is easy to write down.  The first
+column is $T(1,0)$ the second is $T(0,1)$. That's it.
+"""
+
+# ╔═╡ c9f2b61e-7a84-11eb-3841-33739a226ff9
+md"""
+The linearity relation: $T(x,y) = xT(1,0) + yT(0,1) = x$(column 1)+$y$(column 2)
+is exactly the definition of matrix times vector. Try it.
+"""
+
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
 ## 4.2 But what is a transformation, really? 
@@ -727,6 +752,11 @@ size(img)
 # ╠═1856ddae-7a78-11eb-3422-298e1103275b
 # ╟─4b4fe818-7a78-11eb-2986-59e60063d346
 # ╟─5d656494-7a78-11eb-12e8-d17856bd8c4d
+# ╟─b0e6d1ac-7a7d-11eb-0a9e-1310dcb5957f
+# ╟─7e4ad37c-7a84-11eb-1490-25090e133a7c
+# ╟─96f47252-7a84-11eb-3d18-e3ba79dd20c2
+# ╟─ae5b3a32-7a84-11eb-04c0-337a74105a58
+# ╟─c9f2b61e-7a84-11eb-3841-33739a226ff9
 # ╠═ad728ee6-7639-11eb-0b23-c37f1366fb4e
 # ╟─4d4e6b32-763b-11eb-3021-8bc61ac07eea
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
