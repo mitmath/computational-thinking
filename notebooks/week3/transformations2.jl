@@ -536,6 +536,9 @@ md"""
 ### Coordinate Transform of an Array ij vs points xy
 """
 
+# ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
+load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png"))
+
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
 ## 4.2 But what is a transformation, really? 
@@ -832,6 +835,7 @@ size(img)
 # ╟─155cd218-7a91-11eb-0b4c-bd028507e925
 # ╟─fd25da12-7a92-11eb-20c0-995e7c46b3bc
 # ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
+# ╠═7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
 # ╠═ad728ee6-7639-11eb-0b23-c37f1366fb4e
 # ╠═4d4e6b32-763b-11eb-3021-8bc61ac07eea
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
