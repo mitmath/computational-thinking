@@ -521,6 +521,21 @@ md"""
 `lin(A)∘lin(B)`
 """
 
+# ╔═╡ 04da7710-7a91-11eb-02a1-0b6e889150a2
+md"""
+# Coordinate Transformations vs Object Transformations
+"""
+
+# ╔═╡ 155cd218-7a91-11eb-0b4c-bd028507e925
+md"""
+If you want to move an object to the right, the first thing you might think of is adding 1 to the x coordinate of every point.  The other thing you can do is subtract one from the first coordinate of the coordinate system.  The latter is an example of a coordinate transform.
+"""
+
+# ╔═╡ fd25da12-7a92-11eb-20c0-995e7c46b3bc
+md"""
+### Coordinate Transform of an Array ij vs points xy
+"""
+
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
 ## 4.2 But what is a transformation, really? 
@@ -595,7 +610,7 @@ end
 
 # ╔═╡ 5227afd0-7641-11eb-0065-918cb8538d55
 md"""
-We never seem to see this in linear algebra classes do we?
+
 
 Check out
 [Linear Map Wikipedia](https://en.wikipedia.org/wiki/Linear_map)
@@ -611,14 +626,6 @@ Geometry of determinant, how areas scale.
 # ╔═╡ 4c93d784-763d-11eb-1f48-81d4d45d5ce0
 md"""
 ## Why are we doing this backwards?
-"""
-
-# ╔═╡ 559660cc-763d-11eb-1ed8-017b93ed4ecb
-md"""
-Computer Science
-Solving 2 equations in 2 unknowns, and higher dimensional analogs.
-
-THe top 500 supercomputers, and how many equations in how many unknowns are being solved today.
 """
 
 # ╔═╡ c536dafb-4206-4689-ad6d-6935385d8fdf
@@ -637,12 +644,6 @@ img_sources = [
 	"https://www.eaieducation.com/images/products/506618_L.jpg"=>"Graph Paper"
 ]
 
-# ╔═╡ 4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
-#img_original = load(download(img_source));
-
-# ╔═╡ 52a8009e-761c-11eb-2dc9-dbccdc5e7886
-typeof(img_original)
-
 # ╔═╡ b754bae2-762f-11eb-1c6a-01251495a9bb
 begin
 	white(c::RGB) = RGB(1,1,1)
@@ -650,26 +651,21 @@ begin
 end
 
 # ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
-function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
-# convert coordinate system xy to ij and translate (0,0) to (rows/2,cols/2)
+function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
+# convert coordinate system xy to ij 
+# center image, and use "white" when out of the boundary
 	
 	rows, cols = size(img)
 	m = max(cols, rows)	
-		    
-	
-	xy_to_ij =  translate(rows/2,cols/2) ∘  swap ∘  flipy ∘ scale(m/2)
+    xy_to_ij =  translate(rows/2,cols/2) ∘  swap ∘  flipy ∘ scale(m/2)
 	i,j = floor.(Int, xy_to_ij([x,y]))
 	
-	
-# 	i = floor(Int,  (rows - m*y)/2  ) 
-# 	j = floor(Int,  (cols + m*x)/2  )
- 
 	if 1 < i ≤ rows && 1 < j ≤ cols
 		img[i,j]
 	else
 		white(img[1,1])
-
 	end
+	
 end
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
@@ -706,7 +702,7 @@ end;
 [
 	begin
 		in_x, in_y =  T([out_x, out_y]) # apply T inverse
-		trygetpixel(img, in_x, in_y)
+		transform_xy_to_ij(img, in_x, in_y)
 	end
 	
 	
@@ -722,7 +718,7 @@ img
 	[
 		begin
 			in_x, in_y =  T₁([out_x, out_y]) # apply T inverse
-			trygetpixel(img, in_x, in_y)
+			transform_xy_to_ij(img, in_x, in_y)
 		end
 		
 		
@@ -736,7 +732,7 @@ img
 	[
 		begin
 			in_x, in_y =  T₂([out_x, out_y]) # apply T inverse
-			trygetpixel(img, in_x, in_y)
+			transform_xy_to_ij(img, in_x, in_y)
 		end
 		
 		
@@ -754,28 +750,14 @@ img
 		 # in_x, in_y = A \ [out_x, out_y]
          # in_x, in_y = xy( [out_x, out_y] )
 		in_x, in_y =  T([out_x, out_y]) # apply T inverse
-		trygetpixel(img, in_x, in_y)
+		transform_xy_to_ij(img, in_x, in_y)
 	end
 	
 	
 	for out_y in LinRange(1, -1, 400),
 		out_x in LinRange(-1, 1, 400)
 ]
-# [
-# 	if det_A == 0
-# 		RGB(1.0, 1.0, 1.0)
-# 	else
-		
-# 		 # in_x, in_y = A \ [out_x, out_y]
-#          # in_x, in_y = xy( [out_x, out_y] )
-# 		in_x, in_y =  U([out_x, out_y]) # apply T inverse
-# 		trygetpixel(img, in_x, in_y)
-# 	end
-	
-	
-# 	for out_y in LinRange(1, -1, 400),
-# 		out_x in LinRange(-1, 1, 400)
-# ]]
+
 
 # ╔═╡ 94520610-787f-11eb-278d-c1a092e5429e
 size(img)
@@ -793,9 +775,9 @@ size(img)
 # ╟─ce55beee-7643-11eb-04bc-b517703facff
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
-# ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
+# ╟─f213ce72-7a06-11eb-0c81-f1cb6067fd30
 # ╠═55b5fc92-7a76-11eb-3fba-854c65eb87f9
-# ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
+# ╟─7222a0f2-7a07-11eb-3560-3511fab319a2
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
 # ╟─a7df7346-79f8-11eb-1de6-71f027c46643
 # ╟─044e6128-79fe-11eb-18c1-395ae857dc73
@@ -846,6 +828,10 @@ size(img)
 # ╟─da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
 # ╟─620ee7d8-7a8f-11eb-3888-356c27a2d591
 # ╟─30f522a0-7a8e-11eb-2181-8313760778ef
+# ╟─04da7710-7a91-11eb-02a1-0b6e889150a2
+# ╟─155cd218-7a91-11eb-0b4c-bd028507e925
+# ╟─fd25da12-7a92-11eb-20c0-995e7c46b3bc
+# ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
 # ╠═ad728ee6-7639-11eb-0b23-c37f1366fb4e
 # ╠═4d4e6b32-763b-11eb-3021-8bc61ac07eea
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
@@ -855,19 +841,15 @@ size(img)
 # ╠═ed3caab2-76bf-11eb-2544-21e8181adef5
 # ╠═e6f3611a-793e-11eb-185f-4757d5a8c2ac
 # ╠═8e0505be-359b-4459-9de3-f87ec7b60c23
-# ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
 # ╠═67324636-7938-11eb-1afd-e7d5afa41954
 # ╠═62a9201c-7938-11eb-144c-15690c06be94
 # ╠═94520610-787f-11eb-278d-c1a092e5429e
-# ╟─5227afd0-7641-11eb-0065-918cb8538d55
+# ╠═5227afd0-7641-11eb-0065-918cb8538d55
 # ╟─2835e33a-7642-11eb-33fd-79fb8ad27fa7
 # ╟─4c93d784-763d-11eb-1f48-81d4d45d5ce0
-# ╟─559660cc-763d-11eb-1ed8-017b93ed4ecb
 # ╟─c536dafb-4206-4689-ad6d-6935385d8fdf
 # ╟─fb509fb4-9608-421d-9c40-a4375f459b3f
 # ╠═40655bcc-6d1e-4d1e-9726-41eab98d8472
-# ╠═4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
-# ╠═52a8009e-761c-11eb-2dc9-dbccdc5e7886
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
 # ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
