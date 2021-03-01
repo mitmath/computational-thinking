@@ -481,6 +481,46 @@ The linearity relation: $T(x,y) = xT(1,0) + yT(0,1) = x$(column 1)+$y$(column 2)
 is exactly the definition of matrix times vector. Try it.
 """
 
+# ╔═╡ 23d8a45c-7a85-11eb-3a68-ef11e6f58cac
+md"""
+### Matrix Multiply:  You know how to do it, but  why?
+"""
+
+# ╔═╡ 4a96d516-7a85-11eb-181c-63a6b461790b
+md"""
+Did you ever ask yourself why matrix multiply has that somewhat complicated multiplying and adding going on?
+"""
+
+# ╔═╡ 8206e1ee-7a8a-11eb-1f26-054f6b100076
+let
+	 A = randn(2,2)
+	 B = randn(2,2)
+	 v = rand(2)
+	(lin(A) ∘ lin(B))(v) ≈ lin(A*B)(v)
+end
+
+# ╔═╡ 7d803684-7a8a-11eb-33d2-89d5e2a05bcf
+md"""
+**Important:** The composition of the linear transformation is the linear transformation of the multiplied matrices.  There is only one definition of
+matmul (matrix multiply) that realizes this fact.  
+
+To see what it is exactly remember the first column of `lin(A)∘ lin(B)` should
+be the result of computing the two matrix times vectors  $y=A*(1,0)$ then $z=Ay$,
+and the second column is the same for $(0,1)$.
+
+This is worth writing out if you have never done this.
+"""
+
+# ╔═╡ 57848b42-7a8f-11eb-023a-cf247cb53819
+md"""
+`lin(A*B)`
+"""
+
+# ╔═╡ 620ee7d8-7a8f-11eb-3888-356c27a2d591
+md"""
+`lin(A)∘lin(B)`
+"""
+
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
 ## 4.2 But what is a transformation, really? 
@@ -492,6 +532,8 @@ Congratulations, you now can do what computers excel at.
 # ╔═╡ 4d4e6b32-763b-11eb-3021-8bc61ac07eea
 md"""
 Matrices are often thought of as containers of numbers in a rectangular array, and hence one thinks of manipulating these tables like a spreadsheet, but actually the deeper meaning is that it is a transformation.
+
+The real meaning is related to the **composition**
 """
 
 # ╔═╡ 2efaa336-7630-11eb-0c17-a7d4a0141dac
@@ -509,6 +551,17 @@ $(@bind pany Scrubbable(-1:.1:1, default=0)) ]
 begin
 	C = randn(2,2)
 	B = randn(2,2)
+end
+
+# ╔═╡ 05049fa0-7a8e-11eb-283b-cb4753c4aaf0
+begin
+	let
+	 A = randn(2,2)
+	 B = randn(2,2)
+	end
+	 T₁ =  lin(A) ∘ lin(B)
+	 T₂  = lin(A*B)
+	lin(A*B)((1,0)), (lin(A)∘lin(B))((1,0))
 end
 
 # ╔═╡ ed3caab2-76bf-11eb-2544-21e8181adef5
@@ -664,6 +717,33 @@ end;
 # ╔═╡ 7222a0f2-7a07-11eb-3560-3511fab319a2
 img
 
+# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
+
+	[
+		begin
+			in_x, in_y =  T₁([out_x, out_y]) # apply T inverse
+			trygetpixel(img, in_x, in_y)
+		end
+		
+		
+		for out_y in LinRange(1, -1, 800),
+			out_x in LinRange(-1, 1, 800)
+	]
+
+
+
+# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
+	[
+		begin
+			in_x, in_y =  T₂([out_x, out_y]) # apply T inverse
+			trygetpixel(img, in_x, in_y)
+		end
+		
+		
+		for out_y in LinRange(1, -1, 800),
+			out_x in LinRange(-1, 1, 800)
+	]
+
 # ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
 #[
 	[
@@ -713,7 +793,7 @@ size(img)
 # ╟─ce55beee-7643-11eb-04bc-b517703facff
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
-# ╟─f213ce72-7a06-11eb-0c81-f1cb6067fd30
+# ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
 # ╠═55b5fc92-7a76-11eb-3fba-854c65eb87f9
 # ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
@@ -757,8 +837,17 @@ size(img)
 # ╟─96f47252-7a84-11eb-3d18-e3ba79dd20c2
 # ╟─ae5b3a32-7a84-11eb-04c0-337a74105a58
 # ╟─c9f2b61e-7a84-11eb-3841-33739a226ff9
+# ╟─23d8a45c-7a85-11eb-3a68-ef11e6f58cac
+# ╟─4a96d516-7a85-11eb-181c-63a6b461790b
+# ╠═8206e1ee-7a8a-11eb-1f26-054f6b100076
+# ╟─7d803684-7a8a-11eb-33d2-89d5e2a05bcf
+# ╠═05049fa0-7a8e-11eb-283b-cb4753c4aaf0
+# ╟─57848b42-7a8f-11eb-023a-cf247cb53819
+# ╟─da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
+# ╟─620ee7d8-7a8f-11eb-3888-356c27a2d591
+# ╟─30f522a0-7a8e-11eb-2181-8313760778ef
 # ╠═ad728ee6-7639-11eb-0b23-c37f1366fb4e
-# ╟─4d4e6b32-763b-11eb-3021-8bc61ac07eea
+# ╠═4d4e6b32-763b-11eb-3021-8bc61ac07eea
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
 # ╠═2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╠═7f28ac40-7914-11eb-1403-b7bec34aeb94
