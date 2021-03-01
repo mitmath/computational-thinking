@@ -153,6 +153,20 @@ md"""
 Grab a [linear](#a0afe3ae-76b9-11eb-2301-cde7260ddd7f) or [nonlinear](#a290d5e2-7a02-11eb-37db-41bf86b1f3b3) transform, or make up your own!
 """
 
+# ╔═╡ 2efaa336-7630-11eb-0c17-a7d4a0141dac
+md"""
+zoom = $(@bind  z Scrubbable(.1:.1:3,  default=1))
+"""
+
+# ╔═╡ 7f28ac40-7914-11eb-1403-b7bec34aeb94
+md"""
+pan = [$(@bind panx Scrubbable(-1:.1:1, default=0)), 
+$(@bind pany Scrubbable(-1:.1:1, default=0)) ]
+"""
+
+# ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
+
+
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
 md"""
 Above: The original image is placed in a [-1,1] x [-1 1] box and transformed.
@@ -232,14 +246,6 @@ allows you to apply the `f(7)` function to the input vector `[1, 2]` by running
 `f(7)([1, 2])` .
 """
 
-# ╔═╡ 53e5b558-7aa1-11eb-1a99-b5179474005c
-md"""
-## Vectors vs tuples
-
-
-
-"""
-
 # ╔═╡ a0afe3ae-76b9-11eb-2301-cde7260ddd7f
 md"""
 # Linear transformations: a collection
@@ -264,15 +270,6 @@ begin
 	 rotate(θ) = ((x, y),) -> (cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y)
 	 shear(α)  = ((x, y),) -> (x + α*y, y)
 end
-
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-# T = id
-T = rotate(α)
-# T = shear(α)
-# T = lin(A) # uses the scrubbable 
-#  T = shear(α) ∘ shear(-α)
-#  T = nonlin_shear(α)  ∘ nonlin_shear(-α)
-#  T  =  xy  ∘ rθ 
 
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
@@ -311,6 +308,17 @@ begin
   # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
   # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
 end
+
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+#   T⁻¹ = id
+#   T⁻¹ = rotate(α)
+#   T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
+#   T⁻¹ =  xy  ∘ rθ 
+   T⁻¹ = warp(α)
+#    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
 
 # ╔═╡ 704a87ec-7a1e-11eb-3964-e102357a4d1f
 md"""
@@ -538,9 +546,22 @@ md"""
 Let's try doing that with random matrices:
 """
 
+# ╔═╡ 05049fa0-7a8e-11eb-283b-cb4753c4aaf0
+begin
+	 
+	P = randn(2, 2)
+	Q = randn(2, 2)
+	
+	
+	T₁ = lin(P) ∘ lin(Q)
+	T₂ = lin(P*Q)
+	
+	lin(P*Q)((1, 0)), (lin(P)∘lin(Q))((1, 0))
+end
+
 # ╔═╡ 57848b42-7a8f-11eb-023a-cf247cb53819
 md"""
-`lin(A*B)`
+`lin(P*Q)`
 """
 
 # ╔═╡ 620ee7d8-7a8f-11eb-3888-356c27a2d591
@@ -651,6 +672,37 @@ For $2 \times 2$ matrices we can write down an explicit formula for the matrix i
 
 """
 
+# ╔═╡ 4f51931c-7aac-11eb-13ba-4b8768ac376f
+md"""
+### Inverting Linear Transformations
+"""
+
+# ╔═╡ 5ce799f4-7aac-11eb-0629-ebd8a404e9d3
+let
+	v = rand(2)
+	A = randn(2,2)
+    (lin(inv(A)) ∘ lin(A))(v) ≈ v
+end 
+
+# ╔═╡ 9b456686-7aac-11eb-3aa5-25e6c3c86aff
+let 
+	 A = randn(2,2)
+	 B = randn(2,2)
+	 inv(A*B) ≈ inv(B) * inv(A)
+end
+
+# ╔═╡ c2b0a488-7aac-11eb-1d8b-edd6bd23d1fd
+md"""
+``A^{-1}
+=
+\begin{pmatrix} d & -b \\ -c & a  \end{pmatrix} / (ad-bc) \quad
+``
+if
+``\ A \ =
+\begin{pmatrix} a & b \\ c & d  \end{pmatrix} .
+``
+"""
+
 # ╔═╡ 02d6b440-7aa7-11eb-1be0-b78dea91387f
 md"""
 ## Inverting nonlinear transformations
@@ -669,52 +721,17 @@ There are several implementations of such methods in Julia, e.g. in the [Nonline
 """
 
 # ╔═╡ 7609d686-7aa7-11eb-310a-3550509504a1
-
-
-# ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
-## But what is a transformation, really? 
-You have very likely learned how to multiply matrices times vectors.  I'll bet you think of a matrix as a table of numbers, and a vector as a column of numbers, and if you are well practiced, you know just when to multiply and just when to add.
-Congratulations, you now can do what computers excel at.
-
+# The Big Diagram of Transforming Images
 """
 
-# ╔═╡ 4d4e6b32-763b-11eb-3021-8bc61ac07eea
+# ╔═╡ 1b9faf64-7aab-11eb-1396-6fb89be7c445
+load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/comm.png"))
+
+# ╔═╡ 5f0568dc-7aad-11eb-162f-0d6e26f17d59
 md"""
-Matrices are often thought of as containers of numbers in a rectangular array, and hence one thinks of manipulating these tables like a spreadsheet, but actually the deeper meaning is that it is a transformation.
-
-The real meaning is related to the **composition**
+Note that we are defining the map with the inverse of T so we can go pixel by pixel in the result.
 """
-
-# ╔═╡ 2efaa336-7630-11eb-0c17-a7d4a0141dac
-md"""
-zoom = $(@bind  z Scrubbable(.1:.1:3,  default=1))
-"""
-
-# ╔═╡ 7f28ac40-7914-11eb-1403-b7bec34aeb94
-md"""
-pan = [$(@bind panx Scrubbable(-1:.1:1, default=0)), 
-$(@bind pany Scrubbable(-1:.1:1, default=0)) ]
-"""
-
-# ╔═╡ 0897814e-793e-11eb-1483-354b81310eba
-begin
-	C = randn(2,2)
-	B = randn(2,2)
-end
-
-# ╔═╡ 05049fa0-7a8e-11eb-283b-cb4753c4aaf0
-begin
-	let 
-	A = randn(2, 2)
-	B = randn(2, 2)
-	end
-	
-	T₁ = lin(A) ∘ lin(B)
-	T₂ = lin(A*B)
-	
-	lin(A*B)((1, 0)), (lin(A)∘lin(B))((1, 0))
-end
 
 # ╔═╡ ed3caab2-76bf-11eb-2544-21e8181adef5
 # T =   id ∘   scalexy(1/z)  ∘ translate(-panx,-pany)  # Pick a transformation
@@ -755,17 +772,16 @@ Check out
 [Transformation Matrix Wikipedia](https://en.wikipedia.org/wiki/Transformation_matrix)
 """
 
-# ╔═╡ 2835e33a-7642-11eb-33fd-79fb8ad27fa7
-md"""
-Geometry of determinant, how areas scale.
-"""
-
-# ╔═╡ 8bb3b3a8-7aa5-11eb-0791-4dcbe6ecaee0
-
-
 # ╔═╡ 4c93d784-763d-11eb-1f48-81d4d45d5ce0
 md"""
 ## Why are we doing this backwards?
+"""
+
+# ╔═╡ 846eb3f8-7aad-11eb-2bf4-df83ba5d0c02
+md"""
+* Determinants of Matrices
+* Determimants of Jacobian matrices
+* Breakdown when parallelograms collapse
 """
 
 # ╔═╡ c536dafb-4206-4689-ad6d-6935385d8fdf
@@ -843,7 +859,7 @@ end;
 # ╔═╡ f213ce72-7a06-11eb-0c81-f1cb6067fd30
 [
 	begin
-		in_x, in_y =  T([out_x, out_y]) # apply T inverse
+		in_x, in_y =  ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([out_x, out_y]) # apply T inverse
 		transform_xy_to_ij(img, in_x, in_y)
 	end
 	
@@ -901,9 +917,6 @@ img
 ]
 
 
-# ╔═╡ 94520610-787f-11eb-278d-c1a092e5429e
-size(img)
-
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─6b473b2d-4326-46b4-af38-07b61de287fc
@@ -917,11 +930,14 @@ size(img)
 # ╟─ce55beee-7643-11eb-04bc-b517703facff
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
+# ╟─2efaa336-7630-11eb-0c17-a7d4a0141dac
+# ╟─7f28ac40-7914-11eb-1403-b7bec34aeb94
 # ╟─f213ce72-7a06-11eb-0c81-f1cb6067fd30
+# ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
-# ╟─7222a0f2-7a07-11eb-3560-3511fab319a2
+# ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
-# ╠═a7df7346-79f8-11eb-1de6-71f027c46643
+# ╟─a7df7346-79f8-11eb-1de6-71f027c46643
 # ╟─044e6128-79fe-11eb-18c1-395ae857dc73
 # ╟─78d61e28-79f9-11eb-0605-e77d206cda84
 # ╟─aad4d6e4-79f9-11eb-0342-b900a41cfbaf
@@ -930,7 +946,6 @@ size(img)
 # ╟─e965cf5e-79fd-11eb-201d-695b54d08e54
 # ╟─1e11c1ec-79fe-11eb-1867-9da72b3f3bc4
 # ╟─28ef451c-7aa1-11eb-340c-ab3a1193a3c4
-# ╠═53e5b558-7aa1-11eb-1a99-b5179474005c
 # ╟─a0afe3ae-76b9-11eb-2301-cde7260ddd7f
 # ╟─fc2deb7c-7aa1-11eb-019f-d3e3c80b9ff1
 # ╠═d364f91a-76b9-11eb-1807-75e733940d53
@@ -971,7 +986,7 @@ size(img)
 # ╟─7d803684-7a8a-11eb-33d2-89d5e2a05bcf
 # ╟─17281256-7aa5-11eb-3144-b72777334326
 # ╠═05049fa0-7a8e-11eb-283b-cb4753c4aaf0
-# ╠═57848b42-7a8f-11eb-023a-cf247cb53819
+# ╟─57848b42-7a8f-11eb-023a-cf247cb53819
 # ╟─da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
 # ╟─620ee7d8-7a8f-11eb-3888-356c27a2d591
 # ╟─30f522a0-7a8e-11eb-2181-8313760778ef
@@ -988,25 +1003,24 @@ size(img)
 # ╟─0957fd9a-7a72-11eb-0566-e93ef32fb626
 # ╟─c7cc412c-7aa5-11eb-2df1-d3d788047238
 # ╟─ce620b8e-7aa5-11eb-370b-11e34b07d54d
+# ╠═4f51931c-7aac-11eb-13ba-4b8768ac376f
+# ╠═5ce799f4-7aac-11eb-0629-ebd8a404e9d3
+# ╠═9b456686-7aac-11eb-3aa5-25e6c3c86aff
+# ╟─c2b0a488-7aac-11eb-1d8b-edd6bd23d1fd
 # ╟─02d6b440-7aa7-11eb-1be0-b78dea91387f
 # ╟─0be9fb1e-7aa7-11eb-0116-c3e86ab82c77
 # ╠═7609d686-7aa7-11eb-310a-3550509504a1
-# ╟─ad728ee6-7639-11eb-0b23-c37f1366fb4e
-# ╠═4d4e6b32-763b-11eb-3021-8bc61ac07eea
+# ╠═1b9faf64-7aab-11eb-1396-6fb89be7c445
+# ╟─5f0568dc-7aad-11eb-162f-0d6e26f17d59
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-# ╠═2efaa336-7630-11eb-0c17-a7d4a0141dac
-# ╠═7f28ac40-7914-11eb-1403-b7bec34aeb94
-# ╠═0897814e-793e-11eb-1483-354b81310eba
 # ╠═ed3caab2-76bf-11eb-2544-21e8181adef5
 # ╠═e6f3611a-793e-11eb-185f-4757d5a8c2ac
 # ╠═8e0505be-359b-4459-9de3-f87ec7b60c23
 # ╠═67324636-7938-11eb-1afd-e7d5afa41954
 # ╠═62a9201c-7938-11eb-144c-15690c06be94
-# ╠═94520610-787f-11eb-278d-c1a092e5429e
-# ╠═5227afd0-7641-11eb-0065-918cb8538d55
-# ╟─2835e33a-7642-11eb-33fd-79fb8ad27fa7
-# ╠═8bb3b3a8-7aa5-11eb-0791-4dcbe6ecaee0
+# ╟─5227afd0-7641-11eb-0065-918cb8538d55
 # ╟─4c93d784-763d-11eb-1f48-81d4d45d5ce0
+# ╟─846eb3f8-7aad-11eb-2bf4-df83ba5d0c02
 # ╟─c536dafb-4206-4689-ad6d-6935385d8fdf
 # ╟─fb509fb4-9608-421d-9c40-a4375f459b3f
 # ╠═40655bcc-6d1e-4d1e-9726-41eab98d8472
