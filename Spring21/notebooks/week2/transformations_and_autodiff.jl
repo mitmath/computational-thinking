@@ -84,6 +84,14 @@ overflow-x: hidden;
 """
 
 
+# ╔═╡ 84f7f0a2-7ace-11eb-1621-d355a9ac414e
+md"# Lecture Video"
+
+# ╔═╡ 8b08f6b4-7ace-11eb-08c9-0b0144f98667
+html"""
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/AAREeuaKCic" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+"""
+
 # ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
 PlutoUI.TableOfContents(aside=true)
 
@@ -611,6 +619,8 @@ end;
 # ╔═╡ Cell order:
 # ╟─4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
+# ╟─84f7f0a2-7ace-11eb-1621-d355a9ac414e
+# ╟─8b08f6b4-7ace-11eb-08c9-0b0144f98667
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─58a520ca-763b-11eb-21f4-3f27aafbc498

@@ -71,6 +71,14 @@ overflow-x: hidden;
 # ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 PlutoUI.TableOfContents(aside=true)
 
+# ╔═╡ 1dc95dba-7acd-11eb-133b-91f0e227818f
+md"# Lecture Video"
+
+# ╔═╡ 2b921520-7acd-11eb-24f3-6d371facf277
+html"""
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/3zTO3LEY-cM" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+"""
+
 # ╔═╡ 9b49500c-0164-4556-a17b-7595e35c5ede
 md"""
 #### Intializing packages
@@ -1152,6 +1160,8 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╔═╡ Cell order:
 # ╟─e91d7926-ec6e-41e7-aba2-9dca333c8aa5
 # ╟─d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
+# ╟─1dc95dba-7acd-11eb-133b-91f0e227818f
+# ╟─2b921520-7acd-11eb-24f3-6d371facf277
 # ╟─9b49500c-0164-4556-a17b-7595e35c5ede
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
 # ╟─ca1b507e-6017-11eb-34e6-6b85cd189002

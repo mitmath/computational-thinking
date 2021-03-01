@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -68,6 +68,14 @@ overflow-x: hidden;
 
 # ╔═╡ 60ae819a-70a7-11eb-31d4-750c7f5dc6ca
 PlutoUI.TableOfContents(aside=true)
+
+# ╔═╡ 4a63c446-7acd-11eb-13d9-eb04606d801b
+md"# Lecture Video"
+
+# ╔═╡ 5619f15a-7acd-11eb-09cf-1f339dd92e0e
+html"""
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/3zTO3LEY-cM" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+"""
 
 # ╔═╡ 792c6a62-ec41-11ea-01f3-73e7eee23cc7
 md"""
@@ -221,6 +229,8 @@ end
 # ╔═╡ Cell order:
 # ╟─5ef51c3a-70a7-11eb-2023-31113399a57f
 # ╟─60ae819a-70a7-11eb-31d4-750c7f5dc6ca
+# ╟─4a63c446-7acd-11eb-13d9-eb04606d801b
+# ╟─5619f15a-7acd-11eb-09cf-1f339dd92e0e
 # ╟─792c6a62-ec41-11ea-01f3-73e7eee23cc7
 # ╟─ef1bfa16-70ea-11eb-189c-a54db292cd6f
 # ╠═0504ac94-70ee-11eb-1c4e-977d9e7d35c9
