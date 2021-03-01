@@ -14,13 +14,19 @@
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>reviews/index.html</loc>
+    <loc>more_transformations/index.html</loc>
     <lastmod>2021-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
     <loc>cheatsheets/index.html</loc>
+    <lastmod>2021-03-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>reviews/index.html</loc>
     <lastmod>2021-03-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>

@@ -39,7 +39,7 @@
     <style>
     </style>
     <nav class="sidebar-nav" style="opacity: 0.9">
-      <a class="sidebar-nav-item active" href="/Spring21/"><b>Welcome</b></a>
+      <a class="sidebar-nav-item " href="/Spring21/"><b>Welcome</b></a>
       <a class="sidebar-nav-item " href="/Spring21/reviews/">Class Reviews</a>
       <a class="sidebar-nav-item " href="/Spring21/logistics/">Class Logistics</a>
       <a class="sidebar-nav-item " href="/Spring21/homework/">Homework</a>
@@ -53,7 +53,7 @@
       <a class="sidebar-nav-item " href="/Spring21/abstraction/"><b>2</b> - <em>Intro to Abstraction</em></a>
       <a class="sidebar-nav-item " href="/Spring21/transformation_autodiff/"><b>3</b> - <em>Transformations and Derivatives</em></a>
       <a class="sidebar-nav-item " href="/Spring21/transforming_images/"><b>4</b> - <em>Convolutions</em></a>
-      <a class="sidebar-nav-item " href="/Spring21/more_transformations/"><b>5</b> - <em>Transformations II: Composability and Linearity</em></a>
+      <a class="sidebar-nav-item active" href="/Spring21/more_transformations/"><b>5</b> - <em>Transformations II: Composability and Linearity</em></a>
       <div class="course-section">Module 2</div>
       <em>Starting in week 4</em>
       <div class="course-section">Module 3</div>
@@ -70,115 +70,48 @@
 
 
 
+<div id="sync-play-wrap" style="margin-left: 4rem; margin-top: 3em; display: none">
+    <input type="checkbox" id="sync-play" name="sync-play" checked>
+    <label for="sync-play">Synchronize play when the class is live</label>
+</div>
+
 <!-- Content appended here -->
-<div class="franklin-content"><h1 id="introduction_to_computational_thinking"><a href="#introduction_to_computational_thinking">Introduction to Computational Thinking</a></h1>
-<p>Welcome to <strong>MIT 18.S191 aka 6.S083 aka 22.S092</strong>, <strong>Spring 2021</strong> edition&#33;</p>
+<div class="franklin-content"><style>
 
-<script type=module>
-const span = document.querySelector("#yt-placeholder")
-let announcer = "https://computational-thinking-youtube-link.netlify.app/"
-
-
-const last = x => x[x.length-1]
-
-const content = {current: ""}
-const set_content = (x) => {
-    if(x !== content.current){
-        content.current = x
-        span.innerHTML = x
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+.smallscreenlink {
+    display: none;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
     }
 }
+</style>
 
-const update_content = async () => {
-
-let data = await (await fetch(new URL("current_live_stream.json", announcer), {
-    cache: "no-cache",
-})).json()
-
-if(data.show_livestream && data.url.trim().length > 0){
-
-    let yt_url = new URL(data.url)
-    let path = yt_url.pathname
-
-    let video_id = ""
-    if(path === "/watch") {
-        video_id = yt_url.searchParams.get("v")
-    } else if (yt_url.host === "youtu.be" || true) {
-        video_id = last(yt_url.pathname.split("/"))
-    }
-
-
-    set_content(`
-    
-    <br>
-    <br>
-    <p class="live-label">Currently live</p>
-    <br>
-    <iframe width="100%" height="360" src="https://www.youtube.com/embed/${video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    
-    <br>
-    <br>
-    `)
-
-
-
-} else if(data.show_stay_tuned) {
-    set_content(`<img style="display: block; width: 100%" src="assets/staytuned.png">
-    
-    <blockquote>The live stream is starting soon!</blockqoute>`)
-
-    setTimeout(update_content, 3*1000)
-} else {
-
-    set_content(`<iframe width="100%" height="360" src="https://www.youtube.com/embed/videoseries?list=PLP8iPy9hna6T56GkMHEdSrjCCheNuEwI0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-    
-    <blockquote>You can watch our previous live streams here 👆</blockqoute>`)
-
-    setTimeout(update_content, 30*1000)
-}
-
-
-
-
-}
-
-update_content()
-
-</script>
-
-<span id="yt-placeholder"></span>
-    <hr>
-
-
-<p style="font-size: 1.15em; color: #333; line-height:1.5em"> This is an introductory course on Computational Thinking. We use the <a href="http://www.julialang.org">Julia programming language</a> to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.</p>
-<p>We plan to include the following topics:</p>
-<ul>
-<li><p>Image analysis</p>
-</li>
-<li><p>Machine learning</p>
-</li>
-<li><p>Dynamics on networks</p>
-</li>
-<li><p>Climate modeling</p>
-</li>
-</ul>
-<blockquote>
-<p>See also the course repository <a href="https://github.com/mitmath/18S191">github.com/mitmath/18S191</a>.</p>
-</blockquote>
-<blockquote>
-<p><em><strong><a href="/Spring21/reviews/">What people are saying about the course&#33;</a></strong></em></p>
-</blockquote>
-<h2 id="meet_our_staff"><a href="#meet_our_staff">Meet our staff</a></h2>
-<p><strong>Lecturers:</strong> <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a>, <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a>, <a href="https://hdrake.github.io/">Henri F. Drake</a></p>
-<p><strong>Teaching assistants:</strong> <a href="">Bola Malek</a></p>
-<p><strong>Technical assistants:</strong> <a href="">Fons van der Plas</a>, <a href="https://scholar.harvard.edu/logankilpatrick/home">Logan Kilpatrick</a></p>
-<p><strong>Guest lecturers:</strong> <em>to be announced</em></p>
-<h2 id="introduction_video_from_fall_2020"><a href="#introduction_video_from_fall_2020">Introduction video from Fall 2020</a></h2>
-<iframe id="course-intro" width="100%" height="360"
-src="https://www.youtube.com/embed/vxjRWtWoD_w"
+<iframe width="100%" height="100%"
+src="../notebooks/week3/transformations2.html"
+class="plutopage"
 frameborder="0"
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; wake-lock; screen-wake-lock; vr; web-share; xr-spatial-tracking"
 allowfullscreen></iframe>
+
+<a class="smallscreenlink" href="../notebooks/week3/transformations2.html"></a>
 
 <div class="page-foot">
   <div class="copyright">
@@ -189,6 +122,14 @@ allowfullscreen></iframe>
 </div><!-- CONTENT ENDS HERE -->
 
     </div>  <!-- div: content container -->
+
+    
+        <script src="/Spring21/assets/moment.min.js"></script>
+<script src="/Spring21/assets/moment-timezone.js"></script>
+<script src="/Spring21/assets/live-player.js"></script>
+<script>
+play_live("2021-02-22T10:00:00", "America/New_York", ["images"], [])
+</script>
 
     
 
