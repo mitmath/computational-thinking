@@ -41,9 +41,6 @@ begin
 	using StaticArrays
 end
 
-# ╔═╡ 4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
-
-
 # ╔═╡ 972b2230-7634-11eb-028d-df7fc722ec70
 html"""
 
@@ -93,11 +90,8 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ e0b657ce-7a03-11eb-1f9d-f32168cb5394
 md"""
-# The fun stuff.
+#  The fun stuff: playing with the transforms.
 """
-
-# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
-md"Show grid lines $(@bind show_grid CheckBox(default=true))"
 
 # ╔═╡ ef3f9cb0-7a03-11eb-177f-65f281148496
 begin
@@ -113,6 +107,9 @@ img_original = load(download(corgis));
 #img_original = load(download(longcorgi));
 #img_original = #load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "));
 
+
+# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
+md"Show grid lines $(@bind show_grid CheckBox(default=true))"
 
 # ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
 md"""
@@ -194,17 +191,16 @@ md"""
 
 # ╔═╡ d364f91a-76b9-11eb-1807-75e733940d53
 begin
-	 id((x,y)) = [x,y]
-	 scalex(α) = ((x,y),) -> [α*x, y]
-	 scaley(α) = ((x,y),) -> [x,   α*y]
-	 scale(α) = ((x,y),)  -> [α*x, α*y]
-	 translate(α,β) = ((x,y),) -> [x+α, y+β]
-	 swap((x,y)) = [y,x]
-	 flipy((x,y)) = [x,-y]
-	 rotate(θ) = ((x,y),) -> [cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]
-	 shear(α) = ((x,y),) -> [x+α*y,y]
+	 id((x,y)) = (x,y)
+	 scalex(α) = ((x,y),) -> (α*x, y)
+	 scaley(α) = ((x,y),) -> (x,   α*y)
+	 scale(α) = ((x,y),)  -> (α*x, α*y)	
+	 swap((x,y)) = (y,x)
+	 flipy((x,y)) = (x,-y)
+	 rotate(θ) = ((x,y),) -> (cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y)
+	 shear(α) = ((x,y),) -> (x+α*y,y)
 	 ## General linear
-	 lin(a,b,c,d) = ((x,y),) -> [ a*x + b*y ; c*x + d*y ]
+	 lin(a,b,c,d) = ((x,y),) -> ( a*x + b*y ; c*x + d*y )
 	 lin(A) = v-> A*[v...]  # abbreviation for the above		 	
 end
 
@@ -215,27 +211,74 @@ md"""
 
 # ╔═╡ b4cdd412-7a02-11eb-149a-df1888a0f465
 begin
-  nonlin_shear(α) = ((x,y),) -> [x+α*y^2,y+α*x^2]
+  translate(α,β) = ((x,y),) -> (x+α, y+β) # affine, but not linear
+  nonlin_shear(α) = ((x,y),) -> (x,y+α*x^2)
   warp(α) = ((x,y),) -> rotate(α*√(x^2+y^2))([x,y])
-  xy((r,θ)) = [ r*cos(θ), r*sin(θ) ]
+  xy((r,θ)) = ( r*cos(θ), r*sin(θ) )
   rθ(x) = ( norm(x), atan(x[2],x[1])) # maybe vectors are more readable here?
   # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
   # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
 end
 
 # ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-# T = shear(α)
-T = nonlin_shear(α)
+ # T = shear(α) ∘ shear(-α)
+  T = nonlin_shear(α)  ∘ nonlin_shear(-α)
 # T = warp(α)
+#T  =  xy  ∘ rθ 
 
-
-# ╔═╡ c9a148f0-76bb-11eb-0778-9d3e84369a19
+# ╔═╡ 704a87ec-7a1e-11eb-3964-e102357a4d1f
 md"""
-We bet you have noticed that these functions could all have been defined with matrices. Indeed the general case can be written
+# Composition
+"""
+
+# ╔═╡ 44792484-7a20-11eb-1c09-95b27b08bd34
+md"""
+## Composing Functions in mathematics
+[wikipedia (math) ](https://en.wikipedia.org/wiki/Function_composition)
+
+In math we *compose* two functions to create a new function, as
+in the function that takes $x$ to $\sin(\cos(x))$ is the composition
+of the sine function and the cosine function.  
+
+## Composing Functions in computer science
+[wikipedia (cs)](https://en.wikipedia.org/wiki/Function_composition_(computer_science))
+
+A key issue is a programming language is whether it's easy to name
+the composition in that language.  In Julia one can create the function
+`sin ∘ cos`  and one can readily check that ` (sin ∘ cos)(x) ` always yields the same value as `sin(cos(x))`.
+
+
+## Composing Functions in Julia
+[Julia's  `∘`  (`\circ+<tab>`)operator](https://docs.julialang.org/en/v1/manual/functions/#Function-composition-and-piping)
+follows the [mathematical typography](https://en.wikipedia.org/wiki/Function_composition#Typography) convention as was
+shown in the `sin ∘ cos` example above .
+
+## Composition of software at a higher level.
+
+The trend these days is to have higher order composition of functionalities.
+A good example would be that an optimization can wrap a highly complicated
+program which might include all kinds of solvers, and still run successfully.
+This can require the ability of the outer software to have some awareness
+of the inner software.  It can be quite magical when two very different pieces of software "compose", i.e. work together.  Julia's language construction encourages composability.  We will discuss this more in a future lecture.
+
+
+
+
 """
 
 # ╔═╡ db4bc328-76bb-11eb-28dc-eb9df8892d01
-# [a b;c d] * [x,y]
+md"""
+# Inverses
+"""
+
+# ╔═╡ 0b8ed36c-7a1e-11eb-053c-63cf9ee0b16f
+md"""
+If $f$ is a function from 2-vectors to 2-vectors (say), we define the inverse function,
+$f^{-1}$ to have the property that $f(f^{-1}(v))=v$ and $f^{-1}(f(v))=v$.
+"""
+
+# ╔═╡ 62c96656-7a1e-11eb-235f-a57e0d869c5c
+
 
 # ╔═╡ 89f0bc54-76bb-11eb-271b-3190b4d8cbc0
 md"""
@@ -547,14 +590,13 @@ img
 size(img)
 
 # ╔═╡ Cell order:
-# ╟─4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
-# ╟─45dccdec-7912-11eb-01b4-a97e30344f39
 # ╟─ef3f9cb0-7a03-11eb-177f-65f281148496
 # ╠═96766502-7a06-11eb-00cc-29849773dbcf
+# ╟─45dccdec-7912-11eb-01b4-a97e30344f39
 # ╟─ce55beee-7643-11eb-04bc-b517703facff
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
@@ -571,8 +613,11 @@ size(img)
 # ╠═d364f91a-76b9-11eb-1807-75e733940d53
 # ╟─a290d5e2-7a02-11eb-37db-41bf86b1f3b3
 # ╠═b4cdd412-7a02-11eb-149a-df1888a0f465
-# ╟─c9a148f0-76bb-11eb-0778-9d3e84369a19
-# ╠═db4bc328-76bb-11eb-28dc-eb9df8892d01
+# ╟─704a87ec-7a1e-11eb-3964-e102357a4d1f
+# ╟─44792484-7a20-11eb-1c09-95b27b08bd34
+# ╟─db4bc328-76bb-11eb-28dc-eb9df8892d01
+# ╟─0b8ed36c-7a1e-11eb-053c-63cf9ee0b16f
+# ╠═62c96656-7a1e-11eb-235f-a57e0d869c5c
 # ╠═89f0bc54-76bb-11eb-271b-3190b4d8cbc0
 # ╟─f70f7ea8-76b9-11eb-3bd7-87d40a2861b1
 # ╟─bf28c388-76bd-11eb-08a7-af2671218017
