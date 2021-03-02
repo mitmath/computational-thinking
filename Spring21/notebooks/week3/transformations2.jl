@@ -851,11 +851,15 @@ function with_gridlines(img::Array{<:Any,2}; n = 10)
 	
 	
 	result[ floor.(Int,LinRange(1, rows, n) ), : ] .= stroke
+	#result[ ceil.(Int,LinRange(1, rows, n) ), : ] .= stroke
 	result[ : , floor.(Int,LinRange(1, cols, n) )] .= stroke
+	#result[ : , ceil.(Int,LinRange(1, cols, n) )] .= stroke
 	
 	
     result[  rows ÷2    , :] .= RGBA(0,1,0,1)
+	#result[  1+rows ÷2    , :] .= RGBA(0,1,0,1)
 	result[ : ,  cols ÷2   ,] .= RGBA(1,0,0,1)
+	#result[ : ,  1 + cols ÷2   ,] .= RGBA(1,0,0,1)
 	return result
 end
 
