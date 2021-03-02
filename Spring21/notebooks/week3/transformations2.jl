@@ -106,8 +106,8 @@ end
 
 # ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
 
-#img_original = load(download(corgis)); 
-img_original = load(download(longcorgi));
+img_original = load(download(corgis)); 
+ # img_original = load(download(longcorgi));
 #img_original = #load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "));
 
 
@@ -149,11 +149,9 @@ $(@bind d Scrubbable(range; default=1.0))
 end
 
 # ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
-md"Show grid lines $(@bind show_grid CheckBox(default=true))"
-
-# ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
 md"""
-α= $(@bind α Slider(-3:.1:3, show_value=true))
+Show grid lines $(@bind show_grid CheckBox(default=true))
+ngrid = $(@bind ngrid Slider(5:5:20, show_value=true, default = 10))
 """
 
 # ╔═╡ 23ade8ee-7a09-11eb-0e40-296c6b831d74
@@ -170,6 +168,13 @@ zoom = $(@bind  z Scrubbable(.1:.1:3,  default=1))
 md"""
 pan = [$(@bind panx Scrubbable(-1:.1:1, default=0)), 
 $(@bind pany Scrubbable(-1:.1:1, default=0)) ]
+"""
+
+# ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
+md"""
+α= $(@bind α Slider(-3:.1:3, show_value=true, default=0))
+β= $(@bind β Slider(-10:.1:10, show_value=true, default = 5))
+h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
 
 # ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
@@ -279,6 +284,18 @@ begin
 	 shear(α)  = ((x, y),) -> (x + α*y, y)
 end
 
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+#   T⁻¹ = id
+#   T⁻¹ = rotate(α)
+#   T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
+#   T⁻¹ =  xy  ∘ rθ 
+#   T⁻¹ = warp(α)
+#    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
+
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
 In fact we can write down the *most general* linear transformation in one of two ways:
@@ -316,17 +333,6 @@ begin
   # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
   # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
 end
-
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-#   T⁻¹ = id
-#   T⁻¹ = rotate(α)
-#   T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
-#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
-#   T⁻¹ =  xy  ∘ rθ 
-   T⁻¹ = warp(α)
-#    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
 
 # ╔═╡ 704a87ec-7a1e-11eb-3964-e102357a4d1f
 md"""
@@ -835,31 +841,27 @@ function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
 end
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
-function with_gridlines(img::Array{<:Any,2}; n=20)
-	
-	sep_i = size(img, 1) ÷ n
-	sep_j = size(img, 2) ÷ n
-	
+function with_gridlines(img::Array{<:Any,2}; n = 10)
+    n = 2n+1
+	rows, cols = size(img)
 	result = copy(img)
 	# stroke = zero(eltype(img))#RGBA(RGB(1,1,1), 0.75)
 	
 	stroke = RGBA(1, 1, 1, 0.75)
 	
-	result[1:sep_i:end, :] .= stroke
-	result[:, 1:sep_j:end] .= stroke
-
-	# a second time, to create a line 2 pixels wide
-	result[2:sep_i:end, :] .= stroke
-	result[:, 2:sep_j:end] .= stroke
 	
-	 result[  sep_i * (n ÷2) .+ [1,2]    , :] .= RGBA(0,1,0,1)
-	result[ : ,  sep_j * (n ÷2) .+ [1,2]    ,] .= RGBA(1,0,0,1)
+	result[ floor.(Int,LinRange(1, rows, n) ), : ] .= stroke
+	result[ : , floor.(Int,LinRange(1, cols, n) )] .= stroke
+	
+	
+    result[  rows ÷2    , :] .= RGBA(0,1,0,1)
+	result[ : ,  cols ÷2   ,] .= RGBA(1,0,0,1)
 	return result
 end
 
 # ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
 img = if show_grid
-	with_gridlines(img_original)
+	with_gridlines(img_original;n=ngrid)
 else
 	img_original
 end;
@@ -925,6 +927,12 @@ img
 ]
 
 
+# ╔═╡ 77be26b4-7b95-11eb-3bf9-cbf224513ec8
+img
+
+# ╔═╡ 8271ccb4-7b95-11eb-2bc3-81142cbd1443
+LinRange(1,5,10)
+
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─bbbf0788-7ace-11eb-0b2d-4701b4b466e8
@@ -937,12 +945,12 @@ img
 # ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
 # ╟─005ca75a-7622-11eb-2ba4-9f450e71df1f
 # ╟─45dccdec-7912-11eb-01b4-a97e30344f39
-# ╟─ce55beee-7643-11eb-04bc-b517703facff
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
 # ╟─2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╟─7f28ac40-7914-11eb-1403-b7bec34aeb94
-# ╟─f213ce72-7a06-11eb-0c81-f1cb6067fd30
+# ╟─ce55beee-7643-11eb-04bc-b517703facff
+# ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
 # ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
 # ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
@@ -1036,4 +1044,6 @@ img
 # ╠═40655bcc-6d1e-4d1e-9726-41eab98d8472
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
+# ╠═77be26b4-7b95-11eb-3bf9-cbf224513ec8
 # ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
+# ╠═8271ccb4-7b95-11eb-2bc3-81142cbd1443
