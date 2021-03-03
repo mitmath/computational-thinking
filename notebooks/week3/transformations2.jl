@@ -598,6 +598,12 @@ md"""
 ### Coordinate transform of an array $(i, j)$ vs points $(x, y)$
 """
 
+# ╔═╡ 1ab2265e-7c1d-11eb-26df-39c4c7289243
+md"""
+The original image has (1,1) in the upper left corner as an array but is thought
+of as existing in the entire plane.
+"""
+
 # ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
 load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png"))
 
@@ -755,36 +761,6 @@ md"""
 # ╔═╡ 80456168-7c1b-11eb-271c-83ef59a41102
 load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png"))
 
-# ╔═╡ ed3caab2-76bf-11eb-2544-21e8181adef5
-# T =   id ∘   scalexy(1/z)  ∘ translate(-panx,-pany)  # Pick a transformation
-# first shear, then scale, then pan because it is all backwards
-#T = shear(2)
-#T = 	nlshear(α)   ∘ scalexy(1/z)
-#T =id
-#T = lin(B) ∘ lin(C) ∘  scalexy(1/z)
-#T =   rotate(α) ∘ (((x,y),) -> (log(x+1.2), log(y+1.2) ) )
-#T = rotate(α) #∘ merc
-
-
-# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
-# #[
-# 	[
-# 	if det_A == 0
-# 		RGB(1.0, 1.0, 1.0)
-# 	else
-		
-# 		 # in_x, in_y = A \ [out_x, out_y]
-#          # in_x, in_y = xy( [out_x, out_y] )
-# 		in_x, in_y =  T([out_x, out_y]) # apply T inverse
-# 		transform_xy_to_ij(img, in_x, in_y)
-# 	end
-	
-	
-# 	for out_y in LinRange(1, -1, 400),
-# 		out_x in LinRange(-1, 1, 400)
-# ]
-
-
 # ╔═╡ 62a9201c-7938-11eb-144c-15690c06be94
 begin
 	function inverse(f, y, u0=@SVector[0.0, 0.0])
@@ -810,18 +786,17 @@ Check out
 # ╔═╡ 4c93d784-763d-11eb-1f48-81d4d45d5ce0
 md"""
 ## Why are we doing this backwards?
-"""
 
-# ╔═╡ 846eb3f8-7aad-11eb-2bf4-df83ba5d0c02
-md"""
-* Determinants of Matrices
-* Determimants of Jacobian matrices
-* Breakdown when parallelograms collapse
+If one moves the colors forward rather than backwards you have trouble dealing
+with the discrete pixels.  You may have gaps.  You may have multiple colors going
+to the same pixel.
+
+An interpolation scheme or a newton scheme could work for going forwards, but very likely care would be neeeded for a satisfying general result.
 """
 
 # ╔═╡ c536dafb-4206-4689-ad6d-6935385d8fdf
 md"""
-## Appendix
+# Appendix
 """
 
 # ╔═╡ fb509fb4-9608-421d-9c40-a4375f459b3f
@@ -851,10 +826,13 @@ function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
 	rows, cols = size(img)
 	m = max(cols, rows)	
 	
-    xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
+    # function to take xy to ij
+	xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
 	
-	i,j = floor.(Int, xy_to_ij((x, y)))
+	# apply the function and "snap to grid"
+	i,j = floor.(Int, xy_to_ij((x, y))) 
 	
+	#  grab image color or place default
 	if 1 < i ≤ rows && 1 < j ≤ cols
 		img[i, j]
 	else
@@ -936,12 +914,6 @@ img
 			out_x in LinRange(-1, 1, 400)
 	]
 
-# ╔═╡ 77be26b4-7b95-11eb-3bf9-cbf224513ec8
-img
-
-# ╔═╡ 8271ccb4-7b95-11eb-2bc3-81142cbd1443
-LinRange(1,5,10)
-
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─bbbf0788-7ace-11eb-0b2d-4701b4b466e8
@@ -1020,8 +992,9 @@ LinRange(1,5,10)
 # ╟─04da7710-7a91-11eb-02a1-0b6e889150a2
 # ╟─155cd218-7a91-11eb-0b4c-bd028507e925
 # ╟─fd25da12-7a92-11eb-20c0-995e7c46b3bc
-# ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
+# ╟─1ab2265e-7c1d-11eb-26df-39c4c7289243
 # ╟─7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
+# ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
 # ╟─db4bc328-76bb-11eb-28dc-eb9df8892d01
 # ╟─0b8ed36c-7a1e-11eb-053c-63cf9ee0b16f
 # ╟─7a4e785e-7a71-11eb-07fb-cfba453a117b
@@ -1041,18 +1014,13 @@ LinRange(1,5,10)
 # ╟─5f0568dc-7aad-11eb-162f-0d6e26f17d59
 # ╟─8d32fff4-7c1b-11eb-1fa1-6ff2d87bfb73
 # ╟─80456168-7c1b-11eb-271c-83ef59a41102
-# ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-# ╟─ed3caab2-76bf-11eb-2544-21e8181adef5
-# ╟─8e0505be-359b-4459-9de3-f87ec7b60c23
 # ╠═62a9201c-7938-11eb-144c-15690c06be94
 # ╟─5227afd0-7641-11eb-0065-918cb8538d55
 # ╟─4c93d784-763d-11eb-1f48-81d4d45d5ce0
-# ╟─846eb3f8-7aad-11eb-2bf4-df83ba5d0c02
 # ╟─c536dafb-4206-4689-ad6d-6935385d8fdf
 # ╟─fb509fb4-9608-421d-9c40-a4375f459b3f
 # ╠═40655bcc-6d1e-4d1e-9726-41eab98d8472
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
-# ╠═77be26b4-7b95-11eb-3bf9-cbf224513ec8
-# ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
-# ╠═8271ccb4-7b95-11eb-2bc3-81142cbd1443
+# ╟─83d45d42-7406-11eb-2a9c-e75efe62b12c
+# ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
