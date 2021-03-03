@@ -13,16 +13,24 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ f4fda666-7b9c-11eb-0304-716c5e710462
+# ╔═╡ 4bb05454-7c42-11eb-3e27-8183f4bec868
 begin
-	using ForwardDiff
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+			Pkg.PackageSpec(name="Plots", version="1.10"),
+			Pkg.PackageSpec(name="Symbolics", version="0.1.2"),
+			Pkg.PackageSpec(name="ForwardDiff", version="0.10.16"),
+			Pkg.PackageSpec(name="LaTeXStrings", version="1.2.0")
+			])
+
+	using PlutoUI 
 	using Plots
-	using PlutoUI
+	using ForwardDiff
+	using Symbolics
 	using LaTeXStrings
 end
-
-# ╔═╡ 4e081a78-7c30-11eb-38ec-63f5a7f1bbba
-using Symbolics
 
 # ╔═╡ 402b85fe-7c3f-11eb-2582-cf242bb6e850
 using ForwardDiff: jacobian
@@ -406,17 +414,16 @@ simplify.( expand.( image - T(p)([a, b]) - jacobian(T(p), [a, b]) * [δ, ϵ] ) )
 
 # ╔═╡ Cell order:
 # ╟─d82f1eae-7b9c-11eb-24d8-e1dcb2eef71a
+# ╠═4bb05454-7c42-11eb-3e27-8183f4bec868
 # ╟─e410c1d0-7ba1-11eb-394f-71dac89756b7
 # ╟─5ea7344c-7ba2-11eb-2cc5-0bbdca218c82
 # ╟─8c0c412e-7c2f-11eb-1880-4f6c45d77597
-# ╟─f4fda666-7b9c-11eb-0304-716c5e710462
 # ╟─2445da24-7b9d-11eb-02bd-eb99a3d95a2e
 # ╟─9addbcbe-7b9e-11eb-3e8c-fbab3be40e05
 # ╠═ecb40aea-7b9c-11eb-1476-e54faf32d91c
 # ╠═ec6c6328-7b9c-11eb-1c69-dba12ae522ad
 # ╟─c0b4defe-7c2f-11eb-1913-bdb01d28a4a8
 # ╟─615aff3c-7c30-11eb-2ca8-9d2fdf299017
-# ╠═4e081a78-7c30-11eb-38ec-63f5a7f1bbba
 # ╠═71efd6b0-7c30-11eb-0da7-0d4a5ab8f8ff
 # ╠═6dc89964-7c30-11eb-0a41-8d97b210ed34
 # ╠═d35e0cc8-7c30-11eb-28d3-17c9e221ea62
