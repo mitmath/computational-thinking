@@ -719,7 +719,7 @@ if
 
 # ╔═╡ 02d6b440-7aa7-11eb-1be0-b78dea91387f
 md"""
-### Inverting nonlinear transformations
+## Inverting nonlinear transformations
 """
 
 # ╔═╡ 0be9fb1e-7aa7-11eb-0116-c3e86ab82c77
