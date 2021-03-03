@@ -106,9 +106,9 @@ end
 
 # ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
 
-img_original = load(download(corgis)); 
+#img_original = load(download(corgis)); 
  # img_original = load(download(longcorgi));
-#img_original = #load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "));
+img_original = load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "))
 
 
 # ╔═╡ 26dd0e98-7a75-11eb-2196-5d7bda201b19
@@ -172,10 +172,22 @@ $(@bind pany Scrubbable(-1:.1:1, default=0)) ]
 
 # ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
 md"""
-α= $(@bind α Slider(-3:.1:3, show_value=true, default=0))
+α= $(@bind α Slider(-30:.1:30, show_value=true, default=0))
 β= $(@bind β Slider(-10:.1:10, show_value=true, default = 5))
 h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
+
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+#   T⁻¹ = id
+#   T⁻¹ = rotate(α)
+#   T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
+#   T⁻¹ =  xy  ∘ rθ 
+#  T⁻¹ = warp(α)
+    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
 
@@ -283,18 +295,6 @@ begin
 	 rotate(θ) = ((x, y),) -> (cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y)
 	 shear(α)  = ((x, y),) -> (x + α*y, y)
 end
-
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-#   T⁻¹ = id
-#   T⁻¹ = rotate(α)
-#   T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
-#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
-#   T⁻¹ =  xy  ∘ rθ 
-#   T⁻¹ = warp(α)
-#    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
-T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
@@ -740,7 +740,7 @@ md"""
 """
 
 # ╔═╡ 1b9faf64-7aab-11eb-1396-6fb89be7c445
-load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/comm.png"))
+load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/comm2.png"))
 
 # ╔═╡ 5f0568dc-7aad-11eb-162f-0d6e26f17d59
 md"""
@@ -818,6 +818,8 @@ img_sources = [
 begin
 	white(c::RGB) = RGB(1,1,1)
 	white(c::RGBA) = RGBA(1,1,1,0.75)
+	black(c::RGB) = RGB(0,0,0)
+	black(c::RGBA) = RGBA(0,0,0,0.75)
 end
 
 # ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
@@ -835,7 +837,8 @@ function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
 	if 1 < i ≤ rows && 1 < j ≤ cols
 		img[i, j]
 	else
-		white(img[1, 1])
+		#white(img[1, 1])
+		black(img[1,1])
 	end
 	
 end
@@ -880,7 +883,7 @@ end;
 	
 	for out_y in LinRange(1, -1, 800),
 		out_x in LinRange(-1, 1, 800)
-]
+] 
 
 # ╔═╡ 7222a0f2-7a07-11eb-3560-3511fab319a2
 img
@@ -953,7 +956,7 @@ LinRange(1,5,10)
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
 # ╟─2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╟─7f28ac40-7914-11eb-1403-b7bec34aeb94
-# ╟─ce55beee-7643-11eb-04bc-b517703facff
+# ╠═ce55beee-7643-11eb-04bc-b517703facff
 # ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
 # ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
