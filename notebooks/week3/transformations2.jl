@@ -747,6 +747,14 @@ md"""
 Note that we are defining the map with the inverse of T so we can go pixel by pixel in the result.
 """
 
+# ╔═╡ 8d32fff4-7c1b-11eb-1fa1-6ff2d87bfb73
+md"""
+## Collisions
+"""
+
+# ╔═╡ 80456168-7c1b-11eb-271c-83ef59a41102
+load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png"))
+
 # ╔═╡ ed3caab2-76bf-11eb-2544-21e8181adef5
 # T =   id ∘   scalexy(1/z)  ∘ translate(-panx,-pany)  # Pick a transformation
 # first shear, then scale, then pan because it is all backwards
@@ -758,10 +766,23 @@ Note that we are defining the map with the inverse of T so we can go pixel by pi
 #T = rotate(α) #∘ merc
 
 
-# ╔═╡ e6f3611a-793e-11eb-185f-4757d5a8c2ac
-#U =  lin(B*C) ∘  scalexy(1/z)
-
-# ╔═╡ 67324636-7938-11eb-1afd-e7d5afa41954
+# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
+# #[
+# 	[
+# 	if det_A == 0
+# 		RGB(1.0, 1.0, 1.0)
+# 	else
+		
+# 		 # in_x, in_y = A \ [out_x, out_y]
+#          # in_x, in_y = xy( [out_x, out_y] )
+# 		in_x, in_y =  T([out_x, out_y]) # apply T inverse
+# 		transform_xy_to_ij(img, in_x, in_y)
+# 	end
+	
+	
+# 	for out_y in LinRange(1, -1, 400),
+# 		out_x in LinRange(-1, 1, 400)
+# ]
 
 
 # ╔═╡ 62a9201c-7938-11eb-144c-15690c06be94
@@ -915,25 +936,6 @@ img
 			out_x in LinRange(-1, 1, 400)
 	]
 
-# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
-#[
-	[
-	if det_A == 0
-		RGB(1.0, 1.0, 1.0)
-	else
-		
-		 # in_x, in_y = A \ [out_x, out_y]
-         # in_x, in_y = xy( [out_x, out_y] )
-		in_x, in_y =  T([out_x, out_y]) # apply T inverse
-		transform_xy_to_ij(img, in_x, in_y)
-	end
-	
-	
-	for out_y in LinRange(1, -1, 400),
-		out_x in LinRange(-1, 1, 400)
-]
-
-
 # ╔═╡ 77be26b4-7b95-11eb-3bf9-cbf224513ec8
 img
 
@@ -1034,14 +1036,14 @@ LinRange(1,5,10)
 # ╟─c2b0a488-7aac-11eb-1d8b-edd6bd23d1fd
 # ╟─02d6b440-7aa7-11eb-1be0-b78dea91387f
 # ╟─0be9fb1e-7aa7-11eb-0116-c3e86ab82c77
-# ╠═7609d686-7aa7-11eb-310a-3550509504a1
+# ╟─7609d686-7aa7-11eb-310a-3550509504a1
 # ╠═1b9faf64-7aab-11eb-1396-6fb89be7c445
 # ╟─5f0568dc-7aad-11eb-162f-0d6e26f17d59
+# ╟─8d32fff4-7c1b-11eb-1fa1-6ff2d87bfb73
+# ╟─80456168-7c1b-11eb-271c-83ef59a41102
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-# ╠═ed3caab2-76bf-11eb-2544-21e8181adef5
-# ╠═e6f3611a-793e-11eb-185f-4757d5a8c2ac
-# ╠═8e0505be-359b-4459-9de3-f87ec7b60c23
-# ╠═67324636-7938-11eb-1afd-e7d5afa41954
+# ╟─ed3caab2-76bf-11eb-2544-21e8181adef5
+# ╟─8e0505be-359b-4459-9de3-f87ec7b60c23
 # ╠═62a9201c-7938-11eb-144c-15690c06be94
 # ╟─5227afd0-7641-11eb-0065-918cb8538d55
 # ╟─4c93d784-763d-11eb-1f48-81d4d45d5ce0
