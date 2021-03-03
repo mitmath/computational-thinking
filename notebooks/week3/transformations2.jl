@@ -177,18 +177,6 @@ md"""
 h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
 
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-#   T⁻¹ = id
-#   T⁻¹ = rotate(α)
-#   T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
-#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
-#   T⁻¹ =  xy  ∘ rθ 
-#  T⁻¹ = warp(α)
-    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
-# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
-
 # ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
 
 
@@ -295,6 +283,18 @@ begin
 	 rotate(θ) = ((x, y),) -> (cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y)
 	 shear(α)  = ((x, y),) -> (x + α*y, y)
 end
+
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+#  T⁻¹ = inverse(id)
+   T⁻¹ = rotate(α)
+#   T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
+#   T⁻¹ =  xy  ∘ rθ 
+#  T⁻¹ = warp(α)
+ #    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
