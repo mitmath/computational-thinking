@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.12.20
 
 using Markdown
 using InteractiveUtils
@@ -177,7 +177,7 @@ md"""
 h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
 
-# ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
+# ╔═╡ d6aecd18-7c35-11eb-36d5-fb0715dcabef
 
 
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
@@ -765,13 +765,15 @@ load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/noteboo
 begin
 	function inverse(f, y, u0=@SVector[0.0, 0.0])
 	    prob = NonlinearProblem{false}( (u, p) -> f(u, p) .- y, u0)
-	    solver = solve(prob, NewtonRaphson(), tol = 1e-9)
+	    solver = solve(prob, NewtonRaphson(), tol = 1e-4)
 	    return solver.u 
 	end
 	
-	#inverse(f) = y -> inverse( (u, p) -> f(SVector(u...)), y )
-	inverse(f) = y -> inverse( (u, p) -> f(SVector(u[1],u[2])), y )
+	inverse(f) = y -> inverse( (u, p) -> f(SVector(u...)), y )
 end
+
+# ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
+inverse(id ∘ scale(1/z)∘translate(-panx,-pany))([0.5, 0.5]) 
 
 # ╔═╡ 5227afd0-7641-11eb-0065-918cb8538d55
 md"""
@@ -933,6 +935,7 @@ img
 # ╠═ce55beee-7643-11eb-04bc-b517703facff
 # ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
 # ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
+# ╠═d6aecd18-7c35-11eb-36d5-fb0715dcabef
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
 # ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
