@@ -177,8 +177,20 @@ md"""
 h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
 
-# ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
-
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+#  T⁻¹ = inverse(id)
+#   T⁻¹ = rotate(α)
+#   T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
+#    T⁻¹ =   inverse(nonlin_shear(α))
+ #   T⁻¹ =  nonlin_shear(-α)
+#   T⁻¹ =  xy  ∘ rθ 
+# T⁻¹ = warp(α)
+   T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+#  T⁻¹ = ((x,y),)-> (x,y^2) 
+ # T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
 md"""
@@ -271,30 +283,18 @@ Here are a few useful linear transformations:
 
 # ╔═╡ d364f91a-76b9-11eb-1807-75e733940d53
 begin
-	 id((x,y)) = (x, y)
+	 id((x,y)) = SA[x, y]
 	
-	 scalex(α) = ((x, y),) -> (α*x,  y)
-	 scaley(α) = ((x, y),) -> (x,   α*y)
-	 scale(α)  = ((x, y),) -> (α*x, α*y)	
+	 scalex(α) = ((x, y),) -> SA[α*x,  y]
+	 scaley(α) = ((x, y),) -> SA[x,   α*y]
+	 scale(α)  = ((x, y),) -> SA[α*x, α*y]
 	
-	 swap((x,y))  = (y, x)
-	 flipy((x,y)) = (x, -y)
+	 swap((x,y))  = SA[y, x]
+	 flipy((x,y)) = SA[x, -y]
 	
-	 rotate(θ) = ((x, y),) -> (cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y)
-	 shear(α)  = ((x, y),) -> (x + α*y, y)
+	 rotate(θ) = ((x, y),) -> SA[cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]
+	 shear(α)  = ((x, y),) -> SA[x + α*y, y]
 end
-
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-#  T⁻¹ = inverse(id)
-   T⁻¹ = rotate(α)
-#   T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
-#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
-#   T⁻¹ =  xy  ∘ rθ 
-#  T⁻¹ = warp(α)
- #    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
-# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
@@ -322,13 +322,13 @@ md"""
 
 # ╔═╡ b4cdd412-7a02-11eb-149a-df1888a0f465
 begin
-  translate(α,β)  = ((x, y),) -> (x+α, y+β)   # affine, but not linear
+  translate(α,β)  = ((x, y),) -> SA[x+α, y+β]   # affine, but not linear
 	
-  nonlin_shear(α) = ((x, y),) -> (x, y + α*x^2)
+  nonlin_shear(α) = ((x, y),) -> SA[x, y + α*x^2]
 	
-  warp(α)    = ((x, y),) -> rotate(α*√(x^2+y^2))((x, y))
-  xy((r, θ)) = ( r*cos(θ), r*sin(θ) )
-  rθ(x)      = ( norm(x), atan(x[2],x[1]) ) 
+  warp(α)    = ((x, y),) -> rotate(α*√(x^2+y^2))(SA[x, y])
+  xy((r, θ)) = SA[ r*cos(θ), r*sin(θ) ]
+  rθ(x)      = SA[norm(x), atan(x[2],x[1]) ] 
   
   # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
   # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
@@ -773,6 +773,9 @@ begin
 	inverse(f) = y -> inverse( (u, p) -> f(SVector(u[1],u[2])), y )
 end
 
+# ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
+( inverse(rotate(π/2))  ∘  id )(SA[1,2])
+
 # ╔═╡ 5227afd0-7641-11eb-0065-918cb8538d55
 md"""
 
@@ -930,7 +933,7 @@ img
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
 # ╟─2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╟─7f28ac40-7914-11eb-1403-b7bec34aeb94
-# ╠═ce55beee-7643-11eb-04bc-b517703facff
+# ╟─ce55beee-7643-11eb-04bc-b517703facff
 # ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
 # ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
