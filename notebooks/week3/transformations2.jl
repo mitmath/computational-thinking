@@ -185,12 +185,12 @@ h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 #   T⁻¹ = shear(α) ∘ shear(-α)
 #   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
 #    T⁻¹ =   inverse(nonlin_shear(α))
- #   T⁻¹ =  nonlin_shear(-α)
+#   T⁻¹ =  nonlin_shear(-α)
 #   T⁻¹ =  xy  ∘ rθ 
 # T⁻¹ = warp(α)
    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
 #  T⁻¹ = ((x,y),)-> (x,y^2) 
- # T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
+# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
 md"""
@@ -883,12 +883,9 @@ end;
 	end
 	
 	
-	for out_y in LinRange(1, -1, 800),
-		out_x in LinRange(-1, 1, 800)
+	for out_y in LinRange(1, -1, 200),
+		out_x in LinRange(-1, 1, 200)
 ] 
-
-# ╔═╡ 7222a0f2-7a07-11eb-3560-3511fab319a2
-img
 
 # ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
 
@@ -921,7 +918,7 @@ img
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─bbbf0788-7ace-11eb-0b2d-4701b4b466e8
 # ╟─ba8877ac-7ace-11eb-2a06-b50f7b1cdf0b
-# ╟─6b473b2d-4326-46b4-af38-07b61de287fc
+# ╠═6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─ef3f9cb0-7a03-11eb-177f-65f281148496
 # ╠═96766502-7a06-11eb-00cc-29849773dbcf
@@ -937,7 +934,6 @@ img
 # ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
 # ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
-# ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
 # ╟─a7df7346-79f8-11eb-1de6-71f027c46643
 # ╟─044e6128-79fe-11eb-18c1-395ae857dc73
