@@ -42,7 +42,7 @@
       <a class="sidebar-nav-item " href="/Spring21/"><b>Welcome</b></a>
       <a class="sidebar-nav-item " href="/Spring21/reviews/">Class Reviews</a>
       <a class="sidebar-nav-item " href="/Spring21/logistics/">Class Logistics</a>
-      <a class="sidebar-nav-item active" href="/Spring21/homework/">Homework</a>
+      <a class="sidebar-nav-item " href="/Spring21/homework/">Homework</a>
       <a class="sidebar-nav-item " href="/Spring21/syllabus/">Syllabus and videos</a>
       <a class="sidebar-nav-item " href="/Spring21/installation/">Software installation</a>
       <a class="sidebar-nav-item " href="/Spring21/cheatsheets/">Cheatsheets</a>
@@ -71,9 +71,49 @@
 
 
 
+<div id="sync-play-wrap" style="margin-left: 4rem; margin-top: 3em; display: none">
+    <input type="checkbox" id="sync-play" name="sync-play" checked>
+    <label for="sync-play">Synchronize play when the class is live</label>
+</div>
+
 <!-- Content appended here -->
-<div class="franklin-content"><h1 id="homework"><a href="#homework">Homework</a></h1>
-<table><tr><th align="center">Assignment</th><th align="center">Due Date</th><th align="center">Submission</th><th align="center">Discord</th></tr><tr><td align="center"><a href="/Spring21/hw0/">HW 0</a></td><td align="center">Feb 19, 2021</td><td align="center"><a href="https://canvas.mit.edu/courses/7590/assignments/101125">Canvas</a></td><td align="center">N/A</td></tr><tr><td align="center"><a href="https://lms.mitx.mit.edu/courses/course-v1:MITx&#43;6.S083r&#43;2021_Spring/courseware/188e039bccf9469aa056d75c358b0875/7935a0eb8d8f46f5ad5c129878bf59df/?activate_block_id&#61;block-v1&#37;3AMITx&#37;2B6.S083r&#37;2B2021_Spring&#37;2Btype&#37;40sequential&#37;2Bblock&#37;407935a0eb8d8f46f5ad5c129878bf59df">MITx</a> Week 1 Problems</td><td align="center">Feb 24, 2021</td><td align="center">MITx</td><td align="center">N/A</td></tr><tr><td align="center"><a href="/Spring21/hw1/">HW 1</a></td><td align="center">Feb 26, 2021</td><td align="center"><a href="https://canvas.mit.edu/courses/7590/assignments/101953">Canvas</a></td><td align="center"><a href="https://discord.gg/mjHhUYbCA3">#hw1-sp21</a></td></tr><tr><td align="center"><a href="https://lms.mitx.mit.edu/courses/course-v1:MITx&#43;6.S083r&#43;2021_Spring/courseware/188e039bccf9469aa056d75c358b0875/92a4ed5b7aa246f0a166b2211e585e58/?activate_block_id&#61;block-v1&#37;3AMITx&#37;2B6.S083r&#37;2B2021_Spring&#37;2Btype&#37;40sequential&#37;2Bblock&#37;4092a4ed5b7aa246f0a166b2211e585e58">MITx</a> Week 2 Problems</td><td align="center">Mar 3, 2021</td><td align="center">MITx</td><td align="center">N/A</td></tr><tr><td align="center"><a href="/Spring21/hw2/">HW 2</a></td><td align="center">Mar 5, 2021</td><td align="center"><a href="https://canvas.mit.edu/courses/7590/assignments/103109">Canvas</a></td><td align="center"><a href="https://discord.gg/Xz7N4D2B2b">#hw2-sp21</a></td></tr><tr><td align="center"><a href="/Spring21/hw3/">HW 3</a></td><td align="center">Mar 12, 2021</td><td align="center"><a href="https://canvas.mit.edu/courses/7590/assignments/104345">Canvas</a></td><td align="center"><a href="https://discord.gg/hpNWQgXaeg">#hw3-sp21</a></td></tr></table>
+<div class="franklin-content"><style>
+
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+.smallscreenlink {
+    display: none;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
+    }
+}
+</style>
+
+<iframe width="100%" height="100%"
+src="../notebooks/week3/hw3.html"
+class="plutopage"
+frameborder="0"
+allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; wake-lock; screen-wake-lock; vr; web-share; xr-spatial-tracking"
+allowfullscreen></iframe>
+
+<a class="smallscreenlink" href="../notebooks/week3/hw3.html"></a>
+
 <div class="page-foot">
   <div class="copyright">
     <a href="https://github.com/mitmath/18S191/"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></img></b></a></br>
@@ -83,6 +123,14 @@
 </div><!-- CONTENT ENDS HERE -->
 
     </div>  <!-- div: content container -->
+
+    
+        <script src="/Spring21/assets/moment.min.js"></script>
+<script src="/Spring21/assets/moment-timezone.js"></script>
+<script src="/Spring21/assets/live-player.js"></script>
+<script>
+play_live("2021-02-25T07:00:00", "America/New_York", [""], [])
+</script>
 
     
 
