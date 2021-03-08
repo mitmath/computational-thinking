@@ -171,6 +171,9 @@ md"""
 h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
 
+# ╔═╡ b76a5bd6-802f-11eb-0951-1f1092dee8de
+1+1
+
 # ╔═╡ 5d33f6ea-7e9c-11eb-2fb3-dbb7cb07c60c
 md"""
 pixels = $(@bind pixels Slider(1:1000, default=800, show_value=true))
@@ -292,6 +295,22 @@ begin
 	 shear(α)  = ((x, y),) -> SA[x + α*y, y]
 end
 
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+# T⁻¹ = id
+#  T⁻¹ = rotate(α)
+  T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+ # T⁻¹ = nonlin_shear(α)  
+ #   T⁻¹ =   inverse(nonlin_shear(α))
+#    T⁻¹ =  nonlin_shear(-α)
+#  T⁻¹ =  xy 
+# T⁻¹ = warp(α)
+# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+
+#T⁻¹ = ((x,y),)-> (x,y^2)  
+# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
+
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
 In fact we can write down the *most general* linear transformation in one of two ways:
@@ -329,22 +348,6 @@ begin
   # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
   # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
 end
-
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-# T⁻¹ = id
-#  T⁻¹ = rotate(α)
-#  T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
- # T⁻¹ = nonlin_shear(α)  
- #   T⁻¹ =   inverse(nonlin_shear(α))
-#    T⁻¹ =  nonlin_shear(-α)
-#  T⁻¹ =  xy 
-T⁻¹ = warp(α)
-# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
-
-#T⁻¹ = ((x,y),)-> (x,y^2)  
-#  T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 704a87ec-7a1e-11eb-3964-e102357a4d1f
 md"""
@@ -938,12 +941,6 @@ end
 transform_xy_to_ij(img,0.0,0.0)
 
 
-# ╔═╡ 569f0f18-7f30-11eb-351d-9f374ed79a22
-size(img)
-
-# ╔═╡ 7222a0f2-7a07-11eb-3560-3511fab319a2
-img
-
 # ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
 begin
 		[			    
@@ -988,10 +985,10 @@ img[50,56]
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─bbbf0788-7ace-11eb-0b2d-4701b4b466e8
 # ╟─ba8877ac-7ace-11eb-2a06-b50f7b1cdf0b
-# ╟─6b473b2d-4326-46b4-af38-07b61de287fc
+# ╠═6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─ef3f9cb0-7a03-11eb-177f-65f281148496
-# ╟─96766502-7a06-11eb-00cc-29849773dbcf
+# ╠═96766502-7a06-11eb-00cc-29849773dbcf
 # ╟─26dd0e98-7a75-11eb-2196-5d7bda201b19
 # ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
 # ╟─005ca75a-7622-11eb-2ba4-9f450e71df1f
@@ -1000,14 +997,13 @@ img[50,56]
 # ╟─2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╟─7f28ac40-7914-11eb-1403-b7bec34aeb94
 # ╟─ce55beee-7643-11eb-04bc-b517703facff
+# ╠═b76a5bd6-802f-11eb-0951-1f1092dee8de
 # ╟─5d33f6ea-7e9c-11eb-2fb3-dbb7cb07c60c
 # ╟─45dccdec-7912-11eb-01b4-a97e30344f39
 # ╟─d2fb356e-7f32-11eb-177d-4f47d6c9e59b
 # ╠═ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
 # ╠═ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
-# ╠═569f0f18-7f30-11eb-351d-9f374ed79a22
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
-# ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
 # ╟─a7df7346-79f8-11eb-1de6-71f027c46643
 # ╟─044e6128-79fe-11eb-18c1-395ae857dc73
