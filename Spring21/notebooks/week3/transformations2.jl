@@ -107,8 +107,8 @@ end
 # ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
 
 #img_original = load(download(corgis)); 
- # img_original = load(download(longcorgi));
-img_original = load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "))
+  img_original = load(download(longcorgi));
+# img_original = load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "))
 
 
 # ╔═╡ 26dd0e98-7a75-11eb-2196-5d7bda201b19
@@ -148,12 +148,6 @@ $(@bind d Scrubbable(range; default=1.0))
 """
 end
 
-# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
-md"""
-Show grid lines $(@bind show_grid CheckBox(default=true))
-ngrid = $(@bind ngrid Slider(5:5:20, show_value=true, default = 10))
-"""
-
 # ╔═╡ 23ade8ee-7a09-11eb-0e40-296c6b831d74
 md"""
 Grab a [linear](#a0afe3ae-76b9-11eb-2301-cde7260ddd7f) or [nonlinear](#a290d5e2-7a02-11eb-37db-41bf86b1f3b3) transform, or make up your own!
@@ -177,20 +171,25 @@ md"""
 h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
 
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-#  T⁻¹ = inverse(id)
-#   T⁻¹ = rotate(α)
-#   T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
-#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
-#    T⁻¹ =   inverse(nonlin_shear(α))
-#   T⁻¹ =  nonlin_shear(-α)
-#   T⁻¹ =  xy  ∘ rθ 
-# T⁻¹ = warp(α)
-   T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
-#  T⁻¹ = ((x,y),)-> (x,y^2) 
-# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
+# ╔═╡ b76a5bd6-802f-11eb-0951-1f1092dee8de
+1+1
+
+# ╔═╡ 5d33f6ea-7e9c-11eb-2fb3-dbb7cb07c60c
+md"""
+pixels = $(@bind pixels Slider(1:1000, default=800, show_value=true))
+"""
+
+# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
+md"""
+Show grid lines $(@bind show_grid CheckBox(default=true))
+ngrid = $(@bind ngrid Slider(5:5:20, show_value=true, default = 10))
+"""
+
+# ╔═╡ d2fb356e-7f32-11eb-177d-4f47d6c9e59b
+md"""
+Circular Frame $(@bind circular CheckBox(default=true))
+radius = $(@bind r Slider(.1:.1:1, show_value=true, default = 1))
+"""
 
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
 md"""
@@ -295,6 +294,22 @@ begin
 	 rotate(θ) = ((x, y),) -> SA[cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]
 	 shear(α)  = ((x, y),) -> SA[x + α*y, y]
 end
+
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+# T⁻¹ = id
+#  T⁻¹ = rotate(α)
+  T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+ # T⁻¹ = nonlin_shear(α)  
+ #   T⁻¹ =   inverse(nonlin_shear(α))
+#    T⁻¹ =  nonlin_shear(-α)
+#  T⁻¹ =  xy 
+# T⁻¹ = warp(α)
+# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+
+#T⁻¹ = ((x,y),)-> (x,y^2)  
+# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
@@ -540,7 +555,7 @@ let
 	 B = randn(2,2)
 	 v = rand(2)
 	
-	(lin(A) ∘ lin(B))(v) ≈ lin(A * B)(v)
+	(lin(A) ∘ lin(B))(v) , lin(A * B)(v)
 end
 
 # ╔═╡ 7d803684-7a8a-11eb-33d2-89d5e2a05bcf
@@ -580,7 +595,7 @@ md"""
 
 # ╔═╡ 620ee7d8-7a8f-11eb-3888-356c27a2d591
 md"""
-`lin(A)∘lin(B)`
+`lin(P)∘lin(Q)`
 """
 
 # ╔═╡ 04da7710-7a91-11eb-02a1-0b6e889150a2
@@ -607,6 +622,9 @@ of as existing in the entire plane.
 # ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
 load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png"))
 
+# ╔═╡ c1efc54a-7e9b-11eb-1e76-dbd0a66184a9
+translate(-400,400)([1,1])
+
 # ╔═╡ db4bc328-76bb-11eb-28dc-eb9df8892d01
 md"""
 # Inverses
@@ -632,8 +650,8 @@ md"""
 # ╔═╡ 9264508a-7a71-11eb-1b7c-bf6e62788115
 let
 	v = rand(2)
-	T = scale(2) ∘ scale(0.5)
-	T(v) .≈ v 
+	T = rotate(30)∘rotate(-30 )
+	T(v) ,  v 
 end
 
 # ╔═╡ e89339b2-7a71-11eb-0f97-971b2ed277d1
@@ -701,7 +719,7 @@ md"""
 let
 	v = rand(2)
 	A = randn(2,2)
-    (lin(inv(A)) ∘ lin(A))(v) ≈ v
+    (lin(inv(A)) ∘ lin(A))(v) , v
 end 
 
 # ╔═╡ 9b456686-7aac-11eb-3aa5-25e6c3c86aff
@@ -773,9 +791,6 @@ begin
 	inverse(f) = y -> inverse( (u, p) -> f(SVector(u[1],u[2])), y )
 end
 
-# ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
-( inverse(rotate(π/2))  ∘  id )(SA[1,2])
-
 # ╔═╡ 5227afd0-7641-11eb-0065-918cb8538d55
 md"""
 
@@ -822,28 +837,58 @@ begin
 end
 
 # ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
-function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
-# convert coordinate system xy to ij 
-# center image, and use "white" when out of the boundary
+begin
+	function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
+	# convert coordinate system xy to ij 
+	# center image, and use "white" when out of the boundary
+		
+		rows, cols = size(img)
+		m = max(cols, rows)	
+		
+	    # function to take xy to ij
+		xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
+		
+		# apply the function and "snap to grid"
+		i,j = floor.(Int, xy_to_ij((x, y))) 
 	
-	rows, cols = size(img)
-	m = max(cols, rows)	
-	
-    # function to take xy to ij
-	xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
-	
-	# apply the function and "snap to grid"
-	i,j = floor.(Int, xy_to_ij((x, y))) 
-	
-	#  grab image color or place default
-	if 1 < i ≤ rows && 1 < j ≤ cols
-		img[i, j]
-	else
-		#white(img[1, 1])
-		black(img[1,1])
 	end
 	
+	function getpixel(img,i::Int,j::Int)   
+		#  grab image color or place default
+		rows,cols = size(img)
+		m = max(cols,rows)
+		if circular
+			c = (i-rows/2)^2 + (j-cols/2)^2 ≤ r*m^2/4
+		else
+			c = true
+		end
+		
+		if 1 < i ≤ rows && 1 < j ≤ cols && c
+			img[i, j]
+		else
+			#white(img[1, 1])
+			black(img[1,1])
+		end
+		
+	end
+	
+	
+	# function getpixel(img,x::Float64,y::Float64)
+	# 	i,j = transform_xy_to_ij(img,x,y)
+	# 	getpixel(img,i,j)
+	# end
+	
+	function transform_ij_to_xy(i::Int,j::Int,pixels)
+	
+	   ij_to_xy =  scale(2/pixels) ∘ flipy ∘ swap ∘ translate(-pixels/2,-pixels/2)
+	   ij_to_xy([i,j])
+	end
+
+	    
 end
+
+# ╔═╡ bf1954d6-7e9a-11eb-216d-010bd761e470
+transform_ij_to_xy(1,1,400)
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
 function with_gridlines(img::Array{<:Any,2}; n = 10)
@@ -875,44 +920,66 @@ else
 	img_original
 end;
 
-# ╔═╡ f213ce72-7a06-11eb-0c81-f1cb6067fd30
-[
-	begin
-		in_x, in_y =  ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([out_x, out_y]) # apply T inverse
-		transform_xy_to_ij(img, in_x, in_y)
-	end
-	
-	
-	for out_y in LinRange(1, -1, 200),
-		out_x in LinRange(-1, 1, 200)
-] 
+# ╔═╡ ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
+begin
+		[			    
+			begin
+			
+			 x,y = transform_ij_to_xy(i,j, pixels)
+			
+			X,Y = ( translate(-panx,-pany)  )([x,y])
+			 X,Y = ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([x,y])
+			 i,j = transform_xy_to_ij(img,X,Y)
+			 getpixel(img,i,j)
+			end	 
+		
+			for i = 1:pixels, j = 1:pixels
+		]	
+end
+
+# ╔═╡ ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
+transform_xy_to_ij(img,0.0,0.0)
+
 
 # ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
-
-	[
-		begin
-			in_x, in_y =  T₁([out_x, out_y]) # apply T inverse
-			transform_xy_to_ij(img, in_x, in_y)
-		end
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, pixels)
+			 X,Y =  T₁([x,y])
+			 i,j = transform_xy_to_ij(img,X,Y)
+			 getpixel(img,i,j)
+			end	 
 		
-		
-		for out_y in LinRange(1, -1, 400),
-			out_x in LinRange(-1, 1, 400)
-	]
-
-
+			for i = 1:pixels, j = 1:pixels
+		]	
+end
 
 # ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
-	[
-		begin
-			in_x, in_y =  T₂([out_x, out_y]) # apply T inverse
-			transform_xy_to_ij(img, in_x, in_y)
-		end
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, pixels)
+			 X,Y =  T₂([x,y])
+			 i,j = transform_xy_to_ij(img,X,Y)
+			 getpixel(img,i,j)
+			end	 
 		
-		
-		for out_y in LinRange(1, -1, 400),
-			out_x in LinRange(-1, 1, 400)
-	]
+			for i = 1:pixels, j = 1:pixels
+		]	
+end
+
+# ╔═╡ c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
+img
+
+# ╔═╡ c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
+size(img)
+
+# ╔═╡ d0e9a1e8-7c4c-11eb-056c-aff283c49c31
+img[50,56]
+
+# ╔═╡ 687f27c8-7e97-11eb-0f03-d38ecada824d
+
 
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
@@ -925,14 +992,17 @@ end;
 # ╟─26dd0e98-7a75-11eb-2196-5d7bda201b19
 # ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
 # ╟─005ca75a-7622-11eb-2ba4-9f450e71df1f
-# ╟─45dccdec-7912-11eb-01b4-a97e30344f39
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
 # ╟─2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╟─7f28ac40-7914-11eb-1403-b7bec34aeb94
 # ╟─ce55beee-7643-11eb-04bc-b517703facff
-# ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
-# ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
+# ╠═b76a5bd6-802f-11eb-0951-1f1092dee8de
+# ╟─5d33f6ea-7e9c-11eb-2fb3-dbb7cb07c60c
+# ╟─45dccdec-7912-11eb-01b4-a97e30344f39
+# ╟─d2fb356e-7f32-11eb-177d-4f47d6c9e59b
+# ╠═ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
+# ╠═ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
 # ╟─a7df7346-79f8-11eb-1de6-71f027c46643
@@ -955,7 +1025,7 @@ end;
 # ╟─704a87ec-7a1e-11eb-3964-e102357a4d1f
 # ╠═4b0e8742-7a70-11eb-1e78-813f6ad005f4
 # ╟─44792484-7a20-11eb-1c09-95b27b08bd34
-# ╠═f650b788-7a70-11eb-0b20-779d2f18f111
+# ╟─f650b788-7a70-11eb-0b20-779d2f18f111
 # ╟─c852d398-7aa2-11eb-2ded-ab2e5236e9b2
 # ╟─061076c2-7aa3-11eb-0d04-b7cbc60e6cb2
 # ╟─014c14a6-7a72-11eb-119b-f5cfc82085ca
@@ -987,13 +1057,18 @@ end;
 # ╟─57848b42-7a8f-11eb-023a-cf247cb53819
 # ╟─da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
 # ╟─620ee7d8-7a8f-11eb-3888-356c27a2d591
-# ╟─30f522a0-7a8e-11eb-2181-8313760778ef
+# ╠═30f522a0-7a8e-11eb-2181-8313760778ef
 # ╟─04da7710-7a91-11eb-02a1-0b6e889150a2
+# ╠═c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
+# ╠═c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
+# ╠═d0e9a1e8-7c4c-11eb-056c-aff283c49c31
 # ╟─155cd218-7a91-11eb-0b4c-bd028507e925
 # ╟─fd25da12-7a92-11eb-20c0-995e7c46b3bc
 # ╟─1ab2265e-7c1d-11eb-26df-39c4c7289243
 # ╟─7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
 # ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
+# ╠═bf1954d6-7e9a-11eb-216d-010bd761e470
+# ╠═c1efc54a-7e9b-11eb-1e76-dbd0a66184a9
 # ╟─db4bc328-76bb-11eb-28dc-eb9df8892d01
 # ╟─0b8ed36c-7a1e-11eb-053c-63cf9ee0b16f
 # ╟─7a4e785e-7a71-11eb-07fb-cfba453a117b
@@ -1009,7 +1084,7 @@ end;
 # ╟─02d6b440-7aa7-11eb-1be0-b78dea91387f
 # ╟─0be9fb1e-7aa7-11eb-0116-c3e86ab82c77
 # ╟─7609d686-7aa7-11eb-310a-3550509504a1
-# ╠═1b9faf64-7aab-11eb-1396-6fb89be7c445
+# ╟─1b9faf64-7aab-11eb-1396-6fb89be7c445
 # ╟─5f0568dc-7aad-11eb-162f-0d6e26f17d59
 # ╟─8d32fff4-7c1b-11eb-1fa1-6ff2d87bfb73
 # ╟─80456168-7c1b-11eb-271c-83ef59a41102
@@ -1021,5 +1096,6 @@ end;
 # ╠═40655bcc-6d1e-4d1e-9726-41eab98d8472
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
-# ╟─83d45d42-7406-11eb-2a9c-e75efe62b12c
+# ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
+# ╠═687f27c8-7e97-11eb-0f03-d38ecada824d
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
