@@ -14,7 +14,19 @@ macro bind(def, element)
 end
 
 # ╔═╡ 71b53b98-8038-11eb-0ea5-d953294e9f35
-using Plots, PlutoUI, Colors, Images
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+			Pkg.PackageSpec(name="Plots"), 
+			Pkg.PackageSpec(name="Colors")
+			])
+
+	using Plots, PlutoUI, Colors, Images
+end
 
 # ╔═╡ a84fdba4-80db-11eb-13dc-3f440653b2b9
 md"""
@@ -207,7 +219,7 @@ let
 end
 
 # ╔═╡ Cell order:
-# ╟─71b53b98-8038-11eb-0ea5-d953294e9f35
+# ╠═71b53b98-8038-11eb-0ea5-d953294e9f35
 # ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
 # ╟─938107f0-80ee-11eb-18cf-775802c43c2f
 # ╟─b4558306-804a-11eb-2719-5fd37c6fa281
