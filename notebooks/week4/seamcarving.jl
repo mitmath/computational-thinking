@@ -21,7 +21,6 @@ end
 
 # ╔═╡ 0316b94c-eef6-11ea-19bc-dbc959901bb5
 begin
-	# Poor man's Project.toml
 	Pkg.add(["Images", "ImageMagick", "PlutoUI", "ImageFiltering"])
 	
 	using Images
@@ -65,9 +64,6 @@ md"Select an image below!"
 # ╔═╡ d2ae6dd2-eef9-11ea-02df-255ec3b46a36
 img = load(download(image_url))
 
-# ╔═╡ 8ded023c-f35c-11ea-317c-11f5d1b67998
-
-
 # ╔═╡ 0b6010a8-eef6-11ea-3ad6-c1f10e30a413
 # arbitrarily choose the brightness of a pixel as mean of rgb
 # brightness(c::AbstractRGB) = mean((c.r, c.g, c.b))
@@ -83,7 +79,7 @@ Gray.(brightness.(img))
 md"""
 # Edge detection filter
 
-(Spoiler alert!) Here, we use the Sobel edge detection filter we created in Homework 1.
+(Spoiler alert!) Here, we use the Sobel edge detection filter we created in our Homework.
 
 ```math
 \begin{align}
@@ -100,6 +96,9 @@ G_y &= \begin{bmatrix}
 \end{bmatrix}*A
 \end{align}
 ```
+
+Here * applies a convolution.
+
 Here $A$ is the array corresponding to your image.
 We can think of these as derivatives in the $x$ and $y$ directions.
 
@@ -112,7 +111,7 @@ $$G_\text{total} = \sqrt{G_x^2 + G_y^2}.$$
 Sy, Sx = Kernel.sobel()
 
 # ╔═╡ abf6944e-f066-11ea-18e2-0b92606dab85
-(collect(Int.(8 .* Sy)), collect(Int.(8 .* Sx)))
+(collect(Int.(8 .* Sx)), collect(Int.(8 .* Sy)))
 
 # ╔═╡ ac8d6902-f069-11ea-0f1d-9b0fa706d769
 md"""
@@ -197,16 +196,6 @@ end
 		to_rgb(x) = max(x, 0) * pos_color + max(-x, 0) * neg_color
 		to_rgb.(array) / maximum(abs.(array))
 	end
-
-# ╔═╡ da39c824-eff0-11ea-375b-1b6c6e186182
-# Sx
-# collect(Int.(8 .* Sx))
-show_colored_array(Sx)
-
-# ╔═╡ 074a58be-f146-11ea-382c-b7ae6c44bf75
-# Sy
-# collect(Int.(8 .* Sy))
-show_colored_array(Sy)
 
 # ╔═╡ f8283a0e-eff4-11ea-23d3-9f1ced1bafb4
 md"""
@@ -378,6 +367,9 @@ function hbox(x, y, gap=16; sy=size(y), sx=size(x))
 	slate
 end
 
+# ╔═╡ a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
+hbox(show_colored_array(Sx).parent, show_colored_array(Sy).parent ,10)
+
 # ╔═╡ 44192a40-eff2-11ea-0ec7-05cdadb0c29a
 begin
 	img_brightness = brightness.(img)
@@ -433,23 +425,21 @@ end
 [size(img) size(carved[n])]
 
 # ╔═╡ Cell order:
-# ╠═877df834-f078-11ea-303b-e98273ef98a4
-# ╠═0316b94c-eef6-11ea-19bc-dbc959901bb5
+# ╟─877df834-f078-11ea-303b-e98273ef98a4
+# ╟─0316b94c-eef6-11ea-19bc-dbc959901bb5
 # ╟─cb335074-eef7-11ea-24e8-c39a325166a1
 # ╟─bf750d0e-f35c-11ea-0245-713584583fcf
 # ╟─90f44be8-f35c-11ea-2fc6-c361fd4966af
 # ╟─d2ae6dd2-eef9-11ea-02df-255ec3b46a36
-# ╠═8ded023c-f35c-11ea-317c-11f5d1b67998
 # ╟─0b6010a8-eef6-11ea-3ad6-c1f10e30a413
 # ╠═fc1c43cc-eef6-11ea-0fc4-a90ac4336964
 # ╟─82c0d0c8-efec-11ea-1bb9-83134ecb877e
 # ╠═da726954-eff0-11ea-21d4-a7f4ae4a6b09
-# ╠═da39c824-eff0-11ea-375b-1b6c6e186182
-# ╠═074a58be-f146-11ea-382c-b7ae6c44bf75
+# ╠═a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
 # ╠═abf6944e-f066-11ea-18e2-0b92606dab85
 # ╠═44192a40-eff2-11ea-0ec7-05cdadb0c29a
 # ╟─ac8d6902-f069-11ea-0f1d-9b0fa706d769
-# ╠═ddac52ea-f148-11ea-2860-21cff4c867e6
+# ╟─ddac52ea-f148-11ea-2860-21cff4c867e6
 # ╠═6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
 # ╟─d6a268c0-eff4-11ea-2c9e-bfef19c7f540
 # ╟─172c7612-efee-11ea-077a-5d5c6e2505a4
@@ -481,5 +471,5 @@ end
 # ╟─2d6c6820-ef2d-11ea-1704-49bb5188cfcc
 # ╠═fa6a2152-ef0f-11ea-0e67-0d1a6599e779
 # ╟─71b16dbe-f08b-11ea-2343-5f1583074029
-# ╟─1fd26a60-f089-11ea-1f56-bb6eba7d9651
+# ╠═1fd26a60-f089-11ea-1f56-bb6eba7d9651
 # ╟─15d1e5dc-ef2f-11ea-093a-417108bcd495
