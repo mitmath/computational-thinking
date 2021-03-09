@@ -13,8 +13,21 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 3db86d56-810a-11eb-0ccb-2d4c83edb8e9
-using Plots
+# ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"),  
+			Pkg.PackageSpec(name="Colors")
+			])
+
+	using Plots, PlutoUI, Colors, Images
+
+	using Statistics, LinearAlgebra  # standard libraries available in any environment
+end
 
 # ╔═╡ e7a77e52-8104-11eb-1b51-a9f8312e9d95
 md"""
@@ -42,25 +55,6 @@ Here is Grant Sanderson (3Blue1Brown) explaining seam carving using this noteboo
 html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/rpB6zQNsbQU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
-
-# ╔═╡ 877df834-f078-11ea-303b-e98273ef98a4
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-end
-
-# ╔═╡ 0316b94c-eef6-11ea-19bc-dbc959901bb5
-begin
-	Pkg.add(["Images", "ImageMagick", "PlutoUI", "ImageFiltering"])
-	
-	using Images
-	using PlutoUI
-	using ImageFiltering
-	
-	# these are "Standard Libraries" - they are included in every environment
-	using Statistics
-	using LinearAlgebra
-end
 
 # ╔═╡ cb335074-eef7-11ea-24e8-c39a325166a1
 md"""
@@ -513,8 +507,7 @@ end
 # ╟─fb6b8564-8104-11eb-2e10-1f28be9a6ce7
 # ╟─bb44122a-80fb-11eb-0593-8d2a6f1e816e
 # ╟─1e132972-80fc-11eb-387a-9b251ee572f8
-# ╟─877df834-f078-11ea-303b-e98273ef98a4
-# ╟─0316b94c-eef6-11ea-19bc-dbc959901bb5
+# ╠═405a4f82-8116-11eb-1b35-2563b06b02a7
 # ╟─cb335074-eef7-11ea-24e8-c39a325166a1
 # ╟─7b0cee56-8106-11eb-0979-e7fead945a6f
 # ╟─bf750d0e-f35c-11ea-0245-713584583fcf
@@ -528,7 +521,6 @@ end
 # ╠═a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
 # ╠═abf6944e-f066-11ea-18e2-0b92606dab85
 # ╠═44192a40-eff2-11ea-0ec7-05cdadb0c29a
-# ╠═3db86d56-810a-11eb-0ccb-2d4c83edb8e9
 # ╠═42f2105a-810b-11eb-0e47-2dbb5ea2f566
 # ╠═406a65c0-810a-11eb-3c57-6d5be524ee3f
 # ╟─ac8d6902-f069-11ea-0f1d-9b0fa706d769
