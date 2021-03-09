@@ -13,6 +13,16 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ bb44122a-80fb-11eb-0593-8d2a6f1e816e
+md"""
+## Fall 2021 MIT Class Video from Grant Sanderson
+"""
+
+# ╔═╡ 1e132972-80fc-11eb-387a-9b251ee572f8
+html"""
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/rpB6zQNsbQU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+"""
+
 # ╔═╡ 877df834-f078-11ea-303b-e98273ef98a4
 begin
 	import Pkg
@@ -425,6 +435,8 @@ end
 [size(img) size(carved[n])]
 
 # ╔═╡ Cell order:
+# ╟─bb44122a-80fb-11eb-0593-8d2a6f1e816e
+# ╟─1e132972-80fc-11eb-387a-9b251ee572f8
 # ╟─877df834-f078-11ea-303b-e98273ef98a4
 # ╟─0316b94c-eef6-11ea-19bc-dbc959901bb5
 # ╟─cb335074-eef7-11ea-24e8-c39a325166a1
