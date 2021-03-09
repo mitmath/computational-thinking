@@ -28,8 +28,11 @@ md"""
 # ╔═╡ bc631086-804a-11eb-216e-c955e2115f55
 M = rand( 0:9, n, n)
 
-# ╔═╡ a5fbf282-8042-11eb-2371-35cabfcbb16c
-@bind x Slider(1:4, show_value = true)
+# ╔═╡ 37ebfa3e-80e5-11eb-166c-4ff3471ab12d
+md"""
+"i=" $(@bind fixi Scrubbable(1:n))
+"j=" $(@bind fixj Scrubbable(1:n))
+"""
 
 # ╔═╡ 163bf8fe-80d0-11eb-2066-75439a533513
 begin
@@ -85,6 +88,53 @@ md"""
 Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
 """
 
+# ╔═╡ 84bb1f5c-80e5-11eb-0e55-83068948870c
+begin
+	fixedpaths = [p for p∈paths  if p[fixi]==fixj]
+	number_of_fixedpaths = length(fixedpaths)
+	"Number of fixedpaths = $number_of_fixedpaths"
+end
+
+# ╔═╡ ee2d787c-80e5-11eb-1930-0fcbe253643f
+@bind whichfixedpath Slider(1:number_of_fixedpaths)
+
+# ╔═╡ e5367534-80e5-11eb-341d-7b3e6ca4f111
+begin
+	
+	path = fixedpaths[whichfixedpath]
+	values = [ M[i,path[i]] for i=1:n]
+	nv = length(values)
+	thetitle = join([" $(values[i]) +" for i=1:nv-1 ]) * " $(values[end]) = $(sum(values))";
+	
+	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
+
+	plot()
+	for i=1:n, j=1:n
+	   plot!(rectangle(1,1,i,j), opacity=.2, color=[:red,:white][1+rem(i+j,2) ])
+	   
+	end
+	for i=1:n, j=1:n
+	  annotate!((j+.5),n+2-(i+.5), M[i,j])
+	end
+	
+	annotate!((fixj+.5),n+2-(fixi+.5), M[fixi,fixj], :red)
+	
+	
+	for i = 1:n-1
+		i ≥ 	fixi ? c=:blue : c=:black
+		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=c,  linewidth=4)
+	end
+	
+
+
+	
+	for i=1:n,j=1:n
+		plot!(rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=[RGBA(1,.85,.85,.2),:white][1+rem(i+j,2)])
+	end
+	plot!(title=thetitle)
+	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
+end
+
 # ╔═╡ bfa04a82-80d8-11eb-277a-f74429b09870
 begin
 	winnernum = argmax([sum( M[i,p[i]] for i=1:n) for p∈paths])
@@ -98,7 +148,7 @@ md"""
 """
 
 # ╔═╡ a7245c08-803f-11eb-0da9-2bed09872035
-begin
+let
 	
 	path = paths[whichpath]
 	values = [ M[i,path[i]] for i=1:n]
@@ -140,10 +190,13 @@ end
 # ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
 # ╟─b4558306-804a-11eb-2719-5fd37c6fa281
 # ╟─bc631086-804a-11eb-216e-c955e2115f55
-# ╟─d1c851ee-80d5-11eb-1ce4-357dfb1e638e
+# ╠═d1c851ee-80d5-11eb-1ce4-357dfb1e638e
 # ╟─7191b674-80dc-11eb-24b3-518de83f465a
 # ╟─5dd22d0e-80d6-11eb-0541-d77668309f6c
-# ╠═a7245c08-803f-11eb-0da9-2bed09872035
-# ╟─a5fbf282-8042-11eb-2371-35cabfcbb16c
+# ╟─a7245c08-803f-11eb-0da9-2bed09872035
+# ╟─37ebfa3e-80e5-11eb-166c-4ff3471ab12d
+# ╟─84bb1f5c-80e5-11eb-0e55-83068948870c
+# ╟─ee2d787c-80e5-11eb-1930-0fcbe253643f
+# ╟─e5367534-80e5-11eb-341d-7b3e6ca4f111
 # ╟─163bf8fe-80d0-11eb-2066-75439a533513
-# ╠═bfa04a82-80d8-11eb-277a-f74429b09870
+# ╟─bfa04a82-80d8-11eb-277a-f74429b09870
