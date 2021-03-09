@@ -18,7 +18,8 @@ using Plots, PlutoUI, Colors, Images
 
 # ╔═╡ a84fdba4-80db-11eb-13dc-3f440653b2b9
 md"""
-## Summing Paths Demo
+## Intro to Dynamic Programming 
+### Summing Paths Demo
 """
 
 # ╔═╡ b4558306-804a-11eb-2719-5fd37c6fa281
@@ -86,10 +87,15 @@ Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
 
 # ╔═╡ bfa04a82-80d8-11eb-277a-f74429b09870
 begin
-	i = argmax([sum( M[i,p[i]] for i=1:n) for p∈paths])
-	winner = paths[i]
+	winnernum = argmax([sum( M[i,p[i]] for i=1:n) for p∈paths])
+	winner = paths[winnernum]
 	winnertotal = sum( M[i,winner[i]] for i=1:n);
 end
+
+# ╔═╡ 7191b674-80dc-11eb-24b3-518de83f465a
+md"""
+"The winner is number $winnernum."
+"""
 
 # ╔═╡ a7245c08-803f-11eb-0da9-2bed09872035
 begin
@@ -119,7 +125,7 @@ begin
 		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=:black,  linewidth=4)
 	end
 	
-	plot!(xlabel="winner total = $winnertotal")
+	plot!(xlabel="winner total = $winnertotal", xguidefontcolor=RGB(1,.5,.5))
 
 	
 	for i=1:n,j=1:n
@@ -135,8 +141,9 @@ end
 # ╟─b4558306-804a-11eb-2719-5fd37c6fa281
 # ╟─bc631086-804a-11eb-216e-c955e2115f55
 # ╟─d1c851ee-80d5-11eb-1ce4-357dfb1e638e
+# ╟─7191b674-80dc-11eb-24b3-518de83f465a
 # ╟─5dd22d0e-80d6-11eb-0541-d77668309f6c
-# ╟─a7245c08-803f-11eb-0da9-2bed09872035
+# ╠═a7245c08-803f-11eb-0da9-2bed09872035
 # ╟─a5fbf282-8042-11eb-2371-35cabfcbb16c
-# ╠═163bf8fe-80d0-11eb-2066-75439a533513
+# ╟─163bf8fe-80d0-11eb-2066-75439a533513
 # ╠═bfa04a82-80d8-11eb-277a-f74429b09870
