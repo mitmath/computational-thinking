@@ -28,7 +28,9 @@ The word "programming" is a rather archaic word (but still in  use) for an optim
 """
 
 # ╔═╡ b4558306-804a-11eb-2719-5fd37c6fa281
-@bind n Slider(2:12, show_value = true, default=8)
+md"""
+n = $(@bind n Slider(2:12, show_value = true, default=8))
+"""
 
 # ╔═╡ bc631086-804a-11eb-216e-c955e2115f55
 M = rand( 0:9, n, n)
@@ -161,6 +163,7 @@ end
 
 # ╔═╡ 7191b674-80dc-11eb-24b3-518de83f465a
 md"""
+Our goal is to add the numbers on a path and find the minimal path.
 The winner is number $winnernum.
 """
 
