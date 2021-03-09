@@ -119,7 +119,7 @@ begin
 		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=:black,  linewidth=4)
 	end
 	
-	plot!(xlabel="winner total = $winnertotal")
+	plot!(xlabel="winner total = $winnertotal", xguidefontcolor=RGB(1,.5,.5))
 
 	
 	for i=1:n,j=1:n
