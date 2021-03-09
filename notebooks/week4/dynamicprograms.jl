@@ -22,16 +22,31 @@ md"""
 ### Summing Paths Demo
 """
 
+# ╔═╡ 938107f0-80ee-11eb-18cf-775802c43c2f
+md"""
+The word "programming" is a rather archaic word (but still in  use) for an optimization problem as in linear "programming."  Probably the word "programming" should be abandoned in this context, but no doubt it is too late.
+"""
+
 # ╔═╡ b4558306-804a-11eb-2719-5fd37c6fa281
 @bind n Slider(2:12, show_value = true, default=8)
 
 # ╔═╡ bc631086-804a-11eb-216e-c955e2115f55
 M = rand( 0:9, n, n)
 
+# ╔═╡ 4f969032-80e9-11eb-1ada-d1aa64960967
+md"""
+## Let's fix one point on the path.
+"""
+
 # ╔═╡ 37ebfa3e-80e5-11eb-166c-4ff3471ab12d
 md"""
-"i=" $(@bind fixi Scrubbable(1:n))
-"j=" $(@bind fixj Scrubbable(1:n))
+i= $(@bind fixi Scrubbable(1:n))
+j= $(@bind fixj Scrubbable(1:n))
+"""
+
+# ╔═╡ d9265982-80ed-11eb-3a5f-27712a23506b
+md"""
+## The idea of  overlapping subproblems.
 """
 
 # ╔═╡ 163bf8fe-80d0-11eb-2066-75439a533513
@@ -66,6 +81,8 @@ begin
 	    return(path)
 	end
 	
+
+	
 	function allpaths(m,n)
      v=Vector{Int}[]
 	 paths = Paths(m,n)
@@ -80,7 +97,7 @@ end
 begin
 	paths = allpaths(n,n)
 	numpaths = length(paths)
-	"There are $numpaths paths to check."
+	md"There are $numpaths paths to check."
 end
 
 # ╔═╡ 5dd22d0e-80d6-11eb-0541-d77668309f6c
@@ -92,7 +109,7 @@ Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
 begin
 	fixedpaths = [p for p∈paths  if p[fixi]==fixj]
 	number_of_fixedpaths = length(fixedpaths)
-	"Number of fixedpaths = $number_of_fixedpaths"
+	md"Number of fixedpaths = $number_of_fixedpaths"
 end
 
 # ╔═╡ ee2d787c-80e5-11eb-1930-0fcbe253643f
@@ -125,7 +142,7 @@ begin
 		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=c,  linewidth=4)
 	end
 	
-
+  xlabel!("")
 
 	
 	for i=1:n,j=1:n
@@ -137,14 +154,14 @@ end
 
 # ╔═╡ bfa04a82-80d8-11eb-277a-f74429b09870
 begin
-	winnernum = argmax([sum( M[i,p[i]] for i=1:n) for p∈paths])
+	winnernum = argmin([sum( M[i,p[i]] for i=1:n) for p∈paths])
 	winner = paths[winnernum]
 	winnertotal = sum( M[i,winner[i]] for i=1:n);
 end
 
 # ╔═╡ 7191b674-80dc-11eb-24b3-518de83f465a
 md"""
-"The winner is number $winnernum."
+The winner is number $winnernum.
 """
 
 # ╔═╡ a7245c08-803f-11eb-0da9-2bed09872035
@@ -166,8 +183,9 @@ let
 	  annotate!((j+.5),n+2-(i+.5), M[i,j])
 	end
 	
+	# The winning path 
 		for i = 1:n-1
-		plot!([ winner[i+1]+.5, winner[i]+.5  ],[n-i+.5, n-i+1.5], color=:pink,  linewidth=4)
+		plot!([ winner[i+1]+.5, winner[i]+.5  ],[n-i+.5, n-i+1.5], color=RGB(1,.6,.6),  linewidth=4)
 	end
 	
 	
@@ -188,15 +206,18 @@ end
 # ╔═╡ Cell order:
 # ╟─71b53b98-8038-11eb-0ea5-d953294e9f35
 # ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
+# ╟─938107f0-80ee-11eb-18cf-775802c43c2f
 # ╟─b4558306-804a-11eb-2719-5fd37c6fa281
 # ╟─bc631086-804a-11eb-216e-c955e2115f55
-# ╠═d1c851ee-80d5-11eb-1ce4-357dfb1e638e
+# ╟─d1c851ee-80d5-11eb-1ce4-357dfb1e638e
 # ╟─7191b674-80dc-11eb-24b3-518de83f465a
 # ╟─5dd22d0e-80d6-11eb-0541-d77668309f6c
 # ╟─a7245c08-803f-11eb-0da9-2bed09872035
+# ╟─4f969032-80e9-11eb-1ada-d1aa64960967
 # ╟─37ebfa3e-80e5-11eb-166c-4ff3471ab12d
 # ╟─84bb1f5c-80e5-11eb-0e55-83068948870c
 # ╟─ee2d787c-80e5-11eb-1930-0fcbe253643f
 # ╟─e5367534-80e5-11eb-341d-7b3e6ca4f111
+# ╟─d9265982-80ed-11eb-3a5f-27712a23506b
 # ╟─163bf8fe-80d0-11eb-2066-75439a533513
 # ╟─bfa04a82-80d8-11eb-277a-f74429b09870
