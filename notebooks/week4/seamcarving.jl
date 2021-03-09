@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.12.20
 
 using Markdown
 using InteractiveUtils
@@ -13,9 +13,42 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"),  
+			Pkg.PackageSpec(name="Colors")
+			])
+
+	using Plots, PlutoUI, Colors, Images
+
+	using Statistics, LinearAlgebra  # standard libraries available in any environment
+end
+
+# ╔═╡ e7a77e52-8104-11eb-1b51-a9f8312e9d95
+md"""
+# Seam carving on images
+"""
+
+# ╔═╡ fb6b8564-8104-11eb-2e10-1f28be9a6ce7
+md"""
+Scroll through the images in this notebook. The idea of **seam carving** is to shrink an image by removing the "least interesting" parts of the image, but *without* resizing the objects within the image. We want to remove the "dead space" within the image.
+
+We try to find a "seam", i.e. a connected path of pixels from top to bottom of the image, which consists of the "least important" pixels, by some measure. 
+We then remove the pixels in that seam to give an image that is one pixel narrower.
+	
+In order to do this, we need to decide how to measure which pixels are "important".
+"""
+
 # ╔═╡ bb44122a-80fb-11eb-0593-8d2a6f1e816e
 md"""
-## Fall 2021 MIT Class Video from Grant Sanderson
+### Fall 2020 MIT Class Video from Grant Sanderson
+
+Here is Grant Sanderson (3Blue1Brown) explaining seam carving using this notebook from the Fall 2020 edition of this class.
 """
 
 # ╔═╡ 1e132972-80fc-11eb-387a-9b251ee572f8
@@ -23,36 +56,26 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/rpB6zQNsbQU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ 877df834-f078-11ea-303b-e98273ef98a4
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-end
-
-# ╔═╡ 0316b94c-eef6-11ea-19bc-dbc959901bb5
-begin
-	Pkg.add(["Images", "ImageMagick", "PlutoUI", "ImageFiltering"])
-	
-	using Images
-	using PlutoUI
-	using ImageFiltering
-	
-	# these are "Standard Libraries" - they are included in every environment
-	using Statistics
-	using LinearAlgebra
-end
-
 # ╔═╡ cb335074-eef7-11ea-24e8-c39a325166a1
 md"""
-# Seam Carving
+## The seam carving algorithm
 
-1. We use convolution with Sobel filters for "edge detection".
-2. We use that to write an algorithm that removes "uninteresting"
+We need to specify a notion of **importance** of pixels. The seam will then sum up the importance of pixels over the seam and pick the seam which minimizes this total importance.
+
+We will assign importance as "the extent to which a pixel sits inside an edge".
+So we need to calculate the "edgeness" of each pixel.
+"""
+
+# ╔═╡ 7b0cee56-8106-11eb-0979-e7fead945a6f
+md"""
+
+1. We will use convolution with **Sobel filters** for edge detection.
+2. Then we will use that to write an algorithm that removes "uninteresting"
    bits of an image in order to shrink it.
 """
 
 # ╔═╡ bf750d0e-f35c-11ea-0245-713584583fcf
-md"Select an image below!"
+md"Select an image to use from the drop-down below!"
 
 # ╔═╡ 90f44be8-f35c-11ea-2fc6-c361fd4966af
 @bind image_url Select([
@@ -89,7 +112,7 @@ Gray.(brightness.(img))
 md"""
 # Edge detection filter
 
-(Spoiler alert!) Here, we use the Sobel edge detection filter we created in our Homework.
+(Spoiler alert!) We use the Sobel edge detection filter we created in our Homework.
 
 ```math
 \begin{align}
@@ -98,23 +121,28 @@ G_x &= \begin{bmatrix}
 1 & 0 & -1 \\
 2 & 0 & -2 \\
 1 & 0 & -1 \\
-\end{bmatrix}*A\\
+\end{bmatrix} \star A\\[10pt]
 G_y &= \begin{bmatrix}
 1 & 2 & 1 \\
 0 & 0 & 0 \\
 -1 & -2 & -1 \\
-\end{bmatrix}*A
+\end{bmatrix} \star A
 \end{align}
 ```
 
-Here * applies a convolution.
+Here, $\star$ denotes convolution.
 
 Here $A$ is the array corresponding to your image.
-We can think of these as derivatives in the $x$ and $y$ directions.
+We can think of $G_x$ and $G_y$ as calculating (discretized) **derivatives** in the $x$ and $y$ directions.
 
-Then we combine them by finding the magnitude of the **gradient** (in the sense of multivariate calculus) by defining
+Then we combine them by finding the magnitude of the (discretized) **gradient**, in the sense of multivariate calculus, by defining
 
 $$G_\text{total} = \sqrt{G_x^2 + G_y^2}.$$
+"""
+
+# ╔═╡ ffc9ede2-8106-11eb-2218-79307d6b4515
+md"""
+Here are the Sobel kernels for the derivatives in each direction:
 """
 
 # ╔═╡ da726954-eff0-11ea-21d4-a7f4ae4a6b09
@@ -122,6 +150,12 @@ Sy, Sx = Kernel.sobel()
 
 # ╔═╡ abf6944e-f066-11ea-18e2-0b92606dab85
 (collect(Int.(8 .* Sx)), collect(Int.(8 .* Sy)))
+
+# ╔═╡ 42f2105a-810b-11eb-0e47-2dbb5ea2f566
+plotly()
+
+# ╔═╡ 406a65c0-810a-11eb-3c57-6d5be524ee3f
+surface(brightness.(img))
 
 # ╔═╡ ac8d6902-f069-11ea-0f1d-9b0fa706d769
 md"""
@@ -212,66 +246,79 @@ md"""
 
 ## Seam carving idea
 
-The idea of seam carving is to find a path from the top of the image to the bottom of the image where the path minimizes the edgness.
+The idea of seam carving is to find a path from the top of the image to the bottom of the image where the path minimizes the edgness. 
+In other words, this path **minimizes the number of edges in the image that it crosses**.
 
-In other words, this path **minimizes the number of edges it crosses**
+We will call the edgeness the **energy**.
+
 """
 
 # ╔═╡ 025e2c94-eefb-11ea-12cb-f56f34886334
 md"""
 
-At every step in going down, the path is allowed to go south west, south or south east. We want to find a seam with the minimum possible sum of energies.
+At every step in going down, the path is allowed to go south-west, south or south-east. We want to find a connected path, or **seam**, with the minimum possible sum of "energies" along the path.
 
-We start by writing a `least_edgy` function which given a matrix of energies, returns
-a matrix of minimum possible energy starting from that pixel going up to a pixel in the bottom most row.
+We start by writing a `least_edgy` function which takes a matrix of energies and returns
+a new matrix. The new matrix has entries $M_{i, j}$ which gives the minimum possible energy when starting from the pixel $(i, j)$ and going from there down to a pixel in the bottom row.
 """
 
 # ╔═╡ acc1ee8c-eef9-11ea-01ac-9b9e9c4167b3
 #            e[x,y] 
-#          ↙   ↓   ↘       <--pick the next path which gives the least overall energy
+#          ↙   ↓   ↘       <-- pick the next path which gives the least overall energy
 #  e[x-1,y+1] e[x,y+1]  e[x+1,y+1]     
 #
-# Basic Comp:   e[x,y] += min( e[x-1,y+1],e[x,y],e[x+1,y])
-#               dirs records which one from (-1==SW,0==S,1==SE)
+# Basic calculation:   e[x,y] += min( e[x-1,y+1], e[x,y], e[x+1,y] )
+#               `dirs` records which direction we take from (-1==SW, 0==S, 1==SE)
 
 function least_edgy(E)
 	least_E = zeros(size(E))
 	dirs = zeros(Int, size(E))
+	
 	least_E[end, :] .= E[end, :] # the minimum energy on the last row is the energy
 	                             # itself
 
 	m, n = size(E)
 	# Go from the last row up, finding the minimum energy
+	
 	for i in m-1:-1:1
 		for j in 1:n
+			
 			j1, j2 = max(1, j-1), min(j+1, n)
 			e, dir = findmin(least_E[i+1, j1:j2])
 			least_E[i,j] += e
 			least_E[i,j] += E[i,j]
 			dirs[i, j] = (-1,0,1)[dir + (j==1)]
+			
 		end
 	end
-	least_E, dirs
+	
+	return least_E, dirs
 end
 
 # ╔═╡ 8b204a2a-eff6-11ea-25b0-13f230037ee1
-# The bright areas are screaming "AVOID ME!!!"
+# The bright areas are screaming "AVOID ME!"
+
 least_e, dirs = least_edgy(edgeness(img))
 
 # ╔═╡ 84d3afe4-eefe-11ea-1e31-bf3b2af4aecd
 show_colored_array(least_e)
 
+# ╔═╡ dd71c2a4-8108-11eb-18ce-838c53eac3ef
+md"""
+Here are the directions that we should take at each step:
+"""
+
 # ╔═╡ b507480a-ef01-11ea-21c4-63d19fac19ab
 # direction the path should take at every pixel.
-reduce((x,y)->x*y*"\n",
-	reduce(*, getindex.(([" ", "↙", "↓", "↘"],), dirs[1:25, 1:60].+3), dims=2, init=""), init="") |> Text
+reduce( (x,y) -> x*y*"\n",
+	reduce(*, getindex.(([" ", "↙", "↓", "↘"],), dirs[1:25, 1:60].+3), dims=2, 	init=""), init="") |> Text
 
 # ╔═╡ 7d8b20a2-ef03-11ea-1c9e-fdf49a397619
 md"## Remove seams"
 
 # ╔═╡ f690b06a-ef31-11ea-003b-4f2b2f82a9c3
 md"""
-Compressing an image horizontally involves a number of seams of lowest energy successively.
+We now compress an image horizontally by successively removing a number of seams of lowest energy.
 """
 
 # ╔═╡ 977b6b98-ef03-11ea-0176-551fc29729ab
@@ -279,10 +326,12 @@ function get_seam_at(dirs, j)
 	m = size(dirs, 1)
 	js = fill(0, m)
 	js[1] = j
+	
 	for i=2:m
 		js[i] = js[i-1] + dirs[i-1, js[i-1]]
 	end
-	tuple.(1:m, js)
+	
+	return tuple.(1:m, js)
 end
 
 # ╔═╡ 9abbb158-ef03-11ea-39df-a3e8aa792c50
@@ -292,18 +341,27 @@ get_seam_at(dirs, 2)
 function mark_path(img, path)
 	img′ = copy(img)
 	m = size(img, 2)
+	
 	for (i, j) in path
 		# To make it easier to see, we'll color not just
 		# the pixels of the seam, but also those adjacent to it
+		
 		for j′ in j-1:j+1
 			img′[i, clamp(j′, 1, m)] = RGB(1,0,1)
 		end
+		
 	end
-	img′
+	
+	return img′
 end
 
+# ╔═╡ 22c851c4-8109-11eb-3950-35a75857c3c3
+md"""
+In the visualization below, the slider specifies which column we start with at the top. The pink seam is the best (least total energy) that will be snipped out.
+"""
+
 # ╔═╡ cf9a9124-ef04-11ea-14a4-abf930edc7cc
-@bind start_column Slider(1:size(img, 2))
+@bind start_column Slider(1:size(img, 2), show_value=true)
 
 # ╔═╡ 772a4d68-ef04-11ea-366a-f7ae9e1634f6
 path = get_seam_at(dirs, start_column)
@@ -359,6 +417,16 @@ n_examples = min(200, size(img, 2))
 # returns two vectors of n successively smaller images
 # The second images have markings where the seam is cut out
 carved, marked_carved = shrink_n(img, n_examples);
+
+# ╔═╡ 5d6c1d74-8109-11eb-3529-bf2f23554b02
+md"""
+### Seam carving in action
+"""
+
+# ╔═╡ 48593d7c-8109-11eb-1b8b-6f15155d6ec9
+md"""
+Here is the algorithm in action. Now the slider tells us on which step of the algorithm we are, having removed each least-energy seam at each step:
+"""
 
 # ╔═╡ 7038abe4-ef36-11ea-11a5-75e57ab51032
 @bind n Slider(1:length(carved))
@@ -435,21 +503,26 @@ end
 [size(img) size(carved[n])]
 
 # ╔═╡ Cell order:
+# ╟─e7a77e52-8104-11eb-1b51-a9f8312e9d95
+# ╟─fb6b8564-8104-11eb-2e10-1f28be9a6ce7
 # ╟─bb44122a-80fb-11eb-0593-8d2a6f1e816e
 # ╟─1e132972-80fc-11eb-387a-9b251ee572f8
-# ╟─877df834-f078-11ea-303b-e98273ef98a4
-# ╟─0316b94c-eef6-11ea-19bc-dbc959901bb5
+# ╠═405a4f82-8116-11eb-1b35-2563b06b02a7
 # ╟─cb335074-eef7-11ea-24e8-c39a325166a1
+# ╟─7b0cee56-8106-11eb-0979-e7fead945a6f
 # ╟─bf750d0e-f35c-11ea-0245-713584583fcf
 # ╟─90f44be8-f35c-11ea-2fc6-c361fd4966af
 # ╟─d2ae6dd2-eef9-11ea-02df-255ec3b46a36
 # ╟─0b6010a8-eef6-11ea-3ad6-c1f10e30a413
 # ╠═fc1c43cc-eef6-11ea-0fc4-a90ac4336964
 # ╟─82c0d0c8-efec-11ea-1bb9-83134ecb877e
+# ╟─ffc9ede2-8106-11eb-2218-79307d6b4515
 # ╠═da726954-eff0-11ea-21d4-a7f4ae4a6b09
 # ╠═a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
 # ╠═abf6944e-f066-11ea-18e2-0b92606dab85
 # ╠═44192a40-eff2-11ea-0ec7-05cdadb0c29a
+# ╠═42f2105a-810b-11eb-0e47-2dbb5ea2f566
+# ╠═406a65c0-810a-11eb-3c57-6d5be524ee3f
 # ╟─ac8d6902-f069-11ea-0f1d-9b0fa706d769
 # ╟─ddac52ea-f148-11ea-2860-21cff4c867e6
 # ╠═6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
@@ -462,13 +535,15 @@ end
 # ╠═acc1ee8c-eef9-11ea-01ac-9b9e9c4167b3
 # ╠═8b204a2a-eff6-11ea-25b0-13f230037ee1
 # ╠═84d3afe4-eefe-11ea-1e31-bf3b2af4aecd
-# ╠═b507480a-ef01-11ea-21c4-63d19fac19ab
+# ╟─dd71c2a4-8108-11eb-18ce-838c53eac3ef
+# ╟─b507480a-ef01-11ea-21c4-63d19fac19ab
 # ╟─7d8b20a2-ef03-11ea-1c9e-fdf49a397619
-# ╠═f690b06a-ef31-11ea-003b-4f2b2f82a9c3
+# ╟─f690b06a-ef31-11ea-003b-4f2b2f82a9c3
 # ╠═977b6b98-ef03-11ea-0176-551fc29729ab
 # ╠═9abbb158-ef03-11ea-39df-a3e8aa792c50
 # ╠═772a4d68-ef04-11ea-366a-f7ae9e1634f6
-# ╠═14f72976-ef05-11ea-2ad5-9f0914f9cf58
+# ╟─14f72976-ef05-11ea-2ad5-9f0914f9cf58
+# ╟─22c851c4-8109-11eb-3950-35a75857c3c3
 # ╠═cf9a9124-ef04-11ea-14a4-abf930edc7cc
 # ╠═552fb92e-ef05-11ea-0a79-dd7a6760089a
 # ╠═081a98cc-f06e-11ea-3664-7ba51d4fd153
@@ -479,9 +554,11 @@ end
 # ╠═b401f398-ef0f-11ea-38fe-012b7bc8a4fa
 # ╠═b1b6b7fc-f153-11ea-224a-2578e8298775
 # ╠═2eb459d4-ef36-11ea-1f74-b53ffec7a1ed
+# ╟─5d6c1d74-8109-11eb-3529-bf2f23554b02
+# ╟─48593d7c-8109-11eb-1b8b-6f15155d6ec9
 # ╠═7038abe4-ef36-11ea-11a5-75e57ab51032
 # ╟─2d6c6820-ef2d-11ea-1704-49bb5188cfcc
 # ╠═fa6a2152-ef0f-11ea-0e67-0d1a6599e779
 # ╟─71b16dbe-f08b-11ea-2343-5f1583074029
-# ╠═1fd26a60-f089-11ea-1f56-bb6eba7d9651
+# ╟─1fd26a60-f089-11ea-1f56-bb6eba7d9651
 # ╟─15d1e5dc-ef2f-11ea-093a-417108bcd495
