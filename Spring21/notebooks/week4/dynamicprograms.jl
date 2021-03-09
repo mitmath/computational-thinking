@@ -16,26 +16,19 @@ end
 # ╔═╡ 71b53b98-8038-11eb-0ea5-d953294e9f35
 using Plots, PlutoUI, Colors, Images
 
+# ╔═╡ a84fdba4-80db-11eb-13dc-3f440653b2b9
+md"""
+## Summing Paths Demo
+"""
+
 # ╔═╡ b4558306-804a-11eb-2719-5fd37c6fa281
-@bind n Slider(2:12, show_value = true)
+@bind n Slider(2:12, show_value = true, default=8)
 
 # ╔═╡ bc631086-804a-11eb-216e-c955e2115f55
 M = rand( 0:9, n, n)
 
 # ╔═╡ a5fbf282-8042-11eb-2371-35cabfcbb16c
 @bind x Slider(1:4, show_value = true)
-
-# ╔═╡ 00c117f2-804b-11eb-208d-8b5088459428
-d = rand( -1:1, n-1)
-
-# ╔═╡ 874f8e9a-8038-11eb-116f-7d30e17501b4
-md"""
-$(@bind a Scrubbable( (x==1 ? 0 : -1) :1  ))
-$(html"<br>")
-$(@bind b Scrubbable(-1:1  ))
-$(html"<br>")
-$(@bind c Scrubbable(-1:1  ))
-""" 
 
 # ╔═╡ 163bf8fe-80d0-11eb-2066-75439a533513
 begin
@@ -83,18 +76,19 @@ end
 begin
 	paths = allpaths(n,n)
 	numpaths = length(paths)
+	"There are $numpaths paths to check."
 end
 
 # ╔═╡ 5dd22d0e-80d6-11eb-0541-d77668309f6c
 md"""
-Path $( @bind whichpath Slider(1:numpaths))
+Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
 """
 
 # ╔═╡ bfa04a82-80d8-11eb-277a-f74429b09870
 begin
 	i = argmax([sum( M[i,p[i]] for i=1:n) for p∈paths])
 	winner = paths[i]
-	winnertotal = sum( M[i,winner[i]] for i=1:n)
+	winnertotal = sum( M[i,winner[i]] for i=1:n);
 end
 
 # ╔═╡ a7245c08-803f-11eb-0da9-2bed09872035
@@ -135,23 +129,14 @@ begin
 	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
 end
 
-# ╔═╡ 13ffb464-80d9-11eb-2de6-1118d87bf80d
-size(paths)
-
-# ╔═╡ 0c50cc38-80d1-11eb-2528-b914d4bc99e3
-w = allpaths(3,3);
-
 # ╔═╡ Cell order:
 # ╟─71b53b98-8038-11eb-0ea5-d953294e9f35
+# ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
 # ╟─b4558306-804a-11eb-2719-5fd37c6fa281
 # ╟─bc631086-804a-11eb-216e-c955e2115f55
-# ╠═d1c851ee-80d5-11eb-1ce4-357dfb1e638e
-# ╠═5dd22d0e-80d6-11eb-0541-d77668309f6c
-# ╠═a7245c08-803f-11eb-0da9-2bed09872035
-# ╠═bfa04a82-80d8-11eb-277a-f74429b09870
-# ╠═13ffb464-80d9-11eb-2de6-1118d87bf80d
+# ╟─d1c851ee-80d5-11eb-1ce4-357dfb1e638e
+# ╟─5dd22d0e-80d6-11eb-0541-d77668309f6c
+# ╟─a7245c08-803f-11eb-0da9-2bed09872035
 # ╟─a5fbf282-8042-11eb-2371-35cabfcbb16c
-# ╠═00c117f2-804b-11eb-208d-8b5088459428
-# ╠═874f8e9a-8038-11eb-116f-7d30e17501b4
-# ╠═0c50cc38-80d1-11eb-2528-b914d4bc99e3
 # ╠═163bf8fe-80d0-11eb-2066-75439a533513
+# ╠═bfa04a82-80d8-11eb-277a-f74429b09870
