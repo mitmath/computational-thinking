@@ -8,6 +8,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>dynamic_programming/index.html</loc>
+    <lastmod>2021-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>hw0/index.html</loc>
     <lastmod>2021-03-09</lastmod>
     <changefreq>monthly</changefreq>
@@ -57,6 +63,12 @@
 </url>
 <url>
     <loc>logistics/index.html</loc>
+    <lastmod>2021-03-09</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>seam_carving/index.html</loc>
     <lastmod>2021-03-09</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
