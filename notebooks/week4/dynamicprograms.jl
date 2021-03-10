@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.12.20
 
 using Markdown
 using InteractiveUtils
@@ -14,17 +14,43 @@ macro bind(def, element)
 end
 
 # ╔═╡ 71b53b98-8038-11eb-0ea5-d953294e9f35
-using Plots, PlutoUI, Colors, Images
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+			Pkg.PackageSpec(name="Plots"), 
+			Pkg.PackageSpec(name="Colors")
+			])
+
+	using Plots, PlutoUI, Colors, Images
+end
 
 # ╔═╡ a84fdba4-80db-11eb-13dc-3f440653b2b9
 md"""
 ## Intro to Dynamic Programming 
-### Summing Paths Demo
 """
 
 # ╔═╡ 938107f0-80ee-11eb-18cf-775802c43c2f
 md"""
-The word "programming" is a rather archaic word (but still in  use) for an optimization problem as in linear "programming."  Probably the word "programming" should be abandoned in this context, but no doubt it is too late.
+What is dynamic progamming? The word "programming" here is a rather archaic word (but still in  use) for an **optimization problem**, as used, for example, in the phrase 
+"linear programming."  Probably the word "programming" should be abandoned in this context, but no doubt it is too late.
+"""
+
+# ╔═╡ eb043a90-8102-11eb-3b78-d590a23c83f4
+md"""
+### Summing over paths problem
+"""
+
+# ╔═╡ 5994117c-8102-11eb-1b05-671b7cf87a7e
+md"""
+Let's start by looking at the following problem. 
+Let's create a random matrix and follow paths on it.
+The paths start at one of the square on the top, and can only go downwards, either South-East, South, or South-West.
+
+We will *add up* the numbers visited along each path. Our goal is to find the path that has the *smallest* sum. So this is indeed an optimization problem: we want to **minimize** the sum along these particular paths.
 """
 
 # ╔═╡ b4558306-804a-11eb-2719-5fd37c6fa281
@@ -35,9 +61,25 @@ n = $(@bind n Slider(2:12, show_value = true, default=8))
 # ╔═╡ bc631086-804a-11eb-216e-c955e2115f55
 M = rand( 0:9, n, n)
 
+# ╔═╡ 4e4d333e-8102-11eb-0ba1-0f0183d0d3c2
+md"""
+One way to solve this problem is the naive algorithm where we enumerate *all* the paths, calculate the sum for each, and take the minimum.
+However, as the matrix gets larger the total number of paths grows *exponentially*.
+"""
+
+# ╔═╡ 0f0e7456-8104-11eb-1d90-e9f0009e8789
+md"""
+[Possible research problem: Investigate the statistics of the sums over all possible paths.]
+"""
+
 # ╔═╡ 4f969032-80e9-11eb-1ada-d1aa64960967
 md"""
-## Let's fix one point on the path.
+## Fixing a single point on a path
+"""
+
+# ╔═╡ 28f18aa2-8104-11eb-0c01-dbd14c760ecf
+md"""
+Let's fix a given point $(i, j)$ and focus only on all those paths that pass through $(i, j)$.
 """
 
 # ╔═╡ 37ebfa3e-80e5-11eb-166c-4ff3471ab12d
@@ -46,9 +88,23 @@ i= $(@bind fixi Scrubbable(1:n))
 j= $(@bind fixj Scrubbable(1:n))
 """
 
+# ╔═╡ 4d81a6f4-8104-11eb-1f06-5bb7a56c8406
+md"""
+Suppose we fix the point on the penultimate row (last but one). When we look at the paths below the fixed value, we're doing the same calculation over and over again. It doesn't seem sensible to keep re-doing these calculations. The same holds as we move the fixed point further upwards.
+
+So instead of calculating by working "forwards", for each box we look at the minimum below it.
+"""
+
 # ╔═╡ d9265982-80ed-11eb-3a5f-27712a23506b
 md"""
-## The idea of  overlapping subproblems.
+## The idea of *overlapping subproblems*
+"""
+
+# ╔═╡ ba4acb08-8104-11eb-1771-15bc5d8076fd
+md"""
+The key point in this problem is that there are *overlapping subproblems*: there are calculations that we don't need to repeat. 
+
+The idea of dynamic programming is to remember the solution of those subproblems to get an exponential speed-up in the calculation speed.
 """
 
 # ╔═╡ 163bf8fe-80d0-11eb-2066-75439a533513
@@ -111,7 +167,7 @@ Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
 begin
 	fixedpaths = [p for p∈paths  if p[fixi]==fixj]
 	number_of_fixedpaths = length(fixedpaths)
-	md"Number of fixedpaths = $number_of_fixedpaths"
+	md"Number of fixed paths = $number_of_fixedpaths"
 end
 
 # ╔═╡ ee2d787c-80e5-11eb-1930-0fcbe253643f
@@ -153,6 +209,11 @@ begin
 	plot!(title=thetitle)
 	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
 end
+
+# ╔═╡ 4e8c8052-8102-11eb-3e9f-01494b525ba0
+md"""
+### Summing Paths Demo
+"""
 
 # ╔═╡ bfa04a82-80d8-11eb-277a-f74429b09870
 begin
@@ -207,20 +268,28 @@ let
 end
 
 # ╔═╡ Cell order:
-# ╟─71b53b98-8038-11eb-0ea5-d953294e9f35
+# ╠═71b53b98-8038-11eb-0ea5-d953294e9f35
 # ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
 # ╟─938107f0-80ee-11eb-18cf-775802c43c2f
+# ╟─eb043a90-8102-11eb-3b78-d590a23c83f4
+# ╟─5994117c-8102-11eb-1b05-671b7cf87a7e
 # ╟─b4558306-804a-11eb-2719-5fd37c6fa281
 # ╟─bc631086-804a-11eb-216e-c955e2115f55
 # ╟─d1c851ee-80d5-11eb-1ce4-357dfb1e638e
 # ╟─7191b674-80dc-11eb-24b3-518de83f465a
 # ╟─5dd22d0e-80d6-11eb-0541-d77668309f6c
 # ╟─a7245c08-803f-11eb-0da9-2bed09872035
+# ╟─4e4d333e-8102-11eb-0ba1-0f0183d0d3c2
+# ╟─0f0e7456-8104-11eb-1d90-e9f0009e8789
 # ╟─4f969032-80e9-11eb-1ada-d1aa64960967
+# ╟─28f18aa2-8104-11eb-0c01-dbd14c760ecf
 # ╟─37ebfa3e-80e5-11eb-166c-4ff3471ab12d
 # ╟─84bb1f5c-80e5-11eb-0e55-83068948870c
 # ╟─ee2d787c-80e5-11eb-1930-0fcbe253643f
 # ╟─e5367534-80e5-11eb-341d-7b3e6ca4f111
+# ╟─4d81a6f4-8104-11eb-1f06-5bb7a56c8406
 # ╟─d9265982-80ed-11eb-3a5f-27712a23506b
+# ╟─ba4acb08-8104-11eb-1771-15bc5d8076fd
 # ╟─163bf8fe-80d0-11eb-2066-75439a533513
-# ╟─bfa04a82-80d8-11eb-277a-f74429b09870
+# ╟─4e8c8052-8102-11eb-3e9f-01494b525ba0
+# ╠═bfa04a82-80d8-11eb-277a-f74429b09870
