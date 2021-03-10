@@ -13,7 +13,7 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 7a57bb68-815a-11eb-10f5-631e0a5acdf2
+# ╔═╡ cf82077a-81c2-11eb-1de2-09ed6c35d810
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
@@ -21,9 +21,10 @@ begin
 			Pkg.PackageSpec(name="Images", version="0.22.4"), 
 			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
 			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="Plots"), 
-			Pkg.PackageSpec(name="Colors"),
-			Pkg.PackageSpec(name="ColorSchemes"),
+			Pkg.PackageSpec(name="Plots", version="1.10"), 
+			Pkg.PackageSpec(name="Colors", version="0.12"),
+			Pkg.PackageSpec(name="ColorSchemes", version="3.10"),
+			Pkg.PackageSpec(name="ForwardDiff"),
 			])
 
 	using PlutoUI
@@ -32,7 +33,6 @@ begin
 	
 	using Statistics, LinearAlgebra  # standard libraries
 end
-
 
 # ╔═╡ 16887070-f891-11ea-2db3-47b91930e728
 using ForwardDiff
@@ -735,7 +735,7 @@ colors[ismissing.(M3)]
 
 # ╔═╡ Cell order:
 # ╟─4c1ebac8-81b7-11eb-19fa-f704b4d84a21
-# ╠═7a57bb68-815a-11eb-10f5-631e0a5acdf2
+# ╠═cf82077a-81c2-11eb-1de2-09ed6c35d810
 # ╠═c593a748-81b6-11eb-295a-a9800f9dec6d
 # ╟─817552ca-81b7-11eb-1da7-116b0b35dc42
 # ╟─7365084a-1f37-4897-bca4-fc5855c5ee4e
