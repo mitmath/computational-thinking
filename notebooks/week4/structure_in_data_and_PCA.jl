@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -21,9 +21,10 @@ begin
 			Pkg.PackageSpec(name="Images", version="0.22.4"), 
 			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
 			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="Plots"), 
-			Pkg.PackageSpec(name="Colors"),
-			Pkg.PackageSpec(name="ColorSchemes"),
+			Pkg.PackageSpec(name="Plots", version="1.10"), 
+			Pkg.PackageSpec(name="Colors", version="0.12"),
+			Pkg.PackageSpec(name="ColorSchemes", version="3.10"),
+			Pkg.PackageSpec(name="ForwardDiff"),
 			])
 
 	using PlutoUI
@@ -664,17 +665,11 @@ show_image_missing(M3)
 # ╔═╡ e465ca72-f901-11ea-22f3-318147c8d79a
 colors = show_image(replace(M3, missing=>0))
 
-# ╔═╡ 8dd97d10-8112-11eb-30a7-099a0adf1cb8
-
-
 # ╔═╡ f175b60a-f901-11ea-0fcb-01fc17ec2a97
 colors[ismissing.(M3)]
 
-# ╔═╡ 8d075504-8112-11eb-0221-491441fe00c5
-
-
 # ╔═╡ Cell order:
-# ╠═7a57bb68-815a-11eb-10f5-631e0a5acdf2
+# ╟─7a57bb68-815a-11eb-10f5-631e0a5acdf2
 # ╟─3b9941ac-6043-4dc6-850f-4c7b3ae9d9a7
 # ╟─7365084a-1f37-4897-bca4-fc5855c5ee4e
 # ╟─ed7ff6b2-f863-11ea-1a59-eb242a8674e3
@@ -725,7 +720,7 @@ colors[ismissing.(M3)]
 # ╟─24df1f32-ec90-11ea-1f6d-03c1bfa5df8e
 # ╠═aec46a9b-f743-4cbd-97a7-3ef3cac78b12
 # ╟─1b8c743e-ec90-11ea-10aa-e3b94f768f82
-# ╠═f5358ce4-f86a-11ea-2989-b1f37be89183
+# ╟─f5358ce4-f86a-11ea-2989-b1f37be89183
 # ╟─870d3efa-f8fc-11ea-1593-1552511dcf86
 # ╟─03ab44c0-f8fd-11ea-2243-1f3580f98a65
 # ╠═2c3721da-f86b-11ea-36cf-3fe4c6622dc6
@@ -800,6 +795,4 @@ colors[ismissing.(M3)]
 # ╠═8f599fae-f901-11ea-25e5-11a1f569aef1
 # ╠═8ec6d478-8112-11eb-381e-a7fd49612e9c
 # ╠═e465ca72-f901-11ea-22f3-318147c8d79a
-# ╠═8dd97d10-8112-11eb-30a7-099a0adf1cb8
 # ╠═f175b60a-f901-11ea-0fcb-01fc17ec2a97
-# ╠═8d075504-8112-11eb-0221-491441fe00c5
