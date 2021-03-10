@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -13,31 +13,33 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 15a4ba3e-f0d1-11ea-2ef1-5ff1dee8795f
-using Pkg
-
 # ╔═╡ 21e744b8-f0d1-11ea-2e09-7ffbcdf43c37
 begin
-	Pkg.activate(mktempdir())
+	import Pkg
 	
-	Pkg.add("Gadfly")
-	Pkg.add("Compose")
-	Pkg.add("Statistics")
-	Pkg.add("Hyperscript")
-	Pkg.add("Colors")
-	Pkg.add("Images")
-	Pkg.add("ImageMagick")
-	Pkg.add("ImageFiltering")
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+			Pkg.PackageSpec(name="Plots", version="1.10"), 
+			Pkg.PackageSpec(name="Colors", version="0.12"),
+			Pkg.PackageSpec(name="Compose", version="0.9"),
+			Pkg.PackageSpec(name="Hyperscript", version="0.0.4"),
+			Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
+			Pkg.PackageSpec(name="Gadfly", version="1.3"),
+			])
 	
 	using Gadfly
 	using Images
 	using Compose
 	using Hyperscript
 	using Colors
-	using Statistics
 	using PlutoUI
 	using ImageMagick
 	using ImageFiltering
+	
+	using Statistics
 end
 
 # ╔═╡ 1ab1c808-f0d1-11ea-03a7-e9854427d45f
@@ -133,12 +135,6 @@ function partial_derivatives(img)
 	end
 	return ∇x, ∇y
 end
-
-# ╔═╡ b369584c-f183-11ea-260a-35dc797e63ad
-
-
-# ╔═╡ b2cbe058-f183-11ea-39dc-23d4a5b92796
-
 
 # ╔═╡ 9d9cccb2-f118-11ea-1638-c76682e636b2
 function arrowhead(θ)
@@ -237,9 +233,8 @@ let
 end
 
 # ╔═╡ Cell order:
-# ╠═15a4ba3e-f0d1-11ea-2ef1-5ff1dee8795f
-# ╠═1ab1c808-f0d1-11ea-03a7-e9854427d45f
 # ╟─21e744b8-f0d1-11ea-2e09-7ffbcdf43c37
+# ╟─1ab1c808-f0d1-11ea-03a7-e9854427d45f
 # ╠═10f850fc-f0d1-11ea-2a58-2326a9ea1e2a
 # ╟─7b4d5270-f0d3-11ea-0b48-79005f20602c
 # ╠═6fd3b7a4-f0d3-11ea-1f26-fb9740cd16e0
@@ -252,8 +247,6 @@ end
 # ╟─f22aa34e-f0df-11ea-3053-3dcdc070ec2f
 # ╟─9232dcc8-f188-11ea-08fe-b787ea93c598
 # ╠═7864bd00-f146-11ea-0020-7fccb3913d8b
-# ╠═b369584c-f183-11ea-260a-35dc797e63ad
-# ╠═b2cbe058-f183-11ea-39dc-23d4a5b92796
 # ╟─9d9cccb2-f118-11ea-1638-c76682e636b2
 # ╟─c821b906-f0d8-11ea-2df0-8f2d06964aa2
 # ╟─6da3fdfe-f0dd-11ea-2407-7b85217b35cc
