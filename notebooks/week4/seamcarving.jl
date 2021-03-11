@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -18,13 +18,22 @@ begin
 	import Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"),  
-			Pkg.PackageSpec(name="Colors")
-			])
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="ImageMagick", version="1"),
+        Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+			
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"),  
+		Pkg.PackageSpec(name="Plots", version="1"),  
+	])
 
-	using Plots, PlutoUI, Colors, Images
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using ImageFiltering
+	using Plots, PlutoUI
 
 	using Statistics, LinearAlgebra  # standard libraries available in any environment
 end
@@ -74,11 +83,8 @@ md"""
    bits of an image in order to shrink it.
 """
 
-# ╔═╡ bf750d0e-f35c-11ea-0245-713584583fcf
-md"Select an image to use from the drop-down below!"
-
-# ╔═╡ 90f44be8-f35c-11ea-2fc6-c361fd4966af
-@bind image_url Select([
+# ╔═╡ 3721e7f9-83fa-48cd-a1f5-e72e07b0f7a2
+image_urls = [
 "https://wisetoast.com/wp-content/uploads/2015/10/The-Persistence-of-Memory-salvador-deli-painting.jpg",
 
 "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg/1014px-Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg",
@@ -92,7 +98,10 @@ md"Select an image to use from the drop-down below!"
 
 "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/758px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
 		"https://web.mit.edu/facilities/photos/construction/Projects/stata/1_large.jpg",
-	])
+	]
+
+# ╔═╡ 90f44be8-f35c-11ea-2fc6-c361fd4966af
+image_url = image_urls[1]
 
 # ╔═╡ d2ae6dd2-eef9-11ea-02df-255ec3b46a36
 img = load(download(image_url))
@@ -510,8 +519,8 @@ end
 # ╠═405a4f82-8116-11eb-1b35-2563b06b02a7
 # ╟─cb335074-eef7-11ea-24e8-c39a325166a1
 # ╟─7b0cee56-8106-11eb-0979-e7fead945a6f
-# ╟─bf750d0e-f35c-11ea-0245-713584583fcf
-# ╟─90f44be8-f35c-11ea-2fc6-c361fd4966af
+# ╟─3721e7f9-83fa-48cd-a1f5-e72e07b0f7a2
+# ╠═90f44be8-f35c-11ea-2fc6-c361fd4966af
 # ╟─d2ae6dd2-eef9-11ea-02df-255ec3b46a36
 # ╟─0b6010a8-eef6-11ea-3ad6-c1f10e30a413
 # ╠═fc1c43cc-eef6-11ea-0fc4-a90ac4336964

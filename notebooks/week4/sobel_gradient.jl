@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -19,28 +19,42 @@ begin
 	
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="Plots", version="1.10"), 
-			Pkg.PackageSpec(name="Colors", version="0.12"),
-			Pkg.PackageSpec(name="Compose", version="0.9"),
-			Pkg.PackageSpec(name="Hyperscript", version="0.0.4"),
-			Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
-			Pkg.PackageSpec(name="Gadfly", version="1.3"),
-			])
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+        Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
+
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="Plots", version="1.10"), 
+		Pkg.PackageSpec(name="Compose", version="0.9"),
+		Pkg.PackageSpec(name="Hyperscript", version="0.0.4"),
+		Pkg.PackageSpec(name="Gadfly", version="1.3"),
+	])
 	
 	using Gadfly
-	using Images
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using ImageFiltering
 	using Compose
 	using Hyperscript
-	using Colors
 	using PlutoUI
-	using ImageMagick
-	using ImageFiltering
 	
 	using Statistics
 end
+
+# ╔═╡ b677c6d1-9d7b-41d3-80a4-b38b5f51c7fb
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
+# ╔═╡ a3056031-6a4e-4552-a6d6-10333bc321d0
+md"""
+#### Intializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ 1ab1c808-f0d1-11ea-03a7-e9854427d45f
 md"""
@@ -108,14 +122,20 @@ brightness(c) = 0.3 * c.r + 0.59 * c.g + 0.11 * c.b
 # ╔═╡ 0ccf76e4-f0d9-11ea-07c9-0159e3d4d733
 @bind img_select Radio(["disc", "mario"], default="disc")
 
+# ╔═╡ aa3de044-ab29-4cb8-bd6d-0c2a8162866d
+
+
 # ╔═╡ 236dab08-f13d-11ea-1922-a3b82cfc7f51
-begin
+images = let
 	url = "https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-icon.png"
-	img = Dict(
+	Dict(
 		"disc" => disc(25),
 		"mario" => load(download(url))
-	)[img_select]
-end
+	)
+end;
+
+# ╔═╡ 7bc364d8-24e2-4866-990a-e780879d4b7f
+img = images[img_select];
 
 # ╔═╡ 03434682-f13b-11ea-2b6e-11ad781e9a51
 md"""Show $G_x$ $(@bind Gx CheckBox())
@@ -233,7 +253,9 @@ let
 end
 
 # ╔═╡ Cell order:
-# ╟─21e744b8-f0d1-11ea-2e09-7ffbcdf43c37
+# ╟─a3056031-6a4e-4552-a6d6-10333bc321d0
+# ╠═21e744b8-f0d1-11ea-2e09-7ffbcdf43c37
+# ╟─b677c6d1-9d7b-41d3-80a4-b38b5f51c7fb
 # ╟─1ab1c808-f0d1-11ea-03a7-e9854427d45f
 # ╠═10f850fc-f0d1-11ea-2a58-2326a9ea1e2a
 # ╟─7b4d5270-f0d3-11ea-0b48-79005f20602c
@@ -241,7 +263,9 @@ end
 # ╟─fe3559e0-f13b-11ea-06c8-a314e44c20d6
 # ╟─b7ea8a28-f0d7-11ea-3e98-7b19a1f58304
 # ╟─0ccf76e4-f0d9-11ea-07c9-0159e3d4d733
+# ╠═aa3de044-ab29-4cb8-bd6d-0c2a8162866d
 # ╠═236dab08-f13d-11ea-1922-a3b82cfc7f51
+# ╠═7bc364d8-24e2-4866-990a-e780879d4b7f
 # ╟─03434682-f13b-11ea-2b6e-11ad781e9a51
 # ╟─ca13597a-f168-11ea-1a2c-ff7b98b7b2c7
 # ╟─f22aa34e-f0df-11ea-3053-3dcdc070ec2f

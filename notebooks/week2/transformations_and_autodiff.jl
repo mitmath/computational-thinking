@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -13,29 +13,39 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
-
 # ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="HypertextLiteral", version="0.5"), 
-			Pkg.PackageSpec(name="ForwardDiff")
-			])
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
 
-	using Images
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="HypertextLiteral", version="0.5"), 
+		Pkg.PackageSpec(name="ForwardDiff", version="0.10")
+	])
+
+	using Colors, ColorVectorSpace, ImageShow, FileIO
 	using PlutoUI
 	using HypertextLiteral
 	using LinearAlgebra
 	using ForwardDiff
 end
+
+# ╔═╡ d49682ff-d529-4283-871b-f8ee50a4e6ee
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
+# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ 4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
 
@@ -84,6 +94,9 @@ overflow-x: hidden;
 """
 
 
+# ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
+PlutoUI.TableOfContents(aside=true)
+
 # ╔═╡ 84f7f0a2-7ace-11eb-1621-d355a9ac414e
 md"# Lecture Video"
 
@@ -92,8 +105,12 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/AAREeuaKCic" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
-PlutoUI.TableOfContents(aside=true)
+# ╔═╡ e6a09409-f262-453b-a434-bfd935306719
+md"""
+#### Intializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ 58a520ca-763b-11eb-21f4-3f27aafbc498
 md"""
@@ -619,10 +636,12 @@ end;
 # ╔═╡ Cell order:
 # ╟─4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
+# ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─84f7f0a2-7ace-11eb-1621-d355a9ac414e
 # ╟─8b08f6b4-7ace-11eb-08c9-0b0144f98667
-# ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
+# ╟─e6a09409-f262-453b-a434-bfd935306719
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
+# ╟─d49682ff-d529-4283-871b-f8ee50a4e6ee
 # ╟─58a520ca-763b-11eb-21f4-3f27aafbc498
 # ╟─2cca0638-7635-11eb-3b60-db3fabe6f536
 # ╟─c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
