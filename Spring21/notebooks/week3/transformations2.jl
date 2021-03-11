@@ -29,7 +29,7 @@ begin
 			Pkg.PackageSpec(name="HypertextLiteral", version="0.5"),
 			Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
 			Pkg.PackageSpec(name="NonlinearSolve", version="0.3"),
-			Pkg.PackageSpec(name="StaticArrays", version="1"),
+			Pkg.PackageSpec(name="StaticArrays"),
 			])
 
 	using Images
