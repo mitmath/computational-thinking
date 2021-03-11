@@ -25,11 +25,11 @@ begin
 	Pkg.add([
 			Pkg.PackageSpec(name="Images", version="0.22.4"), 
 			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="HypertextLiteral", version="0.5"), 
-			Pkg.PackageSpec(name="ForwardDiff"),
-			Pkg.PackageSpec(name="NonlinearSolve"),
-			Pkg.PackageSpec(name="StaticArrays")
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+			Pkg.PackageSpec(name="HypertextLiteral", version="0.5"),
+			Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+			Pkg.PackageSpec(name="NonlinearSolve", version="0.3"),
+			Pkg.PackageSpec(name="StaticArrays", version="1"),
 			])
 
 	using Images
