@@ -17,7 +17,13 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add(["Images", "ImageMagick", "Colors", "PlutoUI", "HypertextLiteral"])
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="Colors"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+			Pkg.PackageSpec(name="HypertextLiteral", version="0.5")
+			])
 
 	using Images
 	using Colors

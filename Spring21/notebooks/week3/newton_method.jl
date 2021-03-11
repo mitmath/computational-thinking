@@ -15,10 +15,15 @@ end
 
 # ╔═╡ f4fda666-7b9c-11eb-0304-716c5e710462
 begin
-	using ForwardDiff
-	using Plots
-	using PlutoUI
-	using LaTeXStrings
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="LaTeXStrings", version="1"),
+    ])
+    using ForwardDiff, Plots, PlutoUI, LaTeXStrings
 end
 
 # ╔═╡ d82f1eae-7b9c-11eb-24d8-e1dcb2eef71a

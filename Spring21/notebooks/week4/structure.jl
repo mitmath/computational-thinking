@@ -15,8 +15,16 @@ end
 
 # ╔═╡ 864e1180-f693-11ea-080e-a7d5aabc9ca5
 begin
-	using Pkg
-	Pkg.add.(split("Colors ColorSchemes Images ImageMagick PlutoUI Suppressor InteractiveUtils"))
+	import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="Colors", version="0.12"),
+        Pkg.PackageSpec(name="ColorSchemes", version="3"),
+        Pkg.PackageSpec(name="Images", version="0.23"),
+        Pkg.PackageSpec(name="ImageMagick", version="1"),
+        Pkg.PackageSpec(name="Suppressor", version="0.2"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+    ])
 	using Colors, ColorSchemes, Images, ImageMagick
 	using Suppressor, InteractiveUtils, PlutoUI
 	using LinearAlgebra, SparseArrays, Statistics

@@ -24,7 +24,7 @@ begin
 			Pkg.PackageSpec(name="Plots", version="1.10"), 
 			Pkg.PackageSpec(name="Colors", version="0.12"),
 			Pkg.PackageSpec(name="ColorSchemes", version="3.10"),
-			Pkg.PackageSpec(name="ForwardDiff"),
+			Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
 			])
 
 	using PlutoUI
