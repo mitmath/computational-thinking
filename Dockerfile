@@ -26,4 +26,4 @@ COPY --chown=pluto . ${HOME}
 RUN julia --project=${HOME}/bind-server-environment -e "import Pkg; Pkg.instantiate(); Pkg.precompile()"
 
 # The "default command" for this docker thing.
-CMD ["julia", "--project=/home/pluto/bind-server-environment", "-e", "import PlutoSliderServer; PlutoSliderServer.run_directory(\"notebooks\"; port=1234 , host=\"0.0.0.0\", workspace_use_distributed=true)"]
+CMD ["julia", "--project=/home/pluto/bind-server-environment", "-e", "import PlutoSliderServer; PlutoSliderServer.run_directory(\".\"; port=1234 , host=\"0.0.0.0\")"]
