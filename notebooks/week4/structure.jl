@@ -29,6 +29,7 @@ begin
         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
     ])
 	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using ImageShow.ImageCore
 	using ColorSchemes
 	
 	using InteractiveUtils, PlutoUI
@@ -522,16 +523,10 @@ md"""
 """
 
 # ╔═╡ b6478e1a-f5f6-11ea-3b92-6d4f067285f4
-url = "https://arbordayblog.org/wp-content/uploads/2018/06/oak-tree-sunset-iStock-477164218.jpg"
-
-# ╔═╡ d4a049a2-f5f8-11ea-2f34-4bc0e3a5954a
-download(url, "tree.jpg")
+tree_url = "https://user-images.githubusercontent.com/6933510/110924885-d7f1b200-8322-11eb-9df7-7abf29c8db7d.png"
 
 # ╔═╡ f2c11f88-f5f8-11ea-3e02-c1d4fa22031e
-begin
-	image = load("tree.jpg")
-	image = image[1:5:end, 1:5:end]
-end
+image = load(download(tree_url))
 
 # ╔═╡ 29062f7a-f5f9-11ea-2682-1374e7694e32
 picture = Float64.(channelview(image));
@@ -688,7 +683,6 @@ show_image( outer( rand(10), rand(10) ))
 # ╠═0373fbf6-f75d-11ea-2a9e-cbb714d69cf4
 # ╟─ebd72fb8-f5e0-11ea-0630-573337dff753
 # ╠═b6478e1a-f5f6-11ea-3b92-6d4f067285f4
-# ╠═d4a049a2-f5f8-11ea-2f34-4bc0e3a5954a
 # ╠═f2c11f88-f5f8-11ea-3e02-c1d4fa22031e
 # ╠═29062f7a-f5f9-11ea-2682-1374e7694e32
 # ╠═5471fd30-f6e2-11ea-2cd7-7bd48c42db99
