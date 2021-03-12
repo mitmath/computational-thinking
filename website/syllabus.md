@@ -8,3 +8,4 @@
 | 4 | Transformations: Composability and Linearity | Mar 1, 2021 | [1.5](/more_transformations/) | [video](https://www.youtube.com/watch?v=VDPf3RjoCpY) | |
 | 5 | Inverses and Newton's Method | Mar 3, 2021 | [1.6](/newton_method/) | [video](https://www.youtube.com/watch?v=Wjcx9sNSLP8) | HW3 released |
 | 6 | Dyanmic Programming and Seam Carving | Mar 9, 2021 | [1.7](/dynamic_programming/), [1.8](seam_carving), [1.9](/sobel_gradient/)| | Week 3 Problem MITx released |
+| 7 | Structure in Data and PCA| Mar 10, 2021 | [1.10.1](/structure/), [1.10.2](/pca/) | | |
