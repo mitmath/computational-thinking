@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -13,26 +13,27 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
-
 # ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-			Pkg.PackageSpec(name="HypertextLiteral", version="0.5"),
-			Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
-			Pkg.PackageSpec(name="NonlinearSolve", version="0.3"),
-			Pkg.PackageSpec(name="StaticArrays"),
-			])
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
 
-	using Images
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+		Pkg.PackageSpec(name="HypertextLiteral", version="0.5"),
+		Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+		Pkg.PackageSpec(name="NonlinearSolve", version="0.3"),
+		Pkg.PackageSpec(name="StaticArrays"),
+	])
+
+	using PlutoUI 
+	using Colors, ColorVectorSpace, ImageShow, FileIO
 	using PlutoUI
 	using HypertextLiteral
 	using LinearAlgebra
@@ -40,6 +41,16 @@ begin
 	using NonlinearSolve
 	using StaticArrays
 end
+
+# ╔═╡ 230cba36-9d0a-4726-9e55-7df2c6743968
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
+# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ 972b2230-7634-11eb-028d-df7fc722ec70
 html"""
@@ -85,6 +96,9 @@ overflow-x: hidden;
 """
 
 
+# ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
+PlutoUI.TableOfContents(aside=true)
+
 # ╔═╡ bbbf0788-7ace-11eb-0b2d-4701b4b466e8
 md"# Lecture Video"
 
@@ -93,23 +107,26 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/VDPf3RjoCpY" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
-PlutoUI.TableOfContents(aside=true)
+# ╔═╡ 230b0118-30b7-4035-ad31-520165a76fcc
+md"""
+#### Intializing packages
 
-# ╔═╡ ef3f9cb0-7a03-11eb-177f-65f281148496
-begin
-	
-corgis = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"
-longcorgi = "https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w";
-	
-end
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
+
+# ╔═╡ 890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
+corgis_url = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"
+
+# ╔═╡ 85fba8fb-a9ea-444d-831b-ec6489b58b4f
+longcorgi_url = "https://user-images.githubusercontent.com/6933510/110868198-713faa80-82c8-11eb-8264-d69df4509f49.png"
 
 # ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
+# img_original = load(download(corgis_url));
+img_original = load(download(longcorgi_url));
+# img_original = load(download(theteam_url));
 
-#img_original = load(download(corgis)); 
-  img_original = load(download(longcorgi));
-# img_original = load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "))
-
+# ╔═╡ 06beabc3-2aa7-4e78-9bae-dc4b37251aa2
+theteam_url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg"
 
 # ╔═╡ 26dd0e98-7a75-11eb-2196-5d7bda201b19
 md"""
@@ -227,7 +244,7 @@ md"""
 """
 
 # ╔═╡ d42aec08-76ad-11eb-361a-a1f2c90fd4ec
-load(download("https://cdn.kastatic.org/ka-perseus-images/1b351a3653c1a12f713ec24f443a95516f916136.jpg"))
+Resource("https://cdn.kastatic.org/ka-perseus-images/1b351a3653c1a12f713ec24f443a95516f916136.jpg")
 
 # ╔═╡ d9115c1a-7aa0-11eb-38e4-d977c5a6b75b
 md"""
@@ -517,7 +534,7 @@ md"""
 """
 
 # ╔═╡ 7e4ad37c-7a84-11eb-1490-25090e133a7c
-load(download("https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg"))
+Resource("https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg")
 
 # ╔═╡ 96f47252-7a84-11eb-3d18-e3ba79dd20c2
 md"""
@@ -588,6 +605,12 @@ begin
 	lin(P*Q)((1, 0)), (lin(P)∘lin(Q))((1, 0))
 end
 
+# ╔═╡ 350f40f7-795f-4f33-89b8-ff9ba4819e1c
+test_img = load(download(corgis_url));
+
+# ╔═╡ 313cdcbd-5b11-41c8-9fcd-5aeaca3b8d24
+test_pixels = 300;
+
 # ╔═╡ 57848b42-7a8f-11eb-023a-cf247cb53819
 md"""
 `lin(P*Q)`
@@ -620,7 +643,7 @@ of as existing in the entire plane.
 """
 
 # ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
-load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png"))
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png")
 
 # ╔═╡ c1efc54a-7e9b-11eb-1e76-dbd0a66184a9
 translate(-400,400)([1,1])
@@ -764,7 +787,7 @@ md"""
 """
 
 # ╔═╡ 1b9faf64-7aab-11eb-1396-6fb89be7c445
-load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/comm2.png"))
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/comm2.png")
 
 # ╔═╡ 5f0568dc-7aad-11eb-162f-0d6e26f17d59
 md"""
@@ -777,7 +800,7 @@ md"""
 """
 
 # ╔═╡ 80456168-7c1b-11eb-271c-83ef59a41102
-load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png"))
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png")
 
 # ╔═╡ 62a9201c-7938-11eb-144c-15690c06be94
 begin
@@ -853,7 +876,7 @@ begin
 	
 	end
 	
-	function getpixel(img,i::Int,j::Int)   
+	function getpixel(img,i::Int,j::Int; circular::Bool=false, r::Real=200)   
 		#  grab image color or place default
 		rows,cols = size(img)
 		m = max(cols,rows)
@@ -885,6 +908,34 @@ begin
 	end
 
 	    
+end
+
+# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, test_pixels)
+			 X,Y =  T₁([x,y])
+			 i,j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
+end
+
+# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, test_pixels)
+			 X,Y =  T₂([x,y])
+			 i,j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
 end
 
 # ╔═╡ bf1954d6-7e9a-11eb-216d-010bd761e470
@@ -930,7 +981,7 @@ begin
 			X,Y = ( translate(-panx,-pany)  )([x,y])
 			 X,Y = ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([x,y])
 			 i,j = transform_xy_to_ij(img,X,Y)
-			 getpixel(img,i,j)
+			 getpixel(img,i,j; circular=circular, r=r)
 			end	 
 		
 			for i = 1:pixels, j = 1:pixels
@@ -941,36 +992,8 @@ end
 transform_xy_to_ij(img,0.0,0.0)
 
 
-# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
-begin
-		[			    
-			begin
-			 x,y = transform_ij_to_xy(i,j, pixels)
-			 X,Y =  T₁([x,y])
-			 i,j = transform_xy_to_ij(img,X,Y)
-			 getpixel(img,i,j)
-			end	 
-		
-			for i = 1:pixels, j = 1:pixels
-		]	
-end
-
-# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
-begin
-		[			    
-			begin
-			 x,y = transform_ij_to_xy(i,j, pixels)
-			 X,Y =  T₂([x,y])
-			 i,j = transform_xy_to_ij(img,X,Y)
-			 getpixel(img,i,j)
-			end	 
-		
-			for i = 1:pixels, j = 1:pixels
-		]	
-end
-
 # ╔═╡ c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
-img
+img;
 
 # ╔═╡ c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
 size(img)
@@ -978,17 +1001,18 @@ size(img)
 # ╔═╡ d0e9a1e8-7c4c-11eb-056c-aff283c49c31
 img[50,56]
 
-# ╔═╡ 687f27c8-7e97-11eb-0f03-d38ecada824d
-
-
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
+# ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─bbbf0788-7ace-11eb-0b2d-4701b4b466e8
 # ╟─ba8877ac-7ace-11eb-2a06-b50f7b1cdf0b
+# ╟─230b0118-30b7-4035-ad31-520165a76fcc
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
-# ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
-# ╟─ef3f9cb0-7a03-11eb-177f-65f281148496
+# ╟─230cba36-9d0a-4726-9e55-7df2c6743968
 # ╠═96766502-7a06-11eb-00cc-29849773dbcf
+# ╟─890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
+# ╟─85fba8fb-a9ea-444d-831b-ec6489b58b4f
+# ╟─06beabc3-2aa7-4e78-9bae-dc4b37251aa2
 # ╟─26dd0e98-7a75-11eb-2196-5d7bda201b19
 # ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
 # ╟─005ca75a-7622-11eb-2ba4-9f450e71df1f
@@ -1054,10 +1078,12 @@ img[50,56]
 # ╟─7d803684-7a8a-11eb-33d2-89d5e2a05bcf
 # ╟─17281256-7aa5-11eb-3144-b72777334326
 # ╠═05049fa0-7a8e-11eb-283b-cb4753c4aaf0
+# ╠═350f40f7-795f-4f33-89b8-ff9ba4819e1c
+# ╠═313cdcbd-5b11-41c8-9fcd-5aeaca3b8d24
 # ╟─57848b42-7a8f-11eb-023a-cf247cb53819
 # ╟─da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
 # ╟─620ee7d8-7a8f-11eb-3888-356c27a2d591
-# ╠═30f522a0-7a8e-11eb-2181-8313760778ef
+# ╟─30f522a0-7a8e-11eb-2181-8313760778ef
 # ╟─04da7710-7a91-11eb-02a1-0b6e889150a2
 # ╠═c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
 # ╠═c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
@@ -1077,7 +1103,7 @@ img[50,56]
 # ╟─0957fd9a-7a72-11eb-0566-e93ef32fb626
 # ╟─c7cc412c-7aa5-11eb-2df1-d3d788047238
 # ╟─ce620b8e-7aa5-11eb-370b-11e34b07d54d
-# ╠═4f51931c-7aac-11eb-13ba-4b8768ac376f
+# ╟─4f51931c-7aac-11eb-13ba-4b8768ac376f
 # ╠═5ce799f4-7aac-11eb-0629-ebd8a404e9d3
 # ╠═9b456686-7aac-11eb-3aa5-25e6c3c86aff
 # ╟─c2b0a488-7aac-11eb-1d8b-edd6bd23d1fd
@@ -1097,5 +1123,4 @@ img[50,56]
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
 # ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
-# ╠═687f27c8-7e97-11eb-0f03-d38ecada824d
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
