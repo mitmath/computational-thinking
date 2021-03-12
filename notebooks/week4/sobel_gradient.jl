@@ -122,12 +122,9 @@ brightness(c) = 0.3 * c.r + 0.59 * c.g + 0.11 * c.b
 # ╔═╡ 0ccf76e4-f0d9-11ea-07c9-0159e3d4d733
 @bind img_select Radio(["disc", "mario"], default="disc")
 
-# ╔═╡ aa3de044-ab29-4cb8-bd6d-0c2a8162866d
-
-
 # ╔═╡ 236dab08-f13d-11ea-1922-a3b82cfc7f51
 images = let
-	url = "https://icons.iconarchive.com/icons/ph03nyx/super-mario/256/Retro-Mario-icon.png"
+	url = "https://user-images.githubusercontent.com/6933510/110993432-950df980-8377-11eb-82e7-b7ce4a0d04bc.png"
 	Dict(
 		"disc" => disc(25),
 		"mario" => load(download(url))
@@ -263,12 +260,11 @@ end
 # ╟─fe3559e0-f13b-11ea-06c8-a314e44c20d6
 # ╟─b7ea8a28-f0d7-11ea-3e98-7b19a1f58304
 # ╟─0ccf76e4-f0d9-11ea-07c9-0159e3d4d733
-# ╠═aa3de044-ab29-4cb8-bd6d-0c2a8162866d
 # ╠═236dab08-f13d-11ea-1922-a3b82cfc7f51
 # ╠═7bc364d8-24e2-4866-990a-e780879d4b7f
 # ╟─03434682-f13b-11ea-2b6e-11ad781e9a51
 # ╟─ca13597a-f168-11ea-1a2c-ff7b98b7b2c7
-# ╟─f22aa34e-f0df-11ea-3053-3dcdc070ec2f
+# ╠═f22aa34e-f0df-11ea-3053-3dcdc070ec2f
 # ╟─9232dcc8-f188-11ea-08fe-b787ea93c598
 # ╠═7864bd00-f146-11ea-0020-7fccb3913d8b
 # ╟─9d9cccb2-f118-11ea-1638-c76682e636b2
