@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -85,16 +85,6 @@ PlutoUI.TableOfContents(aside = true)
 # ╔═╡ b0ba5b8c-f5d1-11ea-1304-3f0e47f935fe
 md"# Examples of structure"
 
-# ╔═╡ 69be8194-81b7-11eb-0452-0bc8b9f22286
-md"""
-Syntax to be learned:
-
-* A `struct` is a great way to embody structure.
-* `dump` and `Dump`: to see what's inside a data structure.
-* `Diagonal`, `sparse`
-* `error` (throws an exception)
-"""
-
 # ╔═╡ 261c4df2-f5d2-11ea-2c72-7d4b09c46098
 md"""
 # One-hot vectors
@@ -124,7 +114,7 @@ md"""
 
 # ╔═╡ 4794e860-81b7-11eb-2c91-8561c20f308a
 md"""
-## Julia: structs (creating a new type in Julia)
+## Julia: `structs` (creating a new type in Julia)
 """
 
 # ╔═╡ 67827da8-81cc-11eb-300e-278104d2d958
@@ -556,7 +546,24 @@ RGB.(sum(outer(Ur[:,i], Vr[:,i]) .* Σr[i] for i in 1:n),
 	 sum(outer(Ub[:,i], Vb[:,i]) .* Σb[i] for i in 1:n))
 
 # ╔═╡ 8df84fcc-f5d5-11ea-312f-bf2a3b3ce2ce
-md"## Appendix"
+md"# Appendix"
+
+# ╔═╡ 0edd7cca-834f-11eb-0232-ff0850027f76
+md"## Syntax Learned"
+
+# ╔═╡ 69be8194-81b7-11eb-0452-0bc8b9f22286
+md"""
+Syntax to be learned:
+
+* A `struct` is a great way to embody structure.
+* `dump` and `Dump`: to see what's inside a data structure.
+* `Diagonal`, `sparse`
+* `error` (throws an exception)
+* `svd` (Singular Value Decomposition)
+"""
+
+# ╔═╡ 1c462f68-834f-11eb-1447-85848814769b
+[ dump, Diagonal, error, svd]
 
 # ╔═╡ 5813e1b2-f5ff-11ea-2849-a1def74fc065
 begin
@@ -574,7 +581,6 @@ show_image( outer( rand(10), rand(10) ))
 # ╟─0db6ee04-81b7-11eb-330c-11b578b72c90
 # ╟─ca1a1072-81b6-11eb-1fee-e7df687cc314
 # ╟─b0ba5b8c-f5d1-11ea-1304-3f0e47f935fe
-# ╟─69be8194-81b7-11eb-0452-0bc8b9f22286
 # ╠═864e1180-f693-11ea-080e-a7d5aabc9ca5
 # ╟─261c4df2-f5d2-11ea-2c72-7d4b09c46098
 # ╟─3cada3a0-81cc-11eb-04c8-bde26d36a84e
@@ -691,5 +697,8 @@ show_image( outer( rand(10), rand(10) ))
 # ╠═0c0ee362-f5f9-11ea-0f75-2d2810c88d65
 # ╠═b95ce51a-f632-11ea-3a64-f7c218b9b3c9
 # ╠═7ba6e6a6-f5fa-11ea-2bcd-616d5a3c898b
-# ╟─8df84fcc-f5d5-11ea-312f-bf2a3b3ce2ce
+# ╠═8df84fcc-f5d5-11ea-312f-bf2a3b3ce2ce
+# ╟─0edd7cca-834f-11eb-0232-ff0850027f76
+# ╟─69be8194-81b7-11eb-0452-0bc8b9f22286
+# ╠═1c462f68-834f-11eb-1447-85848814769b
 # ╟─5813e1b2-f5ff-11ea-2849-a1def74fc065
