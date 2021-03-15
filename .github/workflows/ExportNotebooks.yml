@@ -23,7 +23,7 @@ jobs:
               with:
                   version: 1.6.0-rc1
             - name: Run Pluto notebooks
-              run: julia --project=bind-server-environment -e '
+              run: julia --project=pluto-deployment-environment -e '
                   import Pkg;
                   Pkg.instantiate();
 
