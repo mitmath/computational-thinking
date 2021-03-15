@@ -33,4 +33,12 @@ videos = Dict(
               "r0"           => "VNo5WrKZ8Yc",
               "self-doc"     => "MQoE69CbfHo",
               "paramtypes"   => "2WVFvRfocjI",
+              "raytracing1"  => "MkkZb5V6HqM",
+              "byop"         => "dczkYlOM2sg",
+              "what-is-array" => "gUZVpMUY4qY",
+              "raytracing2" => "JwyQezsQkkw",
+              "resistors"   => "UKG-xk2F3Ak",
+              "hier-thinking" => "rJyJZ_fMy9Q",
+              "pde-schemes" => "f7g1LTfNmnA",
+              "multigrid" => "rRCGNvMdLEY",
 )

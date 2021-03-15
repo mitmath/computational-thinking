@@ -4,7 +4,8 @@ This document is for course staff and anyone who would like to edit the course w
 
 The code for the website is in the `website/` directory in this repo. It is processed by [Franklin.jl](https://franklinjl.org/) to generate the website whenever any file in this repository is changed.
 
- cd to the `website/` and launch Julia. Then run the following to install Franklin
+cd to the `website/` and launch Julia. Then run the following to install Franklin
+
 ```julia
 using Pkg
 Pkg.add("Franklin")
@@ -19,12 +20,10 @@ serve()
 
 The website should start to get served on [`http://localhost:8000/`](http://localhost:8000/).
 
-
 ## Editing in brief
 
-- any file in the website/ directory, such as `website/hw0.md` will be rendered as `http://localhost:8000/hw0/`
-- you can open a page, and edit the corresponding `.md` file to immediately see the page live-update with your changes. This also works when you're editing stylesheets and HTML templates for the website.
-
+-   any file in the website/ directory, such as `website/hw0.md` will be rendered as `http://localhost:8000/hw0/`
+-   you can open a page, and edit the corresponding `.md` file to immediately see the page live-update with your changes. This also works when you're editing stylesheets and HTML templates for the website.
 
 **Embedding a YouTube video**
 
@@ -43,3 +42,26 @@ Once you have added this entry, you can embed the video into a markdown file wit
 ```
 {{youtube my-video}}
 ```
+
+## Running the website locally before committing
+
+Whenever you push to this folder of the repository, the website will automatically rebuild and update. To test your changes locally before pushing, follow these steps:
+
+1. In a terminal, navigate to this folder using `cd`.
+2. Run Julia with this folder as the active project, and `instantiate`:
+
+```
+$ julia --project
+julia> ]
+(website) pkg> instantiate
+```
+
+3. Import & run our buddy Franklin:
+
+```
+julia> using Franklin
+# ignore some warnings
+julia> serve()
+```
+
+Franklin will now launch a _live dev server_: whenever you change a file, your browser tab will automatically refresh.

@@ -30,8 +30,8 @@ end
 function hfun_youtube(params)
     id = params[1]
     return """
-    <iframe id="$id" width="100%" height="300"
-    src="https://www.youtube.com/embed/$(get(videos, id, id))"
+    <iframe id="$id" width="100%" height="360"
+    src="https://video.cs50.io/$(get(videos, id, id))"
     frameborder="0"
     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
     allowfullscreen></iframe>

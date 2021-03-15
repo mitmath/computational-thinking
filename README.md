@@ -2,7 +2,7 @@
 
 <p align="center"><a href="https://computationalthinking.mit.edu/Fall20"> <b>Go to course website</b> :balloon:</a></p>
 
-Welcome to the new **18.S191** course!
+Welcome to the fall 2020 **18.S191** course!
 
 This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.
 

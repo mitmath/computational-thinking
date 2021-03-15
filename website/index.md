@@ -1,11 +1,9 @@
 
 # Introduction to Computational Thinking
 
-Welcome to the new course **MIT 18.S191 aka 6.S083 aka 22.S092**, **Fall 2020** edition!
+Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Fall 2020** edition!
 
-~~~
-<!--<a href="/lecture12/" style="font-size: 1.5em; line-height:1.5em"><span style="padding: 0.4em; background: red; color:white; font-size: 0.8em; border-radius: 0.2em">LIVE NOW</span> <b>Lecture 12</b> - <em>Epidemic modeling (continued)</em></a>-->
-~~~
+> This is **Fall 2020**. For **Spring 2021**, see our [new website](https://computationalthinking.mit.edu/Spring21/).
 
 \blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling.  In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
@@ -16,6 +14,20 @@ Topics include:
 - Epidemic propagation
 - Climate modeling
 
+
+The course has now concluded, but you can still take it at your own pace from this website! Feel free to hang out in the course [discord server](https://discord.gg/Z5qnVf8) and ask questions!
+
+> See also the course repository [github.com/mitmath/18S191](https://github.com/mitmath/18S191). [Lecture notebooks are here.](https://github.com/mitmath/18S191/tree/master/lecture_notebooks)
+
+## What people are saying about the course
+
+~~~
+<a style="font-size:1.2em" href="https://medium.com/towards-artificial-intelligence/mits-free-online-course-to-learn-julia-the-rising-star-b00a0e762dfc">MIT's  Free Online Course to Learn Julia — The Rising Star</a> &mdash; <em>Review of 18.S191 by Towards AI Newsletter</em>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">the course is exceptional🎇🎇🎇</p>&mdash; YT Cai (@Yitao_CAI) <a href="https://twitter.com/Yitao_CAI/status/1338877387510059014?ref_src=twsrc%5Etfw">December 15, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I cannot recommend this class enough, it’s awesome. <a href="https://t.co/4BsBEygeLd">https://t.co/4BsBEygeLd</a></p><br>&mdash; James Doss-Gollin (@jdossgollin) <a href="https://twitter.com/jdossgollin/status/1339013228194451456?ref_src=twsrc%5Etfw">December 16, 2020</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+~~~
 
 <!-- 
 
