@@ -3,8 +3,6 @@
 
 Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 
-> **Annoucement:** Lectures next week will be on Tuesday March 9 and Wednesday March 10 (instead of Monday and Wednesday) as per MIT's schedule.
-
 ~~~
 <script type=module>
 const span = document.querySelector("#yt-placeholder")
