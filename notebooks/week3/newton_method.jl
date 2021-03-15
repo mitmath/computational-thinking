@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -15,10 +15,15 @@ end
 
 # ╔═╡ f4fda666-7b9c-11eb-0304-716c5e710462
 begin
-	using ForwardDiff
-	using Plots
-	using PlutoUI
-	using LaTeXStrings
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="LaTeXStrings", version="1"),
+    ])
+    using ForwardDiff, Plots, PlutoUI, LaTeXStrings
 end
 
 # ╔═╡ d82f1eae-7b9c-11eb-24d8-e1dcb2eef71a
@@ -49,6 +54,16 @@ Let's look at that visually first:
 
 """
 
+# ╔═╡ 8518820e-668b-4a5b-b544-ec911d59b347
+md"""
+n = $(@bind n2 Slider(0:10, show_value=true, default=0))
+"""
+
+# ╔═╡ 0d352c54-57fa-410e-a494-e4f5bd53fa96
+md"""
+x₀ = $(@bind x02 Slider(-10:10, show_value=true, default=6))
+"""
+
 # ╔═╡ 2445da24-7b9d-11eb-02bd-eb99a3d95a2e
 md"""
 n = $(@bind n Slider(0:10, show_value=true, default=0))
@@ -58,9 +73,6 @@ n = $(@bind n Slider(0:10, show_value=true, default=0))
 md"""
 x₀ = $(@bind x0 Slider(-10:10, show_value=true, default=6))
 """
-
-# ╔═╡ b803743a-7b9e-11eb-203d-595e0a0493e2
-
 
 # ╔═╡ ba570c4c-7ba2-11eb-2125-9f23e415a1dc
 md"""
@@ -239,7 +251,7 @@ function standard_Newton(f, n, x_range, x0, ymin=-10, ymax=10)
 
 	end
 
-	p
+	p |> as_svg
 
 
 end
@@ -248,7 +260,7 @@ end
 let
 	f(x) = x^2 - 2
 
-	standard_Newton(f, n, -1:0.01:10, x0, -10, 70)
+	standard_Newton(f, n2, -1:0.01:10, x02, -10, 70)
 end
 
 # ╔═╡ ec6c6328-7b9c-11eb-1c69-dba12ae522ad
@@ -262,11 +274,11 @@ end
 # ╟─d82f1eae-7b9c-11eb-24d8-e1dcb2eef71a
 # ╟─e410c1d0-7ba1-11eb-394f-71dac89756b7
 # ╟─5ea7344c-7ba2-11eb-2cc5-0bbdca218c82
-# ╟─f4fda666-7b9c-11eb-0304-716c5e710462
+# ╟─8518820e-668b-4a5b-b544-ec911d59b347
+# ╟─0d352c54-57fa-410e-a494-e4f5bd53fa96
+# ╟─ecb40aea-7b9c-11eb-1476-e54faf32d91c
 # ╟─2445da24-7b9d-11eb-02bd-eb99a3d95a2e
 # ╟─9addbcbe-7b9e-11eb-3e8c-fbab3be40e05
-# ╟─ecb40aea-7b9c-11eb-1476-e54faf32d91c
-# ╠═b803743a-7b9e-11eb-203d-595e0a0493e2
 # ╠═ec6c6328-7b9c-11eb-1c69-dba12ae522ad
 # ╟─ba570c4c-7ba2-11eb-2125-9f23e415a1dc
 # ╟─5123c038-7ba2-11eb-1be2-19f789b02c1f
@@ -289,3 +301,4 @@ end
 # ╠═7c742116-7ba6-11eb-166d-f96389a467db
 # ╟─1b77fada-7b9d-11eb-3266-ebb3895cb76a
 # ╠═f25af026-7b9c-11eb-1f11-77a8b06b2d71
+# ╠═f4fda666-7b9c-11eb-0304-716c5e710462

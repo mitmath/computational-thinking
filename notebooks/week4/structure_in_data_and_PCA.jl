@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -13,29 +13,38 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 7a57bb68-815a-11eb-10f5-631e0a5acdf2
+# ╔═╡ cf82077a-81c2-11eb-1de2-09ed6c35d810
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="Plots"), 
-			Pkg.PackageSpec(name="Colors"),
-			Pkg.PackageSpec(name="ColorSchemes"),
-			])
+		# Image packages
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+		Pkg.PackageSpec(name="ColorSchemes", version="3.10"),
+		
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="Plots", version="1.10"), 
+		Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+	])
 
 	using PlutoUI
-	using Colors, ColorSchemes, Images
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using ColorSchemes
 	using Plots
 	
+	using ForwardDiff
 	using Statistics, LinearAlgebra  # standard libraries
 end
 
-
-# ╔═╡ 16887070-f891-11ea-2db3-47b91930e728
-using ForwardDiff
+# ╔═╡ 01aad939-49da-466e-9eeb-1e68766d86fd
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ 4c1ebac8-81b7-11eb-19fa-f704b4d84a21
 html"""
@@ -82,6 +91,13 @@ overflow-x: hidden;
 
 # ╔═╡ c593a748-81b6-11eb-295a-a9800f9dec6d
 PlutoUI.TableOfContents(aside=true)
+
+# ╔═╡ 4fea55cc-0f0c-4b8a-8734-59c879c12065
+md"""
+#### Intializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ 817552ca-81b7-11eb-1da7-116b0b35dc42
 md"""
@@ -606,6 +622,9 @@ function split_up(v, m, n)
 	return v[1:m], v[m+1:m+n], v[m+n+1:2m+n], v[2m+n+1:2m+2n]
 end
 
+# ╔═╡ 16887070-f891-11ea-2db3-47b91930e728
+
+
 # ╔═╡ 9822b22e-f89a-11ea-3da9-6199f9de033a
 nn = 400
 
@@ -735,8 +754,10 @@ colors[ismissing.(M3)]
 
 # ╔═╡ Cell order:
 # ╟─4c1ebac8-81b7-11eb-19fa-f704b4d84a21
-# ╠═7a57bb68-815a-11eb-10f5-631e0a5acdf2
-# ╠═c593a748-81b6-11eb-295a-a9800f9dec6d
+# ╟─c593a748-81b6-11eb-295a-a9800f9dec6d
+# ╟─4fea55cc-0f0c-4b8a-8734-59c879c12065
+# ╠═cf82077a-81c2-11eb-1de2-09ed6c35d810
+# ╟─01aad939-49da-466e-9eeb-1e68766d86fd
 # ╟─817552ca-81b7-11eb-1da7-116b0b35dc42
 # ╟─7365084a-1f37-4897-bca4-fc5855c5ee4e
 # ╟─ed7ff6b2-f863-11ea-1a59-eb242a8674e3

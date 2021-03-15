@@ -132,34 +132,3 @@ function parse_duration(str)
 
     t
 end
-
-function hfun_go_live()
-    seq = locvar("sequence")
-    airtime = locvar("airtime")
-
-    if isnothing(seq)
-        @warn "airtime set, but no `sequence` variable not defined." *
-        "sequence is an array of video IDs to play in order on this page"
-    end
-
-    vid_ids = [get(videos, s, s) for s in seq]
-
-    f = tempname()
-    # Get the duration of each video
-    download("https://www.googleapis.com/youtube/v3/videos?id=$(join(vid_ids, ","))&part=contentDetails&key=AIzaSyDZhbWHc2PTEFTx173MaTgddnWCGPqdbB8", f)
-    dict = JSON.parse(String(read(f)))
-
-    durations = [parse_duration(video["contentDetails"]["duration"])
-                 for video in dict["items"]]
-
-
-    jrepr(x) = sprint(io->JSON.print(io, x))
-    """
-    <script src="/assets/moment.min.js"></script>
-    <script src="/assets/moment-timezone.js"></script>
-    <script src="/assets/live-player.js"></script>
-    <script>
-    play_live($(jrepr(string(DateTime(airtime, DATEFMT)))), $(jrepr(TZ)), $(jrepr(seq)), $(jrepr(durations)))
-    </script>
-    """
-end

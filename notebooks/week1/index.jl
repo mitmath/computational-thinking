@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -17,13 +17,26 @@ end
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
-	Pkg.add(["Images", "ImageMagick", "Colors", "PlutoUI", "HypertextLiteral"])
+	Pkg.add([
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="HypertextLiteral", version="0.5")
+	])
 
-	using Images
-	using Colors
+	using Colors, ColorVectorSpace, ImageShow, FileIO
 	using PlutoUI
 	using HypertextLiteral
 end
+
+# ╔═╡ 71a1e08a-6abc-48d5-b177-5184dbdd76a8
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ e91d7926-ec6e-41e7-aba2-9dca333c8aa5
 html"""
@@ -1164,6 +1177,7 @@ md"_Lecture 1, Spring 2021, version 0_"
 # ╟─2b921520-7acd-11eb-24f3-6d371facf277
 # ╟─9b49500c-0164-4556-a17b-7595e35c5ede
 # ╠═74b008f6-ed6b-11ea-291f-b3791d6d1b35
+# ╟─71a1e08a-6abc-48d5-b177-5184dbdd76a8
 # ╟─ca1b507e-6017-11eb-34e6-6b85cd189002
 # ╟─e9ff96d8-6bc1-11eb-0f6a-234b9fae047e
 # ╟─9111db10-6bc3-11eb-38e5-cf3f58536914
