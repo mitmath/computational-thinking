@@ -806,13 +806,15 @@ Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/we
 begin
 	function inverse(f, y, u0=@SVector[0.0, 0.0])
 	    prob = NonlinearProblem{false}( (u, p) -> f(u, p) .- y, u0)
-	    solver = solve(prob, NewtonRaphson(), tol = 1e-9)
+	    solver = solve(prob, NewtonRaphson(), tol = 1e-4)
 	    return solver.u 
 	end
 	
-	#inverse(f) = y -> inverse( (u, p) -> f(SVector(u...)), y )
-	inverse(f) = y -> inverse( (u, p) -> f(SVector(u[1],u[2])), y )
+	inverse(f) = y -> inverse( (u, p) -> f(SVector(u...)), y )
 end
+
+# ╔═╡ 4fd24a3a-7aab-11eb-0731-877be279a4a0
+inverse(id ∘ scale(1/z)∘translate(-panx,-pany))([0.5, 0.5]) 
 
 # ╔═╡ 5227afd0-7641-11eb-0065-918cb8538d55
 md"""
