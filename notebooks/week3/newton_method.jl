@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -15,10 +15,15 @@ end
 
 # ╔═╡ f4fda666-7b9c-11eb-0304-716c5e710462
 begin
-	using ForwardDiff
-	using Plots
-	using PlutoUI
-	using LaTeXStrings
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="LaTeXStrings", version="1"),
+    ])
+    using ForwardDiff, Plots, PlutoUI, LaTeXStrings
 end
 
 # ╔═╡ 4e081a78-7c30-11eb-38ec-63f5a7f1bbba
@@ -65,6 +70,16 @@ The idea of the Newton method is to *follow the direction in which the function 
 
 Let's look at that visually first:
 
+"""
+
+# ╔═╡ 8518820e-668b-4a5b-b544-ec911d59b347
+md"""
+n = $(@bind n2 Slider(0:10, show_value=true, default=0))
+"""
+
+# ╔═╡ 0d352c54-57fa-410e-a494-e4f5bd53fa96
+md"""
+x₀ = $(@bind x02 Slider(-10:10, show_value=true, default=6))
 """
 
 # ╔═╡ 2445da24-7b9d-11eb-02bd-eb99a3d95a2e
@@ -339,7 +354,7 @@ function standard_Newton(f, n, x_range, x0, ymin=-10, ymax=10)
 
 	end
 
-	p
+	p |> as_svg
 
 
 end
@@ -348,7 +363,7 @@ end
 let
 	f(x) = x^2 - 2
 
-	standard_Newton(f, n, -1:0.01:10, x0, -10, 70)
+	standard_Newton(f, n2, -1:0.01:10, x02, -10, 70)
 end
 
 # ╔═╡ ec6c6328-7b9c-11eb-1c69-dba12ae522ad

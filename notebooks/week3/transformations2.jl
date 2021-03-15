@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -13,26 +13,27 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
-
 # ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="HypertextLiteral", version="0.5"), 
-			Pkg.PackageSpec(name="ForwardDiff"),
-			Pkg.PackageSpec(name="NonlinearSolve"),
-			Pkg.PackageSpec(name="StaticArrays")
-			])
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
 
-	using Images
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+		Pkg.PackageSpec(name="HypertextLiteral", version="0.5"),
+		Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+		Pkg.PackageSpec(name="NonlinearSolve", version="0.3"),
+		Pkg.PackageSpec(name="StaticArrays"),
+	])
+
+	using PlutoUI 
+	using Colors, ColorVectorSpace, ImageShow, FileIO
 	using PlutoUI
 	using HypertextLiteral
 	using LinearAlgebra
@@ -40,6 +41,16 @@ begin
 	using NonlinearSolve
 	using StaticArrays
 end
+
+# ╔═╡ 230cba36-9d0a-4726-9e55-7df2c6743968
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
+# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ 972b2230-7634-11eb-028d-df7fc722ec70
 html"""
@@ -85,6 +96,9 @@ overflow-x: hidden;
 """
 
 
+# ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
+PlutoUI.TableOfContents(aside=true)
+
 # ╔═╡ bbbf0788-7ace-11eb-0b2d-4701b4b466e8
 md"# Lecture Video"
 
@@ -93,23 +107,26 @@ html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/VDPf3RjoCpY" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
-PlutoUI.TableOfContents(aside=true)
+# ╔═╡ 230b0118-30b7-4035-ad31-520165a76fcc
+md"""
+#### Intializing packages
 
-# ╔═╡ ef3f9cb0-7a03-11eb-177f-65f281148496
-begin
-	
-corgis = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"
-longcorgi = "https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w";
-	
-end
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
+
+# ╔═╡ 890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
+corgis_url = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"
+
+# ╔═╡ 85fba8fb-a9ea-444d-831b-ec6489b58b4f
+longcorgi_url = "https://user-images.githubusercontent.com/6933510/110868198-713faa80-82c8-11eb-8264-d69df4509f49.png"
 
 # ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
+# img_original = load(download(corgis_url));
+img_original = load(download(longcorgi_url));
+# img_original = load(download(theteam_url));
 
-#img_original = load(download(corgis)); 
- # img_original = load(download(longcorgi));
-img_original = load(download("https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg "))
-
+# ╔═╡ 06beabc3-2aa7-4e78-9bae-dc4b37251aa2
+theteam_url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg"
 
 # ╔═╡ 26dd0e98-7a75-11eb-2196-5d7bda201b19
 md"""
@@ -148,12 +165,6 @@ $(@bind d Scrubbable(range; default=1.0))
 """
 end
 
-# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
-md"""
-Show grid lines $(@bind show_grid CheckBox(default=true))
-ngrid = $(@bind ngrid Slider(5:5:20, show_value=true, default = 10))
-"""
-
 # ╔═╡ 23ade8ee-7a09-11eb-0e40-296c6b831d74
 md"""
 Grab a [linear](#a0afe3ae-76b9-11eb-2301-cde7260ddd7f) or [nonlinear](#a290d5e2-7a02-11eb-37db-41bf86b1f3b3) transform, or make up your own!
@@ -177,8 +188,25 @@ md"""
 h= $(@bind h Slider(.1:.1:10, show_value=true, default = 5))
 """
 
-# ╔═╡ d6aecd18-7c35-11eb-36d5-fb0715dcabef
+# ╔═╡ b76a5bd6-802f-11eb-0951-1f1092dee8de
+1+1
 
+# ╔═╡ 5d33f6ea-7e9c-11eb-2fb3-dbb7cb07c60c
+md"""
+pixels = $(@bind pixels Slider(1:1000, default=800, show_value=true))
+"""
+
+# ╔═╡ 45dccdec-7912-11eb-01b4-a97e30344f39
+md"""
+Show grid lines $(@bind show_grid CheckBox(default=true))
+ngrid = $(@bind ngrid Slider(5:5:20, show_value=true, default = 10))
+"""
+
+# ╔═╡ d2fb356e-7f32-11eb-177d-4f47d6c9e59b
+md"""
+Circular Frame $(@bind circular CheckBox(default=true))
+radius = $(@bind r Slider(.1:.1:1, show_value=true, default = 1))
+"""
 
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
 md"""
@@ -216,7 +244,7 @@ md"""
 """
 
 # ╔═╡ d42aec08-76ad-11eb-361a-a1f2c90fd4ec
-load(download("https://cdn.kastatic.org/ka-perseus-images/1b351a3653c1a12f713ec24f443a95516f916136.jpg"))
+Resource("https://cdn.kastatic.org/ka-perseus-images/1b351a3653c1a12f713ec24f443a95516f916136.jpg")
 
 # ╔═╡ d9115c1a-7aa0-11eb-38e4-d977c5a6b75b
 md"""
@@ -271,29 +299,33 @@ Here are a few useful linear transformations:
 
 # ╔═╡ d364f91a-76b9-11eb-1807-75e733940d53
 begin
-	 id((x,y)) = (x, y)
+	 id((x,y)) = SA[x, y]
 	
-	 scalex(α) = ((x, y),) -> (α*x,  y)
-	 scaley(α) = ((x, y),) -> (x,   α*y)
-	 scale(α)  = ((x, y),) -> (α*x, α*y)	
+	 scalex(α) = ((x, y),) -> SA[α*x,  y]
+	 scaley(α) = ((x, y),) -> SA[x,   α*y]
+	 scale(α)  = ((x, y),) -> SA[α*x, α*y]
 	
-	 swap((x,y))  = (y, x)
-	 flipy((x,y)) = (x, -y)
+	 swap((x,y))  = SA[y, x]
+	 flipy((x,y)) = SA[x, -y]
 	
-	 rotate(θ) = ((x, y),) -> (cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y)
-	 shear(α)  = ((x, y),) -> (x + α*y, y)
+	 rotate(θ) = ((x, y),) -> SA[cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]
+	 shear(α)  = ((x, y),) -> SA[x + α*y, y]
 end
 
 # ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-#  T⁻¹ = inverse(id)
-   T⁻¹ = rotate(α)
-#   T⁻¹ = shear(α)
+# T⁻¹ = id
+#  T⁻¹ = rotate(α)
+  T⁻¹ = shear(α)
 #   T⁻¹ = lin(A) # uses the scrubbable 
 #   T⁻¹ = shear(α) ∘ shear(-α)
-#   T⁻¹ = nonlin_shear(α)  ∘ nonlin_shear(-α)
-#   T⁻¹ =  xy  ∘ rθ 
-#  T⁻¹ = warp(α)
- #    T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+ # T⁻¹ = nonlin_shear(α)  
+ #   T⁻¹ =   inverse(nonlin_shear(α))
+#    T⁻¹ =  nonlin_shear(-α)
+#  T⁻¹ =  xy 
+# T⁻¹ = warp(α)
+# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+
+#T⁻¹ = ((x,y),)-> (x,y^2)  
 # T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
@@ -322,13 +354,13 @@ md"""
 
 # ╔═╡ b4cdd412-7a02-11eb-149a-df1888a0f465
 begin
-  translate(α,β)  = ((x, y),) -> (x+α, y+β)   # affine, but not linear
+  translate(α,β)  = ((x, y),) -> SA[x+α, y+β]   # affine, but not linear
 	
-  nonlin_shear(α) = ((x, y),) -> (x, y + α*x^2)
+  nonlin_shear(α) = ((x, y),) -> SA[x, y + α*x^2]
 	
-  warp(α)    = ((x, y),) -> rotate(α*√(x^2+y^2))((x, y))
-  xy((r, θ)) = ( r*cos(θ), r*sin(θ) )
-  rθ(x)      = ( norm(x), atan(x[2],x[1]) ) 
+  warp(α)    = ((x, y),) -> rotate(α*√(x^2+y^2))(SA[x, y])
+  xy((r, θ)) = SA[ r*cos(θ), r*sin(θ) ]
+  rθ(x)      = SA[norm(x), atan(x[2],x[1]) ] 
   
   # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
   # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
@@ -502,7 +534,7 @@ md"""
 """
 
 # ╔═╡ 7e4ad37c-7a84-11eb-1490-25090e133a7c
-load(download("https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg"))
+Resource("https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg")
 
 # ╔═╡ 96f47252-7a84-11eb-3d18-e3ba79dd20c2
 md"""
@@ -540,7 +572,7 @@ let
 	 B = randn(2,2)
 	 v = rand(2)
 	
-	(lin(A) ∘ lin(B))(v) ≈ lin(A * B)(v)
+	(lin(A) ∘ lin(B))(v) , lin(A * B)(v)
 end
 
 # ╔═╡ 7d803684-7a8a-11eb-33d2-89d5e2a05bcf
@@ -573,6 +605,12 @@ begin
 	lin(P*Q)((1, 0)), (lin(P)∘lin(Q))((1, 0))
 end
 
+# ╔═╡ 350f40f7-795f-4f33-89b8-ff9ba4819e1c
+test_img = load(download(corgis_url));
+
+# ╔═╡ 313cdcbd-5b11-41c8-9fcd-5aeaca3b8d24
+test_pixels = 300;
+
 # ╔═╡ 57848b42-7a8f-11eb-023a-cf247cb53819
 md"""
 `lin(P*Q)`
@@ -580,7 +618,7 @@ md"""
 
 # ╔═╡ 620ee7d8-7a8f-11eb-3888-356c27a2d591
 md"""
-`lin(A)∘lin(B)`
+`lin(P)∘lin(Q)`
 """
 
 # ╔═╡ 04da7710-7a91-11eb-02a1-0b6e889150a2
@@ -605,7 +643,10 @@ of as existing in the entire plane.
 """
 
 # ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
-load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png"))
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png")
+
+# ╔═╡ c1efc54a-7e9b-11eb-1e76-dbd0a66184a9
+translate(-400,400)([1,1])
 
 # ╔═╡ db4bc328-76bb-11eb-28dc-eb9df8892d01
 md"""
@@ -632,8 +673,8 @@ md"""
 # ╔═╡ 9264508a-7a71-11eb-1b7c-bf6e62788115
 let
 	v = rand(2)
-	T = scale(2) ∘ scale(0.5)
-	T(v) .≈ v 
+	T = rotate(30)∘rotate(-30 )
+	T(v) ,  v 
 end
 
 # ╔═╡ e89339b2-7a71-11eb-0f97-971b2ed277d1
@@ -701,7 +742,7 @@ md"""
 let
 	v = rand(2)
 	A = randn(2,2)
-    (lin(inv(A)) ∘ lin(A))(v) ≈ v
+    (lin(inv(A)) ∘ lin(A))(v) , v
 end 
 
 # ╔═╡ 9b456686-7aac-11eb-3aa5-25e6c3c86aff
@@ -746,7 +787,7 @@ md"""
 """
 
 # ╔═╡ 1b9faf64-7aab-11eb-1396-6fb89be7c445
-load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/comm2.png"))
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/comm2.png")
 
 # ╔═╡ 5f0568dc-7aad-11eb-162f-0d6e26f17d59
 md"""
@@ -759,7 +800,7 @@ md"""
 """
 
 # ╔═╡ 80456168-7c1b-11eb-271c-83ef59a41102
-load(download("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png"))
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png")
 
 # ╔═╡ 62a9201c-7938-11eb-144c-15690c06be94
 begin
@@ -821,28 +862,86 @@ begin
 end
 
 # ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
-function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
-# convert coordinate system xy to ij 
-# center image, and use "white" when out of the boundary
+begin
+	function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
+	# convert coordinate system xy to ij 
+	# center image, and use "white" when out of the boundary
+		
+		rows, cols = size(img)
+		m = max(cols, rows)	
+		
+	    # function to take xy to ij
+		xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
+		
+		# apply the function and "snap to grid"
+		i,j = floor.(Int, xy_to_ij((x, y))) 
 	
-	rows, cols = size(img)
-	m = max(cols, rows)	
-	
-    # function to take xy to ij
-	xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
-	
-	# apply the function and "snap to grid"
-	i,j = floor.(Int, xy_to_ij((x, y))) 
-	
-	#  grab image color or place default
-	if 1 < i ≤ rows && 1 < j ≤ cols
-		img[i, j]
-	else
-		#white(img[1, 1])
-		black(img[1,1])
 	end
 	
+	function getpixel(img,i::Int,j::Int; circular::Bool=false, r::Real=200)   
+		#  grab image color or place default
+		rows,cols = size(img)
+		m = max(cols,rows)
+		if circular
+			c = (i-rows/2)^2 + (j-cols/2)^2 ≤ r*m^2/4
+		else
+			c = true
+		end
+		
+		if 1 < i ≤ rows && 1 < j ≤ cols && c
+			img[i, j]
+		else
+			#white(img[1, 1])
+			black(img[1,1])
+		end
+		
+	end
+	
+	
+	# function getpixel(img,x::Float64,y::Float64)
+	# 	i,j = transform_xy_to_ij(img,x,y)
+	# 	getpixel(img,i,j)
+	# end
+	
+	function transform_ij_to_xy(i::Int,j::Int,pixels)
+	
+	   ij_to_xy =  scale(2/pixels) ∘ flipy ∘ swap ∘ translate(-pixels/2,-pixels/2)
+	   ij_to_xy([i,j])
+	end
+
+	    
 end
+
+# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, test_pixels)
+			 X,Y =  T₁([x,y])
+			 i,j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
+end
+
+# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, test_pixels)
+			 X,Y =  T₂([x,y])
+			 i,j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
+end
+
+# ╔═╡ bf1954d6-7e9a-11eb-216d-010bd761e470
+transform_ij_to_xy(1,1,400)
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
 function with_gridlines(img::Array{<:Any,2}; n = 10)
@@ -874,70 +973,63 @@ else
 	img_original
 end;
 
-# ╔═╡ f213ce72-7a06-11eb-0c81-f1cb6067fd30
-[
-	begin
-		in_x, in_y =  ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([out_x, out_y]) # apply T inverse
-		transform_xy_to_ij(img, in_x, in_y)
-	end
-	
-	
-	for out_y in LinRange(1, -1, 800),
-		out_x in LinRange(-1, 1, 800)
-] 
-
-# ╔═╡ 7222a0f2-7a07-11eb-3560-3511fab319a2
-img
-
-# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
-
-	[
-		begin
-			in_x, in_y =  T₁([out_x, out_y]) # apply T inverse
-			transform_xy_to_ij(img, in_x, in_y)
-		end
+# ╔═╡ ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
+begin
+		[			    
+			begin
+			
+			 x,y = transform_ij_to_xy(i,j, pixels)
+			
+			X,Y = ( translate(-panx,-pany)  )([x,y])
+			 X,Y = ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([x,y])
+			 i,j = transform_xy_to_ij(img,X,Y)
+			 getpixel(img,i,j; circular=circular, r=r)
+			end	 
 		
-		
-		for out_y in LinRange(1, -1, 400),
-			out_x in LinRange(-1, 1, 400)
-	]
+			for i = 1:pixels, j = 1:pixels
+		]	
+end
+
+# ╔═╡ ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
+transform_xy_to_ij(img,0.0,0.0)
 
 
+# ╔═╡ c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
+img;
 
-# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
-	[
-		begin
-			in_x, in_y =  T₂([out_x, out_y]) # apply T inverse
-			transform_xy_to_ij(img, in_x, in_y)
-		end
-		
-		
-		for out_y in LinRange(1, -1, 400),
-			out_x in LinRange(-1, 1, 400)
-	]
+# ╔═╡ c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
+size(img)
+
+# ╔═╡ d0e9a1e8-7c4c-11eb-056c-aff283c49c31
+img[50,56]
 
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
+# ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─bbbf0788-7ace-11eb-0b2d-4701b4b466e8
 # ╟─ba8877ac-7ace-11eb-2a06-b50f7b1cdf0b
-# ╟─6b473b2d-4326-46b4-af38-07b61de287fc
-# ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
-# ╟─ef3f9cb0-7a03-11eb-177f-65f281148496
+# ╟─230b0118-30b7-4035-ad31-520165a76fcc
+# ╠═6b473b2d-4326-46b4-af38-07b61de287fc
+# ╟─230cba36-9d0a-4726-9e55-7df2c6743968
 # ╠═96766502-7a06-11eb-00cc-29849773dbcf
+# ╟─890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
+# ╟─85fba8fb-a9ea-444d-831b-ec6489b58b4f
+# ╟─06beabc3-2aa7-4e78-9bae-dc4b37251aa2
 # ╟─26dd0e98-7a75-11eb-2196-5d7bda201b19
 # ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
 # ╟─005ca75a-7622-11eb-2ba4-9f450e71df1f
-# ╟─45dccdec-7912-11eb-01b4-a97e30344f39
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
 # ╠═58a30e54-7a08-11eb-1c57-dfef0000255f
 # ╟─2efaa336-7630-11eb-0c17-a7d4a0141dac
 # ╟─7f28ac40-7914-11eb-1403-b7bec34aeb94
-# ╠═ce55beee-7643-11eb-04bc-b517703facff
-# ╠═f213ce72-7a06-11eb-0c81-f1cb6067fd30
-# ╠═4fd24a3a-7aab-11eb-0731-877be279a4a0
-# ╠═d6aecd18-7c35-11eb-36d5-fb0715dcabef
+# ╟─ce55beee-7643-11eb-04bc-b517703facff
+# ╠═b76a5bd6-802f-11eb-0951-1f1092dee8de
+# ╟─5d33f6ea-7e9c-11eb-2fb3-dbb7cb07c60c
+# ╟─45dccdec-7912-11eb-01b4-a97e30344f39
+# ╟─d2fb356e-7f32-11eb-177d-4f47d6c9e59b
+# ╠═ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
+# ╠═ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
-# ╠═7222a0f2-7a07-11eb-3560-3511fab319a2
 # ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
 # ╟─a7df7346-79f8-11eb-1de6-71f027c46643
 # ╟─044e6128-79fe-11eb-18c1-395ae857dc73
@@ -959,7 +1051,7 @@ img
 # ╟─704a87ec-7a1e-11eb-3964-e102357a4d1f
 # ╠═4b0e8742-7a70-11eb-1e78-813f6ad005f4
 # ╟─44792484-7a20-11eb-1c09-95b27b08bd34
-# ╠═f650b788-7a70-11eb-0b20-779d2f18f111
+# ╟─f650b788-7a70-11eb-0b20-779d2f18f111
 # ╟─c852d398-7aa2-11eb-2ded-ab2e5236e9b2
 # ╟─061076c2-7aa3-11eb-0d04-b7cbc60e6cb2
 # ╟─014c14a6-7a72-11eb-119b-f5cfc82085ca
@@ -988,16 +1080,23 @@ img
 # ╟─7d803684-7a8a-11eb-33d2-89d5e2a05bcf
 # ╟─17281256-7aa5-11eb-3144-b72777334326
 # ╠═05049fa0-7a8e-11eb-283b-cb4753c4aaf0
+# ╠═350f40f7-795f-4f33-89b8-ff9ba4819e1c
+# ╠═313cdcbd-5b11-41c8-9fcd-5aeaca3b8d24
 # ╟─57848b42-7a8f-11eb-023a-cf247cb53819
 # ╟─da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
 # ╟─620ee7d8-7a8f-11eb-3888-356c27a2d591
 # ╟─30f522a0-7a8e-11eb-2181-8313760778ef
 # ╟─04da7710-7a91-11eb-02a1-0b6e889150a2
+# ╠═c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
+# ╠═c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
+# ╠═d0e9a1e8-7c4c-11eb-056c-aff283c49c31
 # ╟─155cd218-7a91-11eb-0b4c-bd028507e925
 # ╟─fd25da12-7a92-11eb-20c0-995e7c46b3bc
 # ╟─1ab2265e-7c1d-11eb-26df-39c4c7289243
 # ╟─7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
 # ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
+# ╠═bf1954d6-7e9a-11eb-216d-010bd761e470
+# ╠═c1efc54a-7e9b-11eb-1e76-dbd0a66184a9
 # ╟─db4bc328-76bb-11eb-28dc-eb9df8892d01
 # ╟─0b8ed36c-7a1e-11eb-053c-63cf9ee0b16f
 # ╟─7a4e785e-7a71-11eb-07fb-cfba453a117b
@@ -1006,14 +1105,14 @@ img
 # ╟─0957fd9a-7a72-11eb-0566-e93ef32fb626
 # ╟─c7cc412c-7aa5-11eb-2df1-d3d788047238
 # ╟─ce620b8e-7aa5-11eb-370b-11e34b07d54d
-# ╠═4f51931c-7aac-11eb-13ba-4b8768ac376f
+# ╟─4f51931c-7aac-11eb-13ba-4b8768ac376f
 # ╠═5ce799f4-7aac-11eb-0629-ebd8a404e9d3
 # ╠═9b456686-7aac-11eb-3aa5-25e6c3c86aff
 # ╟─c2b0a488-7aac-11eb-1d8b-edd6bd23d1fd
 # ╟─02d6b440-7aa7-11eb-1be0-b78dea91387f
 # ╟─0be9fb1e-7aa7-11eb-0116-c3e86ab82c77
 # ╟─7609d686-7aa7-11eb-310a-3550509504a1
-# ╠═1b9faf64-7aab-11eb-1396-6fb89be7c445
+# ╟─1b9faf64-7aab-11eb-1396-6fb89be7c445
 # ╟─5f0568dc-7aad-11eb-162f-0d6e26f17d59
 # ╟─8d32fff4-7c1b-11eb-1fa1-6ff2d87bfb73
 # ╟─80456168-7c1b-11eb-271c-83ef59a41102
@@ -1025,5 +1124,5 @@ img
 # ╠═40655bcc-6d1e-4d1e-9726-41eab98d8472
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
-# ╟─83d45d42-7406-11eb-2a9c-e75efe62b12c
+# ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
 # ╟─2e8c4a48-d535-44ac-a1f1-4cb26c4aece6

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -13,27 +13,31 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
-
 # ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
 begin
 	import Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="HypertextLiteral", version="0.5"), 
-			])
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="HypertextLiteral", version="0.5")
+	])
 
-	using Images
+	using Colors, ColorVectorSpace, ImageShow, FileIO
 	using PlutoUI
 	using HypertextLiteral
 	using LinearAlgebra
 end
+
+# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ 60532aa0-740c-11eb-0402-af8ff117f042
 md"Show grid lines $(@bind show_grid CheckBox(default=true))"

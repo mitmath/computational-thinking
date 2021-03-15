@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -18,22 +18,32 @@ begin
 	import Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="Unitful", version="1.6"), 
-			Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
-			Pkg.PackageSpec(name="OffsetArrays", version="1.6"),
-			Pkg.PackageSpec(name="Plots", version="1.10")
-			])
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+		
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="Unitful", version="1.6"), 
+		Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
+		Pkg.PackageSpec(name="OffsetArrays", version="1.6"),
+		Pkg.PackageSpec(name="Plots", version="1.10")
+	])
 
 	using PlutoUI 
-	using Images
+	using Colors, ColorVectorSpace, ImageShow, FileIO
 	using Unitful 
 	using ImageFiltering
 	using OffsetArrays
 	using Plots
 end
+
+# ╔═╡ b310756a-af08-48b0-ae10-ee2e8dd0c968
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ febfa62a-74fa-11eb-2fe6-df7de43ef4b6
 html"""
@@ -102,7 +112,7 @@ md"""
 """
 
 # ╔═╡ f7689472-74a8-11eb-32a1-8379ae5c88e1
-rotabook = load(download("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1348902666l/1646354.jpg"))
+rotabook = PlutoUI.Resource("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1348902666l/1646354.jpg")
 
 # ╔═╡ 0f2f9004-74a8-11eb-01a2-973dbe80f166
 md"""
@@ -520,6 +530,7 @@ html"""
 # ╟─fbb69cd0-7acd-11eb-2691-0ba7d844f540
 # ╟─9f1a72da-7532-11eb-079c-b7baccc6614a
 # ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
+# ╟─b310756a-af08-48b0-ae10-ee2e8dd0c968
 # ╟─4d332c7e-74f8-11eb-1f49-a518246d1db8
 # ╟─f7689472-74a8-11eb-32a1-8379ae5c88e1
 # ╟─0f2f9004-74a8-11eb-01a2-973dbe80f166
