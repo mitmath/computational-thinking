@@ -19,18 +19,14 @@ begin
     Pkg.activate(mktempdir())
     Pkg.add([
         Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+        Pkg.PackageSpec(name="Symbolics", version="0.1"),
         Pkg.PackageSpec(name="Plots", version="1"),
         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
         Pkg.PackageSpec(name="LaTeXStrings", version="1"),
     ])
-    using ForwardDiff, Plots, PlutoUI, LaTeXStrings
+    using Symbolics, ForwardDiff, Plots, PlutoUI, LaTeXStrings
+	using ForwardDiff: jacobian
 end
-
-# ╔═╡ 4e081a78-7c30-11eb-38ec-63f5a7f1bbba
-using Symbolics
-
-# ╔═╡ 402b85fe-7c3f-11eb-2582-cf242bb6e850
-using ForwardDiff: jacobian
 
 # ╔═╡ d82f1eae-7b9c-11eb-24d8-e1dcb2eef71a
 md"""
@@ -72,12 +68,12 @@ Let's look at that visually first:
 
 """
 
-# ╔═╡ 8518820e-668b-4a5b-b544-ec911d59b347
+# ╔═╡ ce44554e-847f-4129-8841-1a729dfa7a2e
 md"""
 n = $(@bind n2 Slider(0:10, show_value=true, default=0))
 """
 
-# ╔═╡ 0d352c54-57fa-410e-a494-e4f5bd53fa96
+# ╔═╡ 77ef0cfb-60db-4599-bec2-b65e99e5b246
 md"""
 x₀ = $(@bind x02 Slider(-10:10, show_value=true, default=6))
 """
@@ -377,7 +373,7 @@ end
 T(α) = ( (x, y), ) -> [x + α*y^2, y + α*x^2]
 
 # ╔═╡ 09b97be8-7c2e-11eb-05fd-65bbd097afb8
-jacobian(T(p), [a, b])
+jacobian(T(p), [a, b]) .|> Text
 
 # ╔═╡ 18ce2fac-7c2e-11eb-03d2-b3a674621662
 jacobian(T(p), [a, b]) * [δ, ϵ]
@@ -420,18 +416,19 @@ image - T(p)([a, b])
 simplify.( expand.( image - T(p)([a, b]) - jacobian(T(p), [a, b]) * [δ, ϵ] ) )
 
 # ╔═╡ Cell order:
+# ╠═f4fda666-7b9c-11eb-0304-716c5e710462
 # ╟─d82f1eae-7b9c-11eb-24d8-e1dcb2eef71a
 # ╟─e410c1d0-7ba1-11eb-394f-71dac89756b7
 # ╟─5ea7344c-7ba2-11eb-2cc5-0bbdca218c82
 # ╟─8c0c412e-7c2f-11eb-1880-4f6c45d77597
-# ╟─f4fda666-7b9c-11eb-0304-716c5e710462
+# ╟─ce44554e-847f-4129-8841-1a729dfa7a2e
+# ╟─77ef0cfb-60db-4599-bec2-b65e99e5b246
+# ╠═ecb40aea-7b9c-11eb-1476-e54faf32d91c
 # ╟─2445da24-7b9d-11eb-02bd-eb99a3d95a2e
 # ╟─9addbcbe-7b9e-11eb-3e8c-fbab3be40e05
-# ╠═ecb40aea-7b9c-11eb-1476-e54faf32d91c
 # ╠═ec6c6328-7b9c-11eb-1c69-dba12ae522ad
 # ╟─c0b4defe-7c2f-11eb-1913-bdb01d28a4a8
 # ╟─615aff3c-7c30-11eb-2ca8-9d2fdf299017
-# ╠═4e081a78-7c30-11eb-38ec-63f5a7f1bbba
 # ╠═71efd6b0-7c30-11eb-0da7-0d4a5ab8f8ff
 # ╠═6dc89964-7c30-11eb-0a41-8d97b210ed34
 # ╠═d35e0cc8-7c30-11eb-28d3-17c9e221ea62
@@ -455,7 +452,6 @@ simplify.( expand.( image - T(p)([a, b]) - jacobian(T(p), [a, b]) * [δ, ϵ] ) )
 # ╠═35791bca-7c2f-11eb-1cfb-8d5ebd0208cb
 # ╟─1d7dd328-7c2d-11eb-2b35-bdbf5df686f0
 # ╟─d44c73b4-7c3e-11eb-1302-8ba9039ae789
-# ╠═402b85fe-7c3f-11eb-2582-cf242bb6e850
 # ╟─fe742fec-7c3e-11eb-1f54-55cdf02a1574
 # ╠═23536420-7c2d-11eb-20b0-9523f7a5f9d7
 # ╠═3828b94c-7c2d-11eb-2e01-79038b0f5226
