@@ -74,6 +74,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>hw4/index.html</loc>
+    <lastmod>2021-03-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>seam_carving/index.html</loc>
     <lastmod>2021-03-15</lastmod>
     <changefreq>monthly</changefreq>
