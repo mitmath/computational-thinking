@@ -110,7 +110,7 @@
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>pca2/index.html</loc>
+    <loc>week1/index.html</loc>
     <lastmod>2021-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -123,12 +123,6 @@
 </url>
 <url>
     <loc>homework/index.html</loc>
-    <lastmod>2021-03-15</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
-    <loc>week1/index.html</loc>
     <lastmod>2021-03-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
