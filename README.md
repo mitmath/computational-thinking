@@ -6,7 +6,7 @@ Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 _For older semester, see the [Fall 2020 branch](https://github.com/mitmath/18S191/tree/Fall20) or [older content](https://computationalthinking.mit.edu/Spring21/semesters/)._
 
 This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling. In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.
- 
+
 Topics include:
 
 -   Image analysis
