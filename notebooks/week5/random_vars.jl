@@ -423,7 +423,7 @@ Dict(k => (v / sum(values(d))) for (k, v) in d)
 bar(Dict(ks .=> (vs ./ sum(vs))), bar_width=0.5)
 
 # ╔═╡ 93993648-86b8-11eb-1013-5f21990e821a
-plot!(x -> exp(-x^2 / 2) / √(2π))d
+plot!(x -> exp(-x^2 / 2) / √(2π))
 
 # ╔═╡ a9b32188-86b7-11eb-022f-6d227e38a823
 ks
