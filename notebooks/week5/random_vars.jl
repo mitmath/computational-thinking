@@ -32,15 +32,18 @@ begin
 
 			Pkg.PackageSpec(name="Colors"), 
 			
-			Pkg.PackageSpec(name="StatsBase")
-
+			Pkg.PackageSpec(name="StatsBase"), 
+			
+			
+			Pkg.PackageSpec(name="Distributions") 
 
 			])
 
 
 
-	using Plots, PlutoUI, Colors, Images, StatsBase
+	using Plots, PlutoUI, Colors, Images, StatsBase, Distributions
 	using Statistics
+	
 end
 
 
@@ -368,7 +371,7 @@ md"""
 roll_dice(n) = sum( rand(1:6, n) )
 
 # ╔═╡ 7a16b674-86b7-11eb-3aa5-83712cdc8580
-trials = 100000
+trials = 10^6
 
 # ╔═╡ 2bfa712a-8738-11eb-3248-6f9bb93154e8
 md"""
@@ -434,7 +437,7 @@ histogram(data, alpha=0.5, legend=false, bins=50, norm=true,
 
 # ╔═╡ e305467e-8738-11eb-1213-eb11aaebe151
 md"""
-## Normalising the $x$ axis
+### Normalising the $x$ axis
 """
 
 # ╔═╡ e8341288-8738-11eb-27ae-0795fa7e4a7e
@@ -444,47 +447,69 @@ As we changed $n$ above, the range of values on the $x$ axis also changed. We wa
 We need to make sure that the data is centred in the same place -- we will choose 0. And we need to make sure that the width is the same -- we will divide by the standard deviation.
 """
 
+# ╔═╡ 07e8ae34-873b-11eb-1df2-175392ac4678
+σ = std(data)
+
+# ╔═╡ 77616afe-873a-11eb-3f11-1bc417f53138
+mean(data), std(data)
+
 # ╔═╡ 16023bea-8739-11eb-1e32-79f2d006b093
 normalised_data = ( data .- mean(data) ) ./ std(data)   
+
+# ╔═╡ bfc52118-873b-11eb-0fbb-952c60bc7cc2
+histogram(normalised_data, bins=-5 - (1/(2σ)):(1/σ):5, norm=true,
+	alpha=0.5, leg=false)
+
+# ╔═╡ aa6126f8-873b-11eb-3b4a-0f96fe07b7fb
+plot!(x -> exp(-x^2/2) / √(2π), ylim=(0, 0.5), lw=2, c=:red, alpha=0.5)
+
+# ╔═╡ 308547c6-873d-11eb-3a42-833f8bf496ae
+md"""
+Note that in the limit, the data becomes *continuous*, no longer discrete. The probability of any particular value is 0 ! We then talk about a **probability density function**, $f(x)$; the integral of this function over the interval $[a, b]$ gives the probability of being in that interval.
+"""
 
 # ╔═╡ e0a1863e-8735-11eb-1182-1b3c59b1e05a
 md"""
 Other options for the `histogram` function options:
 - `legend=false` turns off the legend (key), i.e. the plot labels
 - `bins=50` specifies the number of **bins**; can also be a vector of bin edges
-
+- `linetype=:stephist`: use steps instead of bars
 
 - `alpha`: a general plot option specifying transparency (0=invisible; 1=opaque)
 - `c` or `color`: a general plot option for the colour
+- `lw`: line width (default=1)
+
 
 There are several different ways to specify colours. [Here](http://juliagraphics.github.io/Colors.jl/stable/namedcolors/) is a list of named colours, but you can also specify `RGB(0.1, 0.2, 0.3)`.
 """
-
-# ╔═╡ 4744ac8c-86b8-11eb-2b1d-dfa2ab767cf0
-histogram(data, alpha=0.5, leg=false, norm=true, bins=9.5:60.5, c=:green)
 
 # ╔═╡ 900af0c8-86ba-11eb-2270-71b1869b9a1a
 md"""
 Note that `linetype=:stephist` will give a stepped version of the histogram:
 """
 
-# ╔═╡ 975c0592-86ba-11eb-2eeb-c13cde26ed39
-histogram(data, alpha=0.5, leg=false, norm=true, bins=9.5:60.5, c=:green, linetype=:stephist)
+# ╔═╡ be6e4c00-873c-11eb-1413-5326aba54216
+md"""
+## Sampling from other distributions
+"""
 
-# ╔═╡ 6187ef50-86b8-11eb-1c27-8f7316bf909f
-Dict(k => (v / sum(values(d))) for (k, v) in d)
+# ╔═╡ 9a1136c2-873c-11eb-124f-c3939972ce4a
+md"""
+dof = $(@bind dof Slider(1:50, show_value=true))  
+"""
 
-# ╔═╡ 7de7128e-86b8-11eb-09a0-e3dae7a55503
-bar(Dict(ks .=> (vs ./ sum(vs))), bar_width=0.5)
+# ╔═╡ e01b6f70-873c-11eb-04a1-ad8e86578982
+chisq_data = rand( Chisq(dof), 100000 )
 
-# ╔═╡ 93993648-86b8-11eb-1013-5f21990e821a
-plot!(x -> exp(-x^2 / 2) / √(2π))d
+# ╔═╡ b5251f76-873c-11eb-38cb-7db300c8fe3c
+histogram( chisq_data, norm=true, bins=100, size=(500, 300), leg=false, alpha=0.5,
+	xlims=(0, 10*√(dof)))
 
-# ╔═╡ a9b32188-86b7-11eb-022f-6d227e38a823
-ks
 
-# ╔═╡ eb2d311e-86ba-11eb-3dc6-ad6fc2580499
-sample([1, 2], Weights([0.75, 0.25]))
+# ╔═╡ da62fd1c-873c-11eb-0758-e7cb48e964f1
+histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
+	alpha=0.5, leg=false)
+
 
 # ╔═╡ Cell order:
 # ╟─3a4957ec-8723-11eb-22a0-8b35322596e2
@@ -560,13 +585,16 @@ sample([1, 2], Weights([0.75, 0.25]))
 # ╠═14f0a090-8737-11eb-0ccf-391249267401
 # ╟─e305467e-8738-11eb-1213-eb11aaebe151
 # ╟─e8341288-8738-11eb-27ae-0795fa7e4a7e
+# ╠═07e8ae34-873b-11eb-1df2-175392ac4678
+# ╠═77616afe-873a-11eb-3f11-1bc417f53138
 # ╠═16023bea-8739-11eb-1e32-79f2d006b093
-# ╠═e0a1863e-8735-11eb-1182-1b3c59b1e05a
-# ╠═4744ac8c-86b8-11eb-2b1d-dfa2ab767cf0
+# ╠═bfc52118-873b-11eb-0fbb-952c60bc7cc2
+# ╠═aa6126f8-873b-11eb-3b4a-0f96fe07b7fb
+# ╟─308547c6-873d-11eb-3a42-833f8bf496ae
+# ╟─e0a1863e-8735-11eb-1182-1b3c59b1e05a
 # ╟─900af0c8-86ba-11eb-2270-71b1869b9a1a
-# ╠═975c0592-86ba-11eb-2eeb-c13cde26ed39
-# ╠═6187ef50-86b8-11eb-1c27-8f7316bf909f
-# ╠═7de7128e-86b8-11eb-09a0-e3dae7a55503
-# ╠═93993648-86b8-11eb-1013-5f21990e821a
-# ╠═a9b32188-86b7-11eb-022f-6d227e38a823
-# ╠═eb2d311e-86ba-11eb-3dc6-ad6fc2580499
+# ╟─be6e4c00-873c-11eb-1413-5326aba54216
+# ╠═9a1136c2-873c-11eb-124f-c3939972ce4a
+# ╠═e01b6f70-873c-11eb-04a1-ad8e86578982
+# ╠═b5251f76-873c-11eb-38cb-7db300c8fe3c
+# ╠═da62fd1c-873c-11eb-0758-e7cb48e964f1
