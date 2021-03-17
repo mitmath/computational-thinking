@@ -21,3 +21,4 @@
 | 6 | Dyanmic Programming and Seam Carving | Mar 9, 2021 | [1.7](/dynamic_programming/), [1.8](seam_carving)| | Week 3 Problem MITx released |
 | 7 | Structure in Data and PCA| Mar 10, 2021 | [1.9](/structure/) | | |
 | 8 | More PCA| Mar 15, 2021 | [2.1](/pca/) | | |
+| 9 | Sampling & Random Variables | Mar 15, 2021 | [2.1](/pca/) | | |

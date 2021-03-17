@@ -3,6 +3,8 @@
 
 Welcome to **MIT 18.S191 aka 6.S083 aka 22.S092**, **Spring 2021** edition!
 
+> _**Announcement:**_ Today is class is at 1:05pm EST. Next class is Wednesday March 24th at 1:05pm EST.
+
 ~~~
 <script type=module>
 const span = document.querySelector("#yt-placeholder")
