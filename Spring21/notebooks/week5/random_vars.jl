@@ -40,7 +40,7 @@ begin
 
 
 	using Plots, PlutoUI, Colors, Images, StatsBase
-
+	using Statistics
 end
 
 
@@ -92,7 +92,7 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ 472a41d2-8724-11eb-31b3-0b81612f0083
 md"""
-## Useful Julia tidbits 
+## Julia: Useful tidbits 
 """
 
 # ╔═╡ aeb99f72-8725-11eb-2efd-d3e44686be03
@@ -103,13 +103,21 @@ The package that each function comes from is shown in brackets, unless it comes 
 # ╔═╡ 4f9bd326-8724-11eb-2c9b-db1ac9464f1e
 md"""
 
-- `if...else...end`
+- Julia `Base` library (no `using` required):
 
-- `Dict`: Julia's dictionary type
+  - `if...else...end`
+  - `Dict`: Julia's dictionary type
+
+  - `sum(S)`: sum of elements in the collection `S`, e.g. an array
+  - `rand(S)`: random sampling from a collection `S` 
 
 
+- `Statistics.jl` (pre-loaded standard library; just needs `using`)
 
-- `rand(S)`: random sampling from a collection `S` 
+  - `mean(S)`: calculate the mean of a collection `S`
+  - `std(S)`:  calculate the standard deviation of a collection `S`
+
+
 
 - `StatsBase.jl`:
   - `countmap`
@@ -124,6 +132,10 @@ md"""
 
 - `Colors.jl`:
   - `distinguishable_colors(n)`: Make `n` distinguishable colours [Colors]
+
+
+- `Distributions.jl`:
+  - Many pre-defined probability distributions
 
 """
 
@@ -301,9 +313,6 @@ p = $(@bind p Slider(0.0:0.01:1.0, show_value=true, default=0.7))
 # ╔═╡ baed5908-8729-11eb-00e0-9f749406c30c
 countmap( [bernoulli(p) for i in 1:1000] )
 
-# ╔═╡ e667ffc6-8729-11eb-3db5-5f999a0d88a7
-
-
 # ╔═╡ ed94eae8-86b3-11eb-3f1b-15c7a54903f5
 md"""
 ## Histograms
@@ -316,20 +325,11 @@ Once we have generated several random objects, it is natural to want to count **
 
 # ╔═╡ 7f1a3766-86b4-11eb-353f-b13acaf1503e
 md"""
-Let's roll a die 1000 times:
+Let's roll a (fair) die 1000 times:
 """
 
 # ╔═╡ 02d03642-86b4-11eb-365a-63ff61ddd3b5
-rolls = rand(0:5, 1000)
-
-# ╔═╡ 36bd8cb2-86b6-11eb-35da-85cd489f335c
-begin
-	labels = ["alan", "david"]
-	names = rand(labels, 100)
-end
-
-# ╔═╡ 654519a8-86b6-11eb-0747-3b96e1ab3c2f
-
+rolls = rand(1:6, 100)   # try modifying 100 by adding more zeros
 
 # ╔═╡ 371838f8-86b4-11eb-1633-8d282e42a085
 md"""
@@ -337,50 +337,53 @@ An obvious way to find the counts would be to run through the data looking for 1
 """
 
 # ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
-counts = [count(rolls .== i) for i in 0:5]
+counts = [count(rolls .== i) for i in 1:6]
 
 # ╔═╡ 9e9d3556-86b5-11eb-3dfb-916e625da235
 md"""
 Note that this is *not* the most efficient algorithm!
 """
 
+# ╔═╡ 90844738-8738-11eb-0604-3d23662152d9
+md"""
+We can plot **categorical data** using a **bar chart**, `bar` in Plots.jl. This counts each discrete item.
+"""
+
 # ╔═╡ 2d71fa88-86b5-11eb-0e55-35566c2246d7
-bar(0:5, counts, alpha=0.5, leg=false)
-
-# ╔═╡ 46f68072-86b6-11eb-070f-e3ff32fcd0d4
-bar(countmap(names))
-
-# ╔═╡ 7ca4fee2-86b6-11eb-2869-27bc861a9703
-countmap(names)
-
-# ╔═╡ 757e6290-86b4-11eb-0bf8-4ffaa324ef57
-histogram(rolls, leg=false, alpha=0.5, bar_edges=true, bins=0.5:6.5, bar_width=0.5)
-
-# ╔═╡ 5ca782b4-86b5-11eb-23d1-c53c0cc023a4
-
+begin
+	bar(counts, alpha=0.5, leg=false, size=(500, 300))
+	hline!([length(rolls) / 6], ls=:dash)
+	title!("number of die rolls = $(length(rolls))")
+	ylims!(0, length(rolls) / 5)
+end
 
 # ╔═╡ cb8a9762-86b1-11eb-0484-6b6cc8b1b14c
 md"""
-## Rolling a die
+## Probability densities 
+
+### Rolling multiple dice
 """
 
 # ╔═╡ d0c9814e-86b1-11eb-2f29-1d041bccc649
-die() = rand(1:6)
-
-# ╔═╡ d985491e-86b6-11eb-348a-d3414cda8732
-# experiment(generator, n) = sum(generator() for i in 1:n)
+roll_dice(n) = sum( rand(1:6, n) )
 
 # ╔═╡ 7a16b674-86b7-11eb-3aa5-83712cdc8580
-trials = 1000
+trials = 100000
+
+# ╔═╡ 2bfa712a-8738-11eb-3248-6f9bb93154e8
+md"""
+### Converging shape
+"""
 
 # ╔═╡ 6c133ab6-86b7-11eb-15f6-7780da5afc31
 md"""
-n = $(@bind n Slider(1:10, show_value=true))
+n = $(@bind n Slider(1:50, show_value=true))
 """
 
-# ╔═╡ d5a09650-86b1-11eb-32eb-217468e35939
-# experiment() = sum([die() for i in 1:n])
-experiment() = sum([randn()^2 for i in 1:n])
+# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
+experiment() = roll_dice(n) 
+
+# experiment() = sum([randn()^2 for i in 1:n])
 
 # ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
 data = [experiment() for t in 1:trials]
@@ -392,18 +395,70 @@ data = [experiment() for t in 1:trials]
 data
 
 # ╔═╡ 514f6be0-86b8-11eb-30c9-d1020f783afe
+histogram(data, alpha=0.5, legend=false, bins=50, c=:lightsalmon1, title="n = $n")  
+# c = RGB(0.1, 0.2, 0.3))
+
+# ╔═╡ a15fc456-8738-11eb-25bd-b15c2b16d461
+md"""
+Here we have switched from a bar chart to a **histogram**, which counts the number of items falling into a given range or **bin**. When $n$ is small this tends to look like a bar chart, but it looks like a "smooth bar chart" as $n$ gets larger, due to the **aggregation**.
+"""
+
+# ╔═╡ dd753568-8736-11eb-1f20-1b81110ae807
+md"""
+Does the above histogram look like a bell to you?
+"""
+
+# ╔═╡ 8ab9001a-8737-11eb-1009-5717fbe83af7
 begin
-	d = countmap(data)
+	bell = load(download("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmxRAIQt_L-X99A_4FoP3vsC-l_WHlC3TtAw&usqp=CAU"))
 	
-	ks = keys(d)
-	vs = values(d)
+	bell[1:end*9÷10, :]
 end
 
-# ╔═╡ 6f6f3a1a-86b8-11eb-3173-d1eec5945c9e
+# ╔═╡ f8b2dd20-8737-11eb-1593-43659c693109
+md"""
+### Normalising the $y$-axis
+"""
+
+# ╔═╡ 89bb366a-8737-11eb-10a6-e754ee817f9a
+md"""
+Notice that the *shape* of the curve seems to converge to a bell-shaped curve, but the axes do not. What can we do about this?
+
+We need to **normalise** so that the total shaded *area* is 1. We can use the histogram option `norm=true` to do so.
+"""
+
+# ╔═╡ 14f0a090-8737-11eb-0ccf-391249267401
+histogram(data, alpha=0.5, legend=false, bins=50, norm=true,
+			c=:lightsalmon1, title="n = $n")  
 
 
-# ╔═╡ 5a5849a4-86b9-11eb-0e1e-1f20d42486d5
-30 * 0.14 * 0.5
+# ╔═╡ e305467e-8738-11eb-1213-eb11aaebe151
+md"""
+## Normalising the $x$ axis
+"""
+
+# ╔═╡ e8341288-8738-11eb-27ae-0795fa7e4a7e
+md"""
+As we changed $n$ above, the range of values on the $x$ axis also changed. We want to find a way to rescale $x$ at the same time so that both axes and shape stop changing as we increase $n$.
+
+We need to make sure that the data is centred in the same place -- we will choose 0. And we need to make sure that the width is the same -- we will divide by the standard deviation.
+"""
+
+# ╔═╡ 16023bea-8739-11eb-1e32-79f2d006b093
+normalised_data = ( data .- mean(data) ) ./ std(data)   
+
+# ╔═╡ e0a1863e-8735-11eb-1182-1b3c59b1e05a
+md"""
+Other options for the `histogram` function options:
+- `legend=false` turns off the legend (key), i.e. the plot labels
+- `bins=50` specifies the number of **bins**; can also be a vector of bin edges
+
+
+- `alpha`: a general plot option specifying transparency (0=invisible; 1=opaque)
+- `c` or `color`: a general plot option for the colour
+
+There are several different ways to specify colours. [Here](http://juliagraphics.github.io/Colors.jl/stable/namedcolors/) is a list of named colours, but you can also specify `RGB(0.1, 0.2, 0.3)`.
+"""
 
 # ╔═╡ 4744ac8c-86b8-11eb-2b1d-dfa2ab767cf0
 histogram(data, alpha=0.5, leg=false, norm=true, bins=9.5:60.5, c=:green)
@@ -423,7 +478,7 @@ Dict(k => (v / sum(values(d))) for (k, v) in d)
 bar(Dict(ks .=> (vs ./ sum(vs))), bar_width=0.5)
 
 # ╔═╡ 93993648-86b8-11eb-1013-5f21990e821a
-plot!(x -> exp(-x^2 / 2) / √(2π))
+plot!(x -> exp(-x^2 / 2) / √(2π))d
 
 # ╔═╡ a9b32188-86b7-11eb-022f-6d227e38a823
 ks
@@ -433,8 +488,8 @@ sample([1, 2], Weights([0.75, 0.25]))
 
 # ╔═╡ Cell order:
 # ╟─3a4957ec-8723-11eb-22a0-8b35322596e2
-# ╟─06d2666a-8723-11eb-1395-0febdf3dc2a4
-# ╟─0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
+# ╠═06d2666a-8723-11eb-1395-0febdf3dc2a4
+# ╠═0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 # ╟─472a41d2-8724-11eb-31b3-0b81612f0083
 # ╟─aeb99f72-8725-11eb-2efd-d3e44686be03
 # ╟─4f9bd326-8724-11eb-2c9b-db1ac9464f1e
@@ -478,33 +533,35 @@ sample([1, 2], Weights([0.75, 0.25]))
 # ╠═a4870b14-8729-11eb-20ee-e531d4a7108d
 # ╟─008a40d2-872a-11eb-224d-5b3331f29c99
 # ╠═baed5908-8729-11eb-00e0-9f749406c30c
-# ╟─e667ffc6-8729-11eb-3db5-5f999a0d88a7
 # ╟─ed94eae8-86b3-11eb-3f1b-15c7a54903f5
 # ╟─f20504de-86b3-11eb-3125-3140e0e060b0
 # ╟─7f1a3766-86b4-11eb-353f-b13acaf1503e
 # ╠═02d03642-86b4-11eb-365a-63ff61ddd3b5
-# ╠═36bd8cb2-86b6-11eb-35da-85cd489f335c
-# ╟─654519a8-86b6-11eb-0747-3b96e1ab3c2f
 # ╟─371838f8-86b4-11eb-1633-8d282e42a085
 # ╠═2405eb68-86b4-11eb-31b0-dff8e355d88e
 # ╟─9e9d3556-86b5-11eb-3dfb-916e625da235
+# ╟─90844738-8738-11eb-0604-3d23662152d9
 # ╠═2d71fa88-86b5-11eb-0e55-35566c2246d7
-# ╠═46f68072-86b6-11eb-070f-e3ff32fcd0d4
-# ╠═7ca4fee2-86b6-11eb-2869-27bc861a9703
-# ╠═757e6290-86b4-11eb-0bf8-4ffaa324ef57
-# ╟─5ca782b4-86b5-11eb-23d1-c53c0cc023a4
 # ╟─cb8a9762-86b1-11eb-0484-6b6cc8b1b14c
 # ╠═d0c9814e-86b1-11eb-2f29-1d041bccc649
-# ╠═d5a09650-86b1-11eb-32eb-217468e35939
-# ╠═d985491e-86b6-11eb-348a-d3414cda8732
+# ╠═b81b1090-8735-11eb-3a52-2dca4d4ed472
 # ╠═7a16b674-86b7-11eb-3aa5-83712cdc8580
 # ╠═e8e811de-86b6-11eb-1cbf-6d4aeaee510a
+# ╟─2bfa712a-8738-11eb-3248-6f9bb93154e8
 # ╟─6c133ab6-86b7-11eb-15f6-7780da5afc31
 # ╠═426a1ff4-86b7-11eb-2d83-8900263aed09
 # ╠═e4abcbf4-86b8-11eb-167a-d97c61e07837
 # ╠═514f6be0-86b8-11eb-30c9-d1020f783afe
-# ╟─6f6f3a1a-86b8-11eb-3173-d1eec5945c9e
-# ╠═5a5849a4-86b9-11eb-0e1e-1f20d42486d5
+# ╟─a15fc456-8738-11eb-25bd-b15c2b16d461
+# ╟─dd753568-8736-11eb-1f20-1b81110ae807
+# ╠═8ab9001a-8737-11eb-1009-5717fbe83af7
+# ╟─f8b2dd20-8737-11eb-1593-43659c693109
+# ╟─89bb366a-8737-11eb-10a6-e754ee817f9a
+# ╠═14f0a090-8737-11eb-0ccf-391249267401
+# ╟─e305467e-8738-11eb-1213-eb11aaebe151
+# ╟─e8341288-8738-11eb-27ae-0795fa7e4a7e
+# ╠═16023bea-8739-11eb-1e32-79f2d006b093
+# ╠═e0a1863e-8735-11eb-1182-1b3c59b1e05a
 # ╠═4744ac8c-86b8-11eb-2b1d-dfa2ab767cf0
 # ╟─900af0c8-86ba-11eb-2270-71b1869b9a1a
 # ╠═975c0592-86ba-11eb-2eeb-c13cde26ed39
