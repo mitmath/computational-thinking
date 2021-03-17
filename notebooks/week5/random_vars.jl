@@ -110,8 +110,11 @@ md"""
 
   - `if...else...end`
   - `Dict`: Julia's dictionary type
+  - `÷` or `div`:  integer division (type `\div`)
 
   - `sum(S)`: sum of elements in the collection `S`, e.g. an array
+  - `count(S)`: count the number of true elements of a Boolean collection
+
   - `rand(S)`: random sampling from a collection `S` 
 
 
@@ -135,10 +138,6 @@ md"""
 
 - `Colors.jl`:
   - `distinguishable_colors(n)`: Make `n` distinguishable colours [Colors]
-
-
-- `Distributions.jl`:
-  - Many pre-defined probability distributions
 
 """
 
@@ -164,13 +163,28 @@ rand("MIT")
 # ╔═╡ 4ce946c6-86b2-11eb-1820-0728798665ab
 rand('a':'z')
 
+# ╔═╡ fae3d138-8743-11eb-1014-b3a2a9b49aba
+typeof('a':'z')
+
 # ╔═╡ 6cdea3ae-86b2-11eb-107a-17bea3f54bc9
 rand()   # random number between 0 and 1
+
+# ╔═╡ 1c769d58-8744-11eb-3bd3-ab11ea1503ed
+rand
+
+# ╔═╡ 297fdfa0-8744-11eb-1934-9fe31e8be534
+methods(rand);
 
 # ╔═╡ 776ec3f2-86b3-11eb-0216-9b71d07e99f3
 md"""
 We can take random objects from a collection of objects of *any* type, for example:
 """
+
+# ╔═╡ 5fcf8d4e-8744-11eb-080e-cba749004b08
+distinguishable_colors(10)
+
+# ╔═╡ 4898106a-8744-11eb-128a-35fec741e6b8
+typeof(distinguishable_colors(10))
 
 # ╔═╡ 0926366a-86b2-11eb-0f6d-31ae6981598c
 rand(distinguishable_colors(3))   # from Colors.jl package
@@ -202,7 +216,7 @@ In fact, you can also generate not only random vectors, but also random matrices
 """
 
 # ╔═╡ 940c2bf6-86b2-11eb-0a5e-011abdd6352b
-rand(1:6, 10, 10)
+rand(1:6, 10, 12)
 
 # ╔═╡ 5a4e7fc4-86b3-11eb-3376-0941b79574aa
 rand(distinguishable_colors(5), 10, 10)
@@ -213,7 +227,7 @@ We can also use random images:
 """
 
 # ╔═╡ 78dc94e2-8723-11eb-1ff2-bb7104b62033
-penny_image = load(download("https://www.usacoinbook.com/us-coins/lincoln-memorial-cent.jpg"));
+penny_image = load(download("https://www.usacoinbook.com/us-coins/lincoln-memorial-cent.jpg"))
 
 # ╔═╡ bb1465c4-8723-11eb-1abc-bdb5a7028cf2
 begin
@@ -222,7 +236,7 @@ begin
 end;
 
 # ╔═╡ e04f3828-8723-11eb-3452-09f821391ad0
-rand([head, tail], 5, 5)
+rand( [head, tail], 5, 5)
 
 # ╔═╡ b7793f7a-8726-11eb-11d8-cd928f1a3645
 md"""
@@ -237,10 +251,19 @@ Let's *count* heads and tails using the `countmap` function from the `StatsBase.
 """
 
 # ╔═╡ 8fe715e4-8727-11eb-2e7f-15b723bb8d9d
-tosses = rand(["head", "tail"], 10)
+tosses = rand( ["head", "tail"], 10000)
 
 # ╔═╡ 9da4e6f4-8727-11eb-08cb-d55e3bbff0e4
 toss_counts = countmap(tosses)
+
+# ╔═╡ 9647840c-8745-11eb-33fc-898ae351ddfe
+"tail" => 3
+
+# ╔═╡ 9d782aa6-8745-11eb-034e-0f8b01be987b
+typeof("tail" => 3)
+
+# ╔═╡ a693582c-8745-11eb-261b-ef79e503420e
+toss_counts["tail"]
 
 # ╔═╡ c3255d7a-8727-11eb-0421-d99faf27c7b0
 md"""
@@ -273,12 +296,34 @@ One way would be to generate random integers between 1 and 10 and assign heads t
 
 # ╔═╡ 062b400a-8729-11eb-16c5-235cef648edb
 function simple_weighted_coin()
+	outcome = if rand(1:10) ≤ 7
+		"heads"
+	else      # could have elseif
+		"tails"
+	end
+	
+	return outcome
+end
+
+# ╔═╡ 7c099606-8746-11eb-37fe-c3befde06e9d
+function simple_weighted_coin2()
 	if rand(1:10) ≤ 7
 		"heads"
-	else
+	else      # could have elseif
 		"tails"
 	end
 end
+
+# ╔═╡ 97cb3dde-8746-11eb-0b00-690f20cb26dc
+result = for i in 1:10
+	
+end
+
+# ╔═╡ 9d8cdc8e-8746-11eb-2b9a-b30a52026f09
+result == nothing
+
+# ╔═╡ 81a30c9e-8746-11eb-38c8-9be4f6ba2e80
+simple_weighted_coin2()
 
 # ╔═╡ 2a81ba88-8729-11eb-3dcb-1db26e468066
 md"""
@@ -292,8 +337,11 @@ How could we generalise this to an arbitrary probability $p ∈ [0, 1]$?
 We can generate a uniform floating-point number between 0 and 1, and check if it is less than $p$. This is called a **Bernoulli trial**.
 """
 
+# ╔═╡ c9f21046-8746-11eb-27c6-910807240fd1
+rand()
+
 # ╔═╡ 806e6aae-8729-11eb-19ea-33722c60edf0
-rand() < 0.7
+rand() < 0.314159
 
 # ╔═╡ 90642564-8729-11eb-3cd7-b3d41a1553b4
 md"""
@@ -308,6 +356,9 @@ Let's make that into a function:
 # ╔═╡ a4870b14-8729-11eb-20ee-e531d4a7108d
 bernoulli(p) = rand() < p
 
+# ╔═╡ 081e3796-8747-11eb-32ec-dfd998605737
+bernoulli(0.7)
+
 # ╔═╡ 008a40d2-872a-11eb-224d-5b3331f29c99
 md"""
 p = $(@bind p Slider(0.0:0.01:1.0, show_value=true, default=0.7))
@@ -318,7 +369,7 @@ countmap( [bernoulli(p) for i in 1:1000] )
 
 # ╔═╡ ed94eae8-86b3-11eb-3f1b-15c7a54903f5
 md"""
-## Histograms
+## Bar charts and histograms
 """
 
 # ╔═╡ f20504de-86b3-11eb-3125-3140e0e060b0
@@ -331,16 +382,10 @@ md"""
 Let's roll a (fair) die 1000 times:
 """
 
-# ╔═╡ 02d03642-86b4-11eb-365a-63ff61ddd3b5
-rolls = rand(1:6, 100)   # try modifying 100 by adding more zeros
-
 # ╔═╡ 371838f8-86b4-11eb-1633-8d282e42a085
 md"""
 An obvious way to find the counts would be to run through the data looking for 1s, then run through again looking for 2s, etc.:
 """
-
-# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
-counts = [count(rolls .== i) for i in 1:6]
 
 # ╔═╡ 9e9d3556-86b5-11eb-3dfb-916e625da235
 md"""
@@ -352,12 +397,24 @@ md"""
 We can plot **categorical data** using a **bar chart**, `bar` in Plots.jl. This counts each discrete item.
 """
 
+# ╔═╡ 02d03642-86b4-11eb-365a-63ff61ddd3b5
+rolls = rand(1:6, 100000)   # try modifying 100 by adding more zeros
+
+# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
+rolls .== 1
+
+# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
+count(rolls .== 1)
+
+# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
+counts = [count(rolls .== i) for i in 1:6]
+
 # ╔═╡ 2d71fa88-86b5-11eb-0e55-35566c2246d7
 begin
 	bar(counts, alpha=0.5, leg=false, size=(500, 300))
 	hline!([length(rolls) / 6], ls=:dash)
 	title!("number of die rolls = $(length(rolls))")
-	ylims!(0, length(rolls) / 5)
+	ylims!(0, length(rolls) / 3)
 end
 
 # ╔═╡ cb8a9762-86b1-11eb-0484-6b6cc8b1b14c
@@ -368,7 +425,7 @@ md"""
 """
 
 # ╔═╡ d0c9814e-86b1-11eb-2f29-1d041bccc649
-roll_dice(n) = sum( rand(1:6, n) )
+roll_dice(n) = sum( rand(1:12, n) )
 
 # ╔═╡ 7a16b674-86b7-11eb-3aa5-83712cdc8580
 trials = 10^6
@@ -391,14 +448,11 @@ experiment() = roll_dice(n)
 # ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
 data = [experiment() for t in 1:trials]
 
-# ╔═╡ 426a1ff4-86b7-11eb-2d83-8900263aed09
-# bar(countmap(data), bar_width=0.5, alpha=0.5, leg=false)
-
 # ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
 data
 
 # ╔═╡ 514f6be0-86b8-11eb-30c9-d1020f783afe
-histogram(data, alpha=0.5, legend=false, bins=50, c=:lightsalmon1, title="n = $n")  
+histogram(data, alpha=0.5, legend=false, bins=200, c=:lightsalmon1, title="n = $n")  
 # c = RGB(0.1, 0.2, 0.3))
 
 # ╔═╡ a15fc456-8738-11eb-25bd-b15c2b16d461
@@ -432,7 +486,7 @@ We need to **normalise** so that the total shaded *area* is 1. We can use the hi
 
 # ╔═╡ 14f0a090-8737-11eb-0ccf-391249267401
 histogram(data, alpha=0.5, legend=false, bins=50, norm=true,
-			c=:lightsalmon1, title="n = $n")  
+			c=:lightsalmon1, title="n = $n", ylims=(0, 0.05))  
 
 
 # ╔═╡ e305467e-8738-11eb-1213-eb11aaebe151
@@ -458,14 +512,19 @@ normalised_data = ( data .- mean(data) ) ./ std(data)
 
 # ╔═╡ bfc52118-873b-11eb-0fbb-952c60bc7cc2
 histogram(normalised_data, bins=-5 - (1/(2σ)):(1/σ):5, norm=true,
-	alpha=0.5, leg=false)
+	alpha=0.5, leg=false, ylim=(0, 0.41), size=(500, 300))
 
 # ╔═╡ aa6126f8-873b-11eb-3b4a-0f96fe07b7fb
-plot!(x -> exp(-x^2/2) / √(2π), ylim=(0, 0.5), lw=2, c=:red, alpha=0.5)
+plot!(x -> exp(-x^2 / 2) / √(2π), lw=2, c=:red, alpha=0.5)
 
 # ╔═╡ 308547c6-873d-11eb-3a42-833f8bf496ae
 md"""
 Note that in the limit, the data becomes *continuous*, no longer discrete. The probability of any particular value is 0 ! We then talk about a **probability density function**, $f(x)$; the integral of this function over the interval $[a, b]$ gives the probability of being in that interval.
+"""
+
+# ╔═╡ cb2fb68e-8749-11eb-29ea-9729ac0c63b4
+md"""
+### Options for plotting functions
 """
 
 # ╔═╡ e0a1863e-8735-11eb-1182-1b3c59b1e05a
@@ -474,6 +533,7 @@ Other options for the `histogram` function options:
 - `legend=false` turns off the legend (key), i.e. the plot labels
 - `bins=50` specifies the number of **bins**; can also be a vector of bin edges
 - `linetype=:stephist`: use steps instead of bars
+
 
 - `alpha`: a general plot option specifying transparency (0=invisible; 1=opaque)
 - `c` or `color`: a general plot option for the colour
@@ -524,8 +584,13 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╠═1abda6c4-86b2-11eb-2aa3-4d1148bb52b7
 # ╠═30b12f28-86b2-11eb-087b-8d50ec429b89
 # ╠═4ce946c6-86b2-11eb-1820-0728798665ab
+# ╠═fae3d138-8743-11eb-1014-b3a2a9b49aba
 # ╠═6cdea3ae-86b2-11eb-107a-17bea3f54bc9
+# ╠═1c769d58-8744-11eb-3bd3-ab11ea1503ed
+# ╠═297fdfa0-8744-11eb-1934-9fe31e8be534
 # ╟─776ec3f2-86b3-11eb-0216-9b71d07e99f3
+# ╠═5fcf8d4e-8744-11eb-080e-cba749004b08
+# ╠═4898106a-8744-11eb-128a-35fec741e6b8
 # ╠═0926366a-86b2-11eb-0f6d-31ae6981598c
 # ╟─7c8d7b72-86b2-11eb-2dd5-4f77bc5fb8ff
 # ╟─2090b7f2-86b3-11eb-2a99-ed98800e1d63
@@ -543,6 +608,9 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╟─ba80cc78-8726-11eb-2f33-e364f19295d8
 # ╠═8fe715e4-8727-11eb-2e7f-15b723bb8d9d
 # ╠═9da4e6f4-8727-11eb-08cb-d55e3bbff0e4
+# ╠═9647840c-8745-11eb-33fc-898ae351ddfe
+# ╠═9d782aa6-8745-11eb-034e-0f8b01be987b
+# ╠═a693582c-8745-11eb-261b-ef79e503420e
 # ╟─c3255d7a-8727-11eb-0421-d99faf27c7b0
 # ╠═e2037806-8727-11eb-3c36-1500f1dd545b
 # ╟─28ff621c-8728-11eb-2ec0-2579cb313315
@@ -550,22 +618,30 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╟─6a439c78-8728-11eb-1969-27a19d254704
 # ╟─9f8ac08c-8728-11eb-10ad-f93ca225ce38
 # ╠═062b400a-8729-11eb-16c5-235cef648edb
+# ╠═7c099606-8746-11eb-37fe-c3befde06e9d
+# ╠═97cb3dde-8746-11eb-0b00-690f20cb26dc
+# ╠═9d8cdc8e-8746-11eb-2b9a-b30a52026f09
+# ╠═81a30c9e-8746-11eb-38c8-9be4f6ba2e80
 # ╟─2a81ba88-8729-11eb-3dcb-1db26e468066
 # ╟─5ea5838a-8729-11eb-1749-030533fb0656
+# ╠═c9f21046-8746-11eb-27c6-910807240fd1
 # ╠═806e6aae-8729-11eb-19ea-33722c60edf0
 # ╟─90642564-8729-11eb-3cd7-b3d41a1553b4
 # ╟─9a426a20-8729-11eb-0c0f-31e1d4dc91bc
 # ╠═a4870b14-8729-11eb-20ee-e531d4a7108d
+# ╠═081e3796-8747-11eb-32ec-dfd998605737
 # ╟─008a40d2-872a-11eb-224d-5b3331f29c99
 # ╠═baed5908-8729-11eb-00e0-9f749406c30c
 # ╟─ed94eae8-86b3-11eb-3f1b-15c7a54903f5
 # ╟─f20504de-86b3-11eb-3125-3140e0e060b0
 # ╟─7f1a3766-86b4-11eb-353f-b13acaf1503e
-# ╠═02d03642-86b4-11eb-365a-63ff61ddd3b5
 # ╟─371838f8-86b4-11eb-1633-8d282e42a085
+# ╠═94688c1a-8747-11eb-13a3-eb36f731674c
+# ╠═ad701cdc-8747-11eb-3804-63a0fc881547
 # ╠═2405eb68-86b4-11eb-31b0-dff8e355d88e
 # ╟─9e9d3556-86b5-11eb-3dfb-916e625da235
 # ╟─90844738-8738-11eb-0604-3d23662152d9
+# ╠═02d03642-86b4-11eb-365a-63ff61ddd3b5
 # ╠═2d71fa88-86b5-11eb-0e55-35566c2246d7
 # ╟─cb8a9762-86b1-11eb-0484-6b6cc8b1b14c
 # ╠═d0c9814e-86b1-11eb-2f29-1d041bccc649
@@ -573,9 +649,8 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╠═7a16b674-86b7-11eb-3aa5-83712cdc8580
 # ╠═e8e811de-86b6-11eb-1cbf-6d4aeaee510a
 # ╟─2bfa712a-8738-11eb-3248-6f9bb93154e8
-# ╟─6c133ab6-86b7-11eb-15f6-7780da5afc31
-# ╠═426a1ff4-86b7-11eb-2d83-8900263aed09
 # ╠═e4abcbf4-86b8-11eb-167a-d97c61e07837
+# ╟─6c133ab6-86b7-11eb-15f6-7780da5afc31
 # ╠═514f6be0-86b8-11eb-30c9-d1020f783afe
 # ╟─a15fc456-8738-11eb-25bd-b15c2b16d461
 # ╟─dd753568-8736-11eb-1f20-1b81110ae807
@@ -591,6 +666,7 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╠═bfc52118-873b-11eb-0fbb-952c60bc7cc2
 # ╠═aa6126f8-873b-11eb-3b4a-0f96fe07b7fb
 # ╟─308547c6-873d-11eb-3a42-833f8bf496ae
+# ╟─cb2fb68e-8749-11eb-29ea-9729ac0c63b4
 # ╟─e0a1863e-8735-11eb-1182-1b3c59b1e05a
 # ╟─900af0c8-86ba-11eb-2270-71b1869b9a1a
 # ╟─be6e4c00-873c-11eb-1413-5326aba54216
