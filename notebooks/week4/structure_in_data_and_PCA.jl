@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -12,6 +12,11 @@ macro bind(def, element)
         el
     end
 end
+
+# ╔═╡ 01aad939-49da-466e-9eeb-1e68766d86fd
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
 
 # ╔═╡ cf82077a-81c2-11eb-1de2-09ed6c35d810
 begin
@@ -40,11 +45,6 @@ begin
 	using ForwardDiff
 	using Statistics, LinearAlgebra  # standard libraries
 end
-
-# ╔═╡ 01aad939-49da-466e-9eeb-1e68766d86fd
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
 
 # ╔═╡ 4c1ebac8-81b7-11eb-19fa-f704b4d84a21
 html"""
@@ -753,7 +753,7 @@ colors[ismissing.(M3)]
 
 
 # ╔═╡ Cell order:
-# ╟─4c1ebac8-81b7-11eb-19fa-f704b4d84a21
+# ╠═4c1ebac8-81b7-11eb-19fa-f704b4d84a21
 # ╟─c593a748-81b6-11eb-295a-a9800f9dec6d
 # ╟─4fea55cc-0f0c-4b8a-8734-59c879c12065
 # ╠═cf82077a-81c2-11eb-1de2-09ed6c35d810
