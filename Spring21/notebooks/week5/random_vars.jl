@@ -110,7 +110,7 @@ md"""
 
   - `if...else...end`
   - `Dict`: Julia's dictionary type
-  - `÷` or `div`:  integer division (type `\div`)
+  - `÷` or `div`:  integer division (type `\div` + <tab>)
 
   - `sum(S)`: sum of elements in the collection `S`, e.g. an array
   - `count(S)`: count the number of true elements of a Boolean collection
@@ -577,7 +577,7 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╠═0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 # ╟─472a41d2-8724-11eb-31b3-0b81612f0083
 # ╟─aeb99f72-8725-11eb-2efd-d3e44686be03
-# ╟─4f9bd326-8724-11eb-2c9b-db1ac9464f1e
+# ╠═4f9bd326-8724-11eb-2c9b-db1ac9464f1e
 # ╟─db2d25de-86b1-11eb-0c78-d1ee52e019ca
 # ╟─e33fe4c8-86b1-11eb-1031-cf45717a3dc9
 # ╠═f49191a2-86b1-11eb-3eab-b392ba058415
