@@ -33,17 +33,20 @@ height: 500px;
 width: 100%;
 background: #282936;
 color: #fff;
-padding-top: 10px;
+padding-top: 68px;
 ">
-<span style="    # file_stream = open(path, "w+")O3LEY-cM
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.9</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em>Taking Advantage of Structure</em>
+<em> Taking Advantage of Structure </em>
 </p>
-<br/>
+
 <p style="
 font-size: 1.5rem;
 text-align: center;
@@ -59,9 +62,7 @@ opacity: .8;
 body {
 overflow-x: hidden;
 }
-</style>
-"""
-
+</style>"""
 
 # ╔═╡ ca1a1072-81b6-11eb-1fee-e7df687cc314
 PlutoUI.TableOfContents(aside = true)

@@ -33,17 +33,20 @@ height: 500px;
 width: 100%;
 background: #282936;
 color: #fff;
-padding-top: 10px;
+padding-top: 68px;
 ">
-<span style="    # file_stream = open(path, "w+")O3LEY-cM
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.5</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em>Transformations II: Composability, Linearity and Nonlinearity</em>
+<em> Transformations II: Composability, Linearity and Nonlinearity </em>
 </p>
-<br/>
+
 <p style="
 font-size: 1.5rem;
 text-align: center;
@@ -59,20 +62,10 @@ opacity: .8;
 body {
 overflow-x: hidden;
 }
-</style>
-"""
-
+</style>"""
 
 # ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
 PlutoUI.TableOfContents(aside=true)
-
-# ╔═╡ bbbf0788-7ace-11eb-0b2d-4701b4b466e8
-md"# Lecture Video"
-
-# ╔═╡ ba8877ac-7ace-11eb-2a06-b50f7b1cdf0b
-html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/VDPf3RjoCpY" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-"""
 
 # ╔═╡ 230b0118-30b7-4035-ad31-520165a76fcc
 md"""
@@ -1009,8 +1002,6 @@ end;
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
-# ╟─bbbf0788-7ace-11eb-0b2d-4701b4b466e8
-# ╟─ba8877ac-7ace-11eb-2a06-b50f7b1cdf0b
 # ╟─230b0118-30b7-4035-ad31-520165a76fcc
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─230cba36-9d0a-4726-9e55-7df2c6743968

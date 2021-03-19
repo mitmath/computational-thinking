@@ -33,17 +33,20 @@ height: 500px;
 width: 100%;
 background: #282936;
 color: #fff;
-padding-top: 10px;
+padding-top: 68px;
 ">
-<span style="    # file_stream = open(path, "w+")O3LEY-cM
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.7</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em>Intro to Dynamic Programming</em>
+<em> Intro to Dynamic Programming </em>
 </p>
-<br/>
+
 <p style="
 font-size: 1.5rem;
 text-align: center;
@@ -59,9 +62,7 @@ opacity: .8;
 body {
 overflow-x: hidden;
 }
-</style>
-"""
-
+</style>"""
 
 # ╔═╡ 71b53b98-8038-11eb-0ea5-d953294e9f35
 begin

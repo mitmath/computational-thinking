@@ -33,17 +33,20 @@ height: 500px;
 width: 100%;
 background: #282936;
 color: #fff;
-padding-top: 10px;
+padding-top: 68px;
 ">
-<span style="    # file_stream = open(path, "w+")O3LEY-cM
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.1</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em>Images as Data and Arrays</em>
+<em> Images as Data and Arrays </em>
 </p>
-<br/>
+
 <p style="
 font-size: 1.5rem;
 text-align: center;
@@ -59,9 +62,7 @@ opacity: .8;
 body {
 overflow-x: hidden;
 }
-</style>
-"""
-
+</style>"""
 
 # ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 PlutoUI.TableOfContents(aside=true)

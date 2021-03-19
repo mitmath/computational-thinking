@@ -33,17 +33,20 @@ height: 500px;
 width: 100%;
 background: #282936;
 color: #fff;
-padding-top: 10px;
+padding-top: 68px;
 ">
-<span style="    # file_stream = open(path, "w+")O3LEY-cM
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.3</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em>Transformations & Autodiff</em>
+<em> Transformations & Autodiff </em>
 </p>
-<br/>
+
 <p style="
 font-size: 1.5rem;
 text-align: center;
@@ -59,67 +62,10 @@ opacity: .8;
 body {
 overflow-x: hidden;
 }
-</style>
-"""
-
-
-# ╔═╡ 4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
-
-
-# ╔═╡ 972b2230-7634-11eb-028d-df7fc722ec70
-html"""
-
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 400px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 400px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 1.4</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Transformations & Autodiff </em>
-</p>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>
-"""
-
+</style>"""
 
 # ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
 PlutoUI.TableOfContents(aside=true)
-
-# ╔═╡ 84f7f0a2-7ace-11eb-1621-d355a9ac414e
-md"# Lecture Video"
-
-# ╔═╡ 8b08f6b4-7ace-11eb-08c9-0b0144f98667
-html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/AAREeuaKCic" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-"""
 
 # ╔═╡ e6a09409-f262-453b-a434-bfd935306719
 md"""
@@ -683,13 +629,20 @@ function with_gridlines(img::Array{<:Any,2}; n=16)
 	return result
 end
 
+# ╔═╡ 0f63345c-8887-11eb-3ef9-37dabb46de75
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/AAREeuaKCic" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+
 # ╔═╡ Cell order:
 # ╟─c09c8ba0-887e-11eb-07e3-71377ec0e708
-# ╟─4c7c9fa4-76c1-11eb-0ac8-e3a0e7bc902b
-# ╟─972b2230-7634-11eb-028d-df7fc722ec70
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
-# ╟─84f7f0a2-7ace-11eb-1621-d355a9ac414e
-# ╟─8b08f6b4-7ace-11eb-08c9-0b0144f98667
 # ╟─e6a09409-f262-453b-a434-bfd935306719
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
 # ╟─d49682ff-d529-4283-871b-f8ee50a4e6ee
@@ -784,3 +737,4 @@ end
 # ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
 # ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
+# ╠═0f63345c-8887-11eb-3ef9-37dabb46de75
