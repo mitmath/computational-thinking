@@ -1,0 +1,108 @@
+### A Pluto.jl notebook ###
+# v0.12.21
+
+using Markdown
+using InteractiveUtils
+
+# ╔═╡ 1ccb3a84-88d4-11eb-2499-91af66e78e89
+using Plots
+
+# ╔═╡ 8d4852d8-88d4-11eb-10e6-51c750d36b54
+using PlutoUI
+
+# ╔═╡ 88bab79c-88d4-11eb-2511-9ba8f8562ec6
+
+
+# ╔═╡ 47452d72-88d6-11eb-27ef-bbc1d061060d
+md"""
+## Resources
+
+
+
+* Plots Docs [Useful Tips](https://docs.juliaplots.org/latest/basics/#Useful-Tips)
+* Plots Docs [Examples](https://docs.juliaplots.org/latest/generated/gr/)
+* [Plot Attributes](http://docs.juliaplots.org/latest/generated/attributes_plot/)
+* [Axis Attributes](http://docs.juliaplots.org/latest/generated/attributes_axis/#Axis)
+"""
+
+# ╔═╡ 2a2338e4-88d4-11eb-0e6b-03609b700baa
+md"""
+## Loading Time 
+
+Plots loading time sucks big time.
+This is a known problem.  We know, we know, Julia is fast, just grab some coffee ....
+☕☕☕☕☕☕☕☕☕
+"""
+
+# ╔═╡ 4316799c-88d4-11eb-0e83-a7df319711ad
+md"""
+## Hello World
+"""
+
+# ╔═╡ 6fcad280-88d4-11eb-310f-5f89a5d21f9b
+plot(rand(4))
+
+# ╔═╡ 63da4054-88d5-11eb-29c9-b3648548c367
+md"""
+## Adding Stuff
+"""
+
+# ╔═╡ 6b55e978-88d5-11eb-1fea-739e61bbb35a
+begin
+		plot!(rand(4))
+		scatter!(rand(4))
+end
+
+# ╔═╡ 198eb00c-88d5-11eb-3d3c-3963d197f0e0
+md"""
+## Removing Stuff
+"""
+
+# ╔═╡ 2b4cc1d0-88d5-11eb-0afd-3988abd9a870
+plot!(legend=false, axis=false, grid=false, ticks=false )
+
+# ╔═╡ cf89db1e-88d7-11eb-2a92-850c7d46a296
+md"""
+## Square Aspect Ratio
+"""
+
+# ╔═╡ da7b4c10-88d7-11eb-011e-dbb639e6fa2b
+begin
+	v = rand(4)
+	plot(v, ratio=1, legend=false)
+	scatter!(v)
+end
+
+# ╔═╡ cca58686-88d8-11eb-2fe4-d7d378c5408a
+md"""
+##  Matrices with color (heatmap)
+yflip = true places the 2,1 entry where you want it
+"""
+
+# ╔═╡ d2c81aec-88d8-11eb-0e25-57a2068c3bf9
+A = [ 1 1000 1 ; 1 1 1; 1 1 1]
+
+# ╔═╡ e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
+heatmap(A, ratio=1, yflip=true, legend=false, axis=false, grid=false,  ticks=false)
+
+# ╔═╡ eb3e721e-88d4-11eb-1f09-cfba69f498d4
+TableOfContents()
+
+# ╔═╡ Cell order:
+# ╠═1ccb3a84-88d4-11eb-2499-91af66e78e89
+# ╟─88bab79c-88d4-11eb-2511-9ba8f8562ec6
+# ╟─47452d72-88d6-11eb-27ef-bbc1d061060d
+# ╟─2a2338e4-88d4-11eb-0e6b-03609b700baa
+# ╟─4316799c-88d4-11eb-0e83-a7df319711ad
+# ╠═6fcad280-88d4-11eb-310f-5f89a5d21f9b
+# ╟─63da4054-88d5-11eb-29c9-b3648548c367
+# ╠═6b55e978-88d5-11eb-1fea-739e61bbb35a
+# ╟─198eb00c-88d5-11eb-3d3c-3963d197f0e0
+# ╠═2b4cc1d0-88d5-11eb-0afd-3988abd9a870
+# ╟─cf89db1e-88d7-11eb-2a92-850c7d46a296
+# ╠═da7b4c10-88d7-11eb-011e-dbb639e6fa2b
+# ╟─cca58686-88d8-11eb-2fe4-d7d378c5408a
+# ╠═d2c81aec-88d8-11eb-0e25-57a2068c3bf9
+# ╠═e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
+# ╟─8d4852d8-88d4-11eb-10e6-51c750d36b54
+# ╟─eb3e721e-88d4-11eb-1f09-cfba69f498d4
