@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -12,6 +12,74 @@ macro bind(def, element)
         el
     end
 end
+
+# ╔═╡ febfa62a-74fa-11eb-2fe6-df7de43ef4b6
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 10px;
+">
+<span style="    # file_stream = open(path, "w+")O3LEY-cM
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 1.4</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em>Transformations with Images</em>
+</p>
+<br/>
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/uZYVjDDZW9A" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>
+"""
+
+
+# ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
+PlutoUI.TableOfContents(aside=true)
+
+# ╔═╡ dd0c3ea0-7acd-11eb-2b12-859c93b367fe
+md"# Lecture Video"
+
+# ╔═╡ fbb69cd0-7acd-11eb-2691-0ba7d844f540
+html"""
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/uZYVjDDZW9A" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+"""
+
+# ╔═╡ 9f1a72da-7532-11eb-079c-b7baccc6614a
+md"""
+#### Intializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ 86f770fe-74a1-11eb-01f7-5b3ecf057124
 begin
@@ -44,67 +112,6 @@ end
 filter!(LOAD_PATH) do path
 	path != "@v#.#"
 end;
-
-# ╔═╡ febfa62a-74fa-11eb-2fe6-df7de43ef4b6
-html"""
-
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 400px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 400px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 1.3</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em>Transformations with Images<br></em>
-</p>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>
-"""
-
-# ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
-PlutoUI.TableOfContents(aside=true)
-
-# ╔═╡ dd0c3ea0-7acd-11eb-2b12-859c93b367fe
-md"# Lecture Video"
-
-# ╔═╡ fbb69cd0-7acd-11eb-2691-0ba7d844f540
-html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/uZYVjDDZW9A" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-"""
-
-# ╔═╡ 9f1a72da-7532-11eb-079c-b7baccc6614a
-md"""
-#### Intializing packages
-
-_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
-"""
 
 # ╔═╡ 4d332c7e-74f8-11eb-1f49-a518246d1db8
 md"""

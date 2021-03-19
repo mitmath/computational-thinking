@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -13,30 +13,55 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-	Pkg.add([
-		Pkg.PackageSpec(name="ImageIO", version="0.5"),
-		Pkg.PackageSpec(name="ImageShow", version="0.2"),
-		Pkg.PackageSpec(name="FileIO", version="1.6"),
-		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
-		Pkg.PackageSpec(name="ImageMagick", version="1"),
-        Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
-		Pkg.PackageSpec(name="Colors", version="0.12"),
-		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
-			
-		Pkg.PackageSpec(name="PlutoUI", version="0.7"),  
-		Pkg.PackageSpec(name="Plots", version="1"),  
-	])
+# ╔═╡ c09fe642-887e-11eb-1164-a3dc222d0f3d
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
 
-	using Colors, ColorVectorSpace, ImageShow, FileIO
-	using ImageFiltering
-	using Plots, PlutoUI
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 10px;
+">
+<span style="    # file_stream = open(path, "w+")O3LEY-cM
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 1.8</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em>Seam Carving</em>
+</p>
+<br/>
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/KyBXJV1zFlo" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
 
-	using Statistics, LinearAlgebra  # standard libraries available in any environment
-end
+<style>
+body {
+overflow-x: hidden;
+}
+</style>
+"""
+
 
 # ╔═╡ e7a77e52-8104-11eb-1b51-a9f8312e9d95
 md"""
@@ -64,6 +89,31 @@ Here is Grant Sanderson (3Blue1Brown) explaining seam carving using this noteboo
 html"""
 <div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/rpB6zQNsbQU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
+
+# ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="ImageMagick", version="1"),
+        Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+			
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"),  
+		Pkg.PackageSpec(name="Plots", version="1"),  
+	])
+
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using ImageFiltering
+	using Plots, PlutoUI
+
+	using Statistics, LinearAlgebra  # standard libraries available in any environment
+end
 
 # ╔═╡ cb335074-eef7-11ea-24e8-c39a325166a1
 md"""
@@ -157,8 +207,19 @@ Here are the Sobel kernels for the derivatives in each direction:
 # ╔═╡ da726954-eff0-11ea-21d4-a7f4ae4a6b09
 Sy, Sx = Kernel.sobel()
 
+# ╔═╡ a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
+hbox(show_colored_array(Sx).parent, show_colored_array(Sy).parent ,10)
+
 # ╔═╡ abf6944e-f066-11ea-18e2-0b92606dab85
 (collect(Int.(8 .* Sx)), collect(Int.(8 .* Sy)))
+
+# ╔═╡ 44192a40-eff2-11ea-0ec7-05cdadb0c29a
+begin
+	img_brightness = brightness.(img)
+	∇x = convolve(img_brightness, Sx)
+	∇y = convolve(img_brightness, Sy)
+	hbox(show_colored_array(∇x), show_colored_array(∇y))
+end
 
 # ╔═╡ 42f2105a-810b-11eb-0e47-2dbb5ea2f566
 plotly()
@@ -172,6 +233,35 @@ md"""
 - red shows negative values
  $G_x \hspace{180pt} G_y$
 """
+
+# ╔═╡ ddac52ea-f148-11ea-2860-21cff4c867e6
+let
+	∇y = convolve(brightness.(img), Sy)
+	∇x = convolve(brightness.(img), Sx)
+	# zoom in on the clock
+	vbox(
+		hbox(img[300:end, 1:300], img[300:end, 1:300]), 
+	 	hbox(show_colored_array.((∇x[300:end,  1:300], ∇y[300:end, 1:300]))...)
+	)
+end
+
+# ╔═╡ 6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
+function edgeness(img)
+	Sy, Sx = Kernel.sobel()
+	b = brightness.(img)
+
+	∇y = convolve(b, Sy)
+	∇x = convolve(b, Sx)
+
+	sqrt.(∇x.^2 + ∇y.^2)
+end
+
+# ╔═╡ d6a268c0-eff4-11ea-2c9e-bfef19c7f540
+begin
+	edged = edgeness(img)
+	# hbox(img, pencil(edged))
+	hbox(img, Gray.(edgeness(img)) / maximum(abs.(edged)))
+end
 
 # ╔═╡ 172c7612-efee-11ea-077a-5d5c6e2505a4
 function shrink_image(image, ratio=5)
@@ -229,17 +319,6 @@ function convolve(M, kernel)
     end
     
     return new_image
-end
-
-# ╔═╡ 6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
-function edgeness(img)
-	Sy, Sx = Kernel.sobel()
-	b = brightness.(img)
-
-	∇y = convolve(b, Sy)
-	∇x = convolve(b, Sx)
-
-	sqrt.(∇x.^2 + ∇y.^2)
 end
 
 # ╔═╡ dec62538-efee-11ea-1e03-0b801e61e91c
@@ -346,6 +425,9 @@ end
 # ╔═╡ 9abbb158-ef03-11ea-39df-a3e8aa792c50
 get_seam_at(dirs, 2)
 
+# ╔═╡ 772a4d68-ef04-11ea-366a-f7ae9e1634f6
+path = get_seam_at(dirs, start_column)
+
 # ╔═╡ 14f72976-ef05-11ea-2ad5-9f0914f9cf58
 function mark_path(img, path)
 	img′ = copy(img)
@@ -372,8 +454,8 @@ In the visualization below, the slider specifies which column we start with at t
 # ╔═╡ cf9a9124-ef04-11ea-14a4-abf930edc7cc
 @bind start_column Slider(1:size(img, 2), show_value=true)
 
-# ╔═╡ 772a4d68-ef04-11ea-366a-f7ae9e1634f6
-path = get_seam_at(dirs, start_column)
+# ╔═╡ 552fb92e-ef05-11ea-0a79-dd7a6760089a
+hbox(mark_path(img, path), mark_path(show_colored_array(least_e), path))
 
 # ╔═╡ 081a98cc-f06e-11ea-3664-7ba51d4fd153
 function pencil(X)
@@ -383,6 +465,22 @@ end
 
 # ╔═╡ 237647e8-f06d-11ea-3c7e-2da57e08bebc
 e = edgeness(img);
+
+# ╔═╡ dfd03c4e-f06c-11ea-1e2a-89233a675138
+let
+	hbox(mark_path(img, path), mark_path(pencil(e), path));
+end
+
+# ╔═╡ ca4a87e8-eff8-11ea-3d57-01dfa34ff723
+let
+	# least energy path of them all:
+	_, k = findmin(least_e[1, :])
+	path = get_seam_at(dirs, k)
+	hbox(
+		mark_path(img, path),
+		mark_path(show_colored_array(least_e), path)
+	)
+end
 
 # ╔═╡ 4f23bc54-ef0f-11ea-06a9-35ca3ece421e
 function rm_path(img, path)
@@ -443,6 +541,12 @@ Here is the algorithm in action. Now the slider tells us on which step of the al
 # ╔═╡ 2d6c6820-ef2d-11ea-1704-49bb5188cfcc
 md"shrunk by $n:"
 
+# ╔═╡ fa6a2152-ef0f-11ea-0e67-0d1a6599e779
+hbox(img, marked_carved[n], sy=size(img))
+
+# ╔═╡ 71b16dbe-f08b-11ea-2343-5f1583074029
+vbox(x,y, gap=16) = hbox(x', y')'
+
 # ╔═╡ 1fd26a60-f089-11ea-1f56-bb6eba7d9651
 function hbox(x, y, gap=16; sy=size(y), sx=size(x))
 	w,h = (max(sx[1], sy[1]),
@@ -454,64 +558,11 @@ function hbox(x, y, gap=16; sy=size(y), sx=size(x))
 	slate
 end
 
-# ╔═╡ a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
-hbox(show_colored_array(Sx).parent, show_colored_array(Sy).parent ,10)
-
-# ╔═╡ 44192a40-eff2-11ea-0ec7-05cdadb0c29a
-begin
-	img_brightness = brightness.(img)
-	∇x = convolve(img_brightness, Sx)
-	∇y = convolve(img_brightness, Sy)
-	hbox(show_colored_array(∇x), show_colored_array(∇y))
-end
-
-# ╔═╡ d6a268c0-eff4-11ea-2c9e-bfef19c7f540
-begin
-	edged = edgeness(img)
-	# hbox(img, pencil(edged))
-	hbox(img, Gray.(edgeness(img)) / maximum(abs.(edged)))
-end
-
-# ╔═╡ 552fb92e-ef05-11ea-0a79-dd7a6760089a
-hbox(mark_path(img, path), mark_path(show_colored_array(least_e), path))
-
-# ╔═╡ dfd03c4e-f06c-11ea-1e2a-89233a675138
-let
-	hbox(mark_path(img, path), mark_path(pencil(e), path));
-end
-
-# ╔═╡ ca4a87e8-eff8-11ea-3d57-01dfa34ff723
-let
-	# least energy path of them all:
-	_, k = findmin(least_e[1, :])
-	path = get_seam_at(dirs, k)
-	hbox(
-		mark_path(img, path),
-		mark_path(show_colored_array(least_e), path)
-	)
-end
-
-# ╔═╡ fa6a2152-ef0f-11ea-0e67-0d1a6599e779
-hbox(img, marked_carved[n], sy=size(img))
-
-# ╔═╡ 71b16dbe-f08b-11ea-2343-5f1583074029
-vbox(x,y, gap=16) = hbox(x', y')'
-
-# ╔═╡ ddac52ea-f148-11ea-2860-21cff4c867e6
-let
-	∇y = convolve(brightness.(img), Sy)
-	∇x = convolve(brightness.(img), Sx)
-	# zoom in on the clock
-	vbox(
-		hbox(img[300:end, 1:300], img[300:end, 1:300]), 
-	 	hbox(show_colored_array.((∇x[300:end,  1:300], ∇y[300:end, 1:300]))...)
-	)
-end
-
 # ╔═╡ 15d1e5dc-ef2f-11ea-093a-417108bcd495
 [size(img) size(carved[n])]
 
 # ╔═╡ Cell order:
+# ╟─c09fe642-887e-11eb-1164-a3dc222d0f3d
 # ╟─e7a77e52-8104-11eb-1b51-a9f8312e9d95
 # ╟─fb6b8564-8104-11eb-2e10-1f28be9a6ce7
 # ╟─bb44122a-80fb-11eb-0593-8d2a6f1e816e

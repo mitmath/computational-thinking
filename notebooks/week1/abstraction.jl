@@ -13,18 +13,8 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ da1d65a0-ec42-11ea-0141-334c9eeeb035
-begin
-	using Pkg
-	Pkg.activate(mktempdir())
-	Pkg.add(["PlutoUI", "Images", "ImageMagick"])
-	using PlutoUI
-	using Images
-end
-
 # ╔═╡ 5ef51c3a-70a7-11eb-2023-31113399a57f
 html"""
-
 <div style="
 position: absolute;
 width: calc(100% - 30px);
@@ -34,28 +24,35 @@ border-bottom: none;
 box-sizing: content-box;
 left: calc(-50vw + 15px);
 top: -500px;
-height: 400px;
+height: 500px;
 pointer-events: none;
 "></div>
 
 <div style="
-height: 400px;
+height: 500px;
 width: 100%;
 background: #282936;
 color: #fff;
-padding-top: 68px;
+padding-top: 10px;
 ">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
+<span style="    # file_stream = open(path, "w+")O3LEY-cM
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.2</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em>Introduction to Abstraction</em>
+<em>Intro to Abstractions</em>
 </p>
+<br/>
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/3zTO3LEY-cM" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
 </div>
 
 <style>
@@ -95,6 +92,17 @@ The goal of this section is to introduce you to the notion of abstraction. You c
 Before we get lost talking about the foundations of number theory, I will present you with a few examples that represent one to me. 
 "
 
+# ╔═╡ 0504ac94-70ee-11eb-1c4e-977d9e7d35c9
+one = [
+	1,
+	1.0,
+	"one",
+	1//1,
+	oneimage,
+	[1 0; 0 1],
+	corgi,
+]
+
 # ╔═╡ 6fcac482-70ee-11eb-0b80-ff41c708053b
 md"Each of the items in this list is a specific, or **_specialized_** representation of _one_:
 1. as an integer
@@ -110,6 +118,9 @@ Of course, these are just a few examples of _one_. People have been representing
 The difference between these ones to me is clear. In fact, I just articulated it to you. Now, let's turn to how a computer sees _one_ differently based on what I type.
 "
 
+# ╔═╡ 0b1668ba-ec42-11ea-3e50-ed97c5b17ced
+computer_ones = typeof.(one)
+
 # ╔═╡ 9ebc079a-70f0-11eb-07d9-f9e80f3f4584
 md"So to a computer, all of these are different types."
 
@@ -117,6 +128,26 @@ md"So to a computer, all of these are different types."
 md"### What is a collection of _one_s?
 
 Now, I want to make a collection of ones for some reason. Below is a way for you to experiment building this collection with different _one_s. As you do this experiment, I want you to look at what stays in the same in the Julia output, and what doesn't."
+
+# ╔═╡ b2239b96-70ef-11eb-0b85-21ecab25dc9f
+begin
+	one_keys = ["1", "1.0", "one", "1//1", "Cute One", "2x2 Identity", "One Corgi"] 
+	selections = one_keys .=> one_keys
+	lookup_element = Dict(one_keys .=> one)
+	md"$(@bind element_key Select(selections))"
+end
+
+# ╔═╡ 4251f668-70aa-11eb-3d89-35f8d53b7d9b
+# your chosen one
+element = lookup_element[element_key]
+
+# ╔═╡ f1568d10-ec41-11ea-3dd2-a9cb273ce5b8
+#its type
+typeof(element)
+
+# ╔═╡ ab02d850-ec41-11ea-10b2-a1b600b12658
+# a 3x4 array of this one.
+array = fill(element,3,4)
 
 # ╔═╡ f6886d90-70ed-11eb-07c4-471ee267e7c1
 md"""
@@ -158,6 +189,12 @@ begin
 	"""
 end
 
+# ╔═╡ 5363a400-ec44-11ea-284e-d13a8872551c
+begin
+	one_image_array = fill(oneimage,3,4)
+	insert(corgi, one_image_array, i, j)
+end
+
 # ╔═╡ 71ac08ea-7145-11eb-237d-5506adfb9533
 begin
 	one_number_array = fill(1,3,4)
@@ -178,6 +215,15 @@ md"""
 ## Appendix
 """
 
+# ╔═╡ da1d65a0-ec42-11ea-0141-334c9eeeb035
+begin
+	using Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add(["PlutoUI", "Images", "ImageMagick"])
+	using PlutoUI
+	using Images
+end
+
 # ╔═╡ 1a2a9000-ec43-11ea-3f39-8312ea286a92
 begin
 	oneimage = load(download("https://gallery.yopriceville.com/var/albums/Free-Clipart-Pictures/Decorative-Numbers/Cute_Number_One_PNG_Clipart_Image.png?m=1437447301"))
@@ -185,46 +231,6 @@ begin
 	nothing
 end
 
-
-# ╔═╡ 0504ac94-70ee-11eb-1c4e-977d9e7d35c9
-one = [
-	1,
-	1.0,
-	"one",
-	1//1,
-	oneimage,
-	[1 0; 0 1],
-	corgi,
-]
-
-# ╔═╡ 0b1668ba-ec42-11ea-3e50-ed97c5b17ced
-computer_ones = typeof.(one)
-
-# ╔═╡ b2239b96-70ef-11eb-0b85-21ecab25dc9f
-begin
-	one_keys = ["1", "1.0", "one", "1//1", "Cute One", "2x2 Identity", "One Corgi"] 
-	selections = one_keys .=> one_keys
-	lookup_element = Dict(one_keys .=> one)
-	md"$(@bind element_key Select(selections))"
-end
-
-# ╔═╡ 4251f668-70aa-11eb-3d89-35f8d53b7d9b
-# your chosen one
-element = lookup_element[element_key]
-
-# ╔═╡ f1568d10-ec41-11ea-3dd2-a9cb273ce5b8
-#its type
-typeof(element)
-
-# ╔═╡ ab02d850-ec41-11ea-10b2-a1b600b12658
-# a 3x4 array of this one.
-array = fill(element,3,4)
-
-# ╔═╡ 5363a400-ec44-11ea-284e-d13a8872551c
-begin
-	one_image_array = fill(oneimage,3,4)
-	insert(corgi, one_image_array, i, j)
-end
 
 # ╔═╡ Cell order:
 # ╟─5ef51c3a-70a7-11eb-2023-31113399a57f
