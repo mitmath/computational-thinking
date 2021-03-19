@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.20
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -12,6 +12,57 @@ macro bind(def, element)
         el
     end
 end
+
+# ╔═╡ c09f68a2-887e-11eb-2381-41aca305e8cc
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 1.7</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Intro to Dynamic Programming </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/KyBXJV1zFlo" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
 
 # ╔═╡ 71b53b98-8038-11eb-0ea5-d953294e9f35
 begin
@@ -61,6 +112,63 @@ n = $(@bind n Slider(2:12, show_value = true, default=8))
 # ╔═╡ bc631086-804a-11eb-216e-c955e2115f55
 M = rand( 0:9, n, n)
 
+# ╔═╡ d1c851ee-80d5-11eb-1ce4-357dfb1e638e
+begin
+	paths = allpaths(n,n)
+	numpaths = length(paths)
+	md"There are $numpaths paths to check."
+end
+
+# ╔═╡ 7191b674-80dc-11eb-24b3-518de83f465a
+md"""
+Our goal is to add the numbers on a path and find the minimal path.
+The winner is number $winnernum.
+"""
+
+# ╔═╡ 5dd22d0e-80d6-11eb-0541-d77668309f6c
+md"""
+Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
+"""
+
+# ╔═╡ a7245c08-803f-11eb-0da9-2bed09872035
+let
+	
+	path = paths[whichpath]
+	values = [ M[i,path[i]] for i=1:n]
+	nv = length(values)
+	thetitle = join([" $(values[i]) +" for i=1:nv-1 ]) * " $(values[end]) = $(sum(values))";
+	
+	
+	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
+	plot()
+	for i=1:n, j=1:n
+	   plot!(rectangle(1,1,i,j), opacity=.2, color=[:red,:white][1+rem(i+j,2) ])
+	   
+	end
+	for i=1:n, j=1:n
+	  annotate!((j+.5),n+2-(i+.5), M[i,j])
+	end
+	
+	# The winning path 
+		for i = 1:n-1
+		plot!([ winner[i+1]+.5, winner[i]+.5  ],[n-i+.5, n-i+1.5], color=RGB(1,.6,.6),  linewidth=4)
+	end
+	
+	
+	for i = 1:n-1
+		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=:black,  linewidth=4)
+	end
+	
+	plot!(xlabel="winner total = $winnertotal", xguidefontcolor=RGB(1,.5,.5))
+
+	
+	for i=1:n,j=1:n
+		plot!(rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=[RGBA(1,.85,.85,.2),:white][1+rem(i+j,2)])
+	end
+	plot!(title=thetitle)
+	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
+end
+
 # ╔═╡ 4e4d333e-8102-11eb-0ba1-0f0183d0d3c2
 md"""
 One way to solve this problem is the naive algorithm where we enumerate *all* the paths, calculate the sum for each, and take the minimum.
@@ -87,6 +195,53 @@ md"""
 i= $(@bind fixi Scrubbable(1:n))
 j= $(@bind fixj Scrubbable(1:n))
 """
+
+# ╔═╡ 84bb1f5c-80e5-11eb-0e55-83068948870c
+begin
+	fixedpaths = [p for p∈paths  if p[fixi]==fixj]
+	number_of_fixedpaths = length(fixedpaths)
+	md"Number of fixed paths = $number_of_fixedpaths"
+end
+
+# ╔═╡ ee2d787c-80e5-11eb-1930-0fcbe253643f
+@bind whichfixedpath Slider(1:number_of_fixedpaths)
+
+# ╔═╡ e5367534-80e5-11eb-341d-7b3e6ca4f111
+begin
+	
+	path = fixedpaths[whichfixedpath]
+	values = [ M[i,path[i]] for i=1:n]
+	nv = length(values)
+	thetitle = join([" $(values[i]) +" for i=1:nv-1 ]) * " $(values[end]) = $(sum(values))";
+	
+	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
+
+	plot()
+	for i=1:n, j=1:n
+	   plot!(rectangle(1,1,i,j), opacity=.2, color=[:red,:white][1+rem(i+j,2) ])
+	   
+	end
+	for i=1:n, j=1:n
+	  annotate!((j+.5),n+2-(i+.5), M[i,j])
+	end
+	
+	annotate!((fixj+.5),n+2-(fixi+.5), M[fixi,fixj], :red)
+	
+	
+	for i = 1:n-1
+		i ≥ 	fixi ? c=:blue : c=:black
+		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=c,  linewidth=4)
+	end
+	
+  xlabel!("")
+
+	
+	for i=1:n,j=1:n
+		plot!(rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=[RGBA(1,.85,.85,.2),:white][1+rem(i+j,2)])
+	end
+	plot!(title=thetitle)
+	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
+end
 
 # ╔═╡ 4d81a6f4-8104-11eb-1f06-5bb7a56c8406
 md"""
@@ -151,65 +306,6 @@ begin
 	end
 end
 
-# ╔═╡ d1c851ee-80d5-11eb-1ce4-357dfb1e638e
-begin
-	paths = allpaths(n,n)
-	numpaths = length(paths)
-	md"There are $numpaths paths to check."
-end
-
-# ╔═╡ 5dd22d0e-80d6-11eb-0541-d77668309f6c
-md"""
-Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
-"""
-
-# ╔═╡ 84bb1f5c-80e5-11eb-0e55-83068948870c
-begin
-	fixedpaths = [p for p∈paths  if p[fixi]==fixj]
-	number_of_fixedpaths = length(fixedpaths)
-	md"Number of fixed paths = $number_of_fixedpaths"
-end
-
-# ╔═╡ ee2d787c-80e5-11eb-1930-0fcbe253643f
-@bind whichfixedpath Slider(1:number_of_fixedpaths)
-
-# ╔═╡ e5367534-80e5-11eb-341d-7b3e6ca4f111
-begin
-	
-	path = fixedpaths[whichfixedpath]
-	values = [ M[i,path[i]] for i=1:n]
-	nv = length(values)
-	thetitle = join([" $(values[i]) +" for i=1:nv-1 ]) * " $(values[end]) = $(sum(values))";
-	
-	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
-
-	plot()
-	for i=1:n, j=1:n
-	   plot!(rectangle(1,1,i,j), opacity=.2, color=[:red,:white][1+rem(i+j,2) ])
-	   
-	end
-	for i=1:n, j=1:n
-	  annotate!((j+.5),n+2-(i+.5), M[i,j])
-	end
-	
-	annotate!((fixj+.5),n+2-(fixi+.5), M[fixi,fixj], :red)
-	
-	
-	for i = 1:n-1
-		i ≥ 	fixi ? c=:blue : c=:black
-		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=c,  linewidth=4)
-	end
-	
-  xlabel!("")
-
-	
-	for i=1:n,j=1:n
-		plot!(rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=[RGBA(1,.85,.85,.2),:white][1+rem(i+j,2)])
-	end
-	plot!(title=thetitle)
-	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
-end
-
 # ╔═╡ 4e8c8052-8102-11eb-3e9f-01494b525ba0
 md"""
 ### Summing Paths Demo
@@ -222,52 +318,8 @@ begin
 	winnertotal = sum( M[i,winner[i]] for i=1:n);
 end
 
-# ╔═╡ 7191b674-80dc-11eb-24b3-518de83f465a
-md"""
-Our goal is to add the numbers on a path and find the minimal path.
-The winner is number $winnernum.
-"""
-
-# ╔═╡ a7245c08-803f-11eb-0da9-2bed09872035
-let
-	
-	path = paths[whichpath]
-	values = [ M[i,path[i]] for i=1:n]
-	nv = length(values)
-	thetitle = join([" $(values[i]) +" for i=1:nv-1 ]) * " $(values[end]) = $(sum(values))";
-	
-	
-	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
-	plot()
-	for i=1:n, j=1:n
-	   plot!(rectangle(1,1,i,j), opacity=.2, color=[:red,:white][1+rem(i+j,2) ])
-	   
-	end
-	for i=1:n, j=1:n
-	  annotate!((j+.5),n+2-(i+.5), M[i,j])
-	end
-	
-	# The winning path 
-		for i = 1:n-1
-		plot!([ winner[i+1]+.5, winner[i]+.5  ],[n-i+.5, n-i+1.5], color=RGB(1,.6,.6),  linewidth=4)
-	end
-	
-	
-	for i = 1:n-1
-		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=:black,  linewidth=4)
-	end
-	
-	plot!(xlabel="winner total = $winnertotal", xguidefontcolor=RGB(1,.5,.5))
-
-	
-	for i=1:n,j=1:n
-		plot!(rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=[RGBA(1,.85,.85,.2),:white][1+rem(i+j,2)])
-	end
-	plot!(title=thetitle)
-	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
-end
-
 # ╔═╡ Cell order:
+# ╟─c09f68a2-887e-11eb-2381-41aca305e8cc
 # ╠═71b53b98-8038-11eb-0ea5-d953294e9f35
 # ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
 # ╟─938107f0-80ee-11eb-18cf-775802c43c2f
