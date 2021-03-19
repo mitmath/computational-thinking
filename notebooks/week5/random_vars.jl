@@ -13,6 +13,57 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 3a4957ec-8723-11eb-22a0-8b35322596e2
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 2.2</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Sampling and Random Variables </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/7HrpoFZzITI" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
+
 # ╔═╡ 06d2666a-8723-11eb-1395-0febdf3dc2a4
 begin
 
@@ -46,49 +97,6 @@ begin
 	
 end
 
-
-# ╔═╡ 3a4957ec-8723-11eb-22a0-8b35322596e2
-html"""
-
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 400px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 400px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Chapter 2.2</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em>Random variables</em>
-</p>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>
-"""
 
 # ╔═╡ 0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 PlutoUI.TableOfContents(aside=true)
@@ -387,6 +395,15 @@ md"""
 An obvious way to find the counts would be to run through the data looking for 1s, then run through again looking for 2s, etc.:
 """
 
+# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
+rolls .== 1
+
+# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
+count(rolls .== 1)
+
+# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
+counts = [count(rolls .== i) for i in 1:6]
+
 # ╔═╡ 9e9d3556-86b5-11eb-3dfb-916e625da235
 md"""
 Note that this is *not* the most efficient algorithm!
@@ -399,15 +416,6 @@ We can plot **categorical data** using a **bar chart**, `bar` in Plots.jl. This 
 
 # ╔═╡ 02d03642-86b4-11eb-365a-63ff61ddd3b5
 rolls = rand(1:6, 100000)   # try modifying 100 by adding more zeros
-
-# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
-rolls .== 1
-
-# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
-count(rolls .== 1)
-
-# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
-counts = [count(rolls .== i) for i in 1:6]
 
 # ╔═╡ 2d71fa88-86b5-11eb-0e55-35566c2246d7
 begin
@@ -427,29 +435,29 @@ md"""
 # ╔═╡ d0c9814e-86b1-11eb-2f29-1d041bccc649
 roll_dice(n) = sum( rand(1:12, n) )
 
+# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
+experiment() = roll_dice(n) 
+
+# experiment() = sum([randn()^2 for i in 1:n])
+
 # ╔═╡ 7a16b674-86b7-11eb-3aa5-83712cdc8580
 trials = 10^6
+
+# ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
+data = [experiment() for t in 1:trials]
 
 # ╔═╡ 2bfa712a-8738-11eb-3248-6f9bb93154e8
 md"""
 ### Converging shape
 """
 
+# ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
+data
+
 # ╔═╡ 6c133ab6-86b7-11eb-15f6-7780da5afc31
 md"""
 n = $(@bind n Slider(1:50, show_value=true))
 """
-
-# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
-experiment() = roll_dice(n) 
-
-# experiment() = sum([randn()^2 for i in 1:n])
-
-# ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
-data = [experiment() for t in 1:trials]
-
-# ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
-data
 
 # ╔═╡ 514f6be0-86b8-11eb-30c9-d1020f783afe
 histogram(data, alpha=0.5, legend=false, bins=200, c=:lightsalmon1, title="n = $n")  
@@ -577,7 +585,7 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╠═0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 # ╟─472a41d2-8724-11eb-31b3-0b81612f0083
 # ╟─aeb99f72-8725-11eb-2efd-d3e44686be03
-# ╠═4f9bd326-8724-11eb-2c9b-db1ac9464f1e
+# ╟─4f9bd326-8724-11eb-2c9b-db1ac9464f1e
 # ╟─db2d25de-86b1-11eb-0c78-d1ee52e019ca
 # ╟─e33fe4c8-86b1-11eb-1031-cf45717a3dc9
 # ╠═f49191a2-86b1-11eb-3eab-b392ba058415
@@ -670,7 +678,7 @@ histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
 # ╟─e0a1863e-8735-11eb-1182-1b3c59b1e05a
 # ╟─900af0c8-86ba-11eb-2270-71b1869b9a1a
 # ╟─be6e4c00-873c-11eb-1413-5326aba54216
-# ╠═9a1136c2-873c-11eb-124f-c3939972ce4a
+# ╟─9a1136c2-873c-11eb-124f-c3939972ce4a
 # ╠═e01b6f70-873c-11eb-04a1-ad8e86578982
 # ╠═b5251f76-873c-11eb-38cb-7db300c8fe3c
 # ╠═da62fd1c-873c-11eb-0758-e7cb48e964f1
