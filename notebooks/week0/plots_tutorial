@@ -5,13 +5,10 @@ using Markdown
 using InteractiveUtils
 
 # ╔═╡ 1ccb3a84-88d4-11eb-2499-91af66e78e89
-using Plots
+using Plots, ColorSchemes
 
 # ╔═╡ 8d4852d8-88d4-11eb-10e6-51c750d36b54
 using PlutoUI
-
-# ╔═╡ 88bab79c-88d4-11eb-2511-9ba8f8562ec6
-
 
 # ╔═╡ 47452d72-88d6-11eb-27ef-bbc1d061060d
 md"""
@@ -23,6 +20,7 @@ md"""
 * Plots Docs [Examples](https://docs.juliaplots.org/latest/generated/gr/)
 * [Plot Attributes](http://docs.juliaplots.org/latest/generated/attributes_plot/)
 * [Axis Attributes](http://docs.juliaplots.org/latest/generated/attributes_axis/#Axis)
+* [Color Names](http://juliagraphics.github.io/Colors.jl/stable/namedcolors/)
 """
 
 # ╔═╡ 2a2338e4-88d4-11eb-0e6b-03609b700baa
@@ -76,7 +74,7 @@ end
 # ╔═╡ cca58686-88d8-11eb-2fe4-d7d378c5408a
 md"""
 ##  Matrices with color (heatmap)
-yflip = true places the 2,1 entry where you want it
+yflip = true places the 2,1 entry where you want it, since you want to interchange xy with ij and i runs down and y runs up.
 """
 
 # ╔═╡ d2c81aec-88d8-11eb-0e25-57a2068c3bf9
@@ -86,12 +84,63 @@ A = [ 1 1000 1 ; 1 1 1; 1 1 1]
 heatmap(A, ratio=1, yflip=true, legend=false, axis=false, grid=false,  ticks=false)
 
 # ╔═╡ b059780e-88db-11eb-028c-6b07355fb1ab
-heatmap( rand(10,10), clim=(0,1), ratio=1, legend=false, axis=false, ticks=false )
+heatmap( rand(10,10), clim=(0,1), ratio=1, legend=false, axis=false, ticks=false)
 
 # ╔═╡ cf2adbb0-88db-11eb-2fba-71c25adfaf1e
 begin
 	M = [0 1 0;0 0 0; 0 0 0]
-	heatmap(M,clim=(0,1), ratio=1, legend=false, axis=false, ticks=false, yflip=true, c=:thermal )
+	whiteblack = [:white,:black]
+	
+	plot( lims=(.5,3.5), ticks=1:3, ratio=1, yflip=true)
+	heatmap!(1:3,1:3,M,clim=(0,1), c=whiteblack, ratio=1, legend=false, axis=true, yflip=true, lims=(.5,3.5))
+	plot!(grid=true)
+end
+
+# ╔═╡ 48561d5a-8991-11eb-2a55-db793e4c9fea
+let
+	M = [ 0 1 0; 0 0 0; 1 0 0]
+	whiteblack = [RGBA(1,1,1,0), RGB(0,0,0)]
+	heatmap(c=whiteblack, M, aspect_ratio = 1, ticks=.5:3.5, lims=(.5,3.5), gridalpha=1, legend=false, axis=false, ylabel="i", xlabel="j")
+end
+
+# ╔═╡ 15e03bd0-898c-11eb-3424-6fc74206ce9a
+md"""
+## Colors
+"""
+
+# ╔═╡ 855cae06-898e-11eb-36d5-0ddaf08022e9
+Colors.color_names
+
+# ╔═╡ 1d8dd040-898c-11eb-387b-3143b3997eee
+mycolors = [colorant"lightslateblue",colorant"limegreen",colorant"red"]
+
+# ╔═╡ 3d2c46d0-898b-11eb-3073-e1012b3ebb67
+begin
+	
+	AA = [i for i=50:300, j=1:100]
+
+	heatmap(AA, c=mycolors, clim=(1,300))
+	
+end
+
+# ╔═╡ 0b8a01aa-8993-11eb-2e43-074f49edc175
+md"""
+## Area under curves
+"""
+
+# ╔═╡ e2046a88-8991-11eb-0906-2f0e89a943c3
+begin
+	y = rand(10)
+	plot(y, fillrange= y.*0 .+ .5, label= "above/below 1/2", legend =:topleft)
+end
+
+# ╔═╡ a990150c-8992-11eb-22f5-bfdf98f17298
+begin
+	x = LinRange(0,2,100)
+	y1 = exp.(x)
+	y2 = exp.(1.3 .* x)
+	
+	plot(x, y1, fillrange = y2, fillalpha = 0.35, c = 1, label = "Confidence band", legend = :topleft)
 end
 
 # ╔═╡ eb3e721e-88d4-11eb-1f09-cfba69f498d4
@@ -99,7 +148,6 @@ TableOfContents()
 
 # ╔═╡ Cell order:
 # ╠═1ccb3a84-88d4-11eb-2499-91af66e78e89
-# ╟─88bab79c-88d4-11eb-2511-9ba8f8562ec6
 # ╟─47452d72-88d6-11eb-27ef-bbc1d061060d
 # ╟─2a2338e4-88d4-11eb-0e6b-03609b700baa
 # ╟─4316799c-88d4-11eb-0e83-a7df319711ad
@@ -115,5 +163,13 @@ TableOfContents()
 # ╠═e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
 # ╠═b059780e-88db-11eb-028c-6b07355fb1ab
 # ╠═cf2adbb0-88db-11eb-2fba-71c25adfaf1e
+# ╠═48561d5a-8991-11eb-2a55-db793e4c9fea
+# ╟─15e03bd0-898c-11eb-3424-6fc74206ce9a
+# ╠═855cae06-898e-11eb-36d5-0ddaf08022e9
+# ╠═1d8dd040-898c-11eb-387b-3143b3997eee
+# ╠═3d2c46d0-898b-11eb-3073-e1012b3ebb67
+# ╟─0b8a01aa-8993-11eb-2e43-074f49edc175
+# ╠═e2046a88-8991-11eb-0906-2f0e89a943c3
+# ╠═a990150c-8992-11eb-22f5-bfdf98f17298
 # ╟─8d4852d8-88d4-11eb-10e6-51c750d36b54
 # ╟─eb3e721e-88d4-11eb-1f09-cfba69f498d4
