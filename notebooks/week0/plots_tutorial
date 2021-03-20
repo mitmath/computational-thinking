@@ -85,6 +85,15 @@ A = [ 1 1000 1 ; 1 1 1; 1 1 1]
 # ╔═╡ e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
 heatmap(A, ratio=1, yflip=true, legend=false, axis=false, grid=false,  ticks=false)
 
+# ╔═╡ b059780e-88db-11eb-028c-6b07355fb1ab
+heatmap( rand(10,10), clim=(0,1), ratio=1, legend=false, axis=false, ticks=false )
+
+# ╔═╡ cf2adbb0-88db-11eb-2fba-71c25adfaf1e
+begin
+	M = [0 1 0;0 0 0; 0 0 0]
+	heatmap(M,clim=(0,1), ratio=1, legend=false, axis=false, ticks=false, yflip=true, c=:thermal )
+end
+
 # ╔═╡ eb3e721e-88d4-11eb-1f09-cfba69f498d4
 TableOfContents()
 
@@ -104,5 +113,7 @@ TableOfContents()
 # ╟─cca58686-88d8-11eb-2fe4-d7d378c5408a
 # ╠═d2c81aec-88d8-11eb-0e25-57a2068c3bf9
 # ╠═e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
+# ╠═b059780e-88db-11eb-028c-6b07355fb1ab
+# ╠═cf2adbb0-88db-11eb-2fba-71c25adfaf1e
 # ╟─8d4852d8-88d4-11eb-10e6-51c750d36b54
 # ╟─eb3e721e-88d4-11eb-1f09-cfba69f498d4
