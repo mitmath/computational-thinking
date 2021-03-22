@@ -86,22 +86,36 @@ heatmap(A, ratio=1, yflip=true, legend=false, axis=false, grid=false,  ticks=fal
 # ╔═╡ b059780e-88db-11eb-028c-6b07355fb1ab
 heatmap( rand(10,10), clim=(0,1), ratio=1, legend=false, axis=false, ticks=false)
 
-# ╔═╡ cf2adbb0-88db-11eb-2fba-71c25adfaf1e
+# ╔═╡ 48561d5a-8991-11eb-2a55-db793e4c9fea
 begin
-	M = [0 1 0;0 0 0; 0 0 0]
-	whiteblack = [:white,:black]
+	MM = [ 0 1 0; 0 0 0; 1 0 0]
 	
-	plot( lims=(.5,3.5), ticks=1:3, ratio=1, yflip=true)
-	heatmap!(1:3,1:3,M,clim=(0,1), c=whiteblack, ratio=1, legend=false, axis=true, yflip=true, lims=(.5,3.5))
-	plot!(grid=true)
+	whiteblack = [RGBA(1,1,1,0), RGB(0,0,0)]
+	 heatmap(c=whiteblack, MM, aspect_ratio = 1, ticks=.5:3.5, lims=(.5,3.5), gridalpha=1, legend=false, axis=false, ylabel="i", xlabel="j")
 end
 
-# ╔═╡ 48561d5a-8991-11eb-2a55-db793e4c9fea
-let
-	M = [ 0 1 0; 0 0 0; 1 0 0]
-	whiteblack = [RGBA(1,1,1,0), RGB(0,0,0)]
-	heatmap(c=whiteblack, M, aspect_ratio = 1, ticks=.5:3.5, lims=(.5,3.5), gridalpha=1, legend=false, axis=false, ylabel="i", xlabel="j")
+# ╔═╡ 1bc15efe-8a44-11eb-11e4-5349f4279202
+begin
+	p=plot(1:4,guideposition=:top)
 end
+
+# ╔═╡ 63a807fe-8a44-11eb-3a3f-23fdf0804149
+begin
+	p.attr[:foreground_color] = RGB(1,0,0)
+	p.attr[:foreground_color]
+end
+
+# ╔═╡ a0cd1d04-8a44-11eb-248c-1f5d699d60d2
+p
+
+# ╔═╡ b3aba314-8a44-11eb-0ea1-c9aafbecbd7e
+begin
+		q = (p.series_list[1]).plotattributes
+	    q.explicit[:linecolor]=:green
+end
+
+# ╔═╡ 5bb7a350-8a45-11eb-15eb-d76bc70ab2bc
+p
 
 # ╔═╡ 15e03bd0-898c-11eb-3424-6fc74206ce9a
 md"""
@@ -162,8 +176,12 @@ TableOfContents()
 # ╠═d2c81aec-88d8-11eb-0e25-57a2068c3bf9
 # ╠═e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
 # ╠═b059780e-88db-11eb-028c-6b07355fb1ab
-# ╠═cf2adbb0-88db-11eb-2fba-71c25adfaf1e
 # ╠═48561d5a-8991-11eb-2a55-db793e4c9fea
+# ╠═1bc15efe-8a44-11eb-11e4-5349f4279202
+# ╠═63a807fe-8a44-11eb-3a3f-23fdf0804149
+# ╠═a0cd1d04-8a44-11eb-248c-1f5d699d60d2
+# ╠═b3aba314-8a44-11eb-0ea1-c9aafbecbd7e
+# ╠═5bb7a350-8a45-11eb-15eb-d76bc70ab2bc
 # ╟─15e03bd0-898c-11eb-3424-6fc74206ce9a
 # ╠═855cae06-898e-11eb-36d5-0ddaf08022e9
 # ╠═1d8dd040-898c-11eb-387b-3143b3997eee
