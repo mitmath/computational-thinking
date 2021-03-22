@@ -23,6 +23,9 @@ md"""
 * [Color Names](http://juliagraphics.github.io/Colors.jl/stable/namedcolors/)
 """
 
+# ╔═╡ c1bba16a-8b49-11eb-3432-0f509f834b1f
+1+1
+
 # ╔═╡ 2a2338e4-88d4-11eb-0e6b-03609b700baa
 md"""
 ## Loading Time 
@@ -163,6 +166,7 @@ TableOfContents()
 # ╔═╡ Cell order:
 # ╠═1ccb3a84-88d4-11eb-2499-91af66e78e89
 # ╟─47452d72-88d6-11eb-27ef-bbc1d061060d
+# ╠═c1bba16a-8b49-11eb-3432-0f509f834b1f
 # ╟─2a2338e4-88d4-11eb-0e6b-03609b700baa
 # ╟─4316799c-88d4-11eb-0e83-a7df319711ad
 # ╠═6fcad280-88d4-11eb-310f-5f89a5d21f9b
