@@ -44,6 +44,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>hw5/index.html</loc>
+    <lastmod>2021-03-22</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>basic_syntax/index.html</loc>
     <lastmod>2021-03-22</lastmod>
     <changefreq>monthly</changefreq>
