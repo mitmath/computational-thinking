@@ -1,0 +1,197 @@
+### A Pluto.jl notebook ###
+# v0.12.21
+
+using Markdown
+using InteractiveUtils
+
+# ╔═╡ 1ccb3a84-88d4-11eb-2499-91af66e78e89
+using Plots, ColorSchemes
+
+# ╔═╡ 8d4852d8-88d4-11eb-10e6-51c750d36b54
+using PlutoUI
+
+# ╔═╡ 47452d72-88d6-11eb-27ef-bbc1d061060d
+md"""
+## Resources
+
+
+
+* Plots Docs [Useful Tips](https://docs.juliaplots.org/latest/basics/#Useful-Tips)
+* Plots Docs [Examples](https://docs.juliaplots.org/latest/generated/gr/)
+* [Plot Attributes](http://docs.juliaplots.org/latest/generated/attributes_plot/)
+* [Axis Attributes](http://docs.juliaplots.org/latest/generated/attributes_axis/#Axis)
+* [Color Names](http://juliagraphics.github.io/Colors.jl/stable/namedcolors/)
+"""
+
+# ╔═╡ c1bba16a-8b49-11eb-3432-0f509f834b1f
+1+1
+
+# ╔═╡ 2a2338e4-88d4-11eb-0e6b-03609b700baa
+md"""
+## Loading Time 
+
+Plots loading time sucks big time.
+This is a known problem.  We know, we know, Julia is fast, just grab some coffee ....
+☕☕☕☕☕☕☕☕☕
+"""
+
+# ╔═╡ 4316799c-88d4-11eb-0e83-a7df319711ad
+md"""
+## Hello World
+"""
+
+# ╔═╡ 6fcad280-88d4-11eb-310f-5f89a5d21f9b
+plot(rand(4))
+
+# ╔═╡ 63da4054-88d5-11eb-29c9-b3648548c367
+md"""
+## Adding Stuff
+"""
+
+# ╔═╡ 6b55e978-88d5-11eb-1fea-739e61bbb35a
+begin
+		plot!(rand(4))
+		scatter!(rand(4))
+end
+
+# ╔═╡ 198eb00c-88d5-11eb-3d3c-3963d197f0e0
+md"""
+## Removing Stuff
+"""
+
+# ╔═╡ 2b4cc1d0-88d5-11eb-0afd-3988abd9a870
+plot!(legend=false, axis=false, grid=false, ticks=false )
+
+# ╔═╡ cf89db1e-88d7-11eb-2a92-850c7d46a296
+md"""
+## Square Aspect Ratio
+"""
+
+# ╔═╡ da7b4c10-88d7-11eb-011e-dbb639e6fa2b
+begin
+	v = rand(4)
+	plot(v, ratio=1, legend=false)
+	scatter!(v)
+end
+
+# ╔═╡ cca58686-88d8-11eb-2fe4-d7d378c5408a
+md"""
+##  Matrices with color (heatmap)
+yflip = true places the 2,1 entry where you want it, since you want to interchange xy with ij and i runs down and y runs up.
+"""
+
+# ╔═╡ d2c81aec-88d8-11eb-0e25-57a2068c3bf9
+A = [ 1 1000 1 ; 1 1 1; 1 1 1]
+
+# ╔═╡ e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
+heatmap(A, ratio=1, yflip=true, legend=false, axis=false, grid=false,  ticks=false)
+
+# ╔═╡ b059780e-88db-11eb-028c-6b07355fb1ab
+heatmap( rand(10,10), clim=(0,1), ratio=1, legend=false, axis=false, ticks=false)
+
+# ╔═╡ 48561d5a-8991-11eb-2a55-db793e4c9fea
+begin
+	MM = [ 0 1 0; 0 0 0; 1 0 0]
+	
+	whiteblack = [RGBA(1,1,1,0), RGB(0,0,0)]
+	 heatmap(c=whiteblack, MM, aspect_ratio = 1, ticks=.5:3.5, lims=(.5,3.5), gridalpha=1, legend=false, axis=false, ylabel="i", xlabel="j")
+end
+
+# ╔═╡ 1bc15efe-8a44-11eb-11e4-5349f4279202
+begin
+	p=plot(1:4,guideposition=:top)
+end
+
+# ╔═╡ 63a807fe-8a44-11eb-3a3f-23fdf0804149
+begin
+	p.attr[:foreground_color] = RGB(1,0,0)
+	p.attr[:foreground_color]
+end
+
+# ╔═╡ a0cd1d04-8a44-11eb-248c-1f5d699d60d2
+p
+
+# ╔═╡ b3aba314-8a44-11eb-0ea1-c9aafbecbd7e
+begin
+		q = (p.series_list[1]).plotattributes
+	    q.explicit[:linecolor]=:green
+end
+
+# ╔═╡ 5bb7a350-8a45-11eb-15eb-d76bc70ab2bc
+p
+
+# ╔═╡ 15e03bd0-898c-11eb-3424-6fc74206ce9a
+md"""
+## Colors
+"""
+
+# ╔═╡ 855cae06-898e-11eb-36d5-0ddaf08022e9
+Colors.color_names
+
+# ╔═╡ 1d8dd040-898c-11eb-387b-3143b3997eee
+mycolors = [colorant"lightslateblue",colorant"limegreen",colorant"red"]
+
+# ╔═╡ 3d2c46d0-898b-11eb-3073-e1012b3ebb67
+begin
+	
+	AA = [i for i=50:300, j=1:100]
+
+	heatmap(AA, c=mycolors, clim=(1,300))
+	
+end
+
+# ╔═╡ 0b8a01aa-8993-11eb-2e43-074f49edc175
+md"""
+## Area under curves
+"""
+
+# ╔═╡ e2046a88-8991-11eb-0906-2f0e89a943c3
+begin
+	y = rand(10)
+	plot(y, fillrange= y.*0 .+ .5, label= "above/below 1/2", legend =:topleft)
+end
+
+# ╔═╡ a990150c-8992-11eb-22f5-bfdf98f17298
+begin
+	x = LinRange(0,2,100)
+	y1 = exp.(x)
+	y2 = exp.(1.3 .* x)
+	
+	plot(x, y1, fillrange = y2, fillalpha = 0.35, c = 1, label = "Confidence band", legend = :topleft)
+end
+
+# ╔═╡ eb3e721e-88d4-11eb-1f09-cfba69f498d4
+TableOfContents()
+
+# ╔═╡ Cell order:
+# ╠═1ccb3a84-88d4-11eb-2499-91af66e78e89
+# ╟─47452d72-88d6-11eb-27ef-bbc1d061060d
+# ╠═c1bba16a-8b49-11eb-3432-0f509f834b1f
+# ╟─2a2338e4-88d4-11eb-0e6b-03609b700baa
+# ╟─4316799c-88d4-11eb-0e83-a7df319711ad
+# ╠═6fcad280-88d4-11eb-310f-5f89a5d21f9b
+# ╟─63da4054-88d5-11eb-29c9-b3648548c367
+# ╠═6b55e978-88d5-11eb-1fea-739e61bbb35a
+# ╟─198eb00c-88d5-11eb-3d3c-3963d197f0e0
+# ╠═2b4cc1d0-88d5-11eb-0afd-3988abd9a870
+# ╟─cf89db1e-88d7-11eb-2a92-850c7d46a296
+# ╠═da7b4c10-88d7-11eb-011e-dbb639e6fa2b
+# ╟─cca58686-88d8-11eb-2fe4-d7d378c5408a
+# ╠═d2c81aec-88d8-11eb-0e25-57a2068c3bf9
+# ╠═e3f7d1ea-88d8-11eb-21bf-cbcdec1e8810
+# ╠═b059780e-88db-11eb-028c-6b07355fb1ab
+# ╠═48561d5a-8991-11eb-2a55-db793e4c9fea
+# ╠═1bc15efe-8a44-11eb-11e4-5349f4279202
+# ╠═63a807fe-8a44-11eb-3a3f-23fdf0804149
+# ╠═a0cd1d04-8a44-11eb-248c-1f5d699d60d2
+# ╠═b3aba314-8a44-11eb-0ea1-c9aafbecbd7e
+# ╠═5bb7a350-8a45-11eb-15eb-d76bc70ab2bc
+# ╟─15e03bd0-898c-11eb-3424-6fc74206ce9a
+# ╠═855cae06-898e-11eb-36d5-0ddaf08022e9
+# ╠═1d8dd040-898c-11eb-387b-3143b3997eee
+# ╠═3d2c46d0-898b-11eb-3073-e1012b3ebb67
+# ╟─0b8a01aa-8993-11eb-2e43-074f49edc175
+# ╠═e2046a88-8991-11eb-0906-2f0e89a943c3
+# ╠═a990150c-8992-11eb-22f5-bfdf98f17298
+# ╟─8d4852d8-88d4-11eb-10e6-51c750d36b54
+# ╟─eb3e721e-88d4-11eb-1f09-cfba69f498d4
