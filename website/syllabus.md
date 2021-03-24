@@ -21,4 +21,5 @@
 | 6 | Dyanmic Programming and Seam Carving | Mar 9, 2021 | [1.7](/dynamic_programming/), [1.8](seam_carving)| [video](https://www.youtube.com/watch?v=KyBXJV1zFlo) | Week 3 Problem MITx released |
 | 7 | Structure in Data and PCA| Mar 10, 2021 | [1.9](/structure/) |[video](https://www.youtube.com/watch?v=wZrVxbmX218)  | |
 | 8 | More PCA| Mar 15, 2021 | [2.1](/pca/) | [video](https://www.youtube.com/watch?v=iuKrM_NzxCk) | |
-| 9 | Sampling & Random Variables | Mar 15, 2021 | [2.1](/pca/) |[video](https://www.youtube.com/watch?v=7HrpoFZzITI)  | |
+| 9 | Sampling & Random Variables | Mar 15, 2021 | [2.2](/random_vars/) |[video](https://www.youtube.com/watch?v=7HrpoFZzITI)  | |
+| 10 | Modeling with Stochastic Simulation | Mar 24, 2021 | [2.3](/simulating_component_failure/) | | |
