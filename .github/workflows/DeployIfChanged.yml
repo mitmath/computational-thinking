@@ -3,9 +3,8 @@ on:
     push:
         branches:
             - Spring21
-        paths:
-            - "notebooks/**"
-            - "pluto-deployment-environment/**"
+        paths-ignore:
+            - "website/**"
     workflow_dispatch:
 
 jobs:
