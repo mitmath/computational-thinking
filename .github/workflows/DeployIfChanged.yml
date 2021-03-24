@@ -3,21 +3,16 @@ on:
     push:
         branches:
             - Spring21
+        paths:
+            - "notebooks/**"
     workflow_dispatch:
 
 jobs:
-    build-and-deploy:
+    deploy-slider-server:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Spring 21 source
               uses: actions/checkout@v2
-
-            - name: Set up dummy notebook cache to track file changes
-              id: changes-cache
-              uses: actions/cache@v2
-              with:
-                path: pluto_state_cache
-                key: ${{ runner.os }}-pluto_dummy_changes_cache-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('notebooks/**/*.jl') }}
 
             - name: Push to Spring21-deploy
               if: ${{ !changes-cache.outputs.cache-hit }}
