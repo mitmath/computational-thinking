@@ -1,0 +1,22 @@
+name: Spring 21 - Deploy slider server when notebooks change
+on:
+    push:
+        branches:
+            - Spring21
+        paths-ignore:
+            - "website/**"
+    workflow_dispatch:
+
+jobs:
+    deploy-slider-server:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Spring 21 source
+              uses: actions/checkout@v2
+
+            - name: Push to Spring21-deploy
+              uses: JamesIves/github-pages-deploy-action@releases/v3
+              with:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+                  BRANCH: Spring21-deploy
+                  FOLDER: .
