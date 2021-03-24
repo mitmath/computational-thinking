@@ -13,6 +13,57 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 41f7d874-8cb9-11eb-308d-47dea998f6bf
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 2.3</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Simulating component failure </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
+
 # ╔═╡ 9a0cec14-08db-11eb-3cfa-4d1c327c63f1
 begin
     import Pkg
@@ -122,6 +173,9 @@ md"""
 M= $(@bind M Slider(2:20, show_value=true, default=8))
 """
 
+# ╔═╡ 17bbf532-8cac-11eb-1e3f-c54072021208
+simulation = simulate(M, prob)
+
 # ╔═╡ 17cf895a-8cac-11eb-017e-c79ffcab60b1
 md"""
 p= $(@bind prob Slider(0.01:.01:1, show_value=true, default=.1))
@@ -129,18 +183,8 @@ p= $(@bind prob Slider(0.01:.01:1, show_value=true, default=.1))
 t = $(@bind tt Slider(1:100, show_value=true, default=1))
 """
 
-# ╔═╡ 17bbf532-8cac-11eb-1e3f-c54072021208
-simulation = simulate(M, prob)
-
 # ╔═╡ a38fe2b2-8cae-11eb-19e8-d563e82855d3
 gr()
-
-# ╔═╡ 18da7920-8cac-11eb-07f4-e109298fd5f1
-begin
-	rectangle(w, h, x, y) = (x .+ [0,w,w,0], y .+ [0,0,h,h])
-	
-	circle(r,x,y) = (θ = LinRange(0, 2π, 30); (x.+r.*cos.(θ), y.+r.*sin.(θ)))
-end
 
 # ╔═╡ 17e0d142-8cac-11eb-2d6a-fdf175f5d419
 begin
@@ -164,6 +208,13 @@ begin
 	
 	plot!(lims=(0.5, M+1.1), title="time = $(tt-1);  failed count: $(sum(simulation.<tt))")
 	
+end
+
+# ╔═╡ 18da7920-8cac-11eb-07f4-e109298fd5f1
+begin
+	rectangle(w, h, x, y) = (x .+ [0,w,w,0], y .+ [0,0,h,h])
+	
+	circle(r,x,y) = (θ = LinRange(0, 2π, 30); (x.+r.*cos.(θ), y.+r.*sin.(θ)))
 end
 
 # ╔═╡ 17fe87a0-8cac-11eb-2938-2d9cd19ecc0f
@@ -327,6 +378,14 @@ end
 # ╔═╡ 9282eca0-08db-11eb-2e36-d761594b427c
 T = 100
 
+# ╔═╡ 58d8542c-08db-11eb-193a-398ce01b8635
+begin
+	infected = [true for i in 1:N]
+		
+	results = [copy(step!(infected, ppp)) for i in 1:T]
+	pushfirst!(results, trues(N))
+end
+
 # ╔═╡ fe0aa72c-8b46-11eb-15aa-49ae570e5858
 md"""
 N = $(@bind N Slider(1:1000, show_value=true, default=70))
@@ -335,14 +394,6 @@ p = $(@bind ppp Slider(0:0.01:1, show_value=true, default=0.25))
 
 t = $(@bind t Slider(1:T, show_value=true))
 """
-
-# ╔═╡ 58d8542c-08db-11eb-193a-398ce01b8635
-begin
-	infected = [true for i in 1:N]
-		
-	results = [copy(step!(infected, ppp)) for i in 1:T]
-	pushfirst!(results, trues(N))
-end
 
 # ╔═╡ 33f9fc36-0846-11eb-18c2-77f92fca3176
 function simulate_recovery(p, T)
@@ -734,6 +785,17 @@ md"""
 Below is a simulation of the discrete-time model. Note that the simplest numerical method to solve (approximately) the system of ODEs, the **Euler method**, basically reduces to solving the discrete-time model!  A whole suite of more advanced ODE solvers is provided in the [Julia `DiffEq` ecosystem](https://diffeq.sciml.ai/dev/).
 """
 
+# ╔═╡ 442035a6-0915-11eb-21de-e11cf950f230
+begin
+	ts = 1:length(SIR)
+	discrete_time_SIR_plot = plot(ts, [x.s for x in SIR], 
+		m=:o, label="S", alpha=0.2, linecolor=:blue, leg=:right, size=(400, 300))
+	plot!(ts, [x.i for x in SIR], m=:o, label="I", alpha=0.2)
+	plot!(ts, [x.r for x in SIR], m=:o, label="R", alpha=0.2)
+	
+	xlims!(0, 500)
+end
+
 # ╔═╡ d994e972-090d-11eb-1b77-6d5ddb5daeab
 begin
 	NN = 100
@@ -779,18 +841,8 @@ end
 # ╔═╡ 39c24ef0-0915-11eb-1a0e-c56f7dd01235
 SIR = discrete_SIR(ss, ii, rr)
 
-# ╔═╡ 442035a6-0915-11eb-21de-e11cf950f230
-begin
-	ts = 1:length(SIR)
-	discrete_time_SIR_plot = plot(ts, [x.s for x in SIR], 
-		m=:o, label="S", alpha=0.2, linecolor=:blue, leg=:right, size=(400, 300))
-	plot!(ts, [x.i for x in SIR], m=:o, label="I", alpha=0.2)
-	plot!(ts, [x.r for x in SIR], m=:o, label="R", alpha=0.2)
-	
-	xlims!(0, 500)
-end
-
 # ╔═╡ Cell order:
+# ╟─41f7d874-8cb9-11eb-308d-47dea998f6bf
 # ╠═9a0cec14-08db-11eb-3cfa-4d1c327c63f1
 # ╠═fb6cdc08-8b44-11eb-09f5-43c167aa53fd
 # ╟─b6b055b6-8cae-11eb-29e5-b507c1a2b9bf
