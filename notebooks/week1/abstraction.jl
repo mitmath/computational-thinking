@@ -44,7 +44,7 @@ font-size: 1.5rem;
 opacity: .8;
 "><em>Section 1.2</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Intro to Abstractionzzzzzs </em>
+<em> Intro to Abstractions </em>
 </p>
 
 <p style="
