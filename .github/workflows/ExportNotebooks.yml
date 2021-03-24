@@ -16,7 +16,9 @@ jobs:
               uses: actions/cache@v2
               with:
                 path: pluto_state_cache
-                key: ${{ runner.os }}-pluto_state_cache-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
+                key: ${{ runner.os }}-pluto_state_cache-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('**/*.jl') }}
+                restore-key: |
+                    ${{ runner.os }}-pluto_state_cache-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
 
             - name: Checkout Fall 20 output
               uses: actions/checkout@v2
