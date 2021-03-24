@@ -13,6 +13,63 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 0db6ee04-81b7-11eb-330c-11b578b72c90
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 1.9</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Taking Advantage of Structure </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/wZrVxbmX218" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
+
+# ╔═╡ ca1a1072-81b6-11eb-1fee-e7df687cc314
+PlutoUI.TableOfContents(aside = true)
+
+# ╔═╡ b0ba5b8c-f5d1-11ea-1304-3f0e47f935fe
+md"# Examples of structure"
+
 # ╔═╡ 864e1180-f693-11ea-080e-a7d5aabc9ca5
 begin
 	import Pkg
@@ -35,55 +92,6 @@ begin
 	using InteractiveUtils, PlutoUI
 	using LinearAlgebra, SparseArrays, Statistics
 end
-
-# ╔═╡ 0db6ee04-81b7-11eb-330c-11b578b72c90
-html"""
-
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 400px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 400px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em> Chapter 9.1 </em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em>Taking Advantage of Structure</em>
-</p>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>
-"""
-
-# ╔═╡ ca1a1072-81b6-11eb-1fee-e7df687cc314
-PlutoUI.TableOfContents(aside = true)
-
-# ╔═╡ b0ba5b8c-f5d1-11ea-1304-3f0e47f935fe
-md"# Examples of structure"
 
 # ╔═╡ 261c4df2-f5d2-11ea-2c72-7d4b09c46098
 md"""
@@ -207,6 +215,9 @@ k=$(@bind kk Slider(1:nn, default=1, show_value=true))
 
 # ╔═╡ f1154df8-f693-11ea-3b16-f32835fcc470
 x = OneHot(nn, kk)
+
+# ╔═╡ 982590d4-f5ff-11ea-3802-73292c75ad6c
+show_image(x)
 
 # ╔═╡ 81c35324-f5d4-11ea-2338-9f982d38732c
 md"# Diagonal matrices"
@@ -410,6 +421,9 @@ md"""
 You might guess by visualizing the matrix that it is a multiplication table:
 """
 
+# ╔═╡ 2f75df7e-f601-11ea-2fc2-aff4f335af33
+show_image( outer( rand(10), rand(10) ))
+
 # ╔═╡ 7ff664f0-f74b-11ea-0d2d-b53f19e4f4bf
 md"We can factor out a multiplication table, if it's there:"
 
@@ -571,12 +585,6 @@ begin
 	show_image(x::AbstractVector) = show_image(x')
 end
 
-# ╔═╡ 982590d4-f5ff-11ea-3802-73292c75ad6c
-show_image(x)
-
-# ╔═╡ 2f75df7e-f601-11ea-2fc2-aff4f335af33
-show_image( outer( rand(10), rand(10) ))
-
 # ╔═╡ Cell order:
 # ╟─0db6ee04-81b7-11eb-330c-11b578b72c90
 # ╟─ca1a1072-81b6-11eb-1fee-e7df687cc314
@@ -697,7 +705,7 @@ show_image( outer( rand(10), rand(10) ))
 # ╠═0c0ee362-f5f9-11ea-0f75-2d2810c88d65
 # ╠═b95ce51a-f632-11ea-3a64-f7c218b9b3c9
 # ╠═7ba6e6a6-f5fa-11ea-2bcd-616d5a3c898b
-# ╠═8df84fcc-f5d5-11ea-312f-bf2a3b3ce2ce
+# ╟─8df84fcc-f5d5-11ea-312f-bf2a3b3ce2ce
 # ╟─0edd7cca-834f-11eb-0232-ff0850027f76
 # ╟─69be8194-81b7-11eb-0452-0bc8b9f22286
 # ╠═1c462f68-834f-11eb-1447-85848814769b
