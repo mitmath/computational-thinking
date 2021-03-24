@@ -44,7 +44,7 @@ font-size: 1.5rem;
 opacity: .8;
 "><em>Section 2.3</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Simulating component failure </em>
+<em> Modeling with Stochastic Simulation </em>
 </p>
 
 <p style="

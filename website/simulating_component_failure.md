@@ -1,0 +1,1 @@
+{{ plutonotebookpage  ../notebooks/week6/simulating_component_failure.jl }}
