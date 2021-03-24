@@ -20,7 +20,7 @@ jobs:
                 key: ${{ runner.os }}-pluto_dummy_changes_cache-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('notebooks/**/*.jl') }}
 
             - name: Push to Spring21-deploy
-              if: !${{ changes-cache.outputs.cache-hit }}
+              if: ${{ !changes-cache.outputs.cache-hit }}
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
