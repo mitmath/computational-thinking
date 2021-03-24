@@ -5,6 +5,7 @@ on:
             - Spring21
         paths:
             - "notebooks/**"
+            - "pluto-deployment-environment/**"
     workflow_dispatch:
 
 jobs:
