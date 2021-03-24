@@ -15,7 +15,6 @@ jobs:
               uses: actions/checkout@v2
 
             - name: Push to Spring21-deploy
-              if: ${{ !changes-cache.outputs.cache-hit }}
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
