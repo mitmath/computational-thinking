@@ -17,7 +17,7 @@ jobs:
               with:
                 path: pluto_state_cache
                 key: ${{ runner.os }}-pluto_state_cache-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('**/*.jl') }}
-                restore-key: |
+                restore-keys: |
                     ${{ runner.os }}-pluto_state_cache-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
 
             - name: Checkout Fall 20 output
