@@ -30,5 +30,5 @@ book_model = [
     Chapter(2, "Statistics, Probability, Learning"),
     Section(2, 1, "Principal Component Analysis", "notebooks/week5/pca.jl", "iuKrM_NzxCk"),
     Section(2, 2, "Sampling and Random Variables", "notebooks/week5/random_vars.jl", "7HrpoFZzITI"),
-    Section(2, 3, "Modeling with Stochastic Simulation", "notebooks/week6/simulating_component_failure.jl", "")
+    Section(2, 3, "Modeling with Stochastic Simulation", "notebooks/week6/simulating_component_failure.jl", "d8BohH76C7E")
 ]
