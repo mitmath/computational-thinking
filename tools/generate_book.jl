@@ -131,6 +131,17 @@ function process_book_item(section::Section)
             cell.code_folded = true
         end
     end
+
+    cells_dict = getfield(notebook, :cells_dict)
+    cell_order = getfield(notebook, :cell_order)
+    for (i, cell) ∈ enumerate(ordered_cells)
+        if length(strip(cell.code)) == 0 && !cell.code_folded
+            delete!(cells_dict, cell.cell_id)
+            deleteat!(cell_order, i)
+        end
+    end
+    setfield!(notebook, :cells_dict, cells_dict)
+    setfield!(notebook, :cell_order, cell_order)
     
     Pluto.save_notebook(notebook)
 
