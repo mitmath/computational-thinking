@@ -773,9 +773,6 @@ md"""
 We see that the data rotates around in 300 dimensions, but always is projected to the *same* ellipse.
 """
 
-# ╔═╡ 2927cdd8-84fe-11eb-30fb-cb79894f4612
-
-
 # ╔═╡ 90656ce6-84fb-11eb-1aac-4bd7747613db
 U, Σ, V = svd(M, full=true)
 
@@ -935,7 +932,6 @@ ff(rand(total), m, n)
 # ╠═696d2768-84eb-11eb-39e0-612e074a2c27
 # ╠═7b7b5128-84eb-11eb-3974-9b4c08fab8bb
 # ╟─805b9616-85a7-11eb-22e8-db8ee67071ae
-# ╠═2927cdd8-84fe-11eb-30fb-cb79894f4612
 # ╠═90656ce6-84fb-11eb-1aac-4bd7747613db
 # ╠═aec542a2-84fb-11eb-322c-27fc2c45f6ef
 # ╠═b55dcfd2-84fb-11eb-1766-17dc8b7a17d0

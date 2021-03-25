@@ -401,9 +401,6 @@ kernel_matrix[kernel_name]
 # ╔═╡ d22903d6-7529-11eb-2dcd-132cd27104c2
 [imfilter( corgis, kernelize(kernel_matrix[kernel_name])) Gray.(1.5 .* abs.(imfilter( corgis, kernelize(kernel_matrix[kernel_name])))) ]
 
-# ╔═╡ 3ca02e9a-752a-11eb-056a-6b956fb24fdf
-
-
 # ╔═╡ 844ed844-74b3-11eb-2ee1-2de664b26bc6
 md"""
   ### Gaussian Filter
@@ -585,7 +582,6 @@ html"""
 # ╠═acbc563a-7528-11eb-3c38-75a5b66c9241
 # ╠═995392ee-752a-11eb-3394-0de331e24f40
 # ╠═d22903d6-7529-11eb-2dcd-132cd27104c2
-# ╠═3ca02e9a-752a-11eb-056a-6b956fb24fdf
 # ╟─844ed844-74b3-11eb-2ee1-2de664b26bc6
 # ╟─4ffe927c-74b4-11eb-23a7-a18d7e51c75b
 # ╟─91109e5c-74b3-11eb-1f31-c50e436bc6e0
