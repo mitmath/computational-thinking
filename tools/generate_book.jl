@@ -1,13 +1,13 @@
 if !isdir("pluto-deployment-environment")
     @error """
     Run me from the root of the repository directory, using:
-    
+
     julia tools/generate_book.jl
     """
 end
 
 if VERSION < v"1.6.0-aaa"
-   @error "Our website needs to be generated with Julia 1.6. Go to julialang.org/downloads to install it." 
+    @error "Our website needs to be generated with Julia 1.6. Go to julialang.org/downloads to install it."
 end
 
 import Pkg
@@ -60,54 +60,54 @@ end
 
 function html_header(section::Section)
     html_code = """\"\"\"
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
+    <div style="
+    position: absolute;
+    width: calc(100% - 30px);
+    border: 50vw solid #282936;
+    border-top: 500px solid #282936;
+    border-bottom: none;
+    box-sizing: content-box;
+    left: calc(-50vw + 15px);
+    top: -500px;
+    height: 500px;
+    pointer-events: none;
+    "></div>
 
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section $(section.chapter).$(section.section)</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> $(section.name) </em>
-</p>
+    <div style="
+    height: 500px;
+    width: 100%;
+    background: #282936;
+    color: #fff;
+    padding-top: 68px;
+    ">
+    <span style="
+    font-family: Vollkorn, serif;
+    font-weight: 700;
+    font-feature-settings: 'lnum', 'pnum';
+    "> <p style="
+    font-size: 1.5rem;
+    opacity: .8;
+    "><em>Section $(section.chapter).$(section.section)</em></p>
+    <p style="text-align: center; font-size: 2rem;">
+    <em> $(section.name) </em>
+    </p>
 
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/$(section.video_id)" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
+    <p style="
+    font-size: 1.5rem;
+    text-align: center;
+    opacity: .8;
+    "><em>Lecture Video</em></p>
+    <div style="display: flex; justify-content: center;">
+    <div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+    <iframe src="https://www.youtube.com/embed/$(section.video_id)" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+    </div>
+    </div>
 
-<style>
-body {
-overflow-x: hidden;
-}
-</style>\"\"\""""
+    <style>
+    body {
+    overflow-x: hidden;
+    }
+    </style>\"\"\""""
     return "html" * html_code
 end
 
@@ -117,16 +117,21 @@ function process_book_item(section::Section)
     notebook  = Pluto.load_notebook_nobackup(section.notebook_path)
     ordered_cells = notebook.cells
 
-    # First, add the header to each cell 
+    # First, add the header to each cell
     first_cell = ordered_cells[1]
     new_cell_code = html_header(section)
 
+    cells_dict = getfield(notebook, :cells_dict)
+    cell_order = getfield(notebook, :cell_order)
+
     if startswith(first_cell.code, "html")
         # We can just overwrite this cell
-        ordered_cells[1].code = new_cell_code
+        first_cell.code = new_cell_code
     else
         # We get to add a new cell
-        insert!(ordered_cells, 1, Pluto.Cell(new_cell_code))
+        new_cell = Pluto.Cell(new_cell_code)
+        cells_dict[new_cell.cell_id] = new_cell
+        insert!(cell_order, 1, new_cell.cell_id)
     end
 
     # Second hide all md, html cells
@@ -136,9 +141,7 @@ function process_book_item(section::Section)
         end
     end
 
-    cells_dict = getfield(notebook, :cells_dict)
-    cell_order = getfield(notebook, :cell_order)
-    for (i, cell) ∈ enumerate(ordered_cells)
+   for (i, cell) ∈ enumerate(ordered_cells)
         if length(strip(cell.code)) == 0 && !cell.code_folded
             delete!(cells_dict, cell.cell_id)
             deleteat!(cell_order, i)
@@ -146,7 +149,7 @@ function process_book_item(section::Section)
     end
     setfield!(notebook, :cells_dict, cells_dict)
     setfield!(notebook, :cell_order, cell_order)
-    
+
     Pluto.save_notebook(notebook)
 
     # Now we need to generate the approriate .md file for this notebook
@@ -164,54 +167,54 @@ end
 function sidebar_line(section::Section)
     notebook_name = basename(without_dotjl(section.notebook_path))
     return """
-      <a class="sidebar-nav-item {{ispage /$notebook_name/}}active{{end}}" href="/$notebook_name/"><b>$(section.chapter).$(section.section)</b> - <em>$(section.name)</em></a>
+    <a class="sidebar-nav-item {{ispage /$notebook_name/}}active{{end}}" href="/$notebook_name/"><b>$(section.chapter).$(section.section)</b> - <em>$(section.name)</em></a>
     """
 end
 
 function sidebar_line(ch::Chapter)
     return """
-      <div class="course-section">Module $(ch.number): $(ch.name)</div>
+    <div class="course-section">Module $(ch.number): $(ch.name)</div>
     """
 end
 
 
 function sidebar_code(book_model)
     return """
-<div class="sidebar">
-  <div class="container sidebar-sticky">
+    <div class="sidebar">
+    <div class="container sidebar-sticky">
     <div class="sidebar-about">
-      <br>
-      <img src="/assets/MIT_logo.svg" style="width: 80px; height: auto; display: inline">
-      <img src="/assets/julia-logo.svg" style="margin-left:1em; width: 80px; height: auto; display: inline">
-      <div style="font-weight: bold; margin-bottom: 0.5em"><a href="/semesters/">Spring 2021</a> <span style="opacity: 0.6;">| MIT 18.S191/6.S083/22.S092</span></div>
-      <h1><a href="/">Introduction to Computational Thinking</a></h1>
-      <h2>Math from computation, math with computation</h2> 
-      <div style="line-height:18px; font-size: 15px; opacity: 0.85">by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a> &amp; <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a></div>
+    <br>
+    <img src="/assets/MIT_logo.svg" style="width: 80px; height: auto; display: inline">
+    <img src="/assets/julia-logo.svg" style="margin-left:1em; width: 80px; height: auto; display: inline">
+    <div style="font-weight: bold; margin-bottom: 0.5em"><a href="/semesters/">Spring 2021</a> <span style="opacity: 0.6;">| MIT 18.S191/6.S083/22.S092</span></div>
+    <h1><a href="/">Introduction to Computational Thinking</a></h1>
+    <h2>Math from computation, math with computation</h2>
+    <div style="line-height:18px; font-size: 15px; opacity: 0.85">by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a> &amp; <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a></div>
     </div>
     <br>
     <style>
     </style>
     <nav class="sidebar-nav" style="opacity: 0.9">
-      <a class="sidebar-nav-item {{ispage /index.html}}active{{end}}" href="/"><b>Welcome</b></a>
-      <a class="sidebar-nav-item {{ispage /reviews/}}active{{end}}" href="/reviews/">Class Reviews</a>
-      <a class="sidebar-nav-item {{ispage /logistics/}}active{{end}}" href="/logistics/">Class Logistics</a>
-      <a class="sidebar-nav-item {{ispage /homework/}}active{{end}}" href="/homework/">Homework</a>
-      <a class="sidebar-nav-item {{ispage /syllabus/}}active{{end}}" href="/syllabus/">Syllabus and videos</a>
-      <a class="sidebar-nav-item {{ispage /installation/}}active{{end}}" href="/installation/">Software installation</a>
-      <a class="sidebar-nav-item {{ispage /cheatsheets/}}active{{end}}" href="/cheatsheets/">Cheatsheets</a>
-      <a class="sidebar-nav-item {{ispage /semesters/}}active{{end}}" href="/semesters/">Previous semesters</a>
-      <br>
-      $(join(sidebar_line.(book_model)))
-      <div class="course-section">Module 3</div>
-      <em>Starting in week 7</em>
-      <div class="course-section">Module 4</div>
-      <em>Starting in week 10...</em>
+    <a class="sidebar-nav-item {{ispage /index.html}}active{{end}}" href="/"><b>Welcome</b></a>
+    <a class="sidebar-nav-item {{ispage /reviews/}}active{{end}}" href="/reviews/">Class Reviews</a>
+    <a class="sidebar-nav-item {{ispage /logistics/}}active{{end}}" href="/logistics/">Class Logistics</a>
+    <a class="sidebar-nav-item {{ispage /homework/}}active{{end}}" href="/homework/">Homework</a>
+    <a class="sidebar-nav-item {{ispage /syllabus/}}active{{end}}" href="/syllabus/">Syllabus and videos</a>
+    <a class="sidebar-nav-item {{ispage /installation/}}active{{end}}" href="/installation/">Software installation</a>
+    <a class="sidebar-nav-item {{ispage /cheatsheets/}}active{{end}}" href="/cheatsheets/">Cheatsheets</a>
+    <a class="sidebar-nav-item {{ispage /semesters/}}active{{end}}" href="/semesters/">Previous semesters</a>
+    <br>
+    $(join(sidebar_line.(book_model)))
+    <div class="course-section">Module 3</div>
+    <em>Starting in week 7</em>
+    <div class="course-section">Module 4</div>
+    <em>Starting in week 10...</em>
 
-      <br>
-      </nav>
+    <br>
+    </nav>
     </div>
-  </div>
-<div class="content container">"""
+    </div>
+    <div class="content container">"""
 end
 
 function write_sidebar(book_model)
