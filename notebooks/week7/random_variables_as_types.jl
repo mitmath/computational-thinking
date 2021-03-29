@@ -13,17 +13,19 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 74a414ca-8fd1-11eb-140f-49dc439cc031
-using Statistics
-
-# ╔═╡ a6278652-8fd4-11eb-1d81-c38628cd51eb
-using Plots
-
-# ╔═╡ d59b2df6-8fd4-11eb-0034-45d9ec1c253d
-using PlutoUI
-
-# ╔═╡ 53c91a12-8fda-11eb-18b1-0d1fdf4f718f
-using Symbolics
+# ╔═╡ 103cd2f4-903c-11eb-1116-a51dc540175c
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+	
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="Symbolics", version="0.1"),
+    ])
+	
+    using Statistics, Plots, PlutoUI, LinearAlgebra, Symbolics
+end
 
 # ╔═╡ 5d62e16c-8fd9-11eb-1c44-0b0232614011
 TableOfContents(aside=true)
@@ -32,7 +34,7 @@ TableOfContents(aside=true)
 md"""
 # Concepts for today
 
-We won't be introducing any new Julia functions, but we are going to show off a key way in which Julia really shines: its type system.
+We won't be introducing any new Julia functions in this lecture, but we are going to show off a key way in which Julia really shines: its **type system**.
 
 With a few carefully-chosen definitions, we can gain a great deal of power!
 
@@ -54,22 +56,17 @@ md"""
 
 # ╔═╡ b2971770-8ff7-11eb-002c-f9dc9d6d0d70
 md"""
-This lecture might appear to be about random variables (and it is). But we would be thrilled if you see this rather as a lecture on software engineering and abstractions, since the principles involved extend to *many* different contexts.
-	
-
+This lecture might appear to be about random variables (and it is). But we would be thrilled if you see it rather as a more general discussion on software engineering and abstractions, since the principles involved extend to *many* different contexts.
 """
 
-# ╔═╡ 52b1df82-8fd1-11eb-27e9-99264c2c89b8
-begin
-	abstract type RandomVariable end
-	
-	abstract type DiscreteRandomVariable <: RandomVariable end
-	abstract type ContinuousRandomVariable <: RandomVariable end
-end
+# ╔═╡ cdd4497c-903d-11eb-03be-abf6002e75e7
+md"""
+## Random variables
+"""
 
 # ╔═╡ ae1b3a26-8fd3-11eb-3746-ad48301ff96e
 md"""
-Recall that a random variable $X$ is an object which has different possible outcomes $x$, to which we assign probabilities $\mathbb{P}(X = x)$.
+Recall that a **random variable** $X$ is an object which has different possible **outcomes** $x$, to which we assign **probabilities** $\mathbb{P}(X = x)$.
 
 The correspondence of probabilities to outcomes is called the **probability distribution** of the random variable.
 """
@@ -81,9 +78,9 @@ md"""
 
 # ╔═╡ c6c3cf54-8fd4-11eb-3b4f-415f1a2da18e
 md"""
-Let's remind ourselves of Gaussian distributions with mean $\mu$ and standard deviation $\sigma$ (or variance $\sigma^2$).
+Let's remind ourselves of a very important type of distribution, namely the **Gaussian distribution** with mean $\mu$ and standard deviation $\sigma$ (or variance $\sigma^2$).
 
-We can sample from a Gaussian distribution with mean $0$ and variance $1$ with the `randn` function (short for "random normal").
+We can sample from a Gaussian distribution with mean $0$ and variance $1$ with the `randn` function (short for "random normal"). We can then shift and scale to get the Gaussian distribution that we want:
 """
 
 # ╔═╡ d8b74772-8fd4-11eb-3943-f98c29d02171
@@ -93,7 +90,7 @@ md"""
 """
 
 # ╔═╡ b11d964e-8fd4-11eb-3f6a-43e8d2fa462c
-data = μ .+ σ .* randn(10^5)
+data = μ .+ σ .* randn(10^5)   # transform standard normal
 
 # ╔═╡ ad7b3bee-8fd5-11eb-06f6-b39738d4b1fd
 bell_curve(x) = exp(-x^2 / 2) / √(2π)
@@ -130,6 +127,11 @@ md"""
 ### Sum of two Gaussians
 """
 
+# ╔═╡ 11f3853c-903e-11eb-04cd-a125017ad5d8
+md"""
+Let's try to *add* two Gaussians. From the empirical (experimental) point of view the sum of two random variables is easy to compute: Just sample both of them and add the resulting values to get the value of the random variable that is their sum:
+"""
+
 # ╔═╡ 2be60570-8fd8-11eb-0bdf-951280dc6181
 begin
 	data1 = 4 .+ sqrt(0.3) .* randn(10^5)
@@ -143,7 +145,8 @@ histogram(total, alpha=0.5, leg=false, norm=true, size=(500, 300))
 
 # ╔═╡ 79fb368c-8fd9-11eb-1c9c-bd0ceb122b11
 md"""
-The sum of two Gaussians with means $\mu_1$ etc. is ...
+We see that we get back a Gaussian again!
+In fact, the sum of two Gaussians with means $\mu_1$ and $\mu_2$, and variances $\sigma_1^2$ and $\sigma_2^2$, is a Gaussian again! -- with mean $\mu_1 + \mu_2$ and variance $\sigma_1^2 + \sigma_2^2$. Below we will see how to encode this fact computationally.
 
 """
 
@@ -196,20 +199,21 @@ md"""
 
 # ╔═╡ bb2132e0-8fd9-11eb-3bdd-594726c04859
 md"""
-How can we represent a random variable in software?
+How can we *represent a random variable* in software?
 
-In some languages, like R and MATLAB, there are different names for the various functions associated to a random variable, but no name for the random variable itself!:
+In some languages there are different names for the various functions associated to a random variable, but no name for the random variable itself!
 
-[Normal distribution in R](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/Normal)
+For example, in R there is a standard naming convention in R, with `d` for density, etc., followed by the name like `norm` for normal. The indicators are:
 
-[Chi-squared distribution in R](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/Chisquare)
-
-There is a standard naming convention in R, with `d` for density, etc., followed by the name like `norm` for normal. The indicators are:
-
-- `d` for density
+- `d` for the density
 - `p` for the distribution function
 - `q` for the quantile function
 - `r` for generating random variates
+
+See e.g.
+- [Normal distribution in R](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/Normal)
+
+- [Chi-squared distribution in R](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/Chisquare)
 
 
 What's wrong with this? All these functions are referring to an underlying random variable (or probability distribution), which you will find in any course in probability, and yet there's no way to refer to the underlying mathematical object!
@@ -222,19 +226,43 @@ Instead, we would like to be able to refer to the random variable (or probabilit
 We can *later* provide a means for random sampling -- and even, if a new algorithm comes along that is more efficient, we can replace it some day!
 """
 
+# ╔═╡ e0ef47a6-903c-11eb-18aa-6ff06f0e28ac
+md"""
+## Defining abstract types for random variables
+"""
+
+# ╔═╡ 02051416-903d-11eb-0ade-3b20897989c5
+md"""
+We define an **abstract type** using `abstract type <Name> end`, where `<Name>` is replaced with the name of the type.
+
+We can think of an abstract type as being a collection of types that share a particular property. In our case, we want to create a type to represent "any random variable", and also the sub-types "any continuous(-valued) random variable" and "any discrete(-valued) random variable".
+
+This will allow us to specify later on whether a given concrete (i.e. particular) random variable is discrete or continuous.
+
+We use `<:` to denote **sub-type**:
+"""
+
+# ╔═╡ 51ee3c3c-903d-11eb-1bfa-3bbcda98e977
+begin
+	abstract type RandomVariable end
+	
+	abstract type DiscreteRandomVariable <: RandomVariable end
+	abstract type ContinuousRandomVariable <: RandomVariable end
+end
+
 # ╔═╡ 681429d8-8fff-11eb-0fa1-bbf9e05e6cea
 md"""
-## Defining a Gaussian type
+## Defining a type for a Gaussian random variable
+"""
+
+# ╔═╡ 21236a86-8fda-11eb-1fcf-59d1de75470c
+md"""
+Let's start off by looking at **Gaussian** random variables, also called normal random variables. We reminded ourselves above what they look like.
 """
 
 # ╔═╡ dd130aae-8ff2-11eb-2b15-2f5123b40d20
 md"""
 ### Name and parameters
-"""
-
-# ╔═╡ 21236a86-8fda-11eb-1fcf-59d1de75470c
-md"""
-Let's start off by looking at Gaussians:
 """
 
 # ╔═╡ 4771e8e6-8fd2-11eb-178c-419cbdb348f4
@@ -252,7 +280,7 @@ G = Gaussian(1, 2)
 
 # ╔═╡ 0be6c548-8fd3-11eb-07a2-5bb382614cab
 md"""
-Note that here we have named a random variable, *without* sampling from it.
+Note that here we have created a Gaussian random variable with given parameter values, *without* sampling from it.
 """
 
 # ╔═╡ 9c03814c-8ff2-11eb-189d-f3b0507507cb
@@ -308,7 +336,7 @@ md"""
 
 # ╔═╡ dede8022-8fd2-11eb-22f8-a5614d703c01
 md"""
-Gaussians have a special property: the sum of two Gaussians is always a Gaussian. (We say that Gaussians are **stable** distributions. There are others.) Note that we don't need random samples for this theoretical observation, embodied in the following code.
+Gaussians have a special property: the sum of two Gaussians is always a Gaussian. (We say that Gaussians are **stable** distributions; [there are others](https://en.wikipedia.org/wiki/Stable_distribution).) Note that we don't need random samples for this theoretical observation, embodied in the following code:
 """
 
 # ╔═╡ b4f18188-8fd2-11eb-1950-ef3bee3e4724
@@ -382,6 +410,11 @@ md"""
 ### Sampling from a Gaussian distribution
 """
 
+# ╔═╡ 11cbf48a-903f-11eb-1e77-81eeb358ec24
+md"""
+We can also specify how to sample from a Gaussian distribution. We can re-purpose `rand` for this!
+"""
+
 # ╔═╡ 180a4746-8ff6-11eb-046f-ddf6bb938a35
 Base.rand(X::Gaussian) = X.μ + √(X.σ²) * randn()
 
@@ -408,6 +441,11 @@ end
 # ╔═╡ baf1fe40-8ff6-11eb-1da1-cd43880db334
 B = Bernoulli(0.25)
 
+# ╔═╡ 38b10d94-903f-11eb-3e26-890382342dc1
+md"""
+Again we can specify the theoretical mean and variance:
+"""
+
 # ╔═╡ be5f9900-8ff6-11eb-1816-03447cabd9a9
 begin
 	Statistics.mean(X::Bernoulli) = X.p
@@ -416,6 +454,16 @@ end
 
 # ╔═╡ 52a2cac8-8ff8-11eb-2da4-0b113618c64b
 mean(B), var(B), std(B)
+
+# ╔═╡ 6a06b64e-903f-11eb-0d23-53f223ed1ed3
+md"""
+And again `std` just works!
+"""
+
+# ╔═╡ 6e9ad41a-903f-11eb-06ae-1b34a6674eaf
+md"""
+Finally we specify how to sample:
+"""
 
 # ╔═╡ 754b0a80-8ff8-11eb-364b-85fa49d6bb8e
 Base.rand(X::Bernoulli) = Int(rand() < X.p)
@@ -427,7 +475,18 @@ md"""
 
 # ╔═╡ c3043eb6-8ff8-11eb-2cae-13d1c1613234
 md"""
-What happens if we add two Bernoulli random variables? There are two routes we could go: We could use the known theoretical sum, or we could write a general-purpose tool.
+What happens if we add two Bernoulli random variables? There are two routes we could go: We could use the known theoretical sum, or we could write a general-purpose tool. Let's do the latter.
+"""
+
+# ╔═╡ 7e3cea0c-903f-11eb-0b41-0f381c1cce4b
+md"""
+When we add two Bernoulli random variables we do *not* get a Bernoulli back. To see this it's enough to observe that the sum can have the outcome 2, which is impossible for a Bernoulli. 
+		
+So the result is just the random variable "the sum of these two given random variables". In general it won't even have a common name. 
+		
+So we actually need to *define a new type* to represent the "sum of two given random variables", which itself will be a random variable!:
+		
+		
 """
 
 # ╔═╡ eb555508-8ff8-11eb-1b70-e95290084742
@@ -442,16 +501,29 @@ begin
 	B2 = Bernoulli(0.6)
 end
 
+# ╔═╡ cb2cd908-903f-11eb-09c0-99acde6d765c
+md"""
+Now we can define the sum of two random variables of *any* type:
+"""
+
 # ╔═╡ 44a5ef96-8ff9-11eb-06a0-d3a8dcf5c1aa
 Base.:+(X1::RandomVariable, X2::RandomVariable) = SumOfTwoRandomVariables(X1, X2)
+
+# ╔═╡ d8437e6c-903f-11eb-3ac2-5f7c380c0872
+md"""
+For example, let's sum two Bernoullis:
+"""
 
 # ╔═╡ 574744ec-8ff9-11eb-033c-a3dff07a292b
 B1 + B2
 
-# ╔═╡ 6003162e-8ff9-11eb-020e-21594868899f
+# ╔═╡ e024377a-903f-11eb-316a-b5b7936e610f
 md"""
-Why couldn't we have just defined `+` directly, without the new `SumOfTwoRandomVariables` type? If you try to do it, you'll quickly realise that you we have no way of representing the result, since it is a different random variable that we haven't seen before!
+However, for the special case of Gaussians we still get the correct result (we have *not* overwritten the previous definition):
 """
+
+# ╔═╡ f37bb49c-903f-11eb-03fb-35d6ac35822d
+G1 + G2
 
 # ╔═╡ 318f5274-8ff9-11eb-1c88-5fde5b546099
 md"""
@@ -469,7 +541,7 @@ mean(B1 + B2)
 
 # ╔═╡ a51b1538-8ff9-11eb-0635-81088e826bb3
 md"""
-To have a simple equation for the variance, we need to assume that the two random variables are **independent**. Perhaps the name should have been `SumOfTwoIndependentRandomVariables`, but it seems to be too long.
+To have a simple equation for the variance, we need to assume that the two random variables are **independent**. Perhaps the name should have been `SumOfTwoIndependentRandomVariables`, but it seems too long.
 """
 
 # ╔═╡ d88c0830-8ff9-11eb-3e71-c1ac327f4e25
@@ -508,16 +580,31 @@ Now... What if we sum more random variables?
 """
 
 # ╔═╡ 0c3cfb16-8ffb-11eb-3ef9-33ea9acbb8c0
-B1 + B2 + G
+mixture = Bernoulli(0.25) + Bernoulli(0.75) + Gaussian(0, 0.1)
 
 # ╔═╡ 325560f4-8ffb-11eb-0e9b-53f6869bdd97
-rand(B1 + B2 + G)
+rand( mixture )
 
 # ╔═╡ 89138e02-8ffb-11eb-2ad2-c32e663f57b0
-histogram(Bernoulli(0.25) + Bernoulli(0.75) + Gaussian(0, 0.1))
+histogram( mixture )
+
+# ╔═╡ 71cf1724-9040-11eb-25c3-69ccde4abf0d
+md"""
+## Generic programming: `sum`
+"""
+
+# ╔═╡ 646ac706-9040-11eb-297c-7b6d8fdf3c16
+md"""
+Now we have defined `+`, Julia's generic definition of `sum` can kick in to define the sum of many random variables!:
+"""
 
 # ╔═╡ 34bcab72-8ffb-11eb-1d0c-29bd83de638b
 S = sum(Bernoulli(0.25) for i in 1:30)
+
+# ╔═╡ 77b54a34-9040-11eb-00d1-57f712ff6732
+md"""
+Note that we do not need the `[...]` in the following expression. There is no need to actually create an array of random variables; instead we are using an **iterator** or **generator expression**:
+"""
 
 # ╔═╡ bf9a4722-8ffb-11eb-1652-f1bfb4916d2a
 histogram(S)
@@ -540,40 +627,8 @@ By the way, the sum of $n$ Bernoulli random variables with the *same* probabilit
 
 # ╔═╡ 8cb5373a-8ffc-11eb-175d-b11ec5fae1ab
 md"""
-If we were worried about performance, we would probably want to define a separate `Binomial` type, rather than using nested sums of Bernoullis:
+If we were worried about performance, we would probably want to define a separate `Binomial` type, rather than using nested sums of Bernoullis. You will do this in the homework.
 """
-
-# ╔═╡ 3dd5581e-8fd1-11eb-282b-cb30f2dcb069
-struct Binomial <: DiscreteRandomVariable
-	n::Int64
-	p::Float64
-end
-
-# ╔═╡ 10e3a754-8fd2-11eb-0c66-870b9568a05b
-begin
-	X = Bernoulli(0.25)
-	Y = Binomial(10, 0.25)
-end
-
-# ╔═╡ 2e7adf46-8fd2-11eb-3d0f-eb01695084d8
-md"""
-But note that if we add two Bernoullis, we do *not* get back a Bernoulli, since the outcome 2 is also possible
-"""
-
-# ╔═╡ 19dbd48a-8fd2-11eb-132d-c7e67043513c
-Base.:+(X::Bernoulli, Y::Binomial) = 
-
-# ╔═╡ 8edb7874-8fd1-11eb-3e97-33e067f79500
-begin
-	struct SumOfRandomVariables <: RandomVariable
-		variables::Vector{RandomVariable}
-	end
-	
-	SumOfRandomVariables(variables::RandomVariable...) = SumOfRandomVariables([variables...])
-end
-
-# ╔═╡ e483d9c4-8fd1-11eb-311c-b37da0f373d5
-SumOfRandomVariables(Bernoulli(0.25), Binomial(10, 0.25))
 
 # ╔═╡ 25b4ccca-8ffd-11eb-3fe0-2d14ce90d8b3
 md"""
@@ -582,7 +637,7 @@ md"""
 
 # ╔═╡ 9913427a-8ffd-11eb-3c28-c12ee05ed9d3
 md"""
-The chi-1 squared ($\chi_1^2$) distribution 
+Another well-known distribution is the chi-squared distribution, which is defined as the sum of squares of Gaussians. Chi-1 squared ($\chi_1^2$) is the square of a single Gaussian:
 """
 
 # ╔═╡ aa9d94dc-8ffd-11eb-0537-c39344c224c2
@@ -593,7 +648,12 @@ end
 Base.rand(X::ChiSquared1) = rand(Gaussian())^2
 
 # ╔═╡ eea0c788-8ffd-11eb-06e0-cfb65dbba7f1
-histogram(ChiSquared1(); xlims=(0, 10))
+histogram(ChiSquared1())
+
+# ╔═╡ c57fb088-9040-11eb-3881-dfbd82e72b35
+md"""
+We can get the $\chi_n^2$ distribution by summing several $\chi_1^2$:
+"""
 
 # ╔═╡ 028695a2-8ffe-11eb-3cf4-bd07bfe4df3a
 histogram(sum(ChiSquared1() for i in 1:4))
@@ -605,7 +665,7 @@ md"""
 
 # ╔═╡ ce330b78-8fda-11eb-144d-756275542eea
 md"""
-We can even do this symbolically!:
+We can even do some of this symbolically!, e.g.:
 """
 
 # ╔═╡ 668ade6a-8fda-11eb-0a5e-cb791b245ec0
@@ -617,41 +677,39 @@ Gaussian(μ₁, σ₁²) + Gaussian(μ₂, σ₂²)
 # ╔═╡ 9ca993a6-8fda-11eb-089c-4d7f89c81b94
 Gaussian(17, 3) + Gaussian(μ₂, σ₂²)
 
-# ╔═╡ 28dd02f0-8fd3-11eb-397c-45f92b90a40c
-Base.rand(X::Gaussian)
-
 # ╔═╡ Cell order:
 # ╠═5d62e16c-8fd9-11eb-1c44-0b0232614011
-# ╠═74a414ca-8fd1-11eb-140f-49dc439cc031
-# ╠═a6278652-8fd4-11eb-1d81-c38628cd51eb
-# ╠═d59b2df6-8fd4-11eb-0034-45d9ec1c253d
-# ╠═53c91a12-8fda-11eb-18b1-0d1fdf4f718f
-# ╠═6bbfa37e-8ffe-11eb-3031-19ea76a6a8d2
+# ╠═103cd2f4-903c-11eb-1116-a51dc540175c
+# ╟─6bbfa37e-8ffe-11eb-3031-19ea76a6a8d2
 # ╟─8a125ca0-8ff5-11eb-0607-45f993fb5ca7
 # ╟─b2971770-8ff7-11eb-002c-f9dc9d6d0d70
-# ╠═52b1df82-8fd1-11eb-27e9-99264c2c89b8
+# ╟─cdd4497c-903d-11eb-03be-abf6002e75e7
 # ╟─ae1b3a26-8fd3-11eb-3746-ad48301ff96e
 # ╟─ae0008ee-8fd3-11eb-38bd-f52598a97dce
-# ╠═b11d964e-8fd4-11eb-3f6a-43e8d2fa462c
 # ╟─c6c3cf54-8fd4-11eb-3b4f-415f1a2da18e
+# ╠═b11d964e-8fd4-11eb-3f6a-43e8d2fa462c
 # ╟─d8b74772-8fd4-11eb-3943-f98c29d02171
 # ╟─b8c253f8-8fd4-11eb-304a-b1be962687e4
 # ╠═ad7b3bee-8fd5-11eb-06f6-b39738d4b1fd
 # ╠═c76cd760-8fd5-11eb-3500-5d15515c33f5
 # ╠═f31275fa-8fd5-11eb-0b76-7d0513705273
 # ╟─276a7c36-8fd8-11eb-25d8-3d4cfaa1f71c
+# ╟─11f3853c-903e-11eb-04cd-a125017ad5d8
 # ╠═2be60570-8fd8-11eb-0bdf-951280dc6181
 # ╠═5e094b52-8fd8-11eb-2ac4-5797599ab013
 # ╠═bd083794-8fd8-11eb-0155-e59fe27d64f2
 # ╠═a32079ea-8fd8-11eb-01c4-81b603033b55
-# ╠═79fb368c-8fd9-11eb-1c9c-bd0ceb122b11
+# ╟─79fb368c-8fd9-11eb-1c9c-bd0ceb122b11
 # ╟─a2481afa-8fd3-11eb-1769-bf97f42ea79e
 # ╟─a9654334-8fd9-11eb-2ea8-8d308ea66963
 # ╟─bb2132e0-8fd9-11eb-3bdd-594726c04859
 # ╟─f307e3b8-8ff0-11eb-137e-4f9a03bb4d78
+# ╟─e0ef47a6-903c-11eb-18aa-6ff06f0e28ac
+# ╟─02051416-903d-11eb-0ade-3b20897989c5
+# ╠═51ee3c3c-903d-11eb-1bfa-3bbcda98e977
 # ╟─681429d8-8fff-11eb-0fa1-bbf9e05e6cea
-# ╟─dd130aae-8ff2-11eb-2b15-2f5123b40d20
 # ╟─21236a86-8fda-11eb-1fcf-59d1de75470c
+# ╟─dd130aae-8ff2-11eb-2b15-2f5123b40d20
 # ╠═4771e8e6-8fd2-11eb-178c-419cbdb348f4
 # ╟─ece14f6c-8fda-11eb-279b-c18dc0fc46d7
 # ╟─0be6c548-8fd3-11eb-07a2-5bb382614cab
@@ -679,26 +737,34 @@ Base.rand(X::Gaussian)
 # ╠═639e517c-8ff4-11eb-3ea8-07b73b0bff78
 # ╠═3d78116c-8ff5-11eb-0ee3-71bf9413f30e
 # ╠═b63c02e4-8ff4-11eb-11f6-d760e8760118
-# ╟─cd9b10f0-8ff5-11eb-1671-99c6738b8074
 # ╠═a899fc08-8ff5-11eb-1d00-e95b55c3be4b
+# ╟─cd9b10f0-8ff5-11eb-1671-99c6738b8074
 # ╟─0b901c34-8ff6-11eb-225b-511718412309
+# ╟─11cbf48a-903f-11eb-1e77-81eeb358ec24
 # ╠═180a4746-8ff6-11eb-046f-ddf6bb938a35
 # ╠═27595716-8ff6-11eb-1d99-7bf13eedddf7
 # ╟─bfb62f1a-8ff5-11eb-0f7a-cf725f3269c5
 # ╟─0a150880-8ff6-11eb-0046-45fa2d4b476e
 # ╠═26569eb4-8fd1-11eb-2df9-098a0792a09e
 # ╠═baf1fe40-8ff6-11eb-1da1-cd43880db334
+# ╟─38b10d94-903f-11eb-3e26-890382342dc1
 # ╠═be5f9900-8ff6-11eb-1816-03447cabd9a9
-# ╠═52a2cac8-8ff8-11eb-2da4-0b113618c64b
+# ╟─52a2cac8-8ff8-11eb-2da4-0b113618c64b
+# ╟─6a06b64e-903f-11eb-0d23-53f223ed1ed3
+# ╟─6e9ad41a-903f-11eb-06ae-1b34a6674eaf
 # ╠═754b0a80-8ff8-11eb-364b-85fa49d6bb8e
 # ╟─bd484878-8ff8-11eb-0337-7730ab2b07d4
 # ╟─c3043eb6-8ff8-11eb-2cae-13d1c1613234
+# ╟─7e3cea0c-903f-11eb-0b41-0f381c1cce4b
 # ╠═eb555508-8ff8-11eb-1b70-e95290084742
 # ╠═1e5047c4-8ff9-11eb-2628-c7824725678a
+# ╠═cb2cd908-903f-11eb-09c0-99acde6d765c
 # ╠═44a5ef96-8ff9-11eb-06a0-d3a8dcf5c1aa
+# ╠═d8437e6c-903f-11eb-3ac2-5f7c380c0872
 # ╠═574744ec-8ff9-11eb-033c-a3dff07a292b
-# ╟─6003162e-8ff9-11eb-020e-21594868899f
-# ╠═318f5274-8ff9-11eb-1c88-5fde5b546099
+# ╟─e024377a-903f-11eb-316a-b5b7936e610f
+# ╠═f37bb49c-903f-11eb-03fb-35d6ac35822d
+# ╟─318f5274-8ff9-11eb-1c88-5fde5b546099
 # ╠═90ee7558-8ff9-11eb-3602-271890987ece
 # ╠═a168ace6-8ff9-11eb-393d-45c34fdf577c
 # ╟─a51b1538-8ff9-11eb-0635-81088e826bb3
@@ -714,28 +780,25 @@ Base.rand(X::Gaussian)
 # ╠═0c3cfb16-8ffb-11eb-3ef9-33ea9acbb8c0
 # ╠═325560f4-8ffb-11eb-0e9b-53f6869bdd97
 # ╠═89138e02-8ffb-11eb-2ad2-c32e663f57b0
+# ╟─71cf1724-9040-11eb-25c3-69ccde4abf0d
+# ╟─646ac706-9040-11eb-297c-7b6d8fdf3c16
 # ╠═34bcab72-8ffb-11eb-1d0c-29bd83de638b
+# ╟─77b54a34-9040-11eb-00d1-57f712ff6732
 # ╠═bf9a4722-8ffb-11eb-1652-f1bfb4916d2a
 # ╠═611f770c-8ffc-11eb-2c23-0d5750afd7c8
 # ╠═636b2ce0-8ffc-11eb-2411-571f78fb8a84
 # ╠═c7613c44-8ffc-11eb-0a43-dbc8b1f62be9
 # ╟─656999be-8ffc-11eb-0f51-51d5a162a004
 # ╟─8cb5373a-8ffc-11eb-175d-b11ec5fae1ab
-# ╠═3dd5581e-8fd1-11eb-282b-cb30f2dcb069
-# ╠═10e3a754-8fd2-11eb-0c66-870b9568a05b
-# ╠═2e7adf46-8fd2-11eb-3d0f-eb01695084d8
-# ╠═19dbd48a-8fd2-11eb-132d-c7e67043513c
-# ╠═8edb7874-8fd1-11eb-3e97-33e067f79500
-# ╠═e483d9c4-8fd1-11eb-311c-b37da0f373d5
-# ╠═25b4ccca-8ffd-11eb-3fe0-2d14ce90d8b3
-# ╠═9913427a-8ffd-11eb-3c28-c12ee05ed9d3
+# ╟─25b4ccca-8ffd-11eb-3fe0-2d14ce90d8b3
+# ╟─9913427a-8ffd-11eb-3c28-c12ee05ed9d3
 # ╠═aa9d94dc-8ffd-11eb-0537-c39344c224c2
 # ╠═b5300720-8ffd-11eb-2ca4-ed7a7c9b5516
 # ╠═eea0c788-8ffd-11eb-06e0-cfb65dbba7f1
+# ╟─c57fb088-9040-11eb-3881-dfbd82e72b35
 # ╠═028695a2-8ffe-11eb-3cf4-bd07bfe4df3a
 # ╟─820af6dc-8fdc-11eb-1792-ad9f32eb915e
 # ╟─ce330b78-8fda-11eb-144d-756275542eea
 # ╠═668ade6a-8fda-11eb-0a5e-cb791b245ec0
 # ╠═4e94d1da-8fda-11eb-3572-398fb4a12c3c
 # ╠═9ca993a6-8fda-11eb-089c-4d7f89c81b94
-# ╠═28dd02f0-8fd3-11eb-397c-45f92b90a40c
