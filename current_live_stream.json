@@ -1,5 +1,6 @@
 {
 	"url": " https://www.youtube.com/watch?v=xKAO38UsXo0",
 	"show_stay_tuned": false,
-	"show_livestream": true
+	"show_livestream": false,
+	"todays_notebook": "random_variables_as_types"
 }
