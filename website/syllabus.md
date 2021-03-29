@@ -23,3 +23,4 @@
 | 8 | More PCA| Mar 15, 2021 | [2.1](/pca/) | [video](https://www.youtube.com/watch?v=iuKrM_NzxCk) | |
 | 9 | Sampling & Random Variables | Mar 15, 2021 | [2.2](/random_vars/) |[video](https://www.youtube.com/watch?v=7HrpoFZzITI)  | |
 | 10 | Modeling with Stochastic Simulation | Mar 24, 2021 | [2.3](/simulating_component_failure/) | | |
+| 11 | Random Variables as Types | Mar 29, 2021 | [2.4](/random_variables_as_types/) | | |
