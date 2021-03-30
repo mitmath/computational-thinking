@@ -1,0 +1,137 @@
+### A Pluto.jl notebook ###
+# v0.12.21
+
+using Markdown
+using InteractiveUtils
+
+# ╔═╡ fd252080-9189-11eb-1eb2-573d35a72e9c
+using PlutoUI
+
+# ╔═╡ 243e73d6-918e-11eb-399c-bde589f3f84d
+using Plots
+
+# ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
+TableOfContents(title="📚 Table of Contents", aside=true)
+
+# ╔═╡ ee349b52-9189-11eb-2b86-b5dc15ebe432
+md"""
+###  Discrete and Continuous
+"""
+
+# ╔═╡ 43e39a6c-918a-11eb-2408-93563b4fb8c1
+md"""
+An exact technical definition of discrete and continuous can be difficult,
+Nonetheless the idea of discrete mathematics is associated with  finite or countably many values that are isolated.  The set {1,...,n} and the integers are both discrete sets.
+
+By contrast, entire intervals or the whole real line is associated with continuous mathematics. Continuous mathematics covers the ideas of limits, and the concept that nearby objects may behave similarly.
+
+In fact, mathematicians have worked painstakingly to define these terms, inventing fields such as point set topology that among other things can recognize the discrete, and analysis to rigorously work with the continuous. 
+
+"""
+
+# ╔═╡ 091a8a44-918c-11eb-2ee3-9be84a311afd
+md"""
+### Heard in the hallways: I only like discrete math.  I only like continuous math.
+"""
+
+# ╔═╡ 5c536430-9188-11eb-229c-e7feba62d257
+md"""
+### Indexing and Function Evaluation
+
+The analogy between $v_i$ pulling out the ith elment of a vector $v$, and $f(x)$ evaluating a function $f$ at a continuous value $x$.
+
+I have often thought of these as very different, in the one you are extracting an element, and in the other you are applying what in some high schools might be called a "function machine."
+
+However, a moment's thought tells you that a vector is really a discrete function, in that the argument can take on the values i = 1,2,...,n and the evaluation is $v_i$. That's a function.
+
+In fact, think of a range object such as 2:2:20.  You could think of this as just a shorthand for the vector [2,4,...,20] but in fact when you index into this "vector" like thing, you are indeed explicitly evaluating a function i.e. i->2i. 
+"""
+
+# ╔═╡ bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
+md"""
+### Sum and a (Definite) Integral
+"""
+
+# ╔═╡ c4a3bf6c-918d-11eb-1d50-911f83b6df81
+md"""
+### Cumsum and an Indefinite Integral
+"""
+
+# ╔═╡ d99dc494-918d-11eb-2733-29ce93ba584e
+md"""
+### Discrete (Finite Differencing) Filters and Derivatives/Gradients
+"""
+
+# ╔═╡ 2801ae16-918e-11eb-0a46-d5946d0cefb8
+md"""
+### Discrete Length/Area vs Continuous Length/Area
+"""
+
+# ╔═╡ 0fb84ff2-918e-11eb-150f-8dad121c87bc
+md"""
+### Discrete and continuous convolutions e.g. probability densities
+"""
+
+# ╔═╡ a7c5ef96-918d-11eb-0632-f94386eb64f2
+md"""
+### Discrete Random Walks and Brownian Motion
+"""
+
+# ╔═╡ 75672be6-918d-11eb-1e10-07fbcc72abbd
+md"""
+### Binomial Distribution and the Normal Distribution
+"""
+
+# ╔═╡ 906758c6-918d-11eb-08ae-b3c4f7870b4e
+md"""
+### Discrete and the Continuous Fourier Transform
+"""
+
+# ╔═╡ c32e0f9c-918e-11eb-1cf9-a340786db24a
+md"""
+Alan's essay:
+
+In what sense does the continuous even exist?  The fact of the matter is that there are limits that give the same answer no matter how you get there, and these limits
+are important to us. For example, no matter how you cover an area, by little rectangles, the sum always converges to what we intuitively call area.
+The normal distribution is interesting in that no matter which starting finite distribution we might take, if add n independent copies and normalize to variance 1 we get the same limit.  Again, there are so many ways to start, and yet we always end up with the same thing.  Continuous mathematics is full of so many examples, where discrete objects end up behaving the same.
+
+Indeed what happens as discrete objects get larger and larger, their complexity gets out of control if one wants to keep track of every detail, but they get simpler in their aggregate behavior.
+"""
+
+# ╔═╡ aa76ce1e-918c-11eb-1d49-d17f4362245d
+function blue(s::String)
+	HTML("<span style='color:blue'> $(s)  </span>")
+end
+
+# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
+md"""
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+
+$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
+
+ 
+"""
+
+# ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
+
+
+# ╔═╡ Cell order:
+# ╠═fd252080-9189-11eb-1eb2-573d35a72e9c
+# ╠═01506de2-918a-11eb-2a4d-c554a6e54631
+# ╠═ee349b52-9189-11eb-2b86-b5dc15ebe432
+# ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
+# ╟─091a8a44-918c-11eb-2ee3-9be84a311afd
+# ╟─173b44ea-918c-11eb-116b-0bbaeffc3fe2
+# ╟─5c536430-9188-11eb-229c-e7feba62d257
+# ╠═bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
+# ╠═c4a3bf6c-918d-11eb-1d50-911f83b6df81
+# ╠═d99dc494-918d-11eb-2733-29ce93ba584e
+# ╠═243e73d6-918e-11eb-399c-bde589f3f84d
+# ╠═2801ae16-918e-11eb-0a46-d5946d0cefb8
+# ╠═0fb84ff2-918e-11eb-150f-8dad121c87bc
+# ╠═a7c5ef96-918d-11eb-0632-f94386eb64f2
+# ╠═75672be6-918d-11eb-1e10-07fbcc72abbd
+# ╠═906758c6-918d-11eb-08ae-b3c4f7870b4e
+# ╠═c32e0f9c-918e-11eb-1cf9-a340786db24a
+# ╠═aa76ce1e-918c-11eb-1d49-d17f4362245d
+# ╠═c03d45f8-9188-11eb-2e11-0fafa39f253d
