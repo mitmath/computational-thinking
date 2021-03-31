@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.21
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -80,6 +80,16 @@ N = $(@bind N Slider(1:6, show_value=true, default=1))
 md"""
 t = $(@bind t Slider(1:10^N, show_value=true, default=1))
 """
+
+# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
+begin
+	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
+	scatter!([ traj[1], traj[t] ], c=[:red, :green])
+	
+	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
+	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
+	
+end
 
 # ╔═╡ b62c4af8-9232-11eb-2f66-dd27dcb87d20
 md"""
@@ -174,9 +184,6 @@ Base.rand(X::Step2D) = rand(directions)  # because they're uniform
 # ╔═╡ 9d0cd71e-91af-11eb-0030-6943b0773060
 S = Step2D()
 
-# ╔═╡ a9c653e0-91af-11eb-24c7-cd509c772d40
-
-
 # ╔═╡ a32b4892-91af-11eb-1445-c3b24ab73ecd
 rand(S)
 
@@ -208,23 +215,8 @@ position(w::Walker) = w.pos
 # ╔═╡ b8f2c508-91d5-11eb-31b5-61810f171270
 step(w::Walker1D) = rand( (-1, +1) )
 
-# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
-struct Walker2D <: Walker
-	x::Int
-	y::Int
-end
-
-# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
-position(w::Walker2D) = (w.x, w.y)
-
 # ╔═╡ 3c3971e2-91da-11eb-384c-01c627318bdc
 update(w::W, step) where {W <: Walker} = W(position(w) + step)
-
-# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
-step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
-
-# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
-update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
 
 # ╔═╡ cb0ef266-91d5-11eb-314b-0545c0c817d0
 function trajectory(w::W, N) where {W}   # W is a type parameter
@@ -243,18 +235,23 @@ end
 # ╔═╡ 048fac02-91da-11eb-0d26-4f258b4cd043
 trajectory(Walker1D(0), 10)
 
+# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
+struct Walker2D <: Walker
+	x::Int
+	y::Int
+end
+
+# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
+position(w::Walker2D) = (w.x, w.y)
+
+# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
+step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
+
+# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
+update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
+
 # ╔═╡ 74182fe0-91da-11eb-219a-01f13b86406d
 traj = trajectory(Walker2D(0, 0), 10^N)
-
-# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
-begin
-	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
-	scatter!([ traj[1], traj[t] ], c=[:red, :green])
-	
-	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
-	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
-	
-end
 
 # ╔═╡ 57972a32-91e5-11eb-1d62-fbc22c494db9
 md"""
@@ -441,17 +438,17 @@ heatmap(M, yflip=true)
 # ╔═╡ Cell order:
 # ╠═97e807b2-9237-11eb-31ef-6fe0d4cc94d3
 # ╠═5f0d7a44-91e0-11eb-10ae-d73156f965e6
-# ╠═9647147a-91ab-11eb-066f-9bc190368fb2
+# ╟─9647147a-91ab-11eb-066f-9bc190368fb2
 # ╟─ff1aca1e-91e7-11eb-343e-0f89d9570b06
 # ╟─66a2f510-9232-11eb-3be9-131febc0039f
-# ╠═bd3170e6-91ae-11eb-06f8-ebb6b2e7869f
+# ╟─bd3170e6-91ae-11eb-06f8-ebb6b2e7869f
 # ╟─a304c842-91df-11eb-3fac-6dd63087f6de
 # ╟─798507d6-91db-11eb-2e4a-3ba02f12ba65
 # ╟─3504168a-91de-11eb-181d-1d580d5dc071
 # ╠═4c8d8294-91db-11eb-353d-c3696c615b3d
 # ╟─b62c4af8-9232-11eb-2f66-dd27dcb87d20
-# ╠═905379ce-91ad-11eb-295d-8354ecf5c5b1
-# ╠═5c4f0f26-91ad-11eb-033b-2bd221f0bdba
+# ╟─905379ce-91ad-11eb-295d-8354ecf5c5b1
+# ╟─5c4f0f26-91ad-11eb-033b-2bd221f0bdba
 # ╟─da98b676-91e0-11eb-0d97-57b8a8aadf2a
 # ╟─e0b607c0-91e0-11eb-10aa-53ec33570e59
 # ╟─fa1635d4-91e3-11eb-31bd-cf61c502ad35
@@ -461,7 +458,6 @@ heatmap(M, yflip=true)
 # ╠═9a94a0ca-91af-11eb-2b13-7daefc5bef98
 # ╠═9a9500b0-91af-11eb-04c2-fd619562a21d
 # ╠═9d0cd71e-91af-11eb-0030-6943b0773060
-# ╠═a9c653e0-91af-11eb-24c7-cd509c772d40
 # ╠═a32b4892-91af-11eb-1445-c3b24ab73ecd
 # ╠═f293ac08-91af-11eb-230c-7562395e80ad
 # ╠═23f83ea8-91b0-11eb-309b-bf8785f6e4c5
@@ -495,11 +491,11 @@ heatmap(M, yflip=true)
 # ╟─d1315f94-91e4-11eb-1076-81156e24d2f1
 # ╟─97c958c2-91eb-11eb-17cb-410acc7f3e49
 # ╠═b7a98dba-91eb-11eb-3c78-074aa835b5fb
-# ╠═f7f17c0c-91eb-11eb-3fa5-3bd90bb7044e
-# ╠═f0aed302-91eb-11eb-13fb-d9418ef327a8
+# ╟─f7f17c0c-91eb-11eb-3fa5-3bd90bb7044e
+# ╟─f0aed302-91eb-11eb-13fb-d9418ef327a8
 # ╟─c1062e00-922b-11eb-1f31-ddbd03f8f986
 # ╠═547188ea-9233-11eb-1a89-5ff9468b31f7
-# ╠═2920abfe-91ec-11eb-19bc-935fa1ba0a96
+# ╟─2920abfe-91ec-11eb-19bc-935fa1ba0a96
 # ╠═3fadf88c-9236-11eb-19fa-d191ac5a6191
 # ╠═58653a70-9236-11eb-3dae-47adc2a77cb4
 # ╠═5d02f21e-9236-11eb-26ea-6593aa80a2eb
