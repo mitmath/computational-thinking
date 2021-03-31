@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -15,17 +15,59 @@ end
 
 # ╔═╡ 97e807b2-9237-11eb-31ef-6fe0d4cc94d3
 begin
-#     import Pkg
-#     Pkg.activate(mktempdir())
+    import Pkg
+    Pkg.activate(mktempdir())
 	
-#     Pkg.add([
-#         Pkg.PackageSpec(name="Plots", version="1"),
-#         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-#         Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
-#     ])
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
+    ])
 	
     using Plots, PlutoUI, BenchmarkTools
 end
+
+# ╔═╡ 3649f170-923a-11eb-321c-cf95849cc044
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 2.5</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Random Walks </em>
+</p>
+
+
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
 
 # ╔═╡ 5f0d7a44-91e0-11eb-10ae-d73156f965e6
 TableOfContents(aside=true)
@@ -35,16 +77,12 @@ md"""
 # Julia concepts
 
 - Benchmarking: BenchmarkTools.jl
-
-- Multiple dispatch
-- Static arrays - N dimensions
-- Vectors of vectors and copies
-
+- Plotting in a loop
+- Generic programming
+- Mutable vs immutable structs
+- Vectors of vectors
 - Aliasing of memory 
-
-- const
-
-- cumsum
+- `cumsum`
 """
 
 # ╔═╡ ff1aca1e-91e7-11eb-343e-0f89d9570b06
@@ -81,16 +119,6 @@ md"""
 t = $(@bind t Slider(1:10^N, show_value=true, default=1))
 """
 
-# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
-begin
-	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
-	scatter!([ traj[1], traj[t] ], c=[:red, :green])
-	
-	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
-	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
-	
-end
-
 # ╔═╡ b62c4af8-9232-11eb-2f66-dd27dcb87d20
 md"""
 We see that the dynamics closely resembles, at least qualitatively, that of the hard disc.
@@ -110,9 +138,7 @@ md"""
 #### Examples:
 
 
-- Stock price going up and down: 
-
-https://www.amazon.com/Random-Walk-Down-Wall-Street/dp/0393330338
+- Stock price going up and down
 
 
 - Pollutants getting dispersed in the air
@@ -171,35 +197,50 @@ with_terminal() do
 	@btime step4()
 end
 
-# ╔═╡ 5a9d7f00-91af-11eb-0e2e-2792af893e3d
-struct Step2D
-end
-
-# ╔═╡ 9a94a0ca-91af-11eb-2b13-7daefc5bef98
-const directions = [ [1, 0], [0, 1], [-1, 0], [0, -1] ]
-
-# ╔═╡ 9a9500b0-91af-11eb-04c2-fd619562a21d
-Base.rand(X::Step2D) = rand(directions)  # because they're uniform
-
-# ╔═╡ 9d0cd71e-91af-11eb-0030-6943b0773060
-S = Step2D()
-
-# ╔═╡ a32b4892-91af-11eb-1445-c3b24ab73ecd
-rand(S)
-
-# ╔═╡ f293ac08-91af-11eb-230c-7562395e80ad
-data = [rand(Step2D()) for i in 1:1000]
-
-# ╔═╡ 23f83ea8-91b0-11eb-309b-bf8785f6e4c5
-f(a) = a * a'
-
-# ╔═╡ 33c246c6-91b0-11eb-06d8-b90e7f5cce4e
-sum(f.(data)) / length(data)
-
 # ╔═╡ ea9e77e2-91b1-11eb-185d-cd006db11f60
 md"""
 ## Trajectory of a random walk
 """
+
+# ╔═╡ 12b4d528-9239-11eb-2824-8ddb5e2ba892
+md"""
+We can now calculate the **trajectory** of a 1D random walk as it takes several steps.
+It starts at an initial position, for example, 0, and takes consecutive steps:
+"""
+
+# ╔═╡ 2f525796-9239-11eb-1865-9b01eadcf548
+function walk1D(N)
+	x = 0
+	xs = [x]
+	
+	for i in 1:N
+		x += step1()
+		push!(xs, x)
+	end
+	
+	return xs
+end
+
+# ╔═╡ 51abfe6e-9239-11eb-362a-259570250663
+begin
+	plot()
+	
+	for i in 1:10
+		plot!(walk1D(100), leg=false, size=(500, 300), lw=2, alpha=0.5)
+	end
+	
+	plot!()
+end
+
+# ╔═╡ b847b5ca-9239-11eb-02fe-db4d9625bc5f
+md"""
+# Making it more general: Random walks using types
+"""
+
+# ╔═╡ c2deb090-9239-11eb-0739-a74379c15ce6
+Now suppose we want to think about more general random walks, for example moving around in 2D. Then we need to *generalise* the above function.
+		
+Based on our experience from last time, you should suspect that a good way to do this is with *types*. We will define 
 
 # ╔═╡ d420d492-91d9-11eb-056d-33cc8f0aed74
 abstract type Walker end
@@ -215,8 +256,23 @@ position(w::Walker) = w.pos
 # ╔═╡ b8f2c508-91d5-11eb-31b5-61810f171270
 step(w::Walker1D) = rand( (-1, +1) )
 
+# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
+struct Walker2D <: Walker
+	x::Int
+	y::Int
+end
+
+# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
+position(w::Walker2D) = (w.x, w.y)
+
 # ╔═╡ 3c3971e2-91da-11eb-384c-01c627318bdc
 update(w::W, step) where {W <: Walker} = W(position(w) + step)
+
+# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
+step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
+
+# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
+update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
 
 # ╔═╡ cb0ef266-91d5-11eb-314b-0545c0c817d0
 function trajectory(w::W, N) where {W}   # W is a type parameter
@@ -235,23 +291,18 @@ end
 # ╔═╡ 048fac02-91da-11eb-0d26-4f258b4cd043
 trajectory(Walker1D(0), 10)
 
-# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
-struct Walker2D <: Walker
-	x::Int
-	y::Int
-end
-
-# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
-position(w::Walker2D) = (w.x, w.y)
-
-# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
-step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
-
-# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
-update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
-
 # ╔═╡ 74182fe0-91da-11eb-219a-01f13b86406d
 traj = trajectory(Walker2D(0, 0), 10^N)
+
+# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
+begin
+	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
+	scatter!([ traj[1], traj[t] ], c=[:red, :green])
+	
+	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
+	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
+	
+end
 
 # ╔═╡ 57972a32-91e5-11eb-1d62-fbc22c494db9
 md"""
@@ -312,18 +363,6 @@ Let's plot this:
 
 # ╔═╡ b6775d3a-91e8-11eb-0187-618cb538d142
 plot(cumsum(steps), m=:o, leg=false, size=(500, 300))
-
-# ╔═╡ 4a05d9a2-91ec-11eb-1f3a-27e65b6c7795
-md"""
-## Random walks in three dimensions (and higher)
-"""
-
-# ╔═╡ 54309536-91ec-11eb-2fa9-1d6f18b2526f
-md"""
-How could we simulate random walks in 3D (or higher than 3 dimensions)? We want to write **generic** code, where we can use the *same* code for *any* dimension.
-	
-To do so we will need a way to represent short vectors. Of course we could use Julia's `Vector` type, but it turns out for technical reasons to be quite expensive.
-"""
 
 # ╔═╡ 8b1441b6-91e4-11eb-16b2-d7eadd3fd69c
 md"""
@@ -436,6 +475,7 @@ M = reduce(hcat, ps)'
 heatmap(M, yflip=true)
 
 # ╔═╡ Cell order:
+# ╟─3649f170-923a-11eb-321c-cf95849cc044
 # ╠═97e807b2-9237-11eb-31ef-6fe0d4cc94d3
 # ╠═5f0d7a44-91e0-11eb-10ae-d73156f965e6
 # ╟─9647147a-91ab-11eb-066f-9bc190368fb2
@@ -445,7 +485,7 @@ heatmap(M, yflip=true)
 # ╟─a304c842-91df-11eb-3fac-6dd63087f6de
 # ╟─798507d6-91db-11eb-2e4a-3ba02f12ba65
 # ╟─3504168a-91de-11eb-181d-1d580d5dc071
-# ╠═4c8d8294-91db-11eb-353d-c3696c615b3d
+# ╟─4c8d8294-91db-11eb-353d-c3696c615b3d
 # ╟─b62c4af8-9232-11eb-2f66-dd27dcb87d20
 # ╟─905379ce-91ad-11eb-295d-8354ecf5c5b1
 # ╟─5c4f0f26-91ad-11eb-033b-2bd221f0bdba
@@ -454,15 +494,12 @@ heatmap(M, yflip=true)
 # ╟─fa1635d4-91e3-11eb-31bd-cf61c502ad35
 # ╠═f7f9e4c6-91e3-11eb-1a56-8b98f0b09b46
 # ╠═5da7b076-91b4-11eb-3eba-b3f5849efabb
-# ╠═5a9d7f00-91af-11eb-0e2e-2792af893e3d
-# ╠═9a94a0ca-91af-11eb-2b13-7daefc5bef98
-# ╠═9a9500b0-91af-11eb-04c2-fd619562a21d
-# ╠═9d0cd71e-91af-11eb-0030-6943b0773060
-# ╠═a32b4892-91af-11eb-1445-c3b24ab73ecd
-# ╠═f293ac08-91af-11eb-230c-7562395e80ad
-# ╠═23f83ea8-91b0-11eb-309b-bf8785f6e4c5
-# ╠═33c246c6-91b0-11eb-06d8-b90e7f5cce4e
 # ╟─ea9e77e2-91b1-11eb-185d-cd006db11f60
+# ╟─12b4d528-9239-11eb-2824-8ddb5e2ba892
+# ╠═2f525796-9239-11eb-1865-9b01eadcf548
+# ╠═51abfe6e-9239-11eb-362a-259570250663
+# ╠═b847b5ca-9239-11eb-02fe-db4d9625bc5f
+# ╠═c2deb090-9239-11eb-0739-a74379c15ce6
 # ╠═d420d492-91d9-11eb-056d-33cc8f0aed74
 # ╠═ad2d4dd8-91d5-11eb-27af-6f0c6e61a86a
 # ╠═d0f81f28-91d9-11eb-2e79-61461ef5b132
@@ -485,8 +522,6 @@ heatmap(M, yflip=true)
 # ╠═ace8658e-91e8-11eb-0b9d-4b759635e417
 # ╟─b049ff58-91e8-11eb-203b-4f4b5ee5f01f
 # ╠═b6775d3a-91e8-11eb-0187-618cb538d142
-# ╟─4a05d9a2-91ec-11eb-1f3a-27e65b6c7795
-# ╟─54309536-91ec-11eb-2fa9-1d6f18b2526f
 # ╟─8b1441b6-91e4-11eb-16b2-d7eadd3fd69c
 # ╟─d1315f94-91e4-11eb-1076-81156e24d2f1
 # ╟─97c958c2-91eb-11eb-17cb-410acc7f3e49
