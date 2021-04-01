@@ -9,7 +9,7 @@
 \\
 **Text and pictures version:**
 
-## Step 1: Install Julia 1.5.3
+## Step 1: Install Julia 1.6.0
 
 Go to [https://julialang.org/downloads](https://julialang.org/downloads) and download the current stable release, Julia 1.6.0, using the correct version for your operating system (Linux x86, Mac, Windows, etc).
 
