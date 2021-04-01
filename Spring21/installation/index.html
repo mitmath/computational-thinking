@@ -87,10 +87,10 @@ allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
 allowfullscreen></iframe>
 
 <p><br/> <br/> <br/> <strong>Text and pictures version:</strong></p>
-<h2 id="step_1_install_julia_153"><a href="#step_1_install_julia_153">Step 1: Install Julia 1.5.3</a></h2>
-<p>Go to <a href="https://julialang.org/downloads">https://julialang.org/downloads</a> and download the current stable release, Julia 1.5.3, using the correct version for your operating system &#40;Linux x86, Mac, Windows, etc&#41;.</p>
+<h2 id="step_1_install_julia_160"><a href="#step_1_install_julia_160">Step 1: Install Julia 1.6.0</a></h2>
+<p>Go to <a href="https://julialang.org/downloads">https://julialang.org/downloads</a> and download the current stable release, Julia 1.6.0, using the correct version for your operating system &#40;Linux x86, Mac, Windows, etc&#41;.</p>
 <h2 id="step_2_run_julia"><a href="#step_2_run_julia">Step 2: Run Julia</a></h2>
-<p>After installing, <strong>make sure that you can run Julia</strong>. On some systems, this means searching for the &quot;Julia 1.5.3&quot; program installed on your computer; in others, it means running the command <code>julia</code> in a terminal. Make sure that you can execute <code>1 &#43; 1</code>:</p>
+<p>After installing, <strong>make sure that you can run Julia</strong>. On some systems, this means searching for the &quot;Julia 1.6.0&quot; program installed on your computer; in others, it means running the command <code>julia</code> in a terminal. Make sure that you can execute <code>1 &#43; 1</code>:</p>
 <p><img src="https://user-images.githubusercontent.com/6933510/91439734-c573c780-e86d-11ea-8169-0c97a7013e8d.png" alt="image" /></p>
 <p><em>Make sure that you are able to launch Julia and calculate <code>1&#43;1</code> before proceeding&#33;</em></p>
 <h2 id="step_3_install_a_hrefhttpsgithubcomfonspplutojlpluto"><a href="#step_3_install_a_hrefhttpsgithubcomfonspplutojlpluto">Step 3: Install <a href="https://github.com/fonsp/Pluto.jl"><code>Pluto</code></a></a></h2>
@@ -100,10 +100,10 @@ allowfullscreen></iframe>
 <p>To install Pluto, we want to run a <em>package manager command</em>. To switch from <em>Julia</em> mode to <em>Pkg</em> mode, type <code>&#93;</code> &#40;closing square bracket&#41; at the <code>julia&gt;</code> prompt:</p>
 <pre><code class="language-julia">julia&gt; &#93;
 
-&#40;@v1.5&#41; pkg&gt;</code></pre>
+&#40;@v1.6&#41; pkg&gt;</code></pre>
 <p>The line turns blue and the prompt changes to <code>pkg&gt;</code>, telling you that you are now in <em>package manager mode</em>. This mode allows you to do operations on <strong>packages</strong> &#40;also called libraries&#41;.</p>
 <p>To install Pluto, run the following &#40;case sensitive&#41; command to <em>add</em> &#40;install&#41; the package to your system by downloading it from the internet. You should only need to do this <em>once</em> for each installation of Julia:</p>
-<pre><code class="language-julia">&#40;@v1.5&#41; pkg&gt; add Pluto</code></pre>
+<pre><code class="language-julia">&#40;@v1.6&#41; pkg&gt; add Pluto</code></pre>
 <p>This might take a couple of minutes, so you can go get yourself a cup of tea&#33;</p>
 <p><img src="https://user-images.githubusercontent.com/6933510/91440380-ceb16400-e86e-11ea-9352-d164911774cf.png" alt="image" /></p>
 <p>You can now close the terminal.</p>
@@ -154,7 +154,7 @@ julia&gt; Pluto.run&#40;&#41;</code></pre>
 <div class="page-foot">
   <div class="copyright">
     <a href="https://github.com/mitmath/18S191/"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></img></b></a></br>
-    Last modified: March 31, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    Last modified: April 01, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div><!-- CONTENT ENDS HERE -->
