@@ -35,6 +35,4 @@ book_model = [
     Section(2, 5, "Random Walks", "notebooks/week7/random_walks.jl", "14hHtGJ4s-g"),
     Section(2, 6, "Random Walks II", "notebooks/week8/random_walks_II.jl", ""),
     Section(2, 7, "Discrete and Continuous", "notebooks/week8/discrete_and_continuous.jl", "")
-
-
 ]
