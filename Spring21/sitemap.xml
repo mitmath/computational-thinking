@@ -140,19 +140,25 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>discrete_and_continuous/index.html</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>images/index.html</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>installation/index.html</loc>
+    <loc>homework/index.html</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>homework/index.html</loc>
+    <loc>installation/index.html</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
