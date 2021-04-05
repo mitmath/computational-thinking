@@ -19,6 +19,48 @@ using PlutoUI
 # ╔═╡ 243e73d6-918e-11eb-399c-bde589f3f84d
 using Plots
 
+# ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 2.6 </em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Discrete vs Continuous </em>
+</p>
+
+
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
+
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
 
@@ -228,6 +270,7 @@ $(blue("Continuous math often lets you replace complicated large systems
 
 
 # ╔═╡ Cell order:
+# ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 # ╠═fd252080-9189-11eb-1eb2-573d35a72e9c
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
 # ╠═ee349b52-9189-11eb-2b86-b5dc15ebe432
