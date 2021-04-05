@@ -57,14 +57,14 @@ overflow-x: hidden;
 
 # ╔═╡ 97e807b2-9237-11eb-31ef-6fe0d4cc94d3
 begin
-#     import Pkg
-#     Pkg.activate(mktempdir())
-	
-#     Pkg.add([
-#         Pkg.PackageSpec(name="Plots", version="1"),
-#         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-#         Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
-#     ])
+    import Pkg
+    Pkg.activate(mktempdir())
+  
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
+    ])
 	
     using Plots, PlutoUI, BenchmarkTools
 end
