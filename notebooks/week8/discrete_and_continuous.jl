@@ -42,7 +42,7 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 2.6</em></p>
+"><em>Section 2.7</em></p>
 <p style="text-align: center; font-size: 2rem;">
 <em> Discrete and Continuous </em>
 </p>
