@@ -13,6 +13,17 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 99dc46a6-24b3-460a-9a7b-6b9b90e85db6
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+    ])
+    using Plots, PlutoUI
+end
+
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 html"""
 <div style="
@@ -64,9 +75,6 @@ overflow-x: hidden;
 }
 </style>"""
 
-# ╔═╡ fd252080-9189-11eb-1eb2-573d35a72e9c
-using PlutoUI
-
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
 
@@ -110,21 +118,6 @@ md"""
 # ╔═╡ 091a8a44-918c-11eb-2ee3-9be84a311afd
 md"""
 ### Heard in the hallways: I only like discrete math.  I only like continuous math.
-"""
-
-# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
-md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
-
-$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
-
- 
-"""
-
-# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
-md"""
-$(blue("Continuous math often lets you replace complicated large systems
-		with lots of details with a simpler abstraction that is easier to work with."))
 """
 
 # ╔═╡ 5c536430-9188-11eb-229c-e7feba62d257
@@ -233,9 +226,6 @@ md"""
 ### Discrete (Finite Differencing) Filters and Derivatives/Gradients
 """
 
-# ╔═╡ 243e73d6-918e-11eb-399c-bde589f3f84d
-using Plots
-
 # ╔═╡ 0fb84ff2-918e-11eb-150f-8dad121c87bc
 md"""
 ### Discrete and continuous convolutions e.g. probability densities
@@ -272,9 +262,24 @@ function blue(s::String)
 	HTML("<span style='color:blue'> $(s)  </span>")
 end
 
+# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
+md"""
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+
+$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
+
+ 
+"""
+
+# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
+md"""
+$(blue("Continuous math often lets you replace complicated large systems
+		with lots of details with a simpler abstraction that is easier to work with."))
+"""
+
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
-# ╠═fd252080-9189-11eb-1eb2-573d35a72e9c
+# ╠═99dc46a6-24b3-460a-9a7b-6b9b90e85db6
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
 # ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
 # ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
@@ -294,7 +299,6 @@ end
 # ╟─bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
 # ╟─c4a3bf6c-918d-11eb-1d50-911f83b6df81
 # ╟─d99dc494-918d-11eb-2733-29ce93ba584e
-# ╠═243e73d6-918e-11eb-399c-bde589f3f84d
 # ╟─0fb84ff2-918e-11eb-150f-8dad121c87bc
 # ╟─a7c5ef96-918d-11eb-0632-f94386eb64f2
 # ╟─75672be6-918d-11eb-1e10-07fbcc72abbd
