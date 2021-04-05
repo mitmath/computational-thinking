@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -11,6 +11,20 @@ macro bind(def, element)
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
         el
     end
+end
+
+# ╔═╡ 103cd2f4-903c-11eb-1116-a51dc540175c
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+	
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="Symbolics", version="0.1"),
+    ])
+	
+    using Statistics, Plots, PlutoUI, LinearAlgebra, Symbolics
 end
 
 # ╔═╡ 35b500b2-9047-11eb-2570-338858be8b6a
@@ -67,20 +81,6 @@ overflow-x: hidden;
 # ╔═╡ 5d62e16c-8fd9-11eb-1c44-0b0232614011
 TableOfContents(aside=true)
 
-# ╔═╡ 103cd2f4-903c-11eb-1116-a51dc540175c
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-	
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="Symbolics", version="0.1"),
-    ])
-	
-    using Statistics, Plots, PlutoUI, LinearAlgebra, Symbolics
-end
-
 # ╔═╡ 6bbfa37e-8ffe-11eb-3031-19ea76a6a8d2
 md"""
 # Concepts for today
@@ -134,14 +134,20 @@ Let's remind ourselves of a very important type of distribution, namely the **Ga
 We can sample from a Gaussian distribution with mean $0$ and variance $1$ with the `randn` function (short for "random normal"). We can then shift and scale to get the Gaussian distribution that we want:
 """
 
-# ╔═╡ b11d964e-8fd4-11eb-3f6a-43e8d2fa462c
-data = μ .+ σ .* randn(10^5)   # transform standard normal
-
 # ╔═╡ d8b74772-8fd4-11eb-3943-f98c29d02171
 md"""
 μ = $(@bind μ Slider(-3:0.01:3, show_value=true, default=0.0))
 σ = $(@bind σ Slider(0.01:0.01:3, show_value=true, default=1.0))
 """
+
+# ╔═╡ b11d964e-8fd4-11eb-3f6a-43e8d2fa462c
+data = μ .+ σ .* randn(10^5)   # transform standard normal
+
+# ╔═╡ ad7b3bee-8fd5-11eb-06f6-b39738d4b1fd
+bell_curve(x) = exp(-x^2 / 2) / √(2π)
+
+# ╔═╡ c76cd760-8fd5-11eb-3500-5d15515c33f5
+bell_curve(x, μ, σ) = bell_curve( (x - μ) / σ ) / σ
 
 # ╔═╡ b8c253f8-8fd4-11eb-304a-b1be962687e4
 begin
@@ -163,12 +169,6 @@ begin
 
 	
 end
-
-# ╔═╡ ad7b3bee-8fd5-11eb-06f6-b39738d4b1fd
-bell_curve(x) = exp(-x^2 / 2) / √(2π)
-
-# ╔═╡ c76cd760-8fd5-11eb-3500-5d15515c33f5
-bell_curve(x, μ, σ) = bell_curve( (x - μ) / σ ) / σ
 
 # ╔═╡ f31275fa-8fd5-11eb-0b76-7d0513705273
 bell_curve(0, 3, 2)
@@ -193,12 +193,6 @@ end
 
 # ╔═╡ 5e094b52-8fd8-11eb-2ac4-5797599ab013
 histogram(total, alpha=0.5, leg=false, norm=true, size=(500, 300))
-
-# ╔═╡ bd083794-8fd8-11eb-0155-e59fe27d64f2
-Statistics.mean(total)
-
-# ╔═╡ a32079ea-8fd8-11eb-01c4-81b603033b55
-Statistics.std(total)
 
 # ╔═╡ 79fb368c-8fd9-11eb-1c9c-bd0ceb122b11
 md"""
@@ -375,6 +369,9 @@ Once we have defined the variance, we know how to calculate the standard deviati
 # ╔═╡ 11ef1d18-8ff7-11eb-1645-113c1aae6e9b
 Statistics.std(X::RandomVariable) = sqrt(var(X))
 
+# ╔═╡ a32079ea-8fd8-11eb-01c4-81b603033b55
+Statistics.std(total)
+
 # ╔═╡ 592afd96-8ff7-11eb-1200-47eaf6b6a28a
 md"""
 This is an example of good software design.
@@ -446,18 +443,18 @@ pdf(G)
 # ╔═╡ b63c02e4-8ff4-11eb-11f6-d760e8760118
 pdf(Gaussian())(0.0)
 
+# ╔═╡ cd9b10f0-8ff5-11eb-1671-99c6738b8074
+md"""
+μ = $(@bind μμ Slider(-3:0.01:3, show_value=true, default=0.0))
+σ = $(@bind σσ Slider(0.01:0.01:3, show_value=true, default=1.0))
+"""
+
 # ╔═╡ a899fc08-8ff5-11eb-1d00-e95b55c3be4b
 begin
 	plot(pdf(Gaussian(μμ, σσ)), leg=false)
 	xlims!(-6, 6)
 	ylims!(0, 0.5)
 end
-
-# ╔═╡ cd9b10f0-8ff5-11eb-1671-99c6738b8074
-md"""
-μ = $(@bind μμ Slider(-3:0.01:3, show_value=true, default=0.0))
-σ = $(@bind σσ Slider(0.01:0.01:3, show_value=true, default=1.0))
-"""
 
 # ╔═╡ 0b901c34-8ff6-11eb-225b-511718412309
 md"""
@@ -586,6 +583,9 @@ Now we need to define the various functions on this type representing a sum
 
 # ╔═╡ 90ee7558-8ff9-11eb-3602-271890987ece
 Statistics.mean(S::SumOfTwoRandomVariables) = mean(S.X1) + mean(S.X2)
+
+# ╔═╡ bd083794-8fd8-11eb-0155-e59fe27d64f2
+Statistics.mean(total)
 
 # ╔═╡ a168ace6-8ff9-11eb-393d-45c34fdf577c
 mean(B1 + B2)
@@ -729,7 +729,7 @@ Gaussian(μ₁, σ₁²) + Gaussian(μ₂, σ₂²)
 Gaussian(17, 3) + Gaussian(μ₂, σ₂²)
 
 # ╔═╡ Cell order:
-# ╟─35b500b2-9047-11eb-2570-338858be8b6a
+# ╠═35b500b2-9047-11eb-2570-338858be8b6a
 # ╠═5d62e16c-8fd9-11eb-1c44-0b0232614011
 # ╠═103cd2f4-903c-11eb-1116-a51dc540175c
 # ╟─6bbfa37e-8ffe-11eb-3031-19ea76a6a8d2
