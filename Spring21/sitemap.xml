@@ -38,6 +38,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>random_walks_II/index.html</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>reviews/index.html</loc>
     <lastmod>2021-04-05</lastmod>
     <changefreq>monthly</changefreq>
