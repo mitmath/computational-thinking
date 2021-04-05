@@ -47,16 +47,7 @@ opacity: .8;
 <em> Random Walks </em>
 </p>
 
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/14hHtGJ4s-g" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
+
 
 <style>
 body {
@@ -68,7 +59,7 @@ overflow-x: hidden;
 begin
     import Pkg
     Pkg.activate(mktempdir())
-	
+  
     Pkg.add([
         Pkg.PackageSpec(name="Plots", version="1"),
         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
@@ -89,6 +80,7 @@ md"""
 - Plotting in a loop
 - Generic programming
 - Mutable vs immutable structs
+- Functions with types as parameters: `where`
 - Vectors of vectors
 - Aliasing of memory 
 - `cumsum`
@@ -206,7 +198,20 @@ begin
 	step3() = 2 * rand(Bool) - 1
 	
 	step4() = sign(randn())
+	
+	step5() = rand( [-1, +1] )
 end
+
+# ╔═╡ 0bc813ca-924e-11eb-3032-0bdda2feef9b
+typeof( (-1, +1) )
+
+# ╔═╡ 166f2a0a-924e-11eb-0aca-41f27d038e6d
+typeof( [-1, +1] )
+
+# ╔═╡ 55a7a334-9245-11eb-2114-7d2bc503e133
+md"""
+1ns = 10^(-9) seconds;  1 one-billionth of a second
+"""
 
 # ╔═╡ 5da7b076-91b4-11eb-3eba-b3f5849efabb
 with_terminal() do
@@ -214,7 +219,11 @@ with_terminal() do
 	@btime step2()
 	@btime step3()
 	@btime step4()
+	@btime step5()
 end
+
+# ╔═╡ 654ff3ae-924e-11eb-1671-699a2c07a3ba
+@benchmark step6()
 
 # ╔═╡ ea9e77e2-91b1-11eb-185d-cd006db11f60
 md"""
@@ -229,24 +238,120 @@ It starts at an initial position, for example, 0, and takes consecutive steps:
 
 # ╔═╡ 2f525796-9239-11eb-1865-9b01eadcf548
 function walk1D(N)
-	x = 0
+	x = 0  # specific to 1D
 	xs = [x]
 	
 	for i in 1:N
-		x += step1()
+		x += step()   # specific to 1D
 		push!(xs, x)
 	end
 	
 	return xs
 end
 
+# ╔═╡ 6bacbbe0-9250-11eb-3494-8151538ef0fd
+md"""
+Let's try to generalise this by making it less specific to 1D. We will turn the 1D-specific pieces into functions:
+"""
+
+# ╔═╡ eacd4d3e-9246-11eb-04f4-7dd11f7e6bd5
+function walk(N)
+	x = initialise()  
+	xs = [x]
+	
+	for i in 1:N
+		x += step()   
+		push!(xs, x)
+	end
+	
+	return xs
+end
+
+# ╔═╡ f67634e8-9246-11eb-0fb3-852ba4d2931e
+begin
+	initialise() = 0
+	step() = rand( (-1, +1) )
+end
+
+# ╔═╡ 84251d00-9250-11eb-177b-d5e2de2af37f
+md"""
+Now we can write those functions in 2D too:
+"""
+
+# ╔═╡ 3fa5d34e-9247-11eb-26ad-2f7dfafcd08a
+const directions = [ [1, 0], [0, 1], [-1, 0], [0, -1] ]
+
+# ╔═╡ 465e63c2-9247-11eb-0a33-59c50e6a1677
+typeof(directions)
+
+# ╔═╡ 169b6f04-9247-11eb-3282-491b39bd47c7
+begin
+	initialise2D() = [0, 0]
+	step2D() = rand( directions )
+end
+
+# ╔═╡ 3e995fe8-9247-11eb-1411-75bf7ed9148f
+step2D()
+
+# ╔═╡ 9388ffdc-9250-11eb-3435-bd1f05d53f93
+md"""
+We could copy and paste the code to make a 2D version:
+"""
+
+# ╔═╡ 2ba7bc54-9247-11eb-0527-d5ea94b27193
+function walk2D(N)
+	x = initialise2D()  
+	xs = [x]
+	
+	for i in 1:N
+		x += step2D()   
+		push!(xs, x)
+	end
+	
+	return xs
+end
+
+# ╔═╡ 3137a1f2-9247-11eb-1138-dfab4b1b31bc
+walk2D(10)
+
+# ╔═╡ c879dd0a-9247-11eb-11c6-a93aa0e7e523
+function walk(initialise, step, N)
+	x = initialise()  
+	xs = [x]
+	
+	for i in 1:N
+		x += step()   
+		push!(xs, x)
+	end
+	
+	return xs
+end
+
+# ╔═╡ 0fc47f94-9248-11eb-318c-85400bd20ae7
+(1, 2) .+ (3, 4)
+
+# ╔═╡ e03bc28c-9247-11eb-141c-2f7e18935d40
+walk(initialise2D, step2D, 10)
+
+# ╔═╡ f932a922-9247-11eb-18c8-af63230649f7
+walk(initialise, step, 10)
+
+# ╔═╡ f3b21c40-9246-11eb-1873-1bcc82d68e23
+walk(10)
+
+# ╔═╡ 11962a42-9246-11eb-0f2f-1f702ecb9c4f
+xs = walk1D(10)
+
 # ╔═╡ 51abfe6e-9239-11eb-362a-259570250663
 begin
 	plot()
 	
-	for i in 1:10
-		plot!(walk1D(100), leg=false, size=(500, 300), lw=2, alpha=0.5)
+	for i in 1:100
+		plot!(walk1D(1000), leg=false, size=(500, 300), lw=2, alpha=0.5)
 	end
+	
+	xlabel!("t")
+	ylabel!("x position in space")
 	
 	plot!()
 end
@@ -257,16 +362,36 @@ md"""
 """
 
 # ╔═╡ c2deb090-9239-11eb-0739-a74379c15ce6
+md"""
 Now suppose we want to think about more general random walks, for example moving around in 2D. Then we need to *generalise* the above function.
 		
-Based on our experience from last time, you should suspect that a good way to do this is with *types*. We will define 
+Based on our experience from last time, you should suspect that a good way to do this is with *types*. We will define types representing 1D and 2D walkers, and a trajectory function that will work for *any* walker.
+
+"""
+
+# ╔═╡ 689f8404-923b-11eb-2c5c-d5a2d80be6b3
+md"""
+### Mutable vs immutable structs
+"""
+
+# ╔═╡ 6c579eec-923b-11eb-32c5-6754b60c2ae8
+md"""
+A walker has a position that changes in time. There are two possible ways that we could implement this. Either we modify the position inside the object (mutable), or we create a new walker object each time with the new position (immutable). 
+
+While mutable types may be conceptually easier, immutable types often have performance benefits, so we show here how to use them.
+
+"""
 
 # ╔═╡ d420d492-91d9-11eb-056d-33cc8f0aed74
 abstract type Walker end
 
 # ╔═╡ ad2d4dd8-91d5-11eb-27af-6f0c6e61a86a
-struct Walker1D <: Walker
-	pos::Int
+begin
+	struct Walker1D <: Walker
+		pos::Int64
+	end
+	
+	Walker1D() = Walker1D(0)
 end
 
 # ╔═╡ d0f81f28-91d9-11eb-2e79-61461ef5b132
@@ -275,16 +400,114 @@ position(w::Walker) = w.pos
 # ╔═╡ b8f2c508-91d5-11eb-31b5-61810f171270
 step(w::Walker1D) = rand( (-1, +1) )
 
+# ╔═╡ 664080a2-9248-11eb-01b5-69fc4aeb90da
+w = Walker1D()
+
+# ╔═╡ 6fd96dfe-9248-11eb-2389-d788d0f89e3b
+step(w)
+
+# ╔═╡ 8825c3e4-9248-11eb-1073-f572e764908a
+w.pos = -1
+
+# ╔═╡ a9b408ea-9248-11eb-2c0c-37167450b91c
+mutable struct MutableWalker <: Walker
+	pos::Int64
+end
+
+# ╔═╡ b00926e4-9248-11eb-110f-91438c826090
+w2 = MutableWalker(0)
+
+# ╔═╡ b664e708-9248-11eb-36a8-a99b23fa2975
+w2.pos = -1
+
+# ╔═╡ b9a57a9a-9248-11eb-128b-21f779e564b8
+w2
+
+# ╔═╡ c6a38dea-9248-11eb-1784-07153b0febec
+w
+
+# ╔═╡ c8aed310-9248-11eb-2686-7758ae5afb7d
+w3 = Walker1D(1)
+
+# ╔═╡ be40585c-923b-11eb-0cbc-85599c23ef81
+md"""
+### Functions with type parameters
+"""
+
+# ╔═╡ c5af5aac-923b-11eb-09f3-a3d4e5b7cfa8
+md"""
+To do this requires the ability to generate a new object of a given type, so that information needs to be available to the function.
+"""
+
+# ╔═╡ d77cf668-923b-11eb-141d-d3d4ee24136d
+md"""
+Here we make a type in which we can have access to the *type* `W` of the walker:
+"""
+
 # ╔═╡ 3c3971e2-91da-11eb-384c-01c627318bdc
 update(w::W, step) where {W <: Walker} = W(position(w) + step)
 
+# ╔═╡ d5744a6e-9249-11eb-1bcd-cdef0cc3d459
+md"""
+If we have *mutable* objects we could just write
+"""
+
+# ╔═╡ ff85fb56-9249-11eb-10ec-e9c249e3cf14
+function update!(w_mutable, step)
+	
+	current_pos = w_mutable.pos 
+	new_pos = current_pos + step
+	
+	w_mutable.pos = new_pos
+end
+
+# ╔═╡ bacca794-9249-11eb-1ed4-87a6a6baba5b
+md"""
+The function calls the constructor of the type `W` to make a new object of that type.
+"""
+
+# ╔═╡ 2edea8c2-9249-11eb-03df-a90755310a97
+md"""
+`W` here is `Walker1D` or `Walker2D` type
+"""
+
+# ╔═╡ 3aadaeda-9249-11eb-0683-05fa5f1dc3eb
+w  # a walker at position 0
+
+# ╔═╡ 3f0317ce-9249-11eb-0cc2-47f007fefcdf
+update(w, -1)
+
+# ╔═╡ 49e05bd4-9249-11eb-35a3-6df516b6ee3a
+w
+
+# ╔═╡ 5117fa2e-9249-11eb-2158-4126ddec2c55
+md"""
+Now I would like to do `w = update(w, -1)`
+"""
+
+# ╔═╡ 7f544166-9249-11eb-08ab-c35e8ca632d3
+w2D = Walker2D(0, 0)
+
+# ╔═╡ a08e6ca0-9249-11eb-3947-3f3a29e29814
+update(w2D, [-1, -1])
+
+# ╔═╡ a9fe6236-9249-11eb-152c-b57af2c002e2
+w2D
+
+# ╔═╡ fe7fb84a-923b-11eb-0b54-0b3278bb009b
+md"""
+This says that we are defining a function that acts on an object `ww` of type `W`, but we are restricting it (using the `where` clause) to apply only to types that are subtypes of `Walker`.
+		
+We then use the constructor of the type `W` to make a new object *of that type* with the new position.
+"""
+
 # ╔═╡ cb0ef266-91d5-11eb-314b-0545c0c817d0
-function trajectory(w::W, N) where {W}   # W is a type parameter
-	ws = [position(w)]
+function walk(w::W, N) where {W <: Walker}   # W is a type parameter
+	ws = [position(w)]  # "getter" function
 
 	for i in 1:N
 		pos = position(w)
-		w = update(w, step(w))
+		w = update(w, step(w))   # reassigning the variable w to a new object
 		
 		push!(ws, position(w))
 	end
@@ -293,7 +516,12 @@ function trajectory(w::W, N) where {W}   # W is a type parameter
 end
 
 # ╔═╡ 048fac02-91da-11eb-0d26-4f258b4cd043
-trajectory(Walker1D(0), 10)
+walk(Walker1D(0), 10)
+
+# ╔═╡ 8c75aeee-9242-11eb-16b2-8fc1c243b794
+md"""
+Now let's make a 2D one.
+"""
 
 # ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
 struct Walker2D <: Walker
@@ -311,177 +539,7 @@ step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
 update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
 
 # ╔═╡ 74182fe0-91da-11eb-219a-01f13b86406d
-traj = trajectory(Walker2D(0, 0), 10^N)
-
-# ╔═╡ 57972a32-91e5-11eb-1d62-fbc22c494db9
-md"""
-## Random walks as sum of random variables
-"""
-
-# ╔═╡ 63122dd0-91e5-11eb-34c3-b1b5c87809b8
-md"""
-We can connect up with the discussion from last lecture about the sum of random variables: The position $S_n$ of a random walk at time $n$ is a random variable that is the sum of $n$ random variables (which are often independent and id
-
-$$S_n = X_1 + \cdots + X_n$$
-
-where $X_i$ is the random variable modelling the $i$th step of the walk.
-
-Often each $X_i$ will be independent random variables of the same type, in which case we talk about an **independent and identically distributed** (IID) collection.
-
-In principle we could use the method from last lecture to model this, but there is a difficulty since we are interested in all intermediate steps: The values $S_{n-1}$ and $S_n$, for example, are *not* independent (even though the $X_i$ are). For example, if $S_{n-1}$ is large, then $S_n$ is also about as large, so they are highly correlated.
-"""
-
-# ╔═╡ bd013582-91e7-11eb-2d79-e18e45f6d639
-md"""
-## Cumulative sum
-"""
-
-# ╔═╡ c092ab72-91e7-11eb-2bd1-13c8c8bb30e4
-md"""
-Suppose we generate steps $X_i$, e.g.
-"""
-
-# ╔═╡ cfb0f9ba-91e7-11eb-26b5-5f0f59d03cff
-steps = rand( (-1, +1), 10 )
-
-# ╔═╡ d6edb326-91e7-11eb-03b1-d93e3bc83ca6
-md"""
-The trajectory, or sample path, of the random walk, is the collection of positions over time. These are the **partial sums**
-
-$$\begin{align}
-S_1 & = X_1 \\
-S_2 &= X_1 + X_2 \\
-S_3 &= X_1 + X_2 + X_3
-\end{align}$$
-
-etc.
-"""
-
-# ╔═╡ 4ef42cec-91e8-11eb-2976-0950ffe5de6c
-md"""
-We can calculate all of these values using the `cumsum` ("cumulative sum", also called "prefix sum" or "scan") function:
-"""
-
-# ╔═╡ ace8658e-91e8-11eb-0b9d-4b759635e417
-cumsum(steps)
-
-# ╔═╡ b049ff58-91e8-11eb-203b-4f4b5ee5f01f
-md"""
-Let's plot this:
-"""
-
-# ╔═╡ b6775d3a-91e8-11eb-0187-618cb538d142
-plot(cumsum(steps), m=:o, leg=false, size=(500, 300))
-
-# ╔═╡ 8b1441b6-91e4-11eb-16b2-d7eadd3fd69c
-md"""
-# Trajectories vs evolving probability distributions
-"""
-
-# ╔═╡ d1315f94-91e4-11eb-1076-81156e24d2f1
-md"""
-So far we have looked at single trajectories of random walks. We can think of this as the equivalent of sampling using `rand`. Suppose that we were to (conceptually) run millions or billions of trajectories of our random walk. At each *time* step, we can ask for the probability distribution in *space*, averaged over all those walks. 
-Note that we now have *two* variables. We could do this by literally running many walks and computing histograms. Instead we can look at how probabilities move around.
-
-Let's call $p_i^t$ the probability of being at site $i$ at time $t$. We can then ask what the probability of being at site $i$ at time $t+1$. It must have been in one of the neighbouring sites at time $t$, so
-
-$$p_i^{t+1} = \textstyle \frac{1}{2} (p_{i-1}^{t} + p_{i+1}^{t}).$$
-
-This is sometimes called the **master equation** (even though that is rather a useless, non-descriptive name). It describes how the probability distribution 
-"""
-
-# ╔═╡ 97c958c2-91eb-11eb-17cb-410acc7f3e49
-md"""
-At time $t$ we have a whole probability distribution, which we can think of as a vector $\mathbf{p}^t$.
-
-Let's write a function to **evolve** the vector to the next time step.
-"""
-
-# ╔═╡ b7a98dba-91eb-11eb-3c78-074aa835b5fb
-function evolve(p)
-	p′ = similar(p)   # make a vector of the same length and type
-	                  # to store the probability vector at the next time step
-	
-	for i in 2:length(p)-1
-		p′[i] = 0.5 * (p[i-1] + p[i+1])
-	end
-	
-	p′[1] = 0
-	p′[end] = 0
-	
-	return p′
-	
-end
-
-# ╔═╡ f7f17c0c-91eb-11eb-3fa5-3bd90bb7044e
-md"""
-Wait... Do you recognise this?
-
-We have seen this before! This is just a **convolution**, like the blurring kernel from image processing (except that in our particular model `p[i]` itself does not contribute to the value of `new_p[i]`.)
-"""
-
-# ╔═╡ f0aed302-91eb-11eb-13fb-d9418ef327a8
-md"""
-Note that just as we did with images, we have a problem at the edges of the system. We need to specify **boundary conditions**. For now we have put 0s at the boundary. This corresponds to probability *escaping* at the boundary: any probability that arrives at the boundary (i.e. the first or last cell) at a given time step does not stay in the system. We can think of the probability as analogous to a chemical that disappears 
-"""
-
-# ╔═╡ c1062e00-922b-11eb-1f31-ddbd03f8f986
-md"""
-We also need to specify an *initial* condition $\mathbf{p}_0$. This tells us where our walker is at time $0$. Suppose that all walkers start at $0$. We will place this in the middle of our vector. Then the probability at that location is 1, while the probability elsewhere is 0:
-"""
-
-# ╔═╡ 547188ea-9233-11eb-1a89-5ff9468b31f7
-function initial_condition(n)
-	
-	p0 = zeros(n)
-	p0[n ÷ 2 + 1] = 1
-	
-	return p0
-end
-
-# ╔═╡ 2920abfe-91ec-11eb-19bc-935fa1ba0a96
-md"""
-Now let's try and visualise the time evolution.
-"""
-
-# ╔═╡ 3fadf88c-9236-11eb-19fa-d191ac5a6191
-function time_evolution(p0, N)
-	ps = [p0]
-	p = p0
-	
-	for i in 1:N
-		p = evolve(p)
-		push!(ps, copy(p))
-	end
-	
-	return ps
-end
-
-# ╔═╡ 58653a70-9236-11eb-3dae-47adc2a77cb4
-p0 = initial_condition(101)
-
-# ╔═╡ 5d02f21e-9236-11eb-26ea-6593aa80a2eb
-ps = time_evolution(p0, 100)
-
-# ╔═╡ 863caf0a-9236-11eb-1013-ab7d83f3fc0c
-ps[2]
-
-# ╔═╡ b803406e-9236-11eb-3aad-056b7f2c9b4b
-md"""
-t = $(@bind tt Slider(1:length(ps), show_value=true, default=1))
-"""
-
-# ╔═╡ cc7aaeea-9236-11eb-3fad-2b5ad3962ec1
-plot(ps[tt], ylim=(0, 1), leg=false, size=(500, 300))
-
-# ╔═╡ dabb5766-9236-11eb-3be9-9b33ba5af68a
-ps[t
-
-# ╔═╡ 6cde6ef4-9236-11eb-219a-4d20adaf9988
-M = reduce(hcat, ps)'
-
-# ╔═╡ 7e8c1a2a-9236-11eb-20e9-57f6601f5472
-heatmap(M, yflip=true)
+traj = walk(Walker2D(0, 0), 10^N)
 
 # ╔═╡ Cell order:
 # ╟─3649f170-923a-11eb-321c-cf95849cc044
@@ -502,50 +560,70 @@ heatmap(M, yflip=true)
 # ╟─e0b607c0-91e0-11eb-10aa-53ec33570e59
 # ╟─fa1635d4-91e3-11eb-31bd-cf61c502ad35
 # ╠═f7f9e4c6-91e3-11eb-1a56-8b98f0b09b46
+# ╠═0bc813ca-924e-11eb-3032-0bdda2feef9b
+# ╠═166f2a0a-924e-11eb-0aca-41f27d038e6d
+# ╟─55a7a334-9245-11eb-2114-7d2bc503e133
 # ╠═5da7b076-91b4-11eb-3eba-b3f5849efabb
+# ╠═654ff3ae-924e-11eb-1671-699a2c07a3ba
 # ╟─ea9e77e2-91b1-11eb-185d-cd006db11f60
 # ╟─12b4d528-9239-11eb-2824-8ddb5e2ba892
 # ╠═2f525796-9239-11eb-1865-9b01eadcf548
+# ╟─6bacbbe0-9250-11eb-3494-8151538ef0fd
+# ╠═eacd4d3e-9246-11eb-04f4-7dd11f7e6bd5
+# ╠═f67634e8-9246-11eb-0fb3-852ba4d2931e
+# ╟─84251d00-9250-11eb-177b-d5e2de2af37f
+# ╠═3fa5d34e-9247-11eb-26ad-2f7dfafcd08a
+# ╠═465e63c2-9247-11eb-0a33-59c50e6a1677
+# ╠═169b6f04-9247-11eb-3282-491b39bd47c7
+# ╠═3e995fe8-9247-11eb-1411-75bf7ed9148f
+# ╟─9388ffdc-9250-11eb-3435-bd1f05d53f93
+# ╠═2ba7bc54-9247-11eb-0527-d5ea94b27193
+# ╠═3137a1f2-9247-11eb-1138-dfab4b1b31bc
+# ╠═c879dd0a-9247-11eb-11c6-a93aa0e7e523
+# ╠═0fc47f94-9248-11eb-318c-85400bd20ae7
+# ╠═e03bc28c-9247-11eb-141c-2f7e18935d40
+# ╠═f932a922-9247-11eb-18c8-af63230649f7
+# ╠═f3b21c40-9246-11eb-1873-1bcc82d68e23
+# ╠═11962a42-9246-11eb-0f2f-1f702ecb9c4f
 # ╠═51abfe6e-9239-11eb-362a-259570250663
 # ╟─b847b5ca-9239-11eb-02fe-db4d9625bc5f
-# ╠═c2deb090-9239-11eb-0739-a74379c15ce6
+# ╟─c2deb090-9239-11eb-0739-a74379c15ce6
+# ╟─689f8404-923b-11eb-2c5c-d5a2d80be6b3
+# ╟─6c579eec-923b-11eb-32c5-6754b60c2ae8
 # ╠═d420d492-91d9-11eb-056d-33cc8f0aed74
 # ╠═ad2d4dd8-91d5-11eb-27af-6f0c6e61a86a
 # ╠═d0f81f28-91d9-11eb-2e79-61461ef5b132
 # ╠═b8f2c508-91d5-11eb-31b5-61810f171270
+# ╠═664080a2-9248-11eb-01b5-69fc4aeb90da
+# ╠═6fd96dfe-9248-11eb-2389-d788d0f89e3b
+# ╠═8825c3e4-9248-11eb-1073-f572e764908a
+# ╠═a9b408ea-9248-11eb-2c0c-37167450b91c
+# ╠═b00926e4-9248-11eb-110f-91438c826090
+# ╠═b664e708-9248-11eb-36a8-a99b23fa2975
+# ╠═b9a57a9a-9248-11eb-128b-21f779e564b8
+# ╠═c6a38dea-9248-11eb-1784-07153b0febec
+# ╠═c8aed310-9248-11eb-2686-7758ae5afb7d
+# ╟─be40585c-923b-11eb-0cbc-85599c23ef81
+# ╟─c5af5aac-923b-11eb-09f3-a3d4e5b7cfa8
+# ╟─d77cf668-923b-11eb-141d-d3d4ee24136d
 # ╠═3c3971e2-91da-11eb-384c-01c627318bdc
+# ╟─d5744a6e-9249-11eb-1bcd-cdef0cc3d459
+# ╠═ff85fb56-9249-11eb-10ec-e9c249e3cf14
+# ╟─bacca794-9249-11eb-1ed4-87a6a6baba5b
+# ╟─2edea8c2-9249-11eb-03df-a90755310a97
+# ╠═3aadaeda-9249-11eb-0683-05fa5f1dc3eb
+# ╠═3f0317ce-9249-11eb-0cc2-47f007fefcdf
+# ╠═49e05bd4-9249-11eb-35a3-6df516b6ee3a
+# ╟─5117fa2e-9249-11eb-2158-4126ddec2c55
+# ╠═7f544166-9249-11eb-08ab-c35e8ca632d3
+# ╠═a08e6ca0-9249-11eb-3947-3f3a29e29814
+# ╠═a9fe6236-9249-11eb-152c-b57af2c002e2
+# ╟─fe7fb84a-923b-11eb-0b54-0b3278bb009b
 # ╠═cb0ef266-91d5-11eb-314b-0545c0c817d0
 # ╠═048fac02-91da-11eb-0d26-4f258b4cd043
+# ╟─8c75aeee-9242-11eb-16b2-8fc1c243b794
 # ╠═23b84ce2-91da-11eb-01f8-c308ac4d1c7a
 # ╠═537f952a-91da-11eb-33cf-6be2fd3bc45c
 # ╠═5b972296-91da-11eb-29b1-074f3926181e
 # ╠═3ad5a93c-91db-11eb-3227-c96bf8fd2206
 # ╠═74182fe0-91da-11eb-219a-01f13b86406d
-# ╟─57972a32-91e5-11eb-1d62-fbc22c494db9
-# ╟─63122dd0-91e5-11eb-34c3-b1b5c87809b8
-# ╟─bd013582-91e7-11eb-2d79-e18e45f6d639
-# ╟─c092ab72-91e7-11eb-2bd1-13c8c8bb30e4
-# ╠═cfb0f9ba-91e7-11eb-26b5-5f0f59d03cff
-# ╟─d6edb326-91e7-11eb-03b1-d93e3bc83ca6
-# ╟─4ef42cec-91e8-11eb-2976-0950ffe5de6c
-# ╠═ace8658e-91e8-11eb-0b9d-4b759635e417
-# ╟─b049ff58-91e8-11eb-203b-4f4b5ee5f01f
-# ╠═b6775d3a-91e8-11eb-0187-618cb538d142
-# ╟─8b1441b6-91e4-11eb-16b2-d7eadd3fd69c
-# ╟─d1315f94-91e4-11eb-1076-81156e24d2f1
-# ╟─97c958c2-91eb-11eb-17cb-410acc7f3e49
-# ╠═b7a98dba-91eb-11eb-3c78-074aa835b5fb
-# ╟─f7f17c0c-91eb-11eb-3fa5-3bd90bb7044e
-# ╟─f0aed302-91eb-11eb-13fb-d9418ef327a8
-# ╟─c1062e00-922b-11eb-1f31-ddbd03f8f986
-# ╠═547188ea-9233-11eb-1a89-5ff9468b31f7
-# ╟─2920abfe-91ec-11eb-19bc-935fa1ba0a96
-# ╠═3fadf88c-9236-11eb-19fa-d191ac5a6191
-# ╠═58653a70-9236-11eb-3dae-47adc2a77cb4
-# ╠═5d02f21e-9236-11eb-26ea-6593aa80a2eb
-# ╠═863caf0a-9236-11eb-1013-ab7d83f3fc0c
-# ╟─b803406e-9236-11eb-3aad-056b7f2c9b4b
-# ╠═cc7aaeea-9236-11eb-3fad-2b5ad3962ec1
-# ╠═dabb5766-9236-11eb-3be9-9b33ba5af68a
-# ╠═6cde6ef4-9236-11eb-219a-4d20adaf9988
-# ╠═7e8c1a2a-9236-11eb-20e9-57f6601f5472
