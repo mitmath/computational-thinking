@@ -13,20 +13,6 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 97e807b2-9237-11eb-31ef-6fe0d4cc94d3
-begin
-#     import Pkg
-#     Pkg.activate(mktempdir())
-	
-#     Pkg.add([
-#         Pkg.PackageSpec(name="Plots", version="1"),
-#         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-#         Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
-#     ])
-	
-    using Plots, PlutoUI, BenchmarkTools
-end
-
 # ╔═╡ 3649f170-923a-11eb-321c-cf95849cc044
 html"""
 <div style="
@@ -68,6 +54,20 @@ body {
 overflow-x: hidden;
 }
 </style>"""
+
+# ╔═╡ 97e807b2-9237-11eb-31ef-6fe0d4cc94d3
+begin
+#     import Pkg
+#     Pkg.activate(mktempdir())
+	
+#     Pkg.add([
+#         Pkg.PackageSpec(name="Plots", version="1"),
+#         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+#         Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
+#     ])
+	
+    using Plots, PlutoUI, BenchmarkTools
+end
 
 # ╔═╡ 5f0d7a44-91e0-11eb-10ae-d73156f965e6
 TableOfContents(aside=true)
@@ -119,6 +119,16 @@ N = $(@bind N Slider(1:6, show_value=true, default=1))
 md"""
 t = $(@bind t Slider(1:10^N, show_value=true, default=1))
 """
+
+# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
+begin
+	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
+	scatter!([ traj[1], traj[t] ], c=[:red, :green])
+	
+	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
+	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
+	
+end
 
 # ╔═╡ b62c4af8-9232-11eb-2f66-dd27dcb87d20
 md"""
@@ -226,10 +236,36 @@ We can now calculate the **trajectory** of a 1D random walk as it takes several 
 It starts at an initial position, for example, 0, and takes consecutive steps:
 """
 
+# ╔═╡ 2f525796-9239-11eb-1865-9b01eadcf548
+function walk1D(N)
+	x = 0  # specific to 1D
+	xs = [x]
+	
+	for i in 1:N
+		x += step()   # specific to 1D
+		push!(xs, x)
+	end
+	
+	return xs
+end
+
 # ╔═╡ 6bacbbe0-9250-11eb-3494-8151538ef0fd
 md"""
 Let's try to generalise this by making it less specific to 1D. We will turn the 1D-specific pieces into functions:
 """
+
+# ╔═╡ eacd4d3e-9246-11eb-04f4-7dd11f7e6bd5
+function walk(N)
+	x = initialise()  
+	xs = [x]
+	
+	for i in 1:N
+		x += step()   
+		push!(xs, x)
+	end
+	
+	return xs
+end
 
 # ╔═╡ f67634e8-9246-11eb-0fb3-852ba4d2931e
 begin
@@ -294,6 +330,32 @@ end
 # ╔═╡ 0fc47f94-9248-11eb-318c-85400bd20ae7
 (1, 2) .+ (3, 4)
 
+# ╔═╡ e03bc28c-9247-11eb-141c-2f7e18935d40
+walk(initialise2D, step2D, 10)
+
+# ╔═╡ f932a922-9247-11eb-18c8-af63230649f7
+walk(initialise, step, 10)
+
+# ╔═╡ f3b21c40-9246-11eb-1873-1bcc82d68e23
+walk(10)
+
+# ╔═╡ 11962a42-9246-11eb-0f2f-1f702ecb9c4f
+xs = walk1D(10)
+
+# ╔═╡ 51abfe6e-9239-11eb-362a-259570250663
+begin
+	plot()
+	
+	for i in 1:100
+		plot!(walk1D(1000), leg=false, size=(500, 300), lw=2, alpha=0.5)
+	end
+	
+	xlabel!("t")
+	ylabel!("x position in space")
+	
+	plot!()
+end
+
 # ╔═╡ b847b5ca-9239-11eb-02fe-db4d9625bc5f
 md"""
 # Making it more general: Random walks using types
@@ -341,6 +403,9 @@ step(w::Walker1D) = rand( (-1, +1) )
 # ╔═╡ 664080a2-9248-11eb-01b5-69fc4aeb90da
 w = Walker1D()
 
+# ╔═╡ 6fd96dfe-9248-11eb-2389-d788d0f89e3b
+step(w)
+
 # ╔═╡ 8825c3e4-9248-11eb-1073-f572e764908a
 w.pos = -1
 
@@ -364,9 +429,6 @@ w
 # ╔═╡ c8aed310-9248-11eb-2686-7758ae5afb7d
 w3 = Walker1D(1)
 
-# ╔═╡ e8f83db2-9248-11eb-316d-65927af0d39e
-
-
 # ╔═╡ be40585c-923b-11eb-0cbc-85599c23ef81
 md"""
 ### Functions with type parameters
@@ -381,6 +443,9 @@ To do this requires the ability to generate a new object of a given type, so tha
 md"""
 Here we make a type in which we can have access to the *type* `W` of the walker:
 """
+
+# ╔═╡ 3c3971e2-91da-11eb-384c-01c627318bdc
+update(w::W, step) where {W <: Walker} = W(position(w) + step)
 
 # ╔═╡ d5744a6e-9249-11eb-1bcd-cdef0cc3d459
 md"""
@@ -409,6 +474,9 @@ md"""
 # ╔═╡ 3aadaeda-9249-11eb-0683-05fa5f1dc3eb
 w  # a walker at position 0
 
+# ╔═╡ 3f0317ce-9249-11eb-0cc2-47f007fefcdf
+update(w, -1)
+
 # ╔═╡ 49e05bd4-9249-11eb-35a3-6df516b6ee3a
 w
 
@@ -417,93 +485,21 @@ md"""
 Now I would like to do `w = update(w, -1)`
 """
 
+# ╔═╡ 7f544166-9249-11eb-08ab-c35e8ca632d3
+w2D = Walker2D(0, 0)
+
+# ╔═╡ a08e6ca0-9249-11eb-3947-3f3a29e29814
+update(w2D, [-1, -1])
+
+# ╔═╡ a9fe6236-9249-11eb-152c-b57af2c002e2
+w2D
+
 # ╔═╡ fe7fb84a-923b-11eb-0b54-0b3278bb009b
 md"""
 This says that we are defining a function that acts on an object `ww` of type `W`, but we are restricting it (using the `where` clause) to apply only to types that are subtypes of `Walker`.
 		
 We then use the constructor of the type `W` to make a new object *of that type* with the new position.
 """
-
-# ╔═╡ 8c75aeee-9242-11eb-16b2-8fc1c243b794
-md"""
-Now let's make a 2D one.
-"""
-
-# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
-struct Walker2D <: Walker
-	x::Int
-	y::Int
-end
-
-# ╔═╡ 7f544166-9249-11eb-08ab-c35e8ca632d3
-w2D = Walker2D(0, 0)
-
-# ╔═╡ a9fe6236-9249-11eb-152c-b57af2c002e2
-w2D
-
-# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
-position(w::Walker2D) = (w.x, w.y)
-
-# ╔═╡ 3c3971e2-91da-11eb-384c-01c627318bdc
-update(w::W, step) where {W <: Walker} = W(position(w) + step)
-
-# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
-step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
-
-# ╔═╡ 2f525796-9239-11eb-1865-9b01eadcf548
-function walk1D(N)
-	x = 0  # specific to 1D
-	xs = [x]
-	
-	for i in 1:N
-		x += step()   # specific to 1D
-		push!(xs, x)
-	end
-	
-	return xs
-end
-
-# ╔═╡ 11962a42-9246-11eb-0f2f-1f702ecb9c4f
-xs = walk1D(10)
-
-# ╔═╡ 51abfe6e-9239-11eb-362a-259570250663
-begin
-	plot()
-	
-	for i in 1:100
-		plot!(walk1D(1000), leg=false, size=(500, 300), lw=2, alpha=0.5)
-	end
-	
-	xlabel!("t")
-	ylabel!("x position in space")
-	
-	plot!()
-end
-
-# ╔═╡ eacd4d3e-9246-11eb-04f4-7dd11f7e6bd5
-function walk(N)
-	x = initialise()  
-	xs = [x]
-	
-	for i in 1:N
-		x += step()   
-		push!(xs, x)
-	end
-	
-	return xs
-end
-
-# ╔═╡ 6fd96dfe-9248-11eb-2389-d788d0f89e3b
-step(w)
-
-# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
-update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
-
-# ╔═╡ 3f0317ce-9249-11eb-0cc2-47f007fefcdf
-update(w, -1)
-
-# ╔═╡ a08e6ca0-9249-11eb-3947-3f3a29e29814
-update(w2D, [-1, -1])
 
 # ╔═╡ cb0ef266-91d5-11eb-314b-0545c0c817d0
 function walk(w::W, N) where {W <: Walker}   # W is a type parameter
@@ -519,30 +515,31 @@ function walk(w::W, N) where {W <: Walker}   # W is a type parameter
 	return ws
 end
 
-# ╔═╡ e03bc28c-9247-11eb-141c-2f7e18935d40
-walk(initialise2D, step2D, 10)
-
-# ╔═╡ f932a922-9247-11eb-18c8-af63230649f7
-walk(initialise, step, 10)
-
-# ╔═╡ f3b21c40-9246-11eb-1873-1bcc82d68e23
-walk(10)
-
 # ╔═╡ 048fac02-91da-11eb-0d26-4f258b4cd043
 walk(Walker1D(0), 10)
 
+# ╔═╡ 8c75aeee-9242-11eb-16b2-8fc1c243b794
+md"""
+Now let's make a 2D one.
+"""
+
+# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
+struct Walker2D <: Walker
+	x::Int
+	y::Int
+end
+
+# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
+position(w::Walker2D) = (w.x, w.y)
+
+# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
+step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
+
+# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
+update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
+
 # ╔═╡ 74182fe0-91da-11eb-219a-01f13b86406d
 traj = walk(Walker2D(0, 0), 10^N)
-
-# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
-begin
-	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
-	scatter!([ traj[1], traj[t] ], c=[:red, :green])
-	
-	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
-	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
-	
-end
 
 # ╔═╡ Cell order:
 # ╟─3649f170-923a-11eb-321c-cf95849cc044
@@ -606,7 +603,6 @@ end
 # ╠═b9a57a9a-9248-11eb-128b-21f779e564b8
 # ╠═c6a38dea-9248-11eb-1784-07153b0febec
 # ╠═c8aed310-9248-11eb-2686-7758ae5afb7d
-# ╠═e8f83db2-9248-11eb-316d-65927af0d39e
 # ╟─be40585c-923b-11eb-0cbc-85599c23ef81
 # ╟─c5af5aac-923b-11eb-09f3-a3d4e5b7cfa8
 # ╟─d77cf668-923b-11eb-141d-d3d4ee24136d
