@@ -141,7 +141,7 @@ md"""
 
 # ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
 md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathematics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
 
 $(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
 
@@ -161,7 +161,7 @@ $(blue("The combination of continuous and discrete is often more useful than eit
 
 # ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
 md"""
-$(blue("Machine Learning, Epidemics, climate change, etc. show how critical continuous math is these days."))
+$(blue("Machine Learning, Pandemics, climate change, etc. show how critical continuous math is these days."))
 """
 
 # ╔═╡ 5c536430-9188-11eb-229c-e7feba62d257
@@ -495,12 +495,8 @@ begin
 	plot( x, f.(x,t), ylims=(0,1), legend=false)
 end
 
-<<<<<<< HEAD
-# ╔═╡ 32f6b058-9712-11eb-023a-95ad37d18c17
-plotly()
+<<<<<<< HEA
 
-=======
->>>>>>> 276cc846d7d3fa4bcab7af33b231d9df6b337cd9
 # ╔═╡ 021d7e9a-9711-11eb-063b-11441afa2e69
 begin
 	surface(-2:.05:2, .2:.01:1, f, alpha=.4, c=:Reds, legend=false)
@@ -567,31 +563,6 @@ end
 function blue(s::String)
 	HTML("<span style='color:blue'> $(s)  </span>")
 end
-
-# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
-md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathematics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
-
-$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
-
- 
-"""
-
-# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
-md"""
-$(blue("Continuous math often lets you replace complicated large systems
-		with lots of details with a simpler abstraction that is easier to work with."))
-"""
-
-# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
-md"""
-$(blue("The combination of continuous and discrete is often more useful than either one alone."))
-"""
-
-# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
-md"""
-$(blue("Machine Learning, Pandemics, climate change, etc. show how critical continuous math is these days."))
-"""
 
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
 function pyramid(rows::Vector{<:Vector}; 
