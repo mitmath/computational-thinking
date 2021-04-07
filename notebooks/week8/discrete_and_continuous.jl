@@ -127,6 +127,31 @@ md"""
 ### Heard in the hallways: I only like discrete math.  I only like continuous math.
 """
 
+# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
+md"""
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+
+$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
+
+ 
+"""
+
+# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
+md"""
+$(blue("Continuous math often lets you replace complicated large systems
+		with lots of details with a simpler abstraction that is easier to work with."))
+"""
+
+# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
+md"""
+$(blue("The combination of continuous and discrete is often more useful than either one alone."))
+"""
+
+# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
+md"""
+$(blue("Machine Learning, Epidemics, climate change, etc. show how critical continuous math is these days."))
+"""
+
 # ╔═╡ 5c536430-9188-11eb-229c-e7feba62d257
 md"""
 ### Indexing and Function Evaluation
@@ -246,24 +271,27 @@ md"""
 Why does this work?
 """
 
-# ╔═╡ 43d20d56-d56a-47a8-893e-f726c1a99651
-pp(x) =  colorgoodbad( string(float(π)) , (@sprintf "%.15f" x) )
+# ╔═╡ 82a407b6-0ecb-4011-a0f6-bc9e1f51393f
+md"""
+Area(s) = ``(s/2) \sin (2\pi/2) = \pi- \frac{2\pi^3}{3} s^{-2}  + \frac{2\pi^5}{15}s^{-4} -  \frac{4\pi^7}{315} s^{-6} + \ldots``    
+
+as `` s \rightarrow \infty ``.
+"""
 
 # ╔═╡ 5947dc80-9714-11eb-389d-1510a1137a50
 md"""
-`` \pi  -  c_1 /s^2  + c_2 / s^4  - \ldots`` 
+Area(s) = `` \pi  -  c_1 /s^2  + c_2 / s^4  - \ldots`` 
 
-`` \pi  -  c_1 /(4s^2)  + c_2 / (16s^4)  - \ldots`` 
+Area(2s) = `` \pi  -  c_1 /(4s^2)  + c_2 / (16s^4)  - \ldots`` 
 """
 
-# ╔═╡ 6ebd6876-9713-11eb-1f51-77ecc52a2212
-π - area( 3* 2^10) 
+# ╔═╡ db8121ec-8546-4f1e-8153-cff5b4df39df
+md"""
+Think about taking (4/3) Area(2s) - (1/3) Area(s).
 
-# ╔═╡ 85a68c96-9713-11eb-0ef9-47568ca61860
-(π - area( 3* 2^10))/4
-
-# ╔═╡ 7d5283ec-9713-11eb-30f4-07c146d2f350
-π - area( 3* 2^11) 
+Now we have 
+``\pi + c s^{-4}`` as the leading term so doubling the s approximately reduces the area error by 16, when before it was only 4. etc.
+"""
 
 # ╔═╡ 01631c38-9713-11eb-30bf-3d23cf0d3dc8
 begin
@@ -303,53 +331,56 @@ md"""
 Area using inscribed squares
 """
 
+# ╔═╡ de9066e2-d5eb-49e3-be71-edda8e8e31dd
+@bind s Slider(2:40, show_value=true)
+
 # ╔═╡ 4d4705d0-9568-11eb-085c-0fc556c4cfe7
-# let
+let
 	
-#     plot()
-# 	for i=-sides:sides
-# 		plot!([i/sides,i/sides],[-1,1],color=RGB(0,1,0),lw=1)
-# 		plot!([-1,1],[i/sides,i/sides],color=RGB(0,1,0),lw=1)
-# 	end
-# 		P = plot!( cos.(θ),sin.(θ), ratio=1, axis=false, legend=false, ticks=false, lw=3, color=:black)
-# 	plot!(P)
+    plot()
+	for i=-s:s
+		plot!([i/s,i/s],[-1,1],color=RGB(0,1,0),lw=1)
+		plot!([-1,1],[i/s,i/s],color=RGB(0,1,0),lw=1)
+	end
+		P = plot!( cos.(θ),sin.(θ), ratio=1, axis=false, legend=false, ticks=false, lw=3, color=:black)
+	plot!(P)
 	
-# 	h = 1/sides
-# 	a = 0
+	h = 1/s
+	a = 0
 	
 	
-# 	xx=  floor(√2/2h)
-# 	x = xx*h
-# 	y=x
-# 	plot!( Shape([-x, -x, x ,x],[-y, y ,y, -y]), color=RGB(1,0,0),alpha=.7)
+	xx=  floor(√2/2h)
+	x = xx*h
+	y=x
+	plot!( Shape([-x, -x, x ,x],[-y, y ,y, -y]), color=RGB(1,0,0),alpha=.7)
 	
-# 	a = a+Int(2*xx)^2
+	a = a+Int(2*xx)^2
 
 	
-# 	 for i=-sides:(-xx-1), j=-sides:(-1)
-# 	   x = i*h
-# 	    y = j*h
-# 	   if (x^2+y^2≤1) & ( (x+h)^2+(y+h)^2 ≤1) & (x^2+(y+h)^2 ≤1) & ((x+h)^2+y^2 ≤1)
-# 	 	 plot!( Shape([x, x, x+h ,x+h],[y, y+h ,y+h, y]), color=:blue)
-# 		 plot!( Shape([-x-h, -x-h, -x ,-x],[y, y+h ,y+h, y]), color=:blue)
-# 	     plot!( Shape([x, x, x+h ,x+h],[-y-h, -y ,-y, -y-h]), color=:blue)
-# 		 plot!( Shape([-x-h, -x-h, -x ,-x],[-y-h, -y ,-y, -y-h]), color=:blue)
-# 		 plot!( Shape([y, y+h ,y+h, y],[x, x, x+h ,x+h]), color=:blue)
-# 		 plot!( Shape([-y-h, -y ,-y, -y-h],[x, x, x+h ,x+h]), color=:blue)
-# 		 plot!( Shape([y, y+h ,y+h, y],[-x-h, -x-h, -x ,-x]), color=:blue)
-# 		 plot!( Shape([-y-h, -y ,-y, -y-h],[-x-h, -x-h, -x ,-x]), color=:blue)
-# 	 		a += 8
-# 	 	end
-# 	 end
+	 for i=-s:(-xx-1), j=-s:(-1)
+	   x = i*h
+	    y = j*h
+	   if (x^2+y^2≤1) & ( (x+h)^2+(y+h)^2 ≤1) & (x^2+(y+h)^2 ≤1) & ((x+h)^2+y^2 ≤1)
+	 	 plot!( Shape([x, x, x+h ,x+h],[y, y+h ,y+h, y]), color=:blue)
+		 plot!( Shape([-x-h, -x-h, -x ,-x],[y, y+h ,y+h, y]), color=:blue)
+	     plot!( Shape([x, x, x+h ,x+h],[-y-h, -y ,-y, -y-h]), color=:blue)
+		 plot!( Shape([-x-h, -x-h, -x ,-x],[-y-h, -y ,-y, -y-h]), color=:blue)
+		 plot!( Shape([y, y+h ,y+h, y],[x, x, x+h ,x+h]), color=:blue)
+		 plot!( Shape([-y-h, -y ,-y, -y-h],[x, x, x+h ,x+h]), color=:blue)
+		 plot!( Shape([y, y+h ,y+h, y],[-x-h, -x-h, -x ,-x]), color=:blue)
+		 plot!( Shape([-y-h, -y ,-y, -y-h],[-x-h, -x-h, -x ,-x]), color=:blue)
+	 		a += 8
+	 	end
+	 end
 	
 	
+	xlabel!("s  =  $s")
+	
+	title!( "$(a//s^2) =  $(a*h^2/π) π")
+	plot!()
 	
 	
-# 	title!( "$(a//sides^2) =  $(a*h^2/π) π")
-# 	plot!()
-	
-	
-# end
+end
 
 # ╔═╡ e6884c6c-9712-11eb-288b-f1a439b0aba3
 
@@ -463,36 +494,6 @@ The normal distribution is interesting in that no matter which starting finite d
 Indeed what happens as discrete objects get larger and larger, their complexity gets out of control if one wants to keep track of every detail, but they get simpler in their aggregate behavior.
 """
 
-# ╔═╡ aa76ce1e-918c-11eb-1d49-d17f4362245d
-function blue(s::String)
-	HTML("<span style='color:blue'> $(s)  </span>")
-end
-
-# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
-md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
-
-$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
-
- 
-"""
-
-# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
-md"""
-$(blue("Continuous math often lets you replace complicated large systems
-		with lots of details with a simpler abstraction that is easier to work with."))
-"""
-
-# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
-md"""
-$(blue("The combination of continuous and discrete is often more useful than either one alone."))
-"""
-
-# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
-md"""
-$(blue("Machine Learning, Epidemics, climate change, etc. show how critical continuous math is these days."))
-"""
-
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
 function pyramid(rows::Vector{<:Vector}; 
 		horizontal=false,
@@ -547,11 +548,11 @@ pyramid( [area0,area1], horizontal = true)
 # ╔═╡ 6577e546-8f0b-413a-a8bb-b9c12803199d
 pyramid([area0,area1,area2], horizontal = true)
 
+# ╔═╡ 43d20d56-d56a-47a8-893e-f726c1a99651
+pp(x) =  colorgoodbad( string(float(π)) , (@sprintf "%.15f" x) )
+
 # ╔═╡ 893a56b0-f5d0-4f8d-ba15-1048180a7e53
 pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal = true)
-
-# ╔═╡ 2dcb6470-e218-4307-ac09-cf4903b80a47
-
 
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
@@ -597,12 +598,10 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═4dd03325-2498-4fe7-9212-f964081a0300
 # ╠═626242ea-544c-49fc-9884-c70dd6800902
 # ╠═893a56b0-f5d0-4f8d-ba15-1048180a7e53
-# ╠═dbccc2d5-c2af-48c4-8726-a95c09da78ae
-# ╠═43d20d56-d56a-47a8-893e-f726c1a99651
-# ╠═5947dc80-9714-11eb-389d-1510a1137a50
-# ╠═6ebd6876-9713-11eb-1f51-77ecc52a2212
-# ╠═85a68c96-9713-11eb-0ef9-47568ca61860
-# ╠═7d5283ec-9713-11eb-30f4-07c146d2f350
+# ╟─dbccc2d5-c2af-48c4-8726-a95c09da78ae
+# ╟─82a407b6-0ecb-4011-a0f6-bc9e1f51393f
+# ╟─5947dc80-9714-11eb-389d-1510a1137a50
+# ╟─db8121ec-8546-4f1e-8153-cff5b4df39df
 # ╠═01631c38-9713-11eb-30bf-3d23cf0d3dc8
 # ╠═553bdb0a-9714-11eb-1646-413a969d6884
 # ╠═37fc6e56-9714-11eb-1427-b75613800366
@@ -611,7 +610,8 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═00c6537a-9714-11eb-1294-077a62f86ab3
 # ╠═250b1cca-9714-11eb-0550-1d63952bb8a9
 # ╟─4a072870-961f-11eb-1215-17efa0013873
-# ╠═4d4705d0-9568-11eb-085c-0fc556c4cfe7
+# ╠═de9066e2-d5eb-49e3-be71-edda8e8e31dd
+# ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
 # ╠═e6884c6c-9712-11eb-288b-f1a439b0aba3
 # ╠═632eea46-9710-11eb-1abe-85da8d9c30a9
 # ╠═9c519eca-9710-11eb-20dc-3f76801545d1
@@ -636,6 +636,5 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═31d56008-9646-11eb-1985-2b68af354773
 # ╠═1761187e-9645-11eb-3778-b132f856696d
 # ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
-# ╠═aa76ce1e-918c-11eb-1d49-d17f4362245d
-# ╠═c03d45f8-9188-11eb-2e11-0fafa39f253d
-# ╠═2dcb6470-e218-4307-ac09-cf4903b80a47
+# ╟─c03d45f8-9188-11eb-2e11-0fafa39f253d
+# ╟─43d20d56-d56a-47a8-893e-f726c1a99651
