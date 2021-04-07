@@ -20,16 +20,15 @@ begin
     Pkg.add([
         Pkg.PackageSpec(name="Plots", version="1"),
         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-		Pkg.PackageSpec(name="HypertextLiteral", version="0.6")
+        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
+        Pkg.PackageSpec(name="LightGraphs", version="1"),
+        Pkg.PackageSpec(name="GraphPlot", version="0.4"),
     ])
-    using Plots, PlutoUI, HypertextLiteral
+    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf
 end
 
 # ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
 Pkg.add("GraphPlot")
-
-# ╔═╡ 2f3bccf4-970e-11eb-18a2-455701f82b8b
-using LightGraphs, GraphPlot, Printf
 
 # ╔═╡ e8d1b342-970c-11eb-08c0-81e8df656924
 using SpecialFunctions
@@ -75,9 +74,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 42be44b1-5381-4a2a-adfd-ec117f448fe8
-
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
@@ -575,8 +571,6 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 # ╠═d155ea12-9628-11eb-347f-7754a33fd403
-# ╠═2f3bccf4-970e-11eb-18a2-455701f82b8b
-# ╠═42be44b1-5381-4a2a-adfd-ec117f448fe8
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
 # ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
 # ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
