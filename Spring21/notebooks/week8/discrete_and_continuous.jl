@@ -23,15 +23,13 @@ begin
         Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
         Pkg.PackageSpec(name="LightGraphs", version="1"),
         Pkg.PackageSpec(name="GraphPlot", version="0.4"),
+		Pkg.PackageSpec(name="SpecialFunctions", version="1")
     ])
-    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf
+    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf, SpecialFunctions
 end
 
 # ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
 Pkg.add("GraphPlot")
-
-# ╔═╡ e8d1b342-970c-11eb-08c0-81e8df656924
-using SpecialFunctions
 
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 html"""
@@ -121,31 +119,6 @@ md"""
 # ╔═╡ 091a8a44-918c-11eb-2ee3-9be84a311afd
 md"""
 ### Heard in the hallways: I only like discrete math.  I only like continuous math.
-"""
-
-# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
-md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
-
-$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
-
- 
-"""
-
-# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
-md"""
-$(blue("Continuous math often lets you replace complicated large systems
-		with lots of details with a simpler abstraction that is easier to work with."))
-"""
-
-# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
-md"""
-$(blue("The combination of continuous and discrete is often more useful than either one alone."))
-"""
-
-# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
-md"""
-$(blue("Machine Learning, Epidemics, climate change, etc. show how critical continuous math is these days."))
 """
 
 # ╔═╡ 5c536430-9188-11eb-229c-e7feba62d257
@@ -508,6 +481,36 @@ P*P'
 # ╔═╡ ed6d7404-970c-11eb-13ee-5f5a454d2222
 (1 ./beta.( (1:5)', 0:5) ) ./ [1;1:5;]
 
+# ╔═╡ 0e6cab25-70f8-46ab-a5ab-8542e232274e
+function blue(s::String)
+	HTML("<span style='color:blue'> $(s)  </span>")
+end
+
+# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
+md"""
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+
+$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
+
+ 
+"""
+
+# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
+md"""
+$(blue("Continuous math often lets you replace complicated large systems
+		with lots of details with a simpler abstraction that is easier to work with."))
+"""
+
+# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
+md"""
+$(blue("The combination of continuous and discrete is often more useful than either one alone."))
+"""
+
+# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
+md"""
+$(blue("Machine Learning, Epidemics, climate change, etc. show how critical continuous math is these days."))
+"""
+
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
 function pyramid(rows::Vector{<:Vector}; 
 		horizontal=false,
@@ -580,7 +583,7 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╟─61ffe0f2-9615-11eb-37d5-f9e30a31c111
 # ╟─627f6db6-9617-11eb-0453-a1f9e341ecfe
 # ╟─091a8a44-918c-11eb-2ee3-9be84a311afd
-# ╟─173b44ea-918c-11eb-116b-0bbaeffc3fe2
+# ╠═173b44ea-918c-11eb-116b-0bbaeffc3fe2
 # ╟─a3f005a8-9617-11eb-1503-75c31ec54f70
 # ╟─870cdf5f-f896-4060-9548-5d9c1749d100
 # ╟─d9dfe7c5-9211-4707-bb33-a3ff258e10f4
@@ -649,6 +652,6 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═b972b218-970c-11eb-1949-535830e20990
 # ╠═80682786-970d-11eb-223b-b5f762b19c24
 # ╠═ed6d7404-970c-11eb-13ee-5f5a454d2222
-# ╠═e8d1b342-970c-11eb-08c0-81e8df656924
+# ╠═0e6cab25-70f8-46ab-a5ab-8542e232274e
 # ╟─c03d45f8-9188-11eb-2e11-0fafa39f253d
 # ╟─43d20d56-d56a-47a8-893e-f726c1a99651
