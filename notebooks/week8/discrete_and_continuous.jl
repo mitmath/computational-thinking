@@ -293,37 +293,58 @@ Now we have
 ``\pi + c s^{-4}`` as the leading term so doubling the s approximately reduces the area error by 16, when before it was only 4. etc.
 """
 
+# ╔═╡ d4f83a20-62cf-47f1-a622-d5c4c34e4813
+areab(s) = (s/2) * sin(big(2)*big(π)/s)
+
 # ╔═╡ 01631c38-9713-11eb-30bf-3d23cf0d3dc8
 begin
-	a = area.(big.([3,6,12,24,48,96,192,384,768]))
-	a[end]
+	area0b = areab.(big.([2,4,8,16,32,62,128,256,512,1024,2048,4096,8192,16384,32768,65536]))
+	area0b[end]
 end
 
 # ╔═╡ 553bdb0a-9714-11eb-1646-413a969d6884
+begin
+	area1b = [ 4//3 * area0b[i+1] .-  1//3 * area0b[i] for i = 1:length(area0b)-1 ]
+	area1b[end]
+end
 
+# ╔═╡ 453f2585-157d-490a-9d1c-0b02939d0a11
+begin
+	area2b = [16//15 * area1b[i+1] .-  1//15 * area1b[i] for i = 1:length(area1b)-1 ]
+	area2b[end]
+end
+
+# ╔═╡ bc1efddd-c959-4407-9a86-ba73a64508a8
+begin
+	area3b = [64//63 * area2b[i+1] .-  1//63 * area2b[i] for i = 1:length(area2b)-1 ]
+	area3b[end]
+end
+
+# ╔═╡ 516b69d8-5d94-4b4d-9596-2db0dfbf4038
+begin
+	area4b = [256//255 * area3b[i+1] .-  1//255 * area3b[i] for i = 1:length(area3b)-1 ]
+	area4b[end]
+end
+
+# ╔═╡ cec13915-8adb-4627-b220-591377239997
+begin
+	area5b = [1024//1023 * area4b[i+1] .-  1//1023 * area4b[i] for i = 1:length(area4b)-1 ]
+	area5b[end]
+end
+
+# ╔═╡ 6d954628-6290-4867-8144-dd486551545d
+begin
+	area6b = [4096//4095 * area5b[i+1] .-  1//4095 * area5b[i] for i = 1:length(area5b)-1 ]
+	area6b[end]
+end
+
+# ╔═╡ 00478b2c-5dcc-44fc-a7be-a3dadf6300e7
+begin
+	area7b = [16336//16335 * area6b[i+1] .-  1//16335 * area6b[i] for i = 1:length(area6b)-1 ]
+	area7b[end]
+end
 
 # ╔═╡ 37fc6e56-9714-11eb-1427-b75613800366
-area(768)
-
-# ╔═╡ 11423ddc-9713-11eb-2688-cb87159e5400
-begin
-	b= (  4*a[2:8]  .- a[1:7] )/3
-	b[end]
-end
-
-# ╔═╡ 3f87ad4e-9713-11eb-3cc6-f7ec56306bb8
-begin
-	cc = (16 * b[2:7] .- b[1:6])/15
-	cc[end]
-end
-
-# ╔═╡ 00c6537a-9714-11eb-1294-077a62f86ab3
-begin
-	dd = (64 * cc[2:6] .- cc[1:5])/63
-	dd[end]
-end
-
-# ╔═╡ 250b1cca-9714-11eb-0550-1d63952bb8a9
 big(π)
 
 # ╔═╡ 4a072870-961f-11eb-1215-17efa0013873
@@ -586,7 +607,7 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═f20da096-9712-11eb-2a67-cd33f6ab8750
 # ╠═6fd93018-c33b-4682-91c3-7a20a41d9b03
 # ╠═a306559f-e095-4f6d-94e8-b0be160e77fa
-# ╠═ea29e286-4b4a-4291-a093-cd942ba46e49
+# ╟─ea29e286-4b4a-4291-a093-cd942ba46e49
 # ╠═103c93ae-8175-4996-ab8f-5d537691defc
 # ╠═686904c9-1cc4-4476-860b-159e56471e38
 # ╠═bcfd1585-8161-43a2-8b19-ed654df2e0e1
@@ -602,13 +623,16 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╟─82a407b6-0ecb-4011-a0f6-bc9e1f51393f
 # ╟─5947dc80-9714-11eb-389d-1510a1137a50
 # ╟─db8121ec-8546-4f1e-8153-cff5b4df39df
+# ╠═d4f83a20-62cf-47f1-a622-d5c4c34e4813
 # ╠═01631c38-9713-11eb-30bf-3d23cf0d3dc8
 # ╠═553bdb0a-9714-11eb-1646-413a969d6884
+# ╠═453f2585-157d-490a-9d1c-0b02939d0a11
+# ╠═bc1efddd-c959-4407-9a86-ba73a64508a8
+# ╠═516b69d8-5d94-4b4d-9596-2db0dfbf4038
+# ╠═cec13915-8adb-4627-b220-591377239997
+# ╠═6d954628-6290-4867-8144-dd486551545d
+# ╠═00478b2c-5dcc-44fc-a7be-a3dadf6300e7
 # ╠═37fc6e56-9714-11eb-1427-b75613800366
-# ╠═11423ddc-9713-11eb-2688-cb87159e5400
-# ╠═3f87ad4e-9713-11eb-3cc6-f7ec56306bb8
-# ╠═00c6537a-9714-11eb-1294-077a62f86ab3
-# ╠═250b1cca-9714-11eb-0550-1d63952bb8a9
 # ╟─4a072870-961f-11eb-1215-17efa0013873
 # ╠═de9066e2-d5eb-49e3-be71-edda8e8e31dd
 # ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
