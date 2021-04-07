@@ -406,6 +406,39 @@ end
 # ╔═╡ e6884c6c-9712-11eb-288b-f1a439b0aba3
 
 
+# ╔═╡ 155241b0-9646-11eb-180e-89c8651536c6
+@bind j Slider(1:9, show_value=true, default=6)
+
+# ╔═╡ 4f845436-9646-11eb-2445-c12746a9e556
+begin
+	N  = 1024
+	h =  1/N
+	v = randn(N)
+end
+
+# ╔═╡ 31d56008-9646-11eb-1985-2b68af354773
+J = N ÷ 2^j
+
+# ╔═╡ 1761187e-9645-11eb-3778-b132f856696d
+begin
+	plot()	
+	c = [0;cumsum(v)] .* √h
+	plot!((0:N)./N,c)
+	plot!( (0:J:N)./N,   c[1:J:end],legend=false,m=:o,ms=1, color=:red, lw=5)	   
+	plot!(ylims=(-2,2))
+end
+
+# ╔═╡ c32e0f9c-918e-11eb-1cf9-a340786db24a
+md"""
+Alan's essay:
+
+In what sense does the continuous even exist?  The fact of the matter is that there are limits that give the same answer no matter how you get there, and these limits
+are important to us. For example, no matter how you cover an area, by little rectangles, the sum always converges to what we intuitively call area.
+The normal distribution is interesting in that no matter which starting finite distribution we might take, if add n independent copies and normalize to variance 1 we get the same limit.  Again, there are so many ways to start, and yet we always end up with the same thing.  Continuous mathematics is full of so many examples, where discrete objects end up behaving the same.
+
+Indeed what happens as discrete objects get larger and larger, their complexity gets out of control if one wants to keep track of every detail, but they get simpler in their aggregate behavior.
+"""
+
 # ╔═╡ 632eea46-9710-11eb-1abe-85da8d9c30a9
 f(x,t) =  exp(-x^2/t)/√(π*t)
 
@@ -478,42 +511,6 @@ P*P'
 
 # ╔═╡ ed6d7404-970c-11eb-13ee-5f5a454d2222
 (1 ./beta.( (1:5)', 0:5) ) ./ [1;1:5;]
-
-# ╔═╡ 958b03cc-970d-11eb-1c09-eb1150e86396
-
-
-# ╔═╡ 155241b0-9646-11eb-180e-89c8651536c6
-@bind j Slider(1:9, show_value=true, default=6)
-
-# ╔═╡ 4f845436-9646-11eb-2445-c12746a9e556
-begin
-	N  = 1024
-	h =  1/N
-	v = randn(N)
-end
-
-# ╔═╡ 31d56008-9646-11eb-1985-2b68af354773
-J = N ÷ 2^j
-
-# ╔═╡ 1761187e-9645-11eb-3778-b132f856696d
-begin
-	plot()	
-	c = [0;cumsum(v)] .* √h
-	plot!((0:N)./N,c)
-	plot!( (0:J:N)./N,   c[1:J:end],legend=false,m=:o,ms=1, color=:red, lw=5)	   
-	plot!(ylims=(-2,2))
-end
-
-# ╔═╡ c32e0f9c-918e-11eb-1cf9-a340786db24a
-md"""
-Alan's essay:
-
-In what sense does the continuous even exist?  The fact of the matter is that there are limits that give the same answer no matter how you get there, and these limits
-are important to us. For example, no matter how you cover an area, by little rectangles, the sum always converges to what we intuitively call area.
-The normal distribution is interesting in that no matter which starting finite distribution we might take, if add n independent copies and normalize to variance 1 we get the same limit.  Again, there are so many ways to start, and yet we always end up with the same thing.  Continuous mathematics is full of so many examples, where discrete objects end up behaving the same.
-
-Indeed what happens as discrete objects get larger and larger, their complexity gets out of control if one wants to keep track of every detail, but they get simpler in their aggregate behavior.
-"""
 
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
 function pyramid(rows::Vector{<:Vector}; 
@@ -637,6 +634,11 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═de9066e2-d5eb-49e3-be71-edda8e8e31dd
 # ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
 # ╠═e6884c6c-9712-11eb-288b-f1a439b0aba3
+# ╠═155241b0-9646-11eb-180e-89c8651536c6
+# ╠═4f845436-9646-11eb-2445-c12746a9e556
+# ╠═31d56008-9646-11eb-1985-2b68af354773
+# ╠═1761187e-9645-11eb-3778-b132f856696d
+# ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╠═632eea46-9710-11eb-1abe-85da8d9c30a9
 # ╠═9c519eca-9710-11eb-20dc-3f76801545d1
 # ╠═7c4b82c8-9710-11eb-101e-53616e278289
@@ -653,12 +655,6 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═b972b218-970c-11eb-1949-535830e20990
 # ╠═80682786-970d-11eb-223b-b5f762b19c24
 # ╠═ed6d7404-970c-11eb-13ee-5f5a454d2222
-# ╠═958b03cc-970d-11eb-1c09-eb1150e86396
 # ╠═e8d1b342-970c-11eb-08c0-81e8df656924
-# ╠═155241b0-9646-11eb-180e-89c8651536c6
-# ╠═4f845436-9646-11eb-2445-c12746a9e556
-# ╠═31d56008-9646-11eb-1985-2b68af354773
-# ╠═1761187e-9645-11eb-3778-b132f856696d
-# ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╟─c03d45f8-9188-11eb-2e11-0fafa39f253d
 # ╟─43d20d56-d56a-47a8-893e-f726c1a99651
