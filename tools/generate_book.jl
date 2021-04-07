@@ -124,15 +124,15 @@ function process_book_item(section::Section)
     cells_dict = getfield(notebook, :cells_dict)
     cell_order = getfield(notebook, :cell_order)
 
-    if startswith(first_cell.code, "html")
-        # We can just overwrite this cell
-        first_cell.code = new_cell_code
-    else
-        # We get to add a new cell
-        new_cell = Pluto.Cell(new_cell_code)
-        push!(cells_dict,new_cell.cell_id => new_cell)
-        insert!(cell_order, 1, new_cell.cell_id)
-    end
+    # if startswith(first_cell.code, "html")
+    #     # We can just overwrite this cell
+    #     first_cell.code = new_cell_code
+    # else
+    #     # We get to add a new cell
+    #     new_cell = Pluto.Cell(new_cell_code)
+    #     push!(cells_dict,new_cell.cell_id => new_cell)
+    #     insert!(cell_order, 1, new_cell.cell_id)
+    # end
 
     # Second hide all md, html cells
     for cell ∈ ordered_cells
@@ -141,12 +141,10 @@ function process_book_item(section::Section)
         end
     end
 
-   num_deleted = 0
    for (i, cell) ∈ enumerate(ordered_cells)
         if length(strip(cell.code)) == 0 && !cell.code_folded
             delete!(cells_dict, cell.cell_id)
-            deleteat!(cell_order, i - num_deleted)
-            num_deleted += 1
+            deleteat!(cell_order, i)
         end
     end
     setfield!(notebook, :cells_dict, cells_dict)

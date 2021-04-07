@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.1
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -13,26 +13,11 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-		Pkg.PackageSpec(name="HypertextLiteral", version="0.6")
-    ])
-    using Plots, PlutoUI, HypertextLiteral
-end
+# ╔═╡ fd252080-9189-11eb-1eb2-573d35a72e9c
+using PlutoUI
 
-# ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
-Pkg.add("GraphPlot")
-
-# ╔═╡ 2f3bccf4-970e-11eb-18a2-455701f82b8b
-using LightGraphs, GraphPlot
-
-# ╔═╡ e8d1b342-970c-11eb-08c0-81e8df656924
-using SpecialFunctions
+# ╔═╡ 243e73d6-918e-11eb-399c-bde589f3f84d
+using Plots
 
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 html"""
@@ -92,18 +77,15 @@ Nonetheless the idea of discrete mathematics is associated with  finite or count
 
 # ╔═╡ 719a4c8c-9615-11eb-3dd7-7fb786f7fa17
 md"""
-DISCRETE MATH OBJECTS (examples):
+DISCRETE MATH OBJECTS:
+
+``\mathbb{Z}``=integers=``\{\ldots,-2,-1,0,1,2,\ldots\}``
+
+**[1,2,...,100]**
 
 
-1. Finite Sets: [1,2,...,100] 
-
-2. Infinite Discrete Sets: ``\mathbb{Z}`` = integers = ``\{\ldots,-2,-1,0,1,2,\ldots\}``
-
-3. Graphs:
+![graph](https://upload.wikimedia.org/wikipedia/commons/2/2f/Small_Network.png)
 """
-
-# ╔═╡ 45ecee7e-970e-11eb-22fd-01f56876684e
-gplot( barabasi_albert(150, 2) )
 
 # ╔═╡ 61ffe0f2-9615-11eb-37d5-f9e30a31c111
 md"""
@@ -162,58 +144,6 @@ begin
 	title!("Area = ($sides/2)sin(2π/$sides) ≈  $(sides*sin(2π/sides)/(2π) )  π")
 end
 
-# ╔═╡ f20da096-9712-11eb-2a67-cd33f6ab8750
-area(s) = (s/2) * sin(2π/s)
-
-# ╔═╡ 5947dc80-9714-11eb-389d-1510a1137a50
-md"""
-`` \pi  -  c_1 /s^2  + c_2 / s^4  - \ldots`` 
-
-`` \pi  -  c_1 /(4s^2)  + c_2 / (16s^4)  - \ldots`` 
-"""
-
-# ╔═╡ 6ebd6876-9713-11eb-1f51-77ecc52a2212
-π - area( 3* 2^10) 
-
-# ╔═╡ 85a68c96-9713-11eb-0ef9-47568ca61860
-(π - area( 3* 2^10))/4
-
-# ╔═╡ 7d5283ec-9713-11eb-30f4-07c146d2f350
-π - area( 3* 2^11) 
-
-# ╔═╡ 01631c38-9713-11eb-30bf-3d23cf0d3dc8
-begin
-	a = area.(big.([3,6,12,24,48,96,192,384,768]))
-	a[end]
-end
-
-# ╔═╡ 553bdb0a-9714-11eb-1646-413a969d6884
-
-
-# ╔═╡ 37fc6e56-9714-11eb-1427-b75613800366
-area(768)
-
-# ╔═╡ 11423ddc-9713-11eb-2688-cb87159e5400
-begin
-	b= (  4*a[2:8]  .- a[1:7] )/3
-	b[end]
-end
-
-# ╔═╡ 3f87ad4e-9713-11eb-3cc6-f7ec56306bb8
-begin
-	cc = (16 * b[2:7] .- b[1:6])/15
-	cc[end]
-end
-
-# ╔═╡ 00c6537a-9714-11eb-1294-077a62f86ab3
-begin
-	dd = (64 * cc[2:6] .- cc[1:5])/63
-	dd[end]
-end
-
-# ╔═╡ 250b1cca-9714-11eb-0550-1d63952bb8a9
-big(π)
-
 # ╔═╡ 4a072870-961f-11eb-1215-17efa0013873
 md"""
 Area using inscribed squares
@@ -267,37 +197,8 @@ let
 	
 end
 
-# ╔═╡ e6884c6c-9712-11eb-288b-f1a439b0aba3
+# ╔═╡ 81fa11ca-961f-11eb-3da8-abd1c4385f93
 
-
-# ╔═╡ 632eea46-9710-11eb-1abe-85da8d9c30a9
-f(x,t) =  exp(-x^2/t)/√(π*t)
-
-# ╔═╡ 9c519eca-9710-11eb-20dc-3f76801545d1
-@bind t Slider(.01:.01:8, show_value=true)
-
-# ╔═╡ 7c4b82c8-9710-11eb-101e-53616e278289
-begin
-	x = -3 : .01 : 3 
-	plot( x, f.(x,t), ylims=(0,1), legend=false)
-end
-
-# ╔═╡ 32f6b058-9712-11eb-023a-95ad37d18c17
-
-
-# ╔═╡ 021d7e9a-9711-11eb-063b-11441afa2e69
-begin
-	surface(-2:.05:2, .2:.01:1, f, alpha=.4, c=:Reds, legend=false)
-	for t = .2 : .1 :1
-		plot!(-2:.05:2, fill(t,length(-2:.05:2)),  f.(-2:.05:2,t), c=:black)
-	end
-	xlabel!("x")
-	ylabel!("t")
-	plot!()
-end
-
-# ╔═╡ 653a1cd6-9711-11eb-2284-770f00bebeec
-plotly()
 
 # ╔═╡ bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
 md"""
@@ -334,40 +235,6 @@ md"""
 ### Discrete and the Continuous Fourier Transform
 """
 
-# ╔═╡ b972b218-970c-11eb-1949-535830e20990
-P = [ binomial(n,k) for n=0:5,k=0:5]
-
-# ╔═╡ 80682786-970d-11eb-223b-b5f762b19c24
-P*P'
-
-# ╔═╡ ed6d7404-970c-11eb-13ee-5f5a454d2222
-(1 ./beta.( (1:5)', 0:5) ) ./ [1;1:5;]
-
-# ╔═╡ 958b03cc-970d-11eb-1c09-eb1150e86396
-
-
-# ╔═╡ 155241b0-9646-11eb-180e-89c8651536c6
-@bind j Slider(1:9, show_value=true, default=6)
-
-# ╔═╡ 4f845436-9646-11eb-2445-c12746a9e556
-begin
-	N  = 1024
-	h =  1/N
-	v = randn(N)
-end
-
-# ╔═╡ 31d56008-9646-11eb-1985-2b68af354773
-J = N ÷ 2^j
-
-# ╔═╡ 1761187e-9645-11eb-3778-b132f856696d
-begin
-	plot()	
-	c = [0;cumsum(v)] .* √h
-	plot!((0:N)./N,c)
-	plot!( (0:J:N)./N,   c[1:J:end],legend=false,m=:o,ms=1, color=:red, lw=5)	   
-	plot!(ylims=(-2,2))
-end
-
 # ╔═╡ c32e0f9c-918e-11eb-1cf9-a340786db24a
 md"""
 Alan's essay:
@@ -399,125 +266,37 @@ $(blue("Continuous math often lets you replace complicated large systems
 		with lots of details with a simpler abstraction that is easier to work with."))
 """
 
-# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
-md"""
-$(blue("The combination of continuous and discrete is often more useful than either one alone."))
-"""
-
-# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
-md"""
-$(blue("Machine Learning, Epidemics, climate change, etc. show how critical continuous math is these days."))
-"""
-
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
-function pyramid(rows::Vector{<:Vector}; 
-		horizontal=false,
-		padding_x=8,
-		padding_y=2,
-	)
-	
-	style = (; padding = "$(padding_y)px $(padding_x)px")
-	render_row(xs) = @htl("""<div><padder></padder>$([@htl("<span style=$(style)>$(x)</span>") for x in xs])<padder></padder></div>""")
-	
-	@htl("""
-		<style>
-		.pyramid {
-			flex-direction: column;
-			display: flex;
-		}
-		.pyramid.horizontal {
-			flex-direction: row;
-		}
-		.pyramid div {
-			display: flex;
-			flex-direction: row;
-		}
-		.pyramid.horizontal div {
-			flex-direction: column;
-		}
-		.pyramid div>span:hover {
-			background: rgb(255, 220, 220);
-			font-weight: 900;
-		}
-		.pyramid div padder {
-			flex: 1 1 auto;
-		}
-		.pyramid div span {
-			text-align: center;
-		}
-		
-		
-		</style>
-		<div class=$(["pyramid", (horizontal ? "horizontal" : "vertical")])>
-		$(render_row.(rows))
-		</div>
-		
-		""")
-end
 
-# ╔═╡ c9015310-630d-44fc-8c9e-c116f4cde962
-pyramid( [rand(i) for i ∈ 10:-1:1] , horizontal=true)
 
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
-# ╠═d155ea12-9628-11eb-347f-7754a33fd403
-# ╠═2f3bccf4-970e-11eb-18a2-455701f82b8b
+# ╠═fd252080-9189-11eb-1eb2-573d35a72e9c
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
-# ╠═c9015310-630d-44fc-8c9e-c116f4cde962
-# ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
-# ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
+# ╠═ee349b52-9189-11eb-2b86-b5dc15ebe432
+# ╠═43e39a6c-918a-11eb-2408-93563b4fb8c1
 # ╟─719a4c8c-9615-11eb-3dd7-7fb786f7fa17
-# ╠═45ecee7e-970e-11eb-22fd-01f56876684e
-# ╠═52fa7f18-757a-4bf5-b851-32a1fca9c378
 # ╟─61ffe0f2-9615-11eb-37d5-f9e30a31c111
 # ╟─627f6db6-9617-11eb-0453-a1f9e341ecfe
 # ╟─091a8a44-918c-11eb-2ee3-9be84a311afd
 # ╟─173b44ea-918c-11eb-116b-0bbaeffc3fe2
 # ╟─a3f005a8-9617-11eb-1503-75c31ec54f70
-# ╟─870cdf5f-f896-4060-9548-5d9c1749d100
-# ╟─d9dfe7c5-9211-4707-bb33-a3ff258e10f4
 # ╟─5c536430-9188-11eb-229c-e7feba62d257
 # ╟─40095ad2-961f-11eb-1f23-83d1a381ace7
 # ╟─ed71b026-9565-11eb-1058-d77efe114562
 # ╠═3b84bb0a-9566-11eb-1c1f-e30ca7330c09
-# ╠═02784976-9566-11eb-125c-a7f1f1bafd6b
-# ╠═f20da096-9712-11eb-2a67-cd33f6ab8750
-# ╠═5947dc80-9714-11eb-389d-1510a1137a50
-# ╠═6ebd6876-9713-11eb-1f51-77ecc52a2212
-# ╠═85a68c96-9713-11eb-0ef9-47568ca61860
-# ╠═7d5283ec-9713-11eb-30f4-07c146d2f350
-# ╠═01631c38-9713-11eb-30bf-3d23cf0d3dc8
-# ╠═553bdb0a-9714-11eb-1646-413a969d6884
-# ╠═37fc6e56-9714-11eb-1427-b75613800366
-# ╠═11423ddc-9713-11eb-2688-cb87159e5400
-# ╠═3f87ad4e-9713-11eb-3cc6-f7ec56306bb8
-# ╠═00c6537a-9714-11eb-1294-077a62f86ab3
-# ╠═250b1cca-9714-11eb-0550-1d63952bb8a9
+# ╟─02784976-9566-11eb-125c-a7f1f1bafd6b
 # ╟─4a072870-961f-11eb-1215-17efa0013873
 # ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
-# ╠═e6884c6c-9712-11eb-288b-f1a439b0aba3
-# ╠═632eea46-9710-11eb-1abe-85da8d9c30a9
-# ╠═9c519eca-9710-11eb-20dc-3f76801545d1
-# ╠═7c4b82c8-9710-11eb-101e-53616e278289
-# ╠═32f6b058-9712-11eb-023a-95ad37d18c17
-# ╠═021d7e9a-9711-11eb-063b-11441afa2e69
-# ╠═653a1cd6-9711-11eb-2284-770f00bebeec
+# ╠═81fa11ca-961f-11eb-3da8-abd1c4385f93
 # ╠═bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
 # ╠═c4a3bf6c-918d-11eb-1d50-911f83b6df81
 # ╠═d99dc494-918d-11eb-2733-29ce93ba584e
+# ╠═243e73d6-918e-11eb-399c-bde589f3f84d
 # ╠═0fb84ff2-918e-11eb-150f-8dad121c87bc
 # ╠═a7c5ef96-918d-11eb-0632-f94386eb64f2
 # ╠═75672be6-918d-11eb-1e10-07fbcc72abbd
 # ╠═906758c6-918d-11eb-08ae-b3c4f7870b4e
-# ╠═b972b218-970c-11eb-1949-535830e20990
-# ╠═80682786-970d-11eb-223b-b5f762b19c24
-# ╠═ed6d7404-970c-11eb-13ee-5f5a454d2222
-# ╠═958b03cc-970d-11eb-1c09-eb1150e86396
-# ╠═e8d1b342-970c-11eb-08c0-81e8df656924
-# ╠═155241b0-9646-11eb-180e-89c8651536c6
-# ╠═4f845436-9646-11eb-2445-c12746a9e556
-# ╠═31d56008-9646-11eb-1985-2b68af354773
-# ╠═1761187e-9645-11eb-3778-b132f856696d
-# ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
+# ╠═c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╠═aa76ce1e-918c-11eb-1d49-d17f4362245d
 # ╠═c03d45f8-9188-11eb-2e11-0fafa39f253d
