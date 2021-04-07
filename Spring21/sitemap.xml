@@ -20,12 +20,6 @@
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>pascal/index.html</loc>
-    <lastmod>2021-04-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
     <loc>hw3/index.html</loc>
     <lastmod>2021-04-07</lastmod>
     <changefreq>monthly</changefreq>
@@ -39,12 +33,6 @@
 </url>
 <url>
     <loc>cheatsheets/index.html</loc>
-    <lastmod>2021-04-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
-    <loc>random_walks_II/index.html</loc>
     <lastmod>2021-04-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
@@ -152,25 +140,19 @@
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>discrete_and_continuous/index.html</loc>
-    <lastmod>2021-04-07</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-</url>
-<url>
     <loc>images/index.html</loc>
     <lastmod>2021-04-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>homework/index.html</loc>
+    <loc>installation/index.html</loc>
     <lastmod>2021-04-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
 <url>
-    <loc>installation/index.html</loc>
+    <loc>homework/index.html</loc>
     <lastmod>2021-04-07</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
