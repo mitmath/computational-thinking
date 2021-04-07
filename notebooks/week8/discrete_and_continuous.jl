@@ -29,7 +29,7 @@ end
 Pkg.add("GraphPlot")
 
 # ╔═╡ 2f3bccf4-970e-11eb-18a2-455701f82b8b
-using LightGraphs, GraphPlot
+using LightGraphs, GraphPlot, Printf
 
 # ╔═╡ e8d1b342-970c-11eb-08c0-81e8df656924
 using SpecialFunctions
@@ -75,6 +75,9 @@ body {
 overflow-x: hidden;
 }
 </style>"""
+
+# ╔═╡ 42be44b1-5381-4a2a-adfd-ec117f448fe8
+
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
@@ -128,14 +131,38 @@ md"""
 md"""
 ### Indexing and Function Evaluation
 
-The analogy between $v_i$ pulling out the ith elment of a vector $v$, and $f(x)$ evaluating a function $f$ at a continuous value $x$.
+Analogy: ``v_i`` (ith element of v) vs. $f(x)$  (evaluate f at x):
 
-I have often thought of these as very different, in the one you are extracting an element, and in the other you are applying what in some high schools might be called a "function machine."
+These are different, right?
+In the one you are extracting an element, and in the other you are applying what in some high schools might be called a "function machine."
 
 However, a moment's thought tells you that a vector is really a discrete function, in that the argument can take on the values i = 1,2,...,n and the evaluation is $v_i$. That's a function.
 
 In fact, think of a range object such as 2:2:20.  You could think of this as just a shorthand for the vector [2,4,...,20] but in fact when you index into this "vector" like thing, you are indeed explicitly evaluating a function i.e. i->2i. 
 """
+
+# ╔═╡ 1e8ea849-40b7-41fd-b17f-cd2d991d5c24
+[2:2:20;]  # this expands the "iterator" into an ordinary vector
+
+# ╔═╡ 679a39ee-99a5-4211-9adc-8296d499e37e
+[2:2:20;][7] # Extracts an element from Memory (of course there is an address calculation)
+
+# ╔═╡ 2c64f98d-dc84-4fa5-81ce-25b319ff9583
+(2:2:20)[7] # Compute 2*4 (more or less)
+
+# ╔═╡ 0a379cae-386d-4daa-ab6f-9d0424c1cdc1
+begin
+	f(x)=2x
+	f(7)     # Compute 2*7
+end
+
+# ╔═╡ 890c0fa2-c247-4f14-84f6-2bed69d0f0c5
+md"""
+Any which way $v$ is a function "machine" whose input is $\{1,2,3,4,5,6,7,8,9,10\}$
+"""
+
+# ╔═╡ 68b60d09-acee-48d8-8bb1-7ab4faa6b785
+gr()
 
 # ╔═╡ 40095ad2-961f-11eb-1f23-83d1a381ace7
 md"""
@@ -148,22 +175,79 @@ Area of a circle using regular polygons:
 """
 
 # ╔═╡ 3b84bb0a-9566-11eb-1c1f-e30ca7330c09
-@bind sides Slider(3:100, show_value=true, default=6)
+md"""
+n = $(@bind sides Slider(3:100, show_value=true, default=6))
+"""
+
+# ╔═╡ f20da096-9712-11eb-2a67-cd33f6ab8750
+area(s) = (s/2) * sin(2π/s)
 
 # ╔═╡ 02784976-9566-11eb-125c-a7f1f1bafd6b
 begin
 	θ = (0:.01:1)*2π
-	plot( cos.(θ),sin.(θ), ratio=1, axis=false, legend=false, ticks=false, lw=3, color=:black)
+		plot( cos.(θ),sin.(θ), ratio=1, axis=false, legend=false, ticks=false, lw=4, color=:black, fill=false)
+	plot!( cos.(θ),sin.(θ), ratio=1, axis=false, legend=false, ticks=false, lw=4, color=:white, fill=true, alpha=.6)
+	
 	
 	ϕ = (0:sides)*2π/sides
 	for i=1:sides
-	   plot!( Shape( [0,cos(ϕ[i]),cos(ϕ[i+1])],[0,sin(ϕ[i]),sin(ϕ[i+1])]), fill=true)
+	   plot!( Shape( [0,cos(ϕ[i]),cos(ϕ[i+1])],[0,sin(ϕ[i]),sin(ϕ[i+1])]), fill=true,lw=0)
 	end
-	title!("Area = ($sides/2)sin(2π/$sides) ≈  $(sides*sin(2π/sides)/(2π) )  π")
+	title!("Area = ($sides/2)sin(2π/$sides) ≈  $(area(sides)/π )  π")
 end
 
-# ╔═╡ f20da096-9712-11eb-2a67-cd33f6ab8750
-area(s) = (s/2) * sin(2π/s)
+# ╔═╡ 6fd93018-c33b-4682-91c3-7a20a41d9b03
+area0 = area.( 2 .^ (2:10) )
+
+# ╔═╡ a306559f-e095-4f6d-94e8-b0be160e77fa
+π
+
+# ╔═╡ ea29e286-4b4a-4291-a093-cd942ba46e49
+md"""
+A carefully chosen convolution: [-1/3,4/3]
+"""
+
+# ╔═╡ 103c93ae-8175-4996-ab8f-5d537691defc
+area1 = [ 4/3 * area0[i+1] .-  1/3 * area0[i] for i = 1:length(area0)-1 ]
+
+# ╔═╡ 686904c9-1cc4-4476-860b-159e56471e38
+function colorgoodbad(should_be, given)
+	indexofmistake = something(
+		findfirst(collect(should_be) .!== collect(given)),
+		length(given)+1,
+	)
+	@htl("""
+		<span style="color:black">$(given[1:indexofmistake-1])</span><span style="color: red">$(given[indexofmistake:end])</span>
+		""")
+end
+
+# ╔═╡ bcfd1585-8161-43a2-8b19-ed654df2e0e1
+colorgoodbad(string(float(π)) , string(22/7))
+
+# ╔═╡ a76ac67b-27b9-4e2b-9fca-61480dca5264
+area2 = [16/15 * area1[i+1] .-  1/15 * area1[i] for i = 1:length(area1)-1 ]
+
+# ╔═╡ c742742a-765b-4eb5-bd65-dc0cd6328255
+md"""
+Another carefully chosen convolution: [-1/15,16/15], do you see the pattern?
+"""
+
+# ╔═╡ 5273fe09-fe38-4c88-b84a-51af17cff906
+big(π)
+
+# ╔═╡ 4dd03325-2498-4fe7-9212-f964081a0300
+area3 = [64/63 * area2[i+1] .-  1/63 * area2[i] for i = 1:length(area2)-1 ]
+
+# ╔═╡ 626242ea-544c-49fc-9884-c70dd6800902
+area4 = [128/127 * area3[i+1] .-  1/127 * area3[i] for i = 1:length(area3)-1 ]
+
+# ╔═╡ dbccc2d5-c2af-48c4-8726-a95c09da78ae
+md"""
+Why does this work?
+"""
+
+# ╔═╡ 43d20d56-d56a-47a8-893e-f726c1a99651
+pp(x) =  colorgoodbad( string(float(π)) , (@sprintf "%.15f" x) )
 
 # ╔═╡ 5947dc80-9714-11eb-389d-1510a1137a50
 md"""
@@ -220,52 +304,52 @@ Area using inscribed squares
 """
 
 # ╔═╡ 4d4705d0-9568-11eb-085c-0fc556c4cfe7
-let
+# let
 	
-    plot()
-	for i=-sides:sides
-		plot!([i/sides,i/sides],[-1,1],color=RGB(0,1,0),lw=1)
-		plot!([-1,1],[i/sides,i/sides],color=RGB(0,1,0),lw=1)
-	end
-		P = plot!( cos.(θ),sin.(θ), ratio=1, axis=false, legend=false, ticks=false, lw=3, color=:black)
-	plot!(P)
+#     plot()
+# 	for i=-sides:sides
+# 		plot!([i/sides,i/sides],[-1,1],color=RGB(0,1,0),lw=1)
+# 		plot!([-1,1],[i/sides,i/sides],color=RGB(0,1,0),lw=1)
+# 	end
+# 		P = plot!( cos.(θ),sin.(θ), ratio=1, axis=false, legend=false, ticks=false, lw=3, color=:black)
+# 	plot!(P)
 	
-	h = 1/sides
-	a = 0
+# 	h = 1/sides
+# 	a = 0
 	
 	
-	xx=  floor(√2/2h)
-	x = xx*h
-	y=x
-	plot!( Shape([-x, -x, x ,x],[-y, y ,y, -y]), color=RGB(1,0,0),alpha=.7)
+# 	xx=  floor(√2/2h)
+# 	x = xx*h
+# 	y=x
+# 	plot!( Shape([-x, -x, x ,x],[-y, y ,y, -y]), color=RGB(1,0,0),alpha=.7)
 	
-	a = a+Int(2*xx)^2
+# 	a = a+Int(2*xx)^2
 
 	
-	 for i=-sides:(-xx-1), j=-sides:(-1)
-	   x = i*h
-	    y = j*h
-	   if (x^2+y^2≤1) & ( (x+h)^2+(y+h)^2 ≤1) & (x^2+(y+h)^2 ≤1) & ((x+h)^2+y^2 ≤1)
-	 	 plot!( Shape([x, x, x+h ,x+h],[y, y+h ,y+h, y]), color=:blue)
-		 plot!( Shape([-x-h, -x-h, -x ,-x],[y, y+h ,y+h, y]), color=:blue)
-	     plot!( Shape([x, x, x+h ,x+h],[-y-h, -y ,-y, -y-h]), color=:blue)
-		 plot!( Shape([-x-h, -x-h, -x ,-x],[-y-h, -y ,-y, -y-h]), color=:blue)
-		 plot!( Shape([y, y+h ,y+h, y],[x, x, x+h ,x+h]), color=:blue)
-		 plot!( Shape([-y-h, -y ,-y, -y-h],[x, x, x+h ,x+h]), color=:blue)
-		 plot!( Shape([y, y+h ,y+h, y],[-x-h, -x-h, -x ,-x]), color=:blue)
-		 plot!( Shape([-y-h, -y ,-y, -y-h],[-x-h, -x-h, -x ,-x]), color=:blue)
-	 		a += 8
-	 	end
-	 end
+# 	 for i=-sides:(-xx-1), j=-sides:(-1)
+# 	   x = i*h
+# 	    y = j*h
+# 	   if (x^2+y^2≤1) & ( (x+h)^2+(y+h)^2 ≤1) & (x^2+(y+h)^2 ≤1) & ((x+h)^2+y^2 ≤1)
+# 	 	 plot!( Shape([x, x, x+h ,x+h],[y, y+h ,y+h, y]), color=:blue)
+# 		 plot!( Shape([-x-h, -x-h, -x ,-x],[y, y+h ,y+h, y]), color=:blue)
+# 	     plot!( Shape([x, x, x+h ,x+h],[-y-h, -y ,-y, -y-h]), color=:blue)
+# 		 plot!( Shape([-x-h, -x-h, -x ,-x],[-y-h, -y ,-y, -y-h]), color=:blue)
+# 		 plot!( Shape([y, y+h ,y+h, y],[x, x, x+h ,x+h]), color=:blue)
+# 		 plot!( Shape([-y-h, -y ,-y, -y-h],[x, x, x+h ,x+h]), color=:blue)
+# 		 plot!( Shape([y, y+h ,y+h, y],[-x-h, -x-h, -x ,-x]), color=:blue)
+# 		 plot!( Shape([-y-h, -y ,-y, -y-h],[-x-h, -x-h, -x ,-x]), color=:blue)
+# 	 		a += 8
+# 	 	end
+# 	 end
 	
 	
 	
 	
-	title!( "$(a//sides^2) =  $(a*h^2/π) π")
-	plot!()
+# 	title!( "$(a//sides^2) =  $(a*h^2/π) π")
+# 	plot!()
 	
 	
-end
+# end
 
 # ╔═╡ e6884c6c-9712-11eb-288b-f1a439b0aba3
 
@@ -424,6 +508,8 @@ function pyramid(rows::Vector{<:Vector};
 		.pyramid {
 			flex-direction: column;
 			display: flex;
+		    font-family: monospace;
+		    font-size: 0.75rem;
 		}
 		.pyramid.horizontal {
 			flex-direction: row;
@@ -455,15 +541,24 @@ function pyramid(rows::Vector{<:Vector};
 		""")
 end
 
-# ╔═╡ c9015310-630d-44fc-8c9e-c116f4cde962
-pyramid( [rand(i) for i ∈ 10:-1:1] , horizontal=true)
+# ╔═╡ d2d1366b-9b6d-4e54-a0c4-7087f5f063c4
+pyramid( [area0,area1], horizontal = true)
+
+# ╔═╡ 6577e546-8f0b-413a-a8bb-b9c12803199d
+pyramid([area0,area1,area2], horizontal = true)
+
+# ╔═╡ 893a56b0-f5d0-4f8d-ba15-1048180a7e53
+pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal = true)
+
+# ╔═╡ 2dcb6470-e218-4307-ac09-cf4903b80a47
+
 
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 # ╠═d155ea12-9628-11eb-347f-7754a33fd403
 # ╠═2f3bccf4-970e-11eb-18a2-455701f82b8b
+# ╠═42be44b1-5381-4a2a-adfd-ec117f448fe8
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
-# ╠═c9015310-630d-44fc-8c9e-c116f4cde962
 # ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
 # ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
 # ╟─719a4c8c-9615-11eb-3dd7-7fb786f7fa17
@@ -477,11 +572,33 @@ pyramid( [rand(i) for i ∈ 10:-1:1] , horizontal=true)
 # ╟─870cdf5f-f896-4060-9548-5d9c1749d100
 # ╟─d9dfe7c5-9211-4707-bb33-a3ff258e10f4
 # ╟─5c536430-9188-11eb-229c-e7feba62d257
+# ╠═1e8ea849-40b7-41fd-b17f-cd2d991d5c24
+# ╠═679a39ee-99a5-4211-9adc-8296d499e37e
+# ╠═2c64f98d-dc84-4fa5-81ce-25b319ff9583
+# ╠═0a379cae-386d-4daa-ab6f-9d0424c1cdc1
+# ╟─890c0fa2-c247-4f14-84f6-2bed69d0f0c5
+# ╠═68b60d09-acee-48d8-8bb1-7ab4faa6b785
 # ╟─40095ad2-961f-11eb-1f23-83d1a381ace7
-# ╟─ed71b026-9565-11eb-1058-d77efe114562
-# ╠═3b84bb0a-9566-11eb-1c1f-e30ca7330c09
-# ╠═02784976-9566-11eb-125c-a7f1f1bafd6b
+# ╠═ed71b026-9565-11eb-1058-d77efe114562
+# ╟─3b84bb0a-9566-11eb-1c1f-e30ca7330c09
+# ╟─02784976-9566-11eb-125c-a7f1f1bafd6b
 # ╠═f20da096-9712-11eb-2a67-cd33f6ab8750
+# ╠═6fd93018-c33b-4682-91c3-7a20a41d9b03
+# ╠═a306559f-e095-4f6d-94e8-b0be160e77fa
+# ╠═ea29e286-4b4a-4291-a093-cd942ba46e49
+# ╠═103c93ae-8175-4996-ab8f-5d537691defc
+# ╠═686904c9-1cc4-4476-860b-159e56471e38
+# ╠═bcfd1585-8161-43a2-8b19-ed654df2e0e1
+# ╠═d2d1366b-9b6d-4e54-a0c4-7087f5f063c4
+# ╠═a76ac67b-27b9-4e2b-9fca-61480dca5264
+# ╟─c742742a-765b-4eb5-bd65-dc0cd6328255
+# ╠═6577e546-8f0b-413a-a8bb-b9c12803199d
+# ╠═5273fe09-fe38-4c88-b84a-51af17cff906
+# ╠═4dd03325-2498-4fe7-9212-f964081a0300
+# ╠═626242ea-544c-49fc-9884-c70dd6800902
+# ╠═893a56b0-f5d0-4f8d-ba15-1048180a7e53
+# ╠═dbccc2d5-c2af-48c4-8726-a95c09da78ae
+# ╠═43d20d56-d56a-47a8-893e-f726c1a99651
 # ╠═5947dc80-9714-11eb-389d-1510a1137a50
 # ╠═6ebd6876-9713-11eb-1f51-77ecc52a2212
 # ╠═85a68c96-9713-11eb-0ef9-47568ca61860
@@ -494,7 +611,7 @@ pyramid( [rand(i) for i ∈ 10:-1:1] , horizontal=true)
 # ╠═00c6537a-9714-11eb-1294-077a62f86ab3
 # ╠═250b1cca-9714-11eb-0550-1d63952bb8a9
 # ╟─4a072870-961f-11eb-1215-17efa0013873
-# ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
+# ╠═4d4705d0-9568-11eb-085c-0fc556c4cfe7
 # ╠═e6884c6c-9712-11eb-288b-f1a439b0aba3
 # ╠═632eea46-9710-11eb-1abe-85da8d9c30a9
 # ╠═9c519eca-9710-11eb-20dc-3f76801545d1
@@ -521,3 +638,4 @@ pyramid( [rand(i) for i ∈ 10:-1:1] , horizontal=true)
 # ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╠═aa76ce1e-918c-11eb-1d49-d17f4362245d
 # ╠═c03d45f8-9188-11eb-2e11-0fafa39f253d
+# ╠═2dcb6470-e218-4307-ac09-cf4903b80a47
