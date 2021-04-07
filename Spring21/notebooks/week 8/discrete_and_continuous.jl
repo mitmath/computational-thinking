@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.12.21
 
 using Markdown
 using InteractiveUtils
@@ -13,16 +13,11 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 99dc46a6-24b3-460a-9a7b-6b9b90e85db6
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-    ])
-    using Plots, PlutoUI
-end
+# ╔═╡ fd252080-9189-11eb-1eb2-573d35a72e9c
+using PlutoUI
+
+# ╔═╡ 243e73d6-918e-11eb-399c-bde589f3f84d
+using Plots
 
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 html"""
@@ -53,21 +48,12 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 2.7</em></p>
+"><em>Section 2.6 </em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Discrete and Continuous </em>
+<em> Discrete vs Continuous </em>
 </p>
 
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
+
 
 <style>
 body {
@@ -211,6 +197,9 @@ let
 	
 end
 
+# ╔═╡ 81fa11ca-961f-11eb-3da8-abd1c4385f93
+
+
 # ╔═╡ bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
 md"""
 ### Sum and a (Definite) Integral
@@ -277,12 +266,15 @@ $(blue("Continuous math often lets you replace complicated large systems
 		with lots of details with a simpler abstraction that is easier to work with."))
 """
 
+# ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
+
+
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
-# ╠═99dc46a6-24b3-460a-9a7b-6b9b90e85db6
+# ╠═fd252080-9189-11eb-1eb2-573d35a72e9c
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
-# ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
-# ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
+# ╠═ee349b52-9189-11eb-2b86-b5dc15ebe432
+# ╠═43e39a6c-918a-11eb-2408-93563b4fb8c1
 # ╟─719a4c8c-9615-11eb-3dd7-7fb786f7fa17
 # ╟─61ffe0f2-9615-11eb-37d5-f9e30a31c111
 # ╟─627f6db6-9617-11eb-0453-a1f9e341ecfe
@@ -296,12 +288,15 @@ $(blue("Continuous math often lets you replace complicated large systems
 # ╟─02784976-9566-11eb-125c-a7f1f1bafd6b
 # ╟─4a072870-961f-11eb-1215-17efa0013873
 # ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
-# ╟─bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
-# ╟─c4a3bf6c-918d-11eb-1d50-911f83b6df81
-# ╟─d99dc494-918d-11eb-2733-29ce93ba584e
-# ╟─0fb84ff2-918e-11eb-150f-8dad121c87bc
-# ╟─a7c5ef96-918d-11eb-0632-f94386eb64f2
-# ╟─75672be6-918d-11eb-1e10-07fbcc72abbd
-# ╟─906758c6-918d-11eb-08ae-b3c4f7870b4e
-# ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
+# ╠═81fa11ca-961f-11eb-3da8-abd1c4385f93
+# ╠═bb8dc4fe-918d-11eb-2bde-bb00c47a1c27
+# ╠═c4a3bf6c-918d-11eb-1d50-911f83b6df81
+# ╠═d99dc494-918d-11eb-2733-29ce93ba584e
+# ╠═243e73d6-918e-11eb-399c-bde589f3f84d
+# ╠═0fb84ff2-918e-11eb-150f-8dad121c87bc
+# ╠═a7c5ef96-918d-11eb-0632-f94386eb64f2
+# ╠═75672be6-918d-11eb-1e10-07fbcc72abbd
+# ╠═906758c6-918d-11eb-08ae-b3c4f7870b4e
+# ╠═c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╠═aa76ce1e-918c-11eb-1d49-d17f4362245d
+# ╠═c03d45f8-9188-11eb-2e11-0fafa39f253d
