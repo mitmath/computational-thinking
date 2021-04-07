@@ -20,16 +20,15 @@ begin
     Pkg.add([
         Pkg.PackageSpec(name="Plots", version="1"),
         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-		Pkg.PackageSpec(name="HypertextLiteral", version="0.6")
+        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
+        Pkg.PackageSpec(name="LightGraphs", version="1"),
+        Pkg.PackageSpec(name="GraphPlot", version="0.4"),
     ])
-    using Plots, PlutoUI, HypertextLiteral
+    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf
 end
 
 # ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
 Pkg.add("GraphPlot")
-
-# ╔═╡ 2f3bccf4-970e-11eb-18a2-455701f82b8b
-using LightGraphs, GraphPlot, Printf
 
 # ╔═╡ e8d1b342-970c-11eb-08c0-81e8df656924
 using SpecialFunctions
@@ -75,9 +74,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 42be44b1-5381-4a2a-adfd-ec117f448fe8
-
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
@@ -293,37 +289,58 @@ Now we have
 ``\pi + c s^{-4}`` as the leading term so doubling the s approximately reduces the area error by 16, when before it was only 4. etc.
 """
 
+# ╔═╡ d4f83a20-62cf-47f1-a622-d5c4c34e4813
+areab(s) = (s/2) * sin(big(2)*big(π)/s)
+
 # ╔═╡ 01631c38-9713-11eb-30bf-3d23cf0d3dc8
 begin
-	a = area.(big.([3,6,12,24,48,96,192,384,768]))
-	a[end]
+	area0b = areab.(big.([2,4,8,16,32,62,128,256,512,1024,2048,4096,8192,16384,32768,65536]))
+	area0b[end]
 end
 
 # ╔═╡ 553bdb0a-9714-11eb-1646-413a969d6884
+begin
+	area1b = [ 4//3 * area0b[i+1] .-  1//3 * area0b[i] for i = 1:length(area0b)-1 ]
+	area1b[end]
+end
 
+# ╔═╡ 453f2585-157d-490a-9d1c-0b02939d0a11
+begin
+	area2b = [16//15 * area1b[i+1] .-  1//15 * area1b[i] for i = 1:length(area1b)-1 ]
+	area2b[end]
+end
+
+# ╔═╡ bc1efddd-c959-4407-9a86-ba73a64508a8
+begin
+	area3b = [64//63 * area2b[i+1] .-  1//63 * area2b[i] for i = 1:length(area2b)-1 ]
+	area3b[end]
+end
+
+# ╔═╡ 516b69d8-5d94-4b4d-9596-2db0dfbf4038
+begin
+	area4b = [256//255 * area3b[i+1] .-  1//255 * area3b[i] for i = 1:length(area3b)-1 ]
+	area4b[end]
+end
+
+# ╔═╡ cec13915-8adb-4627-b220-591377239997
+begin
+	area5b = [1024//1023 * area4b[i+1] .-  1//1023 * area4b[i] for i = 1:length(area4b)-1 ]
+	area5b[end]
+end
+
+# ╔═╡ 6d954628-6290-4867-8144-dd486551545d
+begin
+	area6b = [4096//4095 * area5b[i+1] .-  1//4095 * area5b[i] for i = 1:length(area5b)-1 ]
+	area6b[end]
+end
+
+# ╔═╡ 00478b2c-5dcc-44fc-a7be-a3dadf6300e7
+begin
+	area7b = [16336//16335 * area6b[i+1] .-  1//16335 * area6b[i] for i = 1:length(area6b)-1 ]
+	area7b[end]
+end
 
 # ╔═╡ 37fc6e56-9714-11eb-1427-b75613800366
-area(768)
-
-# ╔═╡ 11423ddc-9713-11eb-2688-cb87159e5400
-begin
-	b= (  4*a[2:8]  .- a[1:7] )/3
-	b[end]
-end
-
-# ╔═╡ 3f87ad4e-9713-11eb-3cc6-f7ec56306bb8
-begin
-	cc = (16 * b[2:7] .- b[1:6])/15
-	cc[end]
-end
-
-# ╔═╡ 00c6537a-9714-11eb-1294-077a62f86ab3
-begin
-	dd = (64 * cc[2:6] .- cc[1:5])/63
-	dd[end]
-end
-
-# ╔═╡ 250b1cca-9714-11eb-0550-1d63952bb8a9
 big(π)
 
 # ╔═╡ 4a072870-961f-11eb-1215-17efa0013873
@@ -384,6 +401,39 @@ end
 
 # ╔═╡ e6884c6c-9712-11eb-288b-f1a439b0aba3
 
+
+# ╔═╡ 155241b0-9646-11eb-180e-89c8651536c6
+@bind j Slider(1:9, show_value=true, default=6)
+
+# ╔═╡ 4f845436-9646-11eb-2445-c12746a9e556
+begin
+	N  = 1024
+	h =  1/N
+	v = randn(N)
+end
+
+# ╔═╡ 31d56008-9646-11eb-1985-2b68af354773
+J = N ÷ 2^j
+
+# ╔═╡ 1761187e-9645-11eb-3778-b132f856696d
+begin
+	plot()	
+	c = [0;cumsum(v)] .* √h
+	plot!((0:N)./N,c)
+	plot!( (0:J:N)./N,   c[1:J:end],legend=false,m=:o,ms=1, color=:red, lw=5)	   
+	plot!(ylims=(-2,2))
+end
+
+# ╔═╡ c32e0f9c-918e-11eb-1cf9-a340786db24a
+md"""
+Alan's essay:
+
+In what sense does the continuous even exist?  The fact of the matter is that there are limits that give the same answer no matter how you get there, and these limits
+are important to us. For example, no matter how you cover an area, by little rectangles, the sum always converges to what we intuitively call area.
+The normal distribution is interesting in that no matter which starting finite distribution we might take, if add n independent copies and normalize to variance 1 we get the same limit.  Again, there are so many ways to start, and yet we always end up with the same thing.  Continuous mathematics is full of so many examples, where discrete objects end up behaving the same.
+
+Indeed what happens as discrete objects get larger and larger, their complexity gets out of control if one wants to keep track of every detail, but they get simpler in their aggregate behavior.
+"""
 
 # ╔═╡ 632eea46-9710-11eb-1abe-85da8d9c30a9
 f(x,t) =  exp(-x^2/t)/√(π*t)
@@ -458,42 +508,6 @@ P*P'
 # ╔═╡ ed6d7404-970c-11eb-13ee-5f5a454d2222
 (1 ./beta.( (1:5)', 0:5) ) ./ [1;1:5;]
 
-# ╔═╡ 958b03cc-970d-11eb-1c09-eb1150e86396
-
-
-# ╔═╡ 155241b0-9646-11eb-180e-89c8651536c6
-@bind j Slider(1:9, show_value=true, default=6)
-
-# ╔═╡ 4f845436-9646-11eb-2445-c12746a9e556
-begin
-	N  = 1024
-	h =  1/N
-	v = randn(N)
-end
-
-# ╔═╡ 31d56008-9646-11eb-1985-2b68af354773
-J = N ÷ 2^j
-
-# ╔═╡ 1761187e-9645-11eb-3778-b132f856696d
-begin
-	plot()	
-	c = [0;cumsum(v)] .* √h
-	plot!((0:N)./N,c)
-	plot!( (0:J:N)./N,   c[1:J:end],legend=false,m=:o,ms=1, color=:red, lw=5)	   
-	plot!(ylims=(-2,2))
-end
-
-# ╔═╡ c32e0f9c-918e-11eb-1cf9-a340786db24a
-md"""
-Alan's essay:
-
-In what sense does the continuous even exist?  The fact of the matter is that there are limits that give the same answer no matter how you get there, and these limits
-are important to us. For example, no matter how you cover an area, by little rectangles, the sum always converges to what we intuitively call area.
-The normal distribution is interesting in that no matter which starting finite distribution we might take, if add n independent copies and normalize to variance 1 we get the same limit.  Again, there are so many ways to start, and yet we always end up with the same thing.  Continuous mathematics is full of so many examples, where discrete objects end up behaving the same.
-
-Indeed what happens as discrete objects get larger and larger, their complexity gets out of control if one wants to keep track of every detail, but they get simpler in their aggregate behavior.
-"""
-
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
 function pyramid(rows::Vector{<:Vector}; 
 		horizontal=false,
@@ -557,8 +571,6 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 # ╠═d155ea12-9628-11eb-347f-7754a33fd403
-# ╠═2f3bccf4-970e-11eb-18a2-455701f82b8b
-# ╠═42be44b1-5381-4a2a-adfd-ec117f448fe8
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
 # ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
 # ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
@@ -586,7 +598,7 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═f20da096-9712-11eb-2a67-cd33f6ab8750
 # ╠═6fd93018-c33b-4682-91c3-7a20a41d9b03
 # ╠═a306559f-e095-4f6d-94e8-b0be160e77fa
-# ╠═ea29e286-4b4a-4291-a093-cd942ba46e49
+# ╟─ea29e286-4b4a-4291-a093-cd942ba46e49
 # ╠═103c93ae-8175-4996-ab8f-5d537691defc
 # ╠═686904c9-1cc4-4476-860b-159e56471e38
 # ╠═bcfd1585-8161-43a2-8b19-ed654df2e0e1
@@ -602,17 +614,25 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╟─82a407b6-0ecb-4011-a0f6-bc9e1f51393f
 # ╟─5947dc80-9714-11eb-389d-1510a1137a50
 # ╟─db8121ec-8546-4f1e-8153-cff5b4df39df
+# ╠═d4f83a20-62cf-47f1-a622-d5c4c34e4813
 # ╠═01631c38-9713-11eb-30bf-3d23cf0d3dc8
 # ╠═553bdb0a-9714-11eb-1646-413a969d6884
+# ╠═453f2585-157d-490a-9d1c-0b02939d0a11
+# ╠═bc1efddd-c959-4407-9a86-ba73a64508a8
+# ╠═516b69d8-5d94-4b4d-9596-2db0dfbf4038
+# ╠═cec13915-8adb-4627-b220-591377239997
+# ╠═6d954628-6290-4867-8144-dd486551545d
+# ╠═00478b2c-5dcc-44fc-a7be-a3dadf6300e7
 # ╠═37fc6e56-9714-11eb-1427-b75613800366
-# ╠═11423ddc-9713-11eb-2688-cb87159e5400
-# ╠═3f87ad4e-9713-11eb-3cc6-f7ec56306bb8
-# ╠═00c6537a-9714-11eb-1294-077a62f86ab3
-# ╠═250b1cca-9714-11eb-0550-1d63952bb8a9
 # ╟─4a072870-961f-11eb-1215-17efa0013873
 # ╠═de9066e2-d5eb-49e3-be71-edda8e8e31dd
 # ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
 # ╠═e6884c6c-9712-11eb-288b-f1a439b0aba3
+# ╠═155241b0-9646-11eb-180e-89c8651536c6
+# ╠═4f845436-9646-11eb-2445-c12746a9e556
+# ╠═31d56008-9646-11eb-1985-2b68af354773
+# ╠═1761187e-9645-11eb-3778-b132f856696d
+# ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╠═632eea46-9710-11eb-1abe-85da8d9c30a9
 # ╠═9c519eca-9710-11eb-20dc-3f76801545d1
 # ╠═7c4b82c8-9710-11eb-101e-53616e278289
@@ -629,12 +649,6 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═b972b218-970c-11eb-1949-535830e20990
 # ╠═80682786-970d-11eb-223b-b5f762b19c24
 # ╠═ed6d7404-970c-11eb-13ee-5f5a454d2222
-# ╠═958b03cc-970d-11eb-1c09-eb1150e86396
 # ╠═e8d1b342-970c-11eb-08c0-81e8df656924
-# ╠═155241b0-9646-11eb-180e-89c8651536c6
-# ╠═4f845436-9646-11eb-2445-c12746a9e556
-# ╠═31d56008-9646-11eb-1985-2b68af354773
-# ╠═1761187e-9645-11eb-3778-b132f856696d
-# ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╟─c03d45f8-9188-11eb-2e11-0fafa39f253d
 # ╟─43d20d56-d56a-47a8-893e-f726c1a99651
