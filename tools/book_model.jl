@@ -32,6 +32,7 @@ book_model = [
     Section(2, 2, "Sampling and Random Variables", "notebooks/week5/random_vars.jl", "7HrpoFZzITI"),
     Section(2, 3, "Modeling with Stochastic Simulation", "notebooks/week6/simulating_component_failure.jl", "d8BohH76C7E"),
     Section(2, 4, "Random Variables as Types", "notebooks/week7/random_variables_as_types.jl", "xKAO38UsXo0"),
-    Section(2, 5, "Random Walks", "notebooks/week7/random_walks.jl", "")
-
+    Section(2, 5, "Random Walks", "notebooks/week7/random_walks.jl", "14hHtGJ4s-g"),
+    Section(2, 6, "Random Walks II", "notebooks/week8/random_walks_II.jl", ""),
+    Section(2, 7, "Discrete and Continuous", "notebooks/week8/discrete_and_continuous.jl", "")
 ]
