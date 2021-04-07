@@ -60,7 +60,7 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 2.6 </em></p>
+"><em>Section 2.7 </em></p>
 <p style="text-align: center; font-size: 2rem;">
 <em> Discrete vs Continuous </em>
 </p>
@@ -75,6 +75,15 @@ overflow-x: hidden;
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
+
+# ╔═╡ 877deb2c-702b-457b-a54b-f27c277928d4
+md"""
+## Julia concepts
+- printing using css fancy stuff (not really julia)
+## pedagogical concepts
+- curiosity based learning
+- bridging what is often two different communities
+"""
 
 # ╔═╡ ee349b52-9189-11eb-2b86-b5dc15ebe432
 md"""
@@ -486,7 +495,11 @@ P = [ binomial(n,k) for n=0:5,k=0:5]
 P*P'
 
 # ╔═╡ ed6d7404-970c-11eb-13ee-5f5a454d2222
-(1 ./beta.( (1:5)', 0:5) ) ./ [1;1:5;]
+begin
+	A = (1 ./beta.( (1:6)', 0:5) ) ./ [1;1:5;]
+	A[1,:] .= 1
+	round.(Int,A)
+end
 
 # ╔═╡ 0e6cab25-70f8-46ab-a5ab-8542e232274e
 function blue(s::String)
@@ -582,6 +595,7 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 # ╠═d155ea12-9628-11eb-347f-7754a33fd403
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
+# ╟─877deb2c-702b-457b-a54b-f27c277928d4
 # ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
 # ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
 # ╟─719a4c8c-9615-11eb-3dd7-7fb786f7fa17
@@ -590,7 +604,7 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╟─61ffe0f2-9615-11eb-37d5-f9e30a31c111
 # ╟─627f6db6-9617-11eb-0453-a1f9e341ecfe
 # ╟─091a8a44-918c-11eb-2ee3-9be84a311afd
-# ╠═173b44ea-918c-11eb-116b-0bbaeffc3fe2
+# ╟─173b44ea-918c-11eb-116b-0bbaeffc3fe2
 # ╟─a3f005a8-9617-11eb-1503-75c31ec54f70
 # ╟─870cdf5f-f896-4060-9548-5d9c1749d100
 # ╟─d9dfe7c5-9211-4707-bb33-a3ff258e10f4
