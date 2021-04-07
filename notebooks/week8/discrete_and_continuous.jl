@@ -151,7 +151,7 @@ In fact, think of a range object such as 2:2:20.  You could think of this as jus
 [2:2:20;][7] # Extracts an element from Memory (of course there is an address calculation)
 
 # ╔═╡ 2c64f98d-dc84-4fa5-81ce-25b319ff9583
-(2:2:20)[7] # Compute 2*4 (more or less)
+(2:2:20)[7] # Compute 2*7 (more or less)
 
 # ╔═╡ 0a379cae-386d-4daa-ab6f-9d0424c1cdc1
 begin
@@ -200,7 +200,7 @@ begin
 end
 
 # ╔═╡ 6fd93018-c33b-4682-91c3-7a20a41d9b03
-area0 = area.( 2 .^ (2:10) )
+area0 = area.( 2 .^ (2:10) ) # Area of polygons with # sides  = [4, 8, ..., 1024]
 
 # ╔═╡ a306559f-e095-4f6d-94e8-b0be160e77fa
 π
@@ -251,7 +251,7 @@ Why does this work?
 
 # ╔═╡ 82a407b6-0ecb-4011-a0f6-bc9e1f51393f
 md"""
-Area(s) = ``(s/2) \sin (2\pi/2) = \pi- \frac{2\pi^3}{3} s^{-2}  + \frac{2\pi^5}{15}s^{-4} -  \frac{4\pi^7}{315} s^{-6} + \ldots``    
+Area(s) = ``(s/2) \sin (2\pi/s) = \pi- \frac{2\pi^3}{3} s^{-2}  + \frac{2\pi^5}{15}s^{-4} -  \frac{4\pi^7}{315} s^{-6} + \ldots``    
 
 as `` s \rightarrow \infty ``.
 """
@@ -398,15 +398,15 @@ md"""
 Imagine you didn't have the idea of area
 """
 
-# ╔═╡ 155241b0-9646-11eb-180e-89c8651536c6
-@bind j Slider(1:9, show_value=true, default=6)
-
 # ╔═╡ 4f845436-9646-11eb-2445-c12746a9e556
 begin
 	N  = 1024
 	h =  1/N
 	v = randn(N)
 end
+
+# ╔═╡ 155241b0-9646-11eb-180e-89c8651536c6
+@bind j Slider(1:9, show_value=true, default=6)
 
 # ╔═╡ 31d56008-9646-11eb-1985-2b68af354773
 J = N ÷ 2^j
@@ -416,8 +416,10 @@ begin
 	plot()	
 	c = [0;cumsum(v)] .* √h
 	plot!((0:N)./N,c)
-	plot!( (0:J:N)./N,   c[1:J:end],legend=false,m=:o,ms=1, color=:red, lw=5)	   
+	scatter!( (0:J:N)./N,   c[1:J:end],legend=false,m=:o,ms=5, color=:red, lw=5)	   
 	plot!(ylims=(-2,2))
+	xlabel!("time")
+	ylabel!("position")
 end
 
 # ╔═╡ 1e18f95c-cd53-4ede-8d93-572c81f872da
@@ -451,7 +453,7 @@ begin
 end
 
 # ╔═╡ 32f6b058-9712-11eb-023a-95ad37d18c17
-
+plotly()
 
 # ╔═╡ 021d7e9a-9711-11eb-063b-11441afa2e69
 begin
@@ -522,7 +524,7 @@ end
 
 # ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
 md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathemtics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathematics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
 
 $(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
 
@@ -542,7 +544,7 @@ $(blue("The combination of continuous and discrete is often more useful than eit
 
 # ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
 md"""
-$(blue("Machine Learning, Epidemics, climate change, etc. show how critical continuous math is these days."))
+$(blue("Machine Learning, Pandemics, climate change, etc. show how critical continuous math is these days."))
 """
 
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
@@ -669,8 +671,8 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═de9066e2-d5eb-49e3-be71-edda8e8e31dd
 # ╟─4d4705d0-9568-11eb-085c-0fc556c4cfe7
 # ╟─e6884c6c-9712-11eb-288b-f1a439b0aba3
-# ╠═155241b0-9646-11eb-180e-89c8651536c6
 # ╠═4f845436-9646-11eb-2445-c12746a9e556
+# ╠═155241b0-9646-11eb-180e-89c8651536c6
 # ╠═31d56008-9646-11eb-1985-2b68af354773
 # ╠═1761187e-9645-11eb-3778-b132f856696d
 # ╟─1e18f95c-cd53-4ede-8d93-572c81f872da
