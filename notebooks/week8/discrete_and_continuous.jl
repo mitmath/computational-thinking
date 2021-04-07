@@ -397,6 +397,13 @@ begin
 	plot!(ylims=(-2,2))
 end
 
+# ╔═╡ 1e18f95c-cd53-4ede-8d93-572c81f872da
+md"""
+A random walk is a discrete random function. It is defined at grid points.  Brownian motion is a continuous random function.  It is defined on an entire interval.
+If one has an instance of a Brownian motion, you can say its exact value at, say, .7.
+If one looks at the random variable that represents evaluation at .7 it is a normal distribution.
+"""
+
 # ╔═╡ c32e0f9c-918e-11eb-1cf9-a340786db24a
 md"""
 Alan's essay:
@@ -635,6 +642,7 @@ pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal
 # ╠═4f845436-9646-11eb-2445-c12746a9e556
 # ╠═31d56008-9646-11eb-1985-2b68af354773
 # ╠═1761187e-9645-11eb-3778-b132f856696d
+# ╟─1e18f95c-cd53-4ede-8d93-572c81f872da
 # ╟─c32e0f9c-918e-11eb-1cf9-a340786db24a
 # ╠═632eea46-9710-11eb-1abe-85da8d9c30a9
 # ╠═9c519eca-9710-11eb-20dc-3f76801545d1
