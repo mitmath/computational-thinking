@@ -147,7 +147,7 @@ md"""
 
 (In Pluto, a struct definition and an outer constructor need to be combined in a single cell using a `begin end` block.)
 
-Let us check that the new method works correctly. How many methods does the constructor have now?
+Let's check that the new method works correctly. How many methods does the constructor have now?
 
 """
 
