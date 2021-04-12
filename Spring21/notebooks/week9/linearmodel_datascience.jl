@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.1
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -11,21 +11,6 @@ macro bind(def, element)
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
         el
     end
-end
-
-# ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="DataFrames", version="0.22"),
-        Pkg.PackageSpec(name="CSV", version="0.8"),
-        Pkg.PackageSpec(name="GLM", version="1"),
-        Pkg.PackageSpec(name="Distributions", version="0.24"),
-    ])
-    using Plots, PlutoUI, DataFrames, CSV, GLM, Statistics, LinearAlgebra, Distributions
 end
 
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
@@ -57,18 +42,42 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 2.8 </em></p>
+"><em>Section 2.8</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Linear Model Data Science & Simulation </em>
+<em> Linear Models & Simulations,  </em>
 </p>
 
-
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
 
 <style>
 body {
 overflow-x: hidden;
 }
 </style>"""
+
+# ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="DataFrames", version="0.22"),
+        Pkg.PackageSpec(name="CSV", version="0.8"),
+        Pkg.PackageSpec(name="GLM", version="1"),
+        Pkg.PackageSpec(name="Distributions", version="0.24"),
+    ])
+    using Plots, PlutoUI, DataFrames, CSV, GLM, Statistics, LinearAlgebra, Distributions
+end
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
@@ -184,6 +193,28 @@ md"""
 ## Add some random noise to the celsius readings
 """
 
+# ╔═╡ 3c038b68-8676-4877-9720-38da7c4e0e0e
+begin
+	noisy_data = copy(data)  # Noisy DataFrame
+	noisy_data[:, "°C" ] .+= noise * randn(n)
+	yy = noisy_data[:, "°C" ]
+	noisy_data
+end
+
+# ╔═╡ 5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
+begin
+	
+	scatter(x, yy,m=:c,mc=:red, label="noisy data", ylims=(-40,40))
+	for i=1 : length(data[:,2])
+		plot!([x[i],x[i]], [m*x[i]+b,yy[i]], color=:gray, ls=:dash, label=false)
+	end
+	xlabel!("°F")
+	annotate!(-15,16,text("°C",11))
+	plot!(x, m.*x .+ b,  color=:blue, label="best fit line")
+	plot!(x,y,alpha=.5, color=:red, label="theory") # theoretical 
+	plot!(legend=:top)
+end
+
 # ╔═╡ 83c28c76-2eab-49f9-9999-05df85054520
 md"""
 # The noise slider (so I can find it easily)
@@ -193,14 +224,6 @@ md"""
 md"""
 noise = $(@bind noise Slider(0:.5:1000, show_value = true ))
 """
-
-# ╔═╡ 3c038b68-8676-4877-9720-38da7c4e0e0e
-begin
-	noisy_data = copy(data)  # Noisy DataFrame
-	noisy_data[:, "°C" ] .+= noise * randn(n)
-	yy = noisy_data[:, "°C" ]
-	noisy_data
-end
 
 # ╔═╡ e8683a71-5822-4491-9ccd-20e0fc3bf531
 md"""
@@ -228,20 +251,6 @@ md"""
 
 # ╔═╡ 9eb7caaa-438d-4bcb-9c54-4a0fa72c61de
 b, m = [ one.(x) x]\ yy  # The mysterious linear algebra solution using "least squares"
-
-# ╔═╡ 5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
-begin
-	
-	scatter(x, yy,m=:c,mc=:red, label="noisy data", ylims=(-40,40))
-	for i=1 : length(data[:,2])
-		plot!([x[i],x[i]], [m*x[i]+b,yy[i]], color=:gray, ls=:dash, label=false)
-	end
-	xlabel!("°F")
-	annotate!(-15,16,text("°C",11))
-	plot!(x, m.*x .+ b,  color=:blue, label="best fit line")
-	plot!(x,y,alpha=.5, color=:red, label="theory") # theoretical 
-	plot!(legend=:top)
-end
 
 # ╔═╡ 0e8fce45-f1c0-41d4-996a-d6093182afee
 function linear_regression(x,y)   # a direct computation from the data
@@ -319,6 +328,9 @@ md"""
 ## Julia: underscore as a digits separator
 """
 
+# ╔═╡ 51a28b67-ad64-4cf2-a0e6-a78fb101eb15
+s = simulate(σ, howmany)
+
 # ╔═╡ c7455f7a-9c72-42f5-8238-1799cad96f6c
 md"""
 ## Simulated intercepts ($howmany simulations)
@@ -328,9 +340,6 @@ md"""
 md"""
 σ = $(@bind σ Slider(0:.1:3, show_value=true, default=1))
 """
-
-# ╔═╡ 51a28b67-ad64-4cf2-a0e6-a78fb101eb15
-s = simulate(σ, howmany)
 
 # ╔═╡ e1e8c140-bc4e-400d-beb2-0986e071c3a3
 begin	
@@ -577,7 +586,7 @@ mean([ (v = randn(10);v.-=mean(v);sum(v.^2)) for i=1:1_000_000])
 # ╠═3c038b68-8676-4877-9720-38da7c4e0e0e
 # ╠═5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
 # ╟─83c28c76-2eab-49f9-9999-05df85054520
-# ╠═ba671804-dc6d-415c-89de-9cf6294907b3
+# ╟─ba671804-dc6d-415c-89de-9cf6294907b3
 # ╟─e8683a71-5822-4491-9ccd-20e0fc3bf531
 # ╠═0489e5d8-51ca-4955-83e1-95ea353d9cf2
 # ╟─c3539f42-6ca7-47fb-9707-4d11c9e76643
@@ -591,7 +600,7 @@ mean([ (v = randn(10);v.-=mean(v);sum(v.^2)) for i=1:1_000_000])
 # ╟─feb3c45e-88f4-4ffc-a4a0-e89489187c8d
 # ╠═99069dd7-e088-4626-aa29-e48d6f9a474e
 # ╟─051a9e38-9a84-4ead-96fa-24c86c2b9f2d
-# ╠═2f33ee51-0725-46c2-9f1b-a61cd68abab1
+# ╟─2f33ee51-0725-46c2-9f1b-a61cd68abab1
 # ╠═e4acd97b-22f7-4812-9898-1a485887a5f2
 # ╠═4e413b40-81c4-4160-9d01-046c2d179a06
 # ╟─7b94db0d-f46b-4621-9413-1dc787ae9a39
@@ -625,13 +634,13 @@ mean([ (v = randn(10);v.-=mean(v);sum(v.^2)) for i=1:1_000_000])
 # ╠═07e02bb6-380d-40dd-86ad-19d713cd1657
 # ╟─b14593ba-cb8c-4f28-8fb0-2d2df479357b
 # ╟─ac204681-b9df-471b-a22e-9d8f68679151
-# ╠═08f43fff-fbd8-468f-8b3b-efd1829f4fc0
+# ╟─08f43fff-fbd8-468f-8b3b-efd1829f4fc0
 # ╠═43ec6124-c3e5-4f34-b0d9-1a0b069aa3e0
 # ╠═3fe71215-bbf2-40e9-bcfc-0bc9b3ac94c8
 # ╟─a2b27841-256e-4898-aeca-04c4f44138fb
 # ╟─8851dca3-e1a6-46b2-9745-f175ef0b0fae
 # ╟─ccfcb4d9-5a88-48fb-9568-1147a74f6eec
-# ╠═13858c0a-3e7a-4742-a821-97dd9a45109d
+# ╟─13858c0a-3e7a-4742-a821-97dd9a45109d
 # ╟─b2c3c1e5-e569-4c6f-bad9-055a25d73dce
 # ╠═305e4dfc-af7d-4667-8da8-a7ba5fd20fa6
 # ╟─a648ba4f-fec4-4fa7-b328-1b52070224eb
