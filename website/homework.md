@@ -13,3 +13,4 @@
 | [HW 5](/hw5/) | Mar 26, 2021 | [Canvas](https://canvas.mit.edu/courses/7590/assignments/105975)| [#hw5-sp21](https://discord.gg/gWKfBHT3HW)|
 | [MITx](https://lms.mitx.mit.edu/courses/course-v1:MITx+6.S083r+2021_Spring/courseware/188e039bccf9469aa056d75c358b0875/08e1e0ea683140848b8e20715b4f5134/1?activate_block_id=block-v1%3AMITx%2B6.S083r%2B2021_Spring%2Btype%40vertical%2Bblock%4004de5b8a0c434d8f8135aec1bb79196d) Week 6 Problems | Mar 29, 2021 | MITx | N/A|
 | [HW 6](/hw6/) | April 9, 2021 | [Canvas](https://canvas.mit.edu/courses/7590/assignments/108611)| [#hw6-sp21](https://discord.gg/tUp4G9bsZ9)|
+| [HW 7](/hw7/) | April 16, 2021 | [Canvas](https://canvas.mit.edu/courses/7590/assignments/111872)| [#hw7-sp21](https://discord.gg/FycPQ2Q37g)|
