@@ -105,6 +105,9 @@ the "error" in a least squares sense:
 ``\min_{m,b} \sum  ( (b + m x_i) - y_i)^2 `` 
 """
 
+# ╔═╡ 335f6030-7b85-470f-b227-de2134d708f0
+
+
 # ╔═╡ 9276b315-27b2-4b01-8fc8-4ebbba58d080
 md"""
 # Direct Formulas
@@ -164,6 +167,10 @@ md"""
 # ╔═╡ d3edfb26-7258-45a3-a88c-60831338df1f
 md"""
 We can  ask software to just solve the problem: ``\min_{b,m} \sum_{i=1}^n  ( (b + m x_i) - y_i)^2 `` 
+
+or
+``\min_{b,m}``  `loss(b,m)`
+
 """
 
 # ╔═╡ 372b304a-3f57-4bec-88df-3d51ded57d5c
@@ -174,6 +181,17 @@ result =  optimize(loss, [0.0,0.0] )  # optimize f with starting guess
 
 # ╔═╡ 7bd9bb8f-36c5-4ae1-ba20-25732d7fef2e
 result.minimizer
+
+# ╔═╡ 0af48ea2-698e-4919-aa96-97c5f46a928b
+md"""
+### Functions of Functions and Computing Power
+
+Optimization such as 
+``\min_{b,m}``  `loss(b,m)`
+is an example of a fairly heavy function of a function.  By this we mean the input is a function such as  `loss(b,m)` and the output is the location or value of a minimum, say.  By "heavy" we mean that typically a large amount of computing power is needed.
+
+Not that many years ago, computers were not strong enough for realistic problems.  Modern day machine learning and so much more is enabled because computers can now surround entire codes with optimization, or if the software is compatible, automatic differentiation.  
+"""
 
 # ╔═╡ 10386ce6-82fd-46ea-a44a-6ba14c5b0cd9
 md"""
@@ -208,6 +226,35 @@ md"""
 The above optimization methods made no explicit mention of derivative or gradient information.  For simple problems, gradients can be hand calculated, but for many real problems this is impractical.
 """
 
+# ╔═╡ ba54ee0b-ca13-48c2-9235-b478d6f2c5ef
+
+
+# ╔═╡ 5f41acf0-22bd-4224-a65a-81bd656e1c07
+md"""
+### Hand Computation
+"""
+
+# ╔═╡ 84f3a912-031c-40ed-ae29-02bbcc7b4612
+md"""
+``  \frac{\partial}{\partial b}\sum_{i=1}^n  ( (b + m x_i) - y_i)^2 
+=   2\sum_{i=1}^n  ( (b + m x_i) - y_i) `` 
+
+
+``   \frac{\partial}{\partial m }\sum_{i=1}^n  ( (b + m x_i) - y_i)^2 
+=   2\sum_{i=1}^n  x_i( (b + m x_i) - y_i) `` 
+"""
+
+# ╔═╡ 6f64ede7-612e-47b3-b3a4-d22a1992a98d
+begin
+	∇loss(b,m,i) = 2*(b+m*x[i]-y[i]) .* [1,x[i]] # ith summand
+	∇loss(b,m) = sum(∇loss(b,m,i) for i=1:n)
+end
+
+# ╔═╡ 3e229e4a-a697-460e-b995-a4773a6aca70
+md"""
+### Automatic Differentiation (AutoDiff)
+"""
+
 # ╔═╡ 327514f1-8081-4a6c-8be4-8ffd52ed3c46
 md"""
 ## Bells and Whistles
@@ -236,7 +283,8 @@ optimize(loss, [0.0,0.0], GradientDescent(), autodiff=:forward )
 # ╠═8a5f1fdc-3cef-4c02-a73f-e5975b57b15a
 # ╠═647093eb-a7e3-4175-8091-29c33407e5c9
 # ╟─cdc25782-65a8-43c5-8090-c1241b798b1a
-# ╠═9ec4dd43-c95a-4f11-b844-fd6ccc93bb68
+# ╟─9ec4dd43-c95a-4f11-b844-fd6ccc93bb68
+# ╠═335f6030-7b85-470f-b227-de2134d708f0
 # ╠═9276b315-27b2-4b01-8fc8-4ebbba58d080
 # ╠═d22fd4bd-acfe-4e27-a484-3c2d6138f44e
 # ╠═da0d208b-7d30-470a-b180-4cbfa98298e7
@@ -249,14 +297,20 @@ optimize(loss, [0.0,0.0], GradientDescent(), autodiff=:forward )
 # ╠═6d25e38e-c18a-48b3-8b12-b670f5a5180f
 # ╠═f291c0cb-51ee-4b30-9e07-e7cf374f809e
 # ╟─aa06a447-d6c5-48ee-9864-c1f431fe5e4b
-# ╟─d3edfb26-7258-45a3-a88c-60831338df1f
+# ╠═d3edfb26-7258-45a3-a88c-60831338df1f
 # ╠═372b304a-3f57-4bec-88df-3d51ded57d5c
 # ╠═13b9ff38-225d-4ec1-be7f-bf0e0f5b4076
 # ╠═7bd9bb8f-36c5-4ae1-ba20-25732d7fef2e
+# ╟─0af48ea2-698e-4919-aa96-97c5f46a928b
 # ╠═10386ce6-82fd-46ea-a44a-6ba14c5b0cd9
 # ╠═b7d8f11d-91ce-4b3a-87a1-1aa162e198ff
 # ╟─5ca85768-a19e-4ddf-89a4-88dca599d7a7
 # ╠═dd39b088-f59f-43fa-bce0-5076398238f9
+# ╠═ba54ee0b-ca13-48c2-9235-b478d6f2c5ef
+# ╠═5f41acf0-22bd-4224-a65a-81bd656e1c07
+# ╠═84f3a912-031c-40ed-ae29-02bbcc7b4612
+# ╠═6f64ede7-612e-47b3-b3a4-d22a1992a98d
+# ╠═3e229e4a-a697-460e-b995-a4773a6aca70
 # ╠═327514f1-8081-4a6c-8be4-8ffd52ed3c46
 # ╠═98e00b2d-0802-4160-8e5c-302be5226916
 # ╠═ef165ca5-bf4f-465e-8e9a-df1aec2d7caa
