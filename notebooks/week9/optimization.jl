@@ -14,7 +14,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 400ebe26-0dea-4cf2-8744-6c73a45cd33e
-using PlutoUI, Plots, Statistics, Optim, JuMP, Ipopt
+using PlutoUI, Plots, Statistics, Optim, JuMP, Ipopt, ForwardDiff
 
 # ╔═╡ 945c2bf1-d7dc-42c9-93d7-fd754f8fb1d7
 html"""
@@ -62,6 +62,11 @@ overflow-x: hidden;
 
 # ╔═╡ b8d66df5-f593-40b4-8c46-3b638f9cc3e1
 TableOfContents(title="📚 Table of Contents", aside=true)
+
+# ╔═╡ 77253dd5-a2c8-4cf5-890a-5c8420c395b7
+md"""
+named tuples
+"""
 
 # ╔═╡ dccbd53d-33ed-4d37-9d2c-da76e090d5dd
 md"""
@@ -248,16 +253,89 @@ md"""
 begin
 	∇loss(b,m,i) = 2*(b+m*x[i]-y[i]) .* [1,x[i]] # ith summand
 	∇loss(b,m) = sum(∇loss(b,m,i) for i=1:n)
+	
+end
+
+# ╔═╡ 36300b71-5a96-4964-b661-93de5631cf07
+md"""
+### Finite Difference Evaluation
+"""
+
+# ╔═╡ ad578b33-4387-49f5-b39d-92e05fca4ea5
+∇loss(.1,.3)
+
+# ╔═╡ 67fd90d7-bb34-411f-89f1-a410e6fb29ba
+begin # finite difference
+	ϵ = .000000001
+	([loss([.1+ϵ ,.3]);loss([.1 ,.3+ϵ])] .- loss([.1 ,.3])) ./ ϵ
 end
 
 # ╔═╡ 3e229e4a-a697-460e-b995-a4773a6aca70
 md"""
 ### Automatic Differentiation (AutoDiff)
+ We're all so good at calculus I suppose, but nothing like letting the computer do it.  For real problems, what you learned in calculus is impractical. Note: Autodiff is not finite differences.  It is not as problematic as finite differences is in that
+with finite differences it can be hard to know which ϵ to use, etc.
 """
+
+# ╔═╡ 7566cb7e-f5da-4b81-af07-bf2c86963333
+∇loss(.1,.3) # hand computation
+
+# ╔═╡ e6d9aafd-fbd6-4ec4-a4a1-740a4e889dc5
+ForwardDiff.gradient( loss, [.1,.3])
+
+# ╔═╡ c9417d90-a9cb-4655-a258-8a8898e5576a
+md"""
+# Gradient Descent can be difficult for complicated functions
+"""
+
+# ╔═╡ 6535280a-e0ce-4e13-86dd-165d5f06cfe7
+let
+	b,m = 0,0  # starting guess
+	
+	for i=1:25
+		db,dm = ∇loss(b,m)
+		
+		# Getting a good step size can be really hard
+		# I worked out the line search η by hand
+		η = sum( (b+m*x[i]-y[i])*(db+dm*x[i]) for i=1:n)/sum( (db+dm*x[i])^2 for i=1:n)
+		
+		b,m  = (b,m) .- η .* (db,dm)
+	end
+	(b=b,m=m)
+	
+end
+
+# ╔═╡ 4c285bc2-b3c2-4d20-a904-ecaa07795342
+md"""
+Hoping for
+	
+`(b=-18.1716, m=0.56601)`
+"""
+
+# ╔═╡ 592397eb-ec52-423b-925b-d8becb9eac8e
+md"""
+# Stochastic Gradient Descent
+
+Pick one coordinate  (or a few coordinates) to update at a time
+This is what works in machine learning
+
+"""
+
+# ╔═╡ 7086950b-c8db-49d4-b095-15be91c73b56
+let
+	b, m  = 0.0, 0.0
+	for t=1:10_000_000
+	    η = .00002  # there seems to be an art to picking these steplengths
+	 
+	    b,m  =  (b,m) .- η *∇loss(b,m, rand(1:n))
+	   
+	end
+   	(b=b,m=m)
+end
 
 # ╔═╡ 327514f1-8081-4a6c-8be4-8ffd52ed3c46
 md"""
-## Bells and Whistles
+# Bells and Whistles for optim.jl
 """
 
 # ╔═╡ 98e00b2d-0802-4160-8e5c-302be5226916
@@ -276,6 +354,7 @@ optimize(loss, [0.0,0.0], GradientDescent(), autodiff=:forward )
 # ╟─945c2bf1-d7dc-42c9-93d7-fd754f8fb1d7
 # ╠═400ebe26-0dea-4cf2-8744-6c73a45cd33e
 # ╠═b8d66df5-f593-40b4-8c46-3b638f9cc3e1
+# ╠═77253dd5-a2c8-4cf5-890a-5c8420c395b7
 # ╟─dccbd53d-33ed-4d37-9d2c-da76e090d5dd
 # ╠═2ed86f33-bced-413c-9a8d-c6e49bfe5afb
 # ╟─0e43a6d3-7198-422b-b50c-b9caeaa53074
@@ -310,8 +389,18 @@ optimize(loss, [0.0,0.0], GradientDescent(), autodiff=:forward )
 # ╠═5f41acf0-22bd-4224-a65a-81bd656e1c07
 # ╠═84f3a912-031c-40ed-ae29-02bbcc7b4612
 # ╠═6f64ede7-612e-47b3-b3a4-d22a1992a98d
-# ╠═3e229e4a-a697-460e-b995-a4773a6aca70
-# ╠═327514f1-8081-4a6c-8be4-8ffd52ed3c46
+# ╟─36300b71-5a96-4964-b661-93de5631cf07
+# ╠═ad578b33-4387-49f5-b39d-92e05fca4ea5
+# ╠═67fd90d7-bb34-411f-89f1-a410e6fb29ba
+# ╟─3e229e4a-a697-460e-b995-a4773a6aca70
+# ╠═7566cb7e-f5da-4b81-af07-bf2c86963333
+# ╠═e6d9aafd-fbd6-4ec4-a4a1-740a4e889dc5
+# ╠═c9417d90-a9cb-4655-a258-8a8898e5576a
+# ╠═6535280a-e0ce-4e13-86dd-165d5f06cfe7
+# ╟─4c285bc2-b3c2-4d20-a904-ecaa07795342
+# ╟─592397eb-ec52-423b-925b-d8becb9eac8e
+# ╠═7086950b-c8db-49d4-b095-15be91c73b56
+# ╟─327514f1-8081-4a6c-8be4-8ffd52ed3c46
 # ╠═98e00b2d-0802-4160-8e5c-302be5226916
 # ╠═ef165ca5-bf4f-465e-8e9a-df1aec2d7caa
 # ╠═0305b418-51bb-47bb-98fb-319fc26b94cf
