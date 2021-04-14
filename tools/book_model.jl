@@ -35,5 +35,7 @@ book_model = [
     Section(2, 5, "Random Walks", "notebooks/week7/random_walks.jl", "14hHtGJ4s-g"),
     Section(2, 6, "Random Walks II", "notebooks/week8/random_walks_II.jl", "pIAFHyLmwbM"),
     Section(2, 7, "Discrete and Continuous", "notebooks/week8/discrete_and_continuous.jl", "H6Dcx3YeTkE"),
-    Section(2, 8, "Linear Models & Simulations", "notebooks/week9/linearmodel_datascience.jl","O6NTKsR8TjQ")
+    Section(2, 8, "Linear Models & Simulations", "notebooks/week9/linearmodel_datascience.jl","O6NTKsR8TjQ"),
+    Section(2, 9, "Optimization", "notebooks/week9/optimization.jl","")
+
 ]
