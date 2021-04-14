@@ -1,7 +1,7 @@
 {
 	"url": " http://www.youtube.com/watch?v=44RA9fclTdA",
 	"show_stay_tuned": false,
-	"show_livestream": true,
+	"show_livestream": false,
 	"todays_notebook": "linearmodel_datascience",
 	"announce": "Next class is Wednesday, April 21st, 1:05pm EDT"
 }
