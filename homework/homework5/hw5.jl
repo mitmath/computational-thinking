@@ -345,7 +345,7 @@ Let's define a type `Agent`. `Agent` contains a `position` (of type `Coordinate`
 # ╔═╡ 814e888a-0954-11eb-02e5-0964c7410d30
 md"""
 #### Exercise 2.1
-👉 Write a function `initialize` that takes parameters $N$ and $L$, where $N$ is the number of agents abd $2L$ is the side length of the square box where the agents live.
+👉 Write a function `initialize` that takes parameters $N$ and $L$, where $N$ is the number of agents and $2L$ is the side length of the square box where the agents live.
 
 It returns a `Vector` of `N` randomly generated `Agent`s. Their coordinates are randomly sampled in the ``[-L,L] \times [-L,L]`` box, and the agents are all susceptible, except one, chosen at random, which is infectious.
 """
