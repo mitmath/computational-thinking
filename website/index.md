@@ -129,6 +129,12 @@ update_content()
 
 ~~~
 
+## How to cite
+
+If you use or are inspired by any material, would you be so kind to prominently display
+> Some material on this website is based on "Computational Thinking, a live online Julia/Pluto textbook, https://computationalthinking.mit.edu"
+
+## Course Information
 \blurb{This is an introductory course on Computational Thinking. We use the [Julia programming language](http://www.julialang.org) to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling. In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.}
 
 We plan to include the following topics:
