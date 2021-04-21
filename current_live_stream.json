@@ -1,7 +1,7 @@
 {
 	"url": " https://www.youtube.com/watch?v=3Y5gVyO8KcI",
 	"show_stay_tuned": false,
-	"show_livestream": true,
+	"show_livestream": false,
 	"todays_notebook": "time_stepping",
-	"announce": "Next class is Wednesday, April 21st, 1:05pm EDT"
+	"announce": "Next class is Monday, April 26th, 1:05pm EDT"
 }
