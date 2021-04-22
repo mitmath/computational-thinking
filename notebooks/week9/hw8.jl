@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.12.4
+# v0.14.3
 
 using Markdown
 using InteractiveUtils
@@ -18,7 +18,7 @@ begin
 	using Pkg
 	Pkg.activate(mktempdir())
 	Pkg.add([
-			Pkg.PackageSpec(name="PlutoUI", version="0.6.7-0.6"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
 			Pkg.PackageSpec(name="Plots", version="1.6-1"),
 			])
 
@@ -28,38 +28,7 @@ begin
 end
 
 # ╔═╡ 048890ee-106a-11eb-1a81-5744150543e8
-md"_homework 8, version 0_"
-
-# ╔═╡ 056ed7f2-106a-11eb-3543-31a5cb560e80
-# WARNING FOR OLD PLUTO VERSIONS, DONT DELETE ME
-
-html"""
-<script>
-const warning = html`
-<h2 style="color: #800">Oopsie! You need to update Pluto to the latest version</h2>
-<p>Close Pluto, go to the REPL, and type:
-<pre><code>julia> import Pkg
-julia> Pkg.update("Pluto")
-</code></pre>
-`
-
-const super_old = window.version_info == null || window.version_info.pluto == null
-if(super_old) {
-	return warning
-}
-const version_str = window.version_info.pluto.substring(1)
-const numbers = version_str.split(".").map(Number)
-console.log(numbers)
-
-if(numbers[0] > 0 || numbers[1] > 12 || numbers[2] > 1) {
-	
-} else {
-	return warning
-}
-
-</script>
-
-"""
+md"_homework 8, version 1_"
 
 # ╔═╡ 0579e962-106a-11eb-26b5-2160f461f4cc
 md"""
@@ -182,6 +151,23 @@ zeroten = LinRange(0.0, 10.0, 300);
 # ╔═╡ abc54b82-10b9-11eb-1641-817e2f043d26
 @bind a_finite_diff Slider(zeroten, default=4)
 
+# ╔═╡ 3d44c264-10b9-11eb-0895-dbfc22ba0c37
+let
+	p = plot(zeroten, wavy, label="f(x)")
+	scatter!(p, [a_finite_diff], [wavy(a_finite_diff)], label="a", color="red")
+	vline!(p, [a_finite_diff], label=nothing, color="red", linestyle=:dash)
+	scatter!(p, [a_finite_diff+h_finite_diff], [wavy(a_finite_diff+h_finite_diff)], label="a + h", color="green")
+	
+	try
+		result = tangent_line(wavy, a_finite_diff, h_finite_diff)
+		
+		plot!(p, zeroten, result, label="tangent", color="purple")
+	catch
+	end
+	
+	plot!(p, xlim=(0,10), ylim=(-2, 8))
+end |> as_svg
+
 # ╔═╡ 43df67bc-10bb-11eb-1cbd-cd962a01e3ee
 md"""
 $(html"<span id=theslopeequation></span>")
@@ -202,6 +188,23 @@ wavy_deriv(x) = .3x^2 - 3.2x + 7;
 
 # ╔═╡ 0b4e8cdc-10bd-11eb-296c-d51dc242a372
 @bind a_euler Slider(zeroten, default=1)
+
+# ╔═╡ 70df9a48-10bb-11eb-0b95-95a224b45921
+let
+	slope = wavy_deriv(a_euler)
+	
+	p = plot(LinRange(1.0 - 0.1, 1.0 + 0.1, 2), wavy, label=nothing, lw=3)
+	scatter!(p, [1], wavy, label="f(1)", color="blue", lw=3)
+	# p = plot()
+	x = [a_euler - 0.2,a_euler + 0.2]
+	for y in -4:10
+		plot!(p, x, slope .* (x .- a_euler) .+ y, label=nothing, color="purple", opacity=.6)
+	end
+	
+	vline!(p, [a_euler], color="red", label="a", linestyle=:dash)
+	
+	plot!(p, xlim=(0,10), ylim=(-2, 8))
+end |> as_svg
 
 # ╔═╡ 1d8ce3d6-112f-11eb-1343-079c18cdc89c
 md"""
@@ -255,6 +258,38 @@ end
 
 # ╔═╡ ab72fdbe-10be-11eb-3b33-eb4ab41730d6
 @bind N_euler Slider(2:40)
+
+# ╔═╡ 990236e0-10be-11eb-333a-d3080a224d34
+let
+	a = 1
+	h = .3
+	history = euler_integrate(wavy_deriv, wavy(a), range(a; step=h, length=N_euler))
+	
+	slope = wavy_deriv(a_euler)
+	
+	p = plot(zeroten, wavy, label="exact solution", lw=3, opacity=.1, color="gray")
+	# p = plot()
+	
+	last_a = a + (N_euler-1)*h
+	
+	vline!(p, [last_a], color="red", label="a", linestyle=:dash)
+
+	try
+		plot!(p, a .+ h .* (1:N_euler), history, 
+			color="blue", label=nothing)
+		scatter!(p, a .+ h .* (1:N_euler), history, 
+			color="blue", label="appromixation", 
+			markersize=2, markerstrokewidth=0)
+
+		
+		plot!(p, [0,10], ([0,10] .- (last_a+h)) .* wavy_deriv(last_a+h) .+ history[end],
+			label="tangent",
+			color="purple")
+
+	catch
+	end
+	plot!(p, xlim=(0,10), ylim=(-2, 8))
+end |> as_svg
 
 # ╔═╡ d21fad2a-1253-11eb-304a-2bacf9064d0d
 md"""
@@ -474,6 +509,35 @@ end
 # ╔═╡ a53cf3f8-12e1-11eb-0b0c-2b794a7ac841
 md" ``x_0 = `` $(@bind x0_gradient_1d Slider(-3:.01:1.5, default=-1, show_value=true))"
 
+# ╔═╡ 90114f98-12e0-11eb-2011-a3207bbc24f6
+function gradient_1d_viz(N_gradient_1d, x0)
+	f = x -> x^4 + 3x^3 - 3x + 5.
+	
+	x = LinRange(-3, 1.5, 200)
+	
+	history = accumulate(1:N_gradient_1d, init=x0) do old, _
+		gradient_descent_1d_step(f, old, η=.025)
+	end
+	
+	all = [x0, history...]
+	
+	# slope = wavy_deriv(a_euler)
+	
+	p = plot(x, f, label="f(x)", lw=3, opacity=.6, color="gray")
+	# p = plot()
+	
+	plot!(p, all, f, 
+		color="blue", opacity=range(.5,step=.2,length=length(all)), label=nothing)
+	scatter!(p, all, f,
+		color="blue", label="gradient descent", 
+		markersize=3, markerstrokewidth=0)
+	
+	as_svg(p)
+end
+
+# ╔═╡ 88b30f10-12e1-11eb-383d-4f095625cd16
+gradient_1d_viz(N_gradient_1d, x0_gradient_1d)
+
 # ╔═╡ 754e4c48-12df-11eb-3818-f54f6fc7176b
 md"""
 👉 Write a function `gradient_descent_1d(f, x0)` that repeatedly applies the previous function (`N_steps` times), starting from the point `x0`, like in the vizualisation above. The result should be the final guess for ``x``.
@@ -544,6 +608,69 @@ We also prepared a 3D visualisation if you like! It's a bit slow...
 
 # ╔═╡ 605aafa4-12e7-11eb-2d13-7f7db3fac439
 run_3d_visualisation = false
+
+# ╔═╡ 5e0f16b4-12e3-11eb-212f-e565f97adfed
+function gradient_2d_viz_3d(N_gradient_2d, x0, y0)
+
+	history = accumulate(1:N_gradient_2d, init=[x0, y0]) do old, _
+		gradient_descent_2d_step(himmelbau, old...)
+	end
+	
+	all = [[x0, y0], history...]
+	
+	p = surface(-4:0.4:5, -4:0.4:4, himmelbau)
+	
+	trace = [himmelbau(s...) for s in all]
+	
+	plot!(p, first.(all), last.(all), trace, 
+		color="blue", opacity=range(.5,step=.2,length=length(all)), label=nothing)
+	scatter!(p, first.(all), last.(all), trace, 
+		color="blue", label="gradient descent", 
+		markersize=3, markerstrokewidth=0)
+	
+	as_svg(p)
+end
+
+# ╔═╡ 9ae4ebac-12e3-11eb-0acc-23113f5264a9
+if run_3d_visualisation
+	let
+		# we temporarily change the plotting backend to an interactive one
+		plotly()
+
+		# we dont use the sliders because this plot is quite slow
+		x0 = 0.5
+		N = 20
+		y0 = -3
+
+		p = gradient_2d_viz_3d(N, x0, y0)
+		gr()
+
+		p
+	end
+end
+
+# ╔═╡ b6ae4d7e-12e6-11eb-1f92-c95c040d4401
+function gradient_2d_viz_2d(N_gradient_2d, x0, y0)
+
+	history = accumulate(1:N_gradient_2d, init=[x0, y0]) do old, _
+		gradient_descent_2d_step(himmelbau, old...)
+	end
+	
+	all = [[x0, y0], history...]
+	
+	p = heatmap(-4:0.4:5, -4:0.4:4, himmelbau)
+	
+	plot!(p, first.(all), last.(all), 
+		color="blue", opacity=range(.5,step=.2,length=length(all)), label=nothing)
+	scatter!(p, first.(all), last.(all), 
+		color="blue", label="gradient descent", 
+		markersize=3, markerstrokewidth=0)
+	
+	as_svg(p)
+end
+
+# ╔═╡ fbb4a9a4-1248-11eb-00e2-fd346f0056db
+gradient_2d_viz_2d(N_gradient_2d, x0_gradient_2d, y0_gradient_2d)
 
 # ╔═╡ a03890d6-1248-11eb-37ee-85b0a5273e0c
 md"""
@@ -748,6 +875,32 @@ found_β, found_γ = let
 	# your code here
 	
 	missing, missing
+end
+
+# ╔═╡ 496b8816-12d3-11eb-3cec-c777ba81eb60
+let
+	p = plot()
+	plot_sir!(p, spatial_T, spatial_results, label="spatial", opacity=.7)
+	
+	if show_manual_sir_fit
+		guess_results = euler_SIR(guess_β, guess_γ, 
+		[0.99, 0.01, 0.00], 
+		spatial_T)
+		
+		plot_sir!(p, spatial_T, guess_results, label="manual", linestyle=:dash, lw=2)
+	end
+	
+	try
+		@assert !(found_β isa Missing) && !(found_γ isa Missing)
+		found_results = euler_SIR(found_β, found_γ, 
+		[0.99, 0.01, 0.00], 
+		spatial_T)
+		
+		plot_sir!(p, spatial_T, found_results, label="optimized", linestyle=:dot, lw=2)
+	catch
+	end
+	
+	as_svg(p)
 end
 
 # ╔═╡ b94b7610-106d-11eb-2852-25337ce6ec3a
@@ -1034,205 +1187,9 @@ end
 # ╔═╡ 05bfc716-106a-11eb-36cb-e7c488050d54
 TODO = html"<span style='display: inline; font-size: 2em; color: purple; font-weight: 900;'>TODO</span>"
 
-# ╔═╡ df42aa9e-10c9-11eb-2c19-2d7ce40a1c6c
-as_mime(m::MIME) = x -> PlutoUI.Show(m, repr(m, x))
-
-# ╔═╡ 15b60272-10ca-11eb-0a28-599ed78cf98a
-"""
-Return the argument, but force it to be shown as SVG.
-
-This is an optimization for Plots.jl GR plots: it makes them less jittery and keeps the page DOM small.
-"""
-as_svg = as_mime(MIME"image/svg+xml"())
-
-# ╔═╡ 3d44c264-10b9-11eb-0895-dbfc22ba0c37
-let
-	p = plot(zeroten, wavy, label="f(x)")
-	scatter!(p, [a_finite_diff], [wavy(a_finite_diff)], label="a", color="red")
-	vline!(p, [a_finite_diff], label=nothing, color="red", linestyle=:dash)
-	scatter!(p, [a_finite_diff+h_finite_diff], [wavy(a_finite_diff+h_finite_diff)], label="a + h", color="green")
-	
-	try
-		result = tangent_line(wavy, a_finite_diff, h_finite_diff)
-		
-		plot!(p, zeroten, result, label="tangent", color="purple")
-	catch
-	end
-	
-	plot!(p, xlim=(0,10), ylim=(-2, 8))
-end |> as_svg
-
-# ╔═╡ 70df9a48-10bb-11eb-0b95-95a224b45921
-let
-	slope = wavy_deriv(a_euler)
-	
-	p = plot(LinRange(1.0 - 0.1, 1.0 + 0.1, 2), wavy, label=nothing, lw=3)
-	scatter!(p, [1], wavy, label="f(1)", color="blue", lw=3)
-	# p = plot()
-	x = [a_euler - 0.2,a_euler + 0.2]
-	for y in -4:10
-		plot!(p, x, slope .* (x .- a_euler) .+ y, label=nothing, color="purple", opacity=.6)
-	end
-	
-	vline!(p, [a_euler], color="red", label="a", linestyle=:dash)
-	
-	plot!(p, xlim=(0,10), ylim=(-2, 8))
-end |> as_svg
-
-# ╔═╡ 990236e0-10be-11eb-333a-d3080a224d34
-let
-	a = 1
-	h = .3
-	history = euler_integrate(wavy_deriv, wavy(a), range(a; step=h, length=N_euler))
-	
-	slope = wavy_deriv(a_euler)
-	
-	p = plot(zeroten, wavy, label="exact solution", lw=3, opacity=.1, color="gray")
-	# p = plot()
-	
-	last_a = a + (N_euler-1)*h
-	
-	vline!(p, [last_a], color="red", label="a", linestyle=:dash)
-
-	try
-		plot!(p, a .+ h .* (1:N_euler), history, 
-			color="blue", label=nothing)
-		scatter!(p, a .+ h .* (1:N_euler), history, 
-			color="blue", label="appromixation", 
-			markersize=2, markerstrokewidth=0)
-
-		
-		plot!(p, [0,10], ([0,10] .- (last_a+h)) .* wavy_deriv(last_a+h) .+ history[end],
-			label="tangent",
-			color="purple")
-
-	catch
-	end
-	plot!(p, xlim=(0,10), ylim=(-2, 8))
-end |> as_svg
-
-# ╔═╡ 90114f98-12e0-11eb-2011-a3207bbc24f6
-function gradient_1d_viz(N_gradient_1d, x0)
-	f = x -> x^4 + 3x^3 - 3x + 5.
-	
-	x = LinRange(-3, 1.5, 200)
-	
-	history = accumulate(1:N_gradient_1d, init=x0) do old, _
-		gradient_descent_1d_step(f, old, η=.025)
-	end
-	
-	all = [x0, history...]
-	
-	# slope = wavy_deriv(a_euler)
-	
-	p = plot(x, f, label="f(x)", lw=3, opacity=.6, color="gray")
-	# p = plot()
-	
-	plot!(p, all, f, 
-		color="blue", opacity=range(.5,step=.2,length=length(all)), label=nothing)
-	scatter!(p, all, f,
-		color="blue", label="gradient descent", 
-		markersize=3, markerstrokewidth=0)
-	
-	as_svg(p)
-end
-
-# ╔═╡ 88b30f10-12e1-11eb-383d-4f095625cd16
-gradient_1d_viz(N_gradient_1d, x0_gradient_1d)
-
-# ╔═╡ 5e0f16b4-12e3-11eb-212f-e565f97adfed
-function gradient_2d_viz_3d(N_gradient_2d, x0, y0)
-
-	history = accumulate(1:N_gradient_2d, init=[x0, y0]) do old, _
-		gradient_descent_2d_step(himmelbau, old...)
-	end
-	
-	all = [[x0, y0], history...]
-	
-	p = surface(-4:0.4:5, -4:0.4:4, himmelbau)
-	
-	trace = [himmelbau(s...) for s in all]
-	
-	plot!(p, first.(all), last.(all), trace, 
-		color="blue", opacity=range(.5,step=.2,length=length(all)), label=nothing)
-	scatter!(p, first.(all), last.(all), trace, 
-		color="blue", label="gradient descent", 
-		markersize=3, markerstrokewidth=0)
-	
-	as_svg(p)
-end
-
-# ╔═╡ 9ae4ebac-12e3-11eb-0acc-23113f5264a9
-if run_3d_visualisation
-	let
-		# we temporarily change the plotting backend to an interactive one
-		plotly()
-
-		# we dont use the sliders because this plot is quite slow
-		x0 = 0.5
-		N = 20
-		y0 = -3
-
-		p = gradient_2d_viz_3d(N, x0, y0)
-		gr()
-
-		p
-	end
-end
-
-# ╔═╡ b6ae4d7e-12e6-11eb-1f92-c95c040d4401
-function gradient_2d_viz_2d(N_gradient_2d, x0, y0)
-
-	history = accumulate(1:N_gradient_2d, init=[x0, y0]) do old, _
-		gradient_descent_2d_step(himmelbau, old...)
-	end
-	
-	all = [[x0, y0], history...]
-	
-	p = heatmap(-4:0.4:5, -4:0.4:4, himmelbau)
-	
-	plot!(p, first.(all), last.(all), 
-		color="blue", opacity=range(.5,step=.2,length=length(all)), label=nothing)
-	scatter!(p, first.(all), last.(all), 
-		color="blue", label="gradient descent", 
-		markersize=3, markerstrokewidth=0)
-	
-	as_svg(p)
-end
-
-# ╔═╡ fbb4a9a4-1248-11eb-00e2-fd346f0056db
-gradient_2d_viz_2d(N_gradient_2d, x0_gradient_2d, y0_gradient_2d)
-
-# ╔═╡ 496b8816-12d3-11eb-3cec-c777ba81eb60
-let
-	p = plot()
-	plot_sir!(p, spatial_T, spatial_results, label="spatial", opacity=.7)
-	
-	if show_manual_sir_fit
-		guess_results = euler_SIR(guess_β, guess_γ, 
-		[0.99, 0.01, 0.00], 
-		spatial_T)
-		
-		plot_sir!(p, spatial_T, guess_results, label="manual", linestyle=:dash, lw=2)
-	end
-	
-	try
-		@assert !(found_β isa Missing) && !(found_γ isa Missing)
-		found_results = euler_SIR(found_β, found_γ, 
-		[0.99, 0.01, 0.00], 
-		spatial_T)
-		
-		plot_sir!(p, spatial_T, found_results, label="optimized", linestyle=:dot, lw=2)
-	catch
-	end
-	
-	as_svg(p)
-end
-
 # ╔═╡ Cell order:
 # ╟─048890ee-106a-11eb-1a81-5744150543e8
 # ╟─0565af4c-106a-11eb-0d38-2fb84493d86f
-# ╟─056ed7f2-106a-11eb-3543-31a5cb560e80
 # ╟─0579e962-106a-11eb-26b5-2160f461f4cc
 # ╠═0587db1c-106a-11eb-0560-c3d53c516805
 # ╟─05976f0c-106a-11eb-03a4-0febbc18fae8
@@ -1372,5 +1329,3 @@ end
 # ╟─b98238ce-106d-11eb-1e39-f9eda5df76af
 # ╟─b989e544-106d-11eb-3c53-3906c5c922fb
 # ╟─05bfc716-106a-11eb-36cb-e7c488050d54
-# ╟─df42aa9e-10c9-11eb-2c19-2d7ce40a1c6c
-# ╟─15b60272-10ca-11eb-0a28-599ed78cf98a
