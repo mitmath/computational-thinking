@@ -257,9 +257,11 @@ md"""
 """
 
 # ╔═╡ c2deb090-9239-11eb-0739-a74379c15ce6
+md"""
 Now suppose we want to think about more general random walks, for example moving around in 2D. Then we need to *generalise* the above function.
 		
 Based on our experience from last time, you should suspect that a good way to do this is with *types*. We will define 
+"""
 
 # ╔═╡ d420d492-91d9-11eb-056d-33cc8f0aed74
 abstract type Walker end
