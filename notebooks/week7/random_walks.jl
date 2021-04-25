@@ -477,7 +477,7 @@ t = $(@bind tt Slider(1:length(ps), show_value=true, default=1))
 plot(ps[tt], ylim=(0, 1), leg=false, size=(500, 300))
 
 # ╔═╡ dabb5766-9236-11eb-3be9-9b33ba5af68a
-ps[t
+ps[tt]
 
 # ╔═╡ 6cde6ef4-9236-11eb-219a-4d20adaf9988
 M = reduce(hcat, ps)'
