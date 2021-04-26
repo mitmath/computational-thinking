@@ -27,6 +27,7 @@ book_model = [
     Section(1, 7, "Intro to Dynamic Programming", "notebooks/week4/dynamicprograms.jl", "KyBXJV1zFlo"),
     Section(1, 8, "Seam Carving", "notebooks/week4/seamcarving.jl", "KyBXJV1zFlo"),
     Section(1, 9, "Taking Advantage of Structure", "notebooks/week4/structure.jl", "wZrVxbmX218"),
+
     Chapter(2, "Statistics, Probability, Learning"),
     Section(2, 1, "Principal Component Analysis", "notebooks/week5/pca.jl", "iuKrM_NzxCk"),
     Section(2, 2, "Sampling and Random Variables", "notebooks/week5/random_vars.jl", "7HrpoFZzITI"),
@@ -35,11 +36,10 @@ book_model = [
     Section(2, 5, "Random Walks", "notebooks/week7/random_walks.jl", "14hHtGJ4s-g"),
     Section(2, 6, "Random Walks II", "notebooks/week8/random_walks_II.jl", "pIAFHyLmwbM"),
     Section(2, 7, "Discrete and Continuous", "notebooks/week8/discrete_and_continuous.jl", "H6Dcx3YeTkE"),
-    Section(2, 8, "Linear Models & Simulations", "notebooks/week9/linearmodel_datascience.jl","O6NTKsR8TjQ"),
-    Section(2, 9, "Optimization", "notebooks/week9/optimization.jl",""),
+    Section(2, 8, "Linear Model, Data Science, & Simulations", "notebooks/week9/linearmodel_datascience.jl","O6NTKsR8TjQ"),
+    Section(2, 9, "Optimization", "notebooks/week9/optimization.jl","44RA9fclTdA"),
+    
     Chapter(3, "Differential Equations & Climate Modeling"),
-    Section(3, 1, "Time stepping", "notebooks/week10/time_stepping.jl","")
-
-
-
+    Section(3, 1, "Time stepping", "notebooks/week10/time_stepping.jl", "3Y5gVyO8KcI"),
+    Section(3, 2, "ODEs and parameterized types", "notebooks/week11/odes_and_parameterized_types.jl", ""),
 ]
