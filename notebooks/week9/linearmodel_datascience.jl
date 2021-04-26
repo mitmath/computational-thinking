@@ -44,7 +44,7 @@ font-size: 1.5rem;
 opacity: .8;
 "><em>Section 2.8</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Linear Models & Simulations </em>
+<em> Linear Model, Data Science, & Simulations </em>
 </p>
 
 <p style="

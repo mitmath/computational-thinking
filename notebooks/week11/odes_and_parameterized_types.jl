@@ -648,7 +648,7 @@ We can use vectors:
 MyODEProblem(3, 4, [17.0, 18.0])
 
 # ╔═╡ Cell order:
-# ╠═54e6bd88-a6a9-11eb-3380-49b79430f6cf
+# ╟─54e6bd88-a6a9-11eb-3380-49b79430f6cf
 # ╠═5997bb40-b508-4647-8b12-a7cc5152e550
 # ╠═38c74e63-13e9-49a9-8eae-4a898197647a
 # ╟─7a1d476b-1302-4b98-b9fa-01b990979985

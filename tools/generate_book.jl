@@ -207,10 +207,6 @@ function sidebar_code(book_model)
     <a class="sidebar-nav-item {{ispage /semesters/}}active{{end}}" href="/semesters/">Previous semesters</a>
     <br>
     $(join(sidebar_line.(book_model)))
-    <div class="course-section">Module 3</div>
-    <em>Starting in week 7</em>
-    <div class="course-section">Module 4</div>
-    <em>Starting in week 10...</em>
 
     <br>
     </nav>
