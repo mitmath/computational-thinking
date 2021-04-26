@@ -113,7 +113,7 @@ end
 
 
 function process_book_item(section::Section)
-
+    println(section.notebook_path)
     notebook  = Pluto.load_notebook_nobackup(section.notebook_path)
     ordered_cells = notebook.cells
 

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.1
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -11,21 +11,6 @@ macro bind(def, element)
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : missing
         el
     end
-end
-
-# ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="DataFrames", version="0.22"),
-        Pkg.PackageSpec(name="CSV", version="0.8"),
-        Pkg.PackageSpec(name="GLM", version="1"),
-        Pkg.PackageSpec(name="Distributions", version="0.24"),
-    ])
-    using Plots, PlutoUI, DataFrames, CSV, GLM, Statistics, LinearAlgebra, Distributions
 end
 
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
@@ -57,9 +42,9 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 2.8 </em></p>
+"><em>Section 2.8</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Linear Model, Data Science, & Simulations </em>
+<em> Linear Models & Simulations </em>
 </p>
 
 <p style="
@@ -78,6 +63,21 @@ body {
 overflow-x: hidden;
 }
 </style>"""
+
+# ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="DataFrames", version="0.22"),
+        Pkg.PackageSpec(name="CSV", version="0.8"),
+        Pkg.PackageSpec(name="GLM", version="1"),
+        Pkg.PackageSpec(name="Distributions", version="0.24"),
+    ])
+    using Plots, PlutoUI, DataFrames, CSV, GLM, Statistics, LinearAlgebra, Distributions
+end
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
@@ -191,14 +191,33 @@ data_again[:,"°F" ] #or data_again[:,1]
 # ╔═╡ 5a742546-1e4d-4aee-bed1-cb10c543e439
 data_again[:,1]
 
-# ╔═╡ fd4d4503-d24b-48a3-adb1-e0421b2ffdb6
-
-
 # ╔═╡ 6a9c8c9a-fac7-42f7-976d-3168132cae48
 md"""
 # Noisy Data
 ## Add some random noise to the celsius readings
 """
+
+# ╔═╡ 3c038b68-8676-4877-9720-38da7c4e0e0e
+begin
+	noisy_data = copy(data)  # Noisy DataFrame
+	noisy_data[:, "°C" ] .+= noise * randn(n)
+	yy = noisy_data[:, "°C" ]
+	noisy_data
+end
+
+# ╔═╡ 5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
+begin
+	
+	scatter(x, yy,m=:c,mc=:red, label="noisy data", ylims=(-40,40))
+	for i=1 : length(data[:,2])
+		plot!([x[i],x[i]], [m*x[i]+b,yy[i]], color=:gray, ls=:dash, label=false)
+	end
+	xlabel!("°F")
+	annotate!(-15,16,text("°C",11))
+	plot!(x, m.*x .+ b,  color=:blue, label="best fit line")
+	plot!(x,y,alpha=.5, color=:red, label="theory") # theoretical 
+	plot!(legend=:top)
+end
 
 # ╔═╡ 83c28c76-2eab-49f9-9999-05df85054520
 md"""
@@ -209,14 +228,6 @@ md"""
 md"""
 noise = $(@bind noise Slider(0:.5:1000, show_value = true ))
 """
-
-# ╔═╡ 3c038b68-8676-4877-9720-38da7c4e0e0e
-begin
-	noisy_data = copy(data)  # Noisy DataFrame
-	noisy_data[:, "°C" ] .+= noise * randn(n)
-	yy = noisy_data[:, "°C" ]
-	noisy_data
-end
 
 # ╔═╡ e8683a71-5822-4491-9ccd-20e0fc3bf531
 md"""
@@ -247,20 +258,6 @@ md"""
 
 # ╔═╡ 9eb7caaa-438d-4bcb-9c54-4a0fa72c61de
 b, m = [ one.(x) x]\ yy  # The mysterious linear algebra solution using "least squares"
-
-# ╔═╡ 5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
-begin
-	
-	scatter(x, yy,m=:c,mc=:red, label="noisy data", ylims=(-40,40))
-	for i=1 : length(data[:,2])
-		plot!([x[i],x[i]], [m*x[i]+b,yy[i]], color=:gray, ls=:dash, label=false)
-	end
-	xlabel!("°F")
-	annotate!(-15,16,text("°C",11))
-	plot!(x, m.*x .+ b,  color=:blue, label="best fit line")
-	plot!(x,y,alpha=.5, color=:red, label="theory") # theoretical 
-	plot!(legend=:top)
-end
 
 # ╔═╡ 0e8fce45-f1c0-41d4-996a-d6093182afee
 function linear_regression(x,y)   # a direct computation from the data
@@ -338,6 +335,12 @@ md"""
 ## Julia: underscore as a digits separator
 """
 
+# ╔═╡ 51a28b67-ad64-4cf2-a0e6-a78fb101eb15
+s = simulate(σ, howmany)
+
+# ╔═╡ d451af49-3139-4329-a885-a210b1760f74
+s[1] # first simulation,  intercept, slope, estimation of noise σ
+
 # ╔═╡ c7455f7a-9c72-42f5-8238-1799cad96f6c
 md"""
 ## Simulated intercepts ($howmany simulations)
@@ -347,12 +350,6 @@ md"""
 md"""
 σ = $(@bind σ Slider(0:.1:3, show_value=true, default=1))
 """
-
-# ╔═╡ 51a28b67-ad64-4cf2-a0e6-a78fb101eb15
-s = simulate(σ, howmany)
-
-# ╔═╡ d451af49-3139-4329-a885-a210b1760f74
-s[1] # first simulation,  intercept, slope, estimation of noise σ
 
 # ╔═╡ e1e8c140-bc4e-400d-beb2-0986e071c3a3
 begin	
@@ -567,9 +564,6 @@ md"""
 # Degrees of Freedom
 """
 
-# ╔═╡ 009dcdb3-4ab7-4c61-8246-df1e7d55efa5
-
-
 # ╔═╡ 6fb223bb-f193-414d-9144-df180d09bea1
 md"""
 It is interesting to see that the sum of squares of a demeaned Gaussian vector is the size -1.  This is the reason for the (n-1) in the sample mean for variance.
@@ -616,12 +610,11 @@ and not n, this is the crux of the reason.
 # ╠═aff6a616-6d8b-4584-a6f2-195decef7774
 # ╠═338da13a-3c26-4366-a669-ac3e24f31577
 # ╠═5a742546-1e4d-4aee-bed1-cb10c543e439
-# ╠═fd4d4503-d24b-48a3-adb1-e0421b2ffdb6
 # ╟─6a9c8c9a-fac7-42f7-976d-3168132cae48
 # ╟─3c038b68-8676-4877-9720-38da7c4e0e0e
 # ╟─5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
 # ╟─83c28c76-2eab-49f9-9999-05df85054520
-# ╠═ba671804-dc6d-415c-89de-9cf6294907b3
+# ╟─ba671804-dc6d-415c-89de-9cf6294907b3
 # ╟─e8683a71-5822-4491-9ccd-20e0fc3bf531
 # ╠═0489e5d8-51ca-4955-83e1-95ea353d9cf2
 # ╠═9a65aee4-ab8e-4ab7-be6f-cc2a2e9d5127
@@ -682,13 +675,12 @@ and not n, this is the crux of the reason.
 # ╟─13858c0a-3e7a-4742-a821-97dd9a45109d
 # ╟─b2c3c1e5-e569-4c6f-bad9-055a25d73dce
 # ╠═305e4dfc-af7d-4667-8da8-a7ba5fd20fa6
-# ╠═a648ba4f-fec4-4fa7-b328-1b52070224eb
+# ╟─a648ba4f-fec4-4fa7-b328-1b52070224eb
 # ╠═d652df7d-7364-4da4-b51e-9fc88b978cda
 # ╟─2e530106-57a8-46a9-8f99-49a871d43255
 # ╟─a990b133-ce50-4edf-81e1-1e78aeff8cd6
 # ╟─3d0ea801-d66b-4e4e-90da-3a7dce28140d
-# ╠═009dcdb3-4ab7-4c61-8246-df1e7d55efa5
 # ╟─6fb223bb-f193-414d-9144-df180d09bea1
 # ╟─fb495ba4-52e6-4e0d-bd9c-981700edfebc
 # ╠═cdc4b25d-d05f-40c8-9c79-265876f01523
-# ╠═967c5e3e-ab4c-45de-953c-aff6d16229af
+# ╟─967c5e3e-ab4c-45de-953c-aff6d16229af
