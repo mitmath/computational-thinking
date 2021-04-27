@@ -495,6 +495,8 @@ begin
 	plot( x, f.(x,t), ylims=(0,1), legend=false)
 end
 
+<<<<<<< HEA
+
 # ╔═╡ 021d7e9a-9711-11eb-063b-11441afa2e69
 begin
 	surface(-2:.05:2, .2:.01:1, f, alpha=.4, c=:Reds, legend=false)
