@@ -40,7 +40,7 @@ md"""
 ## Loading Time 
 
 Plots loading time sucks big time.
-This is a known problem.  We know, we know, Julia is fast, just grab some coffee...
+This is a known problem.  We know, we know, Julia is fast, just grab some coffee or juice...
 ☕☕☕☕☕☕☕☕☕
 """
 
