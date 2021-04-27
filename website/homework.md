@@ -15,3 +15,4 @@
 | [HW 6](/hw6/) | April 9, 2021 | [Canvas](https://canvas.mit.edu/courses/7590/assignments/108611)| [#hw6-sp21](https://discord.gg/tUp4G9bsZ9)|
 | [HW 7](/hw7/) | April 16, 2021 | [Canvas](https://canvas.mit.edu/courses/7590/assignments/111872)| [#hw7-sp21](https://discord.gg/FycPQ2Q37g)|
 | [HW 8](/hw8/) | April 23, 2021 | [Canvas](https://canvas.mit.edu/courses/7590/assignments/112504)| [#hw8-sp21](https://discord.gg/pPyevrD2Kz)|
+| [HW 9](/hw9/) | May 4, 2021 | [Canvas](https://canvas.mit.edu/courses/7590/assignments/113414)| [#hw9-sp21](https://discord.gg/gpEB3XHb5D)|
