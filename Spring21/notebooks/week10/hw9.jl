@@ -28,35 +28,7 @@ end
 md"_homework 9, version 1_"
 
 # ╔═╡ 49567f8e-09a2-11eb-34c1-bb5c0b642fe8
-# WARNING FOR OLD PLUTO VERSIONS, DONT DELETE ME
-
-html"""
-<script>
-const warning = html`
-<h2 style="color: #800">Oopsie! You need to update Pluto to the latest version for this homework</h2>
-<p>Close Pluto, go to the REPL, and type:
-<pre><code>julia> import Pkg
-julia> Pkg.update("Pluto")
-</code></pre>
-`
-
-const super_old = window.version_info == null || window.version_info.pluto == null
-if(super_old) {
-	return warning
-}
-const version_str = window.version_info.pluto.substring(1)
-const numbers = version_str.split(".").map(Number)
-console.log(numbers)
-
-if(numbers[0] > 0 || numbers[1] > 12 || numbers[2] > 1) {
-	
-} else {
-	return warning
-}
-
-</script>
-
-"""
+# hello there
 
 # ╔═╡ 181e156c-0970-11eb-0b77-49b143cc0fc0
 md"""
