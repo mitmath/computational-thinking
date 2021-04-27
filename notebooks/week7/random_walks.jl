@@ -257,9 +257,11 @@ md"""
 """
 
 # ╔═╡ c2deb090-9239-11eb-0739-a74379c15ce6
+md"""
 Now suppose we want to think about more general random walks, for example moving around in 2D. Then we need to *generalise* the above function.
 		
 Based on our experience from last time, you should suspect that a good way to do this is with *types*. We will define 
+"""
 
 # ╔═╡ d420d492-91d9-11eb-056d-33cc8f0aed74
 abstract type Walker end
@@ -475,7 +477,7 @@ t = $(@bind tt Slider(1:length(ps), show_value=true, default=1))
 plot(ps[tt], ylim=(0, 1), leg=false, size=(500, 300))
 
 # ╔═╡ dabb5766-9236-11eb-3be9-9b33ba5af68a
-ps[t
+ps[tt]
 
 # ╔═╡ 6cde6ef4-9236-11eb-219a-4d20adaf9988
 M = reduce(hcat, ps)'
@@ -508,7 +510,7 @@ heatmap(M, yflip=true)
 # ╠═2f525796-9239-11eb-1865-9b01eadcf548
 # ╠═51abfe6e-9239-11eb-362a-259570250663
 # ╟─b847b5ca-9239-11eb-02fe-db4d9625bc5f
-# ╠═c2deb090-9239-11eb-0739-a74379c15ce6
+# ╟─c2deb090-9239-11eb-0739-a74379c15ce6
 # ╠═d420d492-91d9-11eb-056d-33cc8f0aed74
 # ╠═ad2d4dd8-91d5-11eb-27af-6f0c6e61a86a
 # ╠═d0f81f28-91d9-11eb-2e79-61461ef5b132
