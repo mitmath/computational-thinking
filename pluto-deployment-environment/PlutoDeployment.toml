@@ -26,4 +26,13 @@ exclude=[
     "notebooks/week20/hw20.jl",
     "notebooks/week21/hw21.jl",
     "notebooks/week22/hw22.jl",
+    "notebooks/week8/hw7.jl",
+    "notebooks/week9/hw8.jl",
+    "notebooks/week10/hw9.jl",
+    "notebooks/week11/hw10.jl",
+    "notebooks/week12/hw11.jl",
+    "notebooks/week13/hw12.jl",
+    "notebooks/week14/hw13.jl",
+    "notebooks/week15/hw14.jl",
+    "notebooks/week16/hw15.jl",
 ]
