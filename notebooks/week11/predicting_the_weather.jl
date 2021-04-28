@@ -874,7 +874,7 @@ function fixed_points(f)
 end
 
 # ╔═╡ Cell order:
-# ╠═1f65fc80-a83b-11eb-2583-89bff1ea8372
+# ╟─1f65fc80-a83b-11eb-2583-89bff1ea8372
 # ╠═88b46d2e-220e-11eb-0f7f-b3f523f0214e
 # ╠═f9dbf2e8-574d-4846-af48-f7e5a82a1afc
 # ╟─a2b2eae2-762e-41c3-a546-0caedc79db7d
