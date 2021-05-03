@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.4
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -12,6 +12,57 @@ macro bind(def, element)
         el
     end
 end
+
+# ╔═╡ 5e0d60b0-ac2b-11eb-0af6-9ba415b4a08c
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 3.4</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Our first climate model </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
 
 # ╔═╡ c7d387fa-cd19-458c-a45d-7893e8c21bbf
 begin
@@ -112,11 +163,17 @@ md"""
 3. plot etc
 """
 
+# ╔═╡ 578a80ad-fcf1-4d5c-81e5-205113bbf78d
+sol = solve(  ODEProblem( f, y₀, (0,10.0), (a,b,forcing(c)) ) );
+
 # ╔═╡ c1d87c42-e1e0-4e52-8023-6cc176266e86
 f(y,(a,b,forcing(c)),t) = a - b*y + forcing(c)(t)
 
 # ╔═╡ adb59adc-b30a-4dc4-bc3f-2804b7e02876
 forcing(c)  =  t->c*t
+
+# ╔═╡ 220420c1-e8cc-4ff6-8b79-ba2ec49c7695
+y₀
 
 # ╔═╡ 7bee45a5-fa62-455b-813a-3e5dcf430289
 md"""
@@ -128,12 +185,6 @@ y₀ = $(@bind y₀ Slider(-5:.1:15, show_value=true, default=2.0) )
 
 c = $(@bind c Slider(0:.1:5, show_value=true, default=0.0) )
 """
-
-# ╔═╡ 578a80ad-fcf1-4d5c-81e5-205113bbf78d
-sol = solve(  ODEProblem( f, y₀, (0,10.0), (a,b,forcing(c)) ) );
-
-# ╔═╡ 220420c1-e8cc-4ff6-8b79-ba2ec49c7695
-y₀
 
 # ╔═╡ bda41881-75c7-4732-9a66-d7947607b1b6
 begin
@@ -184,27 +235,6 @@ md"""
 (an example of $\mathrm{temp}$'=constant)
 """
 
-# ╔═╡ 5123525a-3437-4b76-813c-8ad6b158f7f2
-md"""
-##### (Heating the earth nonstop)
-"""
-
-# ╔═╡ 087f47b2-8283-4205-88f2-4d5883a340c2
-md"""
-
-
-At Earth's orbital distance from the Sun, the power of the Sun's rays that intercept the Earth is equal to
-"""
-
-# ╔═╡ 9c89c4e9-65ee-4424-bd74-17168b211797
-S = 1368; # solar insolation [W/m^2]  (energy per unit time per unit area)
-
-# ╔═╡ ca5b41d2-b511-486a-91fe-cceb8f7282c3
-md"A small fraction"
-
-# ╔═╡ 13984c61-4c34-40db-9043-fcff2721522e
-α = 0.3; # albedo, or planetary reflectivity [unitless]
-
 # ╔═╡ d74936e9-b760-4add-b3e7-46d544064c16
 md"""
 In math we just write down a differential equation, but in the physical world there are physical variables to identify.
@@ -224,6 +254,38 @@ Earth Baking Formula:
 $(html"<br>")
  `` C\  \mathrm{temp}'(t) = S(1-α)/4 = `` $(S*(1-α)/4)
 """
+
+# ╔═╡ 5123525a-3437-4b76-813c-8ad6b158f7f2
+md"""
+##### (Heating the earth nonstop)
+"""
+
+# ╔═╡ 2f19cbac-4f13-4c2b-9b11-fb92e8055527
+begin
+	plot(solve(p1),       legend = false, 
+		 background_color_inside = :black,
+		                  xlabel = "years from $(1850)",
+	                      ylabel = "Temperature °C")
+	hline!( [temp₀,temp₀] ,c=:white,ls=:dash)
+	annotate!( 80, 25+temp₀, text("Preindustrial Temperature = $(temp₀)°C",color=:white))
+	title!("Absorbing Solar Radiation (only)")
+end
+
+# ╔═╡ 087f47b2-8283-4205-88f2-4d5883a340c2
+md"""
+
+
+At Earth's orbital distance from the Sun, the power of the Sun's rays that intercept the Earth is equal to
+"""
+
+# ╔═╡ 9c89c4e9-65ee-4424-bd74-17168b211797
+S = 1368; # solar insolation [W/m^2]  (energy per unit time per unit area)
+
+# ╔═╡ ca5b41d2-b511-486a-91fe-cceb8f7282c3
+md"A small fraction"
+
+# ╔═╡ 13984c61-4c34-40db-9043-fcff2721522e
+α = 0.3; # albedo, or planetary reflectivity [unitless]
 
 # ╔═╡ 868e19f4-d71e-4222-9bdd-470387991c67
 md"""
@@ -249,17 +311,6 @@ end
 
 # ╔═╡ 7187ae25-239d-4752-898e-6674009b5de6
  p1 = ODEProblem( (temp,p,t)-> (1/C) * absorbed_solar_radiation, temp₀,  (0.0,170) )
-
-# ╔═╡ 2f19cbac-4f13-4c2b-9b11-fb92e8055527
-begin
-	plot(solve(p1),       legend = false, 
-		 background_color_inside = :black,
-		                  xlabel = "years from $(1850)",
-	                      ylabel = "Temperature °C")
-	hline!( [temp₀,temp₀] ,c=:white,ls=:dash)
-	annotate!( 80, 25+temp₀, text("Preindustrial Temperature = $(temp₀)°C",color=:white))
-	title!("Absorbing Solar Radiation (only)")
-end
 
 # ╔═╡ ad1e294e-ad8a-48f9-b924-2474cce16aaf
 md"""The heat content $C temp$ is determined by the temperature $temp$ (in Kelvin) and the heat capacity of the climate system. While we are interested in the temperature of the atmosphere, which has a very small heat capacity, its heat is closely coupled with that of the upper ocean, which has a much larger heat capacity of 
@@ -347,6 +398,9 @@ CO₂_PreIndust = 280.; # preindustrial CO2 concentration [parts per million; pp
 # ╔═╡ 437faadd-0301-403a-bcd7-18ce279589d0
 greenhouse_effect(CO₂) = forcing_coef * log(CO₂/CO₂_PreIndust)
 
+# ╔═╡ 1a4d21bd-85ad-4935-913a-8992a8996db4
+greenhouse_effect(CO₂(15))
+
 # ╔═╡ ee6414b7-e92d-4055-af17-6b02f05c28cd
 begin
 	CO2_present = 420.
@@ -365,9 +419,6 @@ begin
 	 # CO₂(t) = CO₂_PreIndust * 1.01^t # test model
 	 CO₂(t) = CO₂_PreIndust * (1+ (t/220)^3 ) 
 end
-
-# ╔═╡ 1a4d21bd-85ad-4935-913a-8992a8996db4
-greenhouse_effect(CO₂(15))
 
 # ╔═╡ 99629ec2-dc70-4253-b191-305bccc9f36b
 p3 = ODEProblem( (temp,p,t)-> (1/C) * ( B*(temp₀-temp)  + greenhouse_effect(CO₂(t))    ) , start_temp,  (0.0,170) )
@@ -441,6 +492,15 @@ md"""
 We will use this fit to compare against historical temperatures.
 """
 
+# ╔═╡ a62ca8d1-321a-435e-a9df-f63d000376c7
+begin
+	plot(years,solp4.(years.-1850),lw=2,label="Predicted Temperature from model", legend=:topleft)
+	xlabel!("year")
+	ylabel!("Temp °C")
+	
+	plot!( parse.(Float64, T_df[:,1]), parse.(Float64, T_df[:,2]) .+ 14.15, color=:black, label="NASA Observations", legend=:topleft)
+end
+
 # ╔═╡ 3304174c-289d-47c5-b5ef-161b11e515eb
 md"""
 Climate feedback BB = $(@bind BB Slider(0:.1:4, show_value=true, default=B))
@@ -480,8 +540,6 @@ html"""
 <iframe width="700" height="394" src="https://www.youtube-nocookie.com/embed/E7kMr2OYKSU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 """
 
-# ╔═╡ 41dfa2a3-58d9-4948-94f3-0eb7f8f407af
-
 
 # ╔═╡ 6800c94d-e7f3-43a8-a823-1c550cb8fc95
 solp4 = solve(p4)
@@ -494,16 +552,8 @@ begin
 	
 end
 
-# ╔═╡ a62ca8d1-321a-435e-a9df-f63d000376c7
-begin
-	plot(years,solp4.(years.-1850),lw=2,label="Predicted Temperature from model", legend=:topleft)
-	xlabel!("year")
-	ylabel!("Temp °C")
-	
-	plot!( parse.(Float64, T_df[:,1]), parse.(Float64, T_df[:,2]) .+ 14.15, color=:black, label="NASA Observations", legend=:topleft)
-end
-
 # ╔═╡ Cell order:
+# ╠═5e0d60b0-ac2b-11eb-0af6-9ba415b4a08c
 # ╟─c7d387fa-cd19-458c-a45d-7893e8c21bbf
 # ╟─14195fc4-40e1-4576-973a-69d649fddc02
 # ╟─92883ed9-5572-41fd-96c7-190279f90804
@@ -571,6 +621,5 @@ end
 # ╟─2b9c3427-c3ec-41ba-b3c5-268cf3dddccf
 # ╟─fef0a76b-98dc-42a0-975b-0fba8a32e5cc
 # ╟─2368f16c-9805-4dd6-a130-d831211f6155
-# ╠═41dfa2a3-58d9-4948-94f3-0eb7f8f407af
 # ╠═6800c94d-e7f3-43a8-a823-1c550cb8fc95
 # ╠═b38727a9-72ff-499f-9751-ddfeee21959c
