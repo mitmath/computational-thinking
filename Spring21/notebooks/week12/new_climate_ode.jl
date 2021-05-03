@@ -462,27 +462,15 @@ md"""Consider two divergent hypothetical futures:
 2. a **high-emissions** world in which emissions continue increasing and CO2 concentrations soar upwards of 1200 ppm ("RCP2.6").
 """
 
-# ╔═╡ 698013bd-a41c-4ae4-8e18-34166272f75f
-begin	
-	CO2_RCP26(t) = CO2_PI * (1 .+ fractional_increase(t) .* min.(1., exp.(-((t .-1850.).-170)/100))) ;
-	RCP26 = EBM(T0, 1850., 1., CO2_RCP26)
-	run!(RCP26, 2100.)
-	
-	CO2_RCP85(t) = CO2_PI * (1 .+ fractional_increase(t) .* max.(1., exp.(((t .-1850.).-170)/100)));
-	RCP85 = EBM(T0, 1850., 1., CO2_RCP85)
-	run!(RCP85, 2100.)
-end;
+# ╔═╡ a2288816-3621-4871-9faf-3e9c78674969
+md"""
+![](https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week12/predictthefuture.svg)
+"""
 
 # ╔═╡ 2b9c3427-c3ec-41ba-b3c5-268cf3dddccf
 md"""
 In the low-emissions scenario, the temperature increase stays below $ΔT = 2$ °C by 2100, while in the high-emissions scenario temperatures soar upwards of 3.5ºC above pre-industrial levels.
 """
-
-# ╔═╡ e49ed9e7-f569-42e2-8fa4-ea0cee9c071d
-
-
-# ╔═╡ 098e0177-0b33-4087-ab7d-8006929c3375
-
 
 # ╔═╡ fef0a76b-98dc-42a0-975b-0fba8a32e5cc
 md"Although the greenhouse effect due to human-caused CO₂ emissions is the dominant forcing behind historical and future-projected warming, modern climate modelling considers a fairly exhaustive list of other forcing factors (aerosols, other greenhouse gases, ozone, land-use changes, etc.). The video below shows a breakdown of these forcing factors in a state-of-the-art climate model simulation of the historical period."
@@ -516,8 +504,8 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╠═c7d387fa-cd19-458c-a45d-7893e8c21bbf
-# ╠═14195fc4-40e1-4576-973a-69d649fddc02
+# ╟─c7d387fa-cd19-458c-a45d-7893e8c21bbf
+# ╟─14195fc4-40e1-4576-973a-69d649fddc02
 # ╟─92883ed9-5572-41fd-96c7-190279f90804
 # ╟─340fc7c4-128f-4476-b445-65005ffa9f5a
 # ╟─7673c7b7-0921-4a7e-ae4d-e785c6391a0c
@@ -579,10 +567,8 @@ end
 # ╠═13269c86-06a4-4354-b620-bdf3f6432294
 # ╟─28acb5a4-2a5f-49c5-9c78-deb40fdeed36
 # ╟─13b003d2-1fd4-4a4a-960c-4a1d9b673dc6
-# ╠═698013bd-a41c-4ae4-8e18-34166272f75f
-# ╠═2b9c3427-c3ec-41ba-b3c5-268cf3dddccf
-# ╠═e49ed9e7-f569-42e2-8fa4-ea0cee9c071d
-# ╠═098e0177-0b33-4087-ab7d-8006929c3375
+# ╟─a2288816-3621-4871-9faf-3e9c78674969
+# ╟─2b9c3427-c3ec-41ba-b3c5-268cf3dddccf
 # ╟─fef0a76b-98dc-42a0-975b-0fba8a32e5cc
 # ╟─2368f16c-9805-4dd6-a130-d831211f6155
 # ╠═41dfa2a3-58d9-4948-94f3-0eb7f8f407af
