@@ -127,9 +127,11 @@ function process_book_item(section::Section)
     if startswith(first_cell.code, "html")
         # We can just overwrite this cell
         first_cell.code = new_cell_code
+        first_cell.code_folded = true
     else
         # We get to add a new cell
         new_cell = Pluto.Cell(new_cell_code)
+        new_cell.code_folded = true
         push!(cells_dict,new_cell.cell_id => new_cell)
         insert!(cell_order, 1, new_cell.cell_id)
     end
