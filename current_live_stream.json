@@ -1,7 +1,7 @@
 {
 	"url": "https://www.youtube.com/watch?v=J1UsMa1cTeE",
 	"show_stay_tuned": false,
-	"show_livestream": true,
+	"show_livestream": false,
 	"todays_notebook": "our_first_climate_model",
 	"announce": "Next class is Wednesday, May 5th, 1:05pm EDT"
 }
