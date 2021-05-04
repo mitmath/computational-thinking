@@ -13,7 +13,7 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 5e0d60b0-ac2b-11eb-0af6-9ba415b4a08c
+# ╔═╡ 42085492-ac8c-11eb-0620-adcb307077f1
 html"""
 <div style="
 position: absolute;
@@ -54,7 +54,7 @@ opacity: .8;
 "><em>Lecture Video</em></p>
 <div style="display: flex; justify-content: center;">
 <div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<iframe src="https://www.youtube.com/embed/J1UsMa1cTeE" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 </div>
 </div>
 
@@ -553,7 +553,7 @@ begin
 end
 
 # ╔═╡ Cell order:
-# ╠═5e0d60b0-ac2b-11eb-0af6-9ba415b4a08c
+# ╟─42085492-ac8c-11eb-0620-adcb307077f1
 # ╟─c7d387fa-cd19-458c-a45d-7893e8c21bbf
 # ╟─14195fc4-40e1-4576-973a-69d649fddc02
 # ╟─92883ed9-5572-41fd-96c7-190279f90804
