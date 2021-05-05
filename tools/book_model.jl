@@ -43,7 +43,8 @@ book_model = [
     Section(3, 1, "Time stepping", "notebooks/week10/time_stepping.jl", "3Y5gVyO8KcI"),
     Section(3, 2, "ODEs and parameterized types", "notebooks/week11/odes_and_parameterized_types.jl", "S71YIZ8e7MQ"),
     Section(3, 3, "Why we can't predict the weather", "notebooks/week11/predicting_the_weather.jl", "M3udLzIHtsc"), 
-    Section(3, 4, "Our first climate model", "notebooks/week12/our_first_climate_model.jl", "J1UsMa1cTeE")
+    Section(3, 4, "Our first climate model", "notebooks/week12/our_first_climate_model.jl", "J1UsMa1cTeE"),
+    Section(3, 5, "How to collaborate on software", "notebooks/week12/how_to_collaborate_on_software.jl", ""),
 
 
 ]
