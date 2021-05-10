@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.5
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
@@ -12,6 +12,57 @@ macro bind(def, element)
         el
     end
 end
+
+# ╔═╡ d84dbb08-b1a4-11eb-2d3b-0711fddd1347
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 3.6</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Snowball Earth and hysteresis </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
 
 # ╔═╡ a0b3813e-adab-11eb-2983-616cf2bb6f5e
 using DifferentialEquations, Plots, PlutoUI, LinearAlgebra
@@ -82,16 +133,6 @@ md"""
 The graph of `z=f(y,a)`  consists of two parallel half-planes. On the left below we intersect that graph with planes of constant `a`.  On the right, we have the intersection with `z=0`. 
 """
 
-# ╔═╡ 991f14bb-fc4a-4505-a3be-5ced2fb148b6
-
-
-# ╔═╡ 61960e99-2932-4a8f-9e87-f64a7a043489
-md"""
-a = $(@bind a Slider(-5:.1:5, show_value=true, default=0) )
-
-
-"""
-
 # ╔═╡ bd65e7f9-ecf2-43ac-b5a8-99b03866a5c8
 begin
 	plot( y->f(y,a, 0), -9, -eps(), xlabel="y" , ylabel="sign(y)-y+a", lw=3,color=:blue)
@@ -141,6 +182,16 @@ begin
 end
 end
 
+# ╔═╡ 991f14bb-fc4a-4505-a3be-5ced2fb148b6
+
+
+# ╔═╡ 61960e99-2932-4a8f-9e87-f64a7a043489
+md"""
+a = $(@bind a Slider(-5:.1:5, show_value=true, default=0) )
+
+
+"""
+
 # ╔═╡ 9acf9b8a-7fde-46c7-bf0c-c4dedc5a064b
 md"""
 The above are two section views of the surface z=f(y,a). Left: constant a.  Right: z =0.
@@ -162,6 +213,9 @@ The above are two section views of the surface z=f(y,a). Left: constant a.  Righ
 # ╔═╡ 6f61180d-6900-48fa-998d-36110e79d2dc
 gr()
 
+# ╔═╡ a09a0064-c6ab-4912-bc9f-96ab72b8bbca
+sol = solve(  ODEProblem( f, y₀, (0,10.0), a ));
+
 # ╔═╡ 5027e1f8-8c50-4538-949e-6c95c550016e
 md"""
 ### Solution to y' = f(y,a) 
@@ -173,8 +227,8 @@ md"""
 y₀ = $(@bind y₀ Slider(-6:.1:6, show_value=true, default=2.0) )
 """
 
-# ╔═╡ a09a0064-c6ab-4912-bc9f-96ab72b8bbca
-sol = solve(  ODEProblem( f, y₀, (0,10.0), a ));
+# ╔═╡ a4686bca-90d6-4e02-961c-59f08fc37553
+plotit(y₀, a)
 
 # ╔═╡ f8ee2373-6af0-4d81-98fb-23bde10198ef
 function plotit(y₀, a)
@@ -214,9 +268,6 @@ function plotit(y₀, a)
     title!("Solution to y'=f(y,a)")
 return(p)
 end
-
-# ╔═╡ a4686bca-90d6-4e02-961c-59f08fc37553
-plotit(y₀, a)
 
 # ╔═╡ a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
 md"""
@@ -340,6 +391,14 @@ html"""
 <img src="https://news.cnrs.fr/sites/default/files/styles/asset_image_full/public/assets/images/frise_earths_glaciations_72dpi.jpg?itok=MgKrHlIV" height=500>
 """
 
+# ╔═╡ 066743eb-c890-40b9-9f6b-9f79b7ebcbd2
+md"""### 1.1) The ice-albedo feedback
+
+In Lecture 20, we used a **constant** value $α =$ $(Model.hist.α) for Earth's planetary albedo, which is a reasonable thing to do for small climate variations relative to the present (such as the difference between the present-day and preindustrial climates). In the case of large variations, however, this approximation is not very reliable.
+
+While oceans are dark and absorbant, $α_{ocean} \approx 0.05$, ice and snow are bright and reflective: $\alpha_{ice,\,snow} \approx 0.5$ to $0.9$. Thus, if much of the ocean's surface freezes over, we expect Earth's albedo to rise dramatically, causing more sunlight to be reflected to space, which in turn causes even more cooling and more of the ocean to freeze, etc. This *non-linear positive feedback effect* is referred to as the **ice-albedo feedback** (see illustration below).
+"""
+
 # ╔═╡ 70ec6ae9-601f-4862-96cb-f251d4b5a7fd
 html"""
 <img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Ice_albedo_feedback.jpg" height=350>
@@ -356,12 +415,37 @@ $\alpha(T) = \begin{cases}
 \end{cases}$
 """
 
+# ╔═╡ 40b5e447-0cfb-4f35-8f95-6aa29793e5ad
+begin
+	T_example = -20.:1.:20.
+	plot(size=(600, 400), ylims=(0.2, 0.6))
+	plot!([-20, -10], [0.2, 0.2], fillrange=[0.6, 0.6], color=:lightblue, alpha=0.2, label=nothing)
+	plot!([10, 20], [0.2, 0.2], fillrange=[0.6, 0.6], color=:red, alpha=0.12, label=nothing)
+	plot!(T_example, α.(T_example), lw=3., label="α(T)", color=:black)
+	plot!(ylabel="albedo α\n(planetary reflectivity)", xlabel="Temperature [°C]")
+	annotate!(-15.5, 0.252, text("completely\nfrozen", 10, :darkblue))
+	annotate!(15.5, 0.252, text("no ice", 10, :darkred))
+	annotate!(-0.3, 0.252, text("partially frozen", 10, :darkgrey))
+	
+end
+
 # ╔═╡ fca6c4ec-4d0c-4f97-b966-ce3a81a18710
 md"""
 ### 1.2) Adding the ice-albedo feedback to our simple climate model
 
 First, we program albedo as a function of temperature.
 """
+
+# ╔═╡ b1fee17b-6522-4cf0-a614-5ff8aa8f8614
+function α(T; α0=Model.α, αi=0.5, ΔT=10.)
+	if T < -ΔT
+		return αi
+	elseif -ΔT <= T < ΔT
+		return αi + (α0-αi)*(T+ΔT)/(2ΔT)
+	elseif T >= ΔT
+		return α0
+	end
+end
 
 # ╔═╡ cfde8137-cfcd-46de-9c26-8abb64b6b3a9
 md"""
@@ -466,39 +550,6 @@ end
 
 end
 
-# ╔═╡ 066743eb-c890-40b9-9f6b-9f79b7ebcbd2
-md"""### 1.1) The ice-albedo feedback
-
-In Lecture 20, we used a **constant** value $α =$ $(Model.hist.α) for Earth's planetary albedo, which is a reasonable thing to do for small climate variations relative to the present (such as the difference between the present-day and preindustrial climates). In the case of large variations, however, this approximation is not very reliable.
-
-While oceans are dark and absorbant, $α_{ocean} \approx 0.05$, ice and snow are bright and reflective: $\alpha_{ice,\,snow} \approx 0.5$ to $0.9$. Thus, if much of the ocean's surface freezes over, we expect Earth's albedo to rise dramatically, causing more sunlight to be reflected to space, which in turn causes even more cooling and more of the ocean to freeze, etc. This *non-linear positive feedback effect* is referred to as the **ice-albedo feedback** (see illustration below).
-"""
-
-# ╔═╡ b1fee17b-6522-4cf0-a614-5ff8aa8f8614
-function α(T; α0=Model.α, αi=0.5, ΔT=10.)
-	if T < -ΔT
-		return αi
-	elseif -ΔT <= T < ΔT
-		return αi + (α0-αi)*(T+ΔT)/(2ΔT)
-	elseif T >= ΔT
-		return α0
-	end
-end
-
-# ╔═╡ 40b5e447-0cfb-4f35-8f95-6aa29793e5ad
-begin
-	T_example = -20.:1.:20.
-	plot(size=(600, 400), ylims=(0.2, 0.6))
-	plot!([-20, -10], [0.2, 0.2], fillrange=[0.6, 0.6], color=:lightblue, alpha=0.2, label=nothing)
-	plot!([10, 20], [0.2, 0.2], fillrange=[0.6, 0.6], color=:red, alpha=0.12, label=nothing)
-	plot!(T_example, α.(T_example), lw=3., label="α(T)", color=:black)
-	plot!(ylabel="albedo α\n(planetary reflectivity)", xlabel="Temperature [°C]")
-	annotate!(-15.5, 0.252, text("completely\nfrozen", 10, :darkblue))
-	annotate!(15.5, 0.252, text("no ice", 10, :darkred))
-	annotate!(-0.3, 0.252, text("partially frozen", 10, :darkgrey))
-	
-end
-
 # ╔═╡ e9942719-93cc-4203-8d37-8f91539104b1
 function Model.timestep!(ebm)
 	ebm.α = α(ebm.T[end]) # Added this line
@@ -537,6 +588,14 @@ begin
 	ebm_interact = Model.EBM(Float64(T0_interact), 0., 1., Model.CO2_const)
 	Model.run!(ebm_interact, 200)
 end
+
+# ╔═╡ 0b6bfab9-96e9-4d7a-a486-4582d7303244
+begin
+	p_interact = plot(ebm_interact.t, ebm_interact.T, label=nothing, lw=3)
+	plot!([0.], [T0_interact], label=nothing, markersize=4, markershape=:circle)
+	
+	add_labels!(p_interact)
+end |> as_svg
 
 # ╔═╡ 9b6edae8-fbf0-4979-9536-c0f782ba70a7
 md"We can get an overview of the behavior by drawing a set of these curves all on the same graph:"
@@ -639,6 +698,61 @@ md"In the Neoproterozoic (~700 million years ago), the Sun was 93% as bright as 
 If we start out in the Neoproterozoic climate and all we do is increase solar insolation to today's value of $S =$ 1368 W/m², can we warm the planet up to the pre-industrial temperature of $T=14$°C?
 "
 
+# ╔═╡ eb0307f1-c828-41f9-bc49-2aedd5b588e1
+begin
+	md"""
+	*Move the slider below to change the brightness of the Sun (solar insolation):* S = $(S) [W/m²]
+	"""
+end
+
+# ╔═╡ ada47602-2cf6-4ef5-b1ba-0b1c6f81ad91
+begin
+	if extend_S
+		solarSlider = @bind S Slider(Smin:2.:Smax, default=Sneo);
+		md""" $(Smin) W/m² $(solarSlider) $(Smax) W/m²"""
+	else
+		solarSlider = @bind S Slider(Smin:2.:Smax_limited, default=Sneo);
+		md""" $(Smin) W/m² $(solarSlider) $(Smax_limited) W/m²"""
+	end
+end
+
+# ╔═╡ 5ebe385f-3542-4674-b419-fb54519aa945
+begin
+	S
+	warming_mask = (1:size(Svec)[1]) .< size(Svec)./2
+	p = plot(xlims=(Smin, Smax_limited), ylims=(-55, 75), title="Earth's solar insolation bifurcation diagram")
+	# plot!([Model.S, Model.S], [-55, 75], color=:yellow, alpha=0.3, lw=8, label="Pre-industrial / present insolation")
+	# if extend_S
+	# 	plot!(p, xlims=(Smin, Smax))
+	# 	if show_cold
+	# 		plot!(Svec[warming_mask], Tvec[warming_mask], color=:blue,lw=3., alpha=0.5, label="cool branch")
+	# 	end
+	# 	if show_warm
+	# 		plot!(Svec[.!warming_mask], Tvec[.!warming_mask], color="red", lw=3., alpha=0.5, label="warm branch")
+	# 	end
+	# 	if show_unstable
+	# 		plot!(S_unstable, T_unstable, color=:darkgray, lw=3., alpha=0.4, ls=:dash, label="unstable branch")
+	# 	end
+	# end
+	# plot!(legend=:topleft)
+	# plot!(xlabel="solar insolation S [W/m²]", ylabel="Global temperature T [°C]")
+	# plot!([Model.S], [Model.T0], markershape=:circle, label="Our preindustrial climate", color=:orange, markersize=8)
+	# plot!([Model.S], [-38.3], markershape=:circle, label="Alternate preindustrial climate", color=:aqua, markersize=8)
+	# plot!([Sneo], [Tneo], markershape=:circle, label="neoproterozoic (700 Mya)", color=:lightblue, markersize=8)
+	plot_trajectory!(p, reverse(Straj), reverse(Ttraj), lw=9)
+	
+	plot!([Smin, Smax], [-60, -60], fillrange=[-10., -10.], fillalpha=0.3, c=:lightblue, label=nothing)
+	annotate!(Smin+12, -19, text("completely\nfrozen", 10, :darkblue, :left))
+	
+	plot!([Smin, Smax], [10, 10], fillrange=[80., 80.], fillalpha=0.09, c=:red, lw=0., label=nothing)
+	annotate!(Smin+12, 15, text("no ice", 10, :darkred, :left))
+end |> as_svg
+
+# ╔═╡ 72e822ef-0256-4612-8b6d-654ba6f6a83f
+md"""
+For insolations $S$ between $(Smin) W/m² and $(Smax_limited) W/m², temperatures always remain below -10°C and the planet remains completely frozen. What if we extend the upper limit on insolation so that the Sun becomes bright enough to start melting ice?
+"""
+
 # ╔═╡ 10815b22-b920-4cb7-a078-4d5ef457ebf2
 md"""*Extend upper-limit of insolation* $(@bind extend_S CheckBox(default=false))"""
 
@@ -732,7 +846,6 @@ function ingredients(path::String)
 	m
 end
 
-# ╔═╡ 851720e1-ed1e-4b6c-8445-d5d6ee603dbf
 
 
 # ╔═╡ 3e84f2e2-f2d3-41ce-903f-5596096c55ba
@@ -745,6 +858,32 @@ function restart_ebm!(ebm)
 	ebm.T = [ebm.T[end]]
 	ebm.t = [ebm.t[1]]
 end
+
+# ╔═╡ 0b654bc2-9f01-42e5-a21d-e047ccbe43e2
+begin
+	ebm = Model.EBM(Tneo, 0., 5., Model.CO2_const)
+	ebm.S = Sneo
+	
+	ntraj = 10
+	Ttraj = repeat([NaN], ntraj)
+	Straj = repeat([NaN], ntraj)
+	
+	md"**Data structures for storing trajectories of recent climates**"
+end
+
+# ╔═╡ 7b21aa83-f4fc-48d2-81ac-c120dd421d73
+begin
+	S
+	restart_ebm!(ebm)
+	ebm.S = S
+	Model.run!(ebm, 500)
+
+	insert!(Straj, 1, copy(S))
+	pop!(Straj)
+
+	insert!(Ttraj, 1, copy(ebm.T[end]))
+	pop!(Ttraj)
+end;
 
 # ╔═╡ 80caaf52-062b-43c5-93c9-3bbdc2d61cec
 function plot_trajectory!(p, x, y; lw=8)
@@ -775,11 +914,6 @@ begin
 	md"**Data structures for storing warm & cool branch climates**"
 end
 
-# ╔═╡ 72e822ef-0256-4612-8b6d-654ba6f6a83f
-md"""
-For insolations $S$ between $(Smin) W/m² and $(Smax_limited) W/m², temperatures always remain below -10°C and the planet remains completely frozen. What if we extend the upper limit on insolation so that the Sun becomes bright enough to start melting ice?
-"""
-
 # ╔═╡ ff687478-30a2-4d6e-9a62-859c61db6a34
 begin
 	T_unstable_branch(S, A, B, αi, α0) = (
@@ -803,14 +937,6 @@ function add_labels!(p)
 	annotate!(p, 120, 25, text("no ice", 10, :darkred))
 end
 
-# ╔═╡ 0b6bfab9-96e9-4d7a-a486-4582d7303244
-begin
-	p_interact = plot(ebm_interact.t, ebm_interact.T, label=nothing, lw=3)
-	plot!([0.], [T0_interact], label=nothing, markersize=4, markershape=:circle)
-	
-	add_labels!(p_interact)
-end |> as_svg
-
 # ╔═╡ f5361e48-e613-4fed-8da3-5576feea776d
 begin
 	Sneo = Model.S*0.93
@@ -818,92 +944,17 @@ begin
 	md"**Initial conditions**"
 end
 
-# ╔═╡ ada47602-2cf6-4ef5-b1ba-0b1c6f81ad91
-begin
-	if extend_S
-		solarSlider = @bind S Slider(Smin:2.:Smax, default=Sneo);
-		md""" $(Smin) W/m² $(solarSlider) $(Smax) W/m²"""
-	else
-		solarSlider = @bind S Slider(Smin:2.:Smax_limited, default=Sneo);
-		md""" $(Smin) W/m² $(solarSlider) $(Smax_limited) W/m²"""
-	end
-end
-
-# ╔═╡ eb0307f1-c828-41f9-bc49-2aedd5b588e1
-begin
-	md"""
-	*Move the slider below to change the brightness of the Sun (solar insolation):* S = $(S) [W/m²]
-	"""
-end
-
-# ╔═╡ 0b654bc2-9f01-42e5-a21d-e047ccbe43e2
-begin
-	ebm = Model.EBM(Tneo, 0., 5., Model.CO2_const)
-	ebm.S = Sneo
-	
-	ntraj = 10
-	Ttraj = repeat([NaN], ntraj)
-	Straj = repeat([NaN], ntraj)
-	
-	md"**Data structures for storing trajectories of recent climates**"
-end
-
-# ╔═╡ 5ebe385f-3542-4674-b419-fb54519aa945
-begin
-	S
-	warming_mask = (1:size(Svec)[1]) .< size(Svec)./2
-	p = plot(xlims=(Smin, Smax_limited), ylims=(-55, 75), title="Earth's solar insolation bifurcation diagram")
-	# plot!([Model.S, Model.S], [-55, 75], color=:yellow, alpha=0.3, lw=8, label="Pre-industrial / present insolation")
-	# if extend_S
-	# 	plot!(p, xlims=(Smin, Smax))
-	# 	if show_cold
-	# 		plot!(Svec[warming_mask], Tvec[warming_mask], color=:blue,lw=3., alpha=0.5, label="cool branch")
-	# 	end
-	# 	if show_warm
-	# 		plot!(Svec[.!warming_mask], Tvec[.!warming_mask], color="red", lw=3., alpha=0.5, label="warm branch")
-	# 	end
-	# 	if show_unstable
-	# 		plot!(S_unstable, T_unstable, color=:darkgray, lw=3., alpha=0.4, ls=:dash, label="unstable branch")
-	# 	end
-	# end
-	# plot!(legend=:topleft)
-	# plot!(xlabel="solar insolation S [W/m²]", ylabel="Global temperature T [°C]")
-	# plot!([Model.S], [Model.T0], markershape=:circle, label="Our preindustrial climate", color=:orange, markersize=8)
-	# plot!([Model.S], [-38.3], markershape=:circle, label="Alternate preindustrial climate", color=:aqua, markersize=8)
-	# plot!([Sneo], [Tneo], markershape=:circle, label="neoproterozoic (700 Mya)", color=:lightblue, markersize=8)
-	plot_trajectory!(p, reverse(Straj), reverse(Ttraj), lw=9)
-	
-	plot!([Smin, Smax], [-60, -60], fillrange=[-10., -10.], fillalpha=0.3, c=:lightblue, label=nothing)
-	annotate!(Smin+12, -19, text("completely\nfrozen", 10, :darkblue, :left))
-	
-	plot!([Smin, Smax], [10, 10], fillrange=[80., 80.], fillalpha=0.09, c=:red, lw=0., label=nothing)
-	annotate!(Smin+12, 15, text("no ice", 10, :darkred, :left))
-end |> as_svg
-
-# ╔═╡ 7b21aa83-f4fc-48d2-81ac-c120dd421d73
-begin
-	S
-	restart_ebm!(ebm)
-	ebm.S = S
-	Model.run!(ebm, 500)
-
-	insert!(Straj, 1, copy(S))
-	pop!(Straj)
-
-	insert!(Ttraj, 1, copy(ebm.T[end]))
-	pop!(Ttraj)
-end;
-
 # ╔═╡ Cell order:
+# ╟─d84dbb08-b1a4-11eb-2d3b-0711fddd1347
 # ╠═a0b3813e-adab-11eb-2983-616cf2bb6f5e
 # ╠═ef8d6690-720d-4772-a41f-b260d306b5b2
 # ╟─26e1879d-ab57-452a-a09f-49493e65b774
 # ╟─fd12468f-de16-47cc-8210-9266ca9548c2
-# ╠═30969341-9079-4732-bf55-d6bba2c2c16c
+# ╟─30969341-9079-4732-bf55-d6bba2c2c16c
 # ╟─5bf3fe83-d096-4df1-8476-0a6500b01868
 # ╠═af7f36d9-adca-48b8-95bb-ac620e6f1b4f
 # ╠═790add0f-c83f-4824-92ae-53159ce58f64
-# ╠═21210cfa-0366-4019-86f7-158fdd5f21ad
+# ╟─21210cfa-0366-4019-86f7-158fdd5f21ad
 # ╟─978e5fc0-ddd1-4e93-a243-a95d414123b9
 # ╠═6139554e-c6c9-4252-9d64-042074f68391
 # ╟─e115cbbc-9d49-4fa1-8701-fa48289a0916
@@ -914,14 +965,14 @@ end;
 # ╟─9bc33f22-c065-4c1d-b06f-78c70415a111
 # ╠═6f61180d-6900-48fa-998d-36110e79d2dc
 # ╠═a09a0064-c6ab-4912-bc9f-96ab72b8bbca
-# ╠═5027e1f8-8c50-4538-949e-6c95c550016e
-# ╠═465f637c-0555-498b-a881-a2f6e5714cbb
+# ╟─5027e1f8-8c50-4538-949e-6c95c550016e
+# ╟─465f637c-0555-498b-a881-a2f6e5714cbb
 # ╠═a4686bca-90d6-4e02-961c-59f08fc37553
 # ╟─f8ee2373-6af0-4d81-98fb-23bde10198ef
-# ╠═a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
+# ╟─a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
 # ╟─fd882095-6cc4-4927-967c-6b02d5b1ad95
 # ╟─10693e53-3741-4388-b3b1-eba739ec01d0
-# ╠═11b3fb9e-5922-4350-9424-51fba33502d4
+# ╟─11b3fb9e-5922-4350-9424-51fba33502d4
 # ╟─b71fca45-9687-4a51-8e1c-1f413e83e58d
 # ╟─d993a2fc-2319-4f64-8a17-904a57593da2
 # ╟─4bdc0f0c-e696-4d87-b10c-8a0da9a0ee5b
@@ -942,31 +993,30 @@ end;
 # ╠═0b6bfab9-96e9-4d7a-a486-4582d7303244
 # ╟─9b6edae8-fbf0-4979-9536-c0f782ba70a7
 # ╠═81d823a6-5c92-496a-96f1-a0f4762f1f05
-# ╠═28924aef-9157-4490-afa5-7f232a5101f0
-# ╠═5eb888e1-ba95-4aa1-97c0-784dc9d9e6d5
+# ╟─28924aef-9157-4490-afa5-7f232a5101f0
+# ╟─5eb888e1-ba95-4aa1-97c0-784dc9d9e6d5
 # ╠═18922c20-62dc-4524-8300-bbab4db828a9
 # ╠═22328073-bb46-4ec2-9fdf-17c0daff5741
-# ╠═9c4ac33a-ebbd-47db-9057-91624b0a2497
-# ╠═2798028c-d971-45e4-9484-bdec7e8dc048
-# ╠═5fc03f0f-ae12-476f-93f8-6285ee7f5fc9
+# ╟─9c4ac33a-ebbd-47db-9057-91624b0a2497
+# ╟─2798028c-d971-45e4-9484-bdec7e8dc048
+# ╟─5fc03f0f-ae12-476f-93f8-6285ee7f5fc9
 # ╠═eb0307f1-c828-41f9-bc49-2aedd5b588e1
 # ╠═ada47602-2cf6-4ef5-b1ba-0b1c6f81ad91
 # ╠═5ebe385f-3542-4674-b419-fb54519aa945
-# ╠═72e822ef-0256-4612-8b6d-654ba6f6a83f
-# ╠═10815b22-b920-4cb7-a078-4d5ef457ebf2
+# ╟─72e822ef-0256-4612-8b6d-654ba6f6a83f
+# ╟─10815b22-b920-4cb7-a078-4d5ef457ebf2
 # ╠═984f0489-7430-43b9-8926-9d7c32e7da63
 # ╠═bf0dd94d-e861-478a-9bb0-d34d17405fcc
-# ╠═81088439-312a-4042-bcee-c021e5e3f6b7
-# ╠═9d79d1ed-a538-4eda-bbe2-4b3858cc4e01
-# ╠═5b574c5a-ce4b-4804-aa6c-58e0f7459520
-# ╠═66c35971-30fb-4743-b65e-d2e527e15be7
-# ╠═b15da4ce-8fdf-4d75-9060-0cdf648c5355
-# ╠═e3e0b838-19a9-4f9b-9026-0b546d3c416b
-# ╠═c2db5c70-b854-48b5-ba20-b64e2c7cf680
-# ╠═8eee86b6-f8e4-4016-a203-8e5e2a8b44e4
+# ╟─81088439-312a-4042-bcee-c021e5e3f6b7
+# ╟─9d79d1ed-a538-4eda-bbe2-4b3858cc4e01
+# ╟─5b574c5a-ce4b-4804-aa6c-58e0f7459520
+# ╟─66c35971-30fb-4743-b65e-d2e527e15be7
+# ╟─b15da4ce-8fdf-4d75-9060-0cdf648c5355
+# ╟─e3e0b838-19a9-4f9b-9026-0b546d3c416b
+# ╟─c2db5c70-b854-48b5-ba20-b64e2c7cf680
+# ╟─8eee86b6-f8e4-4016-a203-8e5e2a8b44e4
 # ╠═764a1d24-cfc2-4e28-90bb-fba264dc8956
-# ╠═851720e1-ed1e-4b6c-8445-d5d6ee603dbf
-# ╠═3e84f2e2-f2d3-41ce-903f-5596096c55ba
+# ╟─3e84f2e2-f2d3-41ce-903f-5596096c55ba
 # ╠═6a96738f-4864-48b8-b345-570c895633cd
 # ╠═0b654bc2-9f01-42e5-a21d-e047ccbe43e2
 # ╠═7b21aa83-f4fc-48d2-81ac-c120dd421d73
