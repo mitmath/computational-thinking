@@ -54,7 +54,8 @@ sign(-Inf)
 
 # ╔═╡ 21210cfa-0366-4019-86f7-158fdd5f21ad
 md"""
-# Mathematics of multiple equilibria
+# Mathematics:multiple equilibria.  
+## Using computation to explore hysteresis.
 """
 
 # ╔═╡ 978e5fc0-ddd1-4e93-a243-a95d414123b9
@@ -163,7 +164,7 @@ gr()
 
 # ╔═╡ 5027e1f8-8c50-4538-949e-6c95c550016e
 md"""
-## Solution to y' = f(y,a) 
+### Solution to y' = f(y,a) 
 with y(0)=y₀
 """
 
@@ -219,7 +220,7 @@ plotit(y₀, a)
 
 # ╔═╡ a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
 md"""
-## Hysteresis: Increasing then decreasing ``a``
+### Hysteresis: Increasing then decreasing ``a``
 Let's increase a by .25 from -4 to 4 then decrease from -4 to 4.
 Every time we change a, we let 10 units of time evolve, enough
 to reach the equilibriumf for that a, and watch the y values.
@@ -279,6 +280,12 @@ let
 	as_svg(plot!())
 end
 
+# ╔═╡ 10693e53-3741-4388-b3b1-eba739ec01d0
+md"""
+ The dependence of the state of a system on its history, what we observe above,
+is known as *hysteresis* (Greek (ὑστέρησις) for lagging behind).
+"""
+
 # ╔═╡ 11b3fb9e-5922-4350-9424-51fba33502d4
 md"""
 # Application to Snowball Earth, the ice-albedo feedback
@@ -330,7 +337,7 @@ Geological evidence shows that the Neoproterozoic Era (550 to 1000 million years
 # ╔═╡ 7b7b631e-2ba3-4ed3-bad0-ec6ecb70ad49
 html"""
 
-<img src="https://news.cnrs.fr/sites/default/files/styles/asset_image_full/public/assets/images/frise_earths_glaciations_72dpi.jpg?itok=MgKrHlIV" height=400>
+<img src="https://news.cnrs.fr/sites/default/files/styles/asset_image_full/public/assets/images/frise_earths_glaciations_72dpi.jpg?itok=MgKrHlIV" height=500>
 """
 
 # ╔═╡ 70ec6ae9-601f-4862-96cb-f251d4b5a7fd
@@ -481,7 +488,7 @@ end
 # ╔═╡ 40b5e447-0cfb-4f35-8f95-6aa29793e5ad
 begin
 	T_example = -20.:1.:20.
-	plot(size=(500, 230), ylims=(0.2, 0.6))
+	plot(size=(600, 400), ylims=(0.2, 0.6))
 	plot!([-20, -10], [0.2, 0.2], fillrange=[0.6, 0.6], color=:lightblue, alpha=0.2, label=nothing)
 	plot!([10, 20], [0.2, 0.2], fillrange=[0.6, 0.6], color=:red, alpha=0.12, label=nothing)
 	plot!(T_example, α.(T_example), lw=3., label="α(T)", color=:black)
@@ -489,6 +496,7 @@ begin
 	annotate!(-15.5, 0.252, text("completely\nfrozen", 10, :darkblue))
 	annotate!(15.5, 0.252, text("no ice", 10, :darkred))
 	annotate!(-0.3, 0.252, text("partially frozen", 10, :darkgrey))
+	
 end
 
 # ╔═╡ e9942719-93cc-4203-8d37-8f91539104b1
@@ -895,7 +903,7 @@ end;
 # ╟─5bf3fe83-d096-4df1-8476-0a6500b01868
 # ╠═af7f36d9-adca-48b8-95bb-ac620e6f1b4f
 # ╠═790add0f-c83f-4824-92ae-53159ce58f64
-# ╟─21210cfa-0366-4019-86f7-158fdd5f21ad
+# ╠═21210cfa-0366-4019-86f7-158fdd5f21ad
 # ╟─978e5fc0-ddd1-4e93-a243-a95d414123b9
 # ╠═6139554e-c6c9-4252-9d64-042074f68391
 # ╟─e115cbbc-9d49-4fa1-8701-fa48289a0916
@@ -912,6 +920,7 @@ end;
 # ╟─f8ee2373-6af0-4d81-98fb-23bde10198ef
 # ╠═a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
 # ╟─fd882095-6cc4-4927-967c-6b02d5b1ad95
+# ╟─10693e53-3741-4388-b3b1-eba739ec01d0
 # ╠═11b3fb9e-5922-4350-9424-51fba33502d4
 # ╟─b71fca45-9687-4a51-8e1c-1f413e83e58d
 # ╟─d993a2fc-2319-4f64-8a17-904a57593da2
@@ -920,7 +929,7 @@ end;
 # ╟─066743eb-c890-40b9-9f6b-9f79b7ebcbd2
 # ╟─70ec6ae9-601f-4862-96cb-f251d4b5a7fd
 # ╟─2bafd1a4-32a3-4787-807f-0a5132d66c28
-# ╟─40b5e447-0cfb-4f35-8f95-6aa29793e5ad
+# ╠═40b5e447-0cfb-4f35-8f95-6aa29793e5ad
 # ╟─fca6c4ec-4d0c-4f97-b966-ce3a81a18710
 # ╠═b1fee17b-6522-4cf0-a614-5ff8aa8f8614
 # ╟─cfde8137-cfcd-46de-9c26-8abb64b6b3a9
