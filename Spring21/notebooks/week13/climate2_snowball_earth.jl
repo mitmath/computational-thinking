@@ -65,7 +65,16 @@ overflow-x: hidden;
 </style>"""
 
 # ╔═╡ a0b3813e-adab-11eb-2983-616cf2bb6f5e
-using DifferentialEquations, Plots, PlutoUI, LinearAlgebra
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="DifferentialEquations", version="6"),
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+    ])
+    using DifferentialEquations, Plots, PlutoUI, LinearAlgebra
+end
 
 # ╔═╡ ef8d6690-720d-4772-a41f-b260d306b5b2
 TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true)
