@@ -21,14 +21,16 @@ TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true
 
 # ╔═╡ 26e1879d-ab57-452a-a09f-49493e65b774
 md"""
-### Julia
+# Julia Concepts
 
-### `sign(x)`
+- `sign(x)`  
+
+
 """
 
 # ╔═╡ fd12468f-de16-47cc-8210-9266ca9548c2
 md"""
-### The sign function
+## The sign or signum(latin for "sign") function
 """
 
 # ╔═╡ 30969341-9079-4732-bf55-d6bba2c2c16c
@@ -36,11 +38,24 @@ md"""
 `sign(x)` returns 0 if x is 0, or ±1 for positive/negative x.
 """
 
+# ╔═╡ 5bf3fe83-d096-4df1-8476-0a6500b01868
+begin
+	scatter(sign, -5:.1:5, legend=false, m=:c, ms=3, size=(600,300))
+	title!("The sign function is discontinuous at 0")
+	xlabel!("x")
+	ylabel!("sign(x)")
+end
+
 # ╔═╡ af7f36d9-adca-48b8-95bb-ac620e6f1b4f
 sign(Inf)
 
 # ╔═╡ 790add0f-c83f-4824-92ae-53159ce58f64
 sign(-Inf)
+
+# ╔═╡ 21210cfa-0366-4019-86f7-158fdd5f21ad
+md"""
+# Mathematics of multiple equilibria
+"""
 
 # ╔═╡ 978e5fc0-ddd1-4e93-a243-a95d414123b9
 md"""
@@ -56,12 +71,18 @@ The function  $f(y,a) = {\rm sign}(y) + a -y$ can be written
 """
 
 # ╔═╡ 6139554e-c6c9-4252-9d64-042074f68391
-f(y,a,t) =   sign(y)  + a -  y  # t is not used but in the argument list for the dif equation solver
+begin
+	f(y,a) =   sign(y)  + a -  y  
+	f(y,a,t) = f(y,a) # just for the difeq solver
+end
 
 # ╔═╡ e115cbbc-9d49-4fa1-8701-fa48289a0916
 md"""
 The graph of `z=f(y,a)`  consists of two parallel half-planes. On the left below we intersect that graph with planes of constant `a`.  On the right, we have the intersection with `z=0`. 
 """
+
+# ╔═╡ 991f14bb-fc4a-4505-a3be-5ced2fb148b6
+
 
 # ╔═╡ 61960e99-2932-4a8f-9e87-f64a7a043489
 md"""
@@ -77,7 +98,7 @@ begin
 	ylims!(-5,10)
 	xlims!(-9,9)
 	hline!([0], ls=:dash, color=:pink, legend=false)
-    
+   
 	
 	if a< 1
 	 
@@ -92,14 +113,15 @@ begin
 	vline!([ 1+a], ls=:dash, color=:gray)
 	 vline!([-1+a], ls=:dash, color=:gray)
 	vline!([0],ls=:dash, color=:pink)
-	P1 = title!("a=$a  Plot of f(y) given a")
+	P1 = title!(" Plot of f(y,a=$a) vs y")
 	
 	begin
 	plot(a->a-1, -5:1, lw=2, c=:blue)
+		 annotate!( a, 3+a, "a=$a")
 	plot!(a->a+1, -1:5, lw=2,  c=:blue, legend=false)
 	xlabel!("a")
-	ylabel!("equilibrum y=roots")
-	title!("Roots as a function of a") 
+	ylabel!("y")
+	title!("Solution to f(y,a)=0") 
 		
 		if a<1
 			annotate!(-4,  -.7+a,  text(round(-1+a,digits=1), position=:center,11,:red))
@@ -118,15 +140,36 @@ begin
 end
 end
 
+# ╔═╡ 9acf9b8a-7fde-46c7-bf0c-c4dedc5a064b
+md"""
+The above are two section views of the surface z=f(y,a). Left: constant a.  Right: z =0.
+"""
+
+# ╔═╡ 9bc33f22-c065-4c1d-b06f-78c70415a111
+# begin
+# 	#s1=surface(-5:.1:-.1, -4:.1:4, f, legend=false )
+# 	#s2=surface!(.00001:.1:4.1, -4:.1:4, f, legend=false )
+# 	surface(-6:.05:4, -5:.05:4, f, legend=false, alpha=.5 )
+	
+# 	plot!(  [0,-6 ], [1, -5  ], [0,0], c=:red) 
+# 	plot!(  [0,5 ], [-1, 4  ], [0,0], c=:red) 
+# 	xlabel!("y")
+# 	ylabel!("a")
+	
+# end
+
+# ╔═╡ 6f61180d-6900-48fa-998d-36110e79d2dc
+gr()
+
 # ╔═╡ 5027e1f8-8c50-4538-949e-6c95c550016e
 md"""
-### Solution to y' = f(y,a) 
+## Solution to y' = f(y,a) 
 with y(0)=y₀
 """
 
 # ╔═╡ 465f637c-0555-498b-a881-a2f6e5714cbb
 md"""
-y₀ = $(@bind y₀ Slider(-6:.01:6, show_value=true, default=2.0) )
+y₀ = $(@bind y₀ Slider(-6:.1:6, show_value=true, default=2.0) )
 """
 
 # ╔═╡ a09a0064-c6ab-4912-bc9f-96ab72b8bbca
@@ -176,7 +219,7 @@ plotit(y₀, a)
 
 # ╔═╡ a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
 md"""
-#### Increasing a then decreasing a
+## Hysteresis: Increasing then decreasing ``a``
 Let's increase a by .25 from -4 to 4 then decrease from -4 to 4.
 Every time we change a, we let 10 units of time evolve, enough
 to reach the equilibriumf for that a, and watch the y values.
@@ -238,7 +281,9 @@ end
 
 # ╔═╡ 11b3fb9e-5922-4350-9424-51fba33502d4
 md"""
-### 0) Review of Lecture 20
+# Application to Snowball Earth, the ice-albedo feedback
+(from Henri Drake's lecture)
+##  Review of the last climate lecture.
 
 Recall from [Lecture 20 (Part I)](https://www.youtube.com/watch?v=Gi4ZZVS2GLA&t=15s) that the the **zero-dimensional energy balance equation** is
 
@@ -277,7 +322,7 @@ In this lecture, we show how a small modification that makes one term in our sim
 
 # ╔═╡ 4bdc0f0c-e696-4d87-b10c-8a0da9a0ee5b
 md"""
-### 1) Background: Snowball Earth
+## 1) Background: Snowball Earth
 
 Geological evidence shows that the Neoproterozoic Era (550 to 1000 million years ago) is marked by two global glaciation events, in which Earth's surface was covered in ice and snow from the Equator to the poles (see review by [Pierrehumbert et al. 2011](https://www.annualreviews.org/doi/full/10.1146/annurev-earth-040809-152447)).
 """
@@ -306,7 +351,7 @@ $\alpha(T) = \begin{cases}
 
 # ╔═╡ fca6c4ec-4d0c-4f97-b966-ce3a81a18710
 md"""
-##### 1.2) Adding the ice-albedo feedback to our simple climate model
+### 1.2) Adding the ice-albedo feedback to our simple climate model
 
 First, we program albedo as a function of temperature.
 """
@@ -415,7 +460,7 @@ end
 end
 
 # ╔═╡ 066743eb-c890-40b9-9f6b-9f79b7ebcbd2
-md"""##### 1.1) The ice-albedo feedback
+md"""### 1.1) The ice-albedo feedback
 
 In Lecture 20, we used a **constant** value $α =$ $(Model.hist.α) for Earth's planetary albedo, which is a reasonable thing to do for small climate variations relative to the present (such as the difference between the present-day and preindustrial climates). In the case of large variations, however, this approximation is not very reliable.
 
@@ -454,7 +499,7 @@ function Model.timestep!(ebm)
 end
 
 # ╔═╡ 0c1e3051-c491-4de7-a149-ce81c53f5841
-md"""### 2) Multiple Equilibria
+md"""## 2) Multiple Equilibria
 **OR: the existence of "alternate Earths"**
 
 Human civilization flourished over the last several thousand years in part because Earth's global climate has been remarkably stable and forgiving. The preindustrial combination of natural greenhouse effect and incoming solar radiation yielded temperatures between the freezing and boiling points of water across most of the planet, allowing ecoystems based on liquid water to thrive.
@@ -466,7 +511,7 @@ We learned in Lecture 20 that in response to temperature fluctuations, *net-nega
 
 # ╔═╡ d0d43dc3-4cda-4602-90c6-2d14a1e63871
 md"""
-##### 2.1) Exploring the non-linear ice-albedo feedback
+### 2.1) Exploring the non-linear ice-albedo feedback
 
 In [Lecture 20 (Part II)](https://www.youtube.com/watch?v=D3jpfeQCISU), we learned how introducing non-linear terms in *ordinary differential equations* can lead to complex state spaces that allow for multiple fixed points (e.g. for $\dot{x} = \mu + x^{2}$).
 
@@ -484,14 +529,6 @@ begin
 	ebm_interact = Model.EBM(Float64(T0_interact), 0., 1., Model.CO2_const)
 	Model.run!(ebm_interact, 200)
 end
-
-# ╔═╡ 0b6bfab9-96e9-4d7a-a486-4582d7303244
-begin
-	p_interact = plot(ebm_interact.t, ebm_interact.T, label=nothing, lw=3)
-	plot!([0.], [T0_interact], label=nothing, markersize=4, markershape=:circle)
-	
-	add_labels!(p_interact)
-end |> as_svg
 
 # ╔═╡ 9b6edae8-fbf0-4979-9536-c0f782ba70a7
 md"We can get an overview of the behavior by drawing a set of these curves all on the same graph:"
@@ -534,7 +571,7 @@ So what happens is T₀ ≈ $(round(T_un, digits=2)) °C? For some exact tempera
 
 # ╔═╡ 5eb888e1-ba95-4aa1-97c0-784dc9d9e6d5
 md"""
-##### 2.2) Radiative stability analysis
+### 2.2) Radiative stability analysis
 
 We can understand why our model has two stable equilibria and one unstable equilibrium by applying concepts from dynamical systems theory.
 
@@ -576,9 +613,9 @@ end
 
 # ╔═╡ 9c4ac33a-ebbd-47db-9057-91624b0a2497
 md"
-### 3) Transitioning to and from Snowball Earth
+## 3) Transitioning to and from Snowball Earth
 
-##### 3.1) Turning up the Sun
+### 3.1) Turning up the Sun
 
 Over the entire history of the Earth, the Sun is thought to have brightened by about 40%."
 
@@ -590,7 +627,7 @@ html"""
 # ╔═╡ 5fc03f0f-ae12-476f-93f8-6285ee7f5fc9
 md"In the Neoproterozoic (~700 million years ago), the Sun was 93% as bright as it is today, such that the incoming solar radiation was $S =$ 1272 W/m², Earth's average temperature plunged to $T = -50$°C, and Earth's ice-covered surface had a high albedo (reflectivity) of $α_{i} = 0.5$.
 
-##### 3.2) Did the increasing brightness of the Sun melt the Snowball?
+### 3.2) Did the increasing brightness of the Sun melt the Snowball?
 If we start out in the Neoproterozoic climate and all we do is increase solar insolation to today's value of $S =$ 1368 W/m², can we warm the planet up to the pre-industrial temperature of $T=14$°C?
 "
 
@@ -624,7 +661,7 @@ end
 
 # ╔═╡ 81088439-312a-4042-bcee-c021e5e3f6b7
 md"""
-##### 3.3) If not the Sun, how did Snowball Earth melt?
+### 3.3) If not the Sun, how did Snowball Earth melt?
 
 The leading theory is that a slow but steady outgassing of CO₂ from volcanoes eventually caused a strong enough greenhouse gas effect to offset the cooling effect of the frozen surface's high albedo and raise temperatures above the melting point $-10$°C.
 """
@@ -656,7 +693,7 @@ An "Aquaplanet" is a three-dimensional global climate simulation of a hypothetic
 
 The video below shows that the Aquaplanet simulation exhibits a third equilibrium state, with a *mostly-liquid ocean but ice caps at the poles*, in addition to the two we found in our zero-dimensional model.
 
-In **Homework 10**, you will build a simple two-dimensional version of the aqua-planet and explore its stability.
+In **Homework 10** (2020 class), you will build a simple two-dimensional version of the aqua-planet and explore its stability.
 """
 
 # ╔═╡ e3e0b838-19a9-4f9b-9026-0b546d3c416b
@@ -747,6 +784,25 @@ begin
 	md"**Unstable branch solution**"
 end
 
+# ╔═╡ b2e4513a-76aa-4a8c-8ad4-490533789c74
+function add_labels!(p)
+	plot!(p, xlabel="year", ylabel="temperature [°C]", legend=:bottomright, xlims=(-5,205), ylims=(-60, 30.))
+	
+	plot!(p, [-5, 200], [-60, -60], fillrange=[-10., -10.], fillalpha=0.3, c=:lightblue, label=nothing)
+	annotate!(120, -20, text("completely frozen", 10, :darkblue))
+	
+	plot!(p, [-5, 200], [10, 10], fillrange=[30., 30.], fillalpha=0.09, c=:red, lw=0., label=nothing)
+	annotate!(p, 120, 25, text("no ice", 10, :darkred))
+end
+
+# ╔═╡ 0b6bfab9-96e9-4d7a-a486-4582d7303244
+begin
+	p_interact = plot(ebm_interact.t, ebm_interact.T, label=nothing, lw=3)
+	plot!([0.], [T0_interact], label=nothing, markersize=4, markershape=:circle)
+	
+	add_labels!(p_interact)
+end |> as_svg
+
 # ╔═╡ f5361e48-e613-4fed-8da3-5576feea776d
 begin
 	Sneo = Model.S*0.93
@@ -833,29 +889,35 @@ end;
 # ╔═╡ Cell order:
 # ╠═a0b3813e-adab-11eb-2983-616cf2bb6f5e
 # ╠═ef8d6690-720d-4772-a41f-b260d306b5b2
-# ╠═26e1879d-ab57-452a-a09f-49493e65b774
+# ╟─26e1879d-ab57-452a-a09f-49493e65b774
 # ╟─fd12468f-de16-47cc-8210-9266ca9548c2
 # ╠═30969341-9079-4732-bf55-d6bba2c2c16c
+# ╟─5bf3fe83-d096-4df1-8476-0a6500b01868
 # ╠═af7f36d9-adca-48b8-95bb-ac620e6f1b4f
 # ╠═790add0f-c83f-4824-92ae-53159ce58f64
+# ╟─21210cfa-0366-4019-86f7-158fdd5f21ad
 # ╟─978e5fc0-ddd1-4e93-a243-a95d414123b9
 # ╠═6139554e-c6c9-4252-9d64-042074f68391
 # ╟─e115cbbc-9d49-4fa1-8701-fa48289a0916
 # ╟─bd65e7f9-ecf2-43ac-b5a8-99b03866a5c8
+# ╟─991f14bb-fc4a-4505-a3be-5ced2fb148b6
 # ╟─61960e99-2932-4a8f-9e87-f64a7a043489
+# ╟─9acf9b8a-7fde-46c7-bf0c-c4dedc5a064b
+# ╟─9bc33f22-c065-4c1d-b06f-78c70415a111
+# ╠═6f61180d-6900-48fa-998d-36110e79d2dc
 # ╠═a09a0064-c6ab-4912-bc9f-96ab72b8bbca
-# ╟─5027e1f8-8c50-4538-949e-6c95c550016e
-# ╟─465f637c-0555-498b-a881-a2f6e5714cbb
+# ╠═5027e1f8-8c50-4538-949e-6c95c550016e
+# ╠═465f637c-0555-498b-a881-a2f6e5714cbb
 # ╠═a4686bca-90d6-4e02-961c-59f08fc37553
 # ╟─f8ee2373-6af0-4d81-98fb-23bde10198ef
-# ╟─a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
+# ╠═a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
 # ╟─fd882095-6cc4-4927-967c-6b02d5b1ad95
-# ╟─11b3fb9e-5922-4350-9424-51fba33502d4
+# ╠═11b3fb9e-5922-4350-9424-51fba33502d4
 # ╟─b71fca45-9687-4a51-8e1c-1f413e83e58d
 # ╟─d993a2fc-2319-4f64-8a17-904a57593da2
 # ╟─4bdc0f0c-e696-4d87-b10c-8a0da9a0ee5b
 # ╟─7b7b631e-2ba3-4ed3-bad0-ec6ecb70ad49
-# ╠═066743eb-c890-40b9-9f6b-9f79b7ebcbd2
+# ╟─066743eb-c890-40b9-9f6b-9f79b7ebcbd2
 # ╟─70ec6ae9-601f-4862-96cb-f251d4b5a7fd
 # ╟─2bafd1a4-32a3-4787-807f-0a5132d66c28
 # ╟─40b5e447-0cfb-4f35-8f95-6aa29793e5ad
@@ -869,7 +931,7 @@ end;
 # ╟─48431fc9-413f-4f72-8c6f-f48b42c29475
 # ╟─c719ff5f-421d-4d4d-87b7-34879ab188c5
 # ╠═0b6bfab9-96e9-4d7a-a486-4582d7303244
-# ╠═9b6edae8-fbf0-4979-9536-c0f782ba70a7
+# ╟─9b6edae8-fbf0-4979-9536-c0f782ba70a7
 # ╠═81d823a6-5c92-496a-96f1-a0f4762f1f05
 # ╠═28924aef-9157-4490-afa5-7f232a5101f0
 # ╠═5eb888e1-ba95-4aa1-97c0-784dc9d9e6d5
@@ -902,4 +964,5 @@ end;
 # ╠═80caaf52-062b-43c5-93c9-3bbdc2d61cec
 # ╠═ff6b1d24-7870-4151-8928-213de7942c7d
 # ╠═ff687478-30a2-4d6e-9a62-859c61db6a34
+# ╠═b2e4513a-76aa-4a8c-8ad4-490533789c74
 # ╠═f5361e48-e613-4fed-8da3-5576feea776d
