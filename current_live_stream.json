@@ -1,7 +1,7 @@
 {
 	"url": "https://www.youtube.com/watch?v=7N9Vvc8amGM",
 	"show_stay_tuned": false,
-	"show_livestream": true,
+	"show_livestream": false,
 	"todays_notebook": "how_to_collaborate_on_software",
 	"announce": "Next class is Wednesday, May 5th, 1:05pm EDT"
 }
