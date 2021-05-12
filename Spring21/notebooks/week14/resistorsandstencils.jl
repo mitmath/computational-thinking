@@ -10,13 +10,20 @@ begin
     Pkg.activate(mktempdir())
     Pkg.add([
         Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="OffsetArrays", version="1"),
+        Pkg.PackageSpec(name="OffsetArrays", version="1")
     ])
     using PlutoUI, OffsetArrays
 end
 
 # ╔═╡ 7e939280-ccb3-4d64-8799-82630fbb7811
 TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true)
+
+# ╔═╡ 8b3da08b-d900-4736-955a-d25f8c7b70a9
+md"""
+Julia
+* `CartesianIndex`
+* `OffsetArray` from `OffsetArrays`
+"""
 
 # ╔═╡ 1945c286-c9a3-41f0-b3dc-e3a7c10334ab
 md"""
@@ -189,6 +196,7 @@ B
 # ╔═╡ Cell order:
 # ╠═89b4bb1b-0d49-4cf2-9013-3d320711577f
 # ╠═7e939280-ccb3-4d64-8799-82630fbb7811
+# ╟─8b3da08b-d900-4736-955a-d25f8c7b70a9
 # ╟─1945c286-c9a3-41f0-b3dc-e3a7c10334ab
 # ╟─87ff0226-a249-419d-bd86-62331be6a538
 # ╟─a4d5fe96-5fed-4c26-b3ad-7637246cbb87
