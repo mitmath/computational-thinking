@@ -38,6 +38,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>advection_and_diffusion/index.html</loc>
+    <lastmod>2021-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>basic_syntax/index.html</loc>
     <lastmod>2021-05-12</lastmod>
     <changefreq>monthly</changefreq>
@@ -87,6 +93,12 @@
 </url>
 <url>
     <loc>random_walks_II/index.html</loc>
+    <lastmod>2021-05-12</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
+    <loc>resistors_and_stencils/index.html</loc>
     <lastmod>2021-05-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
