@@ -45,7 +45,10 @@ book_model = [
     Section(3, 3, "Why we can't predict the weather", "notebooks/week11/predicting_the_weather.jl", "M3udLzIHtsc"), 
     Section(3, 4, "Our first climate model", "notebooks/week12/our_first_climate_model.jl", "J1UsMa1cTeE"),
     Section(3, 5, "How to collaborate on software", "notebooks/week12/how_to_collaborate_on_software.jl", "7N9Vvc8amGM"),
-    Section(3, 6, "Snowball Earth and hysteresis", "notebooks/week13/climate2_snowball_earth.jl", ""),
+    Section(3, 6, "Snowball Earth and hysteresis", "notebooks/week13/climate2_snowball_earth.jl", "cdIgr_2nUvI"),
+    Section(3, 7, "Resistors and stencils", "notebooks/week13/resistors_and_stencils.jl", ""),
+    Section(3, 8, "Advection and diffusion in 1D", "notebooks/week13/advection_and_diffusion.jl", ""),
+
 
 
 
