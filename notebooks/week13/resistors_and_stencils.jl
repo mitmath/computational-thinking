@@ -1,19 +1,8 @@
 ### A Pluto.jl notebook ###
-# v0.14.5
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
-
-# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="OffsetArrays", version="1")
-    ])
-    using PlutoUI, OffsetArrays
-end
 
 # ╔═╡ 8c1de468-b339-11eb-2c9a-fb5d7065bf78
 html"""
@@ -56,7 +45,7 @@ opacity: .8;
 "><em>Lecture Video</em></p>
 <div style="display: flex; justify-content: center;">
 <div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<iframe src="https://www.youtube.com/embed/Xb-iUwXI78A" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 </div>
 </div>
 
@@ -65,6 +54,17 @@ body {
 overflow-x: hidden;
 }
 </style>"""
+
+# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="OffsetArrays", version="1")
+    ])
+    using PlutoUI, OffsetArrays
+end
 
 # ╔═╡ 7e939280-ccb3-4d64-8799-82630fbb7811
 TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true)
