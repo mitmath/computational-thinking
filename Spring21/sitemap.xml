@@ -254,6 +254,12 @@
     <priority>0.5</priority>
 </url>
 <url>
+    <loc>2d_advection_diffusion/index.html</loc>
+    <lastmod>2021-05-17</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
+<url>
     <loc>transformations_and_autodiff/index.html</loc>
     <lastmod>2021-05-17</lastmod>
     <changefreq>monthly</changefreq>

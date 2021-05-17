@@ -42,7 +42,7 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 3.8</em></p>
+"><em>Section 3.7</em></p>
 <p style="text-align: center; font-size: 2rem;">
 <em> Advection and diffusion in 1D </em>
 </p>
