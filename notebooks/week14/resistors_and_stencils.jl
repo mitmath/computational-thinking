@@ -1,19 +1,8 @@
 ### A Pluto.jl notebook ###
-# v0.14.5
+# v0.14.0
 
 using Markdown
 using InteractiveUtils
-
-# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="OffsetArrays", version="1")
-    ])
-    using PlutoUI, OffsetArrays
-end
 
 # ╔═╡ 8c1de468-b339-11eb-2c9a-fb5d7065bf78
 html"""
@@ -44,9 +33,9 @@ font-feature-settings: 'lnum', 'pnum';
 "> <p style="
 font-size: 1.5rem;
 opacity: .8;
-"><em>Section 3.7</em></p>
+"><em>Section 3.8</em></p>
 <p style="text-align: center; font-size: 2rem;">
-<em> Resistors and stencils </em>
+<em> Resistors, stencils and climate models </em>
 </p>
 
 <p style="
@@ -56,7 +45,7 @@ opacity: .8;
 "><em>Lecture Video</em></p>
 <div style="display: flex; justify-content: center;">
 <div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/Xb-iUwXI78A" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 </div>
 </div>
 
@@ -65,6 +54,17 @@ body {
 overflow-x: hidden;
 }
 </style>"""
+
+# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="OffsetArrays", version="1")
+    ])
+    using PlutoUI, OffsetArrays
+end
 
 # ╔═╡ 7e939280-ccb3-4d64-8799-82630fbb7811
 TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true)
@@ -244,9 +244,6 @@ end
 # ╔═╡ 6223e374-2902-11eb-3bb2-4d2d0d352801
 B
 
-# ╔═╡ 96cb82ed-3be1-4908-a0f4-a4ba75f9f577
-
-
 # ╔═╡ e107dc1b-ee6d-46ea-9ce3-2a7ff79739dd
 md"""
 # Climate Models in the Real World
@@ -300,7 +297,6 @@ html"""
 # ╠═77c06ce6-2902-11eb-30a7-51f210dbd723
 # ╠═4f342744-2902-11eb-1401-55e770d9d751
 # ╠═6223e374-2902-11eb-3bb2-4d2d0d352801
-# ╠═96cb82ed-3be1-4908-a0f4-a4ba75f9f577
 # ╟─e107dc1b-ee6d-46ea-9ce3-2a7ff79739dd
 # ╟─f9c4c5d5-6c5f-4443-8a92-bdaddf1d5cb9
-# ╠═9ac4218a-b71f-448c-a375-3969e15dfb86
+# ╟─9ac4218a-b71f-448c-a375-3969e15dfb86
