@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Fall 20 - Franklin export
 on:
   push:
     branches:
