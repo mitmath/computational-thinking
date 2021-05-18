@@ -1,3 +1,12 @@
+[Export]
+baked_state = false
+offer_binder = true
+slider_server_url="https://computationalthinking-sliderserver-do.plutojl.org"
+ignore_cache = [
+    "index.jl",
+]
+create_index = false
+
 [SliderServer]
 exclude=[
     "notebooks/basic_syntax.jl",

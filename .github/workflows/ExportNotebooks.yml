@@ -29,14 +29,14 @@ jobs:
             - name: Install Julia
               uses: julia-actions/setup-julia@v1
               with:
-                  version: 1.6.0-rc1
+                  version: 1.6.0
             - name: Run Pluto notebooks
               run: julia --project=pluto-deployment-environment -e '
                   import Pkg;
                   Pkg.instantiate();
 
-                  import PlutoUtils;
-                  PlutoUtils.Export.github_action(; export_dir=".", cache_dir="pluto_state_cache", baked_state=false, offer_binder=true, binder_url="https://mybinder.org/build/gh/mitmath/18S191/e2dec90", bind_server_url="https://computationalthinking-sliderserver-do.plutojl.org");'
+                  using PlutoSliderServer;
+                  github_action("."; Export_cache_dir="pluto_state_cache");'
             - name: Franklin
               run: julia -e '
                   using Pkg;
