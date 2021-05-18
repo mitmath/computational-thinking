@@ -10,6 +10,6 @@ HW0 is for you to get your system set up correctly and to test our grading softw
 
 [Homework 0 Set up Julia and Pluto (Part 1)](/installation/)
 
-[The Pluto notebook (static view)](https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/Fall20/homework/homework0/hw0.html)
+[The Pluto notebook (static view)](https://htmlview.glitch.me/?https://github.com/mitmath/18S191/blob/Fall20/homework/homework0/hw0.html)
 
 [The Pluto notebook (right click for link)](https://raw.githubusercontent.com/mitmath/18S191/Fall20/homework/homework0/hw0.jl)

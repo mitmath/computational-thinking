@@ -4,6 +4,6 @@ Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl
 
 This homework is **optional** -- **Due date for feedback: Thursday, 12th Nov 2020 at 11:59pm ET**
 
-[The Pluto notebook (static view)](https://htmlpreview.github.io/?https://github.com/mitmath/18S191/blob/Fall20/homework/homework8/hw8.html)
+[The Pluto notebook (static view)](https://htmlview.glitch.me/?https://github.com/mitmath/18S191/blob/Fall20/homework/homework8/hw8.html)
 
 [The Pluto notebook (right click for link)](https://raw.githubusercontent.com/mitmath/18S191/Fall20/homework/homework8/hw8.jl)
