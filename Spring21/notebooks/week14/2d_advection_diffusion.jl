@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.14.5
 
 using Markdown
 using InteractiveUtils
@@ -431,8 +431,8 @@ begin
 	P = Parameters(κ_ex);
 	
 	#u, v = zeros(G), zeros(G)
-	u, v = PointVortex(G, Ω=0.5)
-	# u, v = DoubleGyre(G)
+	# u, v = PointVortex(G, Ω=0.5)
+	u, v = DoubleGyre(G)
 
 	# IC = InitBox(G)
 	IC = InitBox(G, xspan=true)
@@ -775,7 +775,7 @@ plot_kernel(A) = heatmap(
 # ╟─c20b0e00-2a8a-11eb-045d-9db88411746f
 # ╟─933d42fa-2a67-11eb-07de-61cab7567d7d
 # ╟─c9ea0f72-2a67-11eb-20ba-376ca9c8014f
-# ╟─3b24e1b0-2b46-11eb-383b-c57cbf3e68f1
+# ╠═3b24e1b0-2b46-11eb-383b-c57cbf3e68f1
 # ╟─c3f086f4-2a9a-11eb-0978-27532cbecebf
 # ╟─bff89550-2a9a-11eb-3038-d70249c96219
 # ╟─dc9d12d0-2a9a-11eb-3dae-85b3b6029658
