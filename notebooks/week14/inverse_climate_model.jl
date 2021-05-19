@@ -39,6 +39,57 @@ begin
 	Plots.default(linewidth=5)
 end;
 
+# ╔═╡ 6a9d271c-b8b4-11eb-0a11-5ddd2d17f186
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 3.10</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Inverse climate modeling </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
+
 # ╔═╡ 9a48a08e-7281-473c-8afc-7ad3e0771269
 TableOfContents()
 
@@ -238,6 +289,237 @@ names = (
 
 # ╔═╡ ae92ba1f-5175-4704-8240-2de8432df752
 @assert keys(colors) == keys(names)
+
+# ╔═╡ 8ac04d55-9034-4c29-879b-3b10887a616d
+begin
+	struct BondDefault
+		x
+		default
+	end
+	
+	Base.get(bd::BondDefault) = bd.default
+	Base.show(io::IO, m::MIME"text/html", bd::BondDefault) = Base.show(io, m, bd.x)
+	
+	BondDefault
+end
+
+# ╔═╡ 29aa932b-9835-4d13-84e2-5ccf380a21ea
+@bind which_graph_2 Select([
+		"Emissions"
+		"Concentrations"
+		"Temperature"
+		])
+
+# ╔═╡ 9d603716-3069-4032-9416-cd8ab2e272c6
+@bind which_graph_4 Select([
+		"Emissions"
+		"Concentrations"
+		"Temperature"
+		"Costs and benefits"
+])
+
+# ╔═╡ 70173466-c9b5-4227-8fba-6256fc1ecace
+Tmax_9_slider = @bind Tmax_9 Slider(0:0.1:5; default=2);
+
+# ╔═╡ 6bcb9b9e-e0ab-45d3-b9b9-3d7282f89df6
+allow_overshoot_9_cb = @bind allow_overshoot_9 CheckBox();
+
+# ╔═╡ a0a1bb20-ec9b-446d-a36a-272840b8d35c
+blob(
+	md"""
+	#### Maximum temperature
+
+	`0.0 °C` $(Tmax_9_slider) `5.0 °C`
+	
+	_Allow **temperature overshoot**:_ $(allow_overshoot_9_cb)
+
+	""",
+	"#c5710014"
+)
+
+# ╔═╡ b428e2d3-e1a9-4e4e-a64f-61048572102f
+function multiplier(unit::Real, factor::Real=2, suffix::String="%")
+	h = @htl("""
+	
+	
+	<script>
+		const unit = $(unit)
+		const factor = $(factor)
+		const suffix = $(suffix)
+  const input = html`<input type=range min=-1 max=1 step=.01 value=0>`;
+  const output = html`<input disabled style="width: 1.8em; display: inline-block;overflow-x: hidden;"></input>`;
+  // const output = html``;
+
+  const left = Math.round(100 / factor) + "%";
+  const right = Math.round(100 * factor) + "%";
+
+  const reset = html`<a href="#" title="Reset" style='padding-left: .5em'><img width="14" src="https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.0.0/src/svg/arrow-undo-sharp.svg"></img></a>`;
+  const span = html`<div style="margin-left: 2em;">\${left}\${input}\${right}\${reset}</div>`;
+
+  const on_slider = () => {
+    output.value = Math.round(100 * Math.pow(factor, input.value));
+    input.title = Math.round(100 * Math.pow(factor, input.value)) + "%";
+
+    reset.style.opacity = input.valueAsNumber == 0 ? "0" : "1";
+  };
+  input.oninput = on_slider;
+  on_slider();
+
+  //   const on_box = () => {
+  //     input.value = output.value;
+
+  //     reset.style.opacity = input.valueAsNumber == 100 ? "0" : "1";
+  //   };
+  //   output.oninput = on_box;
+
+  reset.onclick = (e) => {
+    input.value = 0;
+    on_slider();
+		e.preventDefault()
+    span.dispatchEvent(new CustomEvent("input", {}));
+  };
+
+  Object.defineProperty(span, "value", {
+    get: () => unit * Math.pow(factor, input.value),
+    set: val => {
+      input.value = Math.log2(val / unit) / Math.log2(factor);
+      on_slider();
+    }
+  });
+
+  return span;
+	</script>
+	""")
+	
+	BondDefault(h, unit)
+end
+
+# ╔═╡ 8cab3d28-a457-4ccc-b053-38cd003bf4d1
+function Carousel(
+		elementsList;
+		wraparound::Bool=false,
+		peek::Bool=true,
+	)
+	
+	@assert peek
+	
+    carouselHTML = map(elementsList) do element
+        @htl("""<div class="carousel-slide">
+            $(element)
+        </div>""")
+    end
+	
+    h = @htl("""
+<div>
+    <style>
+    .carousel-box{
+        width: 100%;
+        overflow: hidden;
+    }
+    .carousel-container{
+        top: 0;
+        left: 0;
+        display: flex;
+        width: 100%;
+        flex-flow: row nowrap;
+        transform: translate(10%, 0px);
+        transition: transform 200ms ease-in-out;
+    }
+    .carousel-controls{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .carousel-controls button{
+        margin: 8px;
+        width: 6em;
+    }
+    .carousel-slide {
+        min-width: 80%;
+    }
+    </style>
+		
+    <script>
+        const div = currentScript.parentElement
+        const buttons = div.querySelectorAll("button")
+		
+		const max = $(length(elementsList))
+
+		let count = 0
+		
+		const mod = (n, m) => ((n % m) + m) % m
+		const clamp = (x, a, b) => Math.max(Math.min(x, b), a)
+		
+		const update_ui = (count) => {
+			buttons[0].disabled = !$(wraparound) && count === 0
+			buttons[1].disabled = !$(wraparound) && count === max - 1
+		
+			div.querySelector(".carousel-container").style = `transform: translate(\${10-count*80}%, 0px)`;
+		}
+		
+		const onclick = (e) => {
+			const new_count = count + parseInt(e.target.dataset.value)
+			if($(wraparound)){
+				count = mod(new_count, max)
+			} else {
+				count = clamp(new_count, 0, max - 1)
+			}
+			
+            
+			div.value = count + 1
+			div.dispatchEvent(new CustomEvent("input"))
+			update_ui(div.value - 1)
+            e.preventDefault()
+        }
+        buttons.forEach(button => button.addEventListener("click", onclick))
+        div.value = count + 1
+		update_ui(div.value - 1)
+    </script>
+		
+    <div class="carousel-box">
+        <div class="carousel-container">
+            $(carouselHTML)
+        </div>
+    </div>
+		
+    <div class="carousel-controls">
+        <button data-value="-1">Previous</button>
+        <button data-value="1">Next</button>
+    </div>
+</div>
+    """)
+	
+	BondDefault(h,1)
+end
+
+# ╔═╡ 8433cb38-915a-46c1-b3db-8e7905351c1b
+@bind cost_benefits_narrative_slide Carousel([
+		  md"""
+		### 1. The costs of climate suffering
+
+		In the absence of climate action, temperatures would rise over 4.5ºC above preindustrial levels (1800 to 1850 average), causing catastrophic climate impacts. MARGO attempts to quantify this suffering by translating the degree of warming into economic damages (in \$ / year). The curve below shows how climate damages rise over time, as a percentage of the World Gross Domestic Product (WGDP) in that year, due to uncontrolled temperature increases.
+
+		""",
+
+		md"""### 2. Avoiding climate damages
+		Emissions mitigation limits future warming and climate suffering (_Damages_ curve). The economic benefits of mitigation are given by the difference in damages relative to the no-policy scenario (_Baseline_ curve minus _Damages_ curve).
+
+		In the figure below, drag around the blue dot to change the future mitigation strategy, and observe how the _Avoided damages_ (the grey area) change!
+
+		""",
+
+		md"""### 3. Cost-benefit analysis
+
+		Unfortunately, mitigating CO₂ₑ emissions also carries a cost. In MARGO, the *marginal* cost of mitigation is proportional to the fraction of CO₂ₑ emissions that have been mitigated in a given year, increasing up to a maximum of $70 per metric ton of CO₂ₑ at 100% mitigation.
+
+		This naturally leads to a **cost-benefit analysis**. We search for the most beneficial, or *optimal*, scenario: the one with the *maximum net present benefits*. In the figure below, try finding a mitigation strategy that optimizes these _Net benefits_.
+		"""
+]; wraparound=false)
+
+# ╔═╡ 11d62228-476c-4616-9e7d-de6c05a6a53d
+if cost_benefits_narrative_slide == 1
+	hidecloack("cost_benefits_narrative_input")
+end
 
 # ╔═╡ 14623e1f-7719-47b1-8854-8070d5ef8e17
 md"""
@@ -534,237 +816,6 @@ function plotclicktracker(p::Plots.Plot; draggable::Bool=false)
 
 		return img
 		</script>""")
-end
-
-# ╔═╡ 8ac04d55-9034-4c29-879b-3b10887a616d
-begin
-	struct BondDefault
-		x
-		default
-	end
-	
-	Base.get(bd::BondDefault) = bd.default
-	Base.show(io::IO, m::MIME"text/html", bd::BondDefault) = Base.show(io, m, bd.x)
-	
-	BondDefault
-end
-
-# ╔═╡ 29aa932b-9835-4d13-84e2-5ccf380a21ea
-@bind which_graph_2 Select([
-		"Emissions"
-		"Concentrations"
-		"Temperature"
-		])
-
-# ╔═╡ 9d603716-3069-4032-9416-cd8ab2e272c6
-@bind which_graph_4 Select([
-		"Emissions"
-		"Concentrations"
-		"Temperature"
-		"Costs and benefits"
-])
-
-# ╔═╡ 70173466-c9b5-4227-8fba-6256fc1ecace
-Tmax_9_slider = @bind Tmax_9 Slider(0:0.1:5; default=2);
-
-# ╔═╡ 6bcb9b9e-e0ab-45d3-b9b9-3d7282f89df6
-allow_overshoot_9_cb = @bind allow_overshoot_9 CheckBox();
-
-# ╔═╡ a0a1bb20-ec9b-446d-a36a-272840b8d35c
-blob(
-	md"""
-	#### Maximum temperature
-
-	`0.0 °C` $(Tmax_9_slider) `5.0 °C`
-	
-	_Allow **temperature overshoot**:_ $(allow_overshoot_9_cb)
-
-	""",
-	"#c5710014"
-)
-
-# ╔═╡ b428e2d3-e1a9-4e4e-a64f-61048572102f
-function multiplier(unit::Real, factor::Real=2, suffix::String="%")
-	h = @htl("""
-	
-	
-	<script>
-		const unit = $(unit)
-		const factor = $(factor)
-		const suffix = $(suffix)
-  const input = html`<input type=range min=-1 max=1 step=.01 value=0>`;
-  const output = html`<input disabled style="width: 1.8em; display: inline-block;overflow-x: hidden;"></input>`;
-  // const output = html``;
-
-  const left = Math.round(100 / factor) + "%";
-  const right = Math.round(100 * factor) + "%";
-
-  const reset = html`<a href="#" title="Reset" style='padding-left: .5em'><img width="14" src="https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.0.0/src/svg/arrow-undo-sharp.svg"></img></a>`;
-  const span = html`<div style="margin-left: 2em;">\${left}\${input}\${right}\${reset}</div>`;
-
-  const on_slider = () => {
-    output.value = Math.round(100 * Math.pow(factor, input.value));
-    input.title = Math.round(100 * Math.pow(factor, input.value)) + "%";
-
-    reset.style.opacity = input.valueAsNumber == 0 ? "0" : "1";
-  };
-  input.oninput = on_slider;
-  on_slider();
-
-  //   const on_box = () => {
-  //     input.value = output.value;
-
-  //     reset.style.opacity = input.valueAsNumber == 100 ? "0" : "1";
-  //   };
-  //   output.oninput = on_box;
-
-  reset.onclick = (e) => {
-    input.value = 0;
-    on_slider();
-		e.preventDefault()
-    span.dispatchEvent(new CustomEvent("input", {}));
-  };
-
-  Object.defineProperty(span, "value", {
-    get: () => unit * Math.pow(factor, input.value),
-    set: val => {
-      input.value = Math.log2(val / unit) / Math.log2(factor);
-      on_slider();
-    }
-  });
-
-  return span;
-	</script>
-	""")
-	
-	BondDefault(h, unit)
-end
-
-# ╔═╡ 8cab3d28-a457-4ccc-b053-38cd003bf4d1
-function Carousel(
-		elementsList;
-		wraparound::Bool=false,
-		peek::Bool=true,
-	)
-	
-	@assert peek
-	
-    carouselHTML = map(elementsList) do element
-        @htl("""<div class="carousel-slide">
-            $(element)
-        </div>""")
-    end
-	
-    h = @htl("""
-<div>
-    <style>
-    .carousel-box{
-        width: 100%;
-        overflow: hidden;
-    }
-    .carousel-container{
-        top: 0;
-        left: 0;
-        display: flex;
-        width: 100%;
-        flex-flow: row nowrap;
-        transform: translate(10%, 0px);
-        transition: transform 200ms ease-in-out;
-    }
-    .carousel-controls{
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-    .carousel-controls button{
-        margin: 8px;
-        width: 6em;
-    }
-    .carousel-slide {
-        min-width: 80%;
-    }
-    </style>
-		
-    <script>
-        const div = currentScript.parentElement
-        const buttons = div.querySelectorAll("button")
-		
-		const max = $(length(elementsList))
-
-		let count = 0
-		
-		const mod = (n, m) => ((n % m) + m) % m
-		const clamp = (x, a, b) => Math.max(Math.min(x, b), a)
-		
-		const update_ui = (count) => {
-			buttons[0].disabled = !$(wraparound) && count === 0
-			buttons[1].disabled = !$(wraparound) && count === max - 1
-		
-			div.querySelector(".carousel-container").style = `transform: translate(\${10-count*80}%, 0px)`;
-		}
-		
-		const onclick = (e) => {
-			const new_count = count + parseInt(e.target.dataset.value)
-			if($(wraparound)){
-				count = mod(new_count, max)
-			} else {
-				count = clamp(new_count, 0, max - 1)
-			}
-			
-            
-			div.value = count + 1
-			div.dispatchEvent(new CustomEvent("input"))
-			update_ui(div.value - 1)
-            e.preventDefault()
-        }
-        buttons.forEach(button => button.addEventListener("click", onclick))
-        div.value = count + 1
-		update_ui(div.value - 1)
-    </script>
-		
-    <div class="carousel-box">
-        <div class="carousel-container">
-            $(carouselHTML)
-        </div>
-    </div>
-		
-    <div class="carousel-controls">
-        <button data-value="-1">Previous</button>
-        <button data-value="1">Next</button>
-    </div>
-</div>
-    """)
-	
-	BondDefault(h,1)
-end
-
-# ╔═╡ 8433cb38-915a-46c1-b3db-8e7905351c1b
-@bind cost_benefits_narrative_slide Carousel([
-		  md"""
-		### 1. The costs of climate suffering
-
-		In the absence of climate action, temperatures would rise over 4.5ºC above preindustrial levels (1800 to 1850 average), causing catastrophic climate impacts. MARGO attempts to quantify this suffering by translating the degree of warming into economic damages (in \$ / year). The curve below shows how climate damages rise over time, as a percentage of the World Gross Domestic Product (WGDP) in that year, due to uncontrolled temperature increases.
-
-		""",
-
-		md"""### 2. Avoiding climate damages
-		Emissions mitigation limits future warming and climate suffering (_Damages_ curve). The economic benefits of mitigation are given by the difference in damages relative to the no-policy scenario (_Baseline_ curve minus _Damages_ curve).
-
-		In the figure below, drag around the blue dot to change the future mitigation strategy, and observe how the _Avoided damages_ (the grey area) change!
-
-		""",
-
-		md"""### 3. Cost-benefit analysis
-
-		Unfortunately, mitigating CO₂ₑ emissions also carries a cost. In MARGO, the *marginal* cost of mitigation is proportional to the fraction of CO₂ₑ emissions that have been mitigated in a given year, increasing up to a maximum of $70 per metric ton of CO₂ₑ at 100% mitigation.
-
-		This naturally leads to a **cost-benefit analysis**. We search for the most beneficial, or *optimal*, scenario: the one with the *maximum net present benefits*. In the figure below, try finding a mitigation strategy that optimizes these _Net benefits_.
-		"""
-]; wraparound=false)
-
-# ╔═╡ 11d62228-476c-4616-9e7d-de6c05a6a53d
-if cost_benefits_narrative_slide == 1
-	hidecloack("cost_benefits_narrative_input")
 end
 
 # ╔═╡ 2758b185-cd54-484e-bb7d-d4cfcd2d39f4
@@ -1789,6 +1840,7 @@ function MR(x::T,y::T) where T
 end
 
 # ╔═╡ Cell order:
+# ╟─6a9d271c-b8b4-11eb-0a11-5ddd2d17f186
 # ╠═1c8d2d00-b7d9-11eb-35c4-47f2a2aa1593
 # ╟─9a48a08e-7281-473c-8afc-7ad3e0771269
 # ╟─331c45b7-b5f2-4a78-b180-5b918d1806ee
@@ -1821,9 +1873,8 @@ end
 # ╟─6ca2a32a-51de-4ff4-8023-843396f970ec
 # ╟─bb66d347-99be-4a95-8ba8-57dc9d33384b
 # ╟─b2d65726-df99-4710-9d03-9f6838036c87
-# ╠═70173466-c9b5-4227-8fba-6256fc1ecace
-# ╠═6bcb9b9e-e0ab-45d3-b9b9-3d7282f89df6
-# ╟─3094a9eb-074d-46c3-9c1e-0a9c94c6ad43
+# ╟─70173466-c9b5-4227-8fba-6256fc1ecace
+# ╟─6bcb9b9e-e0ab-45d3-b9b9-3d7282f89df6
 # ╟─a0a1bb20-ec9b-446d-a36a-272840b8d35c
 # ╟─8e89f521-c19d-4f87-9497-f9b61c19c176
 # ╟─a83e47fa-4b48-4bbc-b210-382d1cf19f55
@@ -1833,6 +1884,7 @@ end
 # ╟─944e835a-47a2-4bf0-a4a1-dbcfd174dcea
 # ╠═f861935a-8b03-426e-aebe-6963e034ad49
 # ╟─64c9f002-3d5d-4f14-b39a-980738fd824d
+# ╟─3094a9eb-074d-46c3-9c1e-0a9c94c6ad43
 # ╟─b428e2d3-e1a9-4e4e-a64f-61048572102f
 # ╟─0b31eac2-8efd-47cd-9571-a2053846343b
 # ╟─ca104939-a6ca-4e70-a47a-1eb3c32db18f
