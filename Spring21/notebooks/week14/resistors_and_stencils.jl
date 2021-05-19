@@ -1,8 +1,19 @@
 ### A Pluto.jl notebook ###
-# v0.14.0
+# v0.14.5
 
 using Markdown
 using InteractiveUtils
+
+# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="OffsetArrays", version="1")
+    ])
+    using PlutoUI, OffsetArrays
+end
 
 # ╔═╡ 8c1de468-b339-11eb-2c9a-fb5d7065bf78
 html"""
@@ -54,17 +65,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="OffsetArrays", version="1")
-    ])
-    using PlutoUI, OffsetArrays
-end
 
 # ╔═╡ 7e939280-ccb3-4d64-8799-82630fbb7811
 TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true)
@@ -148,6 +148,9 @@ Obtain all the Cartesian Indices of your data matrix.
 # ╔═╡ 0019e726-28fd-11eb-0e86-31ec28b3c1a9
 I = CartesianIndices(data)
 
+# ╔═╡ 681c3d00-2f1e-4a84-b67e-c14fffbe2549
+Dump(I)
+
 # ╔═╡ e4e51762-7010-4afe-9599-3746acbe9143
 md"""
 # Offset Arrays
@@ -174,6 +177,9 @@ A[1,1]
 
 # ╔═╡ 4fb21151-fc95-40e2-b2b7-7d0a05c5a60a
 A[0,0]
+
+# ╔═╡ 52c8ec62-0d04-4945-a08f-3dd1cffd5395
+A[I].=data[I]
 
 # ╔═╡ 423f22c0-336a-4640-bbd2-2649e6021de6
 md"""
@@ -220,7 +226,7 @@ We just saw 0 boundary conditions, what about periodic or zero derivative?
 begin
  B = copy(A)
 	
- B[0,:] = B[7,:]  ## periodic
+ B[0,:] = B[6,:]  ## periodic
  B[7,:] = B[1,:]
  B[:,0] = B[:,7]
  B[:,8] = B[:,1]
@@ -278,6 +284,7 @@ html"""
 # ╠═2a0c666f-f3fa-49ab-8ffc-45323e7cba15
 # ╟─af8c6b1e-5f72-4547-bd9f-1a1fc7264dc8
 # ╠═0019e726-28fd-11eb-0e86-31ec28b3c1a9
+# ╠═681c3d00-2f1e-4a84-b67e-c14fffbe2549
 # ╟─e4e51762-7010-4afe-9599-3746acbe9143
 # ╟─4d03b75f-e43a-484b-8020-43244b7700d5
 # ╠═5fb6e7b6-2901-11eb-0e94-aba290fd0bae
@@ -285,6 +292,7 @@ html"""
 # ╠═a5c7693a-2901-11eb-1083-0da8138a73c2
 # ╠═f2903f3f-9697-4cac-af87-b2cfee362638
 # ╠═4fb21151-fc95-40e2-b2b7-7d0a05c5a60a
+# ╠═52c8ec62-0d04-4945-a08f-3dd1cffd5395
 # ╟─423f22c0-336a-4640-bbd2-2649e6021de6
 # ╠═b6fde83c-2901-11eb-0e3b-4b3766579cc8
 # ╟─0eacc41c-89f7-4c11-b727-1769a6e7f5d5
