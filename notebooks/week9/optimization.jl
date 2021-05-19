@@ -13,6 +13,21 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 400ebe26-0dea-4cf2-8744-6c73a45cd33e
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="Optim", version="1"),
+        Pkg.PackageSpec(name="JuMP", version="0.21"),
+        Pkg.PackageSpec(name="Ipopt", version="0.6"),
+        Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+    ])
+    using PlutoUI, Plots, Statistics, Optim, JuMP, Ipopt, ForwardDiff
+end
+
 # ╔═╡ 945c2bf1-d7dc-42c9-93d7-fd754f8fb1d7
 html"""
 <div style="
@@ -63,21 +78,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 400ebe26-0dea-4cf2-8744-6c73a45cd33e
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="Optim", version="1"),
-        Pkg.PackageSpec(name="JuMP", version="0.21"),
-        Pkg.PackageSpec(name="Ipopt", version="0.6"),
-        Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
-    ])
-    using PlutoUI, Plots, Statistics, Optim, JuMP, Ipopt, ForwardDiff
-end
 
 # ╔═╡ b8d66df5-f593-40b4-8c46-3b638f9cc3e1
 TableOfContents(title="📚 Table of Contents", aside=true)

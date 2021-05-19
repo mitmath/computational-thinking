@@ -13,6 +13,24 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
+        Pkg.PackageSpec(name="LightGraphs", version="1"),
+        Pkg.PackageSpec(name="GraphPlot", version="0.4"),
+		Pkg.PackageSpec(name="SpecialFunctions", version="1")
+    ])
+    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf, SpecialFunctions
+end
+
+# ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
+Pkg.add("GraphPlot")
+
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 html"""
 <div style="
@@ -64,21 +82,6 @@ overflow-x: hidden;
 }
 </style>"""
 
-# ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
-        Pkg.PackageSpec(name="LightGraphs", version="1"),
-        Pkg.PackageSpec(name="GraphPlot", version="0.4"),
-		Pkg.PackageSpec(name="SpecialFunctions", version="1")
-    ])
-    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf, SpecialFunctions
-end
-
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
 
@@ -117,9 +120,6 @@ DISCRETE MATH OBJECTS (examples):
 # ╔═╡ 45ecee7e-970e-11eb-22fd-01f56876684e
 gplot( barabasi_albert(150, 2) )
 
-# ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
-Pkg.add("GraphPlot")
-
 # ╔═╡ 61ffe0f2-9615-11eb-37d5-f9e30a31c111
 md"""
 By contrast, entire intervals or the whole real line is associated with continuous mathematics. 
@@ -137,31 +137,6 @@ md"""
 # ╔═╡ 091a8a44-918c-11eb-2ee3-9be84a311afd
 md"""
 ### Heard in the hallways: I only like discrete math.  I only like continuous math.
-"""
-
-# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
-md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathematics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
-
-$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
-
- 
-"""
-
-# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
-md"""
-$(blue("Continuous math often lets you replace complicated large systems
-		with lots of details with a simpler abstraction that is easier to work with."))
-"""
-
-# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
-md"""
-$(blue("The combination of continuous and discrete is often more useful than either one alone."))
-"""
-
-# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
-md"""
-$(blue("Machine Learning, Pandemics, climate change, etc. show how critical continuous math is these days."))
 """
 
 # ╔═╡ 5c536430-9188-11eb-229c-e7feba62d257
@@ -216,6 +191,9 @@ md"""
 n = $(@bind sides Slider(3:100, show_value=true, default=6))
 """
 
+# ╔═╡ f20da096-9712-11eb-2a67-cd33f6ab8750
+area(s) = (s/2) * sin(2π/s)
+
 # ╔═╡ 02784976-9566-11eb-125c-a7f1f1bafd6b
 begin
 	θ = (0:.01:1)*2π
@@ -229,9 +207,6 @@ begin
 	end
 	title!("Area = ($sides/2)sin(2π/$sides) ≈  $(area(sides)/π )  π")
 end
-
-# ╔═╡ f20da096-9712-11eb-2a67-cd33f6ab8750
-area(s) = (s/2) * sin(2π/s)
 
 # ╔═╡ 6fd93018-c33b-4682-91c3-7a20a41d9b03
 area0 = area.( 2 .^ (2:10) ) # Area of polygons with # sides  = [4, 8, ..., 1024]
@@ -261,9 +236,6 @@ end
 # ╔═╡ bcfd1585-8161-43a2-8b19-ed654df2e0e1
 colorgoodbad(string(float(π)) , string(22/7))
 
-# ╔═╡ d2d1366b-9b6d-4e54-a0c4-7087f5f063c4
-pyramid( [area0,area1], horizontal = true)
-
 # ╔═╡ a76ac67b-27b9-4e2b-9fca-61480dca5264
 area2 = [16/15 * area1[i+1] .-  1/15 * area1[i] for i = 1:length(area1)-1 ]
 
@@ -271,9 +243,6 @@ area2 = [16/15 * area1[i+1] .-  1/15 * area1[i] for i = 1:length(area1)-1 ]
 md"""
 Another carefully chosen convolution: [-1/15,16/15], do you see the pattern?
 """
-
-# ╔═╡ 6577e546-8f0b-413a-a8bb-b9c12803199d
-pyramid([area0,area1,area2], horizontal = true)
 
 # ╔═╡ 5273fe09-fe38-4c88-b84a-51af17cff906
 big(π)
@@ -283,15 +252,6 @@ area3 = [64/63 * area2[i+1] .-  1/63 * area2[i] for i = 1:length(area2)-1 ]
 
 # ╔═╡ 626242ea-544c-49fc-9884-c70dd6800902
 area4 = [128/127 * area3[i+1] .-  1/127 * area3[i] for i = 1:length(area3)-1 ]
-
-# ╔═╡ 893a56b0-f5d0-4f8d-ba15-1048180a7e53
-pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal = true)
-
-# ╔═╡ fa3a8baf-d86d-45c3-b4ba-85198bd0677d
-string(area1b[end])
-
-# ╔═╡ 8bcd29e2-41db-4969-9932-3cc56edfdc18
-colorgoodbad( (@sprintf "%.30f" big(π)) , (@sprintf "%.30f" big(area1b[end])))
 
 # ╔═╡ dbccc2d5-c2af-48c4-8726-a95c09da78ae
 md"""
@@ -334,6 +294,12 @@ begin
 	area1b = [ 4//3 * area0b[i+1] .-  1//3 * area0b[i] for i = 1:length(area0b)-1 ]
 	colorgoodbad( (@sprintf "%.80f" big(π)) , (@sprintf "%.80f" big(area1b[end])))
 end
+
+# ╔═╡ fa3a8baf-d86d-45c3-b4ba-85198bd0677d
+string(area1b[end])
+
+# ╔═╡ 8bcd29e2-41db-4969-9932-3cc56edfdc18
+colorgoodbad( (@sprintf "%.30f" big(π)) , (@sprintf "%.30f" big(area1b[end])))
 
 # ╔═╡ 453f2585-157d-490a-9d1c-0b02939d0a11
 begin
@@ -562,6 +528,31 @@ function blue(s::String)
 	HTML("<span style='color:blue'> $(s)  </span>")
 end
 
+# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
+md"""
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathematics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+
+$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
+
+ 
+"""
+
+# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
+md"""
+$(blue("Continuous math often lets you replace complicated large systems
+		with lots of details with a simpler abstraction that is easier to work with."))
+"""
+
+# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
+md"""
+$(blue("The combination of continuous and discrete is often more useful than either one alone."))
+"""
+
+# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
+md"""
+$(blue("Machine Learning, Pandemics, climate change, etc. show how critical continuous math is these days."))
+"""
+
 # ╔═╡ c03d45f8-9188-11eb-2e11-0fafa39f253d
 function pyramid(rows::Vector{<:Vector}; 
 		horizontal=false,
@@ -610,8 +601,17 @@ function pyramid(rows::Vector{<:Vector};
 		""")
 end
 
+# ╔═╡ d2d1366b-9b6d-4e54-a0c4-7087f5f063c4
+pyramid( [area0,area1], horizontal = true)
+
+# ╔═╡ 6577e546-8f0b-413a-a8bb-b9c12803199d
+pyramid([area0,area1,area2], horizontal = true)
+
 # ╔═╡ 43d20d56-d56a-47a8-893e-f726c1a99651
 pp(x) =  colorgoodbad( string(float(π)) , (@sprintf "%.15f" x) )
+
+# ╔═╡ 893a56b0-f5d0-4f8d-ba15-1048180a7e53
+pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal = true)
 
 # ╔═╡ Cell order:
 # ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2

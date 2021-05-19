@@ -47,10 +47,10 @@ book_model = [
     Section(3, 5, "How to collaborate on software", "notebooks/week12/how_to_collaborate_on_software.jl", "7N9Vvc8amGM"),
     Section(3, 6, "Snowball Earth and hysteresis", "notebooks/week13/climate2_snowball_earth.jl", "cdIgr_2nUvI"),
     Section(3, 7, "Advection and diffusion in 1D", "notebooks/week13/advection_and_diffusion.jl", "Xb-iUwXI78A"),
-    Section(3, 8, "Resistors, stencils and climate models", "notebooks/week14/resistors_and_stencils.jl", ""),
-    Section(3, 9, "Advection and diffusion in 2D", "notebooks/week14/2d_advection_diffusion.jl", ""),
-    Section(3, 10, "Inverse climate modeling", "notebooks/week14/inverse_climate_model.jl", ""),
-    Section(3, 11, "Solving inverse problems", "notebooks/week14/optimization_with_JuMP.jl", ""),
+    Section(3, 8, "Resistors, stencils and climate models", "notebooks/week14/resistors_and_stencils.jl", "DdTWgBlDgr0"),
+    Section(3, 9, "Advection and diffusion in 2D", "notebooks/week14/2d_advection_diffusion.jl", "DdTWgBlDgr0"),
+    Section(3, 10, "Inverse climate modeling", "notebooks/week14/inverse_climate_model.jl", "nm86_hDwYTU"),
+    Section(3, 11, "Solving inverse problems", "notebooks/week14/optimization_with_JuMP.jl", "nm86_hDwYTU"),
 
     
 ]

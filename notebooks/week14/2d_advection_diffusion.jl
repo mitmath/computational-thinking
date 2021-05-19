@@ -13,6 +13,22 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 9c8a7e5a-12dd-11eb-1b99-cd1d52aefa1d
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+		"Plots",
+		"PlutoUI",
+		"OffsetArrays"
+	])
+	using Statistics
+	using Plots
+	using PlutoUI
+	# using Images
+	using OffsetArrays
+end
+
 # ╔═╡ 2cad38c2-b71d-11eb-24fd-3b460ca71531
 html"""
 <div style="
@@ -54,7 +70,7 @@ opacity: .8;
 "><em>Lecture Video</em></p>
 <div style="display: flex; justify-content: center;">
 <div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<iframe src="https://www.youtube.com/embed/DdTWgBlDgr0" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 </div>
 </div>
 
@@ -63,22 +79,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 9c8a7e5a-12dd-11eb-1b99-cd1d52aefa1d
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-	Pkg.add([
-		"Plots",
-		"PlutoUI",
-		"OffsetArrays"
-	])
-	using Statistics
-	using Plots
-	using PlutoUI
-	# using Images
-	using OffsetArrays
-end
 
 # ╔═╡ 3b3ffbaf-0fa3-4dec-afb9-5274116bc3d3
 TableOfContents()
@@ -205,12 +205,6 @@ $\frac{\partial T(x_{i}, y_{j}, t_{n})}{\partial x} \approx \frac{T_{i+1,\, j}^{
 The *x-gradient kernel* below, implemented using the `OffsetArray` type, is shown below, and is reminiscent of the *edge-detection* or *sharpening* kernels used in image processing and machine learning:
 """
 
-# ╔═╡ 1e8d37ee-2a97-11eb-1d45-6b426b25d4eb
-begin
-	xgrad_kernel = OffsetArray(reshape([-1., 0, 1.], 1, 3),  0:0, -1:1)
-	plot_kernel(xgrad_kernel)
-end
-
 # ╔═╡ 3578b158-2a97-11eb-0771-bf6d82d3b6d1
 md"""
 The first-order partial derivative in $y$ is similarly discretized as:
@@ -220,12 +214,6 @@ $\frac{\partial T(x_{i}, y_{j}, t_{n})}{\partial y} \approx \frac{T_{i,\, j+1}^{
 Its kernel is shown below.
 """
 
-# ╔═╡ 682f2530-2a97-11eb-3ee6-99a7c79b3767
-begin
-	ygrad_kernel = OffsetArray(reshape([-1., 0, 1.], 3, 1),  -1:1, 0:0)
-	plot_kernel(ygrad_kernel)
-end
-
 # ╔═╡ 7f3c9550-2a97-11eb-1549-455009025872
 md"""
 Now that we have discretized the two derivate terms, we can write out the *advective tendency* for computing $T_{i, j, n+1}$ as
@@ -234,22 +222,6 @@ $u\frac{\partial T}{\partial x} + v\frac{\partial T}{\partial y} \approx u_{i,\,
 
 We implement this in julia as a series of methods for the `advect` function. The first method computes the advective tendency (as a single `Float64` type) for the $(i,j)$ grid cell while the second method returns an array of the tendencies for each grid cell using two nested for loops.
 """
-
-# ╔═╡ f4c884fc-2a97-11eb-1ba9-01bf579f8b43
-begin
-	function advect(T, u, v, Δy, Δx, j, i)
-		return .-(
-			u[j, i].*sum(xgrad_kernel[0, -1:1].*T[j, i-1:i+1])/(2Δx) .+
-			v[j, i].*sum(ygrad_kernel[-1:1, 0].*T[j-1:j+1, i])/(2Δy)
-		)
-	end
-	advect(T, u, v, Δy, Δx) = [
-		advect(T, u, v, Δy, Δx, j, i)
-		for j=2:size(T, 1)-1, i=2:size(T, 2)-1
-	]
-	
-	advect(T, O::OceanModel) = advect(T, O.u, O.v, O.G.Δy, O.G.Δx)
-end
 
 # ╔═╡ 0127bca6-2a99-11eb-16a0-8d7af66694f8
 md"""
@@ -265,33 +237,10 @@ $\kappa \left( \frac{\partial^{2} T}{\partial x^{2}} + \frac{\partial^{2} T}{\pa
 The corresponding $x$ and $y$ second-derivative kernels are shown below:
 """
 
-# ╔═╡ b629d89a-2a95-11eb-2f27-3dfa45789be4
-begin
-	xdiff_kernel = OffsetArray(reshape([1., -2., 1.], 1, 3),  0:0, -1:1)
-	ydiff_kernel = OffsetArray(reshape([1., -2., 1.], 3, 1),  -1:1, 0:0)
-
-	[plot_kernel(xdiff_kernel), plot_kernel(ydiff_kernel)]
-end
-
 # ╔═╡ eac507ce-2a99-11eb-3eba-0780a4a7e078
 md"""
 Just as we did with advection, we implement a `diffuse` function using multiple dispatch:
 """
-
-# ╔═╡ ee6716c8-2a95-11eb-3a00-319ee69dd37f
-begin
-	function diffuse(T, κ, Δy, Δx, j, i)
-		return κ.*(
-			sum(xdiff_kernel[0, -1:1].*T[j, i-1:i+1])/(Δx^2) +
-			sum(ydiff_kernel[-1:1, 0].*T[j-1:j+1, i])/(Δy^2)
-		)
-	end
-	diffuse(T, κ, Δy, Δx) = [
-		diffuse(T, κ, Δy, Δx, j, i) for j=2:size(T, 1)-1, i=2:size(T, 2)-1
-	]
-	
-	diffuse(T, O::OceanModel) = diffuse(T, O.P.κ, O.G.Δy, O.G.Δx)
-end
 
 # ╔═╡ 09f179c0-2a9a-11eb-1d0f-e59012f9e77b
 md"""##### No-flux boundary conditions
@@ -340,14 +289,6 @@ end |> as_svg
 md"""
 #####  Timestepping
 """
-
-# ╔═╡ 81bb6a4a-2a9c-11eb-38bb-f7701c79afa2
-function timestep!(sim::ClimateModelSimulation{OceanModel})
-	update_ghostcells!(sim.T)
-	tendencies = advect(sim.T, sim.model) .+ diffuse(sim.T, sim.model)
-	sim.T[2:end-1, 2:end-1] .+= sim.Δt*tendencies
-	sim.iteration += 1
-end;
 
 # ╔═╡ 13eb3966-2a9a-11eb-086c-05510a3f5b80
 md"""
@@ -425,30 +366,6 @@ md"""
 ## Simulating heat transport by advective & diffusive ocean currents
 """
 
-# ╔═╡ 863a6330-2a08-11eb-3992-c3db439fb624
-begin
-	G = Grid(10, 6.e6);
-	P = Parameters(κ_ex);
-	
-	#u, v = zeros(G), zeros(G)
-	# u, v = PointVortex(G, Ω=0.5)
-	u, v = DoubleGyre(G)
-
-	# IC = InitBox(G)
-	IC = InitBox(G, xspan=true)
-	# IC = linearT(G)
-	
-	model = OceanModel(G, P, u*2. ^U_ex, v*2. ^U_ex)
-	Δt = 12*60*60
-	
-	ocean_sim = ClimateModelSimulation(model, copy(IC), Δt)
-end;
-
-# ╔═╡ c98f4680-2b45-11eb-2fbe-ada2cbc080ca
-for i in 1:50
-	timestep!(ocean_sim)
-end
-
 # ╔═╡ 981ef38a-2a8b-11eb-08be-b94be2924366
 md"**Simulation controls**"
 
@@ -461,17 +378,17 @@ begin
 	"""
 end
 
-# ╔═╡ 6dbc3d34-2a89-11eb-2c80-75459a8e237a
-begin
-	md"*Vary the current speed U:*  $(2. ^U_ex) [× reference]"
-end
-
 # ╔═╡ c20b0e00-2a8a-11eb-045d-9db88411746f
 begin
 	U_ex_Slider = @bind U_ex Slider(-4:1:8, default=0, show_value=false);
 	md"""
 	$(U_ex_Slider)
 	"""
+end
+
+# ╔═╡ 6dbc3d34-2a89-11eb-2c80-75459a8e237a
+begin
+	md"*Vary the current speed U:*  $(2. ^U_ex) [× reference]"
 end
 
 # ╔═╡ 933d42fa-2a67-11eb-07de-61cab7567d7d
@@ -485,44 +402,10 @@ end
 # ╔═╡ c9ea0f72-2a67-11eb-20ba-376ca9c8014f
 @bind go_ex Clock(0.1)
 
-# ╔═╡ 3b24e1b0-2b46-11eb-383b-c57cbf3e68f1
-let
-	go_ex
-	if ocean_sim.iteration == 0
-		timestep!(ocean_sim)
-	else
-		for i in 1:50
-			timestep!(ocean_sim)
-		end
-	end
-	plot_state(ocean_sim, clims=(-0.1, 1), show_quiver=show_quiver, show_anomaly=show_anomaly, IC=IC)
-end
-
 # ╔═╡ c3f086f4-2a9a-11eb-0978-27532cbecebf
 md"""
 **Some unit tests for verification**
 """
-
-# ╔═╡ bff89550-2a9a-11eb-3038-d70249c96219
-begin
-	#go_ex
-	md"""
-	Let's make sure our model conserves energy. We have not added any energy to the system: advection and diffusion just move the energy around. The total heat content is $(round(total_heat_content, digits=3)) peta-Joules and the average temperature is $(round(mean_temp, digits=2)) °C.
-	"""
-end
-
-# ╔═╡ dc9d12d0-2a9a-11eb-3dae-85b3b6029658
-begin
-	heat_capacity = 51.
-	total_heat_content = sum(heat_capacity*ocean_sim.T*(ocean_sim.model.G.Δx*ocean_sim.model.G.Δy))*1e-15
-	mean_temp = mean(ocean_sim.T)
-end;
-
-# ╔═╡ d9e23a5a-2a8b-11eb-23f1-73ff28be9f12
-md"**The CFL condition**
-
-The CFL condition is defined by $\text{CFL} = \dfrac{\max\left(\sqrt{u² + v²}\right)Δt}{Δx} =$ $(round(CFL_adv(ocean_sim), digits=2))
-"
 
 # ╔═╡ ad7b7ed6-2a9c-11eb-06b7-0f5595167575
 function CFL_adv(sim::ClimateModelSimulation)
@@ -536,32 +419,6 @@ md"""
 
 # ╔═╡ 16905a6a-2a78-11eb-19ea-81adddc21088
 Nvec = 1:25
-
-# ╔═╡ 8346b590-2b41-11eb-0bc1-1ba79bb77dfb
-tvec = map(Nvec) do Npower
-	G = Grid(8*Npower, 6.e6);
-	P = Parameters(κ_ex);
-
-	#u, v = DoubleGyre(G)
-	#u, v = PointVortex(G, Ω=0.5)
-	u, v = zeros(G), zeros(G)
-
-	model = OceanModel(G, P, u, v)
-
-	IC = InitBox(G)
-	#IC = InitBox(G, nx=G.Nx÷2-1)
-	#IC = linearT(G)
-
-	Δt = 6*60*60
-	S = ClimateModelSimulation(model, copy(IC), Δt)
-
-	return @elapsed timestep!(S)
-end
-
-# ╔═╡ 794c2148-2a78-11eb-2756-5bd28b7726fa
-begin
-	plot(8*Nvec, tvec, xlabel="Number of Grid Cells (in x-direction)", ylabel="elapsed time per timestep [s]")
-end |> as_svg
 
 # ╔═╡ c0e46442-27fb-11eb-2c94-15edbda3f84d
 function plot_state(sim::ClimateModelSimulation; clims=(-1.1,1.1), 
@@ -621,26 +478,6 @@ end
 md"""##### Computing the velocity field for a single circular vortex
 """
 
-# ╔═╡ e2e4cfac-2a63-11eb-1b7f-9d8d5d304b43
-function PointVortex(G; Ω=1., a=0.2, x0=0.5, y0=0.)
-	x = reshape(0. -G.Δx/(G.L):G.Δx/G.L:1. +G.Δx/(G.L), (1, G.Nx+1))
-	y = reshape(-1. -G.Δy/(G.L):G.Δy/G.L:1. +G.Δy/(G.L), (G.Ny+1, 1))
-	
-	function ψ̂(x,y)
-		r = sqrt.((y .-y0).^2 .+ (x .-x0).^2)
-		
-		stream = -Ω/4*r.^2
-		stream[r .> a] = -Ω*a^2/4*(1. .+ 2*log.(r[r .> a]/a))
-		
-		return stream
-	end
-		
-	u, v = diagnose_velocities(ψ̂(x, y), G)
-	impose_no_flux!(u, v)
-	
-	return u,v
-end
-
 # ╔═╡ e3ee80c0-12dd-11eb-110a-c336bb978c51
 begin
 	∂x(ϕ, Δx) = (ϕ[:,2:end] - ϕ[:,1:end-1])/Δx
@@ -665,6 +502,26 @@ function impose_no_flux!(u, v)
 	u[end,:] .= 0.; v[end,:] .= 0.;
 	u[:,1] .= 0.; v[:,1] .= 0.;
 	u[:,end] .= 0.; v[:,end] .= 0.;
+end
+
+# ╔═╡ e2e4cfac-2a63-11eb-1b7f-9d8d5d304b43
+function PointVortex(G; Ω=1., a=0.2, x0=0.5, y0=0.)
+	x = reshape(0. -G.Δx/(G.L):G.Δx/G.L:1. +G.Δx/(G.L), (1, G.Nx+1))
+	y = reshape(-1. -G.Δy/(G.L):G.Δy/G.L:1. +G.Δy/(G.L), (G.Ny+1, 1))
+	
+	function ψ̂(x,y)
+		r = sqrt.((y .-y0).^2 .+ (x .-x0).^2)
+		
+		stream = -Ω/4*r.^2
+		stream[r .> a] = -Ω*a^2/4*(1. .+ 2*log.(r[r .> a]/a))
+		
+		return stream
+	end
+		
+	u, v = diagnose_velocities(ψ̂(x, y), G)
+	impose_no_flux!(u, v)
+	
+	return u,v
 end
 
 # ╔═╡ bb084ace-12e2-11eb-2dfc-111e90eabfdd
@@ -723,6 +580,46 @@ function InitBox(G; value=1., nx=2, ny=2, xspan=false, yspan=false)
 	return T
 end
 
+# ╔═╡ 863a6330-2a08-11eb-3992-c3db439fb624
+begin
+	G = Grid(10, 6.e6);
+	P = Parameters(κ_ex);
+	
+	#u, v = zeros(G), zeros(G)
+	# u, v = PointVortex(G, Ω=0.5)
+	u, v = DoubleGyre(G)
+
+	# IC = InitBox(G)
+	IC = InitBox(G, xspan=true)
+	# IC = linearT(G)
+	
+	model = OceanModel(G, P, u*2. ^U_ex, v*2. ^U_ex)
+	Δt = 12*60*60
+	
+	ocean_sim = ClimateModelSimulation(model, copy(IC), Δt)
+end;
+
+# ╔═╡ dc9d12d0-2a9a-11eb-3dae-85b3b6029658
+begin
+	heat_capacity = 51.
+	total_heat_content = sum(heat_capacity*ocean_sim.T*(ocean_sim.model.G.Δx*ocean_sim.model.G.Δy))*1e-15
+	mean_temp = mean(ocean_sim.T)
+end;
+
+# ╔═╡ bff89550-2a9a-11eb-3038-d70249c96219
+begin
+	#go_ex
+	md"""
+	Let's make sure our model conserves energy. We have not added any energy to the system: advection and diffusion just move the energy around. The total heat content is $(round(total_heat_content, digits=3)) peta-Joules and the average temperature is $(round(mean_temp, digits=2)) °C.
+	"""
+end
+
+# ╔═╡ d9e23a5a-2a8b-11eb-23f1-73ff28be9f12
+md"**The CFL condition**
+
+The CFL condition is defined by $\text{CFL} = \dfrac{\max\left(\sqrt{u² + v²}\right)Δt}{Δx} =$ $(round(CFL_adv(ocean_sim), digits=2))
+"
+
 # ╔═╡ 2908988e-2a9a-11eb-2cf7-494972f93152
 Base.zeros(G::Grid) = zeros(G.Ny, G.Nx)
 
@@ -732,6 +629,109 @@ plot_kernel(A) = heatmap(
 	color=:bluesreds, clims=(-maximum(abs.(A)), maximum(abs.(A))), colorbar=false,
 	xticks=false, yticks=false, size=(30+30*size(A, 2), 30+30*size(A, 1)), xaxis=false, yaxis=false
 )
+
+# ╔═╡ 1e8d37ee-2a97-11eb-1d45-6b426b25d4eb
+begin
+	xgrad_kernel = OffsetArray(reshape([-1., 0, 1.], 1, 3),  0:0, -1:1)
+	plot_kernel(xgrad_kernel)
+end
+
+# ╔═╡ 682f2530-2a97-11eb-3ee6-99a7c79b3767
+begin
+	ygrad_kernel = OffsetArray(reshape([-1., 0, 1.], 3, 1),  -1:1, 0:0)
+	plot_kernel(ygrad_kernel)
+end
+
+# ╔═╡ f4c884fc-2a97-11eb-1ba9-01bf579f8b43
+begin
+	function advect(T, u, v, Δy, Δx, j, i)
+		return .-(
+			u[j, i].*sum(xgrad_kernel[0, -1:1].*T[j, i-1:i+1])/(2Δx) .+
+			v[j, i].*sum(ygrad_kernel[-1:1, 0].*T[j-1:j+1, i])/(2Δy)
+		)
+	end
+	advect(T, u, v, Δy, Δx) = [
+		advect(T, u, v, Δy, Δx, j, i)
+		for j=2:size(T, 1)-1, i=2:size(T, 2)-1
+	]
+	
+	advect(T, O::OceanModel) = advect(T, O.u, O.v, O.G.Δy, O.G.Δx)
+end
+
+# ╔═╡ b629d89a-2a95-11eb-2f27-3dfa45789be4
+begin
+	xdiff_kernel = OffsetArray(reshape([1., -2., 1.], 1, 3),  0:0, -1:1)
+	ydiff_kernel = OffsetArray(reshape([1., -2., 1.], 3, 1),  -1:1, 0:0)
+
+	[plot_kernel(xdiff_kernel), plot_kernel(ydiff_kernel)]
+end
+
+# ╔═╡ ee6716c8-2a95-11eb-3a00-319ee69dd37f
+begin
+	function diffuse(T, κ, Δy, Δx, j, i)
+		return κ.*(
+			sum(xdiff_kernel[0, -1:1].*T[j, i-1:i+1])/(Δx^2) +
+			sum(ydiff_kernel[-1:1, 0].*T[j-1:j+1, i])/(Δy^2)
+		)
+	end
+	diffuse(T, κ, Δy, Δx) = [
+		diffuse(T, κ, Δy, Δx, j, i) for j=2:size(T, 1)-1, i=2:size(T, 2)-1
+	]
+	
+	diffuse(T, O::OceanModel) = diffuse(T, O.P.κ, O.G.Δy, O.G.Δx)
+end
+
+# ╔═╡ 81bb6a4a-2a9c-11eb-38bb-f7701c79afa2
+function timestep!(sim::ClimateModelSimulation{OceanModel})
+	update_ghostcells!(sim.T)
+	tendencies = advect(sim.T, sim.model) .+ diffuse(sim.T, sim.model)
+	sim.T[2:end-1, 2:end-1] .+= sim.Δt*tendencies
+	sim.iteration += 1
+end;
+
+# ╔═╡ c98f4680-2b45-11eb-2fbe-ada2cbc080ca
+for i in 1:50
+	timestep!(ocean_sim)
+end
+
+# ╔═╡ 3b24e1b0-2b46-11eb-383b-c57cbf3e68f1
+let
+	go_ex
+	if ocean_sim.iteration == 0
+		timestep!(ocean_sim)
+	else
+		for i in 1:50
+			timestep!(ocean_sim)
+		end
+	end
+	plot_state(ocean_sim, clims=(-0.1, 1), show_quiver=show_quiver, show_anomaly=show_anomaly, IC=IC)
+end
+
+# ╔═╡ 8346b590-2b41-11eb-0bc1-1ba79bb77dfb
+tvec = map(Nvec) do Npower
+	G = Grid(8*Npower, 6.e6);
+	P = Parameters(κ_ex);
+
+	#u, v = DoubleGyre(G)
+	#u, v = PointVortex(G, Ω=0.5)
+	u, v = zeros(G), zeros(G)
+
+	model = OceanModel(G, P, u, v)
+
+	IC = InitBox(G)
+	#IC = InitBox(G, nx=G.Nx÷2-1)
+	#IC = linearT(G)
+
+	Δt = 6*60*60
+	S = ClimateModelSimulation(model, copy(IC), Δt)
+
+	return @elapsed timestep!(S)
+end
+
+# ╔═╡ 794c2148-2a78-11eb-2756-5bd28b7726fa
+begin
+	plot(8*Nvec, tvec, xlabel="Number of Grid Cells (in x-direction)", ylabel="elapsed time per timestep [s]")
+end |> as_svg
 
 # ╔═╡ Cell order:
 # ╟─2cad38c2-b71d-11eb-24fd-3b460ca71531

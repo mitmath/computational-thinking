@@ -154,6 +154,9 @@ function process_book_item(section::Section)
     setfield!(notebook, :cells_dict, cells_dict)
     setfield!(notebook, :cell_order, cell_order)
 
+    # analyze the notebook so that cells are saved in the correct order
+    notebook.topology = Pluto.updated_topology(notebook.topology, notebook, notebook.cells)
+    Pluto.update_dependency_cache!(notebook)
     Pluto.save_notebook(notebook)
 
     # Now we need to generate the approriate .md file for this notebook

@@ -9,10 +9,6 @@ create_index = false
 
 [SliderServer]
 exclude=[
-    # disable the random walks notebooks because we are running out of memory :((
-    "notebooks/week7/random_walks.jl",
-    "notebooks/week8/random_walks_II.jl",
-
     # these are in the repo but not used on the website
     "notebooks/basic_syntax.jl",
     "notebooks/week2/linear_transformation.jl",

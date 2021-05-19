@@ -13,6 +13,38 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 86f770fe-74a1-11eb-01f7-5b3ecf057124
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+		
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="Unitful", version="1.6"), 
+		Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
+		Pkg.PackageSpec(name="OffsetArrays", version="1.6"),
+		Pkg.PackageSpec(name="Plots", version="1.10")
+	])
+
+	using PlutoUI 
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using Unitful 
+	using ImageFiltering
+	using OffsetArrays
+	using Plots
+end
+
+# ╔═╡ b310756a-af08-48b0-ae10-ee2e8dd0c968
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
 # ╔═╡ febfa62a-74fa-11eb-2fe6-df7de43ef4b6
 html"""
 <div style="
@@ -73,38 +105,6 @@ md"""
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
-
-# ╔═╡ 86f770fe-74a1-11eb-01f7-5b3ecf057124
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-	Pkg.add([
-		Pkg.PackageSpec(name="ImageIO", version="0.5"),
-		Pkg.PackageSpec(name="ImageShow", version="0.2"),
-		Pkg.PackageSpec(name="FileIO", version="1.6"),
-		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
-		Pkg.PackageSpec(name="Colors", version="0.12"),
-		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
-		
-		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-		Pkg.PackageSpec(name="Unitful", version="1.6"), 
-		Pkg.PackageSpec(name="ImageFiltering", version="0.6"),
-		Pkg.PackageSpec(name="OffsetArrays", version="1.6"),
-		Pkg.PackageSpec(name="Plots", version="1.10")
-	])
-
-	using PlutoUI 
-	using Colors, ColorVectorSpace, ImageShow, FileIO
-	using Unitful 
-	using ImageFiltering
-	using OffsetArrays
-	using Plots
-end
-
-# ╔═╡ b310756a-af08-48b0-ae10-ee2e8dd0c968
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
 
 # ╔═╡ 4d332c7e-74f8-11eb-1f49-a518246d1db8
 md"""

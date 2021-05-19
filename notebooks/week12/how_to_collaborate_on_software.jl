@@ -4,6 +4,20 @@
 using Markdown
 using InteractiveUtils
 
+# ╔═╡ 75c8f825-d988-4f9e-8038-6b4dd2e24181
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(url="https://github.com/JuliaPluto/PlutoTest.jl", rev="0c8b9b0"),
+    ])
+    using HypertextLiteral
+	using PlutoTest
+	using PlutoUI
+end
+
 # ╔═╡ 10ebd434-adba-11eb-048f-2d084049d48f
 html"""
 <div style="
@@ -82,13 +96,6 @@ md"""
 # Why not Google Drive?
 """
 
-# ╔═╡ 812002d3-8603-4ffa-8695-2b2da7f0766a
-html"""
-<p>
-If you have not used Google Drive before, here is a small demonstration:</p>
-<video src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" data-canonical-src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" controls="controls" muted="muted" class="d-block rounded-bottom-2 width-fit" style="max-height:640px;"></video>
-""" |> aside
-
 # ╔═╡ 56db20a5-0e8d-4d34-b3ba-c3ab1b8de58e
 md"""
 Google Drive (or Dropbox, Nextcloud, etc) is a platform for _realtime collaboration_ on files. Besides synchronizing single files (like the video above), Google Drive also allows you to synchronize entire folders between multiple computers and the cloud. That's awesome! So do people use it for collaborative software projects?
@@ -110,27 +117,6 @@ For example, here is what Pluto.jl looks like after adding **a single character*
 
 """
 
-# ╔═╡ 51448106-3e0e-4abf-84fc-7e6e81425d12
-flex(
-	md"""
-	#### Before:
-	
-	![Schermafbeelding 2021-05-04 om 18 51 27](https://user-images.githubusercontent.com/6933510/117040056-c10b8280-ad09-11eb-9384-d211156440b1.png)
-	""",
-	md"""
-	#### After a single change:
-	
-	![Schermafbeelding 2021-05-04 om 18 50 00](https://user-images.githubusercontent.com/6933510/117039958-a46f4a80-ad09-11eb-90fa-c1264d896648.png)
-	"""
-	) |> outline
-
-# ╔═╡ 3c0059b7-7a99-4c1c-a2bf-e47bdd06a252
-outline(x) = Div(x, Dict(
-		"border" => "3px solid rgba(0,0,0,.3)",
-		"border-radius" => "3px",
-		"padding" => "5px",
-		))
-
 # ╔═╡ 604837c5-b017-4d6c-a5c5-dab50d5f3f61
 md"""
 While a single character can mean disaster, this _sensitivity_ also means that programming languages are quite powerful! A small change will often do the trick.
@@ -142,29 +128,6 @@ md"""
 
 This sensitivity to changes makes realtime synchronization unsuitable for software projects. To see why, let's say that I want to change `sqrt` to `log` in the following code:
 """
-
-# ╔═╡ 0bf51d8c-7adf-4231-8b2d-c976484a3e7c
-Div(
-	[md"""
-	```julia
-	function height(p)
-		c1 * sqrt(p * c2)
-	end
-	```
-	""",
-	md"to",
-	md"""
-	```julia
-	function height(p)
-		c1 * log(p * c2)
-	end
-	```
-	"""],
-	Dict(
-		"display" => "flex",
-		"justify-content" => "space-evenly",
-		"align-items" => "center",
-	))
 
 # ╔═╡ 02905480-8864-4e56-af3a-6c7c0789ce6f
 
@@ -179,13 +142,6 @@ md"""
 ##### Synchronizing every _keystroke_
 """
 
-# ╔═╡ 8b24ce23-4ead-4fbc-875e-a8261f671abe
-grid([
-	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
-	"Your computer (local):" pass fail fail fail pass
-	"Online (remote): " pass fail fail fail pass
-		])
-
 # ╔═╡ 3c8abdfc-cf68-4f10-a3e9-08d24803535b
 
 
@@ -198,20 +154,6 @@ However, if we only publish code _manually_, we can make sure that we never publ
 md"""
 ##### Synchronizing manually
 """
-
-# ╔═╡ 86e4b0dd-9bf5-4711-bf3f-b55ed2627a03
-grid([
-	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
-	md"Your computer _(local)_:" pass fail fail fail pass
-	md"Online _(remote)_: " pass nothing nothing nothing pass
-		])
-
-# ╔═╡ 8ea1ca6b-4bb7-4f53-907d-0e5ca83e5761
-md"""
-[^sidenote]:
-
-    _Language design side note:_ There _are_ languages that are designed to be robust against small changes, and you can actually use realtime collaboration with those! Examples are [glitch.com](glitch.com) for collaborative HTML and CSS editing _(these languages can ignore syntax errors and continue)_, and the more experimental language [_Dark_](https://darklang.com/) _(which uses a special editor that does not allow you to type errors)_.
-""" |> aside
 
 # ╔═╡ ee5a3219-4547-4a9d-b527-3489a2925f68
 md"""
@@ -227,24 +169,10 @@ md"""
 ##### Synchronizing every _save_
 """
 
-# ╔═╡ efbd6d1c-d2c9-48a9-9d6c-dc9ce6af0b5b
-grid([
-	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
-	"Your computer (local):" pass fail fail pass
-	"Online (remote): " pass fail fail pass
-		])
-
 # ╔═╡ 1421f832-9f97-4ec3-b967-64618983349b
 md"""
 ##### Synchronizing manually
 """
-
-# ╔═╡ b139e8ea-88ad-4df4-9f13-c867edfc2db0
-grid([
-	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
-	"Your computer (local):" pass fail fail pass
-	"Online (remote): " pass nothing nothing pass
-		])
 
 # ╔═╡ e5bab2e1-be9e-4654-844a-d50285e330c8
 pass2 = html"<span style='opacity: .3'>✅</span>"
@@ -254,9 +182,6 @@ pass = "✅" |> HTML
 
 # ╔═╡ 79ab206d-2140-4c78-8fd4-a874fe2551e1
 fail = "❌" |> HTML
-
-# ╔═╡ 4ce38ec8-4084-4fe8-a248-87408cd0d39b
-bigbreak
 
 # ╔═╡ 38261f04-f410-440e-a1cf-218fa240a0ae
 md"""
@@ -271,9 +196,6 @@ Now that's great, but what if your teammate also made a copy `presentation-with-
 
 
 """
-
-# ╔═╡ 93ce9618-5484-4572-97f1-1cb9c9367989
-bigbreak
 
 # ╔═╡ a0a97cd2-838c-4a2c-9233-969b3274764c
 md"""
@@ -302,6 +224,12 @@ bigbreak = html"""
 <br>
 <br>
 """
+
+# ╔═╡ 4ce38ec8-4084-4fe8-a248-87408cd0d39b
+bigbreak
+
+# ╔═╡ 93ce9618-5484-4572-97f1-1cb9c9367989
+bigbreak
 
 # ╔═╡ e3fe649e-2733-455a-897d-d4d2d70b9dc6
 md"""
@@ -338,12 +266,6 @@ This is possible because a Pull Request is not static — you can make changes t
 
 """
 
-# ╔═╡ 7af9e69c-2b81-4a90-861c-ed737a4a9ec4
-md"""
-[^1]:
-    If you are working on a _fork_, then by creating a PR, you also give the original project authors access to make changes to the _from_ branch of the PR. This is a useful feature, allowing you to work together on the same codebase.
-""" |> aside
-
 # ╔═╡ b83ade3d-6f8d-4ac8-9255-956d0a348416
 md"""
 As an example of a Pull Request in the wild, let's look at this PR to `JuliaLang/julia`: [github.com/JuliaLang/julia/pull/40596](https://github.com/JuliaLang/julia/pull/40596). The code change is not so important to us right now, but pay attention to the communication around the code change.
@@ -373,22 +295,8 @@ md"""
 > Video tutorial will be available here after the live lecture.
 """
 
-# ╔═╡ b2e49cd5-49d5-4ac7-a3ae-9820a97720fb
-[
-	@htl("<em>remote</em>") => md"The version that is on the internet, you browse the remote on github.com.",
-	@htl("<em>local</em>") => md"What's on your computer. Use `pull`, `commit` and `push` to synchronize this with the remote. Google Drive does this all the time."
-	] |> vocabulary
-
 # ╔═╡ d400d538-4f73-4490-ad68-aedbb57cd70f
 
-
-# ╔═╡ a98993b9-a5c0-4260-b96e-2655c472ccba
-[
-	"fetch" => md"Make your local git aware of any changes online. Do this often!",
-	"pull" => md"Apply any changes on the remote version to your local copy. This will get the two _in sync_. Do this often!",
-	"commit" => md"Create a collection of changes to files, ready to be `push`ed.",
-	"push" => md"Publish any local `commit`s to the remote version.",
-	] |> vocabulary
 
 # ╔═╡ 67cf205a-3d89-4cd9-ab5e-febc85ea8af1
 md"""
@@ -469,15 +377,6 @@ md"""
 One reason to write tests is to _pin_ specific behaviour, protecting yourself from accidentally changing it later. For example, if you fix a bug that `double(2)` returns `40` instead of `4`, you would also add a test for `double(2) == 4`. Months later, when you are changing `double` for another use case, the old test insures that you are not accidentally breaking something that was once fixed.
 """
 
-# ╔═╡ 7174076d-5eba-4380-8d76-292935014d90
-md"""
-> ##### Test-driven design
-> 
-> Some people like to _first_ write their tests, which will fail initially, and _then_ write the code to solve the problem. While working on the code, they keep re-running the tests, until all checks are green! This can be an effective and rewarding way to work on a software problem!
-> 
-> If you are following this course, then you will already be familiar with this concept! The homework exercises were all designed with the test-driven principle.
-""" |> aside
-
 # ╔═╡ 0d76ea2f-18a9-46d1-8328-f077482d5d1f
 md"""
 #### Running tests
@@ -523,20 +422,6 @@ md"""
 # Appendix
 """
 
-# ╔═╡ 75c8f825-d988-4f9e-8038-6b4dd2e24181
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(url="https://github.com/JuliaPluto/PlutoTest.jl", rev="0c8b9b0"),
-    ])
-    using HypertextLiteral
-	using PlutoTest
-	using PlutoUI
-end
-
 # ╔═╡ d92d55a3-8fbc-4178-81b4-7ddc379ef7c7
 function ingredients(path::String)
 	# this is from the Julia source code (evalfile in base/loading.jl)
@@ -557,20 +442,6 @@ end
 
 # ╔═╡ 4ea69625-0064-42da-a75a-a54fbd106f78
 stackrows(x) = permutedims(hcat(x...),(2,1))
-
-# ╔═╡ 13c0fbf3-08c6-4515-b710-f16b55165a2d
-vocabulary(x) = grid(stackrows((
-		[@htl("<span style='font-size: 1.2rem; font-weight: 700;'><code>$(k)</code></span>"), v]
-		for (k,v) in x
-		)); fill_width=false)
-
-# ╔═╡ 574448b8-2ff1-4bff-8580-33bfcba860e8
-function flex(args...; kwargs...)
-	Div(;
-		contents=collect(args),
-		style=Dict("display" => "flex", ("flex-" * String(k) => string(v) for (k,v) in kwargs)...)
-		)
-end
 
 # ╔═╡ dd4855a0-0b7c-40a5-8565-94b40948f86d
 flex(x::Union{AbstractVector,Base.Generator}; kwargs...) = flex(x...; kwargs...)
@@ -594,6 +465,58 @@ begin
 	end
 end
 
+# ╔═╡ 3c0059b7-7a99-4c1c-a2bf-e47bdd06a252
+outline(x) = Div(x, Dict(
+		"border" => "3px solid rgba(0,0,0,.3)",
+		"border-radius" => "3px",
+		"padding" => "5px",
+		))
+
+# ╔═╡ 0bf51d8c-7adf-4231-8b2d-c976484a3e7c
+Div(
+	[md"""
+	```julia
+	function height(p)
+		c1 * sqrt(p * c2)
+	end
+	```
+	""",
+	md"to",
+	md"""
+	```julia
+	function height(p)
+		c1 * log(p * c2)
+	end
+	```
+	"""],
+	Dict(
+		"display" => "flex",
+		"justify-content" => "space-evenly",
+		"align-items" => "center",
+	))
+
+# ╔═╡ 574448b8-2ff1-4bff-8580-33bfcba860e8
+function flex(args...; kwargs...)
+	Div(;
+		contents=collect(args),
+		style=Dict("display" => "flex", ("flex-" * String(k) => string(v) for (k,v) in kwargs)...)
+		)
+end
+
+# ╔═╡ 51448106-3e0e-4abf-84fc-7e6e81425d12
+flex(
+	md"""
+	#### Before:
+	
+	![Schermafbeelding 2021-05-04 om 18 51 27](https://user-images.githubusercontent.com/6933510/117040056-c10b8280-ad09-11eb-9384-d211156440b1.png)
+	""",
+	md"""
+	#### After a single change:
+	
+	![Schermafbeelding 2021-05-04 om 18 50 00](https://user-images.githubusercontent.com/6933510/117039958-a46f4a80-ad09-11eb-90fa-c1264d896648.png)
+	"""
+	) |> outline
+
 # ╔═╡ 676ac6ff-1b7e-4c88-b850-45f4375a8d58
 function grid(items::AbstractMatrix; fill_width::Bool=true)
 	Div(
@@ -605,6 +528,54 @@ function grid(items::AbstractMatrix; fill_width::Bool=true)
 		),
 	)
 end
+
+# ╔═╡ 8b24ce23-4ead-4fbc-875e-a8261f671abe
+grid([
+	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
+	"Your computer (local):" pass fail fail fail pass
+	"Online (remote): " pass fail fail fail pass
+		])
+
+# ╔═╡ 86e4b0dd-9bf5-4711-bf3f-b55ed2627a03
+grid([
+	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
+	md"Your computer _(local)_:" pass fail fail fail pass
+	md"Online _(remote)_: " pass nothing nothing nothing pass
+		])
+
+# ╔═╡ efbd6d1c-d2c9-48a9-9d6c-dc9ce6af0b5b
+grid([
+	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
+	"Your computer (local):" pass fail fail pass
+	"Online (remote): " pass fail fail pass
+		])
+
+# ╔═╡ b139e8ea-88ad-4df4-9f13-c867edfc2db0
+grid([
+	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
+	"Your computer (local):" pass fail fail pass
+	"Online (remote): " pass nothing nothing pass
+		])
+
+# ╔═╡ 13c0fbf3-08c6-4515-b710-f16b55165a2d
+vocabulary(x) = grid(stackrows((
+		[@htl("<span style='font-size: 1.2rem; font-weight: 700;'><code>$(k)</code></span>"), v]
+		for (k,v) in x
+		)); fill_width=false)
+
+# ╔═╡ b2e49cd5-49d5-4ac7-a3ae-9820a97720fb
+[
+	@htl("<em>remote</em>") => md"The version that is on the internet, you browse the remote on github.com.",
+	@htl("<em>local</em>") => md"What's on your computer. Use `pull`, `commit` and `push` to synchronize this with the remote. Google Drive does this all the time."
+	] |> vocabulary
+
+# ╔═╡ a98993b9-a5c0-4260-b96e-2655c472ccba
+[
+	"fetch" => md"Make your local git aware of any changes online. Do this often!",
+	"pull" => md"Apply any changes on the remote version to your local copy. This will get the two _in sync_. Do this often!",
+	"commit" => md"Create a collection of changes to files, ready to be `push`ed.",
+	"push" => md"Publish any local `commit`s to the remote version.",
+	] |> vocabulary
 
 # ╔═╡ d43abe78-5a9d-4a22-999d-0ee85eb5ab7f
 function aside(x)
@@ -633,6 +604,35 @@ function aside(x)
 		
 		""")
 end
+
+# ╔═╡ 812002d3-8603-4ffa-8695-2b2da7f0766a
+html"""
+<p>
+If you have not used Google Drive before, here is a small demonstration:</p>
+<video src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" data-canonical-src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" controls="controls" muted="muted" class="d-block rounded-bottom-2 width-fit" style="max-height:640px;"></video>
+""" |> aside
+
+# ╔═╡ 8ea1ca6b-4bb7-4f53-907d-0e5ca83e5761
+md"""
+[^sidenote]:
+
+    _Language design side note:_ There _are_ languages that are designed to be robust against small changes, and you can actually use realtime collaboration with those! Examples are [glitch.com](glitch.com) for collaborative HTML and CSS editing _(these languages can ignore syntax errors and continue)_, and the more experimental language [_Dark_](https://darklang.com/) _(which uses a special editor that does not allow you to type errors)_.
+""" |> aside
+
+# ╔═╡ 7af9e69c-2b81-4a90-861c-ed737a4a9ec4
+md"""
+[^1]:
+    If you are working on a _fork_, then by creating a PR, you also give the original project authors access to make changes to the _from_ branch of the PR. This is a useful feature, allowing you to work together on the same codebase.
+""" |> aside
+
+# ╔═╡ 7174076d-5eba-4380-8d76-292935014d90
+md"""
+> ##### Test-driven design
+> 
+> Some people like to _first_ write their tests, which will fail initially, and _then_ write the code to solve the problem. While working on the code, they keep re-running the tests, until all checks are green! This can be an effective and rewarding way to work on a software problem!
+> 
+> If you are following this course, then you will already be familiar with this concept! The homework exercises were all designed with the test-driven principle.
+""" |> aside
 
 # ╔═╡ Cell order:
 # ╟─10ebd434-adba-11eb-048f-2d084049d48f

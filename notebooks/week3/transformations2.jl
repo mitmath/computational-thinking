@@ -13,6 +13,45 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+		Pkg.PackageSpec(name="HypertextLiteral", version="0.5"),
+		Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
+		Pkg.PackageSpec(name="NonlinearSolve", version="0.3"),
+		Pkg.PackageSpec(name="StaticArrays"),
+	])
+
+	using PlutoUI 
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using PlutoUI
+	using HypertextLiteral
+	using LinearAlgebra
+	using ForwardDiff
+	using NonlinearSolve
+	using StaticArrays
+end
+
+# ╔═╡ 230cba36-9d0a-4726-9e55-7df2c6743968
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
+# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
 # ╔═╡ 972b2230-7634-11eb-028d-df7fc722ec70
 html"""
 <div style="
@@ -74,50 +113,16 @@ md"""
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
 
-# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-	Pkg.add([
-		Pkg.PackageSpec(name="ImageIO", version="0.5"),
-		Pkg.PackageSpec(name="ImageShow", version="0.2"),
-		Pkg.PackageSpec(name="FileIO", version="1.6"),
-		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
-		Pkg.PackageSpec(name="Colors", version="0.12"),
-		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
-
-		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-		Pkg.PackageSpec(name="HypertextLiteral", version="0.5"),
-		Pkg.PackageSpec(name="ForwardDiff", version="0.10"),
-		Pkg.PackageSpec(name="NonlinearSolve", version="0.3"),
-		Pkg.PackageSpec(name="StaticArrays"),
-	])
-
-	using PlutoUI 
-	using Colors, ColorVectorSpace, ImageShow, FileIO
-	using PlutoUI
-	using HypertextLiteral
-	using LinearAlgebra
-	using ForwardDiff
-	using NonlinearSolve
-	using StaticArrays
-end
-
-# ╔═╡ 230cba36-9d0a-4726-9e55-7df2c6743968
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
-
-# ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
-# img_original = load(download(corgis_url));
-img_original = load(download(longcorgi_url));
-# img_original = load(download(theteam_url));
-
 # ╔═╡ 890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
 corgis_url = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"
 
 # ╔═╡ 85fba8fb-a9ea-444d-831b-ec6489b58b4f
 longcorgi_url = "https://user-images.githubusercontent.com/6933510/110868198-713faa80-82c8-11eb-8264-d69df4509f49.png"
+
+# ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
+# img_original = load(download(corgis_url));
+img_original = load(download(longcorgi_url));
+# img_original = load(download(theteam_url));
 
 # ╔═╡ 06beabc3-2aa7-4e78-9bae-dc4b37251aa2
 theteam_url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg"
@@ -164,22 +169,6 @@ md"""
 Grab a [linear](#a0afe3ae-76b9-11eb-2301-cde7260ddd7f) or [nonlinear](#a290d5e2-7a02-11eb-37db-41bf86b1f3b3) transform, or make up your own!
 """
 
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-# T⁻¹ = id
-#  T⁻¹ = rotate(α)
-  T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
- # T⁻¹ = nonlin_shear(α)  
- #   T⁻¹ =   inverse(nonlin_shear(α))
-#    T⁻¹ =  nonlin_shear(-α)
-#  T⁻¹ =  xy 
-# T⁻¹ = warp(α)
-# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
-
-#T⁻¹ = ((x,y),)-> (x,y^2)  
-# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
-
 # ╔═╡ 2efaa336-7630-11eb-0c17-a7d4a0141dac
 md"""
 zoom = $(@bind  z Scrubbable(.1:.1:3,  default=1))
@@ -217,27 +206,6 @@ md"""
 Circular Frame $(@bind circular CheckBox(default=true))
 radius = $(@bind r Slider(.1:.1:1, show_value=true, default = 1))
 """
-
-# ╔═╡ ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
-begin
-		[			    
-			begin
-			
-			 x,y = transform_ij_to_xy(i,j, pixels)
-			
-			X,Y = ( translate(-panx,-pany)  )([x,y])
-			 X,Y = ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([x,y])
-			 i,j = transform_xy_to_ij(img,X,Y)
-			 getpixel(img,i,j; circular=circular, r=r)
-			end	 
-		
-			for i = 1:pixels, j = 1:pixels
-		]	
-end
-
-# ╔═╡ ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
-transform_xy_to_ij(img,0.0,0.0)
-
 
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
 md"""
@@ -342,6 +310,22 @@ begin
 	 rotate(θ) = ((x, y),) -> SA[cos(θ)*x + sin(θ)*y, -sin(θ)*x + cos(θ)*y]
 	 shear(α)  = ((x, y),) -> SA[x + α*y, y]
 end
+
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+# T⁻¹ = id
+#  T⁻¹ = rotate(α)
+  T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+ # T⁻¹ = nonlin_shear(α)  
+ #   T⁻¹ =   inverse(nonlin_shear(α))
+#    T⁻¹ =  nonlin_shear(-α)
+#  T⁻¹ =  xy 
+# T⁻¹ = warp(α)
+# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+
+#T⁻¹ = ((x,y),)-> (x,y^2)  
+# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
@@ -631,52 +615,15 @@ md"""
 `lin(P*Q)`
 """
 
-# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
-begin
-		[			    
-			begin
-			 x,y = transform_ij_to_xy(i,j, test_pixels)
-			 X,Y =  T₁([x,y])
-			 i,j = transform_xy_to_ij(test_img,X,Y)
-			 getpixel(test_img,i,j)
-			end	 
-		
-			for i = 1:test_pixels, j = 1:test_pixels
-		]	
-end
-
 # ╔═╡ 620ee7d8-7a8f-11eb-3888-356c27a2d591
 md"""
 `lin(P)∘lin(Q)`
 """
 
-# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
-begin
-		[			    
-			begin
-			 x,y = transform_ij_to_xy(i,j, test_pixels)
-			 X,Y =  T₂([x,y])
-			 i,j = transform_xy_to_ij(test_img,X,Y)
-			 getpixel(test_img,i,j)
-			end	 
-		
-			for i = 1:test_pixels, j = 1:test_pixels
-		]	
-end
-
 # ╔═╡ 04da7710-7a91-11eb-02a1-0b6e889150a2
 md"""
 # Coordinate transformations vs object transformations
 """
-
-# ╔═╡ c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
-img;
-
-# ╔═╡ c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
-size(img)
-
-# ╔═╡ d0e9a1e8-7c4c-11eb-056c-aff283c49c31
-img[50,56]
 
 # ╔═╡ 155cd218-7a91-11eb-0b4c-bd028507e925
 md"""
@@ -696,60 +643,6 @@ of as existing in the entire plane.
 
 # ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
 Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png")
-
-# ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
-begin
-	function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
-	# convert coordinate system xy to ij 
-	# center image, and use "white" when out of the boundary
-		
-		rows, cols = size(img)
-		m = max(cols, rows)	
-		
-	    # function to take xy to ij
-		xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
-		
-		# apply the function and "snap to grid"
-		i,j = floor.(Int, xy_to_ij((x, y))) 
-	
-	end
-	
-	function getpixel(img,i::Int,j::Int; circular::Bool=false, r::Real=200)   
-		#  grab image color or place default
-		rows,cols = size(img)
-		m = max(cols,rows)
-		if circular
-			c = (i-rows/2)^2 + (j-cols/2)^2 ≤ r*m^2/4
-		else
-			c = true
-		end
-		
-		if 1 < i ≤ rows && 1 < j ≤ cols && c
-			img[i, j]
-		else
-			#white(img[1, 1])
-			black(img[1,1])
-		end
-		
-	end
-	
-	
-	# function getpixel(img,x::Float64,y::Float64)
-	# 	i,j = transform_xy_to_ij(img,x,y)
-	# 	getpixel(img,i,j)
-	# end
-	
-	function transform_ij_to_xy(i::Int,j::Int,pixels)
-	
-	   ij_to_xy =  scale(2/pixels) ∘ flipy ∘ swap ∘ translate(-pixels/2,-pixels/2)
-	   ij_to_xy([i,j])
-	end
-
-	    
-end
-
-# ╔═╡ bf1954d6-7e9a-11eb-216d-010bd761e470
-transform_ij_to_xy(1,1,400)
 
 # ╔═╡ c1efc54a-7e9b-11eb-1e76-dbd0a66184a9
 translate(-400,400)([1,1])
@@ -956,13 +849,6 @@ img_sources = [
 	"https://www.eaieducation.com/images/products/506618_L.jpg"=>"Graph Paper"
 ]
 
-# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
-img = if show_grid
-	with_gridlines(img_original;n=ngrid)
-else
-	img_original
-end;
-
 # ╔═╡ b754bae2-762f-11eb-1c6a-01251495a9bb
 begin
 	white(c::RGB) = RGB(1,1,1)
@@ -970,6 +856,88 @@ begin
 	black(c::RGB) = RGB(0,0,0)
 	black(c::RGBA) = RGBA(0,0,0,0.75)
 end
+
+# ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
+begin
+	function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
+	# convert coordinate system xy to ij 
+	# center image, and use "white" when out of the boundary
+		
+		rows, cols = size(img)
+		m = max(cols, rows)	
+		
+	    # function to take xy to ij
+		xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
+		
+		# apply the function and "snap to grid"
+		i,j = floor.(Int, xy_to_ij((x, y))) 
+	
+	end
+	
+	function getpixel(img,i::Int,j::Int; circular::Bool=false, r::Real=200)   
+		#  grab image color or place default
+		rows,cols = size(img)
+		m = max(cols,rows)
+		if circular
+			c = (i-rows/2)^2 + (j-cols/2)^2 ≤ r*m^2/4
+		else
+			c = true
+		end
+		
+		if 1 < i ≤ rows && 1 < j ≤ cols && c
+			img[i, j]
+		else
+			#white(img[1, 1])
+			black(img[1,1])
+		end
+		
+	end
+	
+	
+	# function getpixel(img,x::Float64,y::Float64)
+	# 	i,j = transform_xy_to_ij(img,x,y)
+	# 	getpixel(img,i,j)
+	# end
+	
+	function transform_ij_to_xy(i::Int,j::Int,pixels)
+	
+	   ij_to_xy =  scale(2/pixels) ∘ flipy ∘ swap ∘ translate(-pixels/2,-pixels/2)
+	   ij_to_xy([i,j])
+	end
+
+	    
+end
+
+# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, test_pixels)
+			 X,Y =  T₁([x,y])
+			 i,j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
+end
+
+# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
+begin
+		[			    
+			begin
+			 x,y = transform_ij_to_xy(i,j, test_pixels)
+			 X,Y =  T₂([x,y])
+			 i,j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
+end
+
+# ╔═╡ bf1954d6-7e9a-11eb-216d-010bd761e470
+transform_ij_to_xy(1,1,400)
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
 function with_gridlines(img::Array{<:Any,2}; n = 10)
@@ -994,10 +962,42 @@ function with_gridlines(img::Array{<:Any,2}; n = 10)
 	return result
 end
 
-# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
+# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
+img = if show_grid
+	with_gridlines(img_original;n=ngrid)
+else
+	img_original
 end;
+
+# ╔═╡ ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
+begin
+		[			    
+			begin
+			
+			 x,y = transform_ij_to_xy(i,j, pixels)
+			
+			X,Y = ( translate(-panx,-pany)  )([x,y])
+			 X,Y = ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([x,y])
+			 i,j = transform_xy_to_ij(img,X,Y)
+			 getpixel(img,i,j; circular=circular, r=r)
+			end	 
+		
+			for i = 1:pixels, j = 1:pixels
+		]	
+end
+
+# ╔═╡ ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
+transform_xy_to_ij(img,0.0,0.0)
+
+
+# ╔═╡ c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
+img;
+
+# ╔═╡ c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
+size(img)
+
+# ╔═╡ d0e9a1e8-7c4c-11eb-056c-aff283c49c31
+img[50,56]
 
 # ╔═╡ Cell order:
 # ╟─972b2230-7634-11eb-028d-df7fc722ec70

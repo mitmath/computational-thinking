@@ -26,6 +26,57 @@ begin
     using PlutoUI, Plots, Statistics, JuMP, Ipopt
 end
 
+# ╔═╡ 4d736320-b8d6-11eb-0349-899027ab30e8
+html"""
+<div style="
+position: absolute;
+width: calc(100% - 30px);
+border: 50vw solid #282936;
+border-top: 500px solid #282936;
+border-bottom: none;
+box-sizing: content-box;
+left: calc(-50vw + 15px);
+top: -500px;
+height: 500px;
+pointer-events: none;
+"></div>
+
+<div style="
+height: 500px;
+width: 100%;
+background: #282936;
+color: #fff;
+padding-top: 68px;
+">
+<span style="
+font-family: Vollkorn, serif;
+font-weight: 700;
+font-feature-settings: 'lnum', 'pnum';
+"> <p style="
+font-size: 1.5rem;
+opacity: .8;
+"><em>Section 3.11</em></p>
+<p style="text-align: center; font-size: 2rem;">
+<em> Solving inverse problems </em>
+</p>
+
+<p style="
+font-size: 1.5rem;
+text-align: center;
+opacity: .8;
+"><em>Lecture Video</em></p>
+<div style="display: flex; justify-content: center;">
+<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
+<iframe src="https://www.youtube.com/embed/nm86_hDwYTU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+</div>
+</div>
+
+<style>
+body {
+overflow-x: hidden;
+}
+</style>"""
+
 # ╔═╡ d719e2ed-ade8-4640-82fe-ffcafd204792
 TableOfContents()
 
@@ -182,6 +233,7 @@ begin
 end
 
 # ╔═╡ Cell order:
+# ╟─4d736320-b8d6-11eb-0349-899027ab30e8
 # ╠═4ed28d02-f423-4f53-8010-644edacd5b74
 # ╠═d719e2ed-ade8-4640-82fe-ffcafd204792
 # ╟─d18eaa56-b8ad-11eb-1586-b15a611d773d
