@@ -4,6 +4,17 @@
 using Markdown
 using InteractiveUtils
 
+# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="OffsetArrays", version="1")
+    ])
+    using PlutoUI, OffsetArrays
+end
+
 # ╔═╡ 8c1de468-b339-11eb-2c9a-fb5d7065bf78
 html"""
 <div style="
@@ -54,17 +65,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 89b4bb1b-0d49-4cf2-9013-3d320711577f
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="OffsetArrays", version="1")
-    ])
-    using PlutoUI, OffsetArrays
-end
 
 # ╔═╡ 7e939280-ccb3-4d64-8799-82630fbb7811
 TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true)
