@@ -49,6 +49,7 @@ book_model = [
     Section(3, 7, "Advection and diffusion in 1D", "notebooks/week13/advection_and_diffusion.jl", "Xb-iUwXI78A"),
     Section(3, 8, "Resistors, stencils and climate models", "notebooks/week14/resistors_and_stencils.jl", ""),
     Section(3, 9, "Advection and diffusion in 2D", "notebooks/week14/2d_advection_diffusion.jl", ""),
+    Section(3, 10, "Inverse climate modeling", "notebooks/week14/inverse_climate_model.jl", ""),
 
-
+    
 ]

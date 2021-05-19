@@ -143,14 +143,14 @@ function process_book_item(section::Section)
         end
     end
 
-   num_deleted = 0
-   for (i, cell) ∈ enumerate(ordered_cells)
-        if length(strip(cell.code)) == 0 && !cell.code_folded
-            delete!(cells_dict, cell.cell_id)
-            deleteat!(cell_order, i - num_deleted)
-            num_deleted += 1
-        end
-    end
+#    num_deleted = 0
+#    for (i, cell) ∈ enumerate(ordered_cells)
+#         if length(strip(cell.code)) == 0 && !cell.code_folded
+#             delete!(cells_dict, cell.cell_id)
+#             deleteat!(cell_order, i - num_deleted)
+#             num_deleted += 1
+#         end
+#     end
     setfield!(notebook, :cells_dict, cells_dict)
     setfield!(notebook, :cell_order, cell_order)
 
