@@ -7,7 +7,7 @@
 
 # -fonsi
 
-FROM julia:1.6.0-rc1
+FROM julia:1.6.0
 
 # HTTP port
 EXPOSE 1234
@@ -26,4 +26,4 @@ COPY --chown=pluto . ${HOME}
 RUN julia --project=${HOME}/pluto-deployment-environment -e "import Pkg; Pkg.instantiate(); Pkg.precompile()"
 
 # The "default command" for this docker thing.
-CMD ["julia", "--project=/home/pluto/pluto-deployment-environment", "-e", "import PlutoSliderServer; PlutoSliderServer.run_directory(\".\"; port=1234 , host=\"0.0.0.0\")"]
+CMD ["julia", "--project=/home/pluto/pluto-deployment-environment", "-e", "import PlutoSliderServer; PlutoSliderServer.run_directory(\".\"; SliderServer_port=1234 , SliderServer_host=\"0.0.0.0\")"]

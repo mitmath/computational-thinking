@@ -1,8 +1,29 @@
+[Export]
+baked_state = false
+offer_binder = true
+slider_server_url="https://computationalthinking-sliderserver-droplet.plutojl.org"
+ignore_cache = [
+    "index.jl",
+]
+create_index = false
+
 [SliderServer]
 exclude=[
+    # disable the random walks notebooks because we are running out of memory :((
+    "notebooks/week7/random_walks.jl",
+    "notebooks/week8/random_walks_II.jl",
+
+    # these are in the repo but not used on the website
     "notebooks/basic_syntax.jl",
     "notebooks/week2/linear_transformation.jl",
     "notebooks/week2/OLD_linear_transformation.jl",
+    "notebooks/week4/structure.jl",
+    "notebooks/week6/simulating_component_failure_live.jl",
+    "notebooks/week8/discrete_and_continuous_old.jl",
+    "notebooks/week8/pascal.jl",
+    "notebooks/week12/how_to_collaborate_on_software.jl",
+
+    # don't run homeworks
     "notebooks/week0/hw0.jl",
     "notebooks/week1/hw1.jl",
     "notebooks/week2/hw2.jl",
