@@ -80,7 +80,7 @@ opacity: .8;
 "><em>Lecture Video</em></p>
 <div style="display: flex; justify-content: center;">
 <div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<iframe src="https://www.youtube.com/embed/nm86_hDwYTU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 </div>
 </div>
 
@@ -167,13 +167,6 @@ md"""
 In the above example, *you* manually adjusted the timing and amount of mitigation and carbon dioxide removal, but did not have much control on the shape of curves. Using a computer algorithm, we can do this optimization step *automatically* and *faster*, without having to assume anything about the shape of the mitigation and carbon dioxide removal curves.
 """
 
-# ╔═╡ 3094a9eb-074d-46c3-9c1e-0a9c94c6ad43
-blob(el, color = "red") = @htl("""<div style="
-background: $(color);
-padding: 1em 1em 1em 1em;
-border-radius: 2em;
-">$(el)</div>""")
-
 # ╔═╡ 944e835a-47a2-4bf0-a4a1-dbcfd174dcea
 md"""
 > Go to [computationalthinking.mit.edu](computationalthinking.mit.edu) to run this model yourself!
@@ -183,6 +176,13 @@ md"""
 md"""
 # Appendix
 """
+
+# ╔═╡ 3094a9eb-074d-46c3-9c1e-0a9c94c6ad43
+blob(el, color = "red") = @htl("""<div style="
+background: $(color);
+padding: 1em 1em 1em 1em;
+border-radius: 2em;
+">$(el)</div>""")
 
 # ╔═╡ 0b31eac2-8efd-47cd-9571-a2053846343b
 function infeasablewarning(x)
