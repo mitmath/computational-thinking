@@ -13,6 +13,19 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 85b45a43-d7bf-4597-a1a6-329b41dce20d
+begin
+    import Pkg
+	
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="Plots", version="1"),
+    ])
+	
+    using PlutoUI, Plots, LinearAlgebra, SparseArrays
+end
+
 # ╔═╡ e46441c4-97bd-11eb-330c-97bd5ac41f9e
 html"""
 <div style="
@@ -63,19 +76,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 85b45a43-d7bf-4597-a1a6-329b41dce20d
-begin
-    import Pkg
-	
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="Plots", version="1"),
-    ])
-	
-    using PlutoUI, Plots, LinearAlgebra, SparseArrays
-end
 
 # ╔═╡ 85c26eb4-c258-4a8b-9415-7b5f7ddff02a
 TableOfContents(aside=true)

@@ -13,6 +13,29 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 864e1180-f693-11ea-080e-a7d5aabc9ca5
+begin
+	import Pkg
+    Pkg.activate(mktempdir())
+    Pkg.add([
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+        Pkg.PackageSpec(name="ColorSchemes", version="3"),
+			
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+    ])
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using ImageShow.ImageCore
+	using ColorSchemes
+	
+	using InteractiveUtils, PlutoUI
+	using LinearAlgebra, SparseArrays, Statistics
+end
+
 # ╔═╡ 0db6ee04-81b7-11eb-330c-11b578b72c90
 html"""
 <div style="
@@ -69,29 +92,6 @@ PlutoUI.TableOfContents(aside = true)
 
 # ╔═╡ b0ba5b8c-f5d1-11ea-1304-3f0e47f935fe
 md"# Examples of structure"
-
-# ╔═╡ 864e1180-f693-11ea-080e-a7d5aabc9ca5
-begin
-	import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-		Pkg.PackageSpec(name="ImageIO", version="0.5"),
-		Pkg.PackageSpec(name="ImageShow", version="0.2"),
-		Pkg.PackageSpec(name="FileIO", version="1.6"),
-		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
-		Pkg.PackageSpec(name="Colors", version="0.12"),
-		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
-        Pkg.PackageSpec(name="ColorSchemes", version="3"),
-			
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-    ])
-	using Colors, ColorVectorSpace, ImageShow, FileIO
-	using ImageShow.ImageCore
-	using ColorSchemes
-	
-	using InteractiveUtils, PlutoUI
-	using LinearAlgebra, SparseArrays, Statistics
-end
 
 # ╔═╡ 261c4df2-f5d2-11ea-2c72-7d4b09c46098
 md"""
@@ -215,9 +215,6 @@ k=$(@bind kk Slider(1:nn, default=1, show_value=true))
 
 # ╔═╡ f1154df8-f693-11ea-3b16-f32835fcc470
 x = OneHot(nn, kk)
-
-# ╔═╡ 982590d4-f5ff-11ea-3802-73292c75ad6c
-show_image(x)
 
 # ╔═╡ 81c35324-f5d4-11ea-2338-9f982d38732c
 md"# Diagonal matrices"
@@ -421,9 +418,6 @@ md"""
 You might guess by visualizing the matrix that it is a multiplication table:
 """
 
-# ╔═╡ 2f75df7e-f601-11ea-2fc2-aff4f335af33
-show_image( outer( rand(10), rand(10) ))
-
 # ╔═╡ 7ff664f0-f74b-11ea-0d2d-b53f19e4f4bf
 md"We can factor out a multiplication table, if it's there:"
 
@@ -584,6 +578,12 @@ begin
 	show_image(M) = get.([ColorSchemes.rainbow], M ./ maximum(M))
 	show_image(x::AbstractVector) = show_image(x')
 end
+
+# ╔═╡ 982590d4-f5ff-11ea-3802-73292c75ad6c
+show_image(x)
+
+# ╔═╡ 2f75df7e-f601-11ea-2fc2-aff4f335af33
+show_image( outer( rand(10), rand(10) ))
 
 # ╔═╡ Cell order:
 # ╟─0db6ee04-81b7-11eb-330c-11b578b72c90

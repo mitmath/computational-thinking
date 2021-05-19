@@ -13,6 +13,40 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 06d2666a-8723-11eb-1395-0febdf3dc2a4
+begin
+
+	import Pkg
+
+	Pkg.activate(mktempdir())
+
+	Pkg.add([
+
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+
+			Pkg.PackageSpec(name="Plots"), 
+
+			Pkg.PackageSpec(name="Colors"), 
+			
+			Pkg.PackageSpec(name="StatsBase"), 
+			
+			
+			Pkg.PackageSpec(name="Distributions") 
+
+			])
+
+
+
+	using Plots, PlutoUI, Colors, Images, StatsBase, Distributions
+	using Statistics
+	
+end
+
+
 # ╔═╡ 3a4957ec-8723-11eb-22a0-8b35322596e2
 html"""
 <div style="
@@ -63,40 +97,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 06d2666a-8723-11eb-1395-0febdf3dc2a4
-begin
-
-	import Pkg
-
-	Pkg.activate(mktempdir())
-
-	Pkg.add([
-
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-
-			Pkg.PackageSpec(name="Plots"), 
-
-			Pkg.PackageSpec(name="Colors"), 
-			
-			Pkg.PackageSpec(name="StatsBase"), 
-			
-			
-			Pkg.PackageSpec(name="Distributions") 
-
-			])
-
-
-
-	using Plots, PlutoUI, Colors, Images, StatsBase, Distributions
-	using Statistics
-	
-end
-
 
 # ╔═╡ 0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 PlutoUI.TableOfContents(aside=true)
@@ -395,15 +395,6 @@ md"""
 An obvious way to find the counts would be to run through the data looking for 1s, then run through again looking for 2s, etc.:
 """
 
-# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
-rolls .== 1
-
-# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
-count(rolls .== 1)
-
-# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
-counts = [count(rolls .== i) for i in 1:6]
-
 # ╔═╡ 9e9d3556-86b5-11eb-3dfb-916e625da235
 md"""
 Note that this is *not* the most efficient algorithm!
@@ -416,6 +407,15 @@ We can plot **categorical data** using a **bar chart**, `bar` in Plots.jl. This 
 
 # ╔═╡ 02d03642-86b4-11eb-365a-63ff61ddd3b5
 rolls = rand(1:6, 100000)   # try modifying 100 by adding more zeros
+
+# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
+rolls .== 1
+
+# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
+count(rolls .== 1)
+
+# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
+counts = [count(rolls .== i) for i in 1:6]
 
 # ╔═╡ 2d71fa88-86b5-11eb-0e55-35566c2246d7
 begin
@@ -435,29 +435,29 @@ md"""
 # ╔═╡ d0c9814e-86b1-11eb-2f29-1d041bccc649
 roll_dice(n) = sum( rand(1:12, n) )
 
-# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
-experiment() = roll_dice(n) 
-
-# experiment() = sum([randn()^2 for i in 1:n])
-
 # ╔═╡ 7a16b674-86b7-11eb-3aa5-83712cdc8580
 trials = 10^6
-
-# ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
-data = [experiment() for t in 1:trials]
 
 # ╔═╡ 2bfa712a-8738-11eb-3248-6f9bb93154e8
 md"""
 ### Converging shape
 """
 
-# ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
-data
-
 # ╔═╡ 6c133ab6-86b7-11eb-15f6-7780da5afc31
 md"""
 n = $(@bind n Slider(1:50, show_value=true))
 """
+
+# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
+experiment() = roll_dice(n) 
+
+# experiment() = sum([randn()^2 for i in 1:n])
+
+# ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
+data = [experiment() for t in 1:trials]
+
+# ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
+data
 
 # ╔═╡ 514f6be0-86b8-11eb-30c9-d1020f783afe
 histogram(data, alpha=0.5, legend=false, bins=200, c=:lightsalmon1, title="n = $n")  

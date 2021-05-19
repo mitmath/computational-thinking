@@ -13,6 +13,30 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ cf82077a-81c2-11eb-1de2-09ed6c35d810
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+			Pkg.PackageSpec(name="Images", version="0.22.4"), 
+			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
+			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+			Pkg.PackageSpec(name="Plots", version="1.10"), 
+			Pkg.PackageSpec(name="Colors", version="0.12"),
+			Pkg.PackageSpec(name="ColorSchemes", version="3.10"),
+			Pkg.PackageSpec(name="ForwardDiff"),
+			Pkg.PackageSpec(name="LaTeXStrings"),
+
+			])
+
+	using PlutoUI
+	using Colors, ColorSchemes, Images
+	using Plots
+	using LaTeXStrings
+	
+	using Statistics, LinearAlgebra  # standard libraries
+end
+
 # ╔═╡ 4c1ebac8-81b7-11eb-19fa-f704b4d84a21
 html"""
 <div style="
@@ -64,30 +88,6 @@ overflow-x: hidden;
 }
 </style>"""
 
-# ╔═╡ cf82077a-81c2-11eb-1de2-09ed6c35d810
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-	Pkg.add([
-			Pkg.PackageSpec(name="Images", version="0.22.4"), 
-			Pkg.PackageSpec(name="ImageMagick", version="0.7"), 
-			Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-			Pkg.PackageSpec(name="Plots", version="1.10"), 
-			Pkg.PackageSpec(name="Colors", version="0.12"),
-			Pkg.PackageSpec(name="ColorSchemes", version="3.10"),
-			Pkg.PackageSpec(name="ForwardDiff"),
-			Pkg.PackageSpec(name="LaTeXStrings"),
-
-			])
-
-	using PlutoUI
-	using Colors, ColorSchemes, Images
-	using Plots
-	using LaTeXStrings
-	
-	using Statistics, LinearAlgebra  # standard libraries
-end
-
 # ╔═╡ c593a748-81b6-11eb-295a-a9800f9dec6d
 PlutoUI.TableOfContents(aside=true)
 
@@ -135,14 +135,8 @@ flag = outer([1, 0.1, 2], ones(6))
 # ╔═╡ e66b30a6-f914-11ea-2c0f-35282d45a30a
 ones(6)
 
-# ╔═╡ 43bff19e-f864-11ea-2315-0f85b532a325
-show_image(flag)
-
 # ╔═╡ 71d1b12e-f895-11ea-39df-f5c18a7766c3
 flag2 = outer([1, 0.1, 2], [1, 1, 1, 3, 3, 3])
-
-# ╔═╡ 79d2c6f4-f895-11ea-30c4-9d1102c99482
-show_image(flag2)
 
 # ╔═╡ 356267fa-815b-11eb-1c57-ad14fd6e91a7
 md"""
@@ -166,9 +160,6 @@ w = 300
 # ╔═╡ 38adc490-f867-11ea-1de5-3b633aff7c97
 image = outer([1; 0.4; rand(50)], rand(w));
 
-# ╔═╡ b183b6ca-f864-11ea-0b34-4dd3f4f5e69d
-show_image(image)
-
 # ╔═╡ 946fde3c-815b-11eb-3039-db4105bc43ab
 md"""
 It has a characteristic checkerboard or patchwork look.
@@ -178,15 +169,6 @@ It has a characteristic checkerboard or patchwork look.
 md"""
 Here's a random rank-2 matrix:
 """
-
-# ╔═╡ 74c04322-815b-11eb-2308-7b3d571cf613
-begin
-	
-	image2 = outer([1; 0.4; rand(50)], rand(w)) + 
-	         outer(rand(52), rand(w))
-	
-	show_image(image2)
-end
 
 # ╔═╡ b5094384-815b-11eb-06fd-1f40134c6fd8
 md"""
@@ -213,12 +195,6 @@ Now what happens if we add a bit of **noise**, i.e. randomness, to a rank-1 matr
 # ╔═╡ a5b62530-f864-11ea-21e8-71ccfed487f8
 noisy_image = image .+ 0.03 .* randn.();
 
-# ╔═╡ f6713bec-815b-11eb-2fc4-6b0326a64b16
-show_image(image)
-
-# ╔═╡ 5471ddce-f867-11ea-2519-21981f5ea68b
-show_image(noisy_image)
-
 # ╔═╡ c41df86c-f865-11ea-1253-4942bbdbe9d2
 md"""The noisy image now has a rank larger than 1. But visually we can see that it is "close to" the original rank-1 matrix. 
 
@@ -234,9 +210,6 @@ Now let's treat the image as a **data matrix**, so that each column of the image
 
 Let's try to visualize those vectors, taking just the first two rows of the image as the $x$ and $y$ coordinates of our data points:
 """
-
-# ╔═╡ 1957f71c-f8eb-11ea-0dcf-339bfa7f96fc
-show_image(image[1:2, 1:20])
 
 # ╔═╡ 54977286-f908-11ea-166d-d1df33f38454
 image[1:2, 1:20]
@@ -439,9 +412,6 @@ M = [xs_centered ys_centered]'
 # ╔═╡ 1f373bd0-853f-11eb-0f8e-19cb7f376182
 eigvals(cov(M')) .* 199
 
-# ╔═╡ 31e4b138-84e8-11eb-36a8-8b90746fbb0f
-variances = σs.^2 ./ 199
-
 # ╔═╡ d71fdaea-f86f-11ea-1a1f-45e4d50926d3
 imax = argmax(M[1, :])
 
@@ -450,6 +420,29 @@ svdvals(M)
 
 # ╔═╡ 1232e848-8540-11eb-089b-2185cc06f23a
 M
+
+# ╔═╡ 7cb04c9a-8358-11eb-1255-8d8c90916c37
+gr()
+
+# ╔═╡ cd9e05ee-f86f-11ea-0422-25f8329c7ef2
+R(θ)= [cos(θ) sin(θ)
+	  -sin(θ) cos(θ)]
+
+# ╔═╡ 7eb51908-f906-11ea-19d2-e947d81cb743
+md"In the following figure, we are rotating the axis (red arrow) around in the left panel. In the right panel we are viewing the data from the point of view of that new coordinate direction, in other words projecting onto that direction, effectively as if we rotated our head so the red vector was horizontal:"
+
+# ╔═╡ 4f1980ea-f86f-11ea-3df2-35cca6c961f3
+md"""
+degrees = $(@bind degrees Slider(0:360, default=28, show_value=true)) 
+"""
+
+# ╔═╡ c9da6e64-8540-11eb-3984-47fdf8be0dac
+md"""
+## Rotating the data
+"""
+
+# ╔═╡ f70065aa-835a-11eb-00cb-ffa27bcb486e
+θ = π * degrees / 180   # radians
 
 # ╔═╡ 3b71142c-f86f-11ea-0d43-47011d00786c
 p1 = begin
@@ -480,6 +473,9 @@ p1 = begin
 
 	annotate!(0, 1.2, text("align arrow with cloud", :red, 10))
 end;
+
+# ╔═╡ 8b8e6b2e-8531-11eb-1ea6-637db25b28d5
+p1
 
 # ╔═╡ 88bbe1bc-f86f-11ea-3b6b-29175ddbea04
 p2 = begin
@@ -522,32 +518,6 @@ p2 = begin
 
 end;
 
-# ╔═╡ 7cb04c9a-8358-11eb-1255-8d8c90916c37
-gr()
-
-# ╔═╡ cd9e05ee-f86f-11ea-0422-25f8329c7ef2
-R(θ)= [cos(θ) sin(θ)
-	  -sin(θ) cos(θ)]
-
-# ╔═╡ 7eb51908-f906-11ea-19d2-e947d81cb743
-md"In the following figure, we are rotating the axis (red arrow) around in the left panel. In the right panel we are viewing the data from the point of view of that new coordinate direction, in other words projecting onto that direction, effectively as if we rotated our head so the red vector was horizontal:"
-
-# ╔═╡ 8b8e6b2e-8531-11eb-1ea6-637db25b28d5
-p1
-
-# ╔═╡ 4f1980ea-f86f-11ea-3df2-35cca6c961f3
-md"""
-degrees = $(@bind degrees Slider(0:360, default=28, show_value=true)) 
-"""
-
-# ╔═╡ c9da6e64-8540-11eb-3984-47fdf8be0dac
-md"""
-## Rotating the data
-"""
-
-# ╔═╡ f70065aa-835a-11eb-00cb-ffa27bcb486e
-θ = π * degrees / 180   # radians
-
 # ╔═╡ 2ffe7ed0-f870-11ea-06aa-390581500ca1
 plot(p2)
 
@@ -572,6 +542,9 @@ end
 
 # ╔═╡ 6646abe0-835b-11eb-328a-55ca22f89c7d
 σs = svdvals(M)
+
+# ╔═╡ 31e4b138-84e8-11eb-36a8-8b90746fbb0f
+variances = σs.^2 ./ 199
 
 # ╔═╡ ef850e8e-84e7-11eb-1cb0-870c3000841d
 1 ./ σs
@@ -696,6 +669,11 @@ end
 # ╔═╡ 03069da6-85a4-11eb-2ac5-87b767846550
 scatter(unit_disc[1, :], unit_disc[2, :], ratio=1, leg=false, alpha=0.5, ms=3)
 
+# ╔═╡ 1647a126-85a4-11eb-3923-5f5a6f703403
+md"""
+t = $(@bind tt Slider(0:0.01:1, show_value=true))
+"""
+
 # ╔═╡ 40b87cbe-85a4-11eb-30f8-cf7b5e79c19a
 pp1 = begin
 	scatter(unit_disc[1, :], unit_disc[2, :], ratio=1, leg=false, alpha=0.5, title="stretch + rotate")
@@ -720,11 +698,6 @@ pp2 = begin
 
 end;
 
-
-# ╔═╡ 1647a126-85a4-11eb-3923-5f5a6f703403
-md"""
-t = $(@bind tt Slider(0:0.01:1, show_value=true))
-"""
 
 # ╔═╡ 6ec7f980-85a5-11eb-12fc-cb132db28d83
 plot(pp2, pp1)
@@ -791,6 +764,33 @@ begin
 	show_image(M) = get.(Ref(ColorSchemes.rainbow), M ./ maximum(M))
 	show_image(x::AbstractVector) = show_image(x')
 end
+
+# ╔═╡ 43bff19e-f864-11ea-2315-0f85b532a325
+show_image(flag)
+
+# ╔═╡ 79d2c6f4-f895-11ea-30c4-9d1102c99482
+show_image(flag2)
+
+# ╔═╡ b183b6ca-f864-11ea-0b34-4dd3f4f5e69d
+show_image(image)
+
+# ╔═╡ 74c04322-815b-11eb-2308-7b3d571cf613
+begin
+	
+	image2 = outer([1; 0.4; rand(50)], rand(w)) + 
+	         outer(rand(52), rand(w))
+	
+	show_image(image2)
+end
+
+# ╔═╡ f6713bec-815b-11eb-2fc4-6b0326a64b16
+show_image(image)
+
+# ╔═╡ 5471ddce-f867-11ea-2519-21981f5ea68b
+show_image(noisy_image)
+
+# ╔═╡ 1957f71c-f8eb-11ea-0dcf-339bfa7f96fc
+show_image(image[1:2, 1:20])
 
 # ╔═╡ 72bb11b0-f88f-11ea-0e55-b1108300f854
 loss(M1, M2) = sum( (M1[i] - M2[i])^2 for i in 1:length(M1) if !ismissing(M2[i]) )

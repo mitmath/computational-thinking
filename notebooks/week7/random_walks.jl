@@ -13,6 +13,20 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 97e807b2-9237-11eb-31ef-6fe0d4cc94d3
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+	
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
+    ])
+	
+    using Plots, PlutoUI, BenchmarkTools
+end
+
 # ╔═╡ 3649f170-923a-11eb-321c-cf95849cc044
 html"""
 <div style="
@@ -64,20 +78,6 @@ overflow-x: hidden;
 }
 </style>"""
 
-# ╔═╡ 97e807b2-9237-11eb-31ef-6fe0d4cc94d3
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-	
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="BenchmarkTools", version="0.6"),
-    ])
-	
-    using Plots, PlutoUI, BenchmarkTools
-end
-
 # ╔═╡ 5f0d7a44-91e0-11eb-10ae-d73156f965e6
 TableOfContents(aside=true)
 
@@ -127,16 +127,6 @@ N = $(@bind N Slider(1:6, show_value=true, default=1))
 md"""
 t = $(@bind t Slider(1:10^N, show_value=true, default=1))
 """
-
-# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
-begin
-	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
-	scatter!([ traj[1], traj[t] ], c=[:red, :green])
-	
-	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
-	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
-	
-end
 
 # ╔═╡ b62c4af8-9232-11eb-2f66-dd27dcb87d20
 md"""
@@ -277,8 +267,23 @@ position(w::Walker) = w.pos
 # ╔═╡ b8f2c508-91d5-11eb-31b5-61810f171270
 step(w::Walker1D) = rand( (-1, +1) )
 
+# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
+struct Walker2D <: Walker
+	x::Int
+	y::Int
+end
+
+# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
+position(w::Walker2D) = (w.x, w.y)
+
 # ╔═╡ 3c3971e2-91da-11eb-384c-01c627318bdc
 update(w::W, step) where {W <: Walker} = W(position(w) + step)
+
+# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
+step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
+
+# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
+update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
 
 # ╔═╡ cb0ef266-91d5-11eb-314b-0545c0c817d0
 function trajectory(w::W, N) where {W}   # W is a type parameter
@@ -297,23 +302,18 @@ end
 # ╔═╡ 048fac02-91da-11eb-0d26-4f258b4cd043
 trajectory(Walker1D(0), 10)
 
-# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
-struct Walker2D <: Walker
-	x::Int
-	y::Int
-end
-
-# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
-position(w::Walker2D) = (w.x, w.y)
-
-# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
-step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
-
-# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
-update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
-
 # ╔═╡ 74182fe0-91da-11eb-219a-01f13b86406d
 traj = trajectory(Walker2D(0, 0), 10^N)
+
+# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
+begin
+	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
+	scatter!([ traj[1], traj[t] ], c=[:red, :green])
+	
+	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
+	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
+	
+end
 
 # ╔═╡ 57972a32-91e5-11eb-1d62-fbc22c494db9
 md"""

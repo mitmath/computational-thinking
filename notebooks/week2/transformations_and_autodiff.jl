@@ -13,6 +13,40 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
+begin
+	import Pkg
+	Pkg.activate(mktempdir())
+	Pkg.add([
+		Pkg.PackageSpec(name="ImageIO", version="0.5"),
+		Pkg.PackageSpec(name="ImageShow", version="0.2"),
+		Pkg.PackageSpec(name="FileIO", version="1.6"),
+		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
+		Pkg.PackageSpec(name="Colors", version="0.12"),
+		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
+
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
+		Pkg.PackageSpec(name="HypertextLiteral", version="0.5"), 
+		Pkg.PackageSpec(name="ForwardDiff", version="0.10")
+	])
+
+	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using PlutoUI
+	using HypertextLiteral
+	using LinearAlgebra
+	using ForwardDiff
+end
+
+# ╔═╡ d49682ff-d529-4283-871b-f8ee50a4e6ee
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
+# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
+filter!(LOAD_PATH) do path
+	path != "@v#.#"
+end;
+
 # ╔═╡ c09c8ba0-887e-11eb-07e3-71377ec0e708
 html"""
 <div style="
@@ -73,35 +107,6 @@ md"""
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
-
-# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
-begin
-	import Pkg
-	Pkg.activate(mktempdir())
-	Pkg.add([
-		Pkg.PackageSpec(name="ImageIO", version="0.5"),
-		Pkg.PackageSpec(name="ImageShow", version="0.2"),
-		Pkg.PackageSpec(name="FileIO", version="1.6"),
-		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
-		Pkg.PackageSpec(name="Colors", version="0.12"),
-		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
-
-		Pkg.PackageSpec(name="PlutoUI", version="0.7"), 
-		Pkg.PackageSpec(name="HypertextLiteral", version="0.5"), 
-		Pkg.PackageSpec(name="ForwardDiff", version="0.10")
-	])
-
-	using Colors, ColorVectorSpace, ImageShow, FileIO
-	using PlutoUI
-	using HypertextLiteral
-	using LinearAlgebra
-	using ForwardDiff
-end
-
-# ╔═╡ d49682ff-d529-4283-871b-f8ee50a4e6ee
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
 
 # ╔═╡ 58a520ca-763b-11eb-21f4-3f27aafbc498
 md"""
@@ -424,18 +429,6 @@ md"""
 Matrices are often thought of as containers of numbers in a rectangular array, and hence one thinks of manipulating these tables like a spreadsheet, but actually the deeper meaning is that it is a transformation.
 """
 
-# ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
-filter!(LOAD_PATH) do path
-	path != "@v#.#"
-end;
-
-# ╔═╡ c0c90fec-0e55-4be3-8ea2-88b8705ee258
-md"""
-#### Choose an image:
-
-$(@bind img_source Select(img_sources))
-"""
-
 # ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
 md"""
 α= $(@bind α Slider(.1:.1:3, show_value=true))
@@ -478,22 +471,6 @@ top left zoom =	$(@bind f Slider(.1:1:3, show_value=true, default=1))
 
 # ╔═╡ 60532aa0-740c-11eb-0402-af8ff117f042
 md"Show grid lines $(@bind show_grid CheckBox(default=true))"
-
-# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
-[
-	if det_A == 0
-		RGB(1.0, 1.0, 1.0)
-	else
-		
-		 # in_x, in_y = A \ [out_x, out_y]
-         # in_x, in_y = xy( [out_x, out_y] )
-		in_x, in_y =  T([out_x, out_y])
-		trygetpixel(img, in_x, in_y)
-	end
-	
-	for out_y in LinRange(f, -f, 500),
-		out_x in LinRange(-f, f, 500)
-]
 
 # ╔═╡ f085296d-48b1-4db6-bb87-db863bb54049
 A = [
@@ -569,18 +546,24 @@ img_sources = [
 	"https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w" => "Long Corgi"
 ]
 
+# ╔═╡ c0c90fec-0e55-4be3-8ea2-88b8705ee258
+md"""
+#### Choose an image:
+
+$(@bind img_source Select(img_sources))
+"""
+
 # ╔═╡ 4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
 img_original = load(download(img_source));
 
 # ╔═╡ 52a8009e-761c-11eb-2dc9-dbccdc5e7886
 typeof(img_original)
 
-# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
-img = if show_grid
-	with_gridlines(img_original)
-else
-	img_original
-end;
+# ╔═╡ b754bae2-762f-11eb-1c6a-01251495a9bb
+begin
+	white(c::RGB) = RGB(1,1,1)
+	white(c::RGBA) = RGBA(1,1,1,0.75)
+end
 
 # ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
 function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
@@ -598,12 +581,6 @@ function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
 		white(img[1,1])
 
 	end
-end
-
-# ╔═╡ b754bae2-762f-11eb-1c6a-01251495a9bb
-begin
-	white(c::RGB) = RGB(1,1,1)
-	white(c::RGBA) = RGBA(1,1,1,0.75)
 end
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
@@ -628,6 +605,29 @@ function with_gridlines(img::Array{<:Any,2}; n=16)
 	result[ : ,  sep_j * (n ÷2) .+ [1,2]    ,] .= RGBA(1,0,0,1)
 	return result
 end
+
+# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
+img = if show_grid
+	with_gridlines(img_original)
+else
+	img_original
+end;
+
+# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
+[
+	if det_A == 0
+		RGB(1.0, 1.0, 1.0)
+	else
+		
+		 # in_x, in_y = A \ [out_x, out_y]
+         # in_x, in_y = xy( [out_x, out_y] )
+		in_x, in_y =  T([out_x, out_y])
+		trygetpixel(img, in_x, in_y)
+	end
+	
+	for out_y in LinRange(f, -f, 500),
+		out_x in LinRange(-f, f, 500)
+]
 
 # ╔═╡ 0f63345c-8887-11eb-3ef9-37dabb46de75
 <p style="

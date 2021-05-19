@@ -13,6 +13,20 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 9a0cec14-08db-11eb-3cfa-4d1c327c63f1
+begin
+    import Pkg
+	
+    Pkg.activate(mktempdir())
+    Pkg.add([
+        Pkg.PackageSpec(name="Plots", version="1"),
+        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="StatsBase", version="0.33"),
+    ])
+	
+    using Plots, PlutoUI, StatsBase, Statistics
+end
+
 # ╔═╡ 41f7d874-8cb9-11eb-308d-47dea998f6bf
 html"""
 <div style="
@@ -63,20 +77,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 9a0cec14-08db-11eb-3cfa-4d1c327c63f1
-begin
-    import Pkg
-	
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="StatsBase", version="0.33"),
-    ])
-	
-    using Plots, PlutoUI, StatsBase, Statistics
-end
 
 # ╔═╡ fb6cdc08-8b44-11eb-09f5-43c167aa53fd
 PlutoUI.TableOfContents(aside=true)
@@ -450,17 +450,6 @@ md"""
 Below is an example simulation of the discrete-time model. 
 """
 
-# ╔═╡ 442035a6-0915-11eb-21de-e11cf950f230
-begin
-	ts = 1:length(SIR)
-	discrete_time_SIR_plot = plot(ts, [x.s for x in SIR], 
-		m=:o, label="S", alpha=0.2, linecolor=:blue, leg=:right, size=(400, 300))
-	plot!(ts, [x.i for x in SIR], m=:o, label="I", alpha=0.2)
-	plot!(ts, [x.r for x in SIR], m=:o, label="R", alpha=0.2)
-	
-	xlims!(0, 500)
-end
-
 # ╔═╡ d994e972-090d-11eb-1b77-6d5ddb5daeab
 begin
 	NN = 100
@@ -505,6 +494,17 @@ end
 
 # ╔═╡ 39c24ef0-0915-11eb-1a0e-c56f7dd01235
 SIR = discrete_SIR(ss, ii, rr)
+
+# ╔═╡ 442035a6-0915-11eb-21de-e11cf950f230
+begin
+	ts = 1:length(SIR)
+	discrete_time_SIR_plot = plot(ts, [x.s for x in SIR], 
+		m=:o, label="S", alpha=0.2, linecolor=:blue, leg=:right, size=(400, 300))
+	plot!(ts, [x.i for x in SIR], m=:o, label="I", alpha=0.2)
+	plot!(ts, [x.r for x in SIR], m=:o, label="R", alpha=0.2)
+	
+	xlims!(0, 500)
+end
 
 # ╔═╡ 5f5d7332-b5f8-4d05-971b-ec0564f1339b
 md"""

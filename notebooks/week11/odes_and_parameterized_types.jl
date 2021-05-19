@@ -13,6 +13,22 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 5997bb40-b508-4647-8b12-a7cc5152e550
+begin
+    import Pkg
+    Pkg.activate(mktempdir())
+	
+    Pkg.add([
+        Pkg.PackageSpec(name="DifferentialEquations", version="6"),
+        Pkg.PackageSpec(name="Plots", version="1"),
+		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
+        Pkg.PackageSpec(name="MappedArrays", version="0.4"),
+
+    ])
+	
+    using DifferentialEquations, Plots, PlutoUI, MappedArrays
+end
+
 # ╔═╡ 54e6bd88-a6a9-11eb-3380-49b79430f6cf
 html"""
 <div style="
@@ -63,22 +79,6 @@ body {
 overflow-x: hidden;
 }
 </style>"""
-
-# ╔═╡ 5997bb40-b508-4647-8b12-a7cc5152e550
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-	
-    Pkg.add([
-        Pkg.PackageSpec(name="DifferentialEquations", version="6"),
-        Pkg.PackageSpec(name="Plots", version="1"),
-		Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="MappedArrays", version="0.4"),
-
-    ])
-	
-    using DifferentialEquations, Plots, PlutoUI, MappedArrays
-end
 
 # ╔═╡ 38c74e63-13e9-49a9-8eae-4a898197647a
 TableOfContents(aside=true)
@@ -183,9 +183,6 @@ md"""
 To set up the **problem** instance we use a type `ODEProblem` that is defined in the `DifferentialEquations.jl` package, into which we pass all the information necessary to define the problem. The parameters must go in the following order:
 """
 
-# ╔═╡ 6e7c8e9e-bef0-4bf8-b1b1-d50c82aa203e
-problem = ODEProblem(f, u0, time_span, p)
-
 # ╔═╡ b5379dc2-d97f-47ed-8737-35e3fe59285c
 md"""
 (For more advanced use there are also some additional, optional, keyword arguments.)
@@ -197,9 +194,6 @@ md"""
 To solve the ODE we call the `solve` function:
 """
 
-# ╔═╡ ff91515a-89a4-4423-a186-5572c712493d
-solution = solve(problem)
-
 # ╔═╡ 64b26404-1ca0-4aa4-bea0-3c9075b08298
 md"""
 What happened here? A suitable solver (i.e. an algorithm to calculate the solution) was chosen *automatically*, and it chose certain moments in time at which to output information about the (approximate, but very accurate) solution. 
@@ -208,9 +202,6 @@ In this particular case it chose to output data at only eight points in time bet
 
 Let's try to plot the `solution` object:
 """
-
-# ╔═╡ b07de2ce-640b-42d6-8b60-39fcbcd116e7
-plot(solution, size=(500, 300), label="solution")
 
 # ╔═╡ 0b1855de-a8c9-492e-a249-3238e41fe84c
 md"""
@@ -227,22 +218,10 @@ md"""
 The second surprise is that the output looks like a smooth curve, rather than just 8 points. Let's see those points on top of the curve. We can extract the relevant data from the `solution` object:
 """
 
-# ╔═╡ d65372df-e6ca-4165-8d9b-b21cc5c9f796
-scatter!(solution.t, solution.u, label="discrete output")
-
 # ╔═╡ b274c61b-4fab-4f4a-99df-5d39e0f56aa1
 md"""
 We see that the package in fact gives not only the value at those points, but it is in fact also capable of calculating an (approximate) solution at *any* intermediate point, using **interpolation**. In fact, we can access this by treating `solution` as if it were a function:
 """
-
-# ╔═╡ e3d9e0be-6cf4-4ae1-8c7f-b444a153a9f5
-begin
-	tt = 3.5
-	solution(tt)
-end
-
-# ╔═╡ 180bcdc1-5f51-4b32-8b9c-5000605cdf32
-scatter!([tt], [solution(tt)], label="t = $(tt)", ms=5, m=:square)
 
 # ╔═╡ 13b38f88-2ead-46b3-bc96-eae2ea10204d
 md"""
@@ -253,6 +232,27 @@ For this particular ODE we know the analytical solution. Let's compare them as w
 md"""
 p = $(@bind p Slider(0.0:0.1:2.0, show_value=true))
 """
+
+# ╔═╡ 6e7c8e9e-bef0-4bf8-b1b1-d50c82aa203e
+problem = ODEProblem(f, u0, time_span, p)
+
+# ╔═╡ ff91515a-89a4-4423-a186-5572c712493d
+solution = solve(problem)
+
+# ╔═╡ b07de2ce-640b-42d6-8b60-39fcbcd116e7
+plot(solution, size=(500, 300), label="solution")
+
+# ╔═╡ d65372df-e6ca-4165-8d9b-b21cc5c9f796
+scatter!(solution.t, solution.u, label="discrete output")
+
+# ╔═╡ e3d9e0be-6cf4-4ae1-8c7f-b444a153a9f5
+begin
+	tt = 3.5
+	solution(tt)
+end
+
+# ╔═╡ 180bcdc1-5f51-4b32-8b9c-5000605cdf32
+scatter!([tt], [solution(tt)], label="t = $(tt)", ms=5, m=:square)
 
 # ╔═╡ 0ed6d65c-707d-4666-b203-2ad0ea822687
 let
@@ -321,15 +321,6 @@ function SIR(x, p, t)
 		        
 end
 
-# ╔═╡ d0f40681-73df-4cd3-bbd5-3edb8193153e
-params = [β, γ]
-
-# ╔═╡ fd122a25-5655-410b-aa7f-34936fc97b53
-SIR_problem = ODEProblem(SIR, x0, (0.0, 50.0), params)
-
-# ╔═╡ 8ac7da6b-46e0-470b-91b3-1a61c226fa4a
-sol = solve(SIR_problem)
-
 # ╔═╡ 7aa45efe-865d-4e0e-9c71-0c032c72c40d
 md"""
 Now we see that the solverr has recognised that everything is a vector, and it returns a vector at each time stamp.
@@ -340,15 +331,24 @@ Again we can plot:
 # ╔═╡ bca8112f-cb61-43dc-ae87-383915c8a89b
 gr()
 
-# ╔═╡ a766a141-5d7b-499f-9e18-48bf926ee7ea
-plot(sol)
-
 # ╔═╡ 76cbc37d-54c8-4626-8bfe-58b63a602c38
 md"""
 β = $(@bind β Slider(-0.5:0.01:2.0, default=1.0, show_value=true))
 
 γ = $(@bind γ Slider(-0.5:0.01:2.0, default=0.1, show_value=true))
 """
+
+# ╔═╡ d0f40681-73df-4cd3-bbd5-3edb8193153e
+params = [β, γ]
+
+# ╔═╡ fd122a25-5655-410b-aa7f-34936fc97b53
+SIR_problem = ODEProblem(SIR, x0, (0.0, 50.0), params)
+
+# ╔═╡ 8ac7da6b-46e0-470b-91b3-1a61c226fa4a
+sol = solve(SIR_problem)
+
+# ╔═╡ a766a141-5d7b-499f-9e18-48bf926ee7ea
+plot(sol)
 
 # ╔═╡ c2765282-bcc7-4110-9822-10557326461e
 md"""
