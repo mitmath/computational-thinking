@@ -1162,7 +1162,7 @@ else
 		if output isa Missing
 			still_missing()
 		elseif !(output isa Number)
-			keep_working(md"Make sure that `matrix_distance` returns a nunmber.")
+			keep_working(md"Make sure that `matrix_distance` returns a number.")
 		elseif output == 0.0
 			keep_working(md"Two different matrices should have non-zero distance.")
 		else
