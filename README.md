@@ -19,13 +19,17 @@ Topics include:
 Please help edit the automatically-generated subtitles in the [lecture transcripts](https://drive.google.com/drive/folders/1ekXz8x78qnq3G-_MhOh6CYgFDbL2G6Vz)!
 If you do so, please add punctuation, and please change the colour of the part you edited to a colour other than black, and different from the previous and next sections. -->
 
+## Stay updated on Twitter
+
+We will be using Twitter to put out class updates and other relevant course content. You can find us [on Twitter @MITCompThinking](https://mobile.twitter.com/MITCompThinking).
+
 ## Meet our staff
 
 **Lecturers:** [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Charles E. Leiserson](https://people.csail.mit.edu/cel/), [Henri F. Drake](https://hdrake.github.io/)
 
-**Teaching assistants:** [Bola Malek]()
+**Teaching assistants:** [Bola Malek](https://www.csail.mit.edu/person/bola-malek)
 
-**Technical assistants:** [Fons van der Plas](), [Logan Kilpatrick](https://scholar.harvard.edu/logankilpatrick/home)
+**Technical assistants:** [Fons van der Plas](https://github.com/fonsp), [Logan Kilpatrick](https://scholar.harvard.edu/logankilpatrick/home)
 
 **Guest lecturers:** _to be announced_
 
