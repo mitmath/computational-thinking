@@ -129,6 +129,10 @@ update_content()
 
 ~~~
 
+## Stay updated on Twitter
+
+We will be using Twitter to put out class updates and other relevant course content. You can find us [on Twitter @MITCompThinking](https://mobile.twitter.com/MITCompThinking).
+
 ## How to cite
 
 If you use or are inspired by any material, would you be so kind to prominently display
@@ -157,11 +161,15 @@ If you do so, please add punctuation, and please change the colour of the part y
 
 **Lecturers:** [Alan Edelman](http://math.mit.edu/~edelman), [David P. Sanders](http://sistemas.fciencias.unam.mx/~dsanders/), [Charles E. Leiserson](https://people.csail.mit.edu/cel/), [Henri F. Drake](https://hdrake.github.io/)
 
-**Teaching assistants:** [Bola Malek]()
+**Teaching assistants:** [Bola Malek](https://www.csail.mit.edu/person/bola-malek)
 
-**Technical assistants:** [Fons van der Plas](), [Logan Kilpatrick](https://scholar.harvard.edu/logankilpatrick/home)
+**Technical assistants:** [Fons van der Plas](https://github.com/fonsp), [Logan Kilpatrick](https://scholar.harvard.edu/logankilpatrick/home)
 
 **Guest lecturers:** _to be announced_
+
+## Get the T-shirt
+
+There is a MIT Computational Thinking t-shirt available for those who really enjoyed the course, you can find it on the [Julia Language's Bonfire Shop](https://www.bonfire.com/introduction-to-computational-thinking-shirt/).
 
 ## Introduction video from Fall 2020
 
