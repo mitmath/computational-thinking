@@ -637,7 +637,7 @@ If we mix types for the first two arguments then we get an error, since Julia ca
 """
 
 # ╔═╡ cdc25238-ed48-42e5-9db4-2367577b215d
-MyODEProblem(3.0, 5, 100.0)
+MyODEProblem(3.0, 5.0, 100.0)
 
 # ╔═╡ f66b6078-bab5-48ef-9241-8d5fb0dc78ea
 md"""
