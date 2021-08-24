@@ -52,7 +52,9 @@ jobs:
 
                   run(`$(npm_cmd()) install highlight.js`);
                   using Franklin;
-                  optimize(;minify=false);
+                  run(`$(npm_cmd()) install lunr`);
+                  run(`$(npm_cmd()) install cheerio`);
+                  serve(single=true, cleanup=false); lunr(); optimize(minify=false);
                   mkdir("__site2");
                   mv("__site", "__site2/Spring21");
                   mv("../Fall20-franklin-output/Fall20", "__site2/Fall20");
