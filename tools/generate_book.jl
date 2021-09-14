@@ -1,9 +1,9 @@
 if !isdir("pluto-deployment-environment")
-    @error """
+    error("""
     Run me from the root of the repository directory, using:
 
     julia tools/generate_book.jl
-    """
+    """)
 end
 
 if VERSION < v"1.6.0-aaa"
@@ -124,7 +124,7 @@ function process_book_item(section::Section)
     cells_dict = getfield(notebook, :cells_dict)
     cell_order = getfield(notebook, :cell_order)
 
-    if startswith(first_cell.code, "html")
+    if occursin("<iframe src=\"https://www.youtube", first_cell.code) || occursin("# Section header", first_cell.code)
         # We can just overwrite this cell
         first_cell.code = new_cell_code
         first_cell.code_folded = true
