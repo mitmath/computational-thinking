@@ -485,7 +485,7 @@ As a refresher, we'll want to think of a function as a hill. To find a minimum w
 
 We want to minimize a 1D function, i.e. a function $f: \mathbb{R} \to \mathbb{R}$. To do so we notice that the derivative tells us the direction in which the function *increases*. Positive slope means that the minimum is to the left, negative slope means to the right. So our _gradient descent method_ is to take steps in the *opposite* direction, of a small size $\eta \cdot f'(x_0)$.
 
-👉 Write a function `gradient_descent_1d_step(f, x0)` that performs a single gradient descrent step, from the point `x0` and using your function `finite_difference_slope` to approximate the derivative. The result should be the next guess for ``x``.
+👉 Write a function `gradient_descent_1d_step(f, x0)` that performs a single gradient descent step, from the point `x0` and using your function `finite_difference_slope` to approximate the derivative. The result should be the next guess for ``x``.
 
 """
 
