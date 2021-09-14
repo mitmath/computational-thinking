@@ -14,22 +14,10 @@ macro bind(def, element)
 end
 
 # ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
-        Pkg.PackageSpec(name="LightGraphs", version="1"),
-        Pkg.PackageSpec(name="GraphPlot", version="0.4"),
-		Pkg.PackageSpec(name="SpecialFunctions", version="1")
-    ])
-    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf, SpecialFunctions
-end
+using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf, SpecialFunctions
 
 # ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
-Pkg.add("GraphPlot")
+
 
 # ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 html"""

@@ -15,20 +15,7 @@ end
 
 # ╔═╡ 864e1180-f693-11ea-080e-a7d5aabc9ca5
 begin
-	import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-		Pkg.PackageSpec(name="ImageIO", version="0.5"),
-		Pkg.PackageSpec(name="ImageShow", version="0.2"),
-		Pkg.PackageSpec(name="FileIO", version="1.6"),
-		Pkg.PackageSpec(name="PNGFiles", version="0.3.6"),
-		Pkg.PackageSpec(name="Colors", version="0.12"),
-		Pkg.PackageSpec(name="ColorVectorSpace", version="0.8"),
-        Pkg.PackageSpec(name="ColorSchemes", version="3"),
-			
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-    ])
-	using Colors, ColorVectorSpace, ImageShow, FileIO
+	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
 	using ImageShow.ImageCore
 	using ColorSchemes
 	
@@ -142,7 +129,7 @@ We need to specify how long the vector is:
 """
 
 # ╔═╡ 397ac764-f5fe-11ea-20cc-8d7cab19d410
-Base.size(x::OneHot) = (x.n, )
+Base.size(x::OneHot) = (x.n,)
 
 # ╔═╡ a22dcd2c-81cc-11eb-1252-13ace134192d
 md"""

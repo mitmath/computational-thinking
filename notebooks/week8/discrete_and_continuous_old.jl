@@ -65,19 +65,7 @@ overflow-x: hidden;
 </style>"""
 
 # ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
-begin
-    import Pkg
-    Pkg.activate(mktempdir())
-    Pkg.add([
-        Pkg.PackageSpec(name="Plots", version="1"),
-        Pkg.PackageSpec(name="PlutoUI", version="0.7"),
-        Pkg.PackageSpec(name="HypertextLiteral", version="0.6"),
-        Pkg.PackageSpec(name="LightGraphs", version="1"),
-        Pkg.PackageSpec(name="GraphPlot", version="0.4"),
-		Pkg.PackageSpec(name="SpecialFunctions", version="1")
-    ])
-    using Plots, PlutoUI, HypertextLiteral, LightGraphs, GraphPlot, Printf, SpecialFunctions
-end
+using Plots, PlutoUI, HypertextLiteralQ, LightGraphs, GraphPlot, Printf, SpecialFunctions
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents(title="📚 Table of Contents", aside=true)
@@ -118,7 +106,7 @@ DISCRETE MATH OBJECTS (examples):
 gplot( barabasi_albert(150, 2) )
 
 # ╔═╡ 52fa7f18-757a-4bf5-b851-32a1fca9c378
-Pkg.add("GraphPlot")
+
 
 # ╔═╡ 61ffe0f2-9615-11eb-37d5-f9e30a31c111
 md"""
