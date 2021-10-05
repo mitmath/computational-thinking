@@ -17,6 +17,7 @@ body {
     background: url("bg.svg");
     background-color: hsl(231deg 14% 57%);
     background-size: cover;
+    overflow-wrap: break-word;
 }
 main h1 {
     font-family: "Vollkorn", serif;
@@ -62,6 +63,7 @@ div.banner h1 {
     font-family: "Alegreya", sans-serif;
     background: #000000ad;
     padding: 0.2em 0.5em;
+    margin: 0px 10px;
     border-radius: 0.4em;
     transition: transform 200ms ease-in-out;
     color: #ffffffc7;
@@ -128,6 +130,11 @@ main > div.wide {
 main > div:last-of-type {
     margin-block-end: 0px;
 }
+main > div > *:last-child,
+main > div > .contain > *:last-child {
+    margin-block-end: 0px;
+    margin-bottom: 0em;
+}
 main thingy {
     background: #ff00005e;
     width: 300vw;
@@ -163,6 +170,7 @@ blockquote {
 
 blockquote.banner {
     margin-top: -46px;
+    font-style: unset;
 }
 
 .pillars {
@@ -181,6 +189,22 @@ blockquote.banner {
     margin: 0px 10px;
 }
 
+.scrolly {
+    /* max-height: 20em; */
+    /* overflow-y: auto; */
+}
+.pillars > div ul {
+    padding-left: 0.6rem;
+}
+.pillars > div li {
+    list-style: "- ";
+    margin-bottom: 0.3rem;
+    margin-right: 0.5rem;
+}
+.pillars > div li::marker {
+    color: rgba(255, 255, 255, 0.4);
+}
+
 .subjects {
     display: grid;
     grid-template-columns: repeat(3, auto);
@@ -189,18 +213,18 @@ blockquote.banner {
     /* flex-wrap: wrap; */
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
     .subjects {
         grid-template-columns: repeat(2, auto);
     }
 }
-@media (max-width: 400px) {
+@media (max-width: 600px) {
     .subjects {
         grid-template-columns: repeat(1, auto);
     }
 }
 
-@media (min-width: 800px) {
+@media (min-width: 1000px) {
     .subjectscontainer {
         display: flex;
         flex-direction: row;
@@ -221,7 +245,7 @@ blockquote.banner {
     display: block;
     border: 7px solid #c19d1c1f;
     min-height: 200px;
-    min-width: 188px;
+    min-width: min(90vw, 188px);
     padding: 1em;
     border-radius: 1em;
     transition: transform 100ms ease-in-out;
