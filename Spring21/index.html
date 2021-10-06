@@ -91,178 +91,47 @@
 
 
 <!-- Content appended here -->
-<div class="franklin-content"><h1 id="introduction_to_computational_thinking"><a href="#introduction_to_computational_thinking">Introduction to Computational Thinking</a></h1>
-<p>Welcome to <strong>MIT 18.S191 aka 6.S083 aka 22.S092</strong>, <strong>Spring 2021</strong> edition&#33;</p>
+<div class="franklin-content"><style>
 
-<script type=module>
-const span = document.querySelector("#yt-placeholder")
-const notebook_span = document.querySelector("#notebook-today")
-const announce_span = document.querySelector("#announce")
-
-
-let announcer = "https://computational-thinking-youtube-link.netlify.app/"
-
-const last = x => x[x.length-1]
-
-const content = {current: "", notebook: "", announce: ""}
-const set_content = (x) => {
-    if(x !== content.current){
-        content.current = x
-        span.innerHTML = x
+.content {
+    max-width: 100%;
+    margin-right: 0px;
+    padding: 0px;
+    overflow-y: hidden;
+    height: 100vh;
+}
+.franklin-content {
+    padding: 0px;
+}
+.page-foot {
+    display: none;
+}
+.plutopage {
+    height: 100vh;
+}
+.smallscreenlink {
+    display: none;
+}
+@media (max-width: 768px) {
+    .franklin-content {
+        padding: 0px;
     }
 }
+</style>
 
-const set_notebook_content = (x) => {
-    if (x !== content.notebook) {
-        content.notebook = x
-        notebook_span.innerHTML = x
-    }
-}
-
-const set_announce = (x) => {
-    if (x !== content.announce) {
-        content.announce = x
-        announce_span.innerHTML = x
-    }
-}
-
-const update_content = async () => {
-    let data = await (await fetch(new URL("current_live_stream.json", announcer), {
-        cache: "no-cache",
-    })).json()
-
-    let notebook_path = data.todays_notebook ||  ""
-    let announce_text = data.announce || ""
-
-    if (notebook_path.trim().length > 0) {
-        let notebook_text= "";
-        if (data.show_livestream) {
-        notebook_text= "Today's Lecture Notebook."
-        } else {
-        notebook_text= "Most Recent Lecture Notebook."
-        }
-
-        set_notebook_content(`
-        <blockquote>
-            <p>
-                <a href="/Spring21/${notebook_path}/">${notebook_text}</a>
-            </p>
-        </blockquote>
-        `)
-    }
-    
-    
-    if (announce_text.trim().length > 0) {
-        set_announce(`
-       <blockquote>
-            <p>
-                <em><strong>Announcement:</strong></em> ${announce_text}
-            </p>
-        </blockquote>
-        `)
-    }
-
-    if(data.show_stay_tuned) {
-        set_content(`<img style="display: block; width: 100%" src="assets/staytuned.png">
-
-        <blockquote>The live stream is starting soon!</blockqoute>`)
-
-        setTimeout(update_content, 3*1000)
-    }
-
-    if(data.show_livestream && data.url.trim().length > 0){
-        let yt_url = new URL(data.url)
-        let path = yt_url.pathname
-
-        let video_id = ""
-        if(path === "/watch") {
-            video_id = yt_url.searchParams.get("v")
-        } else if (yt_url.host === "youtu.be" || true) {
-            video_id = last(yt_url.pathname.split("/"))
-        }
-
-
-        set_content(`
-
-        <br>
-        <br>
-        <p class="live-label">Currently live</p>
-        <br>
-        <iframe width="100%" height="360" src="https://www.youtube.com/embed/${video_id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-        <br>
-        <br>
-        `)
-    } else if(data.show_stay_tuned) {
-        set_content(`<img style="display: block; width: 100%" src="assets/staytuned.png">
-
-        <blockquote>The live stream is starting soon!</blockqoute>`)
-
-        setTimeout(update_content, 3*1000)
-    } else {
-
-        set_content(`<iframe width="100%" height="360" src="https://www.youtube.com/embed/videoseries?list=PLP8iPy9hna6T56GkMHEdSrjCCheNuEwI0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
-
-        <blockquote>You can watch our previous live streams here 👆</blockqoute>`)
-
-        setTimeout(update_content, 30*1000)
-    }
-}
-
-update_content()
-
-</script>
-
-<span id="announce"></span>
-<span id="notebook-today"></span>
-<span id="yt-placeholder"></span>
-<hr>
-
-
-<h2 id="stay_updated_on_twitter"><a href="#stay_updated_on_twitter">Stay updated on Twitter</a></h2>
-<p>We will be using Twitter to put out class updates and other relevant course content. You can find us <a href="https://mobile.twitter.com/MITCompThinking">on Twitter @MITCompThinking</a>.</p>
-<h2 id="how_to_cite"><a href="#how_to_cite">How to cite</a></h2>
-<p>If you use or are inspired by any material, would you be so kind to prominently display</p>
-<blockquote>
-<p>Some material on this website is based on &quot;Computational Thinking, a live online Julia/Pluto textbook, https://computationalthinking.mit.edu&quot;</p>
-</blockquote>
-<h2 id="course_information"><a href="#course_information">Course Information</a></h2>
-<p style="font-size: 1.15em; color: #333; line-height:1.5em"> This is an introductory course on Computational Thinking. We use the <a href="http://www.julialang.org">Julia programming language</a> to approach real-world problems in varied areas applying data analysis and computational and mathematical modeling. In this class you will learn computer science, software, algorithms, applications, and mathematics as an integrated whole.</p>
-<p>We plan to include the following topics:</p>
-<ul>
-<li><p>Image analysis</p>
-</li>
-<li><p>Machine learning</p>
-</li>
-<li><p>Dynamics on networks</p>
-</li>
-<li><p>Climate modeling</p>
-</li>
-</ul>
-<blockquote>
-<p>See also the course repository <a href="https://github.com/mitmath/18S191">github.com/mitmath/18S191</a>.</p>
-</blockquote>
-<blockquote>
-<p><em><strong><a href="/Spring21/reviews/">What people are saying about the course&#33;</a></strong></em></p>
-</blockquote>
-<h2 id="meet_our_staff"><a href="#meet_our_staff">Meet our staff</a></h2>
-<p><strong>Lecturers:</strong> <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a>, <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a>, <a href="https://hdrake.github.io/">Henri F. Drake</a></p>
-<p><strong>Teaching assistants:</strong> <a href="https://www.csail.mit.edu/person/bola-malek">Bola Malek</a></p>
-<p><strong>Technical assistants:</strong> <a href="https://github.com/fonsp">Fons van der Plas</a>, <a href="https://scholar.harvard.edu/logankilpatrick/home">Logan Kilpatrick</a></p>
-<p><strong>Guest lecturers:</strong> <em>to be announced</em></p>
-<h2 id="get_the_t-shirt"><a href="#get_the_t-shirt">Get the T-shirt</a></h2>
-<p>There is a MIT Computational Thinking t-shirt available for those who really enjoyed the course, you can find it on the <a href="https://www.bonfire.com/introduction-to-computational-thinking-shirt/">Julia Language&#39;s Bonfire Shop</a>.</p>
-<h2 id="introduction_video_from_fall_2020"><a href="#introduction_video_from_fall_2020">Introduction video from Fall 2020</a></h2>
-<iframe id="course-intro" width="100%" height="360"
-src="https://www.youtube.com/embed/vxjRWtWoD_w"
+<iframe width="100%" height="100%"
+src="./homepage/index.html"
+class="plutopage"
 frameborder="0"
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+allow="accelerometer; ambient-light-sensor; autoplay; battery; camera; display-capture; document-domain; encrypted-media; execution-while-not-rendered; execution-while-out-of-viewport; fullscreen; geolocation; gyroscope; layout-animations; legacy-image-formats; magnetometer; microphone; midi; navigation-override; oversized-images; payment; picture-in-picture; publickey-credentials-get; sync-xhr; usb; wake-lock; screen-wake-lock; vr; web-share; xr-spatial-tracking"
 allowfullscreen></iframe>
+
+<a class="smallscreenlink" href="./homepage/index.html"></a>
 
 <div class="page-foot">
   <div class="copyright">
     <a href="https://github.com/mitmath/18S191/"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></img></b></a></br>
-    Last modified: September 14, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+    Last modified: October 06, 2021. Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
   </div>
 </div>
 </div><!-- CONTENT ENDS HERE -->
