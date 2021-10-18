@@ -337,9 +337,8 @@ Hoping for
 md"""
 # Stochastic Gradient Descent
 
-Pick one coordinate (or a few coordinates) to update at a time.
-This is what works in machine learning.
-
+Pick one term of the sum (or a few of them) and update according to the
+respective gradient. This is what works in machine learning.
 """
 
 # ╔═╡ 7086950b-c8db-49d4-b095-15be91c73b56
@@ -1484,7 +1483,7 @@ version = "0.9.1+5"
 # ╟─c9417d90-a9cb-4655-a258-8a8898e5576a
 # ╠═6535280a-e0ce-4e13-86dd-165d5f06cfe7
 # ╟─4c285bc2-b3c2-4d20-a904-ecaa07795342
-# ╟─592397eb-ec52-423b-925b-d8becb9eac8e
+# ╠═592397eb-ec52-423b-925b-d8becb9eac8e
 # ╠═7086950b-c8db-49d4-b095-15be91c73b56
 # ╟─327514f1-8081-4a6c-8be4-8ffd52ed3c46
 # ╠═98e00b2d-0802-4160-8e5c-302be5226916
