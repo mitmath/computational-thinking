@@ -38,6 +38,7 @@ struct Section
     name::String
     notebook_path::String
     video_id::String
+	preview_image_url::String
 end
 
 struct Chapter
