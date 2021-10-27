@@ -39,6 +39,8 @@ a {
     /* border: 3px solid; */
     color: black;
     /* border-bottom: 0.2em solid rgba(0, 0, 0, 0.3); */
+}
+a:not(.no-decoration) {
     background-position: 0 0.83em;
     background-repeat: repeat-x;
     background-size: 2px 8px;
@@ -241,7 +243,7 @@ blockquote.banner {
     }
 }
 
-.subjects > div {
+.subjects > a {
     display: block;
     border: 7px solid #c19d1c1f;
     min-height: 200px;
@@ -253,11 +255,11 @@ blockquote.banner {
     box-shadow: 0px 6px 7px #1c12120d;
 }
 
-.subjects > div:hover {
+.subjects > a:hover {
     transform: scale(1.05);
 }
 
-.subjects > div img {
+.subjects > a img {
     max-width: 100%;
     width: 100%;
 }
