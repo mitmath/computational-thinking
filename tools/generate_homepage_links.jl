@@ -284,7 +284,7 @@ result = join(card.(book_model),"\n")
 @htl("""$((let
 	notebook_name = basename(without_dotjl(section.notebook_path))
     @htl """
-    <a class="no-decoration" href="$notebook_name/">
+    <a class="no-decoration" href="../$notebook_name/">
 		<h3>$(section.name)</h3>
 		<img src=$(section.preview_image_url)>
 	</a>
