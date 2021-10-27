@@ -1,3 +1,44 @@
+### A Pluto.jl notebook ###
+# v0.16.4
+
+using Markdown
+using InteractiveUtils
+
+# ╔═╡ 6b119ccd-03c4-4a21-b263-e848c555c418
+using HypertextLiteral
+
+# ╔═╡ ee61fc1e-055d-4286-aa94-f8e6540f737e
+struct Section
+    chapter::Int
+    section::Int
+    name::String
+    notebook_path::String
+    video_id::String
+	preview_image_url::String
+end
+
+# ╔═╡ 79f614c7-68d4-4537-aa0e-883b3a41c2b1
+struct Chapter
+    number::Int
+    name::String
+end
+
+# ╔═╡ b5eaabee-6c96-4aca-a1d4-90383f005d1f
+without_dotjl(path) = splitext(path)[1]
+
+# ╔═╡ bd32c59f-0758-4414-8ae0-889ed6a005fc
+function card(section::Section)
+    notebook_name = basename(without_dotjl(section.notebook_path))
+    return """
+    <a class="sidebar-nav-item {{ispage /$notebook_name/}}active{{end}}" href="/$notebook_name/"><b>$(section.chapter).$(section.section)</b> - <em>$(section.name)</em></a>
+    """
+end
+
+# ╔═╡ 63094a6b-b349-491a-b307-23b78e72f500
+card(x) = ""
+
+
+# ╔═╡ e0e709b3-9e27-430a-a1b6-54ca51023337
 book_model = Any[
     Chapter(1, "Images, Transformations, Abstractions"),
     Section(
@@ -235,3 +276,73 @@ book_model = Any[
         "https://user-images.githubusercontent.com/6933510/136200827-89647ae8-cb06-42ea-a18d-5f64e9cc2b25.png",
     ),
 ]
+
+# ╔═╡ ed8e431b-d541-469e-9d39-b372aa866022
+result = join(card.(book_model),"\n")
+
+# ╔═╡ 42478294-047b-48db-a770-ff6446706654
+@htl("""$((let
+	notebook_name = basename(without_dotjl(section.notebook_path))
+    @htl """
+    <a class="no-decoration" href="$notebook_name/">
+		<h3>$(section.name)</h3>
+		<img src=$(section.preview_image_url)>
+	</a>
+	"""
+	
+end
+for section in book_model if (section isa Section && !isempty(section.preview_image_url))))""") |> clipboard
+
+# ╔═╡ dec0653e-732f-459c-b890-8a35f8b2ec32
+any(x>0 for x in 1:10 if x isa Number)
+
+# ╔═╡ c9c3848f-8a57-445b-8a86-561a0ba13ce7
+"""
+$((x>0 for x in 1:10 if x isa Number))
+"""
+
+# ╔═╡ b396d1e9-562c-4c41-bef2-8dac3de6f49e
+"""
+$(any(x>0 for x in 1:10 if x isa Number))
+"""
+
+# ╔═╡ a835d318-6b9b-406a-9ee1-bc5b06c1348c
+@htl """
+<style>
+</style>"""
+
+# ╔═╡ 00000000-0000-0000-0000-000000000001
+PLUTO_PROJECT_TOML_CONTENTS = """
+[deps]
+HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+
+[compat]
+HypertextLiteral = "~0.9.2"
+"""
+
+# ╔═╡ 00000000-0000-0000-0000-000000000002
+PLUTO_MANIFEST_TOML_CONTENTS = """
+# This file is machine-generated - editing it directly is not advised
+
+[[HypertextLiteral]]
+git-tree-sha1 = "5efcf53d798efede8fee5b2c8b09284be359bf24"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.2"
+"""
+
+# ╔═╡ Cell order:
+# ╠═ee61fc1e-055d-4286-aa94-f8e6540f737e
+# ╠═79f614c7-68d4-4537-aa0e-883b3a41c2b1
+# ╠═b5eaabee-6c96-4aca-a1d4-90383f005d1f
+# ╠═bd32c59f-0758-4414-8ae0-889ed6a005fc
+# ╠═63094a6b-b349-491a-b307-23b78e72f500
+# ╠═ed8e431b-d541-469e-9d39-b372aa866022
+# ╟─e0e709b3-9e27-430a-a1b6-54ca51023337
+# ╠═6b119ccd-03c4-4a21-b263-e848c555c418
+# ╠═42478294-047b-48db-a770-ff6446706654
+# ╠═dec0653e-732f-459c-b890-8a35f8b2ec32
+# ╠═c9c3848f-8a57-445b-8a86-561a0ba13ce7
+# ╠═b396d1e9-562c-4c41-bef2-8dac3de6f49e
+# ╠═a835d318-6b9b-406a-9ee1-bc5b06c1348c
+# ╟─00000000-0000-0000-0000-000000000001
+# ╟─00000000-0000-0000-0000-000000000002

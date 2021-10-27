@@ -1,0 +1,306 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,700;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+html {
+    font-size: 17px;
+    color: #3c3c3c;
+}
+body {
+    /* background: #f1e7e7; */
+    margin: 0px;
+    padding: 0px;
+    font-family: "Open Sans", sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background: url("bg.svg");
+    background-color: hsl(231deg 14% 57%);
+    background-size: cover;
+    overflow-wrap: break-word;
+}
+main h1 {
+    font-family: "Vollkorn", serif;
+    font-weight: 800;
+    font-style: italic;
+    margin-block-end: 0.5em;
+    font-size: 3rem;
+    margin-block-start: 0;
+    border-bottom: 5px solid #74747414;
+    letter-spacing: -0.2px;
+    color: #424250;
+    padding: 0px 10px;
+    text-shadow: 7px 5px 0px #e5dbb8;
+}
+
+a {
+    text-decoration: none;
+    /* background: #f3f3ff; */
+    /* border: 3px solid; */
+    color: black;
+    /* border-bottom: 0.2em solid rgba(0, 0, 0, 0.3); */
+}
+a:not(.no-decoration) {
+    background-position: 0 0.83em;
+    background-repeat: repeat-x;
+    background-size: 2px 8px;
+    background-image: linear-gradient(to bottom, rgba(165, 213, 235, 0.3) 33%, rgba(165, 213, 235, 0.3));
+    /* text-shadow: 2px 2px white, 2px -2px white, -2px 2px white, -2px -2px white; */
+    transition: background-position 50ms linear, background-size 50ms linear;
+}
+
+a:hover {
+    background-position: 0 0em;
+    background-size: 2px auto;
+}
+
+div.banner {
+    min-height: 20rem;
+    display: grid;
+    place-items: center;
+}
+
+div.banner h1 {
+    transform: perspective(187px) rotate3d(0, 2, 0, 0deg);
+    font-family: "Alegreya", sans-serif;
+    background: #000000ad;
+    padding: 0.2em 0.5em;
+    margin: 0px 10px;
+    border-radius: 0.4em;
+    transition: transform 200ms ease-in-out;
+    color: #ffffffc7;
+    font-style: normal;
+    border: none;
+    /* flex: 1 1 auto; */
+    /* display: block; */
+}
+div.banner h1 strong {
+    color: white;
+}
+
+div.banner:hover h1 {
+    /* transform: perspective(187px) rotate3d(0, 2, 0, 3deg) scale(1.05); */
+}
+
+#title {
+    background-image: url("swoosh.png");
+
+    background-size: cover;
+    image-rendering: pixelated;
+}
+
+img.logo {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 10;
+    height: 2rem;
+    background: #ffffff96;
+    padding: 3px;
+}
+
+.twocols {
+    column-count: 2;
+    color: #fffffff7;
+    background: linear-gradient(155deg, #7c7e87, #5a594a);
+}
+
+main {
+    /* background: white; */
+    padding: 1em;
+    max-width: 86rem;
+    z-index: -1;
+    margin: 3em auto 0 auto;
+}
+main > div {
+    z-index: 4;
+    background: white;
+    padding: 2rem;
+    margin-block-end: 15rem;
+    border-radius: 1rem;
+    box-shadow: 0px 6px 7px #1c12120d;
+
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+main > div.wide {
+    max-width: unset;
+}
+
+main > div:last-of-type {
+    margin-block-end: 0px;
+}
+main > div > *:last-child,
+main > div > .contain > *:last-child {
+    margin-block-end: 0px;
+    margin-bottom: 0em;
+}
+main thingy {
+    background: #ff00005e;
+    width: 300vw;
+    border-radius: 50%;
+    height: 60vh;
+    display: block;
+    /* position: unset; */
+    z-index: -4;
+    /* transform: translate(10px, -64px); */
+    /* transform: rotate(11deg); */
+}
+.asdf {
+    position: absolute;
+    transform: translate(-);
+    overflow: hidden;
+    max-width: 100vw;
+}
+.contain {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+blockquote {
+    border-left: 0.6em solid #b97777;
+    padding: 0.5em 1em;
+    max-width: 30em;
+    font-style: italic;
+    background: #f9f9f9;
+    font-size: 1.2rem;
+    margin: 0 auto;
+}
+
+blockquote.banner {
+    margin-top: -46px;
+    font-style: unset;
+}
+
+.pillars {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    overflow-x: auto;
+}
+
+.pillars > div {
+    color: white;
+    padding: 1em;
+    background: #434366;
+    min-height: 300px;
+    flex: 1 1 33%;
+    margin: 0px 10px;
+}
+
+.scrolly {
+    /* max-height: 20em; */
+    /* overflow-y: auto; */
+}
+.pillars > div ul {
+    padding-left: 0.6rem;
+}
+.pillars > div li {
+    list-style: "- ";
+    margin-bottom: 0.3rem;
+    margin-right: 0.5rem;
+}
+.pillars > div li::marker {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.subjects {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 1rem;
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+}
+
+@media (max-width: 1100px) {
+    .subjects {
+        grid-template-columns: repeat(2, auto);
+    }
+}
+@media (max-width: 600px) {
+    .subjects {
+        grid-template-columns: repeat(1, auto);
+    }
+}
+
+@media (min-width: 1000px) {
+    .subjectscontainer {
+        display: flex;
+        flex-direction: row;
+        margin-block-start: 15rem;
+    }
+
+    .subjectscontainer h1 {
+        position: sticky;
+        top: 100px;
+        align-self: flex-start;
+        margin-block-start: 0px;
+        /* padding-right: 0; */
+        margin-right: 1em;
+    }
+}
+
+.subjects > a {
+    display: block;
+    border: 7px solid #c19d1c1f;
+    min-height: 200px;
+    min-width: min(90vw, 188px);
+    padding: 1em;
+    border-radius: 1em;
+    transition: transform 100ms ease-in-out;
+    /* width: 27%; */
+    box-shadow: 0px 6px 7px #1c12120d;
+}
+
+.subjects > a:hover {
+    transform: scale(1.05);
+}
+
+.subjects > a img {
+    max-width: 100%;
+    width: 100%;
+}
+section {
+    display: flex;
+    flex-direction: row;
+    background: linear-gradient(145deg, #a6b8ef, #daeaff);
+    padding: 1em;
+    background-repeat: repeat-x;
+    border-radius: 1em;
+    margin-bottom: 2em;
+}
+
+.shadow,
+section {
+    box-shadow: 0px 6px 9px #0606060f;
+    padding: 1rem;
+    border-radius: 1rem;
+}
+
+@media (max-width: 500px) {
+    section {
+        flex-direction: column;
+    }
+}
+
+section > div {
+    flex: 1 1 60%;
+}
+
+section > div.content {
+    margin-right: 1em;
+}
+section > div.preview {
+    flex: 0 1 40%;
+}
+
+section > div.preview > img {
+    width: 100%;
+}
+
+.github-logo {
+    width: 1em;
+}
