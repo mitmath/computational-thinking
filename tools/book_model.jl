@@ -11,7 +11,7 @@ book_model = Any[
     Section(
         1,
         2,
-        "Abstractions",
+        "Abstraction",
         "notebooks/week1/abstraction.jl",
         "3zTO3LEY-cM",
         "",
