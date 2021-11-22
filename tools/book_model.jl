@@ -11,7 +11,7 @@ book_model = Any[
     Section(
         1,
         2,
-        "Intro to Abstractions",
+        "Abstractions",
         "notebooks/week1/abstraction.jl",
         "3zTO3LEY-cM",
         "",
@@ -19,7 +19,7 @@ book_model = Any[
     Section(
         1,
         3,
-        "Transformations & Autodiff",
+        "Automatic Differentiation",
         "notebooks/week2/transformations_and_autodiff.jl",
         "AAREeuaKCic",
         "https://user-images.githubusercontent.com/6933510/136196632-ad67cb84-a4c9-410e-ab72-f4fcfc26f69a.png",
@@ -51,7 +51,7 @@ book_model = Any[
     Section(
         1,
         7,
-        "Intro to Dynamic Programming",
+        "Dynamic Programming",
         "notebooks/week4/dynamicprograms.jl",
         "KyBXJV1zFlo",
         "https://user-images.githubusercontent.com/6933510/136196599-c6ae60f0-9269-4134-bb0d-5bcab928bd2b.gif",
@@ -72,7 +72,7 @@ book_model = Any[
         "wZrVxbmX218",
         "https://user-images.githubusercontent.com/6933510/136196581-ffdf4a3b-f35c-4eb8-85a7-f07560bd421b.png",
     ),
-    Chapter(2, "Statistics, Probability, Learning"),
+    Chapter(2, "Social Science & Data Science"),
     Section(
         2,
         1,
@@ -145,7 +145,7 @@ book_model = Any[
         "44RA9fclTdA",
         "https://user-images.githubusercontent.com/6933510/136199719-a56a217b-cd36-4da2-b407-7285dcec94df.png",
     ),
-    Chapter(3, "Differential Equations & Climate Modeling"),
+    Chapter(3, "Climate Science"),
     Section(
         3,
         1,
@@ -181,7 +181,7 @@ book_model = Any[
     Section(
         3,
         5,
-        "How to collaborate on software",
+        "GitHub & Open Source Software",
         "notebooks/week12/how_to_collaborate_on_software.jl",
         "7N9Vvc8amGM",
         "https://user-images.githubusercontent.com/6933510/136199704-ba6d0586-34bf-490c-8fd0-6959ab42cd23.png",
@@ -221,7 +221,7 @@ book_model = Any[
     Section(
         3,
         10,
-        "Inverse climate modeling",
+        "Climate Economics",
         "notebooks/week14/inverse_climate_model.jl",
         "nm86_hDwYTU",
         "https://user-images.githubusercontent.com/6933510/136199660-315b045b-f144-4009-9282-7fe6d1f5d41b.gif",
