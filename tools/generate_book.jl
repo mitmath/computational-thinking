@@ -31,20 +31,8 @@ using Pluto
 # using GitHubActions: GitHubActionsLogger
 # get(ENV, "GITHUB_ACTIONS", "false") == "true" && global_logger(GitHubActionsLogger())
 
-
-struct Section
-    chapter::Int
-    section::Int
-    name::String
-    notebook_path::String
-    video_id::String
-	preview_image_url::String
-end
-
-struct Chapter
-    number::Int
-    name::String
-end
+include("./types.jl")
+include("./book_model.jl")
 
 without_dotjl(path) = splitext(path)[1]
 
@@ -115,7 +103,7 @@ end
 
 function process_book_item(section::Section)
     println(section.notebook_path)
-    notebook  = Pluto.load_notebook_nobackup(section.notebook_path)
+    notebook = Pluto.load_notebook_nobackup(section.notebook_path)
     ordered_cells = notebook.cells
 
     # First, add the header to each cell
@@ -133,7 +121,7 @@ function process_book_item(section::Section)
         # We get to add a new cell
         new_cell = Pluto.Cell(new_cell_code)
         new_cell.code_folded = true
-        push!(cells_dict,new_cell.cell_id => new_cell)
+        push!(cells_dict, new_cell.cell_id => new_cell)
         insert!(cell_order, 1, new_cell.cell_id)
     end
 
@@ -144,14 +132,14 @@ function process_book_item(section::Section)
         end
     end
 
-#    num_deleted = 0
-#    for (i, cell) ∈ enumerate(ordered_cells)
-#         if length(strip(cell.code)) == 0 && !cell.code_folded
-#             delete!(cells_dict, cell.cell_id)
-#             deleteat!(cell_order, i - num_deleted)
-#             num_deleted += 1
-#         end
-#     end
+    #    num_deleted = 0
+    #    for (i, cell) ∈ enumerate(ordered_cells)
+    #         if length(strip(cell.code)) == 0 && !cell.code_folded
+    #             delete!(cells_dict, cell.cell_id)
+    #             deleteat!(cell_order, i - num_deleted)
+    #             num_deleted += 1
+    #         end
+    #     end
     setfield!(notebook, :cells_dict, cells_dict)
     setfield!(notebook, :cell_order, cell_order)
 
@@ -169,66 +157,6 @@ function process_book_item(ch::Chapter)
 end
 
 
-###
-# SIDEBAR
-
-function sidebar_line(section::Section)
-    notebook_name = basename(without_dotjl(section.notebook_path))
-    return """
-    <a class="sidebar-nav-item {{ispage /$notebook_name/}}active{{end}}" href="/$notebook_name/"><b>$(section.chapter).$(section.section)</b> - <em>$(section.name)</em></a>
-    """
-end
-
-function sidebar_line(ch::Chapter)
-    return """
-    <div class="course-section">Module $(ch.number): $(ch.name)</div>
-    """
-end
-
-
-function sidebar_code(book_model)
-    return """
-    <div class="sidebar">
-    <div class="container sidebar-sticky">
-    <div class="sidebar-about">
-    <br>
-    <img src="/assets/MIT_logo.svg" style="width: 80px; height: auto; display: inline">
-    <img src="/assets/julia-logo.svg" style="margin-left:1em; width: 80px; height: auto; display: inline">
-    <div style="font-weight: bold; margin-bottom: 0.5em"><a href="/semesters/">Spring 2021</a> <span style="opacity: 0.6;">| MIT 18.S191/6.S083/22.S092</span></div>
-    <h1><a href="/">Introduction to Computational Thinking</a></h1>
-    <h2>Math from computation, math with computation</h2>
-    <div style="line-height:18px; font-size: 15px; opacity: 0.85">by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a> &amp; <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a></div>
-    </div>
-    <br>
-    <style>
-    </style>
-    <nav class="sidebar-nav" style="opacity: 0.9">
-    <a class="sidebar-nav-item {{ispage /index.html}}active{{end}}" href="/"><b>Welcome</b></a>
-    <a class="sidebar-nav-item {{ispage /reviews/}}active{{end}}" href="/reviews/">Class Reviews</a>
-    <a class="sidebar-nav-item {{ispage /logistics/}}active{{end}}" href="/logistics/">Class Logistics</a>
-    <a class="sidebar-nav-item {{ispage /homework/}}active{{end}}" href="/homework/">Homework</a>
-    <a class="sidebar-nav-item {{ispage /syllabus/}}active{{end}}" href="/syllabus/">Syllabus and videos</a>
-    <a class="sidebar-nav-item {{ispage /installation/}}active{{end}}" href="/installation/">Software installation</a>
-    <a class="sidebar-nav-item {{ispage /cheatsheets/}}active{{end}}" href="/cheatsheets/">Cheatsheets</a>
-    <a class="sidebar-nav-item {{ispage /semesters/}}active{{end}}" href="/semesters/">Previous semesters</a>
-    <br>
-    $(join(sidebar_line.(book_model)))
-
-    <br>
-    </nav>
-    </div>
-    </div>
-    <div class="content container">"""
-end
-
-function write_sidebar(book_model)
-    write("website/_layout/sidebar.html", sidebar_code(book_model))
-end
-
-
-include("./book_model.jl")
-
 for section ∈ book_model
     process_book_item(section)
 end
-write_sidebar(book_model)
