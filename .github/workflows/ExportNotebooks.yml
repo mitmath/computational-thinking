@@ -15,10 +15,10 @@ jobs:
             - name: Set up notebook state cache
               uses: actions/cache@v2
               with:
-                path: pluto_state_cache
-                key: ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('**/*.jl') }}
-                restore-keys: |
-                    ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
+                  path: pluto_state_cache
+                  key: ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('**/*.jl') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
 
             - name: Checkout Fall 20 output
               uses: actions/checkout@v2
@@ -38,19 +38,12 @@ jobs:
                   using PlutoSliderServer;
                   github_action("."; Export_cache_dir="pluto_state_cache");'
             - name: Franklin
-              run: julia -e '
-                  using Pkg;
-                  Pkg.add([
-                  Pkg.PackageSpec(name="NodeJS", version="1.1.1"),
-                  Pkg.PackageSpec(name="JSON", version="0.21.1"),
-                  Pkg.PackageSpec(name="Franklin", version="0.10.28"),
-                  ]);
+              run: julia --project -e '
                   using NodeJS;
+                  run(`$(npm_cmd()) install highlight.js`);
 
                   "== Run Franklin ==";
-                  cd("website");
 
-                  run(`$(npm_cmd()) install highlight.js`);
                   using Franklin;
                   optimize(;minify=false);
                   mkdir("__site2");
@@ -68,6 +61,8 @@ jobs:
                   window.location.href=\"Spring21\"</script></head>
                   <body></body></html>""");
                   write("__site2/CNAME", "computationalthinking.mit.edu");'
+              working-directory: website
+
             - name: Build and Deploy
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:

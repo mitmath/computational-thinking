@@ -7,8 +7,9 @@ The code for the website is in the `website/` directory in this repo. It is proc
 cd to the `website/` and launch Julia. Then run the following to install Franklin
 
 ```julia
-using Pkg
-Pkg.add("Franklin")
+julia> ]
+pkg> activate .
+pkg> instantiate
 ```
 
 Might give some warnings, but if the website works then you can ignore them :)
