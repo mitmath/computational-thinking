@@ -1,3 +1,12 @@
++++
+
+# include("../tools/types.jl")
+# include("../tools/book_model.jl")
+include("../tools/sidebar.jl")
+
+huhh2 = HTML(sidebar_code(book_model))
++++
+
 <!--
 The definitions here control the layout of the page: basic geometry, colors,
 and elements. To avoid errors, do not remove definitions, rather, leave them
