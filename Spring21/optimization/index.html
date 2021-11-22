@@ -39,48 +39,47 @@
 <style>
 </style>
 <nav class="sidebar-nav" style="opacity: 0.9">
-<a class="sidebar-nav-item " href="/Spring21/"><b>Welcome</b></a>
-<a class="sidebar-nav-item " href="/Spring21/reviews/">Class Reviews</a>
-<a class="sidebar-nav-item " href="/Spring21/logistics/">Class Logistics</a>
-<a class="sidebar-nav-item " href="/Spring21/homework/">Homework</a>
-<a class="sidebar-nav-item " href="/Spring21/syllabus/">Syllabus and videos</a>
-<a class="sidebar-nav-item " href="/Spring21/installation/">Software installation</a>
-<a class="sidebar-nav-item " href="/Spring21/cheatsheets/">Cheatsheets</a>
-<a class="sidebar-nav-item " href="/Spring21/semesters/">Previous semesters</a>
-<a class="sidebar-nav-item " href="/Spring21/clips/">Submit Short Clips</a>
+<a class="sidebar-nav-item {{ispage /index.html}}active{{end}}" href="/Spring21/"><b>Welcome</b></a>
+<a class="sidebar-nav-item {{ispage /reviews/}}active{{end}}" href="/Spring21/reviews/">Class Reviews</a>
+<a class="sidebar-nav-item {{ispage /logistics/}}active{{end}}" href="/Spring21/logistics/">Class Logistics</a>
+<a class="sidebar-nav-item {{ispage /homework/}}active{{end}}" href="/Spring21/homework/">Homework</a>
+<a class="sidebar-nav-item {{ispage /syllabus/}}active{{end}}" href="/Spring21/syllabus/">Syllabus and videos</a>
+<a class="sidebar-nav-item {{ispage /installation/}}active{{end}}" href="/Spring21/installation/">Software installation</a>
+<a class="sidebar-nav-item {{ispage /cheatsheets/}}active{{end}}" href="/Spring21/cheatsheets/">Cheatsheets</a>
+<a class="sidebar-nav-item {{ispage /semesters/}}active{{end}}" href="/Spring21/semesters/">Previous semesters</a>
 <br>
 <div class="course-section">Module 1: Images, Transformations, Abstractions</div>
-<a class="sidebar-nav-item " href="/Spring21/images/"><b>1.1</b> - <em>Images as Data and Arrays</em></a>
-<a class="sidebar-nav-item " href="/Spring21/abstraction/"><b>1.2</b> - <em>Intro to Abstractions</em></a>
-<a class="sidebar-nav-item " href="/Spring21/transformations_and_autodiff/"><b>1.3</b> - <em>Transformations & Autodiff</em></a>
-<a class="sidebar-nav-item " href="/Spring21/transforming_images/"><b>1.4</b> - <em>Transformations with Images</em></a>
-<a class="sidebar-nav-item " href="/Spring21/transformations2/"><b>1.5</b> - <em>Transformations II: Composability, Linearity and Nonlinearity</em></a>
-<a class="sidebar-nav-item " href="/Spring21/newton_method/"><b>1.6</b> - <em>The Newton Method</em></a>
-<a class="sidebar-nav-item " href="/Spring21/dynamicprograms/"><b>1.7</b> - <em>Intro to Dynamic Programming</em></a>
-<a class="sidebar-nav-item " href="/Spring21/seamcarving/"><b>1.8</b> - <em>Seam Carving</em></a>
-<a class="sidebar-nav-item " href="/Spring21/structure/"><b>1.9</b> - <em>Taking Advantage of Structure</em></a>
-<div class="course-section">Module 2: Statistics, Probability, Learning</div>
-<a class="sidebar-nav-item " href="/Spring21/pca/"><b>2.1</b> - <em>Principal Component Analysis</em></a>
-<a class="sidebar-nav-item " href="/Spring21/random_vars/"><b>2.2</b> - <em>Sampling and Random Variables</em></a>
-<a class="sidebar-nav-item " href="/Spring21/simulating_component_failure/"><b>2.3</b> - <em>Modeling with Stochastic Simulation</em></a>
-<a class="sidebar-nav-item " href="/Spring21/random_variables_as_types/"><b>2.4</b> - <em>Random Variables as Types</em></a>
-<a class="sidebar-nav-item " href="/Spring21/random_walks/"><b>2.5</b> - <em>Random Walks</em></a>
-<a class="sidebar-nav-item " href="/Spring21/random_walks_II/"><b>2.6</b> - <em>Random Walks II</em></a>
-<a class="sidebar-nav-item " href="/Spring21/discrete_and_continuous/"><b>2.7</b> - <em>Discrete and Continuous</em></a>
-<a class="sidebar-nav-item " href="/Spring21/linearmodel_datascience/"><b>2.8</b> - <em>Linear Model, Data Science, & Simulations</em></a>
-<a class="sidebar-nav-item active" href="/Spring21/optimization/"><b>2.9</b> - <em>Optimization</em></a>
-<div class="course-section">Module 3: Differential Equations & Climate Modeling</div>
-<a class="sidebar-nav-item " href="/Spring21/time_stepping/"><b>3.1</b> - <em>Time stepping</em></a>
-<a class="sidebar-nav-item " href="/Spring21/odes_and_parameterized_types/"><b>3.2</b> - <em>ODEs and parameterized types</em></a>
-<a class="sidebar-nav-item " href="/Spring21/predicting_the_weather/"><b>3.3</b> - <em>Why we can't predict the weather</em></a>
-<a class="sidebar-nav-item " href="/Spring21/our_first_climate_model/"><b>3.4</b> - <em>Our first climate model</em></a>
-<a class="sidebar-nav-item " href="/Spring21/how_to_collaborate_on_software/"><b>3.5</b> - <em>How to collaborate on software</em></a>
-<a class="sidebar-nav-item " href="/Spring21/climate2_snowball_earth/"><b>3.6</b> - <em>Snowball Earth and hysteresis</em></a>
-<a class="sidebar-nav-item " href="/Spring21/advection_and_diffusion/"><b>3.7</b> - <em>Advection and diffusion in 1D</em></a>
-<a class="sidebar-nav-item " href="/Spring21/resistors_and_stencils/"><b>3.8</b> - <em>Resistors, stencils and climate models</em></a>
-<a class="sidebar-nav-item " href="/Spring21/2d_advection_diffusion/"><b>3.9</b> - <em>Advection and diffusion in 2D</em></a>
-<a class="sidebar-nav-item " href="/Spring21/inverse_climate_model/"><b>3.10</b> - <em>Inverse climate modeling</em></a>
-<a class="sidebar-nav-item " href="/Spring21/optimization_with_JuMP/"><b>3.11</b> - <em>Solving inverse problems</em></a>
+<a class="sidebar-nav-item {{ispage /images/}}active{{end}}" href="/Spring21/images/"><b>1.1</b> - <em>Images as Data and Arrays</em></a>
+<a class="sidebar-nav-item {{ispage /abstraction/}}active{{end}}" href="/Spring21/abstraction/"><b>1.2</b> - <em>Abstractions</em></a>
+<a class="sidebar-nav-item {{ispage /transformations_and_autodiff/}}active{{end}}" href="/Spring21/transformations_and_autodiff/"><b>1.3</b> - <em>Automatic Differentiation</em></a>
+<a class="sidebar-nav-item {{ispage /transforming_images/}}active{{end}}" href="/Spring21/transforming_images/"><b>1.4</b> - <em>Transformations with Images</em></a>
+<a class="sidebar-nav-item {{ispage /transformations2/}}active{{end}}" href="/Spring21/transformations2/"><b>1.5</b> - <em>Transformations II: Composability, Linearity and Nonlinearity</em></a>
+<a class="sidebar-nav-item {{ispage /newton_method/}}active{{end}}" href="/Spring21/newton_method/"><b>1.6</b> - <em>The Newton Method</em></a>
+<a class="sidebar-nav-item {{ispage /dynamicprograms/}}active{{end}}" href="/Spring21/dynamicprograms/"><b>1.7</b> - <em>Dynamic Programming</em></a>
+<a class="sidebar-nav-item {{ispage /seamcarving/}}active{{end}}" href="/Spring21/seamcarving/"><b>1.8</b> - <em>Seam Carving</em></a>
+<a class="sidebar-nav-item {{ispage /structure/}}active{{end}}" href="/Spring21/structure/"><b>1.9</b> - <em>Taking Advantage of Structure</em></a>
+<div class="course-section">Module 2: Social Science & Data Science</div>
+<a class="sidebar-nav-item {{ispage /pca/}}active{{end}}" href="/Spring21/pca/"><b>2.1</b> - <em>Principal Component Analysis</em></a>
+<a class="sidebar-nav-item {{ispage /random_vars/}}active{{end}}" href="/Spring21/random_vars/"><b>2.2</b> - <em>Sampling and Random Variables</em></a>
+<a class="sidebar-nav-item {{ispage /simulating_component_failure/}}active{{end}}" href="/Spring21/simulating_component_failure/"><b>2.3</b> - <em>Modeling with Stochastic Simulation</em></a>
+<a class="sidebar-nav-item {{ispage /random_variables_as_types/}}active{{end}}" href="/Spring21/random_variables_as_types/"><b>2.4</b> - <em>Random Variables as Types</em></a>
+<a class="sidebar-nav-item {{ispage /random_walks/}}active{{end}}" href="/Spring21/random_walks/"><b>2.5</b> - <em>Random Walks</em></a>
+<a class="sidebar-nav-item {{ispage /random_walks_II/}}active{{end}}" href="/Spring21/random_walks_II/"><b>2.6</b> - <em>Random Walks II</em></a>
+<a class="sidebar-nav-item {{ispage /discrete_and_continuous/}}active{{end}}" href="/Spring21/discrete_and_continuous/"><b>2.7</b> - <em>Discrete and Continuous</em></a>
+<a class="sidebar-nav-item {{ispage /linearmodel_datascience/}}active{{end}}" href="/Spring21/linearmodel_datascience/"><b>2.8</b> - <em>Linear Model, Data Science, & Simulations</em></a>
+<a class="sidebar-nav-item {{ispage /optimization/}}active{{end}}" href="/Spring21/optimization/"><b>2.9</b> - <em>Optimization</em></a>
+<div class="course-section">Module 3: Climate Science</div>
+<a class="sidebar-nav-item {{ispage /time_stepping/}}active{{end}}" href="/Spring21/time_stepping/"><b>3.1</b> - <em>Time stepping</em></a>
+<a class="sidebar-nav-item {{ispage /odes_and_parameterized_types/}}active{{end}}" href="/Spring21/odes_and_parameterized_types/"><b>3.2</b> - <em>ODEs and parameterized types</em></a>
+<a class="sidebar-nav-item {{ispage /predicting_the_weather/}}active{{end}}" href="/Spring21/predicting_the_weather/"><b>3.3</b> - <em>Why we can't predict the weather</em></a>
+<a class="sidebar-nav-item {{ispage /our_first_climate_model/}}active{{end}}" href="/Spring21/our_first_climate_model/"><b>3.4</b> - <em>Our first climate model</em></a>
+<a class="sidebar-nav-item {{ispage /how_to_collaborate_on_software/}}active{{end}}" href="/Spring21/how_to_collaborate_on_software/"><b>3.5</b> - <em>GitHub & Open Source Software</em></a>
+<a class="sidebar-nav-item {{ispage /climate2_snowball_earth/}}active{{end}}" href="/Spring21/climate2_snowball_earth/"><b>3.6</b> - <em>Snowball Earth and hysteresis</em></a>
+<a class="sidebar-nav-item {{ispage /advection_and_diffusion/}}active{{end}}" href="/Spring21/advection_and_diffusion/"><b>3.7</b> - <em>Advection and diffusion in 1D</em></a>
+<a class="sidebar-nav-item {{ispage /resistors_and_stencils/}}active{{end}}" href="/Spring21/resistors_and_stencils/"><b>3.8</b> - <em>Resistors, stencils and climate models</em></a>
+<a class="sidebar-nav-item {{ispage /2d_advection_diffusion/}}active{{end}}" href="/Spring21/2d_advection_diffusion/"><b>3.9</b> - <em>Advection and diffusion in 2D</em></a>
+<a class="sidebar-nav-item {{ispage /inverse_climate_model/}}active{{end}}" href="/Spring21/inverse_climate_model/"><b>3.10</b> - <em>Climate Economics</em></a>
+<a class="sidebar-nav-item {{ispage /optimization_with_JuMP/}}active{{end}}" href="/Spring21/optimization_with_JuMP/"><b>3.11</b> - <em>Solving inverse problems</em></a>
 
 
 <br>
@@ -88,7 +87,6 @@
 </div>
 </div>
 <div class="content container">
-
 
 <!-- Content appended here -->
 <div class="franklin-content"><style>
