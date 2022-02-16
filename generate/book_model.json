@@ -1,0 +1,181 @@
+[
+    {
+        "title": "Images, Transformations, Abstractions",
+        "contents": [
+            {
+                "name": "Images as Data and Arrays",
+                "notebook_path": "notebooks/week1/images.jl",
+                "video_id": "3zTO3LEY-cM",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196634-2294d0a7-e79a-40d0-bbb8-81da70f4d398.png"
+            },
+            { "name": "Abstraction", "notebook_path": "notebooks/week1/abstraction.jl", "video_id": "3zTO3LEY-cM", "preview_image_url": "" },
+            {
+                "name": "Automatic Differentiation",
+                "notebook_path": "notebooks/week2/transformations_and_autodiff.jl",
+                "video_id": "AAREeuaKCic",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196632-ad67cb84-a4c9-410e-ab72-f4fcfc26f69a.png"
+            },
+            {
+                "name": "Transformations with Images",
+                "notebook_path": "notebooks/week2/transforming_images.jl",
+                "video_id": "uZYVjDDZW9A",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196626-194e81c9-00f7-49f6-90c3-09945723b6a3.png"
+            },
+            {
+                "name": "Transformations II: Composability, Linearity and Nonlinearity",
+                "notebook_path": "notebooks/week3/transformations2.jl",
+                "video_id": "VDPf3RjoCpY",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196619-0750544f-cd6d-4ae3-ace7-60c24443d721.png"
+            },
+            {
+                "name": "The Newton Method",
+                "notebook_path": "notebooks/week3/newton_method.jl",
+                "video_id": "Wjcx9sNSLP8",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196605-b6119b9d-223c-44bc-97d5-ef7cfce66483.gif"
+            },
+            {
+                "name": "Dynamic Programming",
+                "notebook_path": "notebooks/week4/dynamicprograms.jl",
+                "video_id": "KyBXJV1zFlo",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196599-c6ae60f0-9269-4134-bb0d-5bcab928bd2b.gif"
+            },
+            {
+                "name": "Seam Carving",
+                "notebook_path": "notebooks/week4/seamcarving.jl",
+                "video_id": "KyBXJV1zFlo",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196584-b3c806a8-aa61-48d9-9e73-30583fcc38bf.gif"
+            },
+            {
+                "name": "Taking Advantage of Structure",
+                "notebook_path": "notebooks/week4/structure.jl",
+                "video_id": "wZrVxbmX218",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196581-ffdf4a3b-f35c-4eb8-85a7-f07560bd421b.png"
+            }
+        ]
+    },
+    {
+        "title": "Social Science & Data Science",
+        "contents": [
+            {
+                "name": "Principal Component Analysis",
+                "notebook_path": "notebooks/week5/pca.jl",
+                "video_id": "iuKrM_NzxCk",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196577-512cee99-aebf-48a9-97b8-358d5ca561ca.png"
+            },
+            {
+                "name": "Sampling and Random Variables",
+                "notebook_path": "notebooks/week5/random_vars.jl",
+                "video_id": "7HrpoFZzITI",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196576-70e45c9d-ef0e-4498-bf61-58d9ae854c3e.png"
+            },
+            {
+                "name": "Modeling with Stochastic Simulation",
+                "notebook_path": "notebooks/week6/simulating_component_failure.jl",
+                "video_id": "d8BohH76C7E",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196572-b11974d5-7335-4678-9092-630e034bbe8f.png"
+            },
+            {
+                "name": "Random Variables as Types",
+                "notebook_path": "notebooks/week7/random_variables_as_types.jl",
+                "video_id": "xKAO38UsXo0",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196570-478bbb89-05fb-4799-99a0-0ede06354cb6.png"
+            },
+            {
+                "name": "Random Walks",
+                "notebook_path": "notebooks/week7/random_walks.jl",
+                "video_id": "14hHtGJ4s-g",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196563-f4b5b44c-5252-4e67-8c82-c550de891c55.png"
+            },
+            { "name": "Random Walks II", "notebook_path": "notebooks/week8/random_walks_II.jl", "video_id": "pIAFHyLmwbM", "preview_image_url": "" },
+            {
+                "name": "Discrete and Continuous",
+                "notebook_path": "notebooks/week8/discrete_and_continuous.jl",
+                "video_id": "H6Dcx3YeTkE",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196552-ce16c06f-bd12-427f-80e5-aedb1fbc734a.png"
+            },
+            {
+                "name": "Linear Model, Data Science, & Simulations",
+                "notebook_path": "notebooks/week9/linearmodel_datascience.jl",
+                "video_id": "O6NTKsR8TjQ",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199721-8fd577cb-d6f3-492d-bbdc-37bc74664ca7.png"
+            },
+            {
+                "name": "Optimization",
+                "notebook_path": "notebooks/week9/optimization.jl",
+                "video_id": "44RA9fclTdA",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199719-a56a217b-cd36-4da2-b407-7285dcec94df.png"
+            }
+        ]
+    },
+    {
+        "title": "Climate Science",
+        "contents": [
+            {
+                "name": "Time stepping",
+                "notebook_path": "notebooks/week10/time_stepping.jl",
+                "video_id": "3Y5gVyO8KcI",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199718-ff811eb3-aad6-4d6b-99e0-f6bf922816b4.png"
+            },
+            {
+                "name": "ODEs and parameterized types",
+                "notebook_path": "notebooks/week11/odes_and_parameterized_types.jl",
+                "video_id": "S71YIZ8e7MQ",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199713-25eb2e90-c5cd-4e11-8463-6f6069a81a51.png"
+            },
+            {
+                "name": "Why we can't predict the weather",
+                "notebook_path": "notebooks/week11/predicting_the_weather.jl",
+                "video_id": "M3udLzIHtsc",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199708-af8acad2-4172-4fa7-911e-e30300efb5ee.png"
+            },
+            {
+                "name": "Our first climate model",
+                "notebook_path": "notebooks/week12/our_first_climate_model.jl",
+                "video_id": "J1UsMa1cTeE",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199705-7bdb6bb0-8698-43a1-87e6-c073ab102da5.png"
+            },
+            {
+                "name": "GitHub & Open Source Software",
+                "notebook_path": "notebooks/week12/how_to_collaborate_on_software.jl",
+                "video_id": "7N9Vvc8amGM",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199704-ba6d0586-34bf-490c-8fd0-6959ab42cd23.png"
+            },
+            {
+                "name": "Snowball Earth and hysteresis",
+                "notebook_path": "notebooks/week13/climate2_snowball_earth.jl",
+                "video_id": "cdIgr_2nUvI",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199703-5edb4791-f9c0-4872-b0a7-7c9b1b6502d5.png"
+            },
+            {
+                "name": "Advection and diffusion in 1D",
+                "notebook_path": "notebooks/week13/advection_and_diffusion.jl",
+                "video_id": "Xb-iUwXI78A",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136200627-8211654f-7730-4f4a-8933-5b64164806c3.gif"
+            },
+            {
+                "name": "Resistors, stencils and climate models",
+                "notebook_path": "notebooks/week14/resistors_and_stencils.jl",
+                "video_id": "DdTWgBlDgr0",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136200635-33c007ff-89f6-48dc-b1d3-eb56fd16003e.gif"
+            },
+            {
+                "name": "Advection and diffusion in 2D",
+                "notebook_path": "notebooks/week14/2d_advection_diffusion.jl",
+                "video_id": "DdTWgBlDgr0",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136200688-e3c6d6ee-808c-433f-8252-af6ad278fb4d.gif"
+            },
+            {
+                "name": "Climate Economics",
+                "notebook_path": "notebooks/week14/inverse_climate_model.jl",
+                "video_id": "nm86_hDwYTU",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199660-315b045b-f144-4009-9282-7fe6d1f5d41b.gif"
+            },
+            {
+                "name": "Solving inverse problems",
+                "notebook_path": "notebooks/week14/optimization_with_JuMP.jl",
+                "video_id": "nm86_hDwYTU",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136200827-89647ae8-cb06-42ea-a18d-5f64e9cc2b25.png"
+            }
+        ]
+    }
+]

@@ -1,0 +1,24 @@
+[
+    {
+        "title": "Images, Transformations, Abstractions",
+        "contents": [
+            {
+                "name": "The Newton Method",
+                "notebook_path": "notebooks/week3/newton_method.jl",
+                "video_id": "Wjcx9sNSLP8",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136196605-b6119b9d-223c-44bc-97d5-ef7cfce66483.gif"
+            }
+        ]
+    },
+    {
+        "title": "Climate Science",
+        "contents": [
+            {
+                "name": "GitHub & Open Source Software",
+                "notebook_path": "notebooks/week12/how_to_collaborate_on_software.jl",
+                "video_id": "7N9Vvc8amGM",
+                "preview_image_url": "https://user-images.githubusercontent.com/6933510/136199704-ba6d0586-34bf-490c-8fd0-6959ab42cd23.png"
+            }
+        ]
+    }
+]
