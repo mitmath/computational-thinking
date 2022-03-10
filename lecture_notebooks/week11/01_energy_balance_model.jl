@@ -485,8 +485,8 @@ md""" ##### 3.3) Best- and worst-case projections of future global warming
 
 # ╔═╡ 5fd0d45c-1dee-11eb-2fb9-355f29d3d3dd
 md"""Consider two divergent hypothetical futures:
-1. a **low-emissions** world in which emissions decrease such that CO2 concentrations stay below 500 ppm by 2100 (known in climate circles as "RCP8.5") and
-2. a **high-emissions** world in which emissions continue increasing and CO2 concentrations soar upwards of 1200 ppm ("RCP2.6").
+1. a **low-emissions** world in which emissions decrease such that CO2 concentrations stay below 500 ppm by 2100 (known in climate circles as "RCP2.6") and
+2. a **high-emissions** world in which emissions continue increasing and CO2 concentrations soar upwards of 1200 ppm ("RCP8.5").
 """
 
 # ╔═╡ b9ff4090-179e-11eb-2380-69c7a9a7a999
