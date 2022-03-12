@@ -15,9 +15,9 @@ end
 
 # ╔═╡ 74b008f6-ed6b-11ea-291f-b3791d6d1b35
 begin
-	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
-	using PlutoUI
-	using HypertextLiteral
+    using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
+    using PlutoUI
+    using HypertextLiteral
 end
 
 # ╔═╡ e91d7926-ec6e-41e7-aba2-9dca333c8aa5
@@ -72,7 +72,7 @@ overflow-x: hidden;
 </style>"""
 
 # ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
-PlutoUI.TableOfContents(aside=true)
+PlutoUI.TableOfContents(aside = true)
 
 # ╔═╡ 9b49500c-0164-4556-a17b-7595e35c5ede
 md"""
@@ -209,7 +209,7 @@ output is more interesting than code.  This takes some getting used to.)
 """
 
 # ╔═╡ 34ee0954-601e-11eb-1912-97dc2937fd52
-url = "https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28-11eb-8c7b-41aaf6618935.png" 
+url = "https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28-11eb-8c7b-41aaf6618935.png"
 
 # ╔═╡ 9180fbcc-601e-11eb-0c22-c920dc7ee9a9
 md"""
@@ -319,13 +319,13 @@ md"""
 """
 
 # ╔═╡ 08d61afb-c641-4aa9-b995-2552af89f3b8
-@bind row_i Slider(1:size(philip)[1], show_value=true)
+@bind row_i Slider(1:size(philip)[1], show_value = true)
 
 # ╔═╡ 6511a498-7ac9-445b-9c15-ec02d09783fe
-@bind col_i Slider(1:size(philip)[2], show_value=true)
+@bind col_i Slider(1:size(philip)[2], show_value = true)
 
 # ╔═╡ 94b77934-713e-11eb-18cf-c5dc5e7afc5b
-row_i,col_i
+row_i, col_i
 
 # ╔═╡ ff762861-b186-4eb0-9582-0ce66ca10f60
 philip[row_i, col_i]
@@ -416,11 +416,11 @@ RGB(1.0, 0.0, 0.0)
 
 # ╔═╡ c2907d1a-47b1-4634-8669-a68022706861
 begin
-	md"""
-	A pixel with $(@bind test_r Scrubbable(0:0.1:1; default=0.1)) red, $(@bind test_g Scrubbable(0:0.1:1; default=0.5)) green and $(@bind test_b Scrubbable(0:0.1:1; default=1.0)) blue looks like:
-	"""
+    md"""
+    A pixel with $(@bind test_r Scrubbable(0:0.1:1; default=0.1)) red, $(@bind test_g Scrubbable(0:0.1:1; default=0.5)) green and $(@bind test_b Scrubbable(0:0.1:1; default=1.0)) blue looks like:
+    """
 end
-	
+
 
 # ╔═╡ ff9eea3f-cab0-4030-8337-f519b94316c5
 RGB(test_r, test_g, test_b)
@@ -433,8 +433,8 @@ md"""
 
 # ╔═╡ 63e8d636-ee0b-11ea-173d-bd3327347d55
 function invert(color::AbstractRGB)
-	
-	return missing
+
+    return missing
 end
 
 # ╔═╡ 2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
@@ -470,14 +470,14 @@ We do this by assigning a new value to the color of a pixel:
 
 # ╔═╡ 53bad296-4c7b-471f-b481-0e9423a9288a
 let
-	temp = copy(philip_head)
-	temp[100, 200] = RGB(1.0, 0.0, 0.0)
-	temp
+    temp = copy(philip_head)
+    temp[100, 200] = RGB(1.0, 0.0, 0.0)
+    temp
 end
 
 # ╔═╡ 81b88cbe-64c9-11eb-3b26-39011efb2089
 md"""
-Be careful: We are actually *modifying* the original image here, even though if we look at the image it is hard to spot, since a single pixel is so small.
+Attention: We are *not modifying* the original image here as we made a copy of the original image and the two do no longer reference to the same object. (You can check this using ```temp === philip_head```.) 
 """
 
 # ╔═╡ ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
@@ -505,9 +505,9 @@ And then modify it:
 
 # ╔═╡ 4f03f651-56ed-4361-b954-e6848ac56089
 let
-	temp = copy(philip_head)
-	temp[50, 50:100] .= RGB(1.0, 0.0, 0.0)
-	temp
+    temp = copy(philip_head)
+    temp[50, 50:100] .= RGB(1.0, 0.0, 0.0)
+    temp
 end
 
 # ╔═╡ 2808339c-64cc-11eb-21d1-c76a9854aa5b
@@ -517,9 +517,9 @@ Similarly we can modify a whole rectangular block of pixels:
 
 # ╔═╡ 1bd53326-d705-4d1a-bf8f-5d7f2a4e696f
 let
-	temp = copy(philip_head)
-	temp[50:100, 50:100] .= RGB(1.0, 0.0, 0.0)
-	temp
+    temp = copy(philip_head)
+    temp[50:100, 50:100] .= RGB(1.0, 0.0, 0.0)
+    temp
 end
 
 # ╔═╡ a5f8bafe-edf0-11ea-0da3-3330861ae43a
@@ -531,8 +531,8 @@ md"""
 
 # ╔═╡ b6b65b94-edf0-11ea-3686-fbff0ff53d08
 function create_bar()
-	
-	return missing
+
+    return missing
 end
 
 # ╔═╡ 693af19c-64cc-11eb-31f3-57ab2fbae597
@@ -632,8 +632,8 @@ Matrices, or two-dimensional arrays, also use square brackets, but with spaces a
 """
 
 # ╔═╡ 3b2b041a-64d4-11eb-31dd-47d7321ee909
-[RGB(1, 0, 0)  RGB(0, 1, 0)
- RGB(0, 0, 1)  RGB(0.5, 0.5, 0.5)]
+[RGB(1, 0, 0) RGB(0, 1, 0)
+    RGB(0, 0, 1) RGB(0.5, 0.5, 0.5)]
 
 # ╔═╡ 0f35603a-64d4-11eb-3baf-4fef06d82daa
 md"""
@@ -649,7 +649,7 @@ A neat method to do this is an **array comprehension**. Again we use square brac
 """
 
 # ╔═╡ e69b02c6-64d6-11eb-02f1-21c4fb5d1043
-[RGB(x, 0, 0) for x in 0:0.1:1]
+[RGB(x, 0, 0) for x = 0:0.1:1]
 
 # ╔═╡ fce76132-64d6-11eb-259d-b130038bbae6
 md"""
@@ -662,7 +662,7 @@ In a similar way we can create two-dimensional matrices, by separating the two v
 """
 
 # ╔═╡ 291b04de-64d7-11eb-1ee0-d998dccb998c
-[RGB(i, j, 0) for i in 0:0.1:1, j in 0:0.1:1]
+[RGB(i, j, 0) for i = 0:0.1:1, j = 0:0.1:1]
 
 # ╔═╡ 647fddf2-60ee-11eb-124d-5356c7014c3b
 md"""
@@ -672,11 +672,11 @@ We often want to join vectors and matrices together. We can do so using an exten
 """
 
 # ╔═╡ 7d9ad134-60ee-11eb-1b2a-a7d63f3a7a2d
-[philip_head  philip_head]
+[philip_head philip_head]
 
 # ╔═╡ 8433b862-60ee-11eb-0cfc-add2b72997dc
-[philip_head                   reverse(philip_head, dims=2)
- reverse(philip_head, dims=1)  rot180(philip_head)]
+[philip_head reverse(philip_head, dims = 2)
+    reverse(philip_head, dims = 1) rot180(philip_head)]
 
 # ╔═╡ 5e52d12e-64d7-11eb-0905-c9038a404e24
 md"""
@@ -696,7 +696,7 @@ We can define a slider using
 """
 
 # ╔═╡ b37c9868-64d7-11eb-3033-a7b5d3065f7f
-@bind number_reds Slider(1:100, show_value=true)
+@bind number_reds Slider(1:100, show_value = true)
 
 # ╔═╡ b1dfe122-64dc-11eb-1104-1b8852b2c4c5
 md"""
@@ -714,7 +714,7 @@ Let's use this to make a slider for our one-dimensional collection of reds:
 """
 
 # ╔═╡ 88933746-6028-11eb-32de-13eb6ff43e29
-[RGB(red_value / number_reds, 0, 0) for red_value in 0:number_reds]
+[RGB(red_value / number_reds, 0, 0) for red_value = 0:number_reds]
 
 # ╔═╡ 1c539b02-64d8-11eb-3505-c9288357d139
 md"""
@@ -758,8 +758,8 @@ md"""
 
 # ╔═╡ 5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 begin
-	colored_line(x::Vector{<:Real}) = Gray.(Float64.((hcat(x)')))
-	colored_line(x::Any) = nothing
+    colored_line(x::Vector{<:Real}) = Gray.(Float64.((hcat(x)')))
+    colored_line(x::Any) = nothing
 end
 
 # ╔═╡ d862fb16-edf1-11ea-36ec-615d521e6bc0
@@ -772,38 +772,38 @@ hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
 
 # ╔═╡ e083bef6-601b-11eb-2134-e3063d5c4253
-still_missing(text=md"Replace `missing` with your answer.") = Markdown.MD(Markdown.Admonition("warning", "Here we go!", [text]))
+still_missing(text = md"Replace `missing` with your answer.") = Markdown.MD(Markdown.Admonition("warning", "Here we go!", [text]))
 
 # ╔═╡ e08ecb84-601b-11eb-0e25-152ed3a262f7
-keep_working(text=md"The answer is not quite right.") = Markdown.MD(Markdown.Admonition("danger", "Keep working on it!", [text]))
+keep_working(text = md"The answer is not quite right.") = Markdown.MD(Markdown.Admonition("danger", "Keep working on it!", [text]))
 
 # ╔═╡ e09036a4-601b-11eb-1a8b-ef70105ab91c
 yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!", md"Good job!", md"Awesome!", md"You got the right answer!", md"Let's move on to the next section."]
 
 # ╔═╡ e09af1a2-601b-11eb-14c8-57a46546f6ce
-correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
+correct(text = rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
 
 # ╔═╡ e0a4fc10-601b-11eb-211d-03570aca2726
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
 
 # ╔═╡ e3394c8a-edf0-11ea-1bb8-619f7abb6881
 if !@isdefined(create_bar)
-	not_defined(:create_bar)
+    not_defined(:create_bar)
 else
-	let
-		result = create_bar()
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result isa Vector) || length(result) != 100
-			keep_working(md"The result should be a `Vector` with 100 elements.")
-		elseif result[[1,50,100]] != [0,1,0]
-			keep_working()
-		else
-			correct()
-		end
-	end
+    let
+        result = create_bar()
+        if ismissing(result)
+            still_missing()
+        elseif isnothing(result)
+            keep_working(md"Did you forget to write `return`?")
+        elseif !(result isa Vector) || length(result) != 100
+            keep_working(md"The result should be a `Vector` with 100 elements.")
+        elseif result[[1, 50, 100]] != [0, 1, 0]
+            keep_working()
+        else
+            correct()
+        end
+    end
 end
 
 # ╔═╡ e0a6031c-601b-11eb-27a5-65140dd92897
@@ -813,207 +813,207 @@ bigbreak = html"<br><br><br><br><br>";
 bigbreak
 
 # ╔═╡ e0b15582-601b-11eb-26d6-bbf708933bc8
-function camera_input(;max_size=150, default_url="https://i.imgur.com/SUmi94P.png")
-"""
-<span class="pl-image waiting-for-permission">
-<style>
-	
-	.pl-image.popped-out {
-		position: fixed;
-		top: 0;
-		right: 0;
-		z-index: 5;
-	}
-
-	.pl-image #video-container {
-		width: 250px;
-	}
-
-	.pl-image video {
-		border-radius: 1rem 1rem 0 0;
-	}
-	.pl-image.waiting-for-permission #video-container {
-		display: none;
-	}
-	.pl-image #prompt {
-		display: none;
-	}
-	.pl-image.waiting-for-permission #prompt {
-		width: 250px;
-		height: 200px;
-		display: grid;
-		place-items: center;
-		font-family: monospace;
-		font-weight: bold;
-		text-decoration: underline;
-		cursor: pointer;
-		border: 5px dashed rgba(0,0,0,.5);
-	}
-
-	.pl-image video {
-		display: block;
-	}
-	.pl-image .bar {
-		width: inherit;
-		display: flex;
-		z-index: 6;
-	}
-	.pl-image .bar#top {
-		position: absolute;
-		flex-direction: column;
-	}
-	
-	.pl-image .bar#bottom {
-		background: black;
-		border-radius: 0 0 1rem 1rem;
-	}
-	.pl-image .bar button {
-		flex: 0 0 auto;
-		background: rgba(255,255,255,.8);
-		border: none;
-		width: 2rem;
-		height: 2rem;
-		border-radius: 100%;
-		cursor: pointer;
-		z-index: 7;
-	}
-	.pl-image .bar button#shutter {
-		width: 3rem;
-		height: 3rem;
-		margin: -1.5rem auto .2rem auto;
-	}
-
-	.pl-image video.takepicture {
-		animation: pictureflash 200ms linear;
-	}
-
-	@keyframes pictureflash {
-		0% {
-			filter: grayscale(1.0) contrast(2.0);
-		}
-
-		100% {
-			filter: grayscale(0.0) contrast(1.0);
-		}
-	}
-</style>
-
-	<div id="video-container">
-		<div id="top" class="bar">
-			<button id="stop" title="Stop video">✖</button>
-			<button id="pop-out" title="Pop out/pop in">⏏</button>
-		</div>
-		<video playsinline autoplay></video>
-		<div id="bottom" class="bar">
-		<button id="shutter" title="Click to take a picture">📷</button>
-		</div>
-	</div>
-		
-	<div id="prompt">
-		<span>
-		Enable webcam
-		</span>
-	</div>
-
-<script>
-	// based on https://github.com/fonsp/printi-static (by the same author)
-
-	const span = currentScript.parentElement
-	const video = span.querySelector("video")
-	const popout = span.querySelector("button#pop-out")
-	const stop = span.querySelector("button#stop")
-	const shutter = span.querySelector("button#shutter")
-	const prompt = span.querySelector(".pl-image #prompt")
-
-	const maxsize = $(max_size)
-
-	const send_source = (source, src_width, src_height) => {
-		const scale = Math.min(1.0, maxsize / src_width, maxsize / src_height)
-
-		const width = Math.floor(src_width * scale)
-		const height = Math.floor(src_height * scale)
-
-		const canvas = html`<canvas width=\${width} height=\${height}>`
-		const ctx = canvas.getContext("2d")
-		ctx.drawImage(source, 0, 0, width, height)
-
-		span.value = {
-			width: width,
-			height: height,
-			data: ctx.getImageData(0, 0, width, height).data,
-		}
-		span.dispatchEvent(new CustomEvent("input"))
-	}
-	
-	const clear_camera = () => {
-		window.stream.getTracks().forEach(s => s.stop());
-		video.srcObject = null;
-
-		span.classList.add("waiting-for-permission");
-	}
-
-	prompt.onclick = () => {
-		navigator.mediaDevices.getUserMedia({
-			audio: false,
-			video: {
-				facingMode: "environment",
-			},
-		}).then(function(stream) {
-
-			stream.onend = console.log
-
-			window.stream = stream
-			video.srcObject = stream
-			window.cameraConnected = true
-			video.controls = false
-			video.play()
-			video.controls = false
-
-			span.classList.remove("waiting-for-permission");
-
-		}).catch(function(error) {
-			console.log(error)
-		});
-	}
-	stop.onclick = () => {
-		clear_camera()
-	}
-	popout.onclick = () => {
-		span.classList.toggle("popped-out")
-	}
-
-	shutter.onclick = () => {
-		const cl = video.classList
-		cl.remove("takepicture")
-		void video.offsetHeight
-		cl.add("takepicture")
-		video.play()
-		video.controls = false
-		console.log(video)
-		send_source(video, video.videoWidth, video.videoHeight)
-	}
-	
-	
-	document.addEventListener("visibilitychange", () => {
-		if (document.visibilityState != "visible") {
-			clear_camera()
-		}
-	})
-
-
-	// Set a default image
-
-	const img = html`<img crossOrigin="anonymous">`
-
-	img.onload = () => {
-	console.log("helloo")
-		send_source(img, img.width, img.height)
-	}
-	img.src = "$(default_url)"
-	console.log(img)
-</script>
-</span>
-""" |> HTML
+function camera_input(; max_size = 150, default_url = "https://i.imgur.com/SUmi94P.png")
+    """
+    <span class="pl-image waiting-for-permission">
+    <style>
+    	
+    	.pl-image.popped-out {
+    		position: fixed;
+    		top: 0;
+    		right: 0;
+    		z-index: 5;
+    	}
+    
+    	.pl-image #video-container {
+    		width: 250px;
+    	}
+    
+    	.pl-image video {
+    		border-radius: 1rem 1rem 0 0;
+    	}
+    	.pl-image.waiting-for-permission #video-container {
+    		display: none;
+    	}
+    	.pl-image #prompt {
+    		display: none;
+    	}
+    	.pl-image.waiting-for-permission #prompt {
+    		width: 250px;
+    		height: 200px;
+    		display: grid;
+    		place-items: center;
+    		font-family: monospace;
+    		font-weight: bold;
+    		text-decoration: underline;
+    		cursor: pointer;
+    		border: 5px dashed rgba(0,0,0,.5);
+    	}
+    
+    	.pl-image video {
+    		display: block;
+    	}
+    	.pl-image .bar {
+    		width: inherit;
+    		display: flex;
+    		z-index: 6;
+    	}
+    	.pl-image .bar#top {
+    		position: absolute;
+    		flex-direction: column;
+    	}
+    	
+    	.pl-image .bar#bottom {
+    		background: black;
+    		border-radius: 0 0 1rem 1rem;
+    	}
+    	.pl-image .bar button {
+    		flex: 0 0 auto;
+    		background: rgba(255,255,255,.8);
+    		border: none;
+    		width: 2rem;
+    		height: 2rem;
+    		border-radius: 100%;
+    		cursor: pointer;
+    		z-index: 7;
+    	}
+    	.pl-image .bar button#shutter {
+    		width: 3rem;
+    		height: 3rem;
+    		margin: -1.5rem auto .2rem auto;
+    	}
+    
+    	.pl-image video.takepicture {
+    		animation: pictureflash 200ms linear;
+    	}
+    
+    	@keyframes pictureflash {
+    		0% {
+    			filter: grayscale(1.0) contrast(2.0);
+    		}
+    
+    		100% {
+    			filter: grayscale(0.0) contrast(1.0);
+    		}
+    	}
+    </style>
+    
+    	<div id="video-container">
+    		<div id="top" class="bar">
+    			<button id="stop" title="Stop video">✖</button>
+    			<button id="pop-out" title="Pop out/pop in">⏏</button>
+    		</div>
+    		<video playsinline autoplay></video>
+    		<div id="bottom" class="bar">
+    		<button id="shutter" title="Click to take a picture">📷</button>
+    		</div>
+    	</div>
+    		
+    	<div id="prompt">
+    		<span>
+    		Enable webcam
+    		</span>
+    	</div>
+    
+    <script>
+    	// based on https://github.com/fonsp/printi-static (by the same author)
+    
+    	const span = currentScript.parentElement
+    	const video = span.querySelector("video")
+    	const popout = span.querySelector("button#pop-out")
+    	const stop = span.querySelector("button#stop")
+    	const shutter = span.querySelector("button#shutter")
+    	const prompt = span.querySelector(".pl-image #prompt")
+    
+    	const maxsize = $(max_size)
+    
+    	const send_source = (source, src_width, src_height) => {
+    		const scale = Math.min(1.0, maxsize / src_width, maxsize / src_height)
+    
+    		const width = Math.floor(src_width * scale)
+    		const height = Math.floor(src_height * scale)
+    
+    		const canvas = html`<canvas width=\${width} height=\${height}>`
+    		const ctx = canvas.getContext("2d")
+    		ctx.drawImage(source, 0, 0, width, height)
+    
+    		span.value = {
+    			width: width,
+    			height: height,
+    			data: ctx.getImageData(0, 0, width, height).data,
+    		}
+    		span.dispatchEvent(new CustomEvent("input"))
+    	}
+    	
+    	const clear_camera = () => {
+    		window.stream.getTracks().forEach(s => s.stop());
+    		video.srcObject = null;
+    
+    		span.classList.add("waiting-for-permission");
+    	}
+    
+    	prompt.onclick = () => {
+    		navigator.mediaDevices.getUserMedia({
+    			audio: false,
+    			video: {
+    				facingMode: "environment",
+    			},
+    		}).then(function(stream) {
+    
+    			stream.onend = console.log
+    
+    			window.stream = stream
+    			video.srcObject = stream
+    			window.cameraConnected = true
+    			video.controls = false
+    			video.play()
+    			video.controls = false
+    
+    			span.classList.remove("waiting-for-permission");
+    
+    		}).catch(function(error) {
+    			console.log(error)
+    		});
+    	}
+    	stop.onclick = () => {
+    		clear_camera()
+    	}
+    	popout.onclick = () => {
+    		span.classList.toggle("popped-out")
+    	}
+    
+    	shutter.onclick = () => {
+    		const cl = video.classList
+    		cl.remove("takepicture")
+    		void video.offsetHeight
+    		cl.add("takepicture")
+    		video.play()
+    		video.controls = false
+    		console.log(video)
+    		send_source(video, video.videoWidth, video.videoHeight)
+    	}
+    	
+    	
+    	document.addEventListener("visibilitychange", () => {
+    		if (document.visibilityState != "visible") {
+    			clear_camera()
+    		}
+    	})
+    
+    
+    	// Set a default image
+    
+    	const img = html`<img crossOrigin="anonymous">`
+    
+    	img.onload = () => {
+    	console.log("helloo")
+    		send_source(img, img.width, img.height)
+    	}
+    	img.src = "$(default_url)"
+    	console.log(img)
+    </script>
+    </span>
+    """ |> HTML
 end
 
 # ╔═╡ d6742ea0-1106-4f3c-a5b8-a31a48d33f19
@@ -1025,36 +1025,36 @@ end
 # ╔═╡ e891fce0-601b-11eb-383b-bde5b128822e
 
 function process_raw_camera_data(raw_camera_data)
-	# the raw image data is a long byte array, we need to transform it into something
-	# more "Julian" - something with more _structure_.
-	
-	# The encoding of the raw byte stream is:
-	# every 4 bytes is a single pixel
-	# every pixel has 4 values: Red, Green, Blue, Alpha
-	# (we ignore alpha for this notebook)
-	
-	# So to get the red values for each pixel, we take every 4th value, starting at 
-	# the 1st:
-	reds_flat = UInt8.(raw_camera_data["data"][1:4:end])
-	greens_flat = UInt8.(raw_camera_data["data"][2:4:end])
-	blues_flat = UInt8.(raw_camera_data["data"][3:4:end])
-	
-	# but these are still 1-dimensional arrays, nicknamed 'flat' arrays
-	# We will 'reshape' this into 2D arrays:
-	
-	width = raw_camera_data["width"]
-	height = raw_camera_data["height"]
-	
-	# shuffle and flip to get it in the right shape
-	reds = reshape(reds_flat, (width, height))' / 255.0
-	greens = reshape(greens_flat, (width, height))' / 255.0
-	blues = reshape(blues_flat, (width, height))' / 255.0
-	
-	# we have our 2D array for each color
-	# Let's create a single 2D array, where each value contains the R, G and B value of 
-	# that pixel
-	
-	RGB.(reds, greens, blues)
+    # the raw image data is a long byte array, we need to transform it into something
+    # more "Julian" - something with more _structure_.
+
+    # The encoding of the raw byte stream is:
+    # every 4 bytes is a single pixel
+    # every pixel has 4 values: Red, Green, Blue, Alpha
+    # (we ignore alpha for this notebook)
+
+    # So to get the red values for each pixel, we take every 4th value, starting at 
+    # the 1st:
+    reds_flat = UInt8.(raw_camera_data["data"][1:4:end])
+    greens_flat = UInt8.(raw_camera_data["data"][2:4:end])
+    blues_flat = UInt8.(raw_camera_data["data"][3:4:end])
+
+    # but these are still 1-dimensional arrays, nicknamed 'flat' arrays
+    # We will 'reshape' this into 2D arrays:
+
+    width = raw_camera_data["width"]
+    height = raw_camera_data["height"]
+
+    # shuffle and flip to get it in the right shape
+    reds = reshape(reds_flat, (width, height))' / 255.0
+    greens = reshape(greens_flat, (width, height))' / 255.0
+    blues = reshape(blues_flat, (width, height))' / 255.0
+
+    # we have our 2D array for each color
+    # Let's create a single 2D array, where each value contains the R, G and B value of 
+    # that pixel
+
+    RGB.(reds, greens, blues)
 end
 
 # ╔═╡ 1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
@@ -1062,8 +1062,8 @@ myface1 = process_raw_camera_data(webcam_data1);
 
 # ╔═╡ 6224c74b-8915-4983-abf0-30e6ba04a46d
 [
-	myface1              myface1[   :    , end:-1:1]
-	myface1[end:-1:1, :] myface1[end:-1:1, end:-1:1]
+    myface1 myface1[:, end:-1:1]
+    myface1[end:-1:1, :] myface1[end:-1:1, end:-1:1]
 ]
 
 # ╔═╡ 3e0ece65-b8a7-4be7-ae44-6d7210c2e15b
@@ -1071,8 +1071,8 @@ myface = process_raw_camera_data(webcam_data);
 
 # ╔═╡ 4ee18bee-13e6-4478-b2ca-ab66100e57ec
 [
-	myface              myface[   :    , end:-1:1]
-	myface[end:-1:1, :] myface[end:-1:1, end:-1:1]
+    myface myface[:, end:-1:1]
+    myface[end:-1:1, :] myface[end:-1:1, end:-1:1]
 ]
 
 # ╔═╡ 3ef77236-1867-4d02-8af2-ff4777fcd6d9
@@ -1123,31 +1123,32 @@ ct-answer {
 """
 
 # ╔═╡ 61b29e7d-5aba-4bc8-870b-c1c43919c236
-exercise(x, number="") = 
-@htl("""
-	<ct-exercise class="exercise">
-	<h4>Exercise <span>$(number)</span></h4>
-	<section>$(x)
-	</section>
-	</ct-exercise>
-	""")
+exercise(x, number = "") =
+    @htl("""
+     <ct-exercise class="exercise">
+     <h4>Exercise <span>$(number)</span></h4>
+     <section>$(x)
+     </section>
+     </ct-exercise>
+     """)
 
 # ╔═╡ a9fef6c9-e911-4d8c-b141-a4832b40a260
-quick_question(x, number, options, correct) = let
-	name = join(rand('a':'z',16))
-@htl("""
-	<ct-exercise class="quick-question">
-	<h4>Quick Question <span>$(number)</span></h4>
-	<section>$(x)
-	<ct-answers>
-	$(map(enumerate(options)) do (i, o)
-		@htl("<ct-answer><input type=radio name=$(name) id=$(i) >$(o)</ct-answer>")
-	end)
-	</ct-answers>
-	</section>
-	</ct-exercise>
-	""")
-end
+quick_question(x, number, options, correct) =
+    let
+        name = join(rand('a':'z', 16))
+        @htl("""
+         <ct-exercise class="quick-question">
+         <h4>Quick Question <span>$(number)</span></h4>
+         <section>$(x)
+         <ct-answers>
+         $(map(enumerate(options)) do (i, o)
+         	@htl("<ct-answer><input type=radio name=$(name) id=$(i) >$(o)</ct-answer>")
+         end)
+         </ct-answers>
+         </section>
+         </ct-exercise>
+         """)
+    end
 
 # ╔═╡ edf900be-601b-11eb-0456-3f7cfc5e876b
 md"_Lecture 1, Spring 2021, version 0_"
