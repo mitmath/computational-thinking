@@ -7,7 +7,7 @@
 
 # -fonsi
 
-FROM julia:1.6.0
+FROM julia:1.7.2
 
 # HTTP port
 EXPOSE 1234
