@@ -24,7 +24,7 @@ begin
 end
 
 # ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
-md"_homework 2, version 1_"
+md"_homework 2, version 2_"
 
 # ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
 md"""

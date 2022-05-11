@@ -23,7 +23,7 @@ begin
 end
 
 # ╔═╡ e6b6760a-f37f-11ea-3ae1-65443ef5a81a
-md"_homework 3, version 6_"
+md"_homework 3, version 7_"
 
 # ╔═╡ 85cfbd10-f384-11ea-31dc-b5693630a4c5
 md"""

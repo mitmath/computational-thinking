@@ -1256,7 +1256,7 @@ noisify(cam_image, .5)
 custom_filter(cam_image)
 
 # ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
-md"_homework 1, version 8_"
+md"_homework 1, version 9_"
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
