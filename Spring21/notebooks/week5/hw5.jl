@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.16.0
+# v0.19.4
 
 using Markdown
 using InteractiveUtils
@@ -10,8 +10,189 @@ using PlutoUI
 # ╔═╡ 54778212-3702-467d-8a96-4fa18b3ccd63
 using LinearAlgebra
 
+# ╔═╡ 6f4274b5-87e2-420d-83d2-83a8408650cd
+# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
+
+student = (name = "Jazzy Doe", kerberos_id = "jazz")
+
+# you might need to wait until all other cells in this notebook have completed running. 
+# scroll around the page to see what's up
+
+# ╔═╡ ea28bf57-ba62-41ce-8be6-d38ca2c5caa3
+
+
+# ╔═╡ 8efcaaeb-4900-404b-ae59-65db0bde8790
+
+
+# ╔═╡ a5be0775-68de-41ce-95cd-1465723d099b
+
+
+# ╔═╡ 4abec609-09cd-4f86-8d86-a7d02325cc7b
+
+
+# ╔═╡ 32e073bb-943f-4fa9-b15f-5ec18feecf15
+
+
+# ╔═╡ d221c61c-a4ab-4a82-b89d-52735d957cae
+
+
+# ╔═╡ c3d49b98-a9c1-4aba-becc-7fa84f4bbc75
+
+
+# ╔═╡ 7b33c09c-2ef2-4b97-b5a5-5fdf9268f76b
+
+
+# ╔═╡ 615b88b6-8505-11eb-0a7c-294ee5ae7474
+begin
+	struct FirstRankOneMatrix
+		# Your code here
+		v::Vector{Float64}
+		w::Vector{Float64}
+	end
+	
+	# Add the extra constructor here
+	FirstRankOneMatrix(v) = FirstRankOneMatrix(v, v)
+
+end
+
+# ╔═╡ b0db7388-850c-11eb-0915-597f1fa5ab93
+ten_twelve = missing # Your code here
+
+# ╔═╡ 2dfc2ef9-3efa-4b82-960f-f2ef0171e9eb
+sqrt === Base.sqrt
+
+# ╔═╡ d4a0baea-cc02-4d91-a938-8181dea7b47a
+filter === Base.filter
+
+# ╔═╡ 7adbcbab-66e7-4b58-b197-5c220ba1e9a2
+# methods(size)
+
+# ╔═╡ fada4734-8505-11eb-3f2b-d1f1ef391ba4
+function Base.size(M::FirstRankOneMatrix)
+	
+	return missing # Your code here
+end
+
+# ╔═╡ 590dfe1a-8506-11eb-0069-d7cd91f02a65
+function Base.getindex(M::FirstRankOneMatrix, i, j)
+	
+	return missing # Your code here
+end
+
+# ╔═╡ 941b6b10-8ae9-11eb-3bf8-b732f5f60af3
+ten_twelve
+
+# ╔═╡ a243a400-8af3-11eb-0637-cf8f80aae86d
+ones(10, 12) # An example matrix (two-dimensional array)
+
+# ╔═╡ c7a15c5e-8505-11eb-3af2-2fa84b74b590
+function print_as_matrix(M::FirstRankOneMatrix)
+	
+	# Your code here
+	
+end
+
+# ╔═╡ b0a0b9a4-850b-11eb-30f1-11f5270efe02
+with_terminal() do
+	print_as_matrix(ten_twelve)
+end
+
+# ╔═╡ b577420c-8501-11eb-267a-719125315fe1
+begin
+	struct RankOneMatrix{T} <: AbstractMatrix{T}
+		v::AbstractVector{T}
+		w::AbstractVector{T}
+	end
+	
+	# Add the two extra constructors
+	# (Should we make these missing by default? if so - remove hint below)
+	RankOneMatrix(v) = RankOneMatrix(v, v)
+end
+
+# ╔═╡ eb612772-8b06-44bb-a36a-827435cbb2ee
+
+
+# ╔═╡ d3e7c8d1-4b4a-47b6-9c96-150333078f42
+
+
+# ╔═╡ f2d8b45c-8501-11eb-1c6a-5f819c240d9d
+function Base.size(M::RankOneMatrix)
+	
+	return missing # Your code here
+end
+
+# ╔═╡ ed72e880-8afa-11eb-3a4a-175a838188d9
+function Base.getindex(M::RankOneMatrix, i, j)
+	
+	return missing # Your code here
+end
+
+# ╔═╡ 7b3fb0ef-9a9e-401c-8c09-e5615134a4ad
+R2 = RankOneMatrix([1,2], [3,4,5])
+
+# ╔═╡ fc962c72-8501-11eb-2821-cbb7a52d5f61
+M = RankOneMatrix(1:10) # missing # Your code here
+
+# ╔═╡ 0887ee78-0e8a-41c7-90e7-44237acc1477
+collect(M)
+
+# ╔═╡ 1705dc7b-9f93-440b-acbb-ecb362d08125
+typeof(collect(M))
+
+# ╔═╡ ee58251a-8511-11eb-074c-5b1e27c4ebd4
+function matvec(M::RankOneMatrix, x)
+	
+	return missing # Your code here
+end
+
+# ╔═╡ ba3cb45a-8502-11eb-2141-6369b0e08807
+begin
+	struct RankTwoMatrix{T} <: AbstractMatrix{T}
+		# Your code here
+		A::RankOneMatrix{T}
+		B::RankOneMatrix{T}
+	end
+	
+	# Add a constructor that uses two vectors/ranges
+	RankTwoMatrix(v1, v2) = RankTwoMatrix(RankOneMatrix(v1), RankOneMatrix(v2))
+end
+
+# ╔═╡ f5a95dd8-850d-11eb-2aa7-2dcb1868577f
+
+
+# ╔═╡ c784e02c-8502-11eb-3efa-7f4c45f4274c
+function Base.getindex(M::RankTwoMatrix, i, j)
+
+	return missing # Your code here
+end
+
+# ╔═╡ 0bab818e-8503-11eb-02b3-178098599847
+function Base.size(M::RankTwoMatrix)
+	
+	return missing # Your code here
+end
+
+# ╔═╡ b6717812-8503-11eb-2729-39bfdc1fd2f9
+struct LowRankMatrix <: AbstractMatrix{Float64}
+	# Your code here
+	Ms::Vector{RankOneMatrix}
+	rank::Int
+end
+
+# ╔═╡ c49e350e-8503-11eb-15de-7308dd03dc08
+function Base.getindex(M::LowRankMatrix, i, j)
+	
+	return missing # Your code here
+end
+
 # ╔═╡ eadb174e-2c1d-48c8-9de2-99cdc2b38d32
-md"_homework 5, version 2_"
+md"_homework 5, version 3_"
+
+# ╔═╡ 0560cf7b-9986-402a-9c40-779ea7a7292d
+md"""
+
+Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
+"""
 
 # ╔═╡ 082542fe-f89d-4774-be20-1e1a78f21291
 md"""
@@ -24,20 +205,6 @@ This notebook contains _built-in, live answer checks_! In some exercises you wil
 _For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
 
 Feel free to ask questions!
-"""
-
-# ╔═╡ 6f4274b5-87e2-420d-83d2-83a8408650cd
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll around the page to see what's up
-
-# ╔═╡ 0560cf7b-9986-402a-9c40-779ea7a7292d
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 """
 
 # ╔═╡ aaa41509-a62d-417b-bca7-a120e3a5e5b2
@@ -56,9 +223,6 @@ Students used to pure math are sometimes surprised to see numbers like `1e-15`, 
 
 """
 
-# ╔═╡ ea28bf57-ba62-41ce-8be6-d38ca2c5caa3
-
-
 # ╔═╡ a5901f93-007f-4a30-97fc-29b367ec47c6
 md"""
 Notice that when you re-run the computation, the result does not change. Floating-point arithmetic is not random!
@@ -70,18 +234,6 @@ Notice that when you re-run the computation, the result does not change. Floatin
 Is this an integer power of 2?  Which one? (`log2` might help.)
 """
 
-# ╔═╡ 8efcaaeb-4900-404b-ae59-65db0bde8790
-
-
-# ╔═╡ a5be0775-68de-41ce-95cd-1465723d099b
-
-
-# ╔═╡ 4abec609-09cd-4f86-8d86-a7d02325cc7b
-
-
-# ╔═╡ 32e073bb-943f-4fa9-b15f-5ec18feecf15
-
-
 # ╔═╡ 7d1e1724-cd1a-483b-af40-f24ae5301849
 md"""
 #### Exercise 1.3
@@ -90,15 +242,6 @@ Caculate all of the following:
 * 3.2 * 23 - 73.6
 * 3.2 * 2.3 - 7.36
 """
-
-# ╔═╡ d221c61c-a4ab-4a82-b89d-52735d957cae
-
-
-# ╔═╡ c3d49b98-a9c1-4aba-becc-7fa84f4bbc75
-
-
-# ╔═╡ 7b33c09c-2ef2-4b97-b5a5-5fdf9268f76b
-
 
 # ╔═╡ 224acb51-c0db-4f04-b865-8349d6a28e98
 md"""
@@ -121,26 +264,10 @@ Let's make a `FirstRankOneMatrix` type that contains two vectors of floats, `v` 
 We include (in the same cell, due to requirements of Pluto) a constructor that takes a single vector `v` and duplicates it.
 """
 
-# ╔═╡ 615b88b6-8505-11eb-0a7c-294ee5ae7474
-begin
-	struct FirstRankOneMatrix
-		# Your code here
-		v::Vector{Float64}
-		w::Vector{Float64}
-	end
-	
-	# Add the extra constructor here
-	FirstRankOneMatrix(v) = FirstRankOneMatrix(v, v)
-
-end
-
 # ╔═╡ 9f534aa0-8505-11eb-3476-4d326fb19d42
 md"""
 👉 Create an object of type `FirstRankOneMatrix` representing the multiplication table of the numbers from 1 to 10 and the numbers from 1 to 12. Call it `ten_twelve`.
 """
-
-# ╔═╡ b0db7388-850c-11eb-0915-597f1fa5ab93
-ten_twelve = missing # Your code here
 
 # ╔═╡ 7aac43b3-49ce-46ea-854b-d292ac0591c7
 md"""
@@ -148,22 +275,10 @@ md"""
 Right now, our `FirstRankOneMatrix` is just a container for two arrays. To make it _behave_ like a matrix, we add methods to functions in `Base`, Julia's standard set of functions. Most of the functions you have used so far come from base, for example:
 """
 
-# ╔═╡ 2dfc2ef9-3efa-4b82-960f-f2ef0171e9eb
-sqrt === Base.sqrt
-
-# ╔═╡ ead4c008-0e7e-4414-aced-d4a576423bd3
-size === Base.size
-
-# ╔═╡ d4a0baea-cc02-4d91-a938-8181dea7b47a
-filter === Base.filter
-
 # ╔═╡ ce6e648c-ade5-4882-9f92-1ae3f878a5a3
 md"""
 These are built-in functions, and each function comes with a set of methods pre-defined (in Julia's source code _(which is mostly written in Julia)_). Uncomment the next cell to see the full list of methods for `size`. We will add a method to this list!
 """
-
-# ╔═╡ 7adbcbab-66e7-4b58-b197-5c220ba1e9a2
-# methods(size)
 
 # ╔═╡ 87fce3d8-765c-410c-a059-4dd51bd97254
 md"""
@@ -176,22 +291,13 @@ md"""
 👉 Extend `Base.size` for the type `FirstRankOneMatrix` to return the size as a tuple of values corresponding to each direction.
 """
 
-# ╔═╡ fada4734-8505-11eb-3f2b-d1f1ef391ba4
-function Base.size(M::FirstRankOneMatrix)
-	
-	return missing # Your code here
-end
-
 # ╔═╡ 545a5916-8506-11eb-1a31-078957d791f8
 md"""
 👉 Extend `Base.getindex` for the type `FirstRankOneMatrix` to return the $(i, j)$th entry of the outer product.
 """
 
-# ╔═╡ 590dfe1a-8506-11eb-0069-d7cd91f02a65
-function Base.getindex(M::FirstRankOneMatrix, i, j)
-	
-	return missing # Your code here
-end
+# ╔═╡ fe6df9bf-6059-4b76-af39-385d395ece72
+Base.getindex(ten_twelve, 5, 11)
 
 # ╔═╡ b9cb6192-8505-11eb-3d2c-790654bbc9a1
 md"""
@@ -200,16 +306,10 @@ md"""
 If you ask Julia to display the value of an object of type `FirstRankOneMatrix`, you will notice that it doesn't do what we are used to, which is probably to display the whole matrix that it corresponds to. Let's see:
 """ 
 
-# ╔═╡ 941b6b10-8ae9-11eb-3bf8-b732f5f60af3
-ten_twelve
-
 # ╔═╡ 1b3cc404-9da8-4acd-9df5-5815ce167c34
 md"""
 This is what matrices normally look like in Julia:
 """
-
-# ╔═╡ a243a400-8af3-11eb-0637-cf8f80aae86d
-ones(10, 12) # An example matrix (two-dimensional array)
 
 # ╔═╡ 4e926bfe-8734-11eb-1355-e1d1d9b36929
 md"""
@@ -218,22 +318,10 @@ One possible workaround for this is to create a new function specifically to dis
 👉 Make a function `print_as_matrix` that prints the entries of a matrix of type `FirstRankOneMatrix` in a grid format. We'll test that it works below with the matrix `R` we already created.
 """
 
-# ╔═╡ c7a15c5e-8505-11eb-3af2-2fa84b74b590
-function print_as_matrix(M::FirstRankOneMatrix)
-	
-	# Your code here
-	
-end
-
 # ╔═╡ 9eb846c0-8737-11eb-101b-0191f715d8c9
 md"""
 We should now be able to see our `FirstRankOneMatrix`-type matrix displayed in the terminal! In Pluto, we have to use `with_terminal` to capture and display output printed to the _terminal_.
 """
-
-# ╔═╡ b0a0b9a4-850b-11eb-30f1-11f5270efe02
-with_terminal() do
-	print_as_matrix(ten_twelve)
-end
 
 # ╔═╡ a75f3c76-8506-11eb-1d83-cf5781b656a3
 md"""
@@ -243,18 +331,6 @@ In fact, Julia (together with Pluto) can do some of this work for us! Julia prov
 Let's do all this on a new rank-one matrix type: `RankOneMatrix`. As we do this, we will also remove the restriction to `Float64`-type entries by using a *parametrised type* `T`. Parametrised types allow us flexibility to handle different types of entries without repeating a lot of code; we won't go too in-depth about these for now.
 """
 
-# ╔═╡ b577420c-8501-11eb-267a-719125315fe1
-begin
-	struct RankOneMatrix{T} <: AbstractMatrix{T}
-		v::AbstractVector{T}
-		w::AbstractVector{T}
-	end
-	
-	# Add the two extra constructors
-	# (Should we make these missing by default? if so - remove hint below)
-	RankOneMatrix(v) = RankOneMatrix(v, v)
-end
-
 # ╔═╡ 1d16e228-850e-11eb-1dca-41df85b706da
 md"""
 In the cell above, we added a second ('outer') constructor that takes a single vector as argument. 
@@ -262,39 +338,18 @@ In the cell above, we added a second ('outer') constructor that takes a single v
 👉 Make sure that you can use both constructors by trying them out below.
 """
 
-# ╔═╡ eb612772-8b06-44bb-a36a-827435cbb2ee
-
-
-# ╔═╡ d3e7c8d1-4b4a-47b6-9c96-150333078f42
-
-
 # ╔═╡ 3ed18ba0-850b-11eb-3e90-f188c54d9ce9
 md"""
 👉 Add `getindex` and `size` methods for this new type. These will allow us to access entries of our custom matrices with the usual index notation `M[i,j]`, as well as quickly retrieving their dimensions.
 """
 
-# ╔═╡ f2d8b45c-8501-11eb-1c6a-5f819c240d9d
-function Base.size(M::RankOneMatrix)
-	
-	return missing # Your code here
-end
-
-# ╔═╡ ed72e880-8afa-11eb-3a4a-175a838188d9
-function Base.getindex(M::RankOneMatrix, i, j)
-	
-	return missing # Your code here
-end
-
-# ╔═╡ 7b3fb0ef-9a9e-401c-8c09-e5615134a4ad
-R2 = RankOneMatrix([1,2], [3,4,5])
+# ╔═╡ 5a6dd3bc-af85-4e7d-b03c-b8c1bc88d850
+Base.getindex(R2, 2, 3)
 
 # ╔═╡ 91b1125a-850b-11eb-1a21-c7af293332fd
 md"""
 👉 Create an object of the new type for the $10 \times 10$ multiplication matrix, using a single range.
 """
-
-# ╔═╡ fc962c72-8501-11eb-2821-cbb7a52d5f61
-M = RankOneMatrix(1:10) # missing # Your code here
 
 # ╔═╡ 8f5c7c9c-850b-11eb-3d97-bf9c6b5d7d2e
 md"""
@@ -305,12 +360,6 @@ You should see two things: Firstly, the matrix now contains integers, instead of
 md"""
 Julia also allows us to automatically convert the matrix to a normal ("dense") matrix, using either `collect` or `Array`. Let's try these out. You may need to re-run the cell below after completing the exercises.
 """
-
-# ╔═╡ 0887ee78-0e8a-41c7-90e7-44237acc1477
-collect(M)
-
-# ╔═╡ 1705dc7b-9f93-440b-acbb-ecb362d08125
-typeof(collect(M))
 
 # ╔═╡ 8cab8d7d-32fc-4b43-bd54-fb0c78fa5d00
 md"""
@@ -334,12 +383,6 @@ md"""
 👉 Define a function `matvec` that takes a `RankOneMatrix` `M` and a `Vector` `x` and carries out matrix-vector multiplication. We will be able to compare the result with doing the matrix--vector product using the corresponding dense matrix.
 """
 
-# ╔═╡ ee58251a-8511-11eb-074c-5b1e27c4ebd4
-function matvec(M::RankOneMatrix, x)
-	
-	return missing # Your code here
-end
-
 # ╔═╡ 4864e4d6-850c-11eb-210c-0318b8660a9a
 md"""
 ## Exercise 3: Low-rank matrices
@@ -361,18 +404,6 @@ md"""
 *Note*: In principle we should check when constructing the type that the input matrices have the same dimensions, but we will just assume that they do.
 """
 
-# ╔═╡ ba3cb45a-8502-11eb-2141-6369b0e08807
-begin
-	struct RankTwoMatrix{T} <: AbstractMatrix{T}
-		# Your code here
-		A::RankOneMatrix{T}
-		B::RankOneMatrix{T}
-	end
-	
-	# Add a constructor that uses two vectors/ranges
-	RankTwoMatrix(v1, v2) = RankTwoMatrix(RankOneMatrix(v1), RankOneMatrix(v2))
-end
-
 # ╔═╡ 92a91904-850c-11eb-010e-c58ae218f541
 md"""
 #### Exercise 3.2
@@ -381,26 +412,11 @@ md"""
    (Note that both range arguments must contain floats, so that we can add up entries.)
 """
 
-# ╔═╡ f5a95dd8-850d-11eb-2aa7-2dcb1868577f
-
-
 # ╔═╡ dc714540-8afa-11eb-205b-7770074771c8
 md"""
 #### Exercise 3.3
 👉 As with last time, extend the `getindex` and `size` methods for the `RankTwoMatrix` type. Keep in mind they are already defined for `RankOneMatrix`.
 """
-
-# ╔═╡ c784e02c-8502-11eb-3efa-7f4c45f4274c
-function Base.getindex(M::RankTwoMatrix, i, j)
-
-	return missing # Your code here
-end
-
-# ╔═╡ 0bab818e-8503-11eb-02b3-178098599847
-function Base.size(M::RankTwoMatrix)
-	
-	return missing # Your code here
-end
 
 # ╔═╡ aca709f0-8503-11eb-1144-1fc01cb85c39
 md"""
@@ -413,36 +429,20 @@ We can go even further and make a general custom type `LowRankMatrix` for rank-$
 👉 Complete the definition for the type `LowRankMatrix`. Remember to store both the rank-1 matrices and the rank of the matrix itself.
 """
 
-# ╔═╡ b6717812-8503-11eb-2729-39bfdc1fd2f9
-struct LowRankMatrix <: AbstractMatrix{Float64}
-	# Your code here
-	Ms::Vector{RankOneMatrix}
-	rank::Int
-end
-
 # ╔═╡ 6e280730-8b00-11eb-04b7-615a389e792f
 md"""
 #### Exercise 3.5
 👉 Extend the `getindex` and `size` methods to work with the `LowRankMatrix` type. As before, remember that these are already defined for `RankOneMatrix`.
 """
 
-# ╔═╡ c49e350e-8503-11eb-15de-7308dd03dc08
-function Base.getindex(M::LowRankMatrix, i, j)
-	
-	return missing # Your code here
-end
-
-# ╔═╡ fe6df9bf-6059-4b76-af39-385d395ece72
-Base.getindex(ten_twelve, 5, 11)
-
-# ╔═╡ 5a6dd3bc-af85-4e7d-b03c-b8c1bc88d850
-Base.getindex(R2, 2, 3)
-
 # ╔═╡ dd27f508-8503-11eb-36b9-33f5f99f78b0
 function Base.size(M::LowRankMatrix)
 	
 	return missing # Your code here
 end
+
+# ╔═╡ ead4c008-0e7e-4414-aced-d4a576423bd3
+size === Base.size
 
 # ╔═╡ 0b7c6cbe-57de-419d-adcb-8724791f9c89
 Base.size(ten_twelve)
@@ -500,9 +500,6 @@ The `LinearAlgebra` package defines a function `svd` that computes the decomposi
 # ╔═╡ bdf3954e-2a05-4a0d-899b-1f6f59119550
 biggie = rand(100,100)
 
-# ╔═╡ 167b9580-fa18-4248-8643-a0fde723ecc4
-svd(biggie)
-
 # ╔═╡ a58c1c54-4f17-4ca4-ac78-22773b526dfb
 md"""
 👉 What are the _singular values_ of `biggie`?
@@ -522,9 +519,6 @@ If we try to run the `svd` function on a `RankOneMatrix`, you will see that it d
 # ╔═╡ 6f78b3bb-5440-4f34-849a-fa8e21972fa8
 A = RankOneMatrix(rand(3),rand(4))
 
-# ╔═╡ bbc4a595-a63e-4a12-9690-f39a23b30ae1
-svd(A)
-
 # ╔═╡ 44b8fbf1-411f-4ce4-b5d7-e12f2d6be51b
 md"""
 👉 Extend `svd` to work directly on a rank-one matrix, by writing a new method.
@@ -538,6 +532,12 @@ function LinearAlgebra.svd(A::RankOneMatrix)
 	
 	return missing
 end
+
+# ╔═╡ 167b9580-fa18-4248-8643-a0fde723ecc4
+svd(biggie)
+
+# ╔═╡ bbc4a595-a63e-4a12-9690-f39a23b30ae1
+svd(A)
 
 # ╔═╡ 9ae28bc5-d9cb-479d-8c22-7c9248cd5fa0
 LinearAlgebra.svd(A)
@@ -1107,19 +1107,69 @@ LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
-PlutoUI = "~0.7.9"
+PlutoUI = "~0.7.38"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
+[[AbstractPlutoDingetjes]]
+deps = ["Pkg"]
+git-tree-sha1 = "8eaf9f1b4921132a4cff3f36a1d9ba923b14a481"
+uuid = "6e696c72-6542-2067-7265-42206c756150"
+version = "1.1.4"
+
+[[ArgTools]]
+uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
+
+[[Artifacts]]
+uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
+
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+
+[[ColorTypes]]
+deps = ["FixedPointNumbers", "Random"]
+git-tree-sha1 = "63d1e802de0c4882c00aee5cb16f9dd4d6d7c59c"
+uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
+version = "0.11.1"
+
+[[CompilerSupportLibraries_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 
 [[Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
+
+[[Downloads]]
+deps = ["ArgTools", "LibCURL", "NetworkOptions"]
+uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+
+[[FixedPointNumbers]]
+deps = ["Statistics"]
+git-tree-sha1 = "335bfdceacc84c5cdf16aadc768aa5ddfc5383cc"
+uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
+version = "0.8.4"
+
+[[Hyperscript]]
+deps = ["Test"]
+git-tree-sha1 = "8d511d5b81240fc8e6802386302675bdf47737b9"
+uuid = "47d2ed2b-36de-50cf-bf87-49c2cf4b8b91"
+version = "0.0.4"
+
+[[HypertextLiteral]]
+deps = ["Tricks"]
+git-tree-sha1 = "c47c5fa4c5308f27ccaac35504858d8914e102f9"
+uuid = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
+version = "0.9.4"
+
+[[IOCapture]]
+deps = ["Logging", "Random"]
+git-tree-sha1 = "f7be53659ab06ddc986428d3a9dcc95f6fa6705a"
+uuid = "b5f81e59-6552-4d32-b1f0-c071b021bf89"
+version = "0.2.2"
 
 [[InteractiveUtils]]
 deps = ["Markdown"]
@@ -1127,15 +1177,31 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[JSON]]
 deps = ["Dates", "Mmap", "Parsers", "Unicode"]
-git-tree-sha1 = "8076680b162ada2a031f707ac7b4953e30667a37"
+git-tree-sha1 = "3c837543ddb02250ef42f4738347454f95079d4e"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-version = "0.21.2"
+version = "0.21.3"
+
+[[LibCURL]]
+deps = ["LibCURL_jll", "MozillaCACerts_jll"]
+uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
+
+[[LibCURL_jll]]
+deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
+uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+
+[[LibGit2]]
+deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
+uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
+
+[[LibSSH2_jll]]
+deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
+uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
 
 [[Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 
 [[LinearAlgebra]]
-deps = ["Libdl"]
+deps = ["Libdl", "libblastrampoline_jll"]
 uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 
 [[Logging]]
@@ -1145,27 +1211,49 @@ uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 deps = ["Base64"]
 uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 
+[[MbedTLS_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+
 [[Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
+[[MozillaCACerts_jll]]
+uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
+
+[[NetworkOptions]]
+uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
+
+[[OpenBLAS_jll]]
+deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
+uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
+
 [[Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "438d35d2d95ae2c5e8780b330592b6de8494e779"
+git-tree-sha1 = "1285416549ccfcdf0c50d4997a94331e88d68413"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.0.3"
+version = "2.3.1"
+
+[[Pkg]]
+deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
+uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
 
 [[PlutoUI]]
-deps = ["Base64", "Dates", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "Suppressor"]
-git-tree-sha1 = "44e225d5837e2a2345e69a1d1e01ac2443ff9fcb"
+deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
+git-tree-sha1 = "670e559e5c8e191ded66fa9ea89c97f10376bb4c"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.9"
+version = "0.7.38"
 
 [[Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
+[[REPL]]
+deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
+uuid = "3fa0cd96-eef1-5676-8a61-b3b8758bbffb"
+
 [[Random]]
-deps = ["Serialization"]
+deps = ["SHA", "Serialization"]
 uuid = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
 
 [[Reexport]]
@@ -1173,16 +1261,62 @@ git-tree-sha1 = "45e428421666073eab6f2da5c9d310d99bb12f9b"
 uuid = "189a3867-3050-52da-a836-e630ba90ab69"
 version = "1.2.2"
 
+[[SHA]]
+uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+
 [[Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
 
-[[Suppressor]]
-git-tree-sha1 = "a819d77f31f83e5792a76081eee1ea6342ab8787"
-uuid = "fd094767-a336-5f1f-9728-57cf17d0bbfb"
-version = "0.2.0"
+[[Sockets]]
+uuid = "6462fe0b-24de-5631-8697-dd941f90decc"
+
+[[SparseArrays]]
+deps = ["LinearAlgebra", "Random"]
+uuid = "2f01184e-e22b-5df5-ae63-d93ebab69eaf"
+
+[[Statistics]]
+deps = ["LinearAlgebra", "SparseArrays"]
+uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+
+[[TOML]]
+deps = ["Dates"]
+uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+
+[[Tar]]
+deps = ["ArgTools", "SHA"]
+uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
+
+[[Test]]
+deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
+uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[[Tricks]]
+git-tree-sha1 = "6bac775f2d42a611cdfcd1fb217ee719630c4175"
+uuid = "410a4b4d-49e4-4fbc-ab6d-cb71b17b3775"
+version = "0.1.6"
+
+[[UUIDs]]
+deps = ["Random", "SHA"]
+uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
 
 [[Unicode]]
 uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
+
+[[Zlib_jll]]
+deps = ["Libdl"]
+uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
+
+[[libblastrampoline_jll]]
+deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
+uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+
+[[nghttp2_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+
+[[p7zip_jll]]
+deps = ["Artifacts", "Libdl"]
+uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 """
 
 # ╔═╡ Cell order:
