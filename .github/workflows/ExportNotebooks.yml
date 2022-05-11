@@ -4,6 +4,9 @@ on:
         branches:
             - Spring21
     workflow_dispatch:
+concurrency:
+    group: export
+    cancel-in-progress: true
 
 jobs:
     build-and-deploy:
