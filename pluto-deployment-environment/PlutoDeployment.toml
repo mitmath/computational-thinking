@@ -11,11 +11,9 @@ exclude = [
     # these are in the repo but not used on the website
     "notebooks/week2/linear_transformation.jl",
     "notebooks/week2/OLD_linear_transformation.jl",
-    "notebooks/week4/structure.jl",
     "notebooks/week6/simulating_component_failure_live.jl",
     "notebooks/week8/discrete_and_continuous_old.jl",
     "notebooks/week8/pascal.jl",
-    "notebooks/week12/how_to_collaborate_on_software.jl",
     "notebook/week13/snowballearth_original.jl",
     "tools/generate_homepage_links.jl",
 ]
@@ -25,16 +23,16 @@ exclude=[
     # these are in the repo but not used on the website
     "notebooks/week2/linear_transformation.jl",
     "notebooks/week2/OLD_linear_transformation.jl",
-    "notebooks/week4/structure.jl",
     "notebooks/week6/simulating_component_failure_live.jl",
     "notebooks/week8/discrete_and_continuous_old.jl",
     "notebooks/week8/pascal.jl",
-    "notebooks/week12/how_to_collaborate_on_software.jl",
     "notebook/week13/snowballearth_original.jl",
     "tools/generate_homepage_links.jl",
     
     # not interactive
     "notebooks/basic_syntax.jl",
+    "notebooks/week4/structure.jl",
+    "notebooks/week12/how_to_collaborate_on_software.jl",
     
     # don't run homeworks
     "notebooks/week0/hw0.jl",
