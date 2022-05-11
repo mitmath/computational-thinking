@@ -475,11 +475,6 @@ let
 	temp
 end
 
-# ╔═╡ 81b88cbe-64c9-11eb-3b26-39011efb2089
-md"""
-Be careful: We are actually *modifying* the original image here, even though if we look at the image it is hard to spot, since a single pixel is so small.
-"""
-
 # ╔═╡ ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
 md"""
 ## Groups of pixels
@@ -1680,7 +1675,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 # ╠═943103e2-ee0b-11ea-33aa-75a8a1529931
 # ╟─2ee543b2-64d6-11eb-3c39-c5660141787e
 # ╠═53bad296-4c7b-471f-b481-0e9423a9288a
-# ╟─81b88cbe-64c9-11eb-3b26-39011efb2089
 # ╟─ab9af0f6-64c9-11eb-13d3-5dbdb75a69a7
 # ╠═e29b7954-64cb-11eb-2768-47de07766055
 # ╟─8e7c4866-64cc-11eb-0457-85be566a8966
