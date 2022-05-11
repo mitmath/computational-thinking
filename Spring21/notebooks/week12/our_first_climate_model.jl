@@ -281,7 +281,7 @@ absorbed_solar_radiation = S*(1 - α)/4; # [W/m^2]
 
 # ╔═╡ 91329865-f593-4388-a5d0-01af4be6e01d
 begin
-	C = 51.; # atmosphere and upper-ocean heat capacity [J/m^2/°C]
+	C = 51.; # atmosphere and upper-ocean heat capacity [Wyr/m^2/°C]
 	temp₀ = 14.0 # preindustrial temperature [°C]
 end
 

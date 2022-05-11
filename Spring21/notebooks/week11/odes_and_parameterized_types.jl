@@ -570,7 +570,7 @@ end
 md"""
 However, it turns out that we then lose efficiency (speed). 
 
-What we would need is two different types: one in which we specify the type of `times` as `Vector{Float64}`, and the other as `Vector{Vector{Float64}}`.
+What we would need is two different types: one in which we specify the type of `values` as `Vector{Float64}`, and the other as `Vector{Vector{Float64}}`.
 
 Julia provides a mechanism to define *both at once*: this is what parameterized types do!
 """
