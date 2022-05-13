@@ -1,1 +1,0 @@
-{{ plutonotebookpage  ../notebooks/week5/random_vars.jl }}

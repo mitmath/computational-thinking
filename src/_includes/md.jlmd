@@ -1,0 +1,9 @@
+---
+layout: "layout.jlhtml"
+---
+
+<div class="pages-markdown">
+<main>
+$(content)
+</main>
+</div>
