@@ -286,42 +286,13 @@ s_result.contents |> HTML
 s_result.frontmatter
 
 # ╔═╡ 00fe8ec0-e7c9-43d6-9d06-960384ca465f
-function get_frontmatter_from_pluto(abs_path::String)
 
-	# this will load the notebook to analyse, it won't run it
-	nb = Pluto.load_notebook_nobackup(abs_path)
-	top = Pluto.updated_topology(nb.topology, nb, nb.cells)
-
-	cs = Pluto.where_assigned(top, Set([:frontmatter]))
-	if isempty(cs)
-		FrontMatter()
-	else
-		try
-			c = only(cs)
-			m = Module()
-			Core.eval(m, Meta.parse(c.code))
-			result = Core.eval(m, :frontmatter)
-			if result isa FrontMatter
-				result
-			else
-				FrontMatter(String(k)=>v for (k,v) in pairs(result))
-			end
-		catch e
-			@error "Error reading frontmatter. Make sure that `frontmatter` is a `NamedTuple` or a `Dict{String,Any}`, and that it does not use global variables." abs_path exception=(e,catch_backtrace())
-			FrontMatter()
-		end
-	end
-end
 
 # ╔═╡ c5d9f25b-b14a-4031-9853-ce04ac120e75
-# test_file_str = read(joinpath(dir, "hello", "world.jl"), String)
+
 
 # ╔═╡ 2285cf2e-09e9-4b05-bbd9-5f926c9712bd
-# let
-# 	file = tempname()
-# 	write(file, test_file_str)
-# 	get_frontmatter_from_pluto(file)
-# end
+
 
 # ╔═╡ 94bb6730-a4ad-42d2-aa58-41b70a15cd0e
 md"""
@@ -674,7 +645,7 @@ function template_handler(
 		<pluto-editor statefile=$(reg_s.url) notebookfile=$(reg_n.url) disable_ui>
 		"""
 
-		frontmatter = get_frontmatter_from_pluto(input.absolute_path)
+		frontmatter = Pluto.frontmatter(input.absolute_path)
 		
 		return TemplateOutput(;
 			contents = repr(MIME"text/html"(), h),

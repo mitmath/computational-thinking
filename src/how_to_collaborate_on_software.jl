@@ -1,18 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.4
 
+#> [frontmatter]
+#> description = "A simple introduction to Open Source and GitHub, for scientist who use Google Drive."
+#> title = "How to collaborate on software"
+#> layout = "layout.jlhtml"
+#> date = "2022-05-01"
+#> tags = ["module1", "github", "open source", "software", "collaboration"]
+#> youtube_id = "7N9Vvc8amGM"
+
 using Markdown
 using InteractiveUtils
-
-# ╔═╡ 0d3aec92-edeb-11ea-3adb-cd0dc17cbdab
-frontmatter = (
-	title = "How to collaborate on software",
-	description = "A simple introduction to Open Source and GitHub, for scientist who use Google Drive.",
-	date = "2022-05-01",
-	layout = "layout.jlhtml",
-	tags = ["module1", "github", "open source", "software", "collaboration"],
-	youtube_id = "7N9Vvc8amGM",
-)
 
 # ╔═╡ 75c8f825-d988-4f9e-8038-6b4dd2e24181
 begin
@@ -21,13 +19,8 @@ begin
 	using PlutoUI
 end
 
-# ╔═╡ 10ebd434-adba-11eb-048f-2d084049d48f
-
-
 # ╔═╡ ef4eea24-bc1c-43be-b9b6-d073ac2433cf
 md"""
-
-
 # How to collaborate on software
 
 
@@ -818,7 +811,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 """
 
 # ╔═╡ Cell order:
-# ╟─10ebd434-adba-11eb-048f-2d084049d48f
 # ╟─ef4eea24-bc1c-43be-b9b6-d073ac2433cf
 # ╟─69b8490f-cf04-4e73-bc7b-639b1fc0e2d6
 # ╟─cbe5fcba-3ed7-41a6-8932-2693e370c16c
