@@ -37,7 +37,7 @@ body {
 #pages-sidebar {
     font-family: system-ui;
     flex: 0 0 auto;
-    width: 16rem;
+    width: 15rem;
     font-weight: 400;
     z-index: 23400;
 }
@@ -50,9 +50,8 @@ body {
 
 
 #pages-sidebar > div {
-    position: sticky;
-    top: 1rem;
     margin: 1rem;
+    margin-right: 0;
     padding: .5rem;
     /* padding-bottom: 2rem; */
     border-radius: 1rem;

@@ -162,13 +162,13 @@ a.pluto_home_link {
 }
 
 #pages-sidebar h1 {
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     margin-block-end: 0px;
     margin: 0; /* line-height: 1; */
 }
 
 #pages-sidebar h2 {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
     font-style: italic;
     opacity: 0.8;
@@ -195,6 +195,10 @@ a.pluto_home_link {
 #pages-sidebar .search-bar form {
     display: flex;
     flex-direction: row;
+}
+#pages-sidebar .search-bar input[type="search"] {
+    flex: 1 1 auto;
+    min-width: 0px;
 }
 
 a.search-result,
