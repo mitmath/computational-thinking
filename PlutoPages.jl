@@ -77,7 +77,7 @@ Base.@kwdef struct TemplateInput
 	contents::Vector{UInt8}
 	relative_path::String
 	absolute_path::String
-	frontmatter::Dict{String,Any}=Dict{String,Any}()
+	frontmatter::FrontMatter=FrontMatter()
 end
 
 # ╔═╡ 6288f145-444b-41cb-b9e3-8f273f9517fb
@@ -85,7 +85,7 @@ begin
 	Base.@kwdef struct TemplateOutput
 		contents::Union{Vector{UInt8},String,Nothing}
 		file_extension::String="html"
-		frontmatter::Dict{String,Any}=Dict{String,Any}()
+		frontmatter::FrontMatter=FrontMatter()
 		search_index_data::Union{Nothing,String}=nothing
 	end
 	TemplateOutput(t::TemplateOutput; kwargs...) = TemplateOutput(;
@@ -193,18 +193,8 @@ find(f::Function, xs) = for x in xs
 	end
 end
 
-# ╔═╡ 5649b0ab-5d1e-4809-ae22-a8e08f4c0e86
-import URIs
-
 # ╔═╡ 644552c6-4e32-4caf-90ef-bee259977094
 import Logging
-
-# ╔═╡ e7505301-9fb8-4a93-bde4-16ed3b9d6d20
-md"""
-### Front matter
-
-Not so easy to get the front matter out...
-"""
 
 # ╔═╡ 2e527d04-e4e7-4dc8-87e6-8b3dd3c7688a
 const FrontMatter = Dict{String,Any}
@@ -284,15 +274,6 @@ s_result.contents |> HTML
 
 # ╔═╡ 83366d96-4cd3-4def-a0da-16a22b40124f
 s_result.frontmatter
-
-# ╔═╡ 00fe8ec0-e7c9-43d6-9d06-960384ca465f
-
-
-# ╔═╡ c5d9f25b-b14a-4031-9853-ce04ac120e75
-
-
-# ╔═╡ 2285cf2e-09e9-4b05-bbd9-5f926c9712bd
-
 
 # ╔═╡ 94bb6730-a4ad-42d2-aa58-41b70a15cd0e
 md"""
@@ -879,14 +860,9 @@ end
 # ╠═b638df55-fd74-4ae8-bdbd-ec7b18214b40
 # ╠═87b4431b-438b-4da4-9d06-79e7f3a2fe05
 # ╟─cd4e479c-deb7-4a44-9eb0-c3819b5c4067
-# ╠═5649b0ab-5d1e-4809-ae22-a8e08f4c0e86
 # ╠═ce840b47-8406-48e6-abfb-1b00daab28dd
 # ╠═644552c6-4e32-4caf-90ef-bee259977094
-# ╟─e7505301-9fb8-4a93-bde4-16ed3b9d6d20
 # ╠═2e527d04-e4e7-4dc8-87e6-8b3dd3c7688a
-# ╠═00fe8ec0-e7c9-43d6-9d06-960384ca465f
-# ╠═c5d9f25b-b14a-4031-9853-ce04ac120e75
-# ╠═2285cf2e-09e9-4b05-bbd9-5f926c9712bd
 # ╟─94bb6730-a4ad-42d2-aa58-41b70a15cd0e
 # ╠═e15cf987-3615-4e96-8ccd-04cad3bcd48e
 # ╟─940f3995-1739-4b30-b8cf-c27a671043e5
