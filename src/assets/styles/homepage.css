@@ -209,18 +209,18 @@ blockquote.banner {
     /* flex-wrap: wrap; */
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1350px) {
     .subjects {
         grid-template-columns: repeat(2, auto);
     }
 }
-@media (max-width: 600px) {
+@media (max-width: 850px) {
     .subjects {
         grid-template-columns: repeat(1, auto);
     }
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 1250px) {
     .subjectscontainer {
         display: flex;
         flex-direction: row;
@@ -228,6 +228,7 @@ blockquote.banner {
     }
 
     .subjectscontainer h1 {
+        flex-shrink: 0;
         position: sticky;
         top: 100px;
         align-self: flex-start;
