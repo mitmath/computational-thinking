@@ -3,14 +3,15 @@
 
 #> [frontmatter]
 #> chapter = 2
-#> video = "https://www.youtube.com/watch?v=iuKrM_NzxCk"
-#> image = "https://user-images.githubusercontent.com/6933510/136196577-512cee99-aebf-48a9-97b8-358d5ca561ca.png"
-#> section = 1
-#> order = 1
-#> title = "Principal Component Analysis"
-#> youtube_id = "iuKrM_NzxCk"
-#> tags = ["lecture", "module2"]
+#> video = "https://www.youtube.com/watch?v=7HrpoFZzITI"
+#> image = "https://user-images.githubusercontent.com/6933510/136196576-70e45c9d-ef0e-4498-bf61-58d9ae854c3e.png"
+#> section = 2
+#> order = 2
+#> title = "Sampling and Random Variables"
+#> layout = "layout.jlhtml"
+#> youtube_id = "7HrpoFZzITI"
 #> description = ""
+#> tags = ["lecture", "module2"]
 
 using Markdown
 using InteractiveUtils
@@ -25,763 +26,515 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ cf82077a-81c2-11eb-1de2-09ed6c35d810
+# ╔═╡ 06d2666a-8723-11eb-1395-0febdf3dc2a4
 begin
 	import ImageMagick
-	using PlutoUI
-	using Colors, ColorSchemes, Images
-	using Plots
-	using LaTeXStrings
-	
-	using Statistics, LinearAlgebra  # standard libraries
+	using Plots, PlutoUI, Colors, Images, StatsBase, Distributions
+	using Statistics
 end
 
-# ╔═╡ c593a748-81b6-11eb-295a-a9800f9dec6d
+
+# ╔═╡ 0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 PlutoUI.TableOfContents(aside=true)
 
-# ╔═╡ deb2af50-8524-11eb-0dd4-9d799ff6d3e2
+# ╔═╡ 472a41d2-8724-11eb-31b3-0b81612f0083
 md"""
-# Introduction: Understanding data
-
-In this notebook we will start looking at more general kinds of **data**, not only images, and we'll try to extract some information from the image using statistical methods, namely [**principal component analysis**](https://en.wikipedia.org/wiki/Principal_component_analysis).  
-
-This method tries to answer the questions "which 'directions' are the most important  in the data" and "can we [reduce the dimensionality](https://en.wikipedia.org/wiki/Dimensionality_reduction) (number of useful variables) of the data"? 
-
-This can be viewed as another take on the question of finding and exploiting **structure** in data. It also leads towards ideas of **machine learning**.
+## Julia: Useful tidbits 
 """
 
-# ╔═╡ 2e50a070-853f-11eb-2045-b1cc43c29768
+# ╔═╡ aeb99f72-8725-11eb-2efd-d3e44686be03
 md"""
-# Rank of a matrix
+The package that each function comes from is shown in brackets, unless it comes from `Base`.
 """
 
-# ╔═╡ ed7ff6b2-f863-11ea-1a59-eb242a8674e3
-md"## Flags"
-
-# ╔═╡ fed5845e-f863-11ea-2f95-c331d3c62647
-md"Let's start off by recalling ideas about  **multiplication tables** or **outer products**:"
-
-# ╔═╡ 0e1a6d80-f864-11ea-074a-5f7890180114
-outer(v, w) = [x * y for x in v, y in w]
-
-# ╔═╡ 2e497e30-f895-11ea-09f1-d7f2c1f61193
-outer(1:10, 1:12)
-
-# ╔═╡ cfdd04f8-815a-11eb-0409-79a2599c29ab
-md"""
-Each column is a multiple (in general not an integer multiple) of any other column; and each row is a multiple of any other row.
-
-This is an example of a **structured matrix**, i.e. one in which we need to store *less information* to store the matrix than the full $(m \times n)$ table of numbers (even though no element is 0). For example, for an outer product we only need $m + n$ numbers, which is usually *much* less.
-"""
-
-# ╔═╡ ab3d55cc-f905-11ea-2f22-5398f3aca803
-md"Some flags give simple examples of outer products, for example"
-
-# ╔═╡ 13b6c108-f864-11ea-2447-2b0741f15c7b
-flag = outer([1, 0.1, 2], ones(6))
-
-# ╔═╡ e66b30a6-f914-11ea-2c0f-35282d45a30a
-ones(6)
-
-# ╔═╡ 71d1b12e-f895-11ea-39df-f5c18a7766c3
-flag2 = outer([1, 0.1, 2], [1, 1, 1, 3, 3, 3])
-
-# ╔═╡ 356267fa-815b-11eb-1c57-ad14fd6e91a7
-md"""
-Note that outer products are not always immediate to recognise just by looking at an image! But you should be able to recognise that there is some kind of structure.
-"""
-
-# ╔═╡ cdbe1d8e-f905-11ea-3884-efeeef386dda
-md"## Matrix rank"
-
-# ╔═╡ d9aa9af0-f865-11ea-379e-f16b452bd94c
-md"""
-If a matrix can be written exactly as a *single* multiplication table / outer product, we say that its **rank** is 1, and we call it a **rank-1** matrix. Similarly, if it can be written as the *sum* of *two* outer products, it has **rank 2**, etc.
-"""
-
-# ╔═╡ 2e8ae92a-f867-11ea-0219-1bdd9627c1ea
-md"Let's see what a random rank-1 matrix looks like:"
-
-# ╔═╡ 9ad13804-815c-11eb-0253-8f8baf15eee3
-w = 300
-
-# ╔═╡ 38adc490-f867-11ea-1de5-3b633aff7c97
-image = outer([1; 0.4; rand(50)], rand(w));
-
-# ╔═╡ 946fde3c-815b-11eb-3039-db4105bc43ab
-md"""
-It has a characteristic checkerboard or patchwork look.
-"""
-
-# ╔═╡ ab924210-815b-11eb-07fe-411db58fbc3a
-md"""
-Here's a random rank-2 matrix:
-"""
-
-# ╔═╡ b5094384-815b-11eb-06fd-1f40134c6fd8
-md"""
-We see that it starts to look less regular.
-"""
-
-# ╔═╡ cc4f3fee-815b-11eb-2982-9b797b806b45
-md"""
-#### Exercise: 
-
-Make an interactive visualisation of a random rank-$n$ matrix where you can vary $n$.
-"""
-
-# ╔═╡ dc55775a-815b-11eb-15b7-7993190bffab
-md"""
-## Effect of noise
-"""
-
-# ╔═╡ 9cf23f9a-f864-11ea-3a08-af448aceefd8
-md"""
-Now what happens if we add a bit of **noise**, i.e. randomness, to a rank-1 matrix?
-"""
-
-# ╔═╡ a5b62530-f864-11ea-21e8-71ccfed487f8
-noisy_image = image .+ 0.03 .* randn.();
-
-# ╔═╡ c41df86c-f865-11ea-1253-4942bbdbe9d2
-md"""The noisy image now has a rank larger than 1. But visually we can see that it is "close to" the original rank-1 matrix. 
-
-Given this matrix, how could we discover that it is close to a structured, rank-1 matrix? We would like to be able to find this out and say that the matrix is close to a simple one."""
-
-# ╔═╡ 7fca33ac-f864-11ea-2a8b-933eb382c172
-md"## Images as data"
-
-# ╔═╡ 283f5da4-f866-11ea-27d4-957ca2551b92
+# ╔═╡ 4f9bd326-8724-11eb-2c9b-db1ac9464f1e
 md"""
 
-Now let's treat the image as a **data matrix**, so that each column of the image / matrix is a **vector** representing one observation of data. (In data science it is often the rows that correspond to observations.)
+- Julia `Base` library (no `using` required):
 
-Let's try to visualize those vectors, taking just the first two rows of the image as the $x$ and $y$ coordinates of our data points:
+  - `if...else...end`
+  - `Dict`: Julia's dictionary type
+  - `÷` or `div`:  integer division (type `\div` + <tab>)
+
+  - `sum(S)`: sum of elements in the collection `S`, e.g. an array
+  - `count(S)`: count the number of true elements of a Boolean collection
+
+  - `rand(S)`: random sampling from a collection `S` 
+
+
+- `Statistics.jl` (pre-loaded standard library; just needs `using`)
+
+  - `mean(S)`: calculate the mean of a collection `S`
+  - `std(S)`:  calculate the standard deviation of a collection `S`
+
+
+
+- `StatsBase.jl`:
+  - `countmap`
+
+
+- `Plots.jl`:
+
+  - `histogram(x)`: Plot a histogram of data vector `x` [Plots]
+
+  - `bar(d)`: Plot a bar graph of categorical data [Plots]
+
+
+- `Colors.jl`:
+  - `distinguishable_colors(n)`: Make `n` distinguishable colours [Colors]
+
 """
 
-# ╔═╡ 54977286-f908-11ea-166d-d1df33f38454
-image[1:2, 1:20]
-
-# ╔═╡ 7b4e90b4-f866-11ea-26b3-95efde6c650b
-begin 
-	xx = image[1, :]
-	yy = image[2, :]
-end
-
-# ╔═╡ f574ad7c-f866-11ea-0efa-d9d0602aa63b
-md"# From images to data"
-
-# ╔═╡ 8775b3fe-f866-11ea-3e6f-9732e39a3525
+# ╔═╡ db2d25de-86b1-11eb-0c78-d1ee52e019ca
 md"""
-We would like to **visualise** this data with the `Plots.jl` package, passing it the $x$ and $y$ coordinates as arguments and plotting a point at each $(x_i, y_i)$ pair.
-We obtain the following plot of the original rank-1 matrix and the noisy version:
+## Random sampling with `rand`
 """
 
-# ╔═╡ cb7e85e4-815c-11eb-3923-7b9537801bae
-gr()
+# ╔═╡ e33fe4c8-86b1-11eb-1031-cf45717a3dc9
+md"""
+The `rand` function in Julia is quite versatile: it tries to generate, or **sample**, a random object from the argument that you pass in:
+"""
 
-# ╔═╡ 1147cbda-f867-11ea-08fa-ef6ed2ae1e93
+# ╔═╡ f49191a2-86b1-11eb-3eab-b392ba058415
+rand(1:6)
+
+# ╔═╡ 1abda6c4-86b2-11eb-2aa3-4d1148bb52b7
+rand([2, 3, 5, 7, 11])
+
+# ╔═╡ 30b12f28-86b2-11eb-087b-8d50ec429b89
+rand("MIT")
+
+# ╔═╡ 4ce946c6-86b2-11eb-1820-0728798665ab
+rand('a':'z')
+
+# ╔═╡ fae3d138-8743-11eb-1014-b3a2a9b49aba
+typeof('a':'z')
+
+# ╔═╡ 6cdea3ae-86b2-11eb-107a-17bea3f54bc9
+rand()   # random number between 0 and 1
+
+# ╔═╡ 1c769d58-8744-11eb-3bd3-ab11ea1503ed
+rand
+
+# ╔═╡ 297fdfa0-8744-11eb-1934-9fe31e8be534
+methods(rand);
+
+# ╔═╡ 776ec3f2-86b3-11eb-0216-9b71d07e99f3
+md"""
+We can take random objects from a collection of objects of *any* type, for example:
+"""
+
+# ╔═╡ 5fcf8d4e-8744-11eb-080e-cba749004b08
+distinguishable_colors(10)
+
+# ╔═╡ 4898106a-8744-11eb-128a-35fec741e6b8
+typeof(distinguishable_colors(10))
+
+# ╔═╡ 0926366a-86b2-11eb-0f6d-31ae6981598c
+rand(distinguishable_colors(3))   # from Colors.jl package
+
+# ╔═╡ 7c8d7b72-86b2-11eb-2dd5-4f77bc5fb8ff
+md"""
+### Several random objects
+"""
+
+# ╔═╡ 2090b7f2-86b3-11eb-2a99-ed98800e1d63
+md"""
+To sample several random objects from the same collection, we could write an array comprehension:
+"""
+
+# ╔═╡ a7dff55c-86b2-11eb-330f-3d6279347095
+[rand(1:6) for i in 1:10]
+
+# ╔═╡ 2db33022-86b3-11eb-17dd-13c534ac9892
+md"""
+But in fact, just adding another argument to `rand` does the trick:
+"""
+
+# ╔═╡ 0de6f23e-86b2-11eb-39ff-318bbc4ecbcf
+rand(1:6, 10)
+
+# ╔═╡ 36c3da4a-86b3-11eb-0b2f-fffdde06fcd2
+md"""
+In fact, you can also generate not only random vectors, but also random matrices:
+"""
+
+# ╔═╡ 940c2bf6-86b2-11eb-0a5e-011abdd6352b
+rand(1:6, 10, 12)
+
+# ╔═╡ 5a4e7fc4-86b3-11eb-3376-0941b79574aa
+rand(distinguishable_colors(5), 10, 10)
+
+# ╔═╡ c433104e-86b3-11eb-20bb-af608bb281cc
+md"""
+We can also use random images:
+"""
+
+# ╔═╡ 78dc94e2-8723-11eb-1ff2-bb7104b62033
+penny_image = load(download("https://www.usacoinbook.com/us-coins/lincoln-memorial-cent.jpg"))
+
+# ╔═╡ bb1465c4-8723-11eb-1abc-bdb5a7028cf2
 begin
-	xs = noisy_image[1, :]
-	ys = noisy_image[2, :]
-	
-	scatter(xs, ys, label="noisy", m=:., alpha=0.3, ms=4, ratio=1)
+	head = penny_image[:, 1:end÷2]
+	tail = penny_image[:, end÷2:end]
+end;
 
-	scatter!(xx, yy, 
-			leg=:topleft, label="rank-1", ms=3, alpha=0.3, 
-			size=(500, 400), m=:square, c=:red,
-			framestyle=:origin)
+# ╔═╡ e04f3828-8723-11eb-3452-09f821391ad0
+rand( [head, tail], 5, 5)
 
-	
-	
-	
-	title!("Plotting a rank-1 matrix gives a straight line!")
-end
-
-# ╔═╡ 8a611e36-f867-11ea-121f-317b7c145fe3
-md"We see that the exact rank-1 matrix has columns that **lie along a line** through the origin in this representation, since they are just multiples of one another.
-
-E.g. If $(x_1, y_1)$ and $(x_2, y_2)$ are two columns with $x_2 = cx_1$ and $y_2 = cy_1$, then $y_2 / x_2 = y_1 / x_1$, so they lie along the same line through the origin.
-
-The approximate rank-1 matrix has columns that **lie *close to* the line**!"
-
-# ╔═╡ f7371934-f867-11ea-3b53-d1566684585c
-md"So, given the data, we want to look at it do see if it lies close to a line or not.
-How can we do so in an *automatic* way?
-"
-
-# ╔═╡ 987c1f2e-f868-11ea-1125-0d8c02843ae4
+# ╔═╡ b7793f7a-8726-11eb-11d8-cd928f1a3645
 md"""
-## Measuring data cloud "size" -- using statistics
+## Uniform sampling
 """
 
-# ╔═╡ 9e78b048-f868-11ea-192e-d903265d1eb5
-md"Looking at this cloud of data points, a natural thing to do is to try to *measure* it: How wide is it, and how tall?"
-
-# ╔═╡ 24df1f32-ec90-11ea-1f6d-03c1bfa5df8e
-md"""For example, let's think about calculating the width of the cloud, i.e. the range of possible $x$-values of the data. For this purpose the $y$-values are actually irrelevant.
-"""
-
-# ╔═╡ b264f724-81bf-11eb-1052-295b81cde5fb
+# ╔═╡ ba80cc78-8726-11eb-2f33-e364f19295d8
 md"""
-A natural idea would be to just scan the data and take the maximum and minimum values. However, real data often contains anomalously large values called **outliers**, which would dramatically affect this calculation. Instead we need to use a **statistical** method where we weight the data and average over all the data points. This process will hopefully be affected less by outliers, and will give a more representative idea of the size of the **bulk** of the data.
+So far, each use of `rand` has done **uniform sampling**, i.e. each possible object as the *same* probability.
+
+Let's *count* heads and tails using the `countmap` function from the `StatsBase.jl` package:
 """
 
-# ╔═╡ 09991230-8526-11eb-04aa-fb904bd2036c
+# ╔═╡ 8fe715e4-8727-11eb-2e7f-15b723bb8d9d
+tosses = rand( ["head", "tail"], 10000)
+
+# ╔═╡ 9da4e6f4-8727-11eb-08cb-d55e3bbff0e4
+toss_counts = countmap(tosses)
+
+# ╔═╡ 9647840c-8745-11eb-33fc-898ae351ddfe
+"tail" => 3
+
+# ╔═╡ 9d782aa6-8745-11eb-034e-0f8b01be987b
+typeof("tail" => 3)
+
+# ╔═╡ a693582c-8745-11eb-261b-ef79e503420e
+toss_counts["tail"]
+
+# ╔═╡ c3255d7a-8727-11eb-0421-d99faf27c7b0
 md"""
-A first step in analysing data is often to **centre** it data around 0 by subtracting the mean, sometimes called "de-meaning":
+
+We see that `countmap` returns a **dictionary** (`Dict`), which maps **keys** to **values**; we will say more about dictionaries in another chapter.
 """
 
-# ╔═╡ aec46a9b-f743-4cbd-97a7-3ef3cac78b12
-begin
-	xs_centered = xs .- mean(xs)
-	ys_centered = ys .- mean(ys)
-end
+# ╔═╡ e2037806-8727-11eb-3c36-1500f1dd545b
+prob_tail = toss_counts["tail"] / length(tosses)
 
-# ╔═╡ 1b8c743e-ec90-11ea-10aa-e3b94f768f82
-scatter(xs_centered, ys_centered, ms=5, alpha=0.5, ratio=1, leg=false, framestyle=:origin)
-
-# ╔═╡ eb867f18-852e-11eb-005f-e15b6d0d0d95
+# ╔═╡ 28ff621c-8728-11eb-2ec0-2579cb313315
 md"""
-## Measuring a "width" of a data set
+As we increase the number of tosses, we "expect" the probability to get closer to $1/2$.
 """
 
-# ╔═╡ f7079016-852e-11eb-3bc9-53fa0846276f
+# ╔═╡ 57125768-8728-11eb-3c3b-1dd37e1ac189
 md"""
-A natural way to measure the width of a data set could be to measure some kind of width *separately* in both the $x$ and $y$ directions, in other words by **projecting** the data onto one of the axes, while ignoring the other one. Let's start with the $x$ coordinates of the centred data and try to average them.
-	
-If we literally average them we will get $0$ (since we have subtracted the mean). We could ask "on average how far away from the origin is the data". This would give the [mean absolute deviation](https://en.wikipedia.org/wiki/Average_absolute_deviation):
+## Tossing a weighted coin
 """
 
-# ╔═╡ 870d3efa-f8fc-11ea-1593-1552511dcf86
-begin
-	scatter(xs_centered, ys_centered, ms=5, alpha=0.5, ratio=1, leg=false, framestyle=:origin)
+# ╔═╡ 6a439c78-8728-11eb-1969-27a19d254704
+md"""
+How could we model a coin that is **weighted**, so that it is more likely to come up heads? We want to assign a probability $p = 0.7$ to heads, and $q = 0.3$ to tails.
+"""
 
-	scatter!(xs_centered, zeros(size(xs_centered)), ms=5, alpha=0.1, ratio=1, leg=false, framestyle=:origin)
+# ╔═╡ 9f8ac08c-8728-11eb-10ad-f93ca225ce38
+md"""
+One way would be to generate random integers between 1 and 10 and assign heads to a subset of the possible results with the desired probability, e.g. 1:7 get heads, and 8:10 get tails:
+"""
 
-	for i in 1:length(xs_centered)
-		plot!([(xs_centered[i], ys_centered[i]), (xs_centered[i], 0)], ls=:dash, c=:black, alpha=0.1)
+# ╔═╡ 062b400a-8729-11eb-16c5-235cef648edb
+function simple_weighted_coin()
+	outcome = if rand(1:10) ≤ 7
+		"heads"
+	else      # could have elseif
+		"tails"
 	end
+	
+	return outcome
+end
 
-	plot!()
+# ╔═╡ 7c099606-8746-11eb-37fe-c3befde06e9d
+function simple_weighted_coin2()
+	if rand(1:10) ≤ 7
+		"heads"
+	else      # could have elseif
+		"tails"
+	end
+end
+
+# ╔═╡ 97cb3dde-8746-11eb-0b00-690f20cb26dc
+result = for i in 1:10
 	
 end
 
-# ╔═╡ 4fb82f18-852f-11eb-278d-cf93571f4adc
-mean(abs.(xs_centered))
+# ╔═╡ 9d8cdc8e-8746-11eb-2b9a-b30a52026f09
+result == nothing
 
-# ╔═╡ 5fcf832c-852f-11eb-1354-792933a891a5
+# ╔═╡ 81a30c9e-8746-11eb-38c8-9be4f6ba2e80
+simple_weighted_coin2()
+
+# ╔═╡ 2a81ba88-8729-11eb-3dcb-1db26e468066
 md"""
-This is a perfectly good computational measure of distance. However, there is another measure which is easier to reason about theoretically / analytically:
+(Note that `if` statements have a return value in Julia.)
 """
 
-# ╔═╡ ef4a2a54-81bf-11eb-358b-0da2072f20c8
+# ╔═╡ 5ea5838a-8729-11eb-1749-030533fb0656
 md"""
-### Root-mean-square distance: Standard deviation
+How could we generalise this to an arbitrary probability $p ∈ [0, 1]$?
+
+We can generate a uniform floating-point number between 0 and 1, and check if it is less than $p$. This is called a **Bernoulli trial**.
 """
 
-# ╔═╡ f5358ce4-f86a-11ea-2989-b1f37be89183
-md"""
-The **standard deviation** is the **root-mean-square** distance of the centered data from the origin. 
+# ╔═╡ c9f21046-8746-11eb-27c6-910807240fd1
+rand()
 
-In other words, we first *square* the distances (or displacements) from the origin, then take the mean of those, giving the **variance**. However, since we have squared the original distances, this gives a quantity with units "distance$^2$", so we need to take the square root to get back to a measurable length:
+# ╔═╡ 806e6aae-8729-11eb-19ea-33722c60edf0
+rand() < 0.314159
+
+# ╔═╡ 90642564-8729-11eb-3cd7-b3d41a1553b4
+md"""
+Note that comparisons also return a value in Julia. Here we have switched from heads/tails to true/false as the output.
 """
 
-# ╔═╡ 2c3721da-f86b-11ea-36cf-3fe4c6622dc6
-begin 
-	σ_x = √(mean(xs_centered.^2))   # root-mean-square distance from 0
-	σ_y = √(mean(ys_centered.^2))
-end
+# ╔═╡ 9a426a20-8729-11eb-0c0f-31e1d4dc91bc
+md"""
+Let's make that into a function:
+"""
 
-# ╔═╡ 03ab44c0-f8fd-11ea-2243-1f3580f98a65
-md"This gives the following approximate extents (standard deviations) of the cloud:"
+# ╔═╡ a4870b14-8729-11eb-20ee-e531d4a7108d
+bernoulli(p) = rand() < p
 
-# ╔═╡ 6dec0db8-ec93-11ea-24ad-e17870ee64c2
+# ╔═╡ 081e3796-8747-11eb-32ec-dfd998605737
+bernoulli(0.7)
+
+# ╔═╡ 008a40d2-872a-11eb-224d-5b3331f29c99
+md"""
+p = $(@bind p Slider(0.0:0.01:1.0, show_value=true, default=0.7))
+"""
+
+# ╔═╡ baed5908-8729-11eb-00e0-9f749406c30c
+countmap( [bernoulli(p) for i in 1:1000] )
+
+# ╔═╡ ed94eae8-86b3-11eb-3f1b-15c7a54903f5
+md"""
+## Bar charts and histograms
+"""
+
+# ╔═╡ f20504de-86b3-11eb-3125-3140e0e060b0
+md"""
+Once we have generated several random objects, it is natural to want to count **how many times** each one occurred.
+"""
+
+# ╔═╡ 7f1a3766-86b4-11eb-353f-b13acaf1503e
+md"""
+Let's roll a (fair) die 1000 times:
+"""
+
+# ╔═╡ 371838f8-86b4-11eb-1633-8d282e42a085
+md"""
+An obvious way to find the counts would be to run through the data looking for 1s, then run through again looking for 2s, etc.:
+"""
+
+# ╔═╡ 9e9d3556-86b5-11eb-3dfb-916e625da235
+md"""
+Note that this is *not* the most efficient algorithm!
+"""
+
+# ╔═╡ 90844738-8738-11eb-0604-3d23662152d9
+md"""
+We can plot **categorical data** using a **bar chart**, `bar` in Plots.jl. This counts each discrete item.
+"""
+
+# ╔═╡ 02d03642-86b4-11eb-365a-63ff61ddd3b5
+rolls = rand(1:6, 100000)   # try modifying 100 by adding more zeros
+
+# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
+rolls .== 1
+
+# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
+count(rolls .== 1)
+
+# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
+counts = [count(rolls .== i) for i in 1:6]
+
+# ╔═╡ 2d71fa88-86b5-11eb-0e55-35566c2246d7
 begin
-	scatter(xs_centered, ys_centered, ms=5, alpha=0.5, ratio=1, leg=false, 
-			framestyle=:origin)
-
-	vline!([-2*σ_x, 2*σ_x], ls=:dash, lw=2, c=:green)
-	hline!([-2*σ_y, 2*σ_y], ls=:dash, lw=2, c=:blue)
-	
-	annotate!( 2σ_x * 0.93, 0.03, text(L"2\sigma_x",  14, :green))
-	annotate!(-2σ_x * 0.88, 0.03, text(L"-2\sigma_x", 14, :green))
-	
-	annotate!(0.05,  2σ_y * 1.13, text(L"2\sigma_y",  14, :blue))
-	annotate!(0.06, -2σ_y * 1.14, text(L"-2\sigma_y", 14, :blue))
-
+	bar(counts, alpha=0.5, leg=false, size=(500, 300))
+	hline!([length(rolls) / 6], ls=:dash)
+	title!("number of die rolls = $(length(rolls))")
+	ylims!(0, length(rolls) / 3)
 end
 
-# ╔═╡ 5fab2c32-f86b-11ea-2f27-ed5feaac1fa5
+# ╔═╡ cb8a9762-86b1-11eb-0484-6b6cc8b1b14c
 md"""
-We expect most (around 95%) of the data to be contained within the interval $\mu \pm 2 \sigma$, where $\mu$ is the mean and $\sigma$ is the standard deviation. (This assumes that the data is **normally distributed**, which is not actually the case for the data generated above.)
+## Probability densities 
+
+### Rolling multiple dice
 """
 
-# ╔═╡ ae9a2900-ec93-11ea-1ae5-0748221328fc
-md"## Correlated data"
+# ╔═╡ d0c9814e-86b1-11eb-2f29-1d041bccc649
+roll_dice(n) = sum( rand(1:12, n) )
 
-# ╔═╡ b81c9db2-ec93-11ea-0dbd-4bd0951cb2cc
+# ╔═╡ 7a16b674-86b7-11eb-3aa5-83712cdc8580
+trials = 10^6
+
+# ╔═╡ 2bfa712a-8738-11eb-3248-6f9bb93154e8
 md"""
-However, from the figure it is clear that $x$ and $y$ are not the "correct directions" to use for this data set. It would be more natural to think about other directions: the direction in which the data set is mainly pointing (roughly, the direction in which it's longest), together with the approximately perpendicular direction in which it is  narrowest.
-
-We need to find *from the data* which directions these are, and the extent (width) of the data cloud in those directions.
-
-However, we cannot obtain any information about those directions by looking *separately* at $x$-coordinates and $y$-coordinates, since within the same bounding boxes that we just calculated the data can be distributed in many different ways.
-
-Rather, the information that we need is encoded in the *relationship* between the values of $x_i$ and $y_i$ *for the points in the data set*.
-
-For our data set, when $x$ is large and negative, $y$ is also rather negative; when $x$ is 0, $y$ is near $0$, and when $x$ is large and positive, so is $y$. We say that $x$ and $y$ are **correlated** -- literally they are mutually ("co") related, such that knowing some information about one of them allows us to predict something about the other. 
-
-For example, if I measure a new data point from the same process and I find that $x$ is around $0.25$ then I would expect $y$ to be within the range $0.05$ to $0.2$, and it would be very surprising if $y$ were -0.5.
-
+### Converging shape
 """
 
-# ╔═╡ 80722856-f86d-11ea-363d-53fc5f6b8152
+# ╔═╡ 6c133ab6-86b7-11eb-15f6-7780da5afc31
 md"""
-Although there are standard methods to calculate this correlation, we prefer to hone our **intuition** using computational thinking instead!
+n = $(@bind n Slider(1:50, show_value=true))
 """
 
-# ╔═╡ b8fa6a1c-f86d-11ea-3d6b-2959d737254b
-md"""
-We want to think about different *directions*, so let's introduce an angle $\theta$ to describe the direction along which we are looking. We want to calculate the width of the cloud *along that direction*.
+# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
+experiment() = roll_dice(n) 
 
-Effectively we are *changing coordinates* to a new coordinate, oriented along the line. To do this  requires more linear algebra than we are assuming in this course, but let's see what it looks like:
+# experiment() = sum([randn()^2 for i in 1:n])
+
+# ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
+data = [experiment() for t in 1:trials]
+
+# ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
+data
+
+# ╔═╡ 514f6be0-86b8-11eb-30c9-d1020f783afe
+histogram(data, alpha=0.5, legend=false, bins=200, c=:lightsalmon1, title="n = $n")  
+# c = RGB(0.1, 0.2, 0.3))
+
+# ╔═╡ a15fc456-8738-11eb-25bd-b15c2b16d461
+md"""
+Here we have switched from a bar chart to a **histogram**, which counts the number of items falling into a given range or **bin**. When $n$ is small this tends to look like a bar chart, but it looks like a "smooth bar chart" as $n$ gets larger, due to the **aggregation**.
 """
 
-# ╔═╡ 3547f296-f86f-11ea-1698-53d3c1a0bc30
-md"## Rotating the axes"
-
-# ╔═╡ 7a83101e-f871-11ea-1d87-4946162777b5
-md"""By rotating the axes we can "look in different directions" and calculate the width of the data set "along that direction". What we are really doing is a perpendicular **projection** of the data onto that direction."""
-
-# ╔═╡ e8276b4e-f86f-11ea-38be-218a72452b10
-M = [xs_centered ys_centered]'
-
-# ╔═╡ 1f373bd0-853f-11eb-0f8e-19cb7f376182
-eigvals(cov(M')) .* 199
-
-# ╔═╡ d71fdaea-f86f-11ea-1a1f-45e4d50926d3
-imax = argmax(M[1, :])
-
-# ╔═╡ 757c6808-f8fe-11ea-39bb-47e4da65113a
-svdvals(M)
-
-# ╔═╡ 1232e848-8540-11eb-089b-2185cc06f23a
-M
-
-# ╔═╡ 7cb04c9a-8358-11eb-1255-8d8c90916c37
-gr()
-
-# ╔═╡ cd9e05ee-f86f-11ea-0422-25f8329c7ef2
-R(θ)= [cos(θ) sin(θ)
-	  -sin(θ) cos(θ)]
-
-# ╔═╡ 7eb51908-f906-11ea-19d2-e947d81cb743
-md"In the following figure, we are rotating the axis (red arrow) around in the left panel. In the right panel we are viewing the data from the point of view of that new coordinate direction, in other words projecting onto that direction, effectively as if we rotated our head so the red vector was horizontal:"
-
-# ╔═╡ 4f1980ea-f86f-11ea-3df2-35cca6c961f3
+# ╔═╡ dd753568-8736-11eb-1f20-1b81110ae807
 md"""
-degrees = $(@bind degrees Slider(0:360, default=28, show_value=true)) 
+Does the above histogram look like a bell to you?
 """
 
-# ╔═╡ c9da6e64-8540-11eb-3984-47fdf8be0dac
-md"""
-## Rotating the data
-"""
-
-# ╔═╡ f70065aa-835a-11eb-00cb-ffa27bcb486e
-θ = π * degrees / 180   # radians
-
-# ╔═╡ 3b71142c-f86f-11ea-0d43-47011d00786c
-p1 = begin
-	
-	scatter(M[1, :], M[2, :], ratio=1, leg=false, ms=2.5, alpha=0.5,
-			framestyle=:origin)
-	
-	projected = ([cos(θ) sin(θ)] * M) .* [cos(θ) sin(θ)]'
-	scatter!(projected[1, :], projected[2, :], m=:3, alpha=0.1, c=:green)
-	
-	
-	lines_x = reduce(vcat, [M[1, i], projected[1, i], NaN] for i in 1:size(M, 2))
-	lines_y = reduce(vcat, [M[2, i], projected[2, i], NaN] for i in 1:size(M, 2))
-	
-	
-# 	for i in 1:size(M, 2)
-# 		plot!([M[1, i], projected[1, i]], [M[2, i], projected[2, i]], ls=:dash, c=:black, alpha=0.1)
-# 	end
-	
-	plot!(lines_x, lines_y, ls=:dash, c=:black, alpha=0.1)
-	
-	
-	plot!([0.7 .* (-cos(θ), -sin(θ)), 0.7 .* (cos(θ), sin(θ))], lw=1, arrow=true, c=:red, alpha=0.3)
-	xlims!(-0.7, 0.7)
-	ylims!(-0.7, 0.7)
-	
-	scatter!([M[1, imax]], [M[2, imax]],  ms=3, alpha=1, c=:yellow)
-
-	annotate!(0, 1.2, text("align arrow with cloud", :red, 10))
-end;
-
-# ╔═╡ 8b8e6b2e-8531-11eb-1ea6-637db25b28d5
-p1
-
-# ╔═╡ 88bbe1bc-f86f-11ea-3b6b-29175ddbea04
-p2 = begin
-	M2 = R(θ) * M
-	
-	scatter(M2[1, :], M2[2, :],ratio=1, leg=false, ms=2.5, alpha=0.3, framestyle=:origin, size=(500, 500))
-	
-	# plot!([(-0.6, 0), (0.6, 0)], lw=3, arrow=true, c=:red, xaxis=false, yaxis=false, xticks=[], yticks=[])
-	
-	# scatter!([M2[1, imax]], [M2[2, imax]], ms=3, alpha=1, c=:yellow)
-
-	xlims!(-0.7, 0.7)
-	ylims!(-0.7, 0.7)
-	
-	scatter!(M2[1, :], zeros(size(xs_centered)), ms=3, alpha=0.1, ratio=1, leg=false, framestyle=:origin, c=:green)
-
-	
-	lines2_x = reduce(vcat, [M2[1, i], M2[1, i], NaN] for i in 1:size(M2, 2))
-	lines2_y = reduce(vcat, [M2[2, i], 0, NaN] for i in 1:size(M2, 2))
-	
-	# for i in 1:size(M2, 2)
-	# 	plot!([(M2[1, i], M2[2, i]), (M2[1, i], 0)], ls=:dash, c=:black, alpha=0.1)
-	# end
-	
-	plot!(lines2_x, lines2_y, ls=:dash, c=:black, alpha=0.1)
-	
-	σ = std(M2[1, :])
-	vline!([-2σ, 2σ], ls=:dash, lw=2)
-	
-# 	plot!(0.5 * [-cos(θ), cos(θ)], 0.5 * [sin(θ), -sin(θ)], c=:black, alpha=0.5, lw=1, arrow=true)
-# 	plot!(0.5 * [-sin(θ), sin(θ)], 0.5 * [-cos(θ), cos(θ)], c=:black, alpha=0.5, lw=1, arrow=true)
-	
-# 	plot!(0.5 * [cos(θ), -cos(θ)], 0.5 * [-sin(θ), sin(θ)], c=:black, alpha=0.5, lw=1, arrow=true)
-# 	plot!(0.5 * [sin(θ), -sin(θ)], 0.5 * [cos(θ), -cos(θ)], c=:black, alpha=0.5, lw=1, arrow=true)
-	
-	title!("σ = $(round(σ, digits=4))")
-	
-	annotate!(2σ+0.05, 0.05, text("2σ", 10, :green))
-	annotate!(-2σ-0.05, 0.05, text("-2σ", 10, :green))
-
-end;
-
-# ╔═╡ 2ffe7ed0-f870-11ea-06aa-390581500ca1
-plot(p2)
-
-# ╔═╡ a5cdad52-f906-11ea-0486-755a6403a367
-md"""
-We see that the extent of the data in the direction $\theta$ varies as $\theta$ changes. Let's plot the variance in direction $\theta$ as a function of $\theta$:
-"""
-
-# ╔═╡ 0115c974-f871-11ea-1204-054510848849
+# ╔═╡ 8ab9001a-8737-11eb-1009-5717fbe83af7
 begin
-	variance(θ) = var( (R(θ) * M)[1, :] )
-	variance(θ::AbstractArray) = variance(θ[1])
-end
-
-# ╔═╡ 0935c870-f871-11ea-2a0b-b1b824379350
-p3 = begin 
-	plot(0:360, variance.(range(0, 2π, length=361)), leg=false, size=(400, 200))
-	scatter!([degrees], [σ^2])
-	xlabel!("θ")
-	ylabel!("variance in direction θ")
-end
-
-# ╔═╡ 6646abe0-835b-11eb-328a-55ca22f89c7d
-σs = svdvals(M)
-
-# ╔═╡ 31e4b138-84e8-11eb-36a8-8b90746fbb0f
-variances = σs.^2 ./ 199
-
-# ╔═╡ ef850e8e-84e7-11eb-1cb0-870c3000841d
-1 ./ σs
-
-# ╔═╡ 031a2894-84e8-11eb-1381-9b9e86f2fa0a
-M
-
-# ╔═╡ e4af4d26-f877-11ea-1de3-a9f8d389138e
-md"""The direction in which the variance is **maximised** gives the most important direction: It is the direction along which the data "points", or the direction which best distinguishes different data points. This is often called the first **principal component** in statistics, or the first **singular vector** in linear algebra. 
-
-We can also now quantify *how close* the data is to lying along that single line, using the width in the *perpendicular* direction: if that width is "much smaller" than  the width in the first principal direction then the data is close to being rank 1.
-"""
-
-# ╔═╡ bf57f674-f906-11ea-08eb-9b50818a025b
-md"The simplest way to maximise this function is to evaluate it everywhere and find one of the places where it takes the maximum value:"
-
-# ╔═╡ 17e015fe-f8ff-11ea-17b4-a3aa072cd7b3
-begin
-	θs = 0:0.01:2π
-	fs = variance.(θs)
-
-	θmax = θs[argmax(fs)]
-	θmin = θs[argmin(fs)]
-
-	fmax = variance(θmax)
-	fmin = variance(θmin)
-end
-
-# ╔═╡ 045b9b98-f8ff-11ea-0d49-5b209319e951
-begin
-	scatter(xs_centered, ys_centered, ms=5, alpha=0.3, ratio=1, leg=false, 
-			framestyle=:origin)
-
-	plot!([(0, 0), 2*sqrt(fmax) .* (cos(θmax), sin(θmax))], arrow=true, lw=3, c=:red)
-	plot!([(0, 0), 2*sqrt(fmin) .* (cos(θmin), sin(θmin))], arrow=true, lw=3, c=:red)
-
-end
-
-# ╔═╡ cfec1ec4-f8ff-11ea-265d-ab4844f0f739
-md"""
-Note that the directions that maximise and minimise variance are perpendicular. This is always the case, as shown using the Singular-Value Decomposition (SVD) in linear algebra.
-
-There are different ways to think about this procedure. We can think of it as effectively "fitting an ellipse" to the data, where the widths of the ellipse axes show the relative importance of each direction in the data.
-
-Alternatively we can think of it as fitting a multivariate normal distribution by finding a suitable covariance matrix.
-"""
-
-# ╔═╡ e6e900b8-f904-11ea-2a0d-953b99785553
-begin
-	circle = [cos.(θs) sin.(θs)]'
-	stretch = [2 * sqrt(fmax) 0
-				0   		2 * sqrt(fmin)]
-	ellipse = R(-θmax) * stretch * circle 
+	bell = load(download("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRmxRAIQt_L-X99A_4FoP3vsC-l_WHlC3TtAw&usqp=CAU"))
 	
-	plot!(ellipse[1, :], ellipse[2, :], series=:shape, alpha=0.4, fill=true, c=:orange)
+	bell[1:end*9÷10, :]
 end
 
-# ╔═╡ 301f4d06-8162-11eb-1cd6-31dd8da164b6
+# ╔═╡ f8b2dd20-8737-11eb-1593-43659c693109
 md"""
-Note also that an ellipse is the image of the unit circle under a *linear* transformation. We are effectively learning what the best linear transformation is that transforms the unit circle into our data cloud.
+### Normalising the $y$-axis
 """
 
-# ╔═╡ aaff88e8-f877-11ea-1527-ff4d3db663db
-md"## Higher dimensions"
-
-# ╔═╡ aefa84de-f877-11ea-3e26-678008e9739e
+# ╔═╡ 89bb366a-8737-11eb-10a6-e754ee817f9a
 md"""
-Can we generalise this to dimensions higher than 2? 
-Let's think about 3D. If we take columns of the first *three* rows of the original image, we have vectors in 3D.
+Notice that the *shape* of the curve seems to converge to a bell-shaped curve, but the axes do not. What can we do about this?
 
-If we plot these vectors in 3D, a rank-1 matrix will give a straight line in 3D, while a rank-2 matrix will give a **plane** in 3D. Rank-2 + noise gives a noisy cloud lying close to a plane.
-
-Similarly to what we did above, we need to calculate the ellipsoid that best fits the data. The widths of the axes of the ellipsoid tell us how close to being a line or a plane (rank-1 or rank-2) the data is.
+We need to **normalise** so that the total shaded *area* is 1. We can use the histogram option `norm=true` to do so.
 """
 
-# ╔═╡ 0bd9358e-f879-11ea-2c83-ed4e7bf9d903
-md"In more than 3D we can no longer visualise the data, but the same idea applies. The calculations are done using the SVD.
+# ╔═╡ 14f0a090-8737-11eb-0ccf-391249267401
+histogram(data, alpha=0.5, legend=false, bins=50, norm=true,
+			c=:lightsalmon1, title="n = $n", ylims=(0, 0.05))  
 
-If the widths of the ellipsoid in some directions are very small, we can ignore those directions and hence reduce the dimensionality of the data, by changing coordinates to the principal components."
 
-# ╔═╡ 9960e1c2-85a0-11eb-3d68-cd3a07a9c0b5
+# ╔═╡ e305467e-8738-11eb-1213-eb11aaebe151
 md"""
-## What is the Singular-Value Decomposition (SVD)?
+### Normalising the $x$ axis
 """
 
-# ╔═╡ dc4cca88-85a0-11eb-2791-d7610a610e36
+# ╔═╡ e8341288-8738-11eb-27ae-0795fa7e4a7e
 md"""
-The **Singular-Value Decomposition (SVD)** is a way of writing any matrix in terms of simpler matrices. Thinking in terms of linear transformations, *any* linear transformation $T$ has the same effect as a sequence of three simple transformations:
+As we changed $n$ above, the range of values on the $x$ axis also changed. We want to find a way to rescale $x$ at the same time so that both axes and shape stop changing as we increase $n$.
 
-T = rotation₂ ∘ stretch ∘ rotation₁
-
-In terms of matrices, for *any* matrix $M$ it is possible to write
-
-$$M = U \, \Sigma \, V^\text{T}$$
-
-where $U$ and $V$ are **orthogonal** matrices, i.e. they satisfy $U U^\text{T} = I$ and $V V^\text{T} = I$, and $\Sigma$ is a diagonal matrix. 
-
-Orthogonal matrices have determinant $\pm 1$, so they leave areas unchanged. They are rotations, possibly combined with reflections.
-
-There are algorithms from numerical linear algebra to calculate this decomposition. In Julia we call the `svd` function, e.g.
+We need to make sure that the data is centred in the same place -- we will choose 0. And we need to make sure that the width is the same -- we will divide by the standard deviation.
 """
 
-# ╔═╡ 453689c2-85a2-11eb-2cbc-7d6476b42f2f
-let
-	M = [2 1
-		 1 1]
-	
-	svd(M)
-end
+# ╔═╡ 07e8ae34-873b-11eb-1df2-175392ac4678
+σ = std(data)
 
-# ╔═╡ 91b77acc-85a2-11eb-19bb-bd2bdd0c1a68
+# ╔═╡ 77616afe-873a-11eb-3f11-1bc417f53138
+mean(data), std(data)
+
+# ╔═╡ 16023bea-8739-11eb-1e32-79f2d006b093
+normalised_data = ( data .- mean(data) ) ./ std(data)   
+
+# ╔═╡ bfc52118-873b-11eb-0fbb-952c60bc7cc2
+histogram(normalised_data, bins=-5 - (1/(2σ)):(1/σ):5, norm=true,
+	alpha=0.5, leg=false, ylim=(0, 0.41), size=(500, 300))
+
+# ╔═╡ aa6126f8-873b-11eb-3b4a-0f96fe07b7fb
+plot!(x -> exp(-x^2 / 2) / √(2π), lw=2, c=:red, alpha=0.5)
+
+# ╔═╡ 308547c6-873d-11eb-3a42-833f8bf496ae
 md"""
-Let's look at the action of the matrix on the unit disc. To generate points in the unit disc we generate points in $[-1, 1]^2$ and *reject* those lying outside:
+Note that in the limit, the data becomes *continuous*, no longer discrete. The probability of any particular value is 0 ! We then talk about a **probability density function**, $f(x)$; the integral of this function over the interval $[a, b]$ gives the probability of being in that interval.
 """
 
-# ╔═╡ f92c75f6-85a3-11eb-1689-23aeaa3daeb7
-begin
-	unit_disc = [ (-1.0 .+ 2.0 .* rand(2)) for i in 1:2000 ]
-	unit_disc = reduce(hcat, [x for x in unit_disc if x[1]^2 + x[2]^2 < 1])
-end
-
-# ╔═╡ 03069da6-85a4-11eb-2ac5-87b767846550
-scatter(unit_disc[1, :], unit_disc[2, :], ratio=1, leg=false, alpha=0.5, ms=3)
-
-# ╔═╡ 1647a126-85a4-11eb-3923-5f5a6f703403
+# ╔═╡ cb2fb68e-8749-11eb-29ea-9729ac0c63b4
 md"""
-t = $(@bind tt Slider(0:0.01:1, show_value=true))
+### Options for plotting functions
 """
 
-# ╔═╡ 40b87cbe-85a4-11eb-30f8-cf7b5e79c19a
-pp1 = begin
-	scatter(unit_disc[1, :], unit_disc[2, :], ratio=1, leg=false, alpha=0.5, title="stretch + rotate")
-	result =  [1 + tt  tt; tt  1] * unit_disc
-	scatter!(result[1, :], result[2, :], alpha=0.2)
-
-	ylims!(-3, 3)
-	xlims!(-3, 3)
-end;
-
-# ╔═╡ 28a7d6dc-85a5-11eb-0e4b-b7e9b4c592ed
-pp2 = begin
-	UU, Sigma, VV = svd([1 + tt  tt; tt  1])
-	scatter(unit_disc[1, :], unit_disc[2, :], ratio=1, leg=false, alpha=0.5, title="stretch")
-	
-	result2 = Diagonal(Sigma) * unit_disc
-	
-	scatter!(result2[1, :], result2[2, :], alpha=0.2)
-	
-	ylims!(-3, 3)
-	xlims!(-3, 3)
-
-end;
-
-
-# ╔═╡ 6ec7f980-85a5-11eb-12fc-cb132db28d83
-plot(pp2, pp1)
-
-# ╔═╡ 92a2827e-84e9-11eb-1e85-6f49b1da7277
+# ╔═╡ e0a1863e-8735-11eb-1182-1b3c59b1e05a
 md"""
-## Rotations in 300 dimensions
+Other options for the `histogram` function options:
+- `legend=false` turns off the legend (key), i.e. the plot labels
+- `bins=50` specifies the number of **bins**; can also be a vector of bin edges
+- `linetype=:stephist`: use steps instead of bars
+
+
+- `alpha`: a general plot option specifying transparency (0=invisible; 1=opaque)
+- `c` or `color`: a general plot option for the colour
+- `lw`: line width (default=1)
+
+
+There are several different ways to specify colours. [Here](http://juliagraphics.github.io/Colors.jl/stable/namedcolors/) is a list of named colours, but you can also specify `RGB(0.1, 0.2, 0.3)`.
 """
 
-# ╔═╡ e84adec2-84e8-11eb-2157-dd491588ccf0
+# ╔═╡ 900af0c8-86ba-11eb-2270-71b1869b9a1a
 md"""
-We have been thinking of 300 points in 2 dimensions. Instead, we could think about 2 points **in 300 dimensions**. In some sense, this is what 
-"transpose really does"!
+Note that `linetype=:stephist` will give a stepped version of the histogram:
 """
 
-# ╔═╡ 571b88ac-85a6-11eb-2887-a368a19bce4d
+# ╔═╡ be6e4c00-873c-11eb-1413-5326aba54216
 md"""
-The $V$ in the SVD is another rotation that we "cannot see" in the above pictures. In our case it is a rotation in 300 dimensions! But in fact we can visualise it as follows, where we multiply our data by a $300 \times 300$ orthogonal matrix!
-
-We first take a random *anti-symmetric* matrix, i.e. one for which $M = -M^\text{t}$.
-We then turn that into an orthogonal matrix by taking the so-called **matrix exponential**.
+## Sampling from other distributions
 """
 
-# ╔═╡ 12010a58-84eb-11eb-106f-cb4e3e0c879b
-begin
-	dim = size(M, 2)
-	anti_symmetric = randn(dim, dim)
-	anti_symmetric -= anti_symmetric'
-end
-
-# ╔═╡ 696d2768-84eb-11eb-39e0-612e074a2c27
-@bind t Slider(0:0.0002:1, show_value=true, default=0.0)
-
-# ╔═╡ 7b7b5128-84eb-11eb-3974-9b4c08fab8bb
-begin
-	M_rotated = M * exp(t * anti_symmetric)
-	scatter(M_rotated[1, :], M_rotated[2, :], leg=false, alpha=0.5, )
-	scatter!(M[1, :], M[2, :], alpha=0.5)
-	
-	ylims!(-0.3, 0.3)
-	xlims!(-0.6, 0.6)
-end
-
-# ╔═╡ 805b9616-85a7-11eb-22e8-db8ee67071ae
+# ╔═╡ 9a1136c2-873c-11eb-124f-c3939972ce4a
 md"""
-We see that the data rotates around in 300 dimensions, but always is projected to the *same* ellipse.
+dof = $(@bind dof Slider(1:50, show_value=true))  
 """
 
-# ╔═╡ 90656ce6-84fb-11eb-1aac-4bd7747613db
-U, Σ, V = svd(M, full=true)
+# ╔═╡ e01b6f70-873c-11eb-04a1-ad8e86578982
+chisq_data = rand( Chisq(dof), 100000 )
 
-# ╔═╡ aec542a2-84fb-11eb-322c-27fc2c45f6ef
-M18 = M * V 
-
-# ╔═╡ b55dcfd2-84fb-11eb-1766-17dc8b7a17d0
-scatter(M18[1, :], M18[2, :], alpha=0.5, leg=false, ratio=1, xlim=(-5, 5))
+# ╔═╡ b5251f76-873c-11eb-38cb-7db300c8fe3c
+histogram( chisq_data, norm=true, bins=100, size=(500, 300), leg=false, alpha=0.5,
+	xlims=(0, 10*√(dof)))
 
 
-# ╔═╡ 1cf3e098-f864-11ea-3f3a-c53017b73490
-md"#### Appendix"
+# ╔═╡ da62fd1c-873c-11eb-0758-e7cb48e964f1
+histogram( [ sum( randn().^2 for _=1:dof )  for _ = 1:100000], norm=true,
+	alpha=0.5, leg=false)
 
-# ╔═╡ 2917943c-f864-11ea-3ee6-db952ca7cd67
-begin
-	show_image(M) = get.(Ref(ColorSchemes.rainbow), M ./ maximum(M))
-	show_image(x::AbstractVector) = show_image(x')
-end
-
-# ╔═╡ 43bff19e-f864-11ea-2315-0f85b532a325
-show_image(flag)
-
-# ╔═╡ 79d2c6f4-f895-11ea-30c4-9d1102c99482
-show_image(flag2)
-
-# ╔═╡ b183b6ca-f864-11ea-0b34-4dd3f4f5e69d
-show_image(image)
-
-# ╔═╡ 74c04322-815b-11eb-2308-7b3d571cf613
-begin
-	
-	image2 = outer([1; 0.4; rand(50)], rand(w)) + 
-	         outer(rand(52), rand(w))
-	
-	show_image(image2)
-end
-
-# ╔═╡ f6713bec-815b-11eb-2fc4-6b0326a64b16
-show_image(image)
-
-# ╔═╡ 5471ddce-f867-11ea-2519-21981f5ea68b
-show_image(noisy_image)
-
-# ╔═╡ 1957f71c-f8eb-11ea-0dcf-339bfa7f96fc
-show_image(image[1:2, 1:20])
-
-# ╔═╡ 72bb11b0-f88f-11ea-0e55-b1108300f854
-loss(M1, M2) = sum( (M1[i] - M2[i])^2 for i in 1:length(M1) if !ismissing(M2[i]) )
-
-# ╔═╡ feeeb24a-f88f-11ea-287f-219e53615f32
-function split_up(v, m, n)
-	return v[1:m], v[m+1:m+n], v[m+n+1:2m+n], v[2m+n+1:2m+2n]
-end
-
-# ╔═╡ 0bcc8852-f890-11ea-3715-11cbead7f636
-function ff(v, m, n)
-	v1, w1, v2, w2 = split_up(v, m, n)
-	
-	loss(outer(v1, w1) + outer(v2, w2), M3)
-end
-
-# ╔═╡ 7040dc72-f893-11ea-3d22-4fbd452faa41
-ff2(v) = ff(v, m, n)
-
-# ╔═╡ 1dbcf15a-f890-11ea-008c-8935edfbdb1c
-ff(rand(total), m, n)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
-ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
 Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
+Distributions = "31c24e10-a181-5473-b8eb-7969acd0382f"
 ImageMagick = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
-LaTeXStrings = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
-LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+StatsBase = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 
 [compat]
-ColorSchemes = "~3.18.0"
 Colors = "~0.12.8"
+Distributions = "~0.25.58"
 ImageMagick = "~1.2.2"
 Images = "~0.25.2"
-LaTeXStrings = "~1.3.0"
 Plots = "~1.29.0"
 PlutoUI = "~0.7.38"
+StatsBase = "~0.33.16"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -960,6 +713,12 @@ uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 deps = ["Mmap"]
 uuid = "8bb1440f-4735-579b-a4ab-409b98df4dab"
 
+[[DensityInterface]]
+deps = ["InverseFunctions", "Test"]
+git-tree-sha1 = "80c3e8639e3353e5d2912fb3a1916b8455e2494b"
+uuid = "b429d917-457f-4dbc-8f4c-0cc954292b1d"
+version = "0.4.0"
+
 [[Distances]]
 deps = ["LinearAlgebra", "SparseArrays", "Statistics", "StatsAPI"]
 git-tree-sha1 = "3258d0659f812acde79e8a74b11f17ac06d0ca04"
@@ -969,6 +728,12 @@ version = "0.10.7"
 [[Distributed]]
 deps = ["Random", "Serialization", "Sockets"]
 uuid = "8ba89e20-285c-5b6f-9357-94700520ee1b"
+
+[[Distributions]]
+deps = ["ChainRulesCore", "DensityInterface", "FillArrays", "LinearAlgebra", "PDMats", "Printf", "QuadGK", "Random", "SparseArrays", "SpecialFunctions", "Statistics", "StatsBase", "StatsFuns", "Test"]
+git-tree-sha1 = "8a6b49396a4058771c5c072239b2e0a76e2e898c"
+uuid = "31c24e10-a181-5473-b8eb-7969acd0382f"
+version = "0.25.58"
 
 [[DocStringExtensions]]
 deps = ["LibGit2"]
@@ -1033,6 +798,12 @@ deps = ["Pkg", "Requires", "UUIDs"]
 git-tree-sha1 = "9267e5f50b0e12fdfd5a2455534345c4cf2c7f7a"
 uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 version = "1.14.0"
+
+[[FillArrays]]
+deps = ["LinearAlgebra", "Random", "SparseArrays", "Statistics"]
+git-tree-sha1 = "246621d23d1f43e3b9c368bf3b72b2331a27c286"
+uuid = "1a297f60-69ca-5386-bcde-b61e274b549b"
+version = "0.13.2"
 
 [[FixedPointNumbers]]
 deps = ["Statistics"]
@@ -1134,6 +905,12 @@ deps = ["Artifacts", "Cairo_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll",
 git-tree-sha1 = "129acf094d168394e80ee1dc4bc06ec835e510a3"
 uuid = "2e76f6c2-a576-52d4-95c1-20adfe4de566"
 version = "2.8.1+1"
+
+[[HypergeometricFunctions]]
+deps = ["DualNumbers", "LinearAlgebra", "SpecialFunctions", "Test"]
+git-tree-sha1 = "65e4589030ef3c44d3b90bdc5aac462b4bb05567"
+uuid = "34004b35-14d8-5ef3-9330-4cdb6864b03a"
+version = "0.3.8"
 
 [[Hyperscript]]
 deps = ["Test"]
@@ -1603,6 +1380,12 @@ git-tree-sha1 = "b2a7af664e098055a7529ad1a900ded962bca488"
 uuid = "2f80f16e-611a-54ab-bc61-aa92de5b98fc"
 version = "8.44.0+0"
 
+[[PDMats]]
+deps = ["LinearAlgebra", "SparseArrays", "SuiteSparse"]
+git-tree-sha1 = "027185efff6be268abbaf30cfd53ca9b59e3c857"
+uuid = "90014a1f-27ba-587c-ab20-58faa44d9150"
+version = "0.11.10"
+
 [[PNGFiles]]
 deps = ["Base64", "CEnum", "ImageCore", "IndirectArrays", "OffsetArrays", "libpng_jll"]
 git-tree-sha1 = "e925a64b8585aa9f4e3047b8d2cdc3f0e79fd4e4"
@@ -1695,6 +1478,12 @@ git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
 version = "5.15.3+1"
 
+[[QuadGK]]
+deps = ["DataStructures", "LinearAlgebra"]
+git-tree-sha1 = "78aadffb3efd2155af139781b8a8df1ef279ea39"
+uuid = "1fd47b50-473d-5c70-9696-f719f8f3bcdc"
+version = "2.4.2"
+
 [[Quaternions]]
 deps = ["DualNumbers", "LinearAlgebra", "Random"]
 git-tree-sha1 = "b327e4db3f2202a4efafe7569fcbe409106a1f75"
@@ -1753,6 +1542,18 @@ deps = ["UUIDs"]
 git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.0"
+
+[[Rmath]]
+deps = ["Random", "Rmath_jll"]
+git-tree-sha1 = "bf3188feca147ce108c76ad82c2792c57abe7b1f"
+uuid = "79098fc4-a85e-5d69-aa6a-4863f24498fa"
+version = "0.7.0"
+
+[[Rmath_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "68db32dff12bb6127bac73c209881191bf0efbb7"
+uuid = "f50d1b31-88e8-58de-be2c-1cc44531875f"
+version = "0.3.0+0"
 
 [[Rotations]]
 deps = ["LinearAlgebra", "Quaternions", "Random", "StaticArrays", "Statistics"]
@@ -1847,11 +1648,21 @@ git-tree-sha1 = "8977b17906b0a1cc74ab2e3a05faa16cf08a8291"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
 version = "0.33.16"
 
+[[StatsFuns]]
+deps = ["ChainRulesCore", "HypergeometricFunctions", "InverseFunctions", "IrrationalConstants", "LogExpFunctions", "Reexport", "Rmath", "SpecialFunctions"]
+git-tree-sha1 = "ca9f8a0c9f2e41431dc5b7697058a3f8f8b89498"
+uuid = "4c63d2b9-4356-54db-8cca-17b64c39e42c"
+version = "1.0.0"
+
 [[StructArrays]]
 deps = ["Adapt", "DataAPI", "StaticArrays", "Tables"]
 git-tree-sha1 = "e75d82493681dfd884a357952bbd7ab0608e1dc3"
 uuid = "09ab397b-f2b6-538f-b94a-2f83cf4a842a"
 version = "0.6.7"
+
+[[SuiteSparse]]
+deps = ["Libdl", "LinearAlgebra", "Serialization", "SparseArrays"]
+uuid = "4607b0f0-06f3-5cda-b6b1-a6196a1729e9"
 
 [[TOML]]
 deps = ["Dates"]
@@ -2162,132 +1973,106 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╠═cf82077a-81c2-11eb-1de2-09ed6c35d810
-# ╠═c593a748-81b6-11eb-295a-a9800f9dec6d
-# ╟─deb2af50-8524-11eb-0dd4-9d799ff6d3e2
-# ╟─2e50a070-853f-11eb-2045-b1cc43c29768
-# ╟─ed7ff6b2-f863-11ea-1a59-eb242a8674e3
-# ╟─fed5845e-f863-11ea-2f95-c331d3c62647
-# ╠═0e1a6d80-f864-11ea-074a-5f7890180114
-# ╠═2e497e30-f895-11ea-09f1-d7f2c1f61193
-# ╟─cfdd04f8-815a-11eb-0409-79a2599c29ab
-# ╟─ab3d55cc-f905-11ea-2f22-5398f3aca803
-# ╠═13b6c108-f864-11ea-2447-2b0741f15c7b
-# ╠═e66b30a6-f914-11ea-2c0f-35282d45a30a
-# ╠═43bff19e-f864-11ea-2315-0f85b532a325
-# ╠═71d1b12e-f895-11ea-39df-f5c18a7766c3
-# ╠═79d2c6f4-f895-11ea-30c4-9d1102c99482
-# ╟─356267fa-815b-11eb-1c57-ad14fd6e91a7
-# ╟─cdbe1d8e-f905-11ea-3884-efeeef386dda
-# ╟─d9aa9af0-f865-11ea-379e-f16b452bd94c
-# ╟─2e8ae92a-f867-11ea-0219-1bdd9627c1ea
-# ╠═9ad13804-815c-11eb-0253-8f8baf15eee3
-# ╠═38adc490-f867-11ea-1de5-3b633aff7c97
-# ╠═b183b6ca-f864-11ea-0b34-4dd3f4f5e69d
-# ╟─946fde3c-815b-11eb-3039-db4105bc43ab
-# ╟─ab924210-815b-11eb-07fe-411db58fbc3a
-# ╠═74c04322-815b-11eb-2308-7b3d571cf613
-# ╟─b5094384-815b-11eb-06fd-1f40134c6fd8
-# ╟─cc4f3fee-815b-11eb-2982-9b797b806b45
-# ╟─dc55775a-815b-11eb-15b7-7993190bffab
-# ╟─9cf23f9a-f864-11ea-3a08-af448aceefd8
-# ╠═a5b62530-f864-11ea-21e8-71ccfed487f8
-# ╠═f6713bec-815b-11eb-2fc4-6b0326a64b16
-# ╠═5471ddce-f867-11ea-2519-21981f5ea68b
-# ╟─c41df86c-f865-11ea-1253-4942bbdbe9d2
-# ╟─7fca33ac-f864-11ea-2a8b-933eb382c172
-# ╟─283f5da4-f866-11ea-27d4-957ca2551b92
-# ╠═1957f71c-f8eb-11ea-0dcf-339bfa7f96fc
-# ╠═54977286-f908-11ea-166d-d1df33f38454
-# ╠═7b4e90b4-f866-11ea-26b3-95efde6c650b
-# ╟─f574ad7c-f866-11ea-0efa-d9d0602aa63b
-# ╟─8775b3fe-f866-11ea-3e6f-9732e39a3525
-# ╠═cb7e85e4-815c-11eb-3923-7b9537801bae
-# ╠═1147cbda-f867-11ea-08fa-ef6ed2ae1e93
-# ╟─8a611e36-f867-11ea-121f-317b7c145fe3
-# ╟─f7371934-f867-11ea-3b53-d1566684585c
-# ╟─987c1f2e-f868-11ea-1125-0d8c02843ae4
-# ╟─9e78b048-f868-11ea-192e-d903265d1eb5
-# ╟─24df1f32-ec90-11ea-1f6d-03c1bfa5df8e
-# ╟─b264f724-81bf-11eb-1052-295b81cde5fb
-# ╟─09991230-8526-11eb-04aa-fb904bd2036c
-# ╠═aec46a9b-f743-4cbd-97a7-3ef3cac78b12
-# ╠═1b8c743e-ec90-11ea-10aa-e3b94f768f82
-# ╟─eb867f18-852e-11eb-005f-e15b6d0d0d95
-# ╟─f7079016-852e-11eb-3bc9-53fa0846276f
-# ╟─870d3efa-f8fc-11ea-1593-1552511dcf86
-# ╠═4fb82f18-852f-11eb-278d-cf93571f4adc
-# ╟─5fcf832c-852f-11eb-1354-792933a891a5
-# ╟─ef4a2a54-81bf-11eb-358b-0da2072f20c8
-# ╟─f5358ce4-f86a-11ea-2989-b1f37be89183
-# ╠═2c3721da-f86b-11ea-36cf-3fe4c6622dc6
-# ╟─03ab44c0-f8fd-11ea-2243-1f3580f98a65
-# ╟─6dec0db8-ec93-11ea-24ad-e17870ee64c2
-# ╟─5fab2c32-f86b-11ea-2f27-ed5feaac1fa5
-# ╟─ae9a2900-ec93-11ea-1ae5-0748221328fc
-# ╟─b81c9db2-ec93-11ea-0dbd-4bd0951cb2cc
-# ╟─80722856-f86d-11ea-363d-53fc5f6b8152
-# ╟─b8fa6a1c-f86d-11ea-3d6b-2959d737254b
-# ╟─3547f296-f86f-11ea-1698-53d3c1a0bc30
-# ╟─7a83101e-f871-11ea-1d87-4946162777b5
-# ╠═e8276b4e-f86f-11ea-38be-218a72452b10
-# ╠═1f373bd0-853f-11eb-0f8e-19cb7f376182
-# ╠═31e4b138-84e8-11eb-36a8-8b90746fbb0f
-# ╟─d71fdaea-f86f-11ea-1a1f-45e4d50926d3
-# ╠═757c6808-f8fe-11ea-39bb-47e4da65113a
-# ╠═1232e848-8540-11eb-089b-2185cc06f23a
-# ╠═3b71142c-f86f-11ea-0d43-47011d00786c
-# ╠═88bbe1bc-f86f-11ea-3b6b-29175ddbea04
-# ╠═7cb04c9a-8358-11eb-1255-8d8c90916c37
-# ╟─cd9e05ee-f86f-11ea-0422-25f8329c7ef2
-# ╟─7eb51908-f906-11ea-19d2-e947d81cb743
-# ╠═8b8e6b2e-8531-11eb-1ea6-637db25b28d5
-# ╟─4f1980ea-f86f-11ea-3df2-35cca6c961f3
-# ╟─c9da6e64-8540-11eb-3984-47fdf8be0dac
-# ╠═f70065aa-835a-11eb-00cb-ffa27bcb486e
-# ╠═2ffe7ed0-f870-11ea-06aa-390581500ca1
-# ╟─a5cdad52-f906-11ea-0486-755a6403a367
-# ╟─0115c974-f871-11ea-1204-054510848849
-# ╠═0935c870-f871-11ea-2a0b-b1b824379350
-# ╠═6646abe0-835b-11eb-328a-55ca22f89c7d
-# ╠═ef850e8e-84e7-11eb-1cb0-870c3000841d
-# ╠═031a2894-84e8-11eb-1381-9b9e86f2fa0a
-# ╟─e4af4d26-f877-11ea-1de3-a9f8d389138e
-# ╟─bf57f674-f906-11ea-08eb-9b50818a025b
-# ╠═17e015fe-f8ff-11ea-17b4-a3aa072cd7b3
-# ╟─045b9b98-f8ff-11ea-0d49-5b209319e951
-# ╟─cfec1ec4-f8ff-11ea-265d-ab4844f0f739
-# ╠═e6e900b8-f904-11ea-2a0d-953b99785553
-# ╟─301f4d06-8162-11eb-1cd6-31dd8da164b6
-# ╟─aaff88e8-f877-11ea-1527-ff4d3db663db
-# ╟─aefa84de-f877-11ea-3e26-678008e9739e
-# ╟─0bd9358e-f879-11ea-2c83-ed4e7bf9d903
-# ╟─9960e1c2-85a0-11eb-3d68-cd3a07a9c0b5
-# ╟─dc4cca88-85a0-11eb-2791-d7610a610e36
-# ╠═453689c2-85a2-11eb-2cbc-7d6476b42f2f
-# ╟─91b77acc-85a2-11eb-19bb-bd2bdd0c1a68
-# ╠═f92c75f6-85a3-11eb-1689-23aeaa3daeb7
-# ╠═03069da6-85a4-11eb-2ac5-87b767846550
-# ╠═40b87cbe-85a4-11eb-30f8-cf7b5e79c19a
-# ╠═28a7d6dc-85a5-11eb-0e4b-b7e9b4c592ed
-# ╟─1647a126-85a4-11eb-3923-5f5a6f703403
-# ╠═6ec7f980-85a5-11eb-12fc-cb132db28d83
-# ╟─92a2827e-84e9-11eb-1e85-6f49b1da7277
-# ╟─e84adec2-84e8-11eb-2157-dd491588ccf0
-# ╟─571b88ac-85a6-11eb-2887-a368a19bce4d
-# ╠═12010a58-84eb-11eb-106f-cb4e3e0c879b
-# ╠═696d2768-84eb-11eb-39e0-612e074a2c27
-# ╠═7b7b5128-84eb-11eb-3974-9b4c08fab8bb
-# ╟─805b9616-85a7-11eb-22e8-db8ee67071ae
-# ╠═90656ce6-84fb-11eb-1aac-4bd7747613db
-# ╠═aec542a2-84fb-11eb-322c-27fc2c45f6ef
-# ╠═b55dcfd2-84fb-11eb-1766-17dc8b7a17d0
-# ╟─1cf3e098-f864-11ea-3f3a-c53017b73490
-# ╠═2917943c-f864-11ea-3ee6-db952ca7cd67
-# ╠═72bb11b0-f88f-11ea-0e55-b1108300f854
-# ╠═feeeb24a-f88f-11ea-287f-219e53615f32
-# ╠═0bcc8852-f890-11ea-3715-11cbead7f636
-# ╠═7040dc72-f893-11ea-3d22-4fbd452faa41
-# ╠═1dbcf15a-f890-11ea-008c-8935edfbdb1c
+# ╠═06d2666a-8723-11eb-1395-0febdf3dc2a4
+# ╠═0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
+# ╟─472a41d2-8724-11eb-31b3-0b81612f0083
+# ╟─aeb99f72-8725-11eb-2efd-d3e44686be03
+# ╟─4f9bd326-8724-11eb-2c9b-db1ac9464f1e
+# ╟─db2d25de-86b1-11eb-0c78-d1ee52e019ca
+# ╟─e33fe4c8-86b1-11eb-1031-cf45717a3dc9
+# ╠═f49191a2-86b1-11eb-3eab-b392ba058415
+# ╠═1abda6c4-86b2-11eb-2aa3-4d1148bb52b7
+# ╠═30b12f28-86b2-11eb-087b-8d50ec429b89
+# ╠═4ce946c6-86b2-11eb-1820-0728798665ab
+# ╠═fae3d138-8743-11eb-1014-b3a2a9b49aba
+# ╠═6cdea3ae-86b2-11eb-107a-17bea3f54bc9
+# ╠═1c769d58-8744-11eb-3bd3-ab11ea1503ed
+# ╠═297fdfa0-8744-11eb-1934-9fe31e8be534
+# ╟─776ec3f2-86b3-11eb-0216-9b71d07e99f3
+# ╠═5fcf8d4e-8744-11eb-080e-cba749004b08
+# ╠═4898106a-8744-11eb-128a-35fec741e6b8
+# ╠═0926366a-86b2-11eb-0f6d-31ae6981598c
+# ╟─7c8d7b72-86b2-11eb-2dd5-4f77bc5fb8ff
+# ╟─2090b7f2-86b3-11eb-2a99-ed98800e1d63
+# ╠═a7dff55c-86b2-11eb-330f-3d6279347095
+# ╟─2db33022-86b3-11eb-17dd-13c534ac9892
+# ╠═0de6f23e-86b2-11eb-39ff-318bbc4ecbcf
+# ╟─36c3da4a-86b3-11eb-0b2f-fffdde06fcd2
+# ╠═940c2bf6-86b2-11eb-0a5e-011abdd6352b
+# ╠═5a4e7fc4-86b3-11eb-3376-0941b79574aa
+# ╟─c433104e-86b3-11eb-20bb-af608bb281cc
+# ╠═78dc94e2-8723-11eb-1ff2-bb7104b62033
+# ╠═bb1465c4-8723-11eb-1abc-bdb5a7028cf2
+# ╠═e04f3828-8723-11eb-3452-09f821391ad0
+# ╟─b7793f7a-8726-11eb-11d8-cd928f1a3645
+# ╟─ba80cc78-8726-11eb-2f33-e364f19295d8
+# ╠═8fe715e4-8727-11eb-2e7f-15b723bb8d9d
+# ╠═9da4e6f4-8727-11eb-08cb-d55e3bbff0e4
+# ╠═9647840c-8745-11eb-33fc-898ae351ddfe
+# ╠═9d782aa6-8745-11eb-034e-0f8b01be987b
+# ╠═a693582c-8745-11eb-261b-ef79e503420e
+# ╟─c3255d7a-8727-11eb-0421-d99faf27c7b0
+# ╠═e2037806-8727-11eb-3c36-1500f1dd545b
+# ╟─28ff621c-8728-11eb-2ec0-2579cb313315
+# ╟─57125768-8728-11eb-3c3b-1dd37e1ac189
+# ╟─6a439c78-8728-11eb-1969-27a19d254704
+# ╟─9f8ac08c-8728-11eb-10ad-f93ca225ce38
+# ╠═062b400a-8729-11eb-16c5-235cef648edb
+# ╠═7c099606-8746-11eb-37fe-c3befde06e9d
+# ╠═97cb3dde-8746-11eb-0b00-690f20cb26dc
+# ╠═9d8cdc8e-8746-11eb-2b9a-b30a52026f09
+# ╠═81a30c9e-8746-11eb-38c8-9be4f6ba2e80
+# ╟─2a81ba88-8729-11eb-3dcb-1db26e468066
+# ╟─5ea5838a-8729-11eb-1749-030533fb0656
+# ╠═c9f21046-8746-11eb-27c6-910807240fd1
+# ╠═806e6aae-8729-11eb-19ea-33722c60edf0
+# ╟─90642564-8729-11eb-3cd7-b3d41a1553b4
+# ╟─9a426a20-8729-11eb-0c0f-31e1d4dc91bc
+# ╠═a4870b14-8729-11eb-20ee-e531d4a7108d
+# ╠═081e3796-8747-11eb-32ec-dfd998605737
+# ╟─008a40d2-872a-11eb-224d-5b3331f29c99
+# ╠═baed5908-8729-11eb-00e0-9f749406c30c
+# ╟─ed94eae8-86b3-11eb-3f1b-15c7a54903f5
+# ╟─f20504de-86b3-11eb-3125-3140e0e060b0
+# ╟─7f1a3766-86b4-11eb-353f-b13acaf1503e
+# ╟─371838f8-86b4-11eb-1633-8d282e42a085
+# ╠═94688c1a-8747-11eb-13a3-eb36f731674c
+# ╠═ad701cdc-8747-11eb-3804-63a0fc881547
+# ╠═2405eb68-86b4-11eb-31b0-dff8e355d88e
+# ╟─9e9d3556-86b5-11eb-3dfb-916e625da235
+# ╟─90844738-8738-11eb-0604-3d23662152d9
+# ╠═02d03642-86b4-11eb-365a-63ff61ddd3b5
+# ╠═2d71fa88-86b5-11eb-0e55-35566c2246d7
+# ╟─cb8a9762-86b1-11eb-0484-6b6cc8b1b14c
+# ╠═d0c9814e-86b1-11eb-2f29-1d041bccc649
+# ╠═b81b1090-8735-11eb-3a52-2dca4d4ed472
+# ╠═7a16b674-86b7-11eb-3aa5-83712cdc8580
+# ╠═e8e811de-86b6-11eb-1cbf-6d4aeaee510a
+# ╟─2bfa712a-8738-11eb-3248-6f9bb93154e8
+# ╠═e4abcbf4-86b8-11eb-167a-d97c61e07837
+# ╟─6c133ab6-86b7-11eb-15f6-7780da5afc31
+# ╠═514f6be0-86b8-11eb-30c9-d1020f783afe
+# ╟─a15fc456-8738-11eb-25bd-b15c2b16d461
+# ╟─dd753568-8736-11eb-1f20-1b81110ae807
+# ╠═8ab9001a-8737-11eb-1009-5717fbe83af7
+# ╟─f8b2dd20-8737-11eb-1593-43659c693109
+# ╟─89bb366a-8737-11eb-10a6-e754ee817f9a
+# ╠═14f0a090-8737-11eb-0ccf-391249267401
+# ╟─e305467e-8738-11eb-1213-eb11aaebe151
+# ╟─e8341288-8738-11eb-27ae-0795fa7e4a7e
+# ╠═07e8ae34-873b-11eb-1df2-175392ac4678
+# ╠═77616afe-873a-11eb-3f11-1bc417f53138
+# ╠═16023bea-8739-11eb-1e32-79f2d006b093
+# ╠═bfc52118-873b-11eb-0fbb-952c60bc7cc2
+# ╠═aa6126f8-873b-11eb-3b4a-0f96fe07b7fb
+# ╟─308547c6-873d-11eb-3a42-833f8bf496ae
+# ╟─cb2fb68e-8749-11eb-29ea-9729ac0c63b4
+# ╟─e0a1863e-8735-11eb-1182-1b3c59b1e05a
+# ╟─900af0c8-86ba-11eb-2270-71b1869b9a1a
+# ╟─be6e4c00-873c-11eb-1413-5326aba54216
+# ╟─9a1136c2-873c-11eb-124f-c3939972ce4a
+# ╠═e01b6f70-873c-11eb-04a1-ad8e86578982
+# ╠═b5251f76-873c-11eb-38cb-7db300c8fe3c
+# ╠═da62fd1c-873c-11eb-0758-e7cb48e964f1
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

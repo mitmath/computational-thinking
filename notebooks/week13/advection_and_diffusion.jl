@@ -8,9 +8,10 @@
 #> section = 7
 #> order = 7
 #> title = "Advection and diffusion in 1D"
+#> layout = "layout.jlhtml"
 #> youtube_id = "Xb-iUwXI78A"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

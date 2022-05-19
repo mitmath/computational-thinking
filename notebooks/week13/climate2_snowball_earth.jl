@@ -8,9 +8,10 @@
 #> section = 6
 #> order = 6
 #> title = "Snowball Earth and hysteresis"
+#> layout = "layout.jlhtml"
 #> youtube_id = "cdIgr_2nUvI"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

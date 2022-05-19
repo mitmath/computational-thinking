@@ -8,9 +8,10 @@
 #> section = 3
 #> order = 3
 #> title = "Modeling with Stochastic Simulation"
+#> layout = "layout.jlhtml"
 #> youtube_id = "d8BohH76C7E"
-#> tags = ["lecture", "module2"]
 #> description = ""
+#> tags = ["lecture", "module2"]
 
 using Markdown
 using InteractiveUtils

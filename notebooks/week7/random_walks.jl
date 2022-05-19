@@ -8,9 +8,10 @@
 #> section = 5
 #> order = 5
 #> title = "Random Walks"
+#> layout = "layout.jlhtml"
 #> youtube_id = "14hHtGJ4s-g"
-#> tags = ["lecture", "module2"]
 #> description = ""
+#> tags = ["lecture", "module2"]
 
 using Markdown
 using InteractiveUtils

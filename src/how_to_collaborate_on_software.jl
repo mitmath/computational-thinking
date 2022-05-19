@@ -8,6 +8,7 @@
 #> date = "2022-05-01"
 #> tags = ["module1", "github", "open source", "software", "collaboration"]
 #> youtube_id = "7N9Vvc8amGM"
+#> image = "https://user-images.githubusercontent.com/6933510/136199704-ba6d0586-34bf-490c-8fd0-6959ab42cd23.png"
 
 using Markdown
 using InteractiveUtils

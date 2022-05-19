@@ -8,9 +8,10 @@
 #> section = 4
 #> order = 4
 #> title = "Our first climate model"
+#> layout = "layout.jlhtml"
 #> youtube_id = "J1UsMa1cTeE"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

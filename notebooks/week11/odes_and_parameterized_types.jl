@@ -8,9 +8,10 @@
 #> section = 2
 #> order = 2
 #> title = "ODEs and parameterized types"
+#> layout = "layout.jlhtml"
 #> youtube_id = "S71YIZ8e7MQ"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

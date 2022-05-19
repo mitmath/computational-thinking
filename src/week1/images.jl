@@ -8,9 +8,10 @@
 #> section = 1
 #> order = 1
 #> title = "Images as Data and Arrays"
+#> layout = "layout.jlhtml"
 #> youtube_id = "3zTO3LEY-cM"
-#> tags = ["lecture", "module1"]
 #> description = ""
+#> tags = ["lecture", "module1"]
 
 using Markdown
 using InteractiveUtils

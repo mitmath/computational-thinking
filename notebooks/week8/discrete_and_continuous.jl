@@ -8,9 +8,10 @@
 #> section = 7
 #> order = 7
 #> title = "Discrete and Continuous"
+#> layout = "layout.jlhtml"
 #> youtube_id = "H6Dcx3YeTkE"
-#> tags = ["lecture", "module2"]
 #> description = ""
+#> tags = ["lecture", "module2"]
 
 using Markdown
 using InteractiveUtils

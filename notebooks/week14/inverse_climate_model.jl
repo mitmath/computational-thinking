@@ -8,9 +8,10 @@
 #> section = 10
 #> order = 10
 #> title = "Climate Economics"
+#> layout = "layout.jlhtml"
 #> youtube_id = "nm86_hDwYTU"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

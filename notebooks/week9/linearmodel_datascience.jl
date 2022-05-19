@@ -8,9 +8,10 @@
 #> section = 8
 #> order = 8
 #> title = "Linear Model, Data Science, & Simulations"
+#> layout = "layout.jlhtml"
 #> youtube_id = "O6NTKsR8TjQ"
-#> tags = ["lecture", "module2"]
 #> description = ""
+#> tags = ["lecture", "module2"]
 
 using Markdown
 using InteractiveUtils

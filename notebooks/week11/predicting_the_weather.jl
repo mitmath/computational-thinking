@@ -8,9 +8,10 @@
 #> section = 3
 #> order = 3
 #> title = "Why we can't predict the weather"
+#> layout = "layout.jlhtml"
 #> youtube_id = "M3udLzIHtsc"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

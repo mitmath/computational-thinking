@@ -8,9 +8,10 @@
 #> section = 4
 #> order = 4
 #> title = "Random Variables as Types"
+#> layout = "layout.jlhtml"
 #> youtube_id = "xKAO38UsXo0"
-#> tags = ["lecture", "module2"]
 #> description = ""
+#> tags = ["lecture", "module2"]
 
 using Markdown
 using InteractiveUtils

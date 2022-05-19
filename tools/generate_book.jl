@@ -141,6 +141,7 @@ function process_book_item(section::Section)
     
     notebook.metadata["frontmatter"] = Dict{String,Any}(
         "title" => section.name,
+        "layout" => "layout.jlhtml",
         "description" => "",
         "video" => "https://www.youtube.com/watch?v=$(section.video_id)",
         "youtube_id" => section.video_id,

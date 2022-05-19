@@ -8,9 +8,10 @@
 #> section = 1
 #> order = 1
 #> title = "Time stepping"
+#> layout = "layout.jlhtml"
 #> youtube_id = "3Y5gVyO8KcI"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

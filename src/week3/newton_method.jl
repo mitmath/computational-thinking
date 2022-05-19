@@ -8,9 +8,10 @@
 #> section = 6
 #> order = 6
 #> title = "The Newton Method"
+#> layout = "layout.jlhtml"
 #> youtube_id = "Wjcx9sNSLP8"
-#> tags = ["lecture", "module1"]
 #> description = ""
+#> tags = ["lecture", "module1"]
 
 using Markdown
 using InteractiveUtils

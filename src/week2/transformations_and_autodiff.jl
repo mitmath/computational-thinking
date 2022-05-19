@@ -8,9 +8,10 @@
 #> section = 3
 #> order = 3
 #> title = "Automatic Differentiation"
+#> layout = "layout.jlhtml"
 #> youtube_id = "AAREeuaKCic"
-#> tags = ["lecture", "module1"]
 #> description = ""
+#> tags = ["lecture", "module1"]
 
 using Markdown
 using InteractiveUtils

@@ -8,9 +8,10 @@
 #> section = 9
 #> order = 9
 #> title = "Taking Advantage of Structure"
+#> layout = "layout.jlhtml"
 #> youtube_id = "wZrVxbmX218"
-#> tags = ["lecture", "module1"]
 #> description = ""
+#> tags = ["lecture", "module1"]
 
 using Markdown
 using InteractiveUtils

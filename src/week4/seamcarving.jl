@@ -3,14 +3,15 @@
 
 #> [frontmatter]
 #> chapter = 1
-#> video = "https://www.youtube.com/watch?v=uZYVjDDZW9A"
-#> image = "https://user-images.githubusercontent.com/6933510/136196626-194e81c9-00f7-49f6-90c3-09945723b6a3.png"
-#> section = 4
-#> order = 4
-#> title = "Transformations with Images"
-#> youtube_id = "uZYVjDDZW9A"
-#> tags = ["lecture", "module1"]
+#> video = "https://www.youtube.com/watch?v=KyBXJV1zFlo"
+#> image = "https://user-images.githubusercontent.com/6933510/136196584-b3c806a8-aa61-48d9-9e73-30583fcc38bf.gif"
+#> section = 8
+#> order = 8
+#> title = "Seam Carving"
+#> layout = "layout.jlhtml"
+#> youtube_id = "KyBXJV1zFlo"
 #> description = ""
+#> tags = ["lecture", "module1"]
 
 using Markdown
 using InteractiveUtils
@@ -25,443 +26,493 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 86f770fe-74a1-11eb-01f7-5b3ecf057124
+# ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
 begin
-	using PlutoUI 
+	using ImageMagick
 	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
-	using Unitful 
 	using ImageFiltering
-	using OffsetArrays
-	using Plots
+	using Plots, PlutoUI
+
+	# Standard libraries
+	using Statistics, LinearAlgebra
 
 	# Small patch to make images look more crisp:
 	# https://github.com/JuliaImages/ImageShow.jl/pull/50
 	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
 end
 
-# ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
-PlutoUI.TableOfContents(aside=true)
-
-# ╔═╡ 9f1a72da-7532-11eb-079c-b7baccc6614a
+# ╔═╡ e7a77e52-8104-11eb-1b51-a9f8312e9d95
 md"""
-#### Intializing packages
-
-_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+# Seam carving on images
 """
 
-# ╔═╡ 4d332c7e-74f8-11eb-1f49-a518246d1db8
+# ╔═╡ fb6b8564-8104-11eb-2e10-1f28be9a6ce7
 md"""
-# Announcement: Lectures will be nearly an hour
-"""
+Scroll through the images in this notebook. The idea of **seam carving** is to shrink an image by removing the "least interesting" parts of the image, but *without* resizing the objects within the image. We want to remove the "dead space" within the image.
 
-# ╔═╡ f7689472-74a8-11eb-32a1-8379ae5c88e1
-rotabook = PlutoUI.Resource("https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1348902666l/1646354.jpg")
-
-# ╔═╡ 0f2f9004-74a8-11eb-01a2-973dbe80f166
-md"""
-##  **Never run overtime** (a microcentury with UnitFul)
-
-Running overtime is the one unforgivable error a lecturer can make.
-After fifty minutes (one microcentury as von Neumann used to say)
-everybody's attention will turn elsewhere even if we are trying to prove
-the Riemann hypothesis. One minute overtime can destroy the best of
-lectures. (from "Indiscrete Thoughts" by Rota, Chpt 18, 10 Lessons I Wish I Had Been Taught)
-"""
-
-# ╔═╡ 962143a8-74a7-11eb-26c3-c10548f326ee
-century = 100u"yr" #  a u"yr" is a special kind of string denoting a unit of a year
-
-# ╔═╡ c2964c80-74f8-11eb-3a74-b1bdd9e4ae02
-century * 2
-
-# ╔═╡ caf488d8-74f8-11eb-0075-0586d66c23c1
-century/200
-
-# ╔═╡ 02dd4a02-74f9-11eb-3d1e-53d83cee8062
-century^2
-
-# ╔═╡ 10ef13d2-74f9-11eb-2849-fb9f83db6ae9
-g = 9.8u"m"/u"s"^2
-
-# ╔═╡ b76a56f4-74a9-11eb-1739-fbfc5e4958e8
-
-uconvert(u"minute", century * 1e-6 ) # convert into minutes the value of a microcentury
-
-
-# ╔═╡ 77fbf18a-74f9-11eb-1d9e-3f9d2097388f
-PotentialEnergy = (10u"kg") * g * (50u"m")
-
-# ╔═╡ bcb69db6-74f9-11eb-100a-29d1d23963ab
-uconvert( u"J",PotentialEnergy)
-
-# ╔═╡ fc70c4d2-74f8-11eb-33f5-539c278ed6b6
-md"""
-Adding units to numbers **just works** in Julia, and furthermore, does not slow down execution.  We are sneaking in an example of the power of generic programming and Julia's type system, some of the underlying technology that makes us love working with Julia.  More on this later in the book.  Meanwhile if this helps you do your problem sets in some other class, go for it.
-"""
-
-# ╔═╡ 2f7cde78-74a2-11eb-1e2f-81b5b2465819
-md"""
-# Reminder
-
-**Try your own pictures everywhere!**
-"""
-
-# ╔═╡ e099815e-74a1-11eb-1541-033f6abe9f8e
-md"""
-# Transforming Images
-"""
-
-# ╔═╡ e82a4dd8-74b0-11eb-1108-6b09e67a80c1
-md"""
-## 2.1. Downsampling / Upsampling
-"""
-
-# ╔═╡ 39552b7a-74fb-11eb-04e0-3981ada52c92
-md"""
-How can we pixelate a corgi? Found this cute picture online, but we'll pixelate
-a real corgi.
-"""
-
-# ╔═╡ 14f2b85e-74ad-11eb-2682-d9de646aedf3
-pixelated_corgi = load(download("https://i.redd.it/99lhfbnwpgd31.png"))
-
-# ╔═╡ 516e73e2-74fb-11eb-213e-9dbd9472e0db
-philip =  load(download("https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28-11eb-8c7b-41aaf6618935.png"))
-
-# ╔═╡ b5d0ef90-74fb-11eb-3126-792f954c7be7
-@bind r Slider(1:40, show_value=true, default=40)
-
-# ╔═╡ 754c3704-74fb-11eb-1199-2b9798d7251f
-downsample_philip = philip[1:r:end, 1:r:end]
-
-# ╔═╡ 9eb917ba-74fb-11eb-0527-15e981ce9c6a
-upsample_philip = kron(downsample_philip, fill(1,r,r))
-
-# ╔═╡ 486d3022-74ff-11eb-1865-e15436bd9aad
-md"""
-  Note the use of kron and fill. See [Wikipedia Kron](https://en.wikipedia.org/wiki/Kronecker_product)
-"""
-
-# ╔═╡ b9da7332-74ff-11eb-241b-fb87e77d646a
-md"""
-Exercise: Use the nose selection tool from Section 1.1 to pixelate a rectangle of an image.  Warning: you'll have to worry about sizes if not exact multiples.
-"""
-
-# ╔═╡ 339ccfca-74b1-11eb-0c35-774da6b189ed
-md"""
-## 2.2 Linear Combinations (Combining Images) 
-"""
-
-# ╔═╡ 8711c698-7500-11eb-2505-d35a4de169b4
-md"""
-One big idea in mathematics is the [linear combination](https://en.wikipedia.org/wiki/Linear_combination).
-The idea combines 
-- scaling an object 
-- combining two or more objects
-by combining scaled versions of multiple objects.
-"""
-
-# ╔═╡ 84350cb8-7501-11eb-095e-8f1a7e015f25
-md"""
-Let's scale some corgis.
-"""
-
-# ╔═╡ 91a1bca4-74aa-11eb-3917-1dfd73d0ad9c
-corgis = load(download("https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"))
-
-# ╔═╡ 8e698bdc-7501-11eb-1d2e-c336ccbde0b0
-@bind c Slider(0:.1:3, show_value=true, default=1)
-
-# ╔═╡ ab2bc924-7501-11eb-03ba-8dfc1ffe3f36
-c .* corgis  # scaling the corgis changes intensity
-
-# ╔═╡ e11d6300-7501-11eb-239a-135596309d20
-md"""
- You might wonder about the **dot times** or **pointwise times**. You can
-delete the dot, but it is recommended for clarity
-and performance.  The dot emphasizes that the multiplication by c is happening
-pixel by pixel or that the scalar is being "broadcast" to every pixel.
-"""
-
-# ╔═╡ 9a66c07e-7503-11eb-3127-7fce91b3a24a
-md"""
-Scaling too far saturates the image.  (Any r,g,b ≥ 1, saturates at 1.)
-"""
-
-# ╔═╡ 47d40406-7502-11eb-2f43-cd5c848f25a6
-md"""
-We need another image.  We could grab one from somewhere or we can just transform the one we have.  Let's do the latter and turn the corgis upsidedown.
-"""
-
-# ╔═╡ 9ce0b980-74aa-11eb-0678-01209451fb65
-upsidedown_corgis = corgis[ end:-1:1 , :]
-
-# ╔═╡ 68821bf4-7502-11eb-0d3c-03d7a00fdba4
-md"""
-Now let's scaled version of the two images to see what that does.
-"""
-
-# ╔═╡ 447e7c9e-74b1-11eb-27ea-71aa4338b11a
-(.5 * upsidedown_corgis .+ .5 * corgis) 
-
-# ╔═╡ c9dff6f4-7503-11eb-2715-0bf9d3ece9e1
-md"""
-### Convex Combinations
-"""
-
-# ╔═╡ d834103c-7503-11eb-1a94-1fbad43801ff
-md"""
-If all the coefficients are positive and add to 1, we say we have a **convex combination**.  Let's take α and (1-α) as the two coefficients adding to 1, and
-scale the two corgi pictures with different α's, thereby giving different weights to the rightside-up and upside-down corgis.
-"""
-
-# ╔═╡ aa541288-74aa-11eb-1edc-ab6d7786f271
-@bind α Slider(0:.01:1 , show_value=true, default = 1.0)
-
-# ╔═╡ c9dcac48-74aa-11eb-31a6-23357180c1c8
-α .* corgis .+ (1-α) .* upsidedown_corgis
-
-# ╔═╡ 30b1c1f0-7504-11eb-1be7-a9463caea809
-md"""
-The moment I did this with α = .5, I noticed my brain's tendency to see the 
-rightsisde-up corgis even though both have equal weight.  For me maybe
-around α = .39 which gives weight .61 to the upside-down corgis "feels" balanced
-to me.  I think this is what the field of psychology called psychometrics 
-tries to measure -- perhaps someone can tell me if there are studies of the
-brain's tendency to use world experience to prefer rightside-up corgis,
-and in particular to put a numerical value to this tendency.
-"""
-
-# ╔═╡ 1fe70e38-751b-11eb-25b8-c741e1726613
-md"""
-10 seconds with google and I found there is a thing about faces:
-[The Face Inversion effect](https://en.wikipedia.org/wiki/Face_inversion_effect#:~:text=The%20face%20inversion%20effect%20is,same%20for%20non%2Dfacial%20objects.&text=The%20most%20supported%20explanation%20for,is%20the%20configural%20information%20hypothesis)
-and also the [Thatcher Effect](https://en.wikipedia.org/wiki/Thatcher_effect#:~:text=The%20Thatcher%20effect%20or%20Thatcher,obvious%20in%20an%20upright%20face) seems related.
-
-... the article suggests objects don't suffer in the same way as faces,
-so I put forth that the phenomenon applies to corgi faces as much as human faces,
-suggesting maybe that corgi faces are processed in the **face processing** part of the brain,not the **object processing** part of the brain.
-
-Corgis are human, after all, right?
-
-(Note, this is 5 minutes of armchair science, not a professional opinion.)
-"""
-
-# ╔═╡ 215291ec-74a2-11eb-3476-0dab43fd5a5e
-md"""
-## 2.3 Fun with Photoshop (What does "filter" mean in this context?)
-"""
-
-# ╔═╡ 61db42c6-7505-11eb-1ddf-05e906234572
-md"""
-[Photshop Filter Reference](https://helpx.adobe.com/photoshop/using/filter-effects-reference.html)
-"""
-
-# ╔═╡ cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
-md"""
-Let's play with photoshop if for no other reason, let's see what image transformations are available considered useful by the pros.
-
-Some worth emphasizing are
-1. Blur
-2. Sharpen
-3. Stylize -> Find Edges
-3. Pixelate
-4. Distort
-
-Some of these transformations (e.g. Blur, Sharpen, Find Edges) are examples of 
-convolutions which are very efficient, and show up these days in 
-machine learning particularly in image recognition.
-"""
-
-# ╔═╡ 7489a570-74a3-11eb-1d0b-09d41604ffe1
-md"""
-## 2.4 Image Filtering (convolutions)
-"""
-
-# ╔═╡ 8a8e3f5e-74b2-11eb-3eed-e5468e573e45
-md"""
-Last semester Grant Sanderson (3Blue1Brown) lectured in this course.  This lecture on convolutions in image processing was popular.  Let's watch an excerpt (from 1:04 to 2:48).  (We pick a few exercepts, but we wouldn't blame you if you just wanted to
-watch the whole video.)
-"""
-
-# ╔═╡ 5864294a-74a5-11eb-23ef-f38a582f2c2d
-html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=64&end=168" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-"""
-
-# ╔═╡ fa9c465e-74b2-11eb-2f3c-4be0e7f93bb5
-md"""
-### Definition of convolutions and kernels
-"""
-
-# ╔═╡ 4fab4616-74b0-11eb-0088-6b50237d7d54
-md"""
-[Wikipedia Page on Kernels]
-(https://en.wikipedia.org/wiki/Kernel_(image_processing)#Details)
-"""
-
-# ╔═╡ 275bf7ac-74b3-11eb-32c3-cda1e4f1f8c2
-md"""
-### Computer Science: Complexity
-
-The number of multiplications = (Number of Pixels in the Image) * (Number of Cells in the kernel)
-"""
-
-# ╔═╡ 537c54e4-74b3-11eb-341f-951b4a1e0b40
-md"""
-Thought Problem: Why are small kernels better than large kernels from a complexity viewpoint?
-"""
-
-# ╔═╡ c6e340ee-751e-11eb-3ca7-69595b3693b7
-md"""
-### Computer Science: Architectures: GPUs or Graphical Processing Units
-
-Some important computations can be greatly accelerated through the use of specialized hardware such as the GPU processors that were originally designed as image renderers but it has turned out that these processors can be quite fast at other very regular computations.  Convolutions is a very GPU friendly operation due to its regular structure.
-"""
-
-# ╔═╡ 54448d18-7528-11eb-209a-9717affa0d02
- kernelize(M) = OffsetArray( M, -1:1, -1:1)	       
-
-# ╔═╡ acbc563a-7528-11eb-3c38-75a5b66c9241
-begin
-	identity = [0 0 0 ; 0 1 0 ; 0 0 0]
-	edge_detect = [0 -1 0; -1 4 -1; 0 -1 0] 
-	sharpen = identity .+ edge_detect  # Superposition!
-	box_blur = [1 1 1;1 1 1;1 1 1]/9
-	∇x = [-1 0 1;-1 0 1;-1 0 1]/2 # centered deriv in x
-	∇y = ∇x'
+We try to find a "seam", i.e. a connected path of pixels from top to bottom of the image, which consists of the "least important" pixels, by some measure. 
+We then remove the pixels in that seam to give an image that is one pixel narrower.
 	
-	kernels = [identity, edge_detect, sharpen, box_blur, ∇x, ∇y]
-	kernel_keys =["identity", "edge_detect", "sharpen", "box_blur", "∇x", "∇y"]
-	selections = kernel_keys .=> kernel_keys
-	kernel_matrix = Dict(kernel_keys .=> kernels)
-	md"$(@bind kernel_name Select(selections))"
-end
-
-# ╔═╡ 995392ee-752a-11eb-3394-0de331e24f40
-kernel_matrix[kernel_name]
-
-# ╔═╡ d22903d6-7529-11eb-2dcd-132cd27104c2
-[imfilter( corgis, kernelize(kernel_matrix[kernel_name])) Gray.(1.5 .* abs.(imfilter( corgis, kernelize(kernel_matrix[kernel_name])))) ]
-
-# ╔═╡ 844ed844-74b3-11eb-2ee1-2de664b26bc6
-md"""
-  ### Gaussian Filter
+In order to do this, we need to decide how to measure which pixels are "important".
 """
 
-# ╔═╡ 4ffe927c-74b4-11eb-23a7-a18d7e51c75b
+# ╔═╡ bb44122a-80fb-11eb-0593-8d2a6f1e816e
 md"""
-In our next Grant Sanderson segment from Fall 2020 (4:35 to 7:00), we hear about
-convolving images with a Gaussian kernel.  
+### Fall 2020 MIT Class Video from Grant Sanderson
+
+Here is Grant Sanderson (3Blue1Brown) explaining seam carving using this notebook from the Fall 2020 edition of this class.
 """
 
-# ╔═╡ 91109e5c-74b3-11eb-1f31-c50e436bc6e0
+# ╔═╡ 1e132972-80fc-11eb-387a-9b251ee572f8
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=275&end=420" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/rpB6zQNsbQU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
 """
 
-# ╔═╡ 34109062-7525-11eb-10b3-d59d3a6dfda6
-round.(Kernel.gaussian(1), digits=3)
-
-# ╔═╡ 9ab89a3a-7525-11eb-186d-29e4b61deb7f
+# ╔═╡ cb335074-eef7-11ea-24e8-c39a325166a1
 md"""
-We could have defined this ourselves with calls to the exponential function.
+## The seam carving algorithm
+
+We need to specify a notion of **importance** of pixels. The seam will then sum up the importance of pixels over the seam and pick the seam which minimizes this total importance.
+
+We will assign importance as "the extent to which a pixel sits inside an edge".
+So we need to calculate the "edgeness" of each pixel.
 """
 
-# ╔═╡ 50034058-7525-11eb-345b-3334e71ac50e
-begin
-	G = [exp( -(i^2+j^2)/2) for i=-2:2, j=-2:2]
-	round.(G ./ sum(G), digits=3)
-end
-
-# ╔═╡ c0aec7ae-7505-11eb-2822-a151aad48fc9
+# ╔═╡ 7b0cee56-8106-11eb-0979-e7fead945a6f
 md"""
-This is often known as Gausssian blur to emphasize the result of this operation.
-[Adobe on Gaussian blur](https://www.adobe.com/creativecloud/photography/discover/gaussian-blur.html).
+
+1. We will use convolution with **Sobel filters** for edge detection.
+2. Then we will use that to write an algorithm that removes "uninteresting"
+   bits of an image in order to shrink it.
 """
 
-# ╔═╡ 628aea22-7521-11eb-2edc-39ac62683aea
+# ╔═╡ 3721e7f9-83fa-48cd-a1f5-e72e07b0f7a2
+image_urls = [
+"https://wisetoast.com/wp-content/uploads/2015/10/The-Persistence-of-Memory-salvador-deli-painting.jpg",
+
+"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg/1014px-Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg",
+
+"https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg/1014px-Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg",
+
+"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg/480px-Grant_Wood_-_American_Gothic_-_Google_Art_Project.jpg",
+		"https://wisetoast.com/wp-content/uploads/2015/10/The-Persistence-of-Memory-salvador-deli-painting.jpg",
+
+"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg/640px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.jpg",
+
+"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg/758px-Van_Gogh_-_Starry_Night_-_Google_Art_Project.jpg",
+		"https://web.mit.edu/facilities/photos/construction/Projects/stata/1_large.jpg",
+	]
+
+# ╔═╡ 90f44be8-f35c-11ea-2fc6-c361fd4966af
+image_url = image_urls[1]
+
+# ╔═╡ d2ae6dd2-eef9-11ea-02df-255ec3b46a36
+img = load(download(image_url))
+
+# ╔═╡ 0b6010a8-eef6-11ea-3ad6-c1f10e30a413
+# arbitrarily choose the brightness of a pixel as mean of rgb
+# brightness(c::AbstractRGB) = mean((c.r, c.g, c.b))
+
+# Use a weighted sum of rgb giving more weight to colors we perceive as 'brighter'
+# Based on https://www.tutorialspoint.com/dip/grayscale_to_rgb_conversion.htm
+brightness(c::AbstractRGB) = 0.3 * c.r + 0.59 * c.g + 0.11 * c.b
+
+# ╔═╡ fc1c43cc-eef6-11ea-0fc4-a90ac4336964
+Gray.(brightness.(img))
+
+# ╔═╡ 82c0d0c8-efec-11ea-1bb9-83134ecb877e
 md"""
-Focus around 5:23
+# Edge detection filter
+
+(Spoiler alert!) We use the Sobel edge detection filter we created in our Homework.
+
+```math
+\begin{align}
+
+G_x &= \begin{bmatrix}
+1 & 0 & -1 \\
+2 & 0 & -2 \\
+1 & 0 & -1 \\
+\end{bmatrix} \star A\\[10pt]
+G_y &= \begin{bmatrix}
+1 & 2 & 1 \\
+0 & 0 & 0 \\
+-1 & -2 & -1 \\
+\end{bmatrix} \star A
+\end{align}
+```
+
+Here, $\star$ denotes convolution.
+
+Here $A$ is the array corresponding to your image.
+We can think of $G_x$ and $G_y$ as calculating (discretized) **derivatives** in the $x$ and $y$ directions.
+
+Then we combine them by finding the magnitude of the (discretized) **gradient**, in the sense of multivariate calculus, by defining
+
+$$G_\text{total} = \sqrt{G_x^2 + G_y^2}.$$
 """
 
-# ╔═╡ 99eeb11c-7524-11eb-2154-df7d84976445
-@bind gparam Slider(0:9, show_value=true, default=1)
+# ╔═╡ ffc9ede2-8106-11eb-2218-79307d6b4515
+md"""
+Here are the Sobel kernels for the derivatives in each direction:
+"""
 
-# ╔═╡ 2ddcfb90-7520-11eb-2df7-172d07118b7e
-kernel = Kernel.gaussian(gparam)
+# ╔═╡ da726954-eff0-11ea-21d4-a7f4ae4a6b09
+Sy, Sx = Kernel.sobel()
 
-# ╔═╡ d62496b0-7524-11eb-3410-7177e7c7f8eb
+# ╔═╡ abf6944e-f066-11ea-18e2-0b92606dab85
+(collect(Int.(8 .* Sx)), collect(Int.(8 .* Sy)))
+
+# ╔═╡ 42f2105a-810b-11eb-0e47-2dbb5ea2f566
 plotly()
 
-# ╔═╡ 6aa8a76e-7524-11eb-22b5-015aab4191b0
-surface([kernel;])
+# ╔═╡ 406a65c0-810a-11eb-3c57-6d5be524ee3f
+surface(brightness.(img))
 
-# ╔═╡ ee93eeb2-7524-11eb-342d-0343d8aebf59
+# ╔═╡ ac8d6902-f069-11ea-0f1d-9b0fa706d769
 md"""
-Note: black lines are contours
+- blue shows positive values
+- red shows negative values
+ $G_x \hspace{180pt} G_y$
 """
 
-# ╔═╡ 662d73b6-74b3-11eb-333d-f1323a001000
+# ╔═╡ 172c7612-efee-11ea-077a-5d5c6e2505a4
+function shrink_image(image, ratio=5)
+	(height, width) = size(image)
+	new_height = height ÷ ratio - 1
+	new_width = width ÷ ratio - 1
+	list = [
+		mean(image[
+			ratio * i:ratio * (i + 1),
+			ratio * j:ratio * (j + 1),
+		])
+		for j in 1:new_width
+		for i in 1:new_height
+	]
+	reshape(list, new_height, new_width)
+end
+
+# ╔═╡ fcf46120-efec-11ea-06b9-45f470899cb2
+function convolve(M, kernel)
+    height, width = size(kernel)
+    
+    half_height = height ÷ 2
+    half_width = width ÷ 2
+    
+    new_image = similar(M)
+	
+    # (i, j) loop over the original image
+	m, n = size(M)
+    @inbounds for i in 1:m
+        for j in 1:n
+            # (k, l) loop over the neighbouring pixels
+			accumulator = 0 * M[1, 1]
+			for k in -half_height:-half_height + height - 1
+				for l in -half_width:-half_width + width - 1
+					Mi = i - k
+					Mj = j - l
+					# First index into M
+					if Mi < 1
+						Mi = 1
+					elseif Mi > m
+						Mi = m
+					end
+					# Second index into M
+					if Mj < 1
+						Mj = 1
+					elseif Mj > n
+						Mj = n
+					end
+					
+					accumulator += kernel[k, l] * M[Mi, Mj]
+				end
+			end
+			new_image[i, j] = accumulator
+        end
+    end
+    
+    return new_image
+end
+
+# ╔═╡ 6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
+function edgeness(img)
+	Sy, Sx = Kernel.sobel()
+	b = brightness.(img)
+
+	∇y = convolve(b, Sy)
+	∇x = convolve(b, Sx)
+
+	sqrt.(∇x.^2 + ∇y.^2)
+end
+
+# ╔═╡ dec62538-efee-11ea-1e03-0b801e61e91c
+	function show_colored_array(array)
+		pos_color = RGB(0.36, 0.82, 0.8)
+		neg_color = RGB(0.99, 0.18, 0.13)
+		to_rgb(x) = max(x, 0) * pos_color + max(-x, 0) * neg_color
+		to_rgb.(array) / maximum(abs.(array))
+	end
+
+# ╔═╡ f8283a0e-eff4-11ea-23d3-9f1ced1bafb4
 md"""
-### Computer Science: Data Structure: Offset Arrays
+
+## Seam carving idea
+
+The idea of seam carving is to find a path from the top of the image to the bottom of the image where the path minimizes the edgness. 
+In other words, this path **minimizes the number of edges in the image that it crosses**.
+
+We will call the edgeness the **energy**.
+
 """
 
-# ╔═╡ d127303a-7521-11eb-3507-7341a416211f
-kernel[0,0]
-
-# ╔═╡ d4581b56-7522-11eb-2c15-991c0c790e67
-kernel[-2,2]
-
-# ╔═╡ 40c15c3a-7523-11eb-1f2a-bd90b127dad2
-M = [ 1  2  3  4  5
-	  6  7  8  9 10
-	 11 12 13 14 15]
-
-# ╔═╡ 08642690-7523-11eb-00dd-63d4cf6513dc
-Z = OffsetArray(M, -1:1, -2:2)
-
-# ╔═╡ deac4cf2-7523-11eb-2832-7b9d31389b08
-the_indices = [ c.I for c ∈ CartesianIndices(Z)]
-
-# ╔═╡ 32887dfa-7524-11eb-35cd-051eff594fa9
-Z[1,-2]
-
-# ╔═╡ 0f765670-7506-11eb-2a37-931b15bb387f
+# ╔═╡ 025e2c94-eefb-11ea-12cb-f56f34886334
 md"""
-## 2.5. Discrete vs Continuous
+
+At every step in going down, the path is allowed to go south-west, south or south-east. We want to find a connected path, or **seam**, with the minimum possible sum of "energies" along the path.
+
+We start by writing a `least_edgy` function which takes a matrix of energies and returns
+a new matrix. The new matrix has entries $M_{i, j}$ which gives the minimum possible energy when starting from the pixel $(i, j)$ and going from there down to a pixel in the bottom row.
 """
 
-# ╔═╡ 82737d28-7507-11eb-1e39-c7dc12e18882
+# ╔═╡ acc1ee8c-eef9-11ea-01ac-9b9e9c4167b3
+#            e[x,y] 
+#          ↙   ↓   ↘       <-- pick the next path which gives the least overall energy
+#  e[x-1,y+1] e[x,y+1]  e[x+1,y+1]     
+#
+# Basic calculation:   e[x,y] += min( e[x-1,y+1], e[x,y], e[x+1,y] )
+#               `dirs` records which direction we take from (-1==SW, 0==S, 1==SE)
+
+function least_edgy(E)
+	least_E = zeros(size(E))
+	dirs = zeros(Int, size(E))
+	
+	least_E[end, :] .= E[end, :] # the minimum energy on the last row is the energy
+	                             # itself
+
+	m, n = size(E)
+	# Go from the last row up, finding the minimum energy
+	
+	for i in m-1:-1:1
+		for j in 1:n
+			
+			j1, j2 = max(1, j-1), min(j+1, n)
+			e, dir = findmin(least_E[i+1, j1:j2])
+			least_E[i,j] += e
+			least_E[i,j] += E[i,j]
+			dirs[i, j] = (-1, 0, 1)[dir + (j==1)]
+			
+		end
+	end
+	
+	return least_E, dirs
+end
+
+# ╔═╡ 8b204a2a-eff6-11ea-25b0-13f230037ee1
+# The bright areas are screaming "AVOID ME!"
+
+least_e, dirs = least_edgy(edgeness(img))
+
+# ╔═╡ 84d3afe4-eefe-11ea-1e31-bf3b2af4aecd
+show_colored_array(least_e)
+
+# ╔═╡ dd71c2a4-8108-11eb-18ce-838c53eac3ef
 md"""
-Some folks only like discrete objects, others continuous.  The computer makes clear what many mathematicians already know, that while different language has evolved to describe discrete objects vs continuous objects, often the underlying conceptual idea is similar or the same.  Here is one analogy:
+Here are the directions that we should take at each step:
 """
 
-# ╔═╡ 40d538b2-7506-11eb-116b-efeb16b3478d
+# ╔═╡ b507480a-ef01-11ea-21c4-63d19fac19ab
+# direction the path should take at every pixel.
+reduce( (x, y) -> x*y*"\n",
+	reduce(*, getindex.(([" ", "↙", "↓", "↘"],), dirs[1:25, 1:60].+3), dims=2, 	init=""), init="") |> Text
+
+# ╔═╡ 7d8b20a2-ef03-11ea-1c9e-fdf49a397619
+md"## Remove seams"
+
+# ╔═╡ f690b06a-ef31-11ea-003b-4f2b2f82a9c3
 md"""
-### Blurring Kernels :: Integrals  ≡ Sharpening Kernels :: Derivatives
+We now compress an image horizontally by successively removing a number of seams of lowest energy.
 """
 
-# ╔═╡ df060a88-7507-11eb-034b-5346d67a0e0d
+# ╔═╡ 977b6b98-ef03-11ea-0176-551fc29729ab
+function get_seam_at(dirs, j)
+	m = size(dirs, 1)
+	js = fill(0, m)
+	js[1] = j
+	
+	for i=2:m
+		js[i] = js[i-1] + dirs[i-1, js[i-1]]
+	end
+	
+	return tuple.(1:m, js)
+end
+
+# ╔═╡ 9abbb158-ef03-11ea-39df-a3e8aa792c50
+get_seam_at(dirs, 2)
+
+# ╔═╡ 14f72976-ef05-11ea-2ad5-9f0914f9cf58
+function mark_path(img, path)
+	img′ = copy(img)
+	m = size(img, 2)
+	
+	for (i, j) in path
+		# To make it easier to see, we'll color not just
+		# the pixels of the seam, but also those adjacent to it
+		
+		for j′ in j-1:j+1
+			img′[i, clamp(j′, 1, m)] = RGB(1,0,1)
+		end
+		
+	end
+	
+	return img′
+end
+
+# ╔═╡ 22c851c4-8109-11eb-3950-35a75857c3c3
 md"""
-Think about integrals vs derivatives in one dimension.
-If you replace f(x) with g(x) = ∫ f(t) dt for x-r ≤ t ≤ x+r, that will blur or smooth out the features of f.  However if you take the derivative,you will emphasize the changes, i.e., you will sharpen or "edge-detect."
+In the visualization below, the slider specifies which column we start with at the top. The pink seam is the best (least total energy) that will be snipped out.
 """
 
-# ╔═╡ 60c8db60-7506-11eb-1468-c989809c933a
+# ╔═╡ cf9a9124-ef04-11ea-14a4-abf930edc7cc
+@bind start_column Slider(1:size(img, 2), show_value=true)
+
+# ╔═╡ 772a4d68-ef04-11ea-366a-f7ae9e1634f6
+path = get_seam_at(dirs, start_column)
+
+# ╔═╡ 081a98cc-f06e-11ea-3664-7ba51d4fd153
+function pencil(X)
+	f(x) = RGB(1-x,1-x,1-x)
+	map(f, X ./ maximum(X))
+end
+
+# ╔═╡ 237647e8-f06d-11ea-3c7e-2da57e08bebc
+e = edgeness(img);
+
+# ╔═╡ 4f23bc54-ef0f-11ea-06a9-35ca3ece421e
+function rm_path(img, path)
+	img′ = img[:, 1:end-1] # one less column
+	for (i, j) in path
+		img′[i, 1:j-1] .= img[i, 1:j-1]
+		img′[i, j:end] .= img[i, j+1:end]
+	end
+	img′
+end
+
+# ╔═╡ b401f398-ef0f-11ea-38fe-012b7bc8a4fa
+function shrink_n(img, n)
+	imgs = []
+	marked_imgs = []
+
+	e = edgeness(img)
+	for i=1:n
+		least_E, dirs = least_edgy(e)
+		_, min_j = findmin(@view least_E[1, :])
+		seam = get_seam_at(dirs, min_j)
+		img = rm_path(img, seam)
+		# Recompute the energy for the new image
+		# Note, this currently involves rerunning the convolution
+		# on the whole image, but in principle the only values that
+		# need recomputation are those adjacent to the seam, so there
+		# is room for a meanintful speedup here.
+#		e = edgeness(img)
+		e = rm_path(e, seam)
+
+ 		push!(imgs, img)
+ 		push!(marked_imgs, mark_path(img, seam))
+	end
+	imgs, marked_imgs
+end
+
+# ╔═╡ b1b6b7fc-f153-11ea-224a-2578e8298775
+n_examples = min(200, size(img, 2))
+
+# ╔═╡ 2eb459d4-ef36-11ea-1f74-b53ffec7a1ed
+# returns two vectors of n successively smaller images
+# The second images have markings where the seam is cut out
+carved, marked_carved = shrink_n(img, n_examples);
+
+# ╔═╡ 5d6c1d74-8109-11eb-3529-bf2f23554b02
 md"""
-## 2.6 Respect my Boundaries
+### Seam carving in action
 """
 
-# ╔═╡ 8ed0be60-7506-11eb-2769-5f7da1c66243
+# ╔═╡ 48593d7c-8109-11eb-1b8b-6f15155d6ec9
 md"""
-Applying the convolution on a boundary requires special thought because it is literally an **edge case**.  Once again Grant said this so very well: (2:53-4:19)
+Here is the algorithm in action. Now the slider tells us on which step of the algorithm we are, having removed each least-energy seam at each step:
 """
 
-# ╔═╡ b9d636da-7506-11eb-37a6-3116d47b2787
-html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=173&end=259" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-"""
+# ╔═╡ 7038abe4-ef36-11ea-11a5-75e57ab51032
+@bind n Slider(1:length(carved))
+
+# ╔═╡ 2d6c6820-ef2d-11ea-1704-49bb5188cfcc
+md"shrunk by $n:"
+
+# ╔═╡ 1fd26a60-f089-11ea-1f56-bb6eba7d9651
+function hbox(x, y, gap=16; sy=size(y), sx=size(x))
+	w, h = (max(sx[1], sy[1]),
+		   gap + sx[2] + sy[2])
+	
+	slate = fill(RGB(1,1,1), w,h)
+	slate[1:size(x,1), 1:size(x,2)] .= RGB.(x)
+	slate[1:size(y,1), size(x,2) + gap .+ (1:size(y,2))] .= RGB.(y)
+	slate
+end
+
+# ╔═╡ a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
+hbox(show_colored_array(Sx).parent, show_colored_array(Sy).parent ,10)
+
+# ╔═╡ 44192a40-eff2-11ea-0ec7-05cdadb0c29a
+begin
+	img_brightness = brightness.(img)
+	∇x = convolve(img_brightness, Sx)
+	∇y = convolve(img_brightness, Sy)
+	hbox(show_colored_array(∇x), show_colored_array(∇y))
+end
+
+# ╔═╡ d6a268c0-eff4-11ea-2c9e-bfef19c7f540
+begin
+	edged = edgeness(img)
+	# hbox(img, pencil(edged))
+	hbox(img, Gray.(edgeness(img)) / maximum(abs.(edged)))
+end
+
+# ╔═╡ 552fb92e-ef05-11ea-0a79-dd7a6760089a
+hbox(mark_path(img, path), mark_path(show_colored_array(least_e), path))
+
+# ╔═╡ dfd03c4e-f06c-11ea-1e2a-89233a675138
+let
+	hbox(mark_path(img, path), mark_path(pencil(e), path));
+end
+
+# ╔═╡ ca4a87e8-eff8-11ea-3d57-01dfa34ff723
+let
+	# least energy path of them all:
+	_, k = findmin(least_e[1, :])
+	path = get_seam_at(dirs, k)
+	hbox(
+		mark_path(img, path),
+		mark_path(show_colored_array(least_e), path)
+	)
+end
+
+# ╔═╡ fa6a2152-ef0f-11ea-0e67-0d1a6599e779
+hbox(img, marked_carved[n], sy=size(img))
+
+# ╔═╡ 71b16dbe-f08b-11ea-2343-5f1583074029
+vbox(x,y, gap=16) = hbox(x', y')'
+
+# ╔═╡ ddac52ea-f148-11ea-2860-21cff4c867e6
+let
+	∇y = convolve(brightness.(img), Sy)
+	∇x = convolve(brightness.(img), Sx)
+	# zoom in on the clock
+	vbox(
+		hbox(img[300:end, 1:300], img[300:end, 1:300]), 
+	 	hbox(show_colored_array.((∇x[300:end,  1:300], ∇y[300:end, 1:300]))...)
+	)
+end
+
+# ╔═╡ 15d1e5dc-ef2f-11ea-093a-417108bcd495
+[size(img) size(carved[n])]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -471,11 +522,12 @@ Colors = "5ae59095-9a9b-59fe-a467-6f913c188581"
 FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 ImageFiltering = "6a3955dd-da59-5b1f-98d4-e7296123deb5"
 ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
+ImageMagick = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
 ImageShow = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
-OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 Plots = "91a5bcdd-55d7-5caf-9e0b-520d859cae80"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-Unitful = "1986cc42-f94f-5a68-af5c-568840ba703d"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [compat]
 ColorVectorSpace = "~0.9.8"
@@ -483,11 +535,10 @@ Colors = "~0.12.8"
 FileIO = "~1.14.0"
 ImageFiltering = "~0.7.1"
 ImageIO = "~0.6.2"
+ImageMagick = "~1.2.2"
 ImageShow = "~0.3.4"
-OffsetArrays = "~1.11.0"
 Plots = "~1.29.0"
 PlutoUI = "~0.7.38"
-Unitful = "~1.11.0"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -594,12 +645,6 @@ uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
 uuid = "ed09eef8-17a6-5b46-8889-db040fac31e3"
 version = "0.3.2"
-
-[[ConstructionBase]]
-deps = ["LinearAlgebra"]
-git-tree-sha1 = "f74e9d5388b8620b4cee35d4c5a618dd4dc547f4"
-uuid = "187b0558-2788-49d3-abe0-74a17ed4e7c9"
-version = "1.3.0"
 
 [[Contour]]
 deps = ["StaticArrays"]
@@ -834,6 +879,18 @@ deps = ["FileIO", "IndirectArrays", "JpegTurbo", "Netpbm", "OpenEXR", "PNGFiles"
 git-tree-sha1 = "539682309e12265fbe75de8d83560c307af975bd"
 uuid = "82e4d734-157c-48bb-816b-45c225c6df19"
 version = "0.6.2"
+
+[[ImageMagick]]
+deps = ["FileIO", "ImageCore", "ImageMagick_jll", "InteractiveUtils"]
+git-tree-sha1 = "ca8d917903e7a1126b6583a097c5cb7a0bedeac1"
+uuid = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
+version = "1.2.2"
+
+[[ImageMagick_jll]]
+deps = ["JpegTurbo_jll", "Libdl", "Libtiff_jll", "Pkg", "Zlib_jll", "libpng_jll"]
+git-tree-sha1 = "1c0a2295cca535fabaf2029062912591e9b61987"
+uuid = "c73af94c-d91f-53ed-93a7-00f77d67a9d7"
+version = "6.9.10-12+3"
 
 [[ImageShow]]
 deps = ["Base64", "FileIO", "ImageBase", "ImageCore", "OffsetArrays", "StackViews"]
@@ -1427,12 +1484,6 @@ git-tree-sha1 = "53915e50200959667e78a92a418594b428dffddf"
 uuid = "1cfade01-22cf-5700-b092-accc4b62d6e1"
 version = "0.4.1"
 
-[[Unitful]]
-deps = ["ConstructionBase", "Dates", "LinearAlgebra", "Random"]
-git-tree-sha1 = "b649200e887a487468b71821e2644382699f1b0f"
-uuid = "1986cc42-f94f-5a68-af5c-568840ba703d"
-version = "1.11.0"
-
 [[Unzip]]
 git-tree-sha1 = "34db80951901073501137bdbc3d5a8e7bbd06670"
 uuid = "41fe7b60-77ed-43a1-b4f0-825fd5a5650d"
@@ -1660,91 +1711,64 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─8d389d80-74a1-11eb-3452-f38eff03483b
-# ╟─9f1a72da-7532-11eb-079c-b7baccc6614a
-# ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
-# ╟─4d332c7e-74f8-11eb-1f49-a518246d1db8
-# ╟─f7689472-74a8-11eb-32a1-8379ae5c88e1
-# ╟─0f2f9004-74a8-11eb-01a2-973dbe80f166
-# ╠═962143a8-74a7-11eb-26c3-c10548f326ee
-# ╠═c2964c80-74f8-11eb-3a74-b1bdd9e4ae02
-# ╠═caf488d8-74f8-11eb-0075-0586d66c23c1
-# ╠═02dd4a02-74f9-11eb-3d1e-53d83cee8062
-# ╠═10ef13d2-74f9-11eb-2849-fb9f83db6ae9
-# ╠═b76a56f4-74a9-11eb-1739-fbfc5e4958e8
-# ╠═77fbf18a-74f9-11eb-1d9e-3f9d2097388f
-# ╠═bcb69db6-74f9-11eb-100a-29d1d23963ab
-# ╟─fc70c4d2-74f8-11eb-33f5-539c278ed6b6
-# ╟─2f7cde78-74a2-11eb-1e2f-81b5b2465819
-# ╟─e099815e-74a1-11eb-1541-033f6abe9f8e
-# ╟─e82a4dd8-74b0-11eb-1108-6b09e67a80c1
-# ╟─39552b7a-74fb-11eb-04e0-3981ada52c92
-# ╠═14f2b85e-74ad-11eb-2682-d9de646aedf3
-# ╠═516e73e2-74fb-11eb-213e-9dbd9472e0db
-# ╠═b5d0ef90-74fb-11eb-3126-792f954c7be7
-# ╠═754c3704-74fb-11eb-1199-2b9798d7251f
-# ╠═9eb917ba-74fb-11eb-0527-15e981ce9c6a
-# ╟─486d3022-74ff-11eb-1865-e15436bd9aad
-# ╟─b9da7332-74ff-11eb-241b-fb87e77d646a
-# ╟─339ccfca-74b1-11eb-0c35-774da6b189ed
-# ╟─8711c698-7500-11eb-2505-d35a4de169b4
-# ╟─84350cb8-7501-11eb-095e-8f1a7e015f25
-# ╠═91a1bca4-74aa-11eb-3917-1dfd73d0ad9c
-# ╠═8e698bdc-7501-11eb-1d2e-c336ccbde0b0
-# ╠═ab2bc924-7501-11eb-03ba-8dfc1ffe3f36
-# ╟─e11d6300-7501-11eb-239a-135596309d20
-# ╟─9a66c07e-7503-11eb-3127-7fce91b3a24a
-# ╟─47d40406-7502-11eb-2f43-cd5c848f25a6
-# ╠═9ce0b980-74aa-11eb-0678-01209451fb65
-# ╟─68821bf4-7502-11eb-0d3c-03d7a00fdba4
-# ╠═447e7c9e-74b1-11eb-27ea-71aa4338b11a
-# ╟─c9dff6f4-7503-11eb-2715-0bf9d3ece9e1
-# ╟─d834103c-7503-11eb-1a94-1fbad43801ff
-# ╠═aa541288-74aa-11eb-1edc-ab6d7786f271
-# ╠═c9dcac48-74aa-11eb-31a6-23357180c1c8
-# ╟─30b1c1f0-7504-11eb-1be7-a9463caea809
-# ╟─1fe70e38-751b-11eb-25b8-c741e1726613
-# ╟─215291ec-74a2-11eb-3476-0dab43fd5a5e
-# ╟─61db42c6-7505-11eb-1ddf-05e906234572
-# ╟─cdd4cffc-74b1-11eb-1aa4-e333cb8601d1
-# ╟─7489a570-74a3-11eb-1d0b-09d41604ffe1
-# ╟─8a8e3f5e-74b2-11eb-3eed-e5468e573e45
-# ╟─5864294a-74a5-11eb-23ef-f38a582f2c2d
-# ╟─fa9c465e-74b2-11eb-2f3c-4be0e7f93bb5
-# ╟─4fab4616-74b0-11eb-0088-6b50237d7d54
-# ╟─275bf7ac-74b3-11eb-32c3-cda1e4f1f8c2
-# ╟─537c54e4-74b3-11eb-341f-951b4a1e0b40
-# ╟─c6e340ee-751e-11eb-3ca7-69595b3693b7
-# ╠═54448d18-7528-11eb-209a-9717affa0d02
-# ╠═acbc563a-7528-11eb-3c38-75a5b66c9241
-# ╠═995392ee-752a-11eb-3394-0de331e24f40
-# ╠═d22903d6-7529-11eb-2dcd-132cd27104c2
-# ╟─844ed844-74b3-11eb-2ee1-2de664b26bc6
-# ╟─4ffe927c-74b4-11eb-23a7-a18d7e51c75b
-# ╟─91109e5c-74b3-11eb-1f31-c50e436bc6e0
-# ╠═34109062-7525-11eb-10b3-d59d3a6dfda6
-# ╟─9ab89a3a-7525-11eb-186d-29e4b61deb7f
-# ╠═50034058-7525-11eb-345b-3334e71ac50e
-# ╟─c0aec7ae-7505-11eb-2822-a151aad48fc9
-# ╟─628aea22-7521-11eb-2edc-39ac62683aea
-# ╠═99eeb11c-7524-11eb-2154-df7d84976445
-# ╠═2ddcfb90-7520-11eb-2df7-172d07118b7e
-# ╠═d62496b0-7524-11eb-3410-7177e7c7f8eb
-# ╠═6aa8a76e-7524-11eb-22b5-015aab4191b0
-# ╟─ee93eeb2-7524-11eb-342d-0343d8aebf59
-# ╟─662d73b6-74b3-11eb-333d-f1323a001000
-# ╠═d127303a-7521-11eb-3507-7341a416211f
-# ╠═d4581b56-7522-11eb-2c15-991c0c790e67
-# ╠═40c15c3a-7523-11eb-1f2a-bd90b127dad2
-# ╠═08642690-7523-11eb-00dd-63d4cf6513dc
-# ╠═deac4cf2-7523-11eb-2832-7b9d31389b08
-# ╠═32887dfa-7524-11eb-35cd-051eff594fa9
-# ╟─0f765670-7506-11eb-2a37-931b15bb387f
-# ╟─82737d28-7507-11eb-1e39-c7dc12e18882
-# ╟─40d538b2-7506-11eb-116b-efeb16b3478d
-# ╟─df060a88-7507-11eb-034b-5346d67a0e0d
-# ╟─60c8db60-7506-11eb-1468-c989809c933a
-# ╟─8ed0be60-7506-11eb-2769-5f7da1c66243
-# ╟─b9d636da-7506-11eb-37a6-3116d47b2787
+# ╟─e7a77e52-8104-11eb-1b51-a9f8312e9d95
+# ╟─fb6b8564-8104-11eb-2e10-1f28be9a6ce7
+# ╟─bb44122a-80fb-11eb-0593-8d2a6f1e816e
+# ╟─1e132972-80fc-11eb-387a-9b251ee572f8
+# ╠═405a4f82-8116-11eb-1b35-2563b06b02a7
+# ╟─cb335074-eef7-11ea-24e8-c39a325166a1
+# ╟─7b0cee56-8106-11eb-0979-e7fead945a6f
+# ╟─3721e7f9-83fa-48cd-a1f5-e72e07b0f7a2
+# ╠═90f44be8-f35c-11ea-2fc6-c361fd4966af
+# ╟─d2ae6dd2-eef9-11ea-02df-255ec3b46a36
+# ╟─0b6010a8-eef6-11ea-3ad6-c1f10e30a413
+# ╠═fc1c43cc-eef6-11ea-0fc4-a90ac4336964
+# ╟─82c0d0c8-efec-11ea-1bb9-83134ecb877e
+# ╟─ffc9ede2-8106-11eb-2218-79307d6b4515
+# ╠═da726954-eff0-11ea-21d4-a7f4ae4a6b09
+# ╠═a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
+# ╠═abf6944e-f066-11ea-18e2-0b92606dab85
+# ╠═44192a40-eff2-11ea-0ec7-05cdadb0c29a
+# ╠═42f2105a-810b-11eb-0e47-2dbb5ea2f566
+# ╠═406a65c0-810a-11eb-3c57-6d5be524ee3f
+# ╟─ac8d6902-f069-11ea-0f1d-9b0fa706d769
+# ╟─ddac52ea-f148-11ea-2860-21cff4c867e6
+# ╠═6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
+# ╟─d6a268c0-eff4-11ea-2c9e-bfef19c7f540
+# ╟─172c7612-efee-11ea-077a-5d5c6e2505a4
+# ╟─fcf46120-efec-11ea-06b9-45f470899cb2
+# ╟─dec62538-efee-11ea-1e03-0b801e61e91c
+# ╟─f8283a0e-eff4-11ea-23d3-9f1ced1bafb4
+# ╟─025e2c94-eefb-11ea-12cb-f56f34886334
+# ╠═acc1ee8c-eef9-11ea-01ac-9b9e9c4167b3
+# ╠═8b204a2a-eff6-11ea-25b0-13f230037ee1
+# ╠═84d3afe4-eefe-11ea-1e31-bf3b2af4aecd
+# ╟─dd71c2a4-8108-11eb-18ce-838c53eac3ef
+# ╟─b507480a-ef01-11ea-21c4-63d19fac19ab
+# ╟─7d8b20a2-ef03-11ea-1c9e-fdf49a397619
+# ╟─f690b06a-ef31-11ea-003b-4f2b2f82a9c3
+# ╠═977b6b98-ef03-11ea-0176-551fc29729ab
+# ╠═9abbb158-ef03-11ea-39df-a3e8aa792c50
+# ╠═772a4d68-ef04-11ea-366a-f7ae9e1634f6
+# ╟─14f72976-ef05-11ea-2ad5-9f0914f9cf58
+# ╟─22c851c4-8109-11eb-3950-35a75857c3c3
+# ╠═cf9a9124-ef04-11ea-14a4-abf930edc7cc
+# ╠═552fb92e-ef05-11ea-0a79-dd7a6760089a
+# ╠═081a98cc-f06e-11ea-3664-7ba51d4fd153
+# ╠═237647e8-f06d-11ea-3c7e-2da57e08bebc
+# ╠═dfd03c4e-f06c-11ea-1e2a-89233a675138
+# ╠═ca4a87e8-eff8-11ea-3d57-01dfa34ff723
+# ╠═4f23bc54-ef0f-11ea-06a9-35ca3ece421e
+# ╠═b401f398-ef0f-11ea-38fe-012b7bc8a4fa
+# ╠═b1b6b7fc-f153-11ea-224a-2578e8298775
+# ╠═2eb459d4-ef36-11ea-1f74-b53ffec7a1ed
+# ╟─5d6c1d74-8109-11eb-3529-bf2f23554b02
+# ╟─48593d7c-8109-11eb-1b8b-6f15155d6ec9
+# ╠═7038abe4-ef36-11ea-11a5-75e57ab51032
+# ╟─2d6c6820-ef2d-11ea-1704-49bb5188cfcc
+# ╠═fa6a2152-ef0f-11ea-0e67-0d1a6599e779
+# ╟─71b16dbe-f08b-11ea-2343-5f1583074029
+# ╟─1fd26a60-f089-11ea-1f56-bb6eba7d9651
+# ╟─15d1e5dc-ef2f-11ea-093a-417108bcd495
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

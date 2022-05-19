@@ -8,9 +8,10 @@
 #> section = 5
 #> order = 5
 #> title = "GitHub & Open Source Software"
+#> layout = "layout.jlhtml"
 #> youtube_id = "7N9Vvc8amGM"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

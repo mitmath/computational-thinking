@@ -8,9 +8,10 @@
 #> section = 2
 #> order = 2
 #> title = "Abstraction"
+#> layout = "layout.jlhtml"
 #> youtube_id = "3zTO3LEY-cM"
-#> tags = ["lecture", "module1"]
 #> description = ""
+#> tags = ["lecture", "module1"]
 
 using Markdown
 using InteractiveUtils

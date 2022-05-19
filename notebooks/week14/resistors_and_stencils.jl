@@ -8,9 +8,10 @@
 #> section = 8
 #> order = 8
 #> title = "Resistors, stencils and climate models"
+#> layout = "layout.jlhtml"
 #> youtube_id = "DdTWgBlDgr0"
-#> tags = ["lecture", "module3"]
 #> description = ""
+#> tags = ["lecture", "module3"]
 
 using Markdown
 using InteractiveUtils

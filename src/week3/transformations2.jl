@@ -8,9 +8,10 @@
 #> section = 5
 #> order = 5
 #> title = "Transformations II: Composability, Linearity and Nonlinearity"
+#> layout = "layout.jlhtml"
 #> youtube_id = "VDPf3RjoCpY"
-#> tags = ["lecture", "module1"]
 #> description = ""
+#> tags = ["lecture", "module1"]
 
 using Markdown
 using InteractiveUtils
