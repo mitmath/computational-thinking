@@ -15,12 +15,22 @@ $(begin
             replace(s, r => "")
         end |> HTML
     end
+    
+    f(x,y) = get(page.output.frontmatter, x, y)
+    
+    function section_number(frontmatter)
+        ch = get(frontmatter, "chapter", nothing)
+        se = get(frontmatter, "section", nothing)
+        
+        isnothing(ch) || isnothing(se) ? nothing : "$(ch).$(se)"
+    end
+    
     nothing
 end)<html lang="en">
 <head>
 
-<title>$(get(page.output.frontmatter, "title", splitext(basename(page.input.relative_path))[1])) — Pluto.jl</title>
-$(let d = get(page.output.frontmatter, "description", nothing)
+<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — Pluto.jl</title>
+$(let d = f("description", nothing)
     if d !== nothing
         @htl("""<meta name="description" content=$(d) />""")
     end
@@ -78,13 +88,15 @@ $(pluto_head)
                         input = other_page.input
                         output = other_page.output
                         
+                        number = section_number(output.frontmatter)
+                        
                         name = get(output.frontmatter, "title", basename(input.relative_path))
                         desc = get(output.frontmatter, "description", nothing)
                         active = page.url == other_page.url
                         
                         @htl("""<li class=$([
                             active ? "active" : nothing,
-                        ])><a href=$(root_url * "/" * other_page.url) title=$(desc)>$(name)</a></li>""")
+                        ])><a href=$(root_url * "/" * other_page.url) title=$(desc)>$(number) $(name)</a></li>""")
                     end for other_page in pages
                 ])
                 </ul>
@@ -113,18 +125,18 @@ $(pluto_head)
         </div>
         </nav>
         <div id="pages-content">
-           $(any(contains("module"), get(page.output.frontmatter, "tags", String[])) ? @htl("""
+           $(any(contains("module"), f("tags", String[])) ? @htl("""
            <div class="lecture-header" >
-                <p class="number">Section 3.5</p>
+                <p class="number">Section $(f("chapter", "-")).$(f("section", "-"))</p>
                 <h1>$(
-                    get(page.output.frontmatter, "title", basename(page.input.relative_path))
+                    f("title", basename(page.input.relative_path))
                 )</h1>
                 
                 <div class="video">
 
                     <h4>Lecture Video</h4>
                     <div>
-                        <iframe src="https://www.youtube.com/embed/$(get(page.output.frontmatter, "youtube_id", "notfound"))"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe src="https://www.youtube.com/embed/$(f("youtube_id", "notfound"))"  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>

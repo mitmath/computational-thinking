@@ -2,16 +2,16 @@
 @import url("newdefault.css");
 
 body {
-    /* background: #f1e7e7; */
-    margin: 0px;
-    padding: 0px;
-    font-family: "Open Sans", sans-serif;
-    min-height: 100vh;
-    overflow-x: hidden;
-    background: url("bg.svg");
+    
+    
+    
+    
+    
+    
+    background: url("../homepage/bg.svg");
     background-color: hsl(231deg 14% 57%);
     background-size: cover;
-    overflow-wrap: break-word;
+    
 }
 main h1 {
     font-family: "Vollkorn", serif;
@@ -34,7 +34,7 @@ a {
     color: black;
     /* border-bottom: 0.2em solid rgba(0, 0, 0, 0.3); */
 }
-a:not(.no-decoration) {
+.homepage a:not(.no-decoration) {
     background-position: 0 0.83em;
     background-repeat: repeat-x;
     background-size: 2px 8px;
@@ -77,7 +77,7 @@ div.banner:hover h1 {
 }
 
 #title {
-    background-image: url("swoosh.png");
+    background-image: url("../homepage/swoosh.png");
 
     background-size: cover;
     image-rendering: pixelated;
@@ -297,4 +297,9 @@ section > div.preview > img {
 
 .github-logo {
     width: 1em;
+}
+
+
+.homepage, .banner {
+    color: #3c3c3c;
 }
