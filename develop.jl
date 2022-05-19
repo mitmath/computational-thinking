@@ -106,12 +106,15 @@ pluto_server_url = "http://localhost:$(pluto_port)/edit?id=$(notebook.notebook_i
 
 @info """
 
+✅✅✅
+
 Ready! To see the website, visit:
-$(dev_server_url)
+➡️ $(dev_server_url)
 
 To inspect the generation process, go to:
-$(pluto_server_url)
+➡️ $(pluto_server_url)
 
+✅✅✅
 
 """
 

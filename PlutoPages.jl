@@ -458,10 +458,7 @@ md"""
 const output_dir = mkpath(joinpath(@__DIR__, "_site"))
 
 # ╔═╡ 37b2cecc-e4c7-4b80-b7d9-71c68f3c0339
-try
-	run(`open $(output_dir)`)
-catch
-end
+
 
 # ╔═╡ 7a95681a-df77-408f-919a-2bee5afd7777
 """
