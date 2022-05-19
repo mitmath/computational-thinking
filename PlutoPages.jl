@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
 
 using Markdown
 using InteractiveUtils
@@ -42,8 +42,58 @@ using PlutoLinks
 # ╔═╡ c5a0b072-7f49-4c0c-855e-773cfc03d308
 TableOfContents()
 
+# ╔═╡ 644552c6-4e32-4caf-90ef-bee259977094
+import Logging
+
 # ╔═╡ 66c97351-2294-4ac2-a93a-f334aaee8f92
 import Gumbo
+
+# ╔═╡ bcbda2d2-90a5-43e6-8400-d5472578f86a
+import ProgressLogging
+
+# ╔═╡ cd576da6-59ae-4d1b-b812-1a35023b6875
+import ThreadsX
+
+# ╔═╡ 86471faf-af03-4f35-8b95-c4011ceaf7c3
+function progressmap_generic(mapfn, f, itr; kwargs...)
+	l = length(itr)
+	id = gensym()
+	num_iterations = Threads.Atomic{Int}(0)
+	
+	function log(x)
+		Threads.atomic_add!(num_iterations, x)
+		Logging.@logmsg(ProgressLogging.ProgressLevel, "", progress=num_iterations[] / l, id=id)
+	end
+
+	log(0)
+	
+	output = mapfn(enumerate(itr); kwargs...) do (i,x)
+		result = f(x)
+		log(1)
+		result
+	end
+
+	log(0)
+	output
+end
+
+# ╔═╡ e0ae20f5-ffe7-4f0e-90be-168924526e03
+"Like `Base.map`, but with ProgressLogging."
+function progressmap(f, itr)
+	progressmap_generic(map, f, itr)
+end
+
+# ╔═╡ d58f2a89-4631-4b19-9d60-5e590908b61f
+"Like `Base.asyncmap`, but with ProgressLogging."
+function progressmap_async(f, itr; kwargs...)
+	progressmap_generic(asyncmap, f, itr; kwargs...)
+end
+
+# ╔═╡ 2221f133-e490-4e3a-82d4-bd1c6c979d1c
+"Like `ThreadsX.map`, but with ProgressLogging."
+function progressmap_threaded(f, itr; kwargs...)
+	progressmap_generic(ThreadsX.map, f, itr; kwargs...)
+end
 
 # ╔═╡ 6c8e76ea-d648-449a-89de-cb6632cdd6b9
 md"""
@@ -72,40 +122,6 @@ end
 See `TemplateInput` and `TemplateOutput` for more info!
 """
 
-# ╔═╡ a166e8f3-542e-4068-a076-3f5fd4daa61c
-Base.@kwdef struct TemplateInput
-	contents::Vector{UInt8}
-	relative_path::String
-	absolute_path::String
-	frontmatter::FrontMatter=FrontMatter()
-end
-
-# ╔═╡ 6288f145-444b-41cb-b9e3-8f273f9517fb
-begin
-	Base.@kwdef struct TemplateOutput
-		contents::Union{Vector{UInt8},String,Nothing}
-		file_extension::String="html"
-		frontmatter::FrontMatter=FrontMatter()
-		search_index_data::Union{Nothing,String}=nothing
-	end
-	TemplateOutput(t::TemplateOutput; kwargs...) = TemplateOutput(;
-		contents=t.contents,
-		file_extension=t.file_extension,
-		frontmatter=t.frontmatter,
-		search_index_data=t.search_index_data,
-		kwargs...,
-	)
-end
-
-# ╔═╡ ff55f7eb-a23d-4ca7-b428-ab05dcb8f090
-# fallback method
-function template_handler(::Any, input::TemplateInput)::TemplateOutput
-	TemplateOutput(;
-		contents=nothing,
-		file_extension="nothing",
-	)
-end
-
 # ╔═╡ 4a2dc5a4-0bf2-4678-b984-4ecb7b397d72
 md"""
 ## `.jlhtml`: HypertextLiteral.jl
@@ -115,6 +131,12 @@ md"""
 md"""
 ## `.md` and `.jlmd`: MarkdownLiteral.jl
 """
+
+# ╔═╡ f4a4b741-8028-4626-9187-0b6a52f062b6
+import CommonMark
+
+# ╔═╡ 535efb29-73bd-4e65-8bbc-18b72ae8fe1f
+import YAML
 
 # ╔═╡ 90f0c676-b33f-441c-8ea6-d59c44a11547
 s_example = raw"""
@@ -154,12 +176,6 @@ end)
 # ╔═╡ 08b42df7-9120-4b42-80ee-8e438752b50c
 # s_result.exported
 
-# ╔═╡ f4a4b741-8028-4626-9187-0b6a52f062b6
-import CommonMark
-
-# ╔═╡ 535efb29-73bd-4e65-8bbc-18b72ae8fe1f
-import YAML
-
 # ╔═╡ adb1ddac-d992-49ca-820f-e1ed8ca33bf8
 md"""
 ## `.jl`: PlutoSliderServer.jl
@@ -193,11 +209,42 @@ find(f::Function, xs) = for x in xs
 	end
 end
 
-# ╔═╡ 644552c6-4e32-4caf-90ef-bee259977094
-import Logging
-
 # ╔═╡ 2e527d04-e4e7-4dc8-87e6-8b3dd3c7688a
 const FrontMatter = Dict{String,Any}
+
+# ╔═╡ a166e8f3-542e-4068-a076-3f5fd4daa61c
+Base.@kwdef struct TemplateInput
+	contents::Vector{UInt8}
+	relative_path::String
+	absolute_path::String
+	frontmatter::FrontMatter=FrontMatter()
+end
+
+# ╔═╡ 6288f145-444b-41cb-b9e3-8f273f9517fb
+begin
+	Base.@kwdef struct TemplateOutput
+		contents::Union{Vector{UInt8},String,Nothing}
+		file_extension::String="html"
+		frontmatter::FrontMatter=FrontMatter()
+		search_index_data::Union{Nothing,String}=nothing
+	end
+	TemplateOutput(t::TemplateOutput; kwargs...) = TemplateOutput(;
+		contents=t.contents,
+		file_extension=t.file_extension,
+		frontmatter=t.frontmatter,
+		search_index_data=t.search_index_data,
+		kwargs...,
+	)
+end
+
+# ╔═╡ ff55f7eb-a23d-4ca7-b428-ab05dcb8f090
+# fallback method
+function template_handler(::Any, input::TemplateInput)::TemplateOutput
+	TemplateOutput(;
+		contents=nothing,
+		file_extension="nothing",
+	)
+end
 
 # ╔═╡ 692c1e0b-07e1-41b3-abcd-2156bda65b41
 """
@@ -372,16 +419,20 @@ end
 dir_changed_time = let
 	valx, set_valx = @use_state(time())
 
-	@info "asdf 1"
+	@info "Starting watch task"
 	
 	@use_task([dir]) do
 		BetterFileWatching.watch_folder(dir) do e
-			@warn "what is happening" e
-			is_caused_by_me = all(x -> ignore(x; allow_special_dirs=true), e.paths)
+			@debug "File event" e
+			try
+				is_caused_by_me = all(x -> ignore(x; allow_special_dirs=true), e.paths)
 
-			if !is_caused_by_me
-				@info "Reloading!" e
-				set_valx(time())
+				if !is_caused_by_me
+					@info "Reloading!" e
+					set_valx(time())
+				end
+			catch e
+				@error "Failed to trigger" exception=(e,catch_backtrace())
 			end
 		end
 	end
@@ -418,12 +469,35 @@ This directory can be used to store cache files that are persisted between build
 """
 const cache_dir = mkpath(joinpath(@__DIR__, "_cache"))
 
+# ╔═╡ f3d225b8-b9a5-4639-97eb-7785b1a78f5a
+md"""
+## Running a dev web server
+"""
+
+# ╔═╡ c3a495c1-3e1f-42a1-ac08-8dc0b9175fe9
+# import Deno_jll
+
+# ╔═╡ 3b2d1919-41d9-4bba-9774-c8497bba5003
+# dev_server_port = 4507
+
+# ╔═╡ 6f7f66e8-ed10-4cc4-8672-a06861111aec
+# dev_server_url = "http://localhost:$(dev_server_port)/"
+
+# ╔═╡ d09ee809-33d8-44f8-aa7a-be4b3fdc21eb
+
+
+# ╔═╡ a0a80dce-2199-45b6-b4e9-d4168f520c85
+# @htl("<div style='font-size: 2rem;'>Go to <a href=$(dev_server_url)><code>$(dev_server_url)</code></a> to preview the site.</div>")
+
 # ╔═╡ 4e88cf07-8d85-4327-b310-6c71ba951bba
 md"""
 ## Running the templates
 
 (This can take a while if you are running this for the first time with an empty cache.)
 """
+
+# ╔═╡ f700357f-e21c-4d23-b56c-be4f9c90465f
+const NUM_PARALLEL_WORKERS = 4
 
 # ╔═╡ aaad71bd-5425-4783-952c-82e4d4fa7bb8
 md"""
@@ -656,7 +730,7 @@ template_results = let
 	end
 
 	# let's go! running all the template handlers
-	map(allfiles) do f
+	progressmap_async(allfiles; ntasks=NUM_PARALLEL_WORKERS) do f
 		absolute_path = joinpath(dir, f)
 		
 		input = TemplateInput(;
@@ -773,7 +847,7 @@ function process_layouts(page::Page)::Page
 end
 
 # ╔═╡ 06edb2d7-325f-4f80-8c55-dc01c7783054
-rendered_results = map(with_doctype ∘ process_layouts, pages)
+rendered_results = progressmap(with_doctype ∘ process_layouts, pages)
 
 # ╔═╡ d8e9b950-6e71-40e2-bac1-c3ba85bc83ee
 collected_search_index_data = [
@@ -831,20 +905,40 @@ allfiles_output2 = filter(allfiles_output) do f
 end
 
 # ╔═╡ e0a25f24-a7de-4eac-9f88-cb7632de09eb
-@assert length(allfiles_output2) ≥ length(pages)
+begin
+	@assert length(allfiles_output2) ≥ length(pages)
+
+	@htl("""
+	<script>
+	const {default: confetti} = await import( 'https://cdn.skypack.dev/canvas-confetti');
+	confetti();
+	let hello = $(rand());
+	</script>
+	""")
+end
 
 # ╔═╡ Cell order:
 # ╠═b8024c95-6a63-4409-9c75-9bad6b301a92
 # ╠═c5a0b072-7f49-4c0c-855e-773cfc03d308
 # ╠═d4cfce05-bae4-49ae-b26d-ce27171a3853
+# ╠═644552c6-4e32-4caf-90ef-bee259977094
 # ╠═66c97351-2294-4ac2-a93a-f334aaee8f92
+# ╠═bcbda2d2-90a5-43e6-8400-d5472578f86a
+# ╠═cd576da6-59ae-4d1b-b812-1a35023b6875
+# ╟─e0ae20f5-ffe7-4f0e-90be-168924526e03
+# ╟─d58f2a89-4631-4b19-9d60-5e590908b61f
+# ╟─2221f133-e490-4e3a-82d4-bd1c6c979d1c
+# ╟─86471faf-af03-4f35-8b95-c4011ceaf7c3
 # ╟─6c8e76ea-d648-449a-89de-cb6632cdd6b9
 # ╠═a166e8f3-542e-4068-a076-3f5fd4daa61c
 # ╠═6288f145-444b-41cb-b9e3-8f273f9517fb
 # ╠═ff55f7eb-a23d-4ca7-b428-ab05dcb8f090
 # ╟─4a2dc5a4-0bf2-4678-b984-4ecb7b397d72
+# ╠═ce840b47-8406-48e6-abfb-1b00daab28dd
 # ╠═995c6810-8df2-483d-a87a-2277af0d43bd
 # ╟─b3ce7742-fb47-4c17-bac2-e6a7710eb1a1
+# ╠═f4a4b741-8028-4626-9187-0b6a52f062b6
+# ╠═535efb29-73bd-4e65-8bbc-18b72ae8fe1f
 # ╠═7e86cfc7-5439-4c7a-9c3b-381c776d8371
 # ╠═90f0c676-b33f-441c-8ea6-d59c44a11547
 # ╠═5381e8b3-d4f9-4e58-8da3-f1ee0a9b7a6d
@@ -852,16 +946,12 @@ end
 # ╠═83366d96-4cd3-4def-a0da-16a22b40124f
 # ╠═08b42df7-9120-4b42-80ee-8e438752b50c
 # ╠═7717e24f-62ee-4852-9dec-d09b734d0693
-# ╠═f4a4b741-8028-4626-9187-0b6a52f062b6
-# ╠═535efb29-73bd-4e65-8bbc-18b72ae8fe1f
 # ╠═692c1e0b-07e1-41b3-abcd-2156bda65b41
 # ╟─adb1ddac-d992-49ca-820f-e1ed8ca33bf8
 # ╠═e2510a44-df48-4c05-9453-8822deadce24
 # ╠═b638df55-fd74-4ae8-bdbd-ec7b18214b40
 # ╠═87b4431b-438b-4da4-9d06-79e7f3a2fe05
 # ╟─cd4e479c-deb7-4a44-9eb0-c3819b5c4067
-# ╠═ce840b47-8406-48e6-abfb-1b00daab28dd
-# ╠═644552c6-4e32-4caf-90ef-bee259977094
 # ╠═2e527d04-e4e7-4dc8-87e6-8b3dd3c7688a
 # ╟─94bb6730-a4ad-42d2-aa58-41b70a15cd0e
 # ╠═e15cf987-3615-4e96-8ccd-04cad3bcd48e
@@ -881,7 +971,7 @@ end
 # ╠═9d996c55-0e37-4ae9-a6a2-8c8761e8c6db
 # ╟─cf27b3d3-1689-4b3a-a8fe-3ad639eb2f82
 # ╟─7f7f1981-978d-4861-b840-71ab611faf74
-# ╠═7d9cb939-da6b-4961-9584-a905ad453b5d
+# ╟─7d9cb939-da6b-4961-9584-a905ad453b5d
 # ╠═e1a87788-2eba-47c9-ab4c-74f3344dce1d
 # ╠═d38dc2aa-d5ba-4cf7-9f9e-c4e4611a57ac
 # ╠═485b7956-0774-4b25-a897-3d9232ef8590
@@ -890,7 +980,14 @@ end
 # ╠═e01ebbab-dc9a-4aaf-ae16-200d171fcbd9
 # ╠═37b2cecc-e4c7-4b80-b7d9-71c68f3c0339
 # ╟─7a95681a-df77-408f-919a-2bee5afd7777
+# ╟─f3d225b8-b9a5-4639-97eb-7785b1a78f5a
+# ╠═c3a495c1-3e1f-42a1-ac08-8dc0b9175fe9
+# ╠═3b2d1919-41d9-4bba-9774-c8497bba5003
+# ╠═6f7f66e8-ed10-4cc4-8672-a06861111aec
+# ╠═d09ee809-33d8-44f8-aa7a-be4b3fdc21eb
+# ╟─a0a80dce-2199-45b6-b4e9-d4168f520c85
 # ╟─4e88cf07-8d85-4327-b310-6c71ba951bba
+# ╠═f700357f-e21c-4d23-b56c-be4f9c90465f
 # ╠═079a6399-50eb-4dee-a36d-b3dcb81c8456
 # ╟─aaad71bd-5425-4783-952c-82e4d4fa7bb8
 # ╠═76c2ac85-2e89-4396-a498-a4ceb1cc80bd
