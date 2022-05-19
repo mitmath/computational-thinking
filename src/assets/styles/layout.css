@@ -4,6 +4,9 @@ body {
 }
 
 
+
+
+
 /* COLOR */
 
 #pages-layout {
@@ -156,7 +159,7 @@ body {
 }
 
 #pages-sidebar li h3 {
-    color: var(--faded-1);
+    color: var(--sidebar-accent-1);
     font-variant-caps: all-petite-caps;
     margin-block-start: 3rem;
     margin-block-end: 0;

@@ -100,8 +100,13 @@ $(pluto_head)
                     <div class="course-numbers"><span>18.S191</span> / <span>6.S083</span> / <span>22.S092</span></div>
                 </div>
                 <div class="logos">
-                    <img title="Massachusetts Institute of Technology" src="$(root_url)/assets/MIT_logo.svg">
-                    <img title="Julia Programming Language" src="$(root_url)/assets/julia-logo.svg">
+                    <picture title="Massachusetts Institute of Technology">
+                        <img src="$(root_url)/assets/MIT_logo.svg">
+                    </picture>
+                    <picture title="Julia Programming Language">
+                        <source srcset="$(root_url)/assets/julia-logo-dark.svg" media="(prefers-color-scheme: dark)" />
+                        <img src="$(root_url)/assets/julia-logo-color.svg">
+                    </picture>
                 </div>
             </li>
         </ul>

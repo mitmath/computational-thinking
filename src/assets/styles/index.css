@@ -26,8 +26,9 @@ html {
     --system-fonts-mono: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
     --fg: #000;
-    --faded-1: #333;
-    --faded-2: #555;
+    --faded-1: #858585;
+    --faded-2: rgb(161, 161, 161);
+    --sidebar-accent-1: #c89393;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -35,6 +36,7 @@ html {
         --fg: #ddd;
         --faded-1: #b3b3b3;
         --faded-2: #999999;
+        --sidebar-accent-1: #8b736a;
     }
 }
 
@@ -132,9 +134,9 @@ a.pluto_home_link {
     flex-direction: row;
     gap: 1em;
     padding: 1em;
-}
+align-items: center;}
 
-.sidebar-about .logos img {
+.sidebar-about .logos picture {
     flex: 1 1 auto;
     min-width: 0;
     height: auto;
