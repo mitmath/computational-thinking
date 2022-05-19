@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 1
+#> video = "https://www.youtube.com/watch?v=KyBXJV1zFlo"
+#> image = "https://user-images.githubusercontent.com/6933510/136196599-c6ae60f0-9269-4134-bb0d-5bcab928bd2b.gif"
+#> section = 7
+#> order = 7
+#> title = "Dynamic Programming"
+#> youtube_id = "KyBXJV1zFlo"
+#> tags = ["lecture", "module1"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -19,57 +30,6 @@ begin
 	import ImageIO
 	using Plots, PlutoUI, Colors, Images
 end
-
-# ╔═╡ c09f68a2-887e-11eb-2381-41aca305e8cc
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 1.7</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Intro to Dynamic Programming </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/KyBXJV1zFlo" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ a84fdba4-80db-11eb-13dc-3f440653b2b9
 md"""
@@ -1711,7 +1671,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─c09f68a2-887e-11eb-2381-41aca305e8cc
 # ╠═71b53b98-8038-11eb-0ea5-d953294e9f35
 # ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
 # ╟─938107f0-80ee-11eb-18cf-775802c43c2f

@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 2
+#> video = "https://www.youtube.com/watch?v=44RA9fclTdA"
+#> image = "https://user-images.githubusercontent.com/6933510/136199719-a56a217b-cd36-4da2-b407-7285dcec94df.png"
+#> section = 9
+#> order = 9
+#> title = "Optimization"
+#> youtube_id = "44RA9fclTdA"
+#> tags = ["lecture", "module2"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -16,57 +27,6 @@ end
 
 # ╔═╡ 400ebe26-0dea-4cf2-8744-6c73a45cd33e
 using PlutoUI, Plots, Statistics, Optim, JuMP, Ipopt, ForwardDiff
-
-# ╔═╡ 945c2bf1-d7dc-42c9-93d7-fd754f8fb1d7
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 2.9</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Optimization </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/44RA9fclTdA" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ b8d66df5-f593-40b4-8c46-3b638f9cc3e1
 TableOfContents()
@@ -1505,7 +1465,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─945c2bf1-d7dc-42c9-93d7-fd754f8fb1d7
 # ╠═400ebe26-0dea-4cf2-8744-6c73a45cd33e
 # ╠═b8d66df5-f593-40b4-8c46-3b638f9cc3e1
 # ╟─77253dd5-a2c8-4cf5-890a-5c8420c395b7

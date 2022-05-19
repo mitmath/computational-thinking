@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 3
+#> video = "https://www.youtube.com/watch?v=cdIgr_2nUvI"
+#> image = "https://user-images.githubusercontent.com/6933510/136199703-5edb4791-f9c0-4872-b0a7-7c9b1b6502d5.png"
+#> section = 6
+#> order = 6
+#> title = "Snowball Earth and hysteresis"
+#> youtube_id = "cdIgr_2nUvI"
+#> tags = ["lecture", "module3"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -18,57 +29,6 @@ end
 begin
     using DifferentialEquations, Plots, PlutoUI, LinearAlgebra
 end
-
-# ╔═╡ d84dbb08-b1a4-11eb-2d3b-0711fddd1347
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 3.6</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Snowball Earth and hysteresis </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/cdIgr_2nUvI" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ ef8d6690-720d-4772-a41f-b260d306b5b2
 TableOfContents(depth=4)
@@ -2480,7 +2440,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─d84dbb08-b1a4-11eb-2d3b-0711fddd1347
 # ╠═a0b3813e-adab-11eb-2983-616cf2bb6f5e
 # ╠═ef8d6690-720d-4772-a41f-b260d306b5b2
 # ╟─26e1879d-ab57-452a-a09f-49493e65b774

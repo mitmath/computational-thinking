@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 3
+#> video = "https://www.youtube.com/watch?v=7N9Vvc8amGM"
+#> image = "https://user-images.githubusercontent.com/6933510/136199704-ba6d0586-34bf-490c-8fd0-6959ab42cd23.png"
+#> section = 5
+#> order = 5
+#> title = "GitHub & Open Source Software"
+#> youtube_id = "7N9Vvc8amGM"
+#> tags = ["lecture", "module3"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -10,57 +21,6 @@ begin
 	using PlutoTest
 	using PlutoUI
 end
-
-# ╔═╡ 10ebd434-adba-11eb-048f-2d084049d48f
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 3.5</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> How to collaborate on software </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/7N9Vvc8amGM" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ ef4eea24-bc1c-43be-b9b6-d073ac2433cf
 md"""
@@ -856,7 +816,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 """
 
 # ╔═╡ Cell order:
-# ╟─10ebd434-adba-11eb-048f-2d084049d48f
 # ╟─ef4eea24-bc1c-43be-b9b6-d073ac2433cf
 # ╟─69b8490f-cf04-4e73-bc7b-639b1fc0e2d6
 # ╟─cbe5fcba-3ed7-41a6-8932-2693e370c16c

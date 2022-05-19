@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 3
+#> video = "https://www.youtube.com/watch?v=M3udLzIHtsc"
+#> image = "https://user-images.githubusercontent.com/6933510/136199708-af8acad2-4172-4fa7-911e-e30300efb5ee.png"
+#> section = 3
+#> order = 3
+#> title = "Why we can't predict the weather"
+#> youtube_id = "M3udLzIHtsc"
+#> tags = ["lecture", "module3"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -19,57 +30,6 @@ begin
 	using Plots, PlutoUI, LaTeXStrings, Roots, DifferentialEquations
 	using LinearAlgebra
 end
-
-# ╔═╡ 1f65fc80-a83b-11eb-2583-89bff1ea8372
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 3.3</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Why we can't predict the weather </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/M3udLzIHtsc" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ f9dbf2e8-574d-4846-af48-f7e5a82a1afc
 TableOfContents()
@@ -2406,7 +2366,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─1f65fc80-a83b-11eb-2583-89bff1ea8372
 # ╠═88b46d2e-220e-11eb-0f7f-b3f523f0214e
 # ╠═f9dbf2e8-574d-4846-af48-f7e5a82a1afc
 # ╟─a2b2eae2-762e-41c3-a546-0caedc79db7d

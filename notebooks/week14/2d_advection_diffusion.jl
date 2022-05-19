@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 3
+#> video = "https://www.youtube.com/watch?v=DdTWgBlDgr0"
+#> image = "https://user-images.githubusercontent.com/6933510/136200688-e3c6d6ee-808c-433f-8252-af6ad278fb4d.gif"
+#> section = 9
+#> order = 9
+#> title = "Advection and diffusion in 2D"
+#> youtube_id = "DdTWgBlDgr0"
+#> tags = ["lecture", "module3"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -21,57 +32,6 @@ begin
 	using PlutoUI
 	using OffsetArrays
 end
-
-# ╔═╡ 2cad38c2-b71d-11eb-24fd-3b460ca71531
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 3.9</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Advection and diffusion in 2D </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/DdTWgBlDgr0" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 3b3ffbaf-0fa3-4dec-afb9-5274116bc3d3
 TableOfContents()
@@ -613,6 +573,32 @@ md"**The CFL condition**
 The CFL condition is defined by $\text{CFL} = \dfrac{\max\left(\sqrt{u² + v²}\right)Δt}{Δx} =$ $(round(CFL_adv(ocean_sim), digits=2))
 "
 
+# ╔═╡ 8346b590-2b41-11eb-0bc1-1ba79bb77dfb
+tvec = map(Nvec) do Npower
+	G = Grid(8*Npower, 6.e6);
+	P = Parameters(κ_ex);
+
+	# u, v = DoubleGyre(G)
+	# u, v = PointVortex(G, Ω=0.5)
+	u, v = zeros(G), zeros(G)
+
+	model = OceanModel(G, P, u, v)
+
+	IC = InitBox(G)
+	# IC = InitBox(G, nx=G.Nx÷2-1)
+	# IC = linearT(G)
+
+	Δt = 6*60*60
+	S = ClimateModelSimulation(model, copy(IC), Δt)
+
+	return @elapsed timestep!(S)
+end
+
+# ╔═╡ 794c2148-2a78-11eb-2756-5bd28b7726fa
+begin
+	plot(8*Nvec, tvec, xlabel="Number of Grid Cells (in x-direction)", ylabel="elapsed time per timestep [s]")
+end |> as_svg
+
 # ╔═╡ 6b3b6030-2066-11eb-3343-e19284638efb
 plot_kernel(A) = heatmap(
 	collect(A),
@@ -696,32 +682,6 @@ let
 	end
 	plot_state(ocean_sim, clims=(-0.1, 1), show_quiver=show_quiver, show_anomaly=show_anomaly, IC=IC)
 end
-
-# ╔═╡ 8346b590-2b41-11eb-0bc1-1ba79bb77dfb
-tvec = map(Nvec) do Npower
-	G = Grid(8*Npower, 6.e6);
-	P = Parameters(κ_ex);
-
-	# u, v = DoubleGyre(G)
-	# u, v = PointVortex(G, Ω=0.5)
-	u, v = zeros(G), zeros(G)
-
-	model = OceanModel(G, P, u, v)
-
-	IC = InitBox(G)
-	# IC = InitBox(G, nx=G.Nx÷2-1)
-	# IC = linearT(G)
-
-	Δt = 6*60*60
-	S = ClimateModelSimulation(model, copy(IC), Δt)
-
-	return @elapsed timestep!(S)
-end
-
-# ╔═╡ 794c2148-2a78-11eb-2756-5bd28b7726fa
-begin
-	plot(8*Nvec, tvec, xlabel="Number of Grid Cells (in x-direction)", ylabel="elapsed time per timestep [s]")
-end |> as_svg
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1681,7 +1641,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─2cad38c2-b71d-11eb-24fd-3b460ca71531
 # ╠═9c8a7e5a-12dd-11eb-1b99-cd1d52aefa1d
 # ╠═3b3ffbaf-0fa3-4dec-afb9-5274116bc3d3
 # ╟─0f8db6f4-2113-11eb-18b4-21a469c67f3a

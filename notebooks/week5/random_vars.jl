@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 2
+#> video = "https://www.youtube.com/watch?v=7HrpoFZzITI"
+#> image = "https://user-images.githubusercontent.com/6933510/136196576-70e45c9d-ef0e-4498-bf61-58d9ae854c3e.png"
+#> section = 2
+#> order = 2
+#> title = "Sampling and Random Variables"
+#> youtube_id = "7HrpoFZzITI"
+#> tags = ["lecture", "module2"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -21,57 +32,6 @@ begin
 	using Statistics
 end
 
-
-# ╔═╡ 3a4957ec-8723-11eb-22a0-8b35322596e2
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 2.2</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Sampling and Random Variables </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/7HrpoFZzITI" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 PlutoUI.TableOfContents(aside=true)
@@ -2012,7 +1972,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─3a4957ec-8723-11eb-22a0-8b35322596e2
 # ╠═06d2666a-8723-11eb-1395-0febdf3dc2a4
 # ╠═0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 # ╟─472a41d2-8724-11eb-31b3-0b81612f0083

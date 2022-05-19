@@ -44,7 +44,7 @@ This assumes that all path's are relative to the repo root and that we are writi
 function write_md_page(path::String)
     file_name = basename(without_dotjl(path))
     outpath = "website/$file_name.md"
-    write(outpath, "{{ plutonotebookpage  ../$path }}")
+    # write(outpath, "{{ plutonotebookpage  ../$path }}")
 end
 
 function html_header(section::Section)
@@ -108,29 +108,25 @@ function process_book_item(section::Section)
 
     # First, add the header to each cell
     first_cell = ordered_cells[1]
-    new_cell_code = html_header(section)
+    new_cell_code = ""
 
     cells_dict = getfield(notebook, :cells_dict)
     cell_order = getfield(notebook, :cell_order)
 
     if occursin("<iframe src=\"https://www.youtube", first_cell.code) || occursin("# Section header", first_cell.code)
+        filter!(c -> c != first_cell.cell_id, cell_order)
+        delete!(cells_dict, first_cell.cell_id)
         # We can just overwrite this cell
         first_cell.code = new_cell_code
         first_cell.code_folded = true
-    else
-        # We get to add a new cell
-        new_cell = Pluto.Cell(new_cell_code)
-        new_cell.code_folded = true
-        push!(cells_dict, new_cell.cell_id => new_cell)
-        insert!(cell_order, 1, new_cell.cell_id)
     end
 
     # Second hide all md, html cells
-    for cell ∈ ordered_cells
-        if startswith(cell.code, "html") || startswith(cell.code, "md")
-            cell.code_folded = true
-        end
-    end
+    # for cell ∈ ordered_cells
+    #     if startswith(cell.code, "html") || startswith(cell.code, "md")
+    #         cell.code_folded = true
+    #     end
+    # end
 
     #    num_deleted = 0
     #    for (i, cell) ∈ enumerate(ordered_cells)
@@ -142,6 +138,18 @@ function process_book_item(section::Section)
     #     end
     setfield!(notebook, :cells_dict, cells_dict)
     setfield!(notebook, :cell_order, cell_order)
+    
+    notebook.metadata["frontmatter"] = Dict{String,Any}(
+        "title" => section.name,
+        "description" => "",
+        "video" => "https://www.youtube.com/watch?v=$(section.video_id)",
+        "youtube_id" => section.video_id,
+        "image" => section.preview_image_url,
+        "chapter" => section.chapter,
+        "tags" => ["lecture", "module$(section.chapter)"],
+        "section" => section.section,
+        "order" => section.section,
+    )
 
     # analyze the notebook so that cells are saved in the correct order
     notebook.topology = Pluto.updated_topology(notebook.topology, notebook, notebook.cells)
@@ -149,7 +157,7 @@ function process_book_item(section::Section)
     Pluto.save_notebook(notebook)
 
     # Now we need to generate the approriate .md file for this notebook
-    write_md_page(section.notebook_path)
+    # write_md_page(section.notebook_path)
 end
 
 function process_book_item(ch::Chapter)

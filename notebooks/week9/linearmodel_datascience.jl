@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 2
+#> video = "https://www.youtube.com/watch?v=O6NTKsR8TjQ"
+#> image = "https://user-images.githubusercontent.com/6933510/136199721-8fd577cb-d6f3-492d-bbdc-37bc74664ca7.png"
+#> section = 8
+#> order = 8
+#> title = "Linear Model, Data Science, & Simulations"
+#> youtube_id = "O6NTKsR8TjQ"
+#> tags = ["lecture", "module2"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -16,57 +27,6 @@ end
 
 # ╔═╡ d155ea12-9628-11eb-347f-7754a33fd403
 using Plots, PlutoUI, DataFrames, CSV, GLM, Statistics, LinearAlgebra, Distributions
-
-# ╔═╡ 4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 2.8</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Linear Model, Data Science, & Simulations </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/O6NTKsR8TjQ" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 01506de2-918a-11eb-2a4d-c554a6e54631
 TableOfContents()
@@ -1675,7 +1635,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─4ea0ccfa-9622-11eb-1cf0-e9ae2f927dd2
 # ╠═d155ea12-9628-11eb-347f-7754a33fd403
 # ╠═01506de2-918a-11eb-2a4d-c554a6e54631
 # ╟─877deb2c-702b-457b-a54b-f27c277928d4

@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 1
+#> video = "https://www.youtube.com/watch?v=uZYVjDDZW9A"
+#> image = "https://user-images.githubusercontent.com/6933510/136196626-194e81c9-00f7-49f6-90c3-09945723b6a3.png"
+#> section = 4
+#> order = 4
+#> title = "Transformations with Images"
+#> youtube_id = "uZYVjDDZW9A"
+#> tags = ["lecture", "module1"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -27,57 +38,6 @@ begin
 	# https://github.com/JuliaImages/ImageShow.jl/pull/50
 	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
 end
-
-# ╔═╡ febfa62a-74fa-11eb-2fe6-df7de43ef4b6
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 1.4</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Transformations with Images </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/uZYVjDDZW9A" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
 PlutoUI.TableOfContents(aside=true)
@@ -1700,7 +1660,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─febfa62a-74fa-11eb-2fe6-df7de43ef4b6
 # ╟─8d389d80-74a1-11eb-3452-f38eff03483b
 # ╟─9f1a72da-7532-11eb-079c-b7baccc6614a
 # ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124

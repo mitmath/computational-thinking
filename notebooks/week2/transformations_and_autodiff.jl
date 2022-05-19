@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 1
+#> video = "https://www.youtube.com/watch?v=AAREeuaKCic"
+#> image = "https://user-images.githubusercontent.com/6933510/136196632-ad67cb84-a4c9-410e-ab72-f4fcfc26f69a.png"
+#> section = 3
+#> order = 3
+#> title = "Automatic Differentiation"
+#> youtube_id = "AAREeuaKCic"
+#> tags = ["lecture", "module1"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -26,57 +37,6 @@ begin
 	# https://github.com/JuliaImages/ImageShow.jl/pull/50
 	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
 end
-
-# ╔═╡ c09c8ba0-887e-11eb-07e3-71377ec0e708
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 1.3</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Transformations & Autodiff </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/AAREeuaKCic" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
 PlutoUI.TableOfContents(aside=true)
@@ -1182,7 +1142,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 """
 
 # ╔═╡ Cell order:
-# ╟─c09c8ba0-887e-11eb-07e3-71377ec0e708
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─e6a09409-f262-453b-a434-bfd935306719
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc

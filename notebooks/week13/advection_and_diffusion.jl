@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 3
+#> video = "https://www.youtube.com/watch?v=Xb-iUwXI78A"
+#> image = "https://user-images.githubusercontent.com/6933510/136200627-8211654f-7730-4f4a-8933-5b64164806c3.gif"
+#> section = 7
+#> order = 7
+#> title = "Advection and diffusion in 1D"
+#> youtube_id = "Xb-iUwXI78A"
+#> tags = ["lecture", "module3"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -18,57 +29,6 @@ end
 begin
     using Plots, PlutoUI, LinearAlgebra
 end
-
-# ╔═╡ 8c1e6dae-b339-11eb-0e86-f1d18858689a
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 3.7</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Advection and diffusion in 1D </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/Xb-iUwXI78A" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 5648fa26-da0b-41d9-b13f-debd4e0485af
 TableOfContents(depth=4)
@@ -1656,7 +1616,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─8c1e6dae-b339-11eb-0e86-f1d18858689a
 # ╠═e0c0dc94-277e-11eb-379e-83d064a93413
 # ╠═5648fa26-da0b-41d9-b13f-debd4e0485af
 # ╟─00877a4a-277c-11eb-3ec0-e71e4094b404

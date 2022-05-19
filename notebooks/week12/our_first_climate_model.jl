@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 3
+#> video = "https://www.youtube.com/watch?v=J1UsMa1cTeE"
+#> image = "https://user-images.githubusercontent.com/6933510/136199705-7bdb6bb0-8698-43a1-87e6-c073ab102da5.png"
+#> section = 4
+#> order = 4
+#> title = "Our first climate model"
+#> youtube_id = "J1UsMa1cTeE"
+#> tags = ["lecture", "module3"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -18,57 +29,6 @@ end
 begin
     using DifferentialEquations, Plots, PlutoUI, LinearAlgebra, CSV, DataFrames
 end
-
-# ╔═╡ 42085492-ac8c-11eb-0620-adcb307077f1
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 3.4</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Our first climate model </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/J1UsMa1cTeE" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 14195fc4-40e1-4576-973a-69d649fddc02
 TableOfContents(title="📚 Table of Contents", indent=true, depth=4, aside=true)
@@ -2168,7 +2128,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─42085492-ac8c-11eb-0620-adcb307077f1
 # ╠═c7d387fa-cd19-458c-a45d-7893e8c21bbf
 # ╟─14195fc4-40e1-4576-973a-69d649fddc02
 # ╟─92883ed9-5572-41fd-96c7-190279f90804

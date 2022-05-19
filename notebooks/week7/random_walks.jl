@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 2
+#> video = "https://www.youtube.com/watch?v=14hHtGJ4s-g"
+#> image = "https://user-images.githubusercontent.com/6933510/136196563-f4b5b44c-5252-4e67-8c82-c550de891c55.png"
+#> section = 5
+#> order = 5
+#> title = "Random Walks"
+#> youtube_id = "14hHtGJ4s-g"
+#> tags = ["lecture", "module2"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -16,57 +27,6 @@ end
 
 # ╔═╡ 97e807b2-9237-11eb-31ef-6fe0d4cc94d3
 using Plots, PlutoUI, BenchmarkTools
-
-# ╔═╡ 3649f170-923a-11eb-321c-cf95849cc044
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 2.5</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Random Walks </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/14hHtGJ4s-g" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 5f0d7a44-91e0-11eb-10ae-d73156f965e6
 TableOfContents(aside=true)
@@ -1436,7 +1396,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─3649f170-923a-11eb-321c-cf95849cc044
 # ╠═97e807b2-9237-11eb-31ef-6fe0d4cc94d3
 # ╠═5f0d7a44-91e0-11eb-10ae-d73156f965e6
 # ╟─9647147a-91ab-11eb-066f-9bc190368fb2

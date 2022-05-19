@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 2
+#> video = "https://www.youtube.com/watch?v=xKAO38UsXo0"
+#> image = "https://user-images.githubusercontent.com/6933510/136196570-478bbb89-05fb-4799-99a0-0ede06354cb6.png"
+#> section = 4
+#> order = 4
+#> title = "Random Variables as Types"
+#> youtube_id = "xKAO38UsXo0"
+#> tags = ["lecture", "module2"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -16,57 +27,6 @@ end
 
 # ╔═╡ 103cd2f4-903c-11eb-1116-a51dc540175c
 using Statistics, Plots, PlutoUI, LinearAlgebra, Symbolics
-
-# ╔═╡ 35b500b2-9047-11eb-2570-338858be8b6a
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 2.4</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Random Variables as Types </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/xKAO38UsXo0" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 5d62e16c-8fd9-11eb-1c44-0b0232614011
 TableOfContents(aside=true)
@@ -2023,7 +1983,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─35b500b2-9047-11eb-2570-338858be8b6a
 # ╠═5d62e16c-8fd9-11eb-1c44-0b0232614011
 # ╠═103cd2f4-903c-11eb-1116-a51dc540175c
 # ╟─6bbfa37e-8ffe-11eb-3031-19ea76a6a8d2

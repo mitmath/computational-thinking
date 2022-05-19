@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 2
+#> video = "https://www.youtube.com/watch?v=d8BohH76C7E"
+#> image = "https://user-images.githubusercontent.com/6933510/136196572-b11974d5-7335-4678-9092-630e034bbe8f.png"
+#> section = 3
+#> order = 3
+#> title = "Modeling with Stochastic Simulation"
+#> youtube_id = "d8BohH76C7E"
+#> tags = ["lecture", "module2"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -16,57 +27,6 @@ end
 
 # ╔═╡ 9a0cec14-08db-11eb-3cfa-4d1c327c63f1
 using Plots, PlutoUI, StatsBase, Statistics, HypertextLiteral
-
-# ╔═╡ 41f7d874-8cb9-11eb-308d-47dea998f6bf
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 2.3</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Modeling with Stochastic Simulation </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/d8BohH76C7E" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ fb6cdc08-8b44-11eb-09f5-43c167aa53fd
 PlutoUI.TableOfContents(aside=true)
@@ -385,6 +345,50 @@ function simulate(N, p)
 	
 	return v
 end
+
+# ╔═╡ 17bbf532-8cac-11eb-1e3f-c54072021208
+simulation = simulate(M, prob)
+
+# ╔═╡ 17e0d142-8cac-11eb-2d6a-fdf175f5d419
+begin
+	w = .9
+	h = .9
+	c = [RGB(0,1,0), RGB(1,0,0), :purple][1 .+ (simulation .< tt) .+ (simulation .<  (tt.-1))] 
+	
+	plot(ratio=1, legend=false, axis=false, ticks=false)
+	
+	for i=1:M, j=1:M
+		plot!( rectangle(w,h, i, j), c=:black, fill=true, alpha=0.5)
+		plot!( circle(.3,i+.45,j+.45), c = c[i, j], fill=true)
+	end
+	
+	for i=1:M, j=1:M
+		if simulation[i,j] < tt
+	       annotate!(i+.45, j+.5, text("$(simulation[i,j])", font(7), :white))
+		end
+	end
+    
+	
+	plot!(lims=(0.5, M+1.1), title="time = $(tt-1);  failed count: $(sum(simulation.<tt))")
+	
+end
+
+# ╔═╡ 17fe87a0-8cac-11eb-2938-2d9cd19ecc0f
+begin
+	
+	plot(size=(500, 300))
+	cdf= [ count(simulation .≤ i) for i=0:100] 
+	bar!(cdf, c=:purple, legend=false, xlim=(0,tt),alpha=0.8)
+end
+
+# ╔═╡ 1829091c-8cac-11eb-1b77-c5ed7dd1261b
+begin
+	newcdf = [ count(simulation .> i) for i=0:100] 
+	bar!( newcdf, c=RGB(0,1,0), legend=false, xlim=(0,tt),alpha=0.8)
+end
+
+# ╔═╡ 1851dd6a-8cac-11eb-18e4-87dbe1714be0
+bar(countmap(simulation[:]), c=:red, legend=false, xlim=(0, tt+.5), size=(500, 300))
 
 # ╔═╡ ba7ffe78-0845-11eb-2847-851a407dd2ec
 bernoulli(p) = rand() < p
@@ -792,52 +796,8 @@ end
 # ╔═╡ 8c8b5681-eeaa-4087-8b6b-1c72c99ae36b
 @bindname prob Slider(0.01:.01:1, show_value=true, default=.1)
 
-# ╔═╡ 17bbf532-8cac-11eb-1e3f-c54072021208
-simulation = simulate(M, prob)
-
 # ╔═╡ 3bfed362-9732-4cb5-86a6-ec50b8429ad5
 @bindname tt Slider(1:100, show_value=true, default=1)
-
-# ╔═╡ 17e0d142-8cac-11eb-2d6a-fdf175f5d419
-begin
-	w = .9
-	h = .9
-	c = [RGB(0,1,0), RGB(1,0,0), :purple][1 .+ (simulation .< tt) .+ (simulation .<  (tt.-1))] 
-	
-	plot(ratio=1, legend=false, axis=false, ticks=false)
-	
-	for i=1:M, j=1:M
-		plot!( rectangle(w,h, i, j), c=:black, fill=true, alpha=0.5)
-		plot!( circle(.3,i+.45,j+.45), c = c[i, j], fill=true)
-	end
-	
-	for i=1:M, j=1:M
-		if simulation[i,j] < tt
-	       annotate!(i+.45, j+.5, text("$(simulation[i,j])", font(7), :white))
-		end
-	end
-    
-	
-	plot!(lims=(0.5, M+1.1), title="time = $(tt-1);  failed count: $(sum(simulation.<tt))")
-	
-end
-
-# ╔═╡ 17fe87a0-8cac-11eb-2938-2d9cd19ecc0f
-begin
-	
-	plot(size=(500, 300))
-	cdf= [ count(simulation .≤ i) for i=0:100] 
-	bar!(cdf, c=:purple, legend=false, xlim=(0,tt),alpha=0.8)
-end
-
-# ╔═╡ 1829091c-8cac-11eb-1b77-c5ed7dd1261b
-begin
-	newcdf = [ count(simulation .> i) for i=0:100] 
-	bar!( newcdf, c=RGB(0,1,0), legend=false, xlim=(0,tt),alpha=0.8)
-end
-
-# ╔═╡ 1851dd6a-8cac-11eb-18e4-87dbe1714be0
-bar(countmap(simulation[:]), c=:red, legend=false, xlim=(0, tt+.5), size=(500, 300))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1793,7 +1753,6 @@ version = "0.9.1+5"
 """
 
 # ╔═╡ Cell order:
-# ╟─41f7d874-8cb9-11eb-308d-47dea998f6bf
 # ╠═9a0cec14-08db-11eb-3cfa-4d1c327c63f1
 # ╠═fb6cdc08-8b44-11eb-09f5-43c167aa53fd
 # ╟─b6b055b6-8cae-11eb-29e5-b507c1a2b9bf

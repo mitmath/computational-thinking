@@ -1,5 +1,16 @@
 ### A Pluto.jl notebook ###
-# v0.19.4
+# v0.19.5
+
+#> [frontmatter]
+#> chapter = 1
+#> video = "https://www.youtube.com/watch?v=3zTO3LEY-cM"
+#> image = ""
+#> section = 2
+#> order = 2
+#> title = "Abstraction"
+#> youtube_id = "3zTO3LEY-cM"
+#> tags = ["lecture", "module1"]
+#> description = ""
 
 using Markdown
 using InteractiveUtils
@@ -20,57 +31,6 @@ begin
 	using PlutoUI
 	using Images
 end
-
-# ╔═╡ 5ef51c3a-70a7-11eb-2023-31113399a57f
-html"""
-<div style="
-position: absolute;
-width: calc(100% - 30px);
-border: 50vw solid #282936;
-border-top: 500px solid #282936;
-border-bottom: none;
-box-sizing: content-box;
-left: calc(-50vw + 15px);
-top: -500px;
-height: 500px;
-pointer-events: none;
-"></div>
-
-<div style="
-height: 500px;
-width: 100%;
-background: #282936;
-color: #fff;
-padding-top: 68px;
-">
-<span style="
-font-family: Vollkorn, serif;
-font-weight: 700;
-font-feature-settings: 'lnum', 'pnum';
-"> <p style="
-font-size: 1.5rem;
-opacity: .8;
-"><em>Section 1.2</em></p>
-<p style="text-align: center; font-size: 2rem;">
-<em> Intro to Abstractions </em>
-</p>
-
-<p style="
-font-size: 1.5rem;
-text-align: center;
-opacity: .8;
-"><em>Lecture Video</em></p>
-<div style="display: flex; justify-content: center;">
-<div  notthestyle="position: relative; right: 0; top: 0; z-index: 300;">
-<iframe src="https://www.youtube.com/embed/3zTO3LEY-cM" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
-</div>
-</div>
-
-<style>
-body {
-overflow-x: hidden;
-}
-</style>"""
 
 # ╔═╡ 60ae819a-70a7-11eb-31d4-750c7f5dc6ca
 PlutoUI.TableOfContents(aside=true)
@@ -1090,7 +1050,6 @@ uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
 """
 
 # ╔═╡ Cell order:
-# ╟─5ef51c3a-70a7-11eb-2023-31113399a57f
 # ╟─60ae819a-70a7-11eb-31d4-750c7f5dc6ca
 # ╟─792c6a62-ec41-11ea-01f3-73e7eee23cc7
 # ╠═da1d65a0-ec42-11ea-0141-334c9eeeb035
