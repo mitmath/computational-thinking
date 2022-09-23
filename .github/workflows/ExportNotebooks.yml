@@ -18,7 +18,7 @@ jobs:
             - name: 🙌 Install Julia
               uses: julia-actions/setup-julia@v1
               with:
-                  version: 1.7.2
+                  version: "1.8"
 
             - name: ⏱ Cache notebook states
               uses: actions/cache@v2

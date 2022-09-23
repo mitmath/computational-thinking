@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.5
+# v0.19.12
 
 using Markdown
 using InteractiveUtils
@@ -40,7 +40,7 @@ using BetterFileWatching
 using PlutoLinks
 
 # ╔═╡ c5a0b072-7f49-4c0c-855e-773cfc03d308
-TableOfContents()
+TableOfContents(include_definitions=true)
 
 # ╔═╡ 644552c6-4e32-4caf-90ef-bee259977094
 import Logging
@@ -953,7 +953,7 @@ end
 # ╟─94bb6730-a4ad-42d2-aa58-41b70a15cd0e
 # ╠═e15cf987-3615-4e96-8ccd-04cad3bcd48e
 # ╟─940f3995-1739-4b30-b8cf-c27a671043e5
-# ╟─0d2b7382-2ddf-48c3-90c8-bc22de454c97
+# ╠═0d2b7382-2ddf-48c3-90c8-bc22de454c97
 # ╠═5e91e7dc-82b6-486a-b745-34f97b6fb20c
 # ╠═8f6393a4-e945-4f06-90f6-0a71f874c8e9
 # ╠═4fcdd524-86a8-4033-bc7c-4a7c04224eeb
