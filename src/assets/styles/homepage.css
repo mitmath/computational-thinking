@@ -65,6 +65,7 @@ div.banner h1 {
     color: #ffffffc7;
     font-style: normal;
     border: none;
+    backdrop-filter: blur(6px);
     /* flex: 1 1 auto; */
     /* display: block; */
 }
@@ -160,13 +161,16 @@ blockquote {
     max-width: 30em;
     font-style: italic;
     background: #f9f9f9;
-    font-size: 1.2rem;
+    font-size: 1rem;
     margin: 0 auto;
 }
 
 blockquote.banner {
     margin-top: -46px;
     font-style: unset;
+    font-size: 1rem;
+    border-radius: .5em;
+    box-shadow: 0px 3px 17px #0000001a;
 }
 
 .pillars {
