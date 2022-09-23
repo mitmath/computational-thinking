@@ -1,3 +1,10 @@
+---
+title: "Previous semesters"
+tags: ["welcome"]
+order: 8
+layout: "md.jlmd"
+---
+
 # This is the _Fall 2022_ edition
 
 For previous versions of this class, see:

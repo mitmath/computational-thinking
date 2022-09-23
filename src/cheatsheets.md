@@ -1,3 +1,10 @@
+---
+title: "Cheatsheets"
+tags: ["welcome"]
+order: 7
+layout: "md.jlmd"
+---
+
 # Cheatsheets
 
 - [Getting Started with Julia - live](/basic_syntax/).

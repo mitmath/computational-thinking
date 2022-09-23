@@ -18,7 +18,7 @@ $(
 
 **Video version:**
 
-{{youtube installation}}
+<iframe style="width: 100%; height: 40vw;" src="https://www.youtube.com/embed/OOjKEgbt8AI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 \\
 \\

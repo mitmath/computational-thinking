@@ -1,3 +1,10 @@
+---
+title: "Homework"
+tags: ["welcome"]
+order: 4
+layout: "md.jlmd"
+---
+
 # Homework
 
 | Assignment | Due Date | Submission| Discord |

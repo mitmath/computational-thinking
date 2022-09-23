@@ -315,7 +315,7 @@ layout: "layout.jlhtml"
         <p><strong>Lecturers:</strong> <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a>, <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a></p>
         <p><strong>Technical lead:</strong> <a href="https://github.com/fonsp">Fons van der Plas</a></p>
         <p><strong>Assistants:</strong> <a href="https://www.csail.mit.edu/person/bola-malek">Bola Malek</a>, <a href="https://scholar.harvard.edu/logankilpatrick/home">Logan Kilpatrick</a></p>
-        <p><strong>Guest lecturers:</strong> <a href="https://hdrake.github.io/">Henri F. Drake</a>, <em>more to be announced</em></p>
+        <p><strong>Guest lecturers:</strong> <a href="https://hdrake.github.io/">Henri F. Drake</a>, <a href="https://github.com/fonsp">Fons van der Plas</a>, <em>more to be announced</em></p>
         <h2 id="get_the_t-shirt">Get the T-shirt</h2>
         <p>There is a MIT Computational Thinking t-shirt available for those who really enjoyed the course, you can find it on the <a href="https://www.bonfire.com/introduction-to-computational-thinking-shirt/">Julia Language's Bonfire Shop</a>.</p>
         <h2 id="introduction_video_from_fall_2020">Introduction video from Fall 2020</h2>
