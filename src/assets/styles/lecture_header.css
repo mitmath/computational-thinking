@@ -1,13 +1,13 @@
 .lecture-header{
     background: #282936;
     color: white;
-    
     padding: 1rem;
-    min-height: 500px;
+    /* min-height: 500px; */
     /* width: 100%; */
     display: block;
-    
-border-radius: 1rem;margin: 1rem;}
+    border-radius: 1rem;
+    margin: 1rem;
+    }
 
 .lecture-header,
 .lecture-header h1 {
@@ -28,10 +28,15 @@ border-radius: 1rem;margin: 1rem;}
     text-align: center; font-size: 2rem;
 }
 .lecture-header .video > div {
-    display: flex; justify-content: center;
+    display: flex;
+    justify-content: center;
     overflow: hidden;
-}
-.lecture-header .video iframe {
     max-width: 400px;
+    margin: 0 auto;
+}
+.lecture-header .video iframe,
+.lecture-header .video lite-youtube {
+    /* max-width: 400px; */
     aspect-ratio: 16/9;
-flex: 1 1 auto;}
+    flex: 1 1 auto;
+}
