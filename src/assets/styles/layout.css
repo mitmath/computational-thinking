@@ -59,7 +59,7 @@
 
 #toggle-nav {
     display: none;
-    
+    cursor: pointer;
 }
 
 /* SIDEBAR COLLAPSING */
