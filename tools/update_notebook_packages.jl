@@ -1,13 +1,19 @@
-if !isdir("pluto-deployment-environment")
+if !isdir("pluto-deployment-environment") || length(ARGS) != 1
     error("""
     Run me from the root of the repository directory, using:
 
-    julia tools/generate_book.jl
+    julia tools/update_notebook_packages.jl <level>
+    
+    Where <level> is one of: PATCH, MINOR, MAJOR
     """)
 end
 
 if VERSION < v"1.6.0-aaa"
     @error "Our website needs to be generated with Julia 1.6. Go to julialang.org/downloads to install it."
+end
+
+if length(ARGS) != 1
+    @error "Usage: julia tools/generate_book.jl <path to PlutoPages.jl>"
 end
 
 import Pkg
@@ -25,7 +31,9 @@ end
 
 all_notebooks = filter(Pluto.is_pluto_notebook, all_files_recursive)
 
+level = getfield(Pkg, Symbol("UPLEVEL_$(ARGS[1])"))
+
 for n in all_notebooks
     @info "Updating" n
-    Pluto.update_notebook_environment(n)
+    Pluto.update_notebook_environment(n; backup=false, level)
 end
