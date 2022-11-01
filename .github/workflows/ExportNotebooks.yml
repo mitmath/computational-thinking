@@ -1,8 +1,8 @@
-name: Spring 21 - Export Pluto notebooks & Deploy
+name: Fall 22 - Export Pluto notebooks & Deploy
 on:
     push:
         branches:
-            - Spring21
+            - Fall22-PlutoPages-test
     workflow_dispatch:
 concurrency:
     group: export
@@ -12,68 +12,67 @@ jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout Spring 21 source
+            - name: Checkout Fall 22 source
               uses: actions/checkout@v2
 
-            - name: Set up notebook state cache
-              uses: actions/cache@v2
-              with:
-                path: pluto_state_cache
-                key: ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ hashFiles('**/*.jl') }}
-                restore-keys: |
-                    ${{ runner.os }}-pluto_state_cache-v2-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
-
-            - name: Checkout Fall 20 output
-              uses: actions/checkout@v2
-              with:
-                  path: Fall20-franklin-output
-                  ref: Fall20-franklin-output
-
-            - name: Install Julia
+            - name: 🙌 Install Julia
               uses: julia-actions/setup-julia@v1
               with:
-                  version: 1.7.2
-            - name: Run Pluto notebooks
+                  version: "1.8"
+
+            - name: ⏱ Cache notebook states
+              uses: actions/cache@v2
+              with:
+                path: _cache
+                key: ${{ runner.os }}-pluto_state_cache-v3-fall22-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ github.run_id }}
+                restore-keys: |
+                    ${{ runner.os }}-pluto_state_cache-v3-fall22-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
+
+            - name: ⏱ Cache .julia
+              uses: actions/cache@v2
+              with:
+                path: ~/.julia
+                key: ${{ runner.os }}-dotjulia-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}-${{ github.run_id }}
+                restore-keys: |
+                    ${{ runner.os }}-dotjulia-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
+
+            # - name: 📅 Checkout Fall 20 output
+            #   uses: actions/checkout@v2
+            #   with:
+            #       path: Fall20-franklin-output
+            #       ref: Fall20-franklin-output
+
+            - name: 📅 Checkout Fall20 and Spring21 output
+              uses: actions/checkout@v2
+              with:
+                  path: Spring21-franklin-output
+                  ref: Spring21-franklin-output
+
+            - name: 🪴 Generate site
               run: julia --project=pluto-deployment-environment -e '
                   import Pkg;
                   Pkg.instantiate();
 
-                  using PlutoSliderServer;
-                  github_action("."; Export_cache_dir="pluto_state_cache");'
-            - name: Franklin
-              run: julia -e '
-                  using Pkg;
-                  Pkg.add([
-                  Pkg.PackageSpec(name="NodeJS", version="1.1.1"),
-                  Pkg.PackageSpec(name="JSON", version="0.21.1"),
-                  Pkg.PackageSpec(name="Franklin", version="0.10.28"),
-                  ]);
-                  using NodeJS;
+                  include("./generate.jl")'
 
-                  "== Run Franklin ==";
-                  cd("website");
+            
+            - name: 📰 Upload site generation report
+              uses: actions/upload-artifact@v2
+              if: always()
+              with:
+                path: generation_report.html
 
-                  run(`$(npm_cmd()) install highlight.js`);
-                  using Franklin;
-                  optimize(;minify=false);
-                  mkdir("__site2");
-                  mv("__site", "__site2/Spring21");
-                  mv("../Fall20-franklin-output/Fall20", "__site2/Fall20");
+            - name: 🔀 Combine semesters into single site
+              run: |
+                mkdir www
+                mv _site www/Fall22
+                mv Spring21-franklin-output/Fall20/ www/Fall20
+                mv Spring21-franklin-output/Spring21/ www/Spring21
+                mv extra_outputs/* www
 
-                  "== Place rendered notebooks in the website folder ==";
-                  cp("../notebooks", "__site2/Spring21/notebooks");
-
-                  "== Extra website config files ==";
-                  write("__site2/index.html", """
-                  <!DOCTYPE html>
-                  <html>
-                  <head><meta charset="utf-8"><script>
-                  window.location.href=\"Spring21\"</script></head>
-                  <body></body></html>""");
-                  write("__site2/CNAME", "computationalthinking.mit.edu");'
-            - name: Build and Deploy
+            - name: 🚀 Deploy to GitHub Pages
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  BRANCH: Spring21-franklin-output
-                  FOLDER: website/__site2
+                  BRANCH: Fall22-output
+                  FOLDER: www

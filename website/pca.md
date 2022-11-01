@@ -1,1 +1,0 @@
-{{ plutonotebookpage  ../notebooks/week5/pca.jl }}

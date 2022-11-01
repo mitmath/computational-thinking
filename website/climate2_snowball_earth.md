@@ -1,1 +1,0 @@
-{{ plutonotebookpage  ../notebooks/week13/climate2_snowball_earth.jl }}

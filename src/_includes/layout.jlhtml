@@ -1,0 +1,164 @@
+$(begin
+    import Pluto
+    "The contents of `<head>` from a Pluto HTML export."
+    const pluto_head = let
+        default = Pluto.generate_html(; 
+            pluto_cdn_root=Pluto.PLUTO_VERSION < v"0.19" ? "https://cdn.jsdelivr.net/gh/fonsp/Pluto.jl@9ca70c36/frontend/" : nothing)
+        m = match(r"<head.*?>(.*)</head>"s, default)
+        reduce([
+            # r"<script[^\n]data-pluto-file=[\"']?launch-parameters.*?/script>"s
+            r"<title.*?/title>"
+            r"<meta name=[\"']?description.*?>"
+            r"<meta name=[\"']?description.*?>"
+            r"<link rel=[\"']?icon.*?>"
+        ]; init=m[1]) do s,r
+            replace(s, r => "")
+        end |> HTML
+    end
+    
+    f(x,y) = get(page.output.frontmatter, x, y)
+    
+    function section_number(frontmatter)
+        ch = get(frontmatter, "chapter", nothing)
+        se = get(frontmatter, "section", nothing)
+        
+        isnothing(ch) || isnothing(se) ? nothing : "$(ch).$(se)"
+    end
+    
+    nothing
+end)<html lang="en">
+<head>
+
+<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — Pluto.jl</title>
+$(let d = f("description", nothing)
+    if d !== nothing
+        @htl("""<meta name="description" content=$(d) />""")
+    end
+end)
+
+<link rel="root" href="$(root_url)" />
+
+<link rel="icon" href="$(root_url)/assets/favicon.ico" />
+<link rel="icon" href="$(root_url)/assets/favicon.svg" type="image/svg+xml">
+
+<link rel="stylesheet" href="$(root_url)/assets/styles/index.css" type="text/css" />
+<link rel="stylesheet" href="$(root_url)/assets/styles/layout.css" type="text/css" />
+<script src="$(root_url)/assets/scripts/sidebar.js" type="module" defer></script>
+
+<link rel="pp-search-data" href="$(root_url)/pp_search_data.json" />
+<script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" integrity="sha256-DFDZACuFeAqEKv/7Vnu1Tt5ALa58bcWZegGGFNgET8g=" crossorigin="anonymous" defer></script>
+<script src="$(root_url)/assets/scripts/search.js" type="module" defer></script>
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+$(pluto_head)
+
+</head>
+<body>
+    <div id="pages-layout">
+        <button id="toggle-nav" title="Open navigation"></button>
+        <nav id="pages-sidebar">
+        <div>
+        <ul>
+            <li class="sidebar-about">
+                <div class="course-title">
+                    <h1><a href="$(root_url)"><span>Introduction to</span> <span>Computational Thinking</span></a></h1>
+                    <h2><span>Math from computation</span>, <span>math with computation</span></h2>
+                </div>
+                <div class="authors">
+                    by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a> &amp; <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a>
+                </div>
+            </li>
+            <li>
+                <div class="search-bar">
+                    <form action="$(root_url)/search" method="GET">
+                        <input type="search" name="q" placeholder="Search...">
+                        <input type=submit value="🔎">
+                    </form>
+                </div>
+            </li>
+        $(let
+            sidebar_data = Base.include(@__MODULE__, joinpath(@__DIR__, "..", "sidebar data.jl"))
+            sections = sidebar_data["main"]
+        
+            [
+                @htl("""
+                <li>
+                <h3>$(section_name)</h3>
+                <ul>
+                $([
+                    let
+                        input = other_page.input
+                        output = other_page.output
+                        
+                        number = section_number(output.frontmatter)
+                        
+                        name = get(output.frontmatter, "title", basename(input.relative_path))
+                        desc = get(output.frontmatter, "description", nothing)
+                        active = page.url == other_page.url
+                        
+                        homework_number = get(output.frontmatter, "homework_number", nothing)
+                        
+                        href = root_url * "/" * other_page.url
+                        
+                        if homework_number === nothing
+                            @htl("""<li class=$([
+                                active ? "active" : nothing,
+                                "lecture",
+                            ])><a href=$(href) title=$(desc)><span class="entry-number">$(number)</span> $(name)</a></li>""")
+                        else
+                            @htl("""<li class=$([
+                                active ? "active" : nothing,
+                                "homework",
+                            ])><a href=$(href) title=$(desc)><span class="entry-number">Homework $(homework_number):</span> $(name)</a></li>""")
+                        end
+                    end for other_page in pages
+                ])
+                </ul>
+                </li>
+                """)
+                for (section_name, pages) in sections
+            ]
+        end)
+                <li><hr></li>
+            <li class="sidebar-about">
+                <div class="semester-details">
+                    <a href="$(root_url)/semesters/">Fall 2022</a>
+                    <div class="course-numbers"><span>18.S191</span> / <span>6.S083</span> / <span>22.S092</span></div>
+                </div>
+                <div class="logos">
+                    <picture title="Massachusetts Institute of Technology">
+                        <img src="$(root_url)/assets/MIT_logo.svg">
+                    </picture>
+                    <picture title="Julia Programming Language">
+                        <source srcset="$(root_url)/assets/julia-logo-dark.svg" media="(prefers-color-scheme: dark)" />
+                        <img src="$(root_url)/assets/julia-logo-color.svg">
+                    </picture>
+                </div>
+            </li>
+        </ul>
+        </div>
+        </nav>
+        <div id="pages-content">
+           $(any(contains("lecture"), f("tags", String[])) ? @htl("""
+           <div class="lecture-header" >
+                <p class="number">Section $(f("chapter", "-")).$(f("section", "-"))</p>
+                <h1>$(
+                    f("title", basename(page.input.relative_path))
+                )</h1>
+                
+                <div class="video">
+
+                    <h4>Lecture Video</h4>
+                    <div>
+                        <lite-youtube videoid=$(f("youtube_id", "notfound")) params="modestbranding=1&rel=0"></lite-youtube>
+                    </div>
+                </div>
+            </div>
+            """) : nothing)
+        $(content)
+        </div>
+    </div>
+</body>
+</html>

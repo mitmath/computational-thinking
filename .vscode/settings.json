@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.jlmd": "markdown",
+        "*.jlhtml": "html",
+    }
+}
