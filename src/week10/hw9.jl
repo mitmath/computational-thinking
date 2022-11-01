@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 3
+#> section = 1.5
+#> order = 1.5
+#> homework_number = 9
+#> title = "Epidemic modeling III"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module3"]
+#> description = "In this problem set, we will look at a simple spatial agent-based epidemic model: agents can interact only with other agents that are nearby."
+
 using Markdown
 using InteractiveUtils
 

@@ -98,9 +98,21 @@ $(pluto_head)
                         desc = get(output.frontmatter, "description", nothing)
                         active = page.url == other_page.url
                         
-                        @htl("""<li class=$([
-                            active ? "active" : nothing,
-                        ])><a href=$(root_url * "/" * other_page.url) title=$(desc)>$(number) $(name)</a></li>""")
+                        homework_number = get(output.frontmatter, "homework_number", nothing)
+                        
+                        href = root_url * "/" * other_page.url
+                        
+                        if homework_number === nothing
+                            @htl("""<li class=$([
+                                active ? "active" : nothing,
+                                "lecture",
+                            ])><a href=$(href) title=$(desc)><span class="entry-number">$(number)</span> $(name)</a></li>""")
+                        else
+                            @htl("""<li class=$([
+                                active ? "active" : nothing,
+                                "homework",
+                            ])><a href=$(href) title=$(desc)><span class="entry-number">Homework $(homework_number):</span> $(name)</a></li>""")
+                        end
                     end for other_page in pages
                 ])
                 </ul>
@@ -129,7 +141,7 @@ $(pluto_head)
         </div>
         </nav>
         <div id="pages-content">
-           $(any(contains("module"), f("tags", String[])) ? @htl("""
+           $(any(contains("lecture"), f("tags", String[])) ? @htl("""
            <div class="lecture-header" >
                 <p class="number">Section $(f("chapter", "-")).$(f("section", "-"))</p>
                 <h1>$(

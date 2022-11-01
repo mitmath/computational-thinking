@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 2
+#> section = 9.5
+#> order = 9.5
+#> homework_number = 8
+#> title = "Epidemic modeling II"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module2"]
+#> description = "Learn about optimisation and gradient descent with help from our visuals and automatic checks. We use these new skill to fit parameters of an epidemic model to match reality."
+
 using Markdown
 using InteractiveUtils
 

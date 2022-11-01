@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 2
+#> section = 2.5
+#> order = 2.5
+#> homework_number = 5
+#> title = "Structure"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module2"]
+#> description = "Create your own Julia structs and add new functionality to them, to create first-class mathematical objects."
+
 using Markdown
 using InteractiveUtils
 

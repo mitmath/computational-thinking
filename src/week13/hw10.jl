@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 3
+#> section = 7.5
+#> order = 7.5
+#> homework_number = 10
+#> title = "Climate modeling I"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module3"]
+#> description = "Play around with an energy balance model of the climate system, to explore the effect of doubling CO₂, and to examine the 'snowball earth' phenomenon."
+
 using Markdown
 using InteractiveUtils
 

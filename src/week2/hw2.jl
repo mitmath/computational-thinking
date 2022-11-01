@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 1
+#> section = 4.5
+#> order = 4.5
+#> homework_number = 2
+#> title = "Convolutions"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module1"]
+#> description = "Create your own image filters using mathematical convolution!"
+
 using Markdown
 using InteractiveUtils
 
@@ -14,14 +24,16 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 65780f00-ed6b-11ea-1ecf-8b35523a7ac0
+begin
+	using Images, ImageIO, FileIO
+	using PlutoUI
+	using HypertextLiteral
+	using OffsetArrays
+end
+
 # ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
-md"_homework 2, version 2_"
-
-# ╔═╡ 8ef13896-ed68-11ea-160b-3550eeabbd7d
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
+md"_homework 2, version 3_"
 
 # ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
 md"""
@@ -41,7 +53,7 @@ Feel free to ask questions!
 # ╔═╡ 911ccbce-ed68-11ea-3606-0384e7580d7c
 # edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
 
-student = (name = "SOLUTIONS", kerberos_id = "SOLUTIONS")
+student = (name = "Jazzy Doe", kerberos_id = "jazz")
 
 # press the ▶ button in the bottom right of this cell to run your edits
 # or use Shift+Enter
@@ -49,20 +61,14 @@ student = (name = "SOLUTIONS", kerberos_id = "SOLUTIONS")
 # you might need to wait until all other cells in this notebook have completed running. 
 # scroll down the page to see what's up
 
+# ╔═╡ 8ef13896-ed68-11ea-160b-3550eeabbd7d
+md"""
+
+Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
+"""
+
 # ╔═╡ 5f95e01a-ee0a-11ea-030c-9dba276aba92
 md"_Let's create a package environment:_"
-
-# ╔═╡ 65780f00-ed6b-11ea-1ecf-8b35523a7ac0
-begin
-	import ImageMagick
-	using Images
-	using PlutoUI
-	using HypertextLiteral
-	using OffsetArrays
-end
-
-# ╔═╡ 54056a02-ee0a-11ea-101f-47feb6623bec
-bigbreak
 
 # ╔═╡ e08781fa-ed61-11ea-13ae-91a49b5eb74a
 md"""
@@ -83,9 +89,6 @@ So a window is just a 1D region from $-\ell$ to $\ell$.
 
 """
 
-# ╔═╡ a3067222-a83a-47b8-91c3-24ad78dd65c5
-bigbreak
-
 # ╔═╡ 80108d80-ee09-11ea-0368-31546eb0d3cc
 md"""
 #### Exercise 1.1
@@ -105,14 +108,14 @@ md"_Feel free to experiment with different values!_
 Let's use the function `colored_line` to view this 1D number array as a 1D image.
 "
 
-# ╔═╡ 01070e28-ee0f-11ea-1928-a7919d452bdd
-colored_line(v)
-
 # ╔═╡ ff70782e-e8d2-4281-9b24-d45c925f55e2
 begin
 	colored_line(x::Vector) = hcat(Gray.(Float64.(x)))'
 	colored_line(x::Any) = nothing
 end
+
+# ╔═╡ 01070e28-ee0f-11ea-1928-a7919d452bdd
+colored_line(v)
 
 # ╔═╡ 7522f81e-ee1c-11ea-35af-a17eb257ff1a
 md"👉 Try changing `n` and `v` around. Notice that you can run the cell `v = rand(n)` again to regenerate new random values."
@@ -136,34 +139,6 @@ end
 # ╔═╡ b7f3994c-ee1b-11ea-211a-d144db8eafc2
 md"_Some test cases:_"
 
-# ╔═╡ 803905b2-ee09-11ea-2d52-e77ff79693b0
-extend([5,6,7], 1)
-
-# ╔═╡ 80479d98-ee09-11ea-169e-d166eef65874
-extend([5,6,7], -8)
-
-# ╔═╡ 805691ce-ee09-11ea-053d-6d2e299ee123
-extend([5,6,7], 10)
-
-# ╔═╡ bcf98dfc-ee1b-11ea-21d0-c14439500971
-if !@isdefined(extend)
-	not_defined(:extend)
-else
-	let
-		result = extend([6,7],-10)
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != 6 || extend([6,7],10) != 7
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
 # ╔═╡ 3492b164-7065-48e8-978b-6c96b965d376
 example_vector = [0.8, 0.2, 0.1, 0.7, 0.6, 0.4]
 
@@ -178,13 +153,6 @@ colored_line([0, 0, example_vector..., 0, 0])
 
 # ╔═╡ 9bde9f92-ee0f-11ea-27f8-ffef5fce2b3c
 md"- Extended with your `extend` function:"
-
-# ╔═╡ 45c4da9a-ee0f-11ea-2c5b-1f6704559137
-if extend(v,1) === missing
-	missing
-else
-	colored_line([extend(example_vector, i) for i in -1:length(example_vector)+2])
-end
 
 # ╔═╡ 431ba330-0f72-416a-92e9-55f51ff3bcd1
 md"""
@@ -247,9 +215,6 @@ md"""
 # ╔═╡ 7d80a1ea-a0a9-41b2-9cfe-a334717ab2f4
 
 
-# ╔═╡ ea435e58-ee11-11ea-3785-01af8dd72360
-hint(md"Have a look at the lecture notes to see examples of adding interactivity with a slider. You can read the Interactivity and the PlutoUI sample notebooks to learn more, you can find them in Pluto's main menu. _(Right click the Pluto logo in the top left -> Open in new tab)_.")
-
 # ╔═╡ 80ab64f4-ee09-11ea-29b4-498112ed0799
 md"""
 #### Exercise 1.5
@@ -272,57 +237,8 @@ function convolve(v::AbstractVector, k)
 	return missing
 end
 
-# ╔═╡ 32a07f1d-93cd-4bf3-bac1-91afa6bb88a6
-md"""
-You can use the `÷` operator (you type `\div<TAB>` to get it with autocomplete) to do _integer division_. For example:
-
-```julia
-8 / 6 ≈ 1.3333333 # a floating point number!
-
-8 // 6 == 4 // 3  # a fraction!
-
-8 ÷ 6 == 1        # an integer!
-```
-""" |> hint
-
-# ╔═╡ 5eea882c-ee13-11ea-0d56-af81ecd30a4a
-colored_line(test_convolution)
-
-# ╔═╡ 93284f92-ee12-11ea-0342-833b1a30625c
-test_convolution = let
-	v = [1, 10, 100, 1000, 10000]
-	k = [1, 1, 0]
-	convolve(v, k)
-end
-
 # ╔═╡ cf73f9f8-ee12-11ea-39ae-0107e9107ef5
 md"_Edit the cell above, or create a new cell with your own test cases!_"
-
-# ╔═╡ 7ffd14f8-ee1d-11ea-0343-b54fb0333aea
-if !@isdefined(convolve)
-	not_defined(:convolve)
-else
-	let
-		x = [1, 10, 100]
-		result = convolve(x, [0, 1, 1])
-		shouldbe = [11, 110, 200]
-		shouldbe2 = [2, 11, 110]
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result isa AbstractVector)
-			keep_working(md"The returned object is not a `Vector`.")
-		elseif size(result) != size(x)
-			keep_working(md"The returned vector has the wrong dimensions.")
-		elseif result != shouldbe && result != shouldbe2
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
 
 # ╔═╡ fa463b71-5aa4-44a3-a67b-6b0776236243
 md"""
@@ -348,46 +264,10 @@ md"""
 Let's apply your kernel to our test vector `v` (first cell), and compare the result to our previous box blur function (second cell). The two should be identical.
 """
 
-# ╔═╡ 338b1c3f-f071-4f80-86c0-a82c17349828
-let
-	result = convolve(v, box_blur_kernel_test)
-	colored_line(result)
-end
-
 # ╔═╡ bbe1a562-8d97-4112-a88a-c45c260f574d
 let
 	result = box_blur(v, box_kernel_l)
 	colored_line(result)
-end
-
-# ╔═╡ d93fa3f6-c361-4dfd-a2ea-f38e682bcd6a
-if !@isdefined(box_blur_kernel)
-	not_defined(:box_blur_kernel)
-else
-	let
-		result = box_blur_kernel(2)
-		
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result isa AbstractVector)
-			keep_working(md"The returned object is not a `Vector`.")
-		elseif size(result) != (5,)
-			hint(md"The returned vector has the wrong dimensions.")
-		else
-			
-			x = [1, 10, 100]
-			result1 = box_blur(x, 2)
-			result2 = convolve(x, result)
-			
-			if result1 ≈ result2
-				correct()
-			else
-				keep_working()
-			end
-		end
-	end
 end
 
 # ╔═╡ 03f91a22-1c3e-4c42-9d78-1ee36851a120
@@ -422,27 +302,6 @@ function gaussian_kernel_1D(n; σ = 1)
 	return missing
 end
 
-# ╔═╡ f0c3e99d-9eb9-459e-917a-c2338af6683c
-let
-	result = gaussian_kernel_1D(5)
-	
-	if ismissing(result)
-		still_missing()
-	elseif isnothing(result)
-		keep_working(md"Did you forget to write `return`?")
-	elseif !(result isa AbstractVector)
-		keep_working(md"The returned object is not a `Vector`.")
-	elseif size(result) != (11,)
-		hint(md"The returned vector has the wrong dimensions.")
-	elseif !(sum(result) ≈ 1.0)
-		keep_working(md"You need to _normalize_ the result.")
-	elseif gaussian_kernel_1D(3; σ=1) == gaussian_kernel_1D(3; σ=2)
-		keep_working(md"Use the keyword argument `σ` in your function.")
-	else
-		correct()
-	end
-end
-
 # ╔═╡ a6149507-d5ba-45c1-896a-3487070d36ec
 colored_line(gaussian_kernel_1D(4; σ=1))
 
@@ -456,40 +315,12 @@ Let's try applying it in a convolution.
 # ╔═╡ 2a9dd06a-ee13-11ea-3f84-67bb309c77a8
 @bind gaussian_kernel_size_1D Slider(0:6)
 
-# ╔═╡ b424e2aa-ee14-11ea-33fa-35491e0b9c9d
-colored_line(test_gauss_1D_a)
-
-# ╔═╡ 38eb92f6-ee13-11ea-14d7-a503ac04302e
-test_gauss_1D_a = let
-	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
-	
-	if k !== missing
-		convolve(v, k)
-	end
-end
-
-# ╔═╡ bc1c20a4-ee14-11ea-3525-63c9fa78f089
-colored_line(test_gauss_1D_b)
-
-# ╔═╡ 24c21c7c-ee14-11ea-1512-677980db1288
-test_gauss_1D_b = let
-	v = create_bar()
-	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
-	
-	if k !== missing
-		convolve(v, k)
-	end
-end
-
 # ╔═╡ ce24e486-df27-4780-bc57-d3bf7bee83bb
 function create_bar()
 	x = zeros(100)
 	x[41:60] .= 1
 	x
 end
-
-# ╔═╡ 27847dc4-ee0a-11ea-0651-ebbbb3cfd58c
-bigbreak
 
 # ╔═╡ b01858b6-edf3-11ea-0826-938d33c19a43
 md"""
@@ -522,8 +353,21 @@ function extend(M::AbstractMatrix, i, j)
 	return missing
 end
 
-# ╔═╡ 649df270-ee24-11ea-397e-79c4355e38db
-hint(md"`num_rows, num_columns = size(M)`")
+# ╔═╡ 803905b2-ee09-11ea-2d52-e77ff79693b0
+extend([5,6,7], 1)
+
+# ╔═╡ 80479d98-ee09-11ea-169e-d166eef65874
+extend([5,6,7], -8)
+
+# ╔═╡ 805691ce-ee09-11ea-053d-6d2e299ee123
+extend([5,6,7], 10)
+
+# ╔═╡ 45c4da9a-ee0f-11ea-2c5b-1f6704559137
+if extend(v,1) === missing
+	missing
+else
+	colored_line([extend(example_vector, i) for i in -1:length(example_vector)+2])
+end
 
 # ╔═╡ 9afc4dca-ee16-11ea-354f-1d827aaa61d2
 md"_Let's test it!_"
@@ -545,26 +389,6 @@ md"- Extended with your `extend` function:"
 
 # ╔═╡ e1dc0622-ee16-11ea-274a-3b6ec9e15ab5
 [extend(small_image, i, j) for (i,j) in Iterators.product(-1:7,-1:7)]
-
-# ╔═╡ efd1ceb4-ee1c-11ea-350e-f7e3ea059024
-if !@isdefined(extend)
-	not_defined(:extend)
-else
-	let
-		input = [42 37; 1 0]
-		result = extend(input, -2, -2)
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != 42 || extend(input, -1, 3) != 37
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
 
 # ╔═╡ 4bbea325-35f8-4a51-bd66-153aba4aed96
 md"""
@@ -602,8 +426,46 @@ function convolve(M::AbstractMatrix, K::AbstractMatrix)
 	return missing
 end
 
-# ╔═╡ 0cabed84-ee1e-11ea-11c1-7d8a4b4ad1af
-hint(md"`num_rows, num_columns = size(K)`")
+# ╔═╡ 93284f92-ee12-11ea-0342-833b1a30625c
+test_convolution = let
+	v = [1, 10, 100, 1000, 10000]
+	k = [1, 1, 0]
+	convolve(v, k)
+end
+
+# ╔═╡ 5eea882c-ee13-11ea-0d56-af81ecd30a4a
+colored_line(test_convolution)
+
+# ╔═╡ 338b1c3f-f071-4f80-86c0-a82c17349828
+let
+	result = convolve(v, box_blur_kernel_test)
+	colored_line(result)
+end
+
+# ╔═╡ 38eb92f6-ee13-11ea-14d7-a503ac04302e
+test_gauss_1D_a = let
+	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
+	
+	if k !== missing
+		convolve(v, k)
+	end
+end
+
+# ╔═╡ b424e2aa-ee14-11ea-33fa-35491e0b9c9d
+colored_line(test_gauss_1D_a)
+
+# ╔═╡ 24c21c7c-ee14-11ea-1512-677980db1288
+test_gauss_1D_b = let
+	v = create_bar()
+	k = gaussian_kernel_1D(gaussian_kernel_size_1D)
+	
+	if k !== missing
+		convolve(v, k)
+	end
+end
+
+# ╔═╡ bc1c20a4-ee14-11ea-3525-63c9fa78f089
+colored_line(test_gauss_1D_b)
 
 # ╔═╡ 5a5135c6-ee1e-11ea-05dc-eb0c683c2ce5
 md"_Let's test it out! 🎃_"
@@ -660,17 +522,8 @@ function with_gaussian_blur(image; σ=3, l=5)
 	return missing
 end
 
-# ╔═╡ 9def5f32-ee15-11ea-1f74-f7e6690f2efa
-hint(md"Can we just copy the 1D code? What is different in 2D?")
-
 # ╔═╡ 8ae59674-ee18-11ea-3815-f50713d0fa08
 md"_Let's make it interactive. 💫_"
-
-# ╔═╡ 94c0798e-ee18-11ea-3212-1533753eabb6
-@bind gauss_raw_camera_data camera_input(;max_size=100)
-
-# ╔═╡ a75701c4-ee18-11ea-2863-d3042e71a68b
-with_gaussian_blur(gauss_camera_image; σ=face_σ, l=face_l)
 
 # ╔═╡ 96146b16-79ea-401f-b8ba-e05663a18bd8
 @bind face_σ Slider(0.1:0.1:10; show_value=true)
@@ -682,9 +535,6 @@ with_gaussian_blur(gauss_camera_image; σ=face_σ, l=face_l)
 md"""
 When you set `face_σ` to a low number (e.g. `2.0`), what effect does `face_l` have? And vice versa?
 """
-
-# ╔═╡ f461f5f2-ee18-11ea-3d03-95f57f9bf09e
-gauss_camera_image = process_raw_camera_data(gauss_raw_camera_data);
 
 # ╔═╡ 7c6642a6-ee15-11ea-0526-a1aac4286cdd
 md"""
@@ -724,18 +574,6 @@ function with_sobel_edge_detect(image)
 	return missing
 end
 
-# ╔═╡ 1a0324de-ee19-11ea-1d4d-db37f4136ad3
-@bind sobel_raw_camera_data camera_input(;max_size=200)
-
-# ╔═╡ 1bf94c00-ee19-11ea-0e3c-e12bc68d8e28
-Gray.(with_sobel_edge_detect(sobel_camera_image))
-
-# ╔═╡ 1ff6b5cc-ee19-11ea-2ca8-7f00c204f587
-sobel_camera_image = Gray.(process_raw_camera_data(sobel_raw_camera_data));
-
-# ╔═╡ 0001f782-ee0e-11ea-1fb4-2b5ef3d241e2
-bigbreak
-
 # ╔═╡ 8ffe16ce-ee20-11ea-18bd-15640f94b839
 if student.kerberos_id === "jazz"
 	md"""
@@ -744,9 +582,6 @@ if student.kerberos_id === "jazz"
 	"""
 end
 
-# ╔═╡ 5842895a-ee10-11ea-119d-81e4c4c8c53b
-bigbreak
-
 # ╔═╡ 2d9f3ae4-9e4c-49ce-aab0-5f87aba85c3e
 md"## Function library
 
@@ -754,6 +589,31 @@ Just some helper functions used in the notebook."
 
 # ╔═╡ 5516c800-edee-11ea-12cf-3f8c082ef0ef
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
+
+# ╔═╡ ea435e58-ee11-11ea-3785-01af8dd72360
+hint(md"Have a look at the lecture notes to see examples of adding interactivity with a slider. You can read the Interactivity and the PlutoUI sample notebooks to learn more, you can find them in Pluto's main menu. _(Right click the Pluto logo in the top left -> Open in new tab)_.")
+
+# ╔═╡ 32a07f1d-93cd-4bf3-bac1-91afa6bb88a6
+md"""
+You can use the `÷` operator (you type `\div<TAB>` to get it with autocomplete) to do _integer division_. For example:
+
+```julia
+8 / 6 ≈ 1.3333333 # a floating point number!
+
+8 // 6 == 4 // 3  # a fraction!
+
+8 ÷ 6 == 1        # an integer!
+```
+""" |> hint
+
+# ╔═╡ 649df270-ee24-11ea-397e-79c4355e38db
+hint(md"`num_rows, num_columns = size(M)`")
+
+# ╔═╡ 0cabed84-ee1e-11ea-11c1-7d8a4b4ad1af
+hint(md"`num_rows, num_columns = size(K)`")
+
+# ╔═╡ 9def5f32-ee15-11ea-1f74-f7e6690f2efa
+hint(md"Can we just copy the 1D code? What is different in 2D?")
 
 # ╔═╡ 57360a7a-edee-11ea-0c28-91463ece500d
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
@@ -770,11 +630,142 @@ yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!
 # ╔═╡ 5aa9dfb2-edee-11ea-3754-c368fb40637c
 correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
 
+# ╔═╡ f0c3e99d-9eb9-459e-917a-c2338af6683c
+let
+	result = gaussian_kernel_1D(5)
+	
+	if ismissing(result)
+		still_missing()
+	elseif isnothing(result)
+		keep_working(md"Did you forget to write `return`?")
+	elseif !(result isa AbstractVector)
+		keep_working(md"The returned object is not a `Vector`.")
+	elseif size(result) != (11,)
+		hint(md"The returned vector has the wrong dimensions.")
+	elseif !(sum(result) ≈ 1.0)
+		keep_working(md"You need to _normalize_ the result.")
+	elseif gaussian_kernel_1D(3; σ=1) == gaussian_kernel_1D(3; σ=2)
+		keep_working(md"Use the keyword argument `σ` in your function.")
+	else
+		correct()
+	end
+end
+
 # ╔═╡ 74d44e22-edee-11ea-09a0-69aa0aba3281
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
 
+# ╔═╡ bcf98dfc-ee1b-11ea-21d0-c14439500971
+if !@isdefined(extend)
+	not_defined(:extend)
+else
+	let
+		result = extend([6,7],-10)
+
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif result != 6 || extend([6,7],10) != 7
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
+# ╔═╡ 7ffd14f8-ee1d-11ea-0343-b54fb0333aea
+if !@isdefined(convolve)
+	not_defined(:convolve)
+else
+	let
+		x = [1, 10, 100]
+		result = convolve(x, [0, 1, 1])
+		shouldbe = [11, 110, 200]
+		shouldbe2 = [2, 11, 110]
+
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif !(result isa AbstractVector)
+			keep_working(md"The returned object is not a `Vector`.")
+		elseif size(result) != size(x)
+			keep_working(md"The returned vector has the wrong dimensions.")
+		elseif result != shouldbe && result != shouldbe2
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
+# ╔═╡ d93fa3f6-c361-4dfd-a2ea-f38e682bcd6a
+if !@isdefined(box_blur_kernel)
+	not_defined(:box_blur_kernel)
+else
+	let
+		result = box_blur_kernel(2)
+		
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif !(result isa AbstractVector)
+			keep_working(md"The returned object is not a `Vector`.")
+		elseif size(result) != (5,)
+			hint(md"The returned vector has the wrong dimensions.")
+		else
+			
+			x = [1, 10, 100]
+			result1 = box_blur(x, 2)
+			result2 = convolve(x, result)
+			
+			if result1 ≈ result2
+				correct()
+			else
+				keep_working()
+			end
+		end
+	end
+end
+
+# ╔═╡ efd1ceb4-ee1c-11ea-350e-f7e3ea059024
+if !@isdefined(extend)
+	not_defined(:extend)
+else
+	let
+		input = [42 37; 1 0]
+		result = extend(input, -2, -2)
+
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif result != 42 || extend(input, -1, 3) != 37
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
 # ╔═╡ 115ded8c-ee0a-11ea-3493-89487315feb7
 bigbreak = html"<br><br><br><br><br>";
+
+# ╔═╡ 54056a02-ee0a-11ea-101f-47feb6623bec
+bigbreak
+
+# ╔═╡ a3067222-a83a-47b8-91c3-24ad78dd65c5
+bigbreak
+
+# ╔═╡ 27847dc4-ee0a-11ea-0651-ebbbb3cfd58c
+bigbreak
+
+# ╔═╡ 0001f782-ee0e-11ea-1fb4-2b5ef3d241e2
+bigbreak
+
+# ╔═╡ 5842895a-ee10-11ea-119d-81e4c4c8c53b
+bigbreak
 
 # ╔═╡ dfb7c6be-ee0d-11ea-194e-9758857f7b20
 function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.png")
@@ -980,6 +971,12 @@ function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.pn
 """ |> HTML
 end
 
+# ╔═╡ 94c0798e-ee18-11ea-3212-1533753eabb6
+@bind gauss_raw_camera_data camera_input(;max_size=100)
+
+# ╔═╡ 1a0324de-ee19-11ea-1d4d-db37f4136ad3
+@bind sobel_raw_camera_data camera_input(;max_size=200)
+
 # ╔═╡ e15ad330-ee0d-11ea-25b6-1b1b3f3d7888
 
 function process_raw_camera_data(raw_camera_data)
@@ -1015,18 +1012,32 @@ function process_raw_camera_data(raw_camera_data)
 	RGB.(reds, greens, blues)
 end
 
+# ╔═╡ f461f5f2-ee18-11ea-3d03-95f57f9bf09e
+gauss_camera_image = process_raw_camera_data(gauss_raw_camera_data);
+
+# ╔═╡ a75701c4-ee18-11ea-2863-d3042e71a68b
+with_gaussian_blur(gauss_camera_image; σ=face_σ, l=face_l)
+
+# ╔═╡ 1ff6b5cc-ee19-11ea-2ca8-7f00c204f587
+sobel_camera_image = Gray.(process_raw_camera_data(sobel_raw_camera_data));
+
+# ╔═╡ 1bf94c00-ee19-11ea-0e3c-e12bc68d8e28
+Gray.(with_sobel_edge_detect(sobel_camera_image))
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
+FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
-ImageMagick = "6218d12a-5da1-5696-b52f-db25d2ecc6d1"
+ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
 Images = "916415d5-f1e6-5110-898d-aaa5f9f070e0"
 OffsetArrays = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
+FileIO = "~1.16.0"
 HypertextLiteral = "~0.9.4"
-ImageMagick = "~1.2.2"
+ImageIO = "~0.6.6"
 Images = "~0.25.2"
 OffsetArrays = "~1.12.8"
 PlutoUI = "~0.7.48"

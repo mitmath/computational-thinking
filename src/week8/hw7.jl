@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 2
+#> section = 7.5
+#> order = 7.5
+#> homework_number = 7
+#> title = "Epidemic modeling I"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module2"]
+#> description = "Simulate the spread of an epidemic by creating your own agent-based model from scratch, and find statistics using the Monte Carlo method."
+
 using Markdown
 using InteractiveUtils
 

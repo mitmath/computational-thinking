@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 1
+#> section = 6.5
+#> order = 6.5
+#> homework_number = 3
+#> title = "Structure and language"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module1"]
+#> description = "Automatically detect the language of a piece of text, and generate realistic-looking random text!"
+
 using Markdown
 using InteractiveUtils
 

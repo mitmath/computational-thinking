@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 1
+#> section = 2.5
+#> order = 2.5
+#> homework_number = 1
+#> title = "Images and Arrays"
+#> layout = "layout.jlhtml"
+#> description = "Practice Julia basics by working with arrays of colors. At the end of this homework, you can see all of your filters applied to your webcam image!"
+#> tags = ["homework", "module1"]
+
 using Markdown
 using InteractiveUtils
 

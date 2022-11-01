@@ -1,6 +1,16 @@
 ### A Pluto.jl notebook ###
 # v0.19.14
 
+#> [frontmatter]
+#> chapter = 2
+#> section = 3.5
+#> order = 3.5
+#> homework_number = 6
+#> title = "Probability distributions"
+#> layout = "layout.jlhtml"
+#> tags = ["homework", "module2"]
+#> description = "Calculate a probability distribution from a dataset, experiment with different statistical models, and learn how to plot your results."
+
 using Markdown
 using InteractiveUtils
 
