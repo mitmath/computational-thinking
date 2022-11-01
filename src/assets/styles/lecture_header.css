@@ -1,4 +1,4 @@
-.lecture-header{
+.lecture-header {
     background: #282936;
     color: white;
     padding: 1rem;
@@ -7,7 +7,11 @@
     display: block;
     border-radius: 1rem;
     margin: 1rem;
-    }
+}
+
+.lecture-header * {
+    color: white;
+}
 
 .lecture-header,
 .lecture-header h1 {
@@ -40,3 +44,24 @@
     aspect-ratio: 16/9;
     flex: 1 1 auto;
 }
+
+/* modify Pluto's styles to avoid a visual glitch. This will make the header always display fixed at the top. */
+
+
+body:not(.asdfsdfa) pluto-editor:not(.asdffdas) header#pluto-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1998;
+}
+
+/* Another strategy: leave the header in place but make the export menu hidden when it is not opened. */
+/* 
+header.show_export aside#export {
+    visibility: initial;
+}
+
+aside#export {
+    visibility: hidden;
+} */
