@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.5
+# v0.19.12
 
 #> [frontmatter]
 #> chapter = 3
@@ -15,13 +15,6 @@
 
 using Markdown
 using InteractiveUtils
-
-# ╔═╡ 75c8f825-d988-4f9e-8038-6b4dd2e24181
-begin
-    using HypertextLiteral
-	using PlutoTest
-	using PlutoUI
-end
 
 # ╔═╡ ef4eea24-bc1c-43be-b9b6-d073ac2433cf
 md"""
@@ -50,6 +43,13 @@ md"""
 # Why not Google Drive?
 """
 
+# ╔═╡ 812002d3-8603-4ffa-8695-2b2da7f0766a
+html"""
+<p>
+If you have not used Google Drive before, here is a small demonstration:</p>
+<video src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" data-canonical-src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" controls="controls" muted="muted" class="d-block rounded-bottom-2 width-fit" style="max-height:640px;"></video>
+""" |> aside
+
 # ╔═╡ 56db20a5-0e8d-4d34-b3ba-c3ab1b8de58e
 md"""
 Google Drive (or Dropbox, Nextcloud, etc) is a platform for _realtime collaboration_ on files. Besides synchronizing single files (like the video above), Google Drive also allows you to synchronize entire folders between multiple computers and the cloud. That's awesome! So do people use it for collaborative software projects?
@@ -71,6 +71,27 @@ For example, here is what Pluto.jl looks like after adding **a single character*
 
 """
 
+# ╔═╡ 51448106-3e0e-4abf-84fc-7e6e81425d12
+flex(
+	md"""
+	#### Before:
+	
+	![Schermafbeelding 2021-05-04 om 18 51 27](https://user-images.githubusercontent.com/6933510/117040056-c10b8280-ad09-11eb-9384-d211156440b1.png)
+	""",
+	md"""
+	#### After a single change:
+	
+	![Schermafbeelding 2021-05-04 om 18 50 00](https://user-images.githubusercontent.com/6933510/117039958-a46f4a80-ad09-11eb-90fa-c1264d896648.png)
+	"""
+	) |> outline
+
+# ╔═╡ 3c0059b7-7a99-4c1c-a2bf-e47bdd06a252
+outline(x) = Div(x, Dict(
+		"border" => "3px solid rgba(0,0,0,.3)",
+		"border-radius" => "3px",
+		"padding" => "5px",
+		))
+
 # ╔═╡ 604837c5-b017-4d6c-a5c5-dab50d5f3f61
 md"""
 While a single character can mean disaster, this _sensitivity_ also means that programming languages are quite powerful! A small change will often do the trick.
@@ -82,6 +103,29 @@ md"""
 
 This sensitivity to changes makes realtime synchronization unsuitable for software projects. To see why, let's say that I want to change `sqrt` to `log` in the following code:
 """
+
+# ╔═╡ 0bf51d8c-7adf-4231-8b2d-c976484a3e7c
+Div(
+	[md"""
+	```julia
+	function height(p)
+		c1 * sqrt(p * c2)
+	end
+	```
+	""",
+	md"to",
+	md"""
+	```julia
+	function height(p)
+		c1 * log(p * c2)
+	end
+	```
+	"""],
+	Dict(
+		"display" => "flex",
+		"justify-content" => "space-evenly",
+		"align-items" => "center",
+	))
 
 # ╔═╡ 02905480-8864-4e56-af3a-6c7c0789ce6f
 
@@ -96,6 +140,13 @@ md"""
 ##### Synchronizing every _keystroke_
 """
 
+# ╔═╡ 8b24ce23-4ead-4fbc-875e-a8261f671abe
+grid([
+	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
+	"Your computer (local):" pass fail fail fail pass
+	"Online (remote): " pass fail fail fail pass
+		])
+
 # ╔═╡ 3c8abdfc-cf68-4f10-a3e9-08d24803535b
 
 
@@ -108,6 +159,20 @@ However, if we only publish code _manually_, we can make sure that we never publ
 md"""
 ##### Synchronizing manually
 """
+
+# ╔═╡ 86e4b0dd-9bf5-4711-bf3f-b55ed2627a03
+grid([
+	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
+	md"Your computer _(local)_:" pass fail fail fail pass
+	md"Online _(remote)_: " pass nothing nothing nothing pass
+		])
+
+# ╔═╡ 8ea1ca6b-4bb7-4f53-907d-0e5ca83e5761
+md"""
+[^sidenote]:
+
+    _Language design side note:_ There _are_ languages that are designed to be robust against small changes, and you can actually use realtime collaboration with those! Examples are [glitch.com](glitch.com) for collaborative HTML and CSS editing _(these languages can ignore syntax errors and continue)_, and the more experimental language [_Dark_](https://darklang.com/) _(which uses a special editor that does not allow you to type errors)_.
+""" |> aside
 
 # ╔═╡ ee5a3219-4547-4a9d-b527-3489a2925f68
 md"""
@@ -123,10 +188,24 @@ md"""
 ##### Synchronizing every _save_
 """
 
+# ╔═╡ efbd6d1c-d2c9-48a9-9d6c-dc9ce6af0b5b
+grid([
+	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
+	"Your computer (local):" pass fail fail pass
+	"Online (remote): " pass fail fail pass
+		])
+
 # ╔═╡ 1421f832-9f97-4ec3-b967-64618983349b
 md"""
 ##### Synchronizing manually
 """
+
+# ╔═╡ b139e8ea-88ad-4df4-9f13-c867edfc2db0
+grid([
+	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
+	"Your computer (local):" pass fail fail pass
+	"Online (remote): " pass nothing nothing pass
+		])
 
 # ╔═╡ e5bab2e1-be9e-4654-844a-d50285e330c8
 pass2 = html"<span style='opacity: .3'>✅</span>"
@@ -136,6 +215,9 @@ pass = "✅" |> HTML
 
 # ╔═╡ 79ab206d-2140-4c78-8fd4-a874fe2551e1
 fail = "❌" |> HTML
+
+# ╔═╡ 4ce38ec8-4084-4fe8-a248-87408cd0d39b
+bigbreak
 
 # ╔═╡ 38261f04-f410-440e-a1cf-218fa240a0ae
 md"""
@@ -150,6 +232,9 @@ Now that's great, but what if your teammate also made a copy `presentation-with-
 
 
 """
+
+# ╔═╡ 93ce9618-5484-4572-97f1-1cb9c9367989
+bigbreak
 
 # ╔═╡ a0a97cd2-838c-4a2c-9233-969b3274764c
 md"""
@@ -178,12 +263,6 @@ bigbreak = html"""
 <br>
 <br>
 """
-
-# ╔═╡ 4ce38ec8-4084-4fe8-a248-87408cd0d39b
-bigbreak
-
-# ╔═╡ 93ce9618-5484-4572-97f1-1cb9c9367989
-bigbreak
 
 # ╔═╡ e3fe649e-2733-455a-897d-d4d2d70b9dc6
 md"""
@@ -220,6 +299,12 @@ This is possible because a Pull Request is not static — you can make changes t
 
 """
 
+# ╔═╡ 7af9e69c-2b81-4a90-861c-ed737a4a9ec4
+md"""
+[^1]:
+    If you are working on a _fork_, then by creating a PR, you also give the original project authors access to make changes to the _from_ branch of the PR. This is a useful feature, allowing you to work together on the same codebase.
+""" |> aside
+
 # ╔═╡ b83ade3d-6f8d-4ac8-9255-956d0a348416
 md"""
 As an example of a Pull Request in the wild, let's look at this PR to `JuliaLang/julia`: [github.com/JuliaLang/julia/pull/40596](https://github.com/JuliaLang/julia/pull/40596). The code change is not so important to us right now, but pay attention to the communication around the code change.
@@ -249,8 +334,22 @@ md"""
 > Video tutorial will be available here after the live lecture.
 """
 
+# ╔═╡ b2e49cd5-49d5-4ac7-a3ae-9820a97720fb
+[
+	@htl("<em>remote</em>") => md"The version that is on the internet, you browse the remote on github.com.",
+	@htl("<em>local</em>") => md"What's on your computer. Use `pull`, `commit` and `push` to synchronize this with the remote. Google Drive does this all the time."
+	] |> vocabulary
+
 # ╔═╡ d400d538-4f73-4490-ad68-aedbb57cd70f
 
+
+# ╔═╡ a98993b9-a5c0-4260-b96e-2655c472ccba
+[
+	"fetch" => md"Make your local git aware of any changes online. Do this often!",
+	"pull" => md"Apply any changes on the remote version to your local copy. This will get the two _in sync_. Do this often!",
+	"commit" => md"Create a collection of changes to files, ready to be `push`ed.",
+	"push" => md"Publish any local `commit`s to the remote version.",
+	] |> vocabulary
 
 # ╔═╡ 67cf205a-3d89-4cd9-ab5e-febc85ea8af1
 md"""
@@ -331,6 +430,15 @@ md"""
 One reason to write tests is to _pin_ specific behaviour, protecting yourself from accidentally changing it later. For example, if you fix a bug that `double(2)` returns `40` instead of `4`, you would also add a test for `double(2) == 4`. Months later, when you are changing `double` for another use case, the old test insures that you are not accidentally breaking something that was once fixed.
 """
 
+# ╔═╡ 7174076d-5eba-4380-8d76-292935014d90
+md"""
+> ##### Test-driven design
+> 
+> Some people like to _first_ write their tests, which will fail initially, and _then_ write the code to solve the problem. While working on the code, they keep re-running the tests, until all checks are green! This can be an effective and rewarding way to work on a software problem!
+> 
+> If you are following this course, then you will already be familiar with this concept! The homework exercises were all designed with the test-driven principle.
+""" |> aside
+
 # ╔═╡ 0d76ea2f-18a9-46d1-8328-f077482d5d1f
 md"""
 #### Running tests
@@ -376,6 +484,13 @@ md"""
 # Appendix
 """
 
+# ╔═╡ 75c8f825-d988-4f9e-8038-6b4dd2e24181
+begin
+    using HypertextLiteral
+	using PlutoTest
+	using PlutoUI
+end
+
 # ╔═╡ d92d55a3-8fbc-4178-81b4-7ddc379ef7c7
 function ingredients(path::String)
 	# this is from the Julia source code (evalfile in base/loading.jl)
@@ -396,6 +511,20 @@ end
 
 # ╔═╡ 4ea69625-0064-42da-a75a-a54fbd106f78
 stackrows(x) = permutedims(hcat(x...),(2, 1))
+
+# ╔═╡ 13c0fbf3-08c6-4515-b710-f16b55165a2d
+vocabulary(x) = grid(stackrows((
+		[@htl("<span style='font-size: 1.2rem; font-weight: 700;'><code>$(k)</code></span>"), v]
+		for (k, v) in x
+		)); fill_width=false)
+
+# ╔═╡ 574448b8-2ff1-4bff-8580-33bfcba860e8
+function flex(args...; kwargs...)
+	Div(;
+		contents=collect(args),
+		style=Dict("display" => "flex", ("flex-" * String(k) => string(v) for (k, v) in kwargs)...)
+		)
+end
 
 # ╔═╡ dd4855a0-0b7c-40a5-8565-94b40948f86d
 flex(x::Union{AbstractVector,Base.Generator}; kwargs...) = flex(x...; kwargs...)
@@ -419,58 +548,6 @@ begin
 	end
 end
 
-# ╔═╡ 3c0059b7-7a99-4c1c-a2bf-e47bdd06a252
-outline(x) = Div(x, Dict(
-		"border" => "3px solid rgba(0,0,0,.3)",
-		"border-radius" => "3px",
-		"padding" => "5px",
-		))
-
-# ╔═╡ 0bf51d8c-7adf-4231-8b2d-c976484a3e7c
-Div(
-	[md"""
-	```julia
-	function height(p)
-		c1 * sqrt(p * c2)
-	end
-	```
-	""",
-	md"to",
-	md"""
-	```julia
-	function height(p)
-		c1 * log(p * c2)
-	end
-	```
-	"""],
-	Dict(
-		"display" => "flex",
-		"justify-content" => "space-evenly",
-		"align-items" => "center",
-	))
-
-# ╔═╡ 574448b8-2ff1-4bff-8580-33bfcba860e8
-function flex(args...; kwargs...)
-	Div(;
-		contents=collect(args),
-		style=Dict("display" => "flex", ("flex-" * String(k) => string(v) for (k, v) in kwargs)...)
-		)
-end
-
-# ╔═╡ 51448106-3e0e-4abf-84fc-7e6e81425d12
-flex(
-	md"""
-	#### Before:
-	
-	![Schermafbeelding 2021-05-04 om 18 51 27](https://user-images.githubusercontent.com/6933510/117040056-c10b8280-ad09-11eb-9384-d211156440b1.png)
-	""",
-	md"""
-	#### After a single change:
-	
-	![Schermafbeelding 2021-05-04 om 18 50 00](https://user-images.githubusercontent.com/6933510/117039958-a46f4a80-ad09-11eb-90fa-c1264d896648.png)
-	"""
-	) |> outline
-
 # ╔═╡ 676ac6ff-1b7e-4c88-b850-45f4375a8d58
 function grid(items::AbstractMatrix; fill_width::Bool=true)
 	Div(
@@ -482,54 +559,6 @@ function grid(items::AbstractMatrix; fill_width::Bool=true)
 		),
 	)
 end
-
-# ╔═╡ 8b24ce23-4ead-4fbc-875e-a8261f671abe
-grid([
-	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
-	"Your computer (local):" pass fail fail fail pass
-	"Online (remote): " pass fail fail fail pass
-		])
-
-# ╔═╡ 86e4b0dd-9bf5-4711-bf3f-b55ed2627a03
-grid([
-	nothing                  md"`sqrt`" md"`sq`" md"` `" md"`lo`" md"`log`"
-	md"Your computer _(local)_:" pass fail fail fail pass
-	md"Online _(remote)_: " pass nothing nothing nothing pass
-		])
-
-# ╔═╡ efbd6d1c-d2c9-48a9-9d6c-dc9ce6af0b5b
-grid([
-	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
-	"Your computer (local):" pass fail fail pass
-	"Online (remote): " pass fail fail pass
-		])
-
-# ╔═╡ b139e8ea-88ad-4df4-9f13-c867edfc2db0
-grid([
-	nothing                  md"`sqrt`" md"Let's try `sin`" md"Let's try `cos`" md"Try `log`"
-	"Your computer (local):" pass fail fail pass
-	"Online (remote): " pass nothing nothing pass
-		])
-
-# ╔═╡ 13c0fbf3-08c6-4515-b710-f16b55165a2d
-vocabulary(x) = grid(stackrows((
-		[@htl("<span style='font-size: 1.2rem; font-weight: 700;'><code>$(k)</code></span>"), v]
-		for (k, v) in x
-		)); fill_width=false)
-
-# ╔═╡ b2e49cd5-49d5-4ac7-a3ae-9820a97720fb
-[
-	@htl("<em>remote</em>") => md"The version that is on the internet, you browse the remote on github.com.",
-	@htl("<em>local</em>") => md"What's on your computer. Use `pull`, `commit` and `push` to synchronize this with the remote. Google Drive does this all the time."
-	] |> vocabulary
-
-# ╔═╡ a98993b9-a5c0-4260-b96e-2655c472ccba
-[
-	"fetch" => md"Make your local git aware of any changes online. Do this often!",
-	"pull" => md"Apply any changes on the remote version to your local copy. This will get the two _in sync_. Do this often!",
-	"commit" => md"Create a collection of changes to files, ready to be `push`ed.",
-	"push" => md"Publish any local `commit`s to the remote version.",
-	] |> vocabulary
 
 # ╔═╡ d43abe78-5a9d-4a22-999d-0ee85eb5ab7f
 function aside(x)
@@ -559,35 +588,6 @@ function aside(x)
 		""")
 end
 
-# ╔═╡ 812002d3-8603-4ffa-8695-2b2da7f0766a
-html"""
-<p>
-If you have not used Google Drive before, here is a small demonstration:</p>
-<video src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" data-canonical-src="https://user-images.githubusercontent.com/6933510/117038375-d8497080-ad07-11eb-8260-34e96414131a.mov" controls="controls" muted="muted" class="d-block rounded-bottom-2 width-fit" style="max-height:640px;"></video>
-""" |> aside
-
-# ╔═╡ 8ea1ca6b-4bb7-4f53-907d-0e5ca83e5761
-md"""
-[^sidenote]:
-
-    _Language design side note:_ There _are_ languages that are designed to be robust against small changes, and you can actually use realtime collaboration with those! Examples are [glitch.com](glitch.com) for collaborative HTML and CSS editing _(these languages can ignore syntax errors and continue)_, and the more experimental language [_Dark_](https://darklang.com/) _(which uses a special editor that does not allow you to type errors)_.
-""" |> aside
-
-# ╔═╡ 7af9e69c-2b81-4a90-861c-ed737a4a9ec4
-md"""
-[^1]:
-    If you are working on a _fork_, then by creating a PR, you also give the original project authors access to make changes to the _from_ branch of the PR. This is a useful feature, allowing you to work together on the same codebase.
-""" |> aside
-
-# ╔═╡ 7174076d-5eba-4380-8d76-292935014d90
-md"""
-> ##### Test-driven design
-> 
-> Some people like to _first_ write their tests, which will fail initially, and _then_ write the code to solve the problem. While working on the code, they keep re-running the tests, until all checks are green! This can be an effective and rewarding way to work on a software problem!
-> 
-> If you are following this course, then you will already be familiar with this concept! The homework exercises were all designed with the test-driven principle.
-""" |> aside
-
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -598,7 +598,7 @@ PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 [compat]
 HypertextLiteral = "~0.9.4"
 PlutoTest = "~0.2.2"
-PlutoUI = "~0.7.38"
+PlutoUI = "~0.7.43"
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000002
@@ -613,6 +613,7 @@ version = "1.1.4"
 
 [[ArgTools]]
 uuid = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
+version = "1.1.1"
 
 [[Artifacts]]
 uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
@@ -622,21 +623,26 @@ uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
 [[ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
-git-tree-sha1 = "63d1e802de0c4882c00aee5cb16f9dd4d6d7c59c"
+git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
 uuid = "3da002f7-5984-5a60-b8a6-cbb66c0b333f"
-version = "0.11.1"
+version = "0.11.4"
 
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
+version = "0.5.2+0"
 
 [[Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
 
 [[Downloads]]
-deps = ["ArgTools", "LibCURL", "NetworkOptions"]
+deps = ["ArgTools", "FileWatching", "LibCURL", "NetworkOptions"]
 uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
+version = "1.6.0"
+
+[[FileWatching]]
+uuid = "7b1f6079-737a-58dc-b8bc-7a2ca5c1b5ee"
 
 [[FixedPointNumbers]]
 deps = ["Statistics"]
@@ -675,10 +681,12 @@ version = "0.21.3"
 [[LibCURL]]
 deps = ["LibCURL_jll", "MozillaCACerts_jll"]
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
+version = "0.6.3"
 
 [[LibCURL_jll]]
 deps = ["Artifacts", "LibSSH2_jll", "Libdl", "MbedTLS_jll", "Zlib_jll", "nghttp2_jll"]
 uuid = "deac9b47-8bc7-5906-a0fe-35ac56dc84c0"
+version = "7.84.0+0"
 
 [[LibGit2]]
 deps = ["Base64", "NetworkOptions", "Printf", "SHA"]
@@ -687,6 +695,7 @@ uuid = "76f85450-5226-5b5a-8eaa-529ad045b433"
 [[LibSSH2_jll]]
 deps = ["Artifacts", "Libdl", "MbedTLS_jll"]
 uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
+version = "1.10.2+0"
 
 [[Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
@@ -705,29 +714,34 @@ uuid = "d6f4376e-aef5-505a-96c1-9c027394607a"
 [[MbedTLS_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
+version = "2.28.0+0"
 
 [[Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
 
 [[MozillaCACerts_jll]]
 uuid = "14a3606d-f60d-562e-9121-12d972cd8159"
+version = "2022.2.1"
 
 [[NetworkOptions]]
 uuid = "ca575930-c2e3-43a9-ace4-1e988b2c1908"
+version = "1.2.0"
 
 [[OpenBLAS_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Libdl"]
 uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
+version = "0.3.20+0"
 
 [[Parsers]]
 deps = ["Dates"]
-git-tree-sha1 = "1285416549ccfcdf0c50d4997a94331e88d68413"
+git-tree-sha1 = "3d5bf43e3e8b412656404ed9466f1dcbf7c50269"
 uuid = "69de0a69-1ddd-5017-9359-2bf0b02dc9f0"
-version = "2.3.1"
+version = "2.4.0"
 
 [[Pkg]]
 deps = ["Artifacts", "Dates", "Downloads", "LibGit2", "Libdl", "Logging", "Markdown", "Printf", "REPL", "Random", "SHA", "Serialization", "TOML", "Tar", "UUIDs", "p7zip_jll"]
 uuid = "44cfe95a-1eb2-52ea-b672-e2afdf69b78f"
+version = "1.8.0"
 
 [[PlutoTest]]
 deps = ["HypertextLiteral", "InteractiveUtils", "Markdown", "Test"]
@@ -737,9 +751,9 @@ version = "0.2.2"
 
 [[PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "Markdown", "Random", "Reexport", "UUIDs"]
-git-tree-sha1 = "670e559e5c8e191ded66fa9ea89c97f10376bb4c"
+git-tree-sha1 = "2777a5c2c91b3145f5aa75b61bb4c2eb38797136"
 uuid = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
-version = "0.7.38"
+version = "0.7.43"
 
 [[Printf]]
 deps = ["Unicode"]
@@ -760,6 +774,7 @@ version = "1.2.2"
 
 [[SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
+version = "0.7.0"
 
 [[Serialization]]
 uuid = "9e88b42a-f829-5b0c-bbe9-9e923198166b"
@@ -778,10 +793,12 @@ uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 [[TOML]]
 deps = ["Dates"]
 uuid = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
+version = "1.0.0"
 
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
+version = "1.10.0"
 
 [[Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
@@ -802,18 +819,22 @@ uuid = "4ec0a83e-493e-50e2-b9ac-8f72acf5a8f5"
 [[Zlib_jll]]
 deps = ["Libdl"]
 uuid = "83775a58-1f1d-513f-b197-d71354ab007a"
+version = "1.2.12+3"
 
 [[libblastrampoline_jll]]
 deps = ["Artifacts", "Libdl", "OpenBLAS_jll"]
 uuid = "8e850b90-86db-534c-a0d3-1478176c7d93"
+version = "5.1.1+0"
 
 [[nghttp2_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "8e850ede-7688-5339-a07c-302acd2aaf8d"
+version = "1.48.0+0"
 
 [[p7zip_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "3f19e933-33d8-53b3-aaab-bd5110c3b7a0"
+version = "17.4.0+0"
 """
 
 # ╔═╡ Cell order:
