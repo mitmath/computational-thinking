@@ -60,17 +60,17 @@ body {
     word-break: break-word;
 }
 
-p,
-ol {
+.pages-markdown p,
+.pages-markdown ol {
     line-height: 1.5;
 }
 
-h1,
-h2 {
+.pages-markdown h1,
+.pages-markdown h2 {
     font-weight: 800;
 }
 
-h1, h2, h3, h4, h5, h6 {
+.pages-markdown h1, .pages-markdown h2, .pages-markdown h3, .pages-markdown h4, .pages-markdown h5, .pages-markdown h6 {
     color: var(--pluto-output-h-color);
 }
 
@@ -96,9 +96,9 @@ a {
     font-weight: 500;
     text-decoration: none;
 }
-a,
-a:visited {
-    /* color: #4674bc; */
+.pages-markdown a,
+.pages-markdown a:visited {
+    color: #4674bc;
 }
 a:hover {
     text-decoration: underline;
