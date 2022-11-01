@@ -181,6 +181,9 @@ md"""
 ## `.jl`: PlutoSliderServer.jl
 """
 
+# ╔═╡ bb905046-59b7-4da6-97ad-dbb9055d823a
+const pluto_deploy_settings = PlutoSliderServer.get_configuration(PlutoSliderServer.default_config_path())
+
 # ╔═╡ b638df55-fd74-4ae8-bdbd-ec7b18214b40
 function prose_from_code(s::String)::String
 	replace(replace(
@@ -694,7 +697,13 @@ function template_handler(
 
 		# TODO these relative paths can't be right...
 		h = @htl """
-		<pluto-editor statefile=$(reg_s.url) notebookfile=$(reg_n.url) disable_ui>
+		<pluto-editor 
+			statefile=$(reg_s.url) 
+			notebookfile=$(reg_n.url) 
+			slider_server_url=$(pluto_deploy_settings.Export.slider_server_url)
+			binder_url=$(pluto_deploy_settings.Export.binder_url)
+			disable_ui
+		>
 		"""
 
 		frontmatter = Pluto.frontmatter(input.absolute_path)
@@ -946,6 +955,7 @@ end
 # ╠═692c1e0b-07e1-41b3-abcd-2156bda65b41
 # ╟─adb1ddac-d992-49ca-820f-e1ed8ca33bf8
 # ╠═e2510a44-df48-4c05-9453-8822deadce24
+# ╠═bb905046-59b7-4da6-97ad-dbb9055d823a
 # ╠═b638df55-fd74-4ae8-bdbd-ec7b18214b40
 # ╠═87b4431b-438b-4da4-9d06-79e7f3a2fe05
 # ╟─cd4e479c-deb7-4a44-9eb0-c3819b5c4067
