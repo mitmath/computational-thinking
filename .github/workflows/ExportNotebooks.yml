@@ -2,7 +2,7 @@ name: Fall 22 - Export Pluto notebooks & Deploy
 on:
     push:
         branches:
-            - Fall22-PlutoPages-test
+            - Fall22
     workflow_dispatch:
 concurrency:
     group: export
