@@ -7,6 +7,8 @@ layout: "md.jlmd"
 
 $(
     begin
+        # these special elements will automatically update to read the latest Julia version. See the JavaScript snippet at the bottom of this page to see how it works!
+        
         version = html"<auto-julia-version>1.7.2</auto-julia-version>"
         pkg_version = html"<auto-julia-version short>1.7</auto-julia-version>"
     
@@ -18,7 +20,7 @@ $(
 
 **Video version:**
 
-<iframe style="width: 100%; height: 40vw;" src="https://www.youtube.com/embed/OOjKEgbt8AI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe style="width: 100%; aspect-ratio: 16/9;" src="https://www.youtube.com/embed/OOjKEgbt8AI" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 \\
 \\
@@ -39,27 +41,28 @@ After installing, **make sure that you can run Julia**. On some systems, this me
 
 ## Step 3: Install [`Pluto`](https://github.com/fonsp/Pluto.jl)
 
-Next we will install the [**Pluto notebook**](https://github.com/fonsp/Pluto.jl/blob/master/README.md) that we will be using during the course. Pluto is a Julia _programming environment_ designed for interactivity and quick experiments.
+Next we will install the [**Pluto**](https://github.com/fonsp/Pluto.jl), the notebook environment that we will be using during the course. Pluto is a Julia _programming environment_ designed for interactivity and quick experiments.
 
 Open the **Julia REPL**. This is the command-line interface to Julia, similar to the previous screenshot.
 
 Here you type _Julia commands_, and when you press ENTER, it runs, and you see the result.
 
 To install Pluto, we want to run a _package manager command_. To switch from _Julia_ mode to _Pkg_ mode, type `]` (closing square bracket) at the `julia>` prompt:
-```julia
+
+<pre><code>
 julia> ]
 
-(@v1.x) pkg>
-```
+(&#64;v$(pkg_version)) pkg>
+</code></pre>
 
 The line turns blue and the prompt changes to `pkg>`, telling you that you are now in _package manager mode_. This mode allows you to do operations on **packages** (also called libraries).
 
 To install Pluto, run the following (case sensitive) command to *add* (install) the package to your system by downloading it from the internet.
 You should only need to do this *once* for each installation of Julia:
 
-```julia
-(@v1.x) pkg> add Pluto
-```
+<pre><code>
+(&#64;v$(pkg_version)) pkg> add Pluto
+</code></pre>
 
 This might take a couple of minutes, so you can go get yourself a cup of tea!
 
@@ -87,9 +90,9 @@ julia> Pluto.run()
 
 The terminal tells us to go to `http://localhost:1234/` (or a similar URL). Let's open Firefox or Chrome and type that into the address bar.
 
-![image](https://user-images.githubusercontent.com/6933510/91441391-6a8f9f80-e870-11ea-94d0-4ef91b4e2242.png)
+![image](https://user-images.githubusercontent.com/6933510/199279574-4b1d0494-2783-49a0-acca-7b6284bede44.png)
 
-> If you're curious about what a _Pluto notebook_ looks like, have a look at the **sample notebooks**. Samples 1, 2 and 6 may be useful for learning some basics of Julia programming. 
+> If you're curious about what a _Pluto notebook_ looks like, have a look at the **Featured Notebooks**. These notebooks are useful for learning some basics of Julia programming. 
 > 
 > If you want to hear the story behind Pluto, have a look a the [JuliaCon presentation](https://www.youtube.com/watch?v=IAF8DjrQSSk).
 
@@ -117,11 +120,11 @@ Next, we need to know the _absolute path_ of that folder. Here's how you do that
 
 For example, you might have:
 
-- `C:\\Users\\fonsi\\Documents\\18S191_assignments\\` on Windows
+- `C:\\Users\\fons\\Documents\\18S191_assignments\\` on Windows
 
-- `/Users/fonsi/Documents/18S191_assignments/` on MacOS
+- `/Users/fons/Documents/18S191_assignments/` on MacOS
 
-- `/home/fonsi/Documents/18S191_assignments/` on Ubuntu
+- `/home/fons/Documents/18S191_assignments/` on Ubuntu
 
 Now that we know the absolute path, go back to your Pluto notebook, and at the top of the page, click on _"Save notebook..."_. 
 
@@ -138,7 +141,7 @@ Click _Choose_.
 After working on your notebook (your code is autosaved when you run it), you will find your notebook file in the folder we created in step 3. This the file that you can share with others, or submit as your homework assignment to Canvas.
 
 
-<script>
+<script defer>
 const run = f => f();
 run(async () => {
 const versions = await (await fetch(`https://julialang-s3.julialang.org/bin/versions.json`)).json()
@@ -147,7 +150,8 @@ const stable = version_names.find(v => versions[v].stable)
 console.log({stable})
 const pkg_stable = /\\d+\\.\\d+/.exec(stable)[0]
 document.querySelectorAll("auto-julia-version").forEach(el => {
-el.innerText = el.getAttribute("short") == null ? stable : pkg_stable
+    console.log(el)
+    el.innerText = el.getAttribute("short") == null ? stable : pkg_stable
 })
 });
 </script>
