@@ -415,16 +415,16 @@ end
 md"Let's invert some colors:"
 
 # ╔═╡ b8f26960-ee0a-11ea-05b9-3f4bc1099050
-black = RGB(0.0, 0.0, 0.0)
+color_black = RGB(0.0, 0.0, 0.0)
 
 # ╔═╡ 5de3a22e-ee0b-11ea-230f-35df4ca3c96d
-invert(black)
+invert(color_black)
 
 # ╔═╡ 4e21e0c4-ee0b-11ea-3d65-b311ae3f98e9
-red = RGB(0.8, 0.1, 0.1)
+color_red = RGB(0.8, 0.1, 0.1)
 
 # ╔═╡ 6dbf67ce-ee0b-11ea-3b71-abc05a64dc43
-invert(red)
+invert(color_red)
 
 # ╔═╡ 846b1330-ee0b-11ea-3579-7d90fafd7290
 md"Can you invert the picture of Philip?"
