@@ -1,17 +1,9 @@
-
 @import url("newdefault.css");
 
 body {
-    
-    
-    
-    
-    
-    
     background: url("../homepage/bg.svg");
     background-color: hsl(231deg 14% 57%);
     background-size: cover;
-    
 }
 main h1 {
     font-family: "Vollkorn", serif;
@@ -169,7 +161,7 @@ blockquote.banner {
     margin-top: -46px;
     font-style: unset;
     font-size: 1rem;
-    border-radius: .5em;
+    border-radius: 0.5em;
     box-shadow: 0px 3px 17px #0000001a;
 }
 
@@ -304,7 +296,7 @@ section > div.preview > img {
     width: 1em;
 }
 
-
-.homepage, .banner {
+.homepage,
+.banner {
     color: #3c3c3c;
 }
