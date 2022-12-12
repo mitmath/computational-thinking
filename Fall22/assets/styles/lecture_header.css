@@ -15,21 +15,20 @@
 
 .lecture-header,
 .lecture-header h1 {
-    
     font-family: Vollkorn, serif;
     font-weight: 700;
-    font-feature-settings: 'lnum', 'pnum';
-    
+    font-feature-settings: "lnum", "pnum";
 }
 
 .lecture-header .number {
     font-style: italic;
     font-size: 1.5rem;
-    opacity: .8;
+    opacity: 0.8;
 }
 
 .lecture-header h1 {
-    text-align: center; font-size: 2rem;
+    text-align: center;
+    font-size: 2rem;
 }
 .lecture-header .video > div {
     display: flex;
@@ -46,7 +45,6 @@
 }
 
 /* modify Pluto's styles to avoid a visual glitch. This will make the header always display fixed at the top. */
-
 
 body:not(.asdfsdfa) pluto-editor:not(.asdffdas) header#pluto-nav {
     position: fixed;

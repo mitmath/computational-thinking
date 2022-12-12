@@ -1,15 +1,12 @@
 /* a minimalist set of CSS resets */
 
-@import url('https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css');
-@import url('lecture_header.css');
+@import url("https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css");
+@import url("lecture_header.css");
 @import url("newdefault.css");
 
 /* @import url('https://cdn.jsdelivr.net/gh/fonsp/Pluto.jl@0.18.0/frontend/vollkorn.css'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap'); */
 /* @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Yantramanav:wght@400;500;700;900&display=swap'); */
-
-
-
 
 *,
 *:before,
@@ -18,9 +15,9 @@
 }
 
 :root {
-    --system-fonts: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen-Sans, Cantarell, Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', system-ui, sans-serif;
-    --system-fonts-mono: Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+    --system-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Cantarell, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", system-ui, sans-serif;
+    --system-fonts-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 
     --fg: #000;
     --faded-1: #858585;
@@ -35,7 +32,7 @@
         --fg: #ddd;
         --faded-1: #b3b3b3;
         --faded-2: #999999;
-        
+
         --sidebar-accent-1: #8b736a;
         --search-bg: #363b33;
         --search-bg-accent: #4d6542;
@@ -53,7 +50,7 @@ body {
     overflow-x: hidden;
     background: hsl(235deg 19% 16%);
     color: var(--pluto-output-color);
-    
+
     /* background: url(bg.svg); */
     /* background-color: hsl(231deg 14% 57%); */
     /* background-size: cover; */
@@ -70,7 +67,12 @@ body {
     font-weight: 800;
 }
 
-.pages-markdown h1, .pages-markdown h2, .pages-markdown h3, .pages-markdown h4, .pages-markdown h5, .pages-markdown h6 {
+.pages-markdown h1,
+.pages-markdown h2,
+.pages-markdown h3,
+.pages-markdown h4,
+.pages-markdown h5,
+.pages-markdown h6 {
     color: var(--pluto-output-h-color);
 }
 
@@ -110,7 +112,7 @@ h3 a {
 }
 
 a.arrow::after {
-    content: ' →';
+    content: " →";
 }
 card-text > a.arrow {
     margin-top: auto;
@@ -138,7 +140,8 @@ a.pluto_home_link {
     flex-direction: row;
     gap: 1em;
     padding: 1em;
-align-items: center;}
+    align-items: center;
+}
 
 .sidebar-about .logos picture {
     flex: 1 1 auto;
@@ -230,7 +233,7 @@ a.search-result:visited {
 }
 
 a.search-result::before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     z-index: -1;
@@ -243,7 +246,6 @@ a.search-result::before {
     transform: rotate(356.9deg) translate(0px, 0px);
     border-radius: var(--br);
 }
-
 
 .student-feedback .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -267,7 +269,7 @@ a.search-result::before {
     display: table;
 }
 .student-feedback .semester {
-    opacity: .6;
+    opacity: 0.6;
 }
 .student-feedback .feedback {
     /* margin-top: 0.5em; */
