@@ -12,10 +12,6 @@ if VERSION < v"1.6.0-aaa"
     @error "Our website needs to be generated with Julia 1.6. Go to julialang.org/downloads to install it."
 end
 
-if length(ARGS) != 1
-    @error "Usage: julia tools/generate_book.jl <path to PlutoPages.jl>"
-end
-
 import Pkg
 Pkg.activate("./pluto-deployment-environment")
 Pkg.instantiate()
