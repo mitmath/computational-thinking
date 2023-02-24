@@ -37,7 +37,7 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ 792c6a62-ec41-11ea-01f3-73e7eee23cc7
 md"""
-#### Intializing packages
+#### Initializing packages
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
@@ -63,7 +63,7 @@ md"Each of the items in this list is a specific, or **_specialized_** representa
 1. as an 2x2 identity matrix
 1. as a singular dog
 
-Of course, these are just a few examples of _one_. People have been representing _one_ for ages in different langauges, scripts, artistic expression, etc.
+Of course, these are just a few examples of _one_. People have been representing _one_ for ages in different languages, scripts, artistic expression, etc.
 
 The difference between these ones to me is clear. In fact, I just articulated it to you. Now, let's turn to how a computer sees _one_ differently based on what I type.
 "

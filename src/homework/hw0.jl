@@ -66,7 +66,7 @@ That’s it, but if you like you can do the _OPTIONAL_ exercises that follow."
 
 # ╔═╡ 430a260e-6cbb-11eb-34af-31366543c9dc
 md"""# Installation
-Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/Spring21/installation/)
+Before being able to run this notebook successfully locally, you will need to [set up Julia and Pluto.](/Spring21/installation/)
 
 One you have Julia and Pluto installed, you can click the button at the top right of this page and follow the instructions to edit this notebook locally and submit.
 """

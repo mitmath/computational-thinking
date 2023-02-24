@@ -166,7 +166,7 @@ Feel free to ask questions!
 
 # ╔═╡ 938185ec-f384-11ea-21dc-b56b7469f798
 md"""
-#### Intializing packages
+#### Initializing packages
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
 

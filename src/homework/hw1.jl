@@ -58,7 +58,7 @@ student = (name = "Jazzy Doe", kerberos_id = "jazz")
 
 # ╔═╡ 5f95e01a-ee0a-11ea-030c-9dba276aba92
 md"""
-#### Intializing packages
+#### Initializing packages
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
@@ -91,7 +91,7 @@ colored_line(example_vector)
 # ╔═╡ ad6a33b0-eded-11ea-324c-cfabfd658b56
 md"""
 $(html"<br>")
-#### Exerise 1.1
+#### Exercise 1.1
 👉 Make a random vector `random_vect` of length 10 using the `rand` function.
 """
 
@@ -149,7 +149,7 @@ begin
 end
 
 # ╔═╡ 77adb065-bfd4-4680-9c2a-ad4d92689dbf
-md"#### Exerise 1.2
+md"#### Exercise 1.2
 👉 Make a function `my_sum` using a `for` loop, which computes the total of a vector of numbers."
 
 # ╔═╡ bd907ee1-5253-4cae-b5a5-267dac24362a
@@ -185,7 +185,7 @@ hint(md"""Check out this page for a refresher on basic Julia syntax:
 	[Basic Julia Syntax](https://computationalthinking.mit.edu/Spring21/basic_syntax/)""")
 
 # ╔═╡ cf738088-eded-11ea-2915-61735c2aa990
-md"#### Exerise 1.3
+md"#### Exercise 1.3
 👉 Use your `my_sum` function to write a function `mean`, which computes the mean/average of a vector of numbers."
 
 # ╔═╡ 0ffa8354-edee-11ea-2883-9d5bfea4a236
@@ -235,7 +235,7 @@ else
 end
 
 # ╔═╡ e2863d4c-edef-11ea-1d67-332ddca03cc4
-md"""#### Exerise 1.4
+md"""#### Exercise 1.4
 👉 Write a function `demean`, which takes a vector `xs` and subtracts the mean from each value in `xs`. Use your `mean` function!"""
 
 # ╔═╡ ea8d92f8-159c-4161-8c54-bab7bc00f290
@@ -426,7 +426,7 @@ RGB(0.1, 0.4, 0.7)
 
 # ╔═╡ f52e4914-2926-4a42-9e45-9caaace9a7db
 md"""
-#### Exerise 2.1
+#### Exercise 2.1
 👉 Write a function **`get_red`** that takes a single pixel, and returns the value of its red channel.
 """
 
@@ -455,7 +455,7 @@ end
 
 # ╔═╡ d8cf9bd5-dbf7-4841-acf9-eef7e7cabab3
 md"""
-#### Exerise 2.2
+#### Exercise 2.2
 👉 Write a function **`get_reds`** (note the extra `s`) that accepts a 2D color array called `image`, and returns a 2D array with the red channel value of each pixel. (The result should be a 2D array of _numbers_.) Use your function `get_red` from the previous exercise.
 """
 
@@ -507,7 +507,7 @@ md"""
 
 Great! By extracting the red channel value of each pixel, we get a 2D array of numbers. We went from an image (2D array of RGB colors) to a matrix (2D array of numbers).
 
-#### Exerise 2.3
+#### Exercise 2.3
 Let's try to visualize this matrix. Right now, it is displayed in text form, but because the image is quite large, most rows and columns don't fit on the screen. Instead, a better way to visualize it is to **view a number matrix as an image**.
 
 This is easier than you might think! We just want to map each number to an `RGB` object, and the result will be a 2D array of `RGB` objects, which Julia will display as an image.
@@ -537,7 +537,7 @@ Use the ➕ button at the bottom left of this cell to add more cells.
 # ╔═╡ f7825c18-ff28-4e23-bf26-cc64f2f5049a
 md"""
 
-#### Exerise 2.4
+#### Exercise 2.4
 👉 Write four more functions, `get_green`, `get_greens`, `get_blue` and `get_blues`, to be the equivalents of `get_red` and `get_reds`. Use the ➕ button at the bottom left of this cell to add new cells.
 """
 
@@ -886,7 +886,7 @@ end
 # ╔═╡ d896b7fd-20db-4aa9-bbcf-81b1cd44ec46
 md"""
 
-#### Exerise 3.6
+#### Exercise 3.6
 Move the slider below to set the amount of noise applied to the image of Philip.
 """
 

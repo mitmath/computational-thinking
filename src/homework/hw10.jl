@@ -367,7 +367,7 @@ In the lecture notebook we introduced a _mutable struct_ `EBM` (_energy balance 
 - a function `CO2`, which maps a time `t` to the concentrations at that year. For example, we use the function `t -> 280` to simulate a model with concentrations fixed at 280 ppm.
 
 `EBM` also contains the simulation results, in two arrays:
-- `T` is the array of tempartures (°C, `Float64`).
+- `T` is the array of temperatures (°C, `Float64`).
 - `t` is the array of timestamps (years, `Float64`), of the same size as `T`.
 """
 
@@ -497,7 +497,7 @@ t = 1850:2100
 
 # ╔═╡ 06c5139e-252d-11eb-2645-8b324b24c405
 md"""
-We are interested in how the **uncertainty in our input** $B$ (the climate feedback paramter) *propagates* through our model to determine the **uncertainty in our output** $T(t)$, for a given emissions scenario. The goal of this exercise is to answer the following by using *Monte Carlo Simulation* for *uncertainty propagation*:
+We are interested in how the **uncertainty in our input** $B$ (the climate feedback parameter) *propagates* through our model to determine the **uncertainty in our output** $T(t)$, for a given emissions scenario. The goal of this exercise is to answer the following by using *Monte Carlo Simulation* for *uncertainty propagation*:
 
 > 👉 What is the probability that we see more than 2°C of warming by 2100 under the low-emissions scenario RCP2.6? What about under the high-emissions scenario RCP8.5?
 
@@ -531,7 +531,7 @@ In the [lecture notebook](https://github.com/hdrake/simplEarth/blob/master/2_ebm
 
 # ╔═╡ d6d1b312-2543-11eb-1cb2-e5b801686ffb
 md"""
-Below we have an empty diagram, which is already set up with a CO₂ vs $T$ diagram, with a logarthmic horizontal axis. Now it's your turn! We have written some pointers below to help you, but feel free to do it your own way.
+Below we have an empty diagram, which is already set up with a CO₂ vs $T$ diagram, with a logarithmic horizontal axis. Now it's your turn! We have written some pointers below to help you, but feel free to do it your own way.
 """
 
 # ╔═╡ 378aed18-252b-11eb-0b37-a3b511af2cb5
@@ -697,7 +697,7 @@ If you like, make the visualization more informative! Like in the lecture notebo
 md"""
 #### Exercise 2.2
 
-👉 Find the **lowest CO₂ concentration** necessary to melt the Snowball, programatically (i.e., using code).
+👉 Find the **lowest CO₂ concentration** necessary to melt the Snowball, programmatically (i.e., using code).
 """
 
 # ╔═╡ 9eb07a6e-2687-11eb-0de3-7bc6aa0eefb0

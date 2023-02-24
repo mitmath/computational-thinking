@@ -39,7 +39,7 @@ md"""
 
 # ╔═╡ 938107f0-80ee-11eb-18cf-775802c43c2f
 md"""
-What is dynamic progamming? The word "programming" here is a rather archaic word (but still in  use) for an **optimization problem**, as used, for example, in the phrase 
+What is dynamic programming? The word "programming" here is a rather archaic word (but still in  use) for an **optimization problem**, as used, for example, in the phrase 
 "linear programming."  Probably the word "programming" should be abandoned in this context, but no doubt it is too late.
 """
 

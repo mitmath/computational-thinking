@@ -514,7 +514,7 @@ md"""
 
 Write a function `interact!` that takes two `Agent`s and a `CollisionInfectionRecovery`, and:
 
-- If the agents are at the same spot, causes a susceptible agent to communicate the desease from an infectious one with the correct probability.
+- If the agents are at the same spot, causes a susceptible agent to communicate the disease from an infectious one with the correct probability.
 - if the first agent is infectious, it recovers with some probability
 """
 

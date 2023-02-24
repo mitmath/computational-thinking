@@ -57,6 +57,6 @@ Start date: February 16, 2021
 
 The final grade is 80% problem sets, and 20% MITx _quick questions_.
 
--   Problem sets are released on Friday and due the folllwing Friday by 11:59pm EST. They have equal weight; your lowest score will be dropped.
+-   Problem sets are released on Friday and due the following Friday by 11:59pm EST. They have equal weight; your lowest score will be dropped.
 
 -   [MITx](https://lms.mitx.mit.edu/courses/course-v1:MITx+6.S083r+2021_Spring/course/) exercises (_quick questions_) are due before Wednesday (11:59pm), but are best done on Monday, during or right after the lectures.

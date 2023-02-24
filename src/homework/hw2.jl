@@ -557,7 +557,7 @@ G_y = \begin{bmatrix}
 \end{bmatrix} 
 ```
 
-We can think of these filterrs as derivatives in the $x$ and $y$ directions, as we discussed in lectures.
+We can think of these filters as derivatives in the $x$ and $y$ directions, as we discussed in lectures.
 
 Then we combine them by finding the magnitude of the **gradient** (in the sense of multivariate calculus) by defining
 
