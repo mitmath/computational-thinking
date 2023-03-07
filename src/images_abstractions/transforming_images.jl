@@ -31,7 +31,7 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ 9f1a72da-7532-11eb-079c-b7baccc6614a
 md"""
-#### Intializing packages
+#### Initializing packages
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
@@ -377,7 +377,7 @@ end
 
 # ╔═╡ c0aec7ae-7505-11eb-2822-a151aad48fc9
 md"""
-This is often known as Gausssian blur to emphasize the result of this operation.
+This is often known as Gaussian blur to emphasize the result of this operation.
 [Adobe on Gaussian blur](https://www.adobe.com/creativecloud/photography/discover/gaussian-blur.html).
 """
 

@@ -46,7 +46,7 @@ student = (name = "Jazzy Doe", kerberos_id = "jazz")
 
 # ╔═╡ aaa41509-a62d-417b-bca7-a120e3a5e5b2
 md"""
-#### Intializing packages
+#### Initializing packages
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
 
@@ -135,7 +135,7 @@ To begin, we will make a type to represent a rank-1 matrix. A *rank-1 matrix* is
 # ╔═╡ 8ce8c4bc-8505-11eb-2357-c50a70b8745c
 md"""
 #### Exercise 2.1
-Let's make a `FirstRankOneMatrix` type that contains two vectors of floats, `v` and `w`. Here `v` represents a column and `w` the multpliers for each column.
+Let's make a `FirstRankOneMatrix` type that contains two vectors of floats, `v` and `w`. Here `v` represents a column and `w` the multipliers for each column.
 
 We include (in the same cell, due to requirements of Pluto) a constructor that takes a single vector `v` and duplicates it.
 """
@@ -494,7 +494,7 @@ md"""
 
 Why do we need a special type to represent special types of structured matrices? One reason is that not only do they give a more efficient representation in space (requiring less memory to store), they can also be more efficient in time, i.e. *faster*.
 
-   For example, let's look at **matrix--vector mutiplication**. This is a *fundamental* part of many, *many* algorithms in scientific computing, and because of this, we usually want it to be as fast as possible.
+   For example, let's look at **matrix--vector multiplication**. This is a *fundamental* part of many, *many* algorithms in scientific computing, and because of this, we usually want it to be as fast as possible.
 
    For a rank-one matrix given by $M = v w^T$, the matrix--vector product $M \cdot x$ is given by $(w \cdot x) v$. Note that $w \cdot x$ is a number (scalar) which is multiplying the vector element by element. This computation is much faster than the usual matrix-vector multiplication: we are taking advantage of structure!
    

@@ -7,7 +7,7 @@ using InteractiveUtils
 # ╔═╡ 0d3aec92-edeb-11ea-3adb-cd0dc17cbdab
 md"# Get started with Julia - live
 
-Before being able to run this notebook succesfully locally, you will need to [set up Julia and Pluto.](/Spring21/installation/)
+Before being able to run this notebook successfully locally, you will need to [set up Julia and Pluto.](/Spring21/installation/)
 "
 
 

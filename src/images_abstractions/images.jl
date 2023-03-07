@@ -31,7 +31,7 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ 9b49500c-0164-4556-a17b-7595e35c5ede
 md"""
-#### Intializing packages
+#### Initializing packages
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
@@ -140,7 +140,7 @@ md"""
 If we open an image on our computer or the web and zoom in enough, we will see that it consists of many tiny squares, or **pixels** ("picture elements"). Each pixel is a block of one single colour, and the pixels are arranged in a two-dimensional square grid. 
 
 You probably already know that these pixels are stored in a computer numerically
-perhaps in some form of RGB (red,green,blue) format.  This is the computer's represenation of the data.   
+perhaps in some form of RGB (red,green,blue) format.  This is the computer's representation of the data.   
 
 Note that an image is already an **approximation** of the real world -- it is a two-dimensional, discrete representation of a three-dimensional reality.
 

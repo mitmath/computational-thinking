@@ -31,7 +31,7 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ e6a09409-f262-453b-a434-bfd935306719
 md"""
-#### Intializing packages
+#### Initializing packages
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """

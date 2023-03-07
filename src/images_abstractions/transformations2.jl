@@ -31,7 +31,7 @@ PlutoUI.TableOfContents(aside=true)
 
 # ╔═╡ 230b0118-30b7-4035-ad31-520165a76fcc
 md"""
-#### Intializing packages
+#### Initializing packages
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
@@ -212,7 +212,7 @@ If a transformation takes lines into lines and preserves the origin, does it hav
 
 Answer = **no**!
 
-The example of a **perspective map** takes all lines into lines, but paralleograms generally do not become parallelograms. 
+The example of a **perspective map** takes all lines into lines, but parallelograms generally do not become parallelograms. 
 """
 
 # ╔═╡ aad4d6e4-79f9-11eb-0342-b900a41cfbaf

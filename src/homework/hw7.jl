@@ -235,7 +235,7 @@ end
 
 # ╔═╡ 8692bf42-0403-11eb-191f-b7d08895274f
 md"""
-#### Exericse 1.4
+#### Exercise 1.4
 👉 Write a function `generate_agents(N)` that returns a vector of `N` freshly created `Agent`s. They should all be initially susceptible, except one, chosen at random (i.e. uniformly), who is infectious.
 
 """

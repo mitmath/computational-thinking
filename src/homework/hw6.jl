@@ -56,7 +56,7 @@ student = (name = "Jazzy Doe", kerberos_id = "jazz")
 
 # ╔═╡ aaa41509-a62d-417b-bca7-a120e3a5e5b2
 md"""
-#### Intializing packages
+#### Initializing packages
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
 
@@ -84,7 +84,7 @@ md"""
 #### Exercise 1.1
 👉 Write a function `counts` that accepts a vector `data` and calculates the number of times each value in `data` occurs.
 
-The input will be an array of integers, **with duplicates**, and the result will be a dictionary that maps each occured value to its count in the data.
+The input will be an array of integers, **with duplicates**, and the result will be a dictionary that maps each occurred value to its count in the data.
 
 For example,
 ```julia
