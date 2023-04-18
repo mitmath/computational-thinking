@@ -29,7 +29,7 @@ $(begin
 end)<html lang="en">
 <head>
 
-<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — Pluto.jl</title>
+<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — Interactive Computational Thinking — MIT</title>
 $(let d = f("description", nothing)
     if d !== nothing
         @htl("""<meta name="description" content=$(d) />""")
