@@ -282,3 +282,30 @@ a.search-result::before {
 blockquote.twitter-tweet {
     margin: 0rem;
 }
+
+/* modify Pluto's styles to avoid a visual glitch. This will make the header always display fixed at the top. */
+
+body:not(.asdfsdfa) pluto-editor:not(.asdffdas) header#pluto-nav {
+    position: fixed;
+    top: 0;
+    left: 56px;
+    right: 56px;
+    z-index: 1998;
+    width: auto;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Make space for the Pluto header */
+body.binder:not(.offer_binder) {
+    padding-top: 60px;
+}
+
+/* Another strategy: leave the header in place but make the export menu hidden when it is not opened. */
+/* 
+header.show_export aside#export {
+    visibility: initial;
+}
+
+aside#export {
+    visibility: hidden;
+} */
