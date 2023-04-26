@@ -64,7 +64,7 @@ $(pluto_head)
             <li class="sidebar-about">
                 <div class="course-title">
                     <h1><a href="$(root_url)"><span>Introduction to</span> <span>Computational Thinking</span></a></h1>
-                    <h2><span>Math from computation</span>, <span>math with computation</span></h2>
+                    <h2><span>Make mathematics your playground!</span></h2>
                 </div>
                 <div class="authors">
                     by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a> &amp; <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a>

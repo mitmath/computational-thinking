@@ -15,6 +15,94 @@ layout: "layout.jlhtml"
 </blockquote>
 
 <main class="homepage">
+    <div class="subjectscontainer wide">
+        <h1>Highlights</h1>
+        <div class="contain">
+            <section>
+                <div class="content">
+                    <h2>Real-world problems</h2>
+                    <p>We will take applications such as climate change and show how you can participate in the big open source community looking to find solutions to challenging problems with exposure to github and parallel computing.</p>
+                </div>
+                <div class="preview">
+                    <img src="https://user-images.githubusercontent.com/6933510/136199652-0a1275ad-8452-4c9b-ac68-d33ed22f1d17.gif">
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <h2>Corgi in the washing machine</h2>
+                    <p>You will learn mathematical ideas by immersion into the mathematical process, performing experiments, seeing the connections, and seeing just how much fun math can be.</p>
+                </div>
+                <div class="preview">
+                    <img src="https://user-images.githubusercontent.com/6933510/136203450-f1d38de6-f43c-4bfc-a987-f954e7a9da2e.png">
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <h2>Revolutionary interactivity</h2>
+                    <p>Our course material is built using real code, and instead of a book, we have a series of interactive <em>notebooks</em>. <strong>On our website, you can play with sliders, buttons and images to interact with our simulations.</strong> You can even go further, and modify and run any code on our website!</p>
+                </div>
+                <div class="preview">
+                    <img src="https://user-images.githubusercontent.com/6933510/136196607-16207911-53be-4abb-b90e-d46c946e6aaf.gif">
+                </div>
+            </section>
+            <section>
+                <div class="content">
+                    <h2>Learning Julia</h2>
+                    <p>In literature it’s not enough to just know the technicalities of grammar. In music it’s not enough to learn the scales. The goal is to communicate experiences and emotions. For a computer scientist, it’s not enough to write a working program, the program should be <strong>written with beautiful high level abstractions that speak to your audience</strong>. This class will show you how.</p>
+                </div>
+                <div class="preview">
+                    <img src="https://user-images.githubusercontent.com/6933510/136203632-29ce0a96-5a34-46ad-a996-de55b3bcd380.png">
+                </div>
+            </section>
+        </div>
+    </div>
+    <div class="">
+        <h1>Why is this course different?</h1>
+        <!-- <div class="asdf">
+            <thingy></thingy>
+        </div> -->
+        <p class="twocols contain shadow">We believe many classes cover what we call the vertices — specific topics in computer science, math, or an application.
+            A student is left to figure out the edges, meaning the intellectual connections between the topics on their own as they mature.
+            Some classes have you learn a math topic and you can then for homework implement an algorithm or application. The goal
+            for this class, is to accelerate the process by which a student can participate in the exciting world of software development
+            be it the big open source universe or privately, by seeing how math with CS abstractions can allow for applications that can
+            be part of a big huge ecosystem rather than a one-off homework.
+            <br>
+            … and have more fun in the process!
+        </p>
+    </div>
+    <div class="wide subjectscontainer">
+        <h1>Subjects</h1>
+        <div class="subjects">$(
+            let
+                sidebar_data = Base.include(@__MODULE__, joinpath(@__DIR__, "..", "sidebar data.jl"))
+                sections = sidebar_data["main"]
+            
+                [
+                    @htl("""
+                    $([
+                        let
+                            input = other_page.input
+                            output = other_page.output
+                            
+                            name = get(output.frontmatter, "title", basename(input.relative_path))
+                            desc = get(output.frontmatter, "description", nothing)
+                            active = page.url == other_page.url
+                            
+                            image = get(output.frontmatter, "image", nothing)
+                            
+                            image === nothing || isempty(image) ? nothing : @htl("""<a title=$(desc) class="no-decoration" href=$(root_url * "/" * other_page.url)>
+                                <h3>$(name)</h3>
+                                <img src=$(image)>
+                            </a>""")
+                        end for other_page in pages
+                    ])
+                    """)
+                    for (section_name, pages) in sections
+                ]
+            end
+            )</div>
+    </div>
     <div>
         <h1>Three fields, one course</h1>
         <div class="scrolly">
@@ -106,98 +194,10 @@ layout: "layout.jlhtml"
             </div>
         </div>
     </div>
-    <div class="subjectscontainer wide">
-        <h1>Highlights</h1>
-        <div class="contain">
-            <section>
-                <div class="content">
-                    <h2>Real-world problems</h2>
-                    <p>We will take applications such as climate change and show how you can participate in the big open source community looking to find solutions to challenging problems with exposure to github and parallel computing.</p>
-                </div>
-                <div class="preview">
-                    <img src="https://user-images.githubusercontent.com/6933510/136199652-0a1275ad-8452-4c9b-ac68-d33ed22f1d17.gif">
-                </div>
-            </section>
-            <section>
-                <div class="content">
-                    <h2>Corgi in the washing machine</h2>
-                    <p>You will learn mathematical ideas by immersion into the mathematical process, performing experiments, seeing the connections, and seeing just how much fun math can be.</p>
-                </div>
-                <div class="preview">
-                    <img src="https://user-images.githubusercontent.com/6933510/136203450-f1d38de6-f43c-4bfc-a987-f954e7a9da2e.png">
-                </div>
-            </section>
-            <section>
-                <div class="content">
-                    <h2>Revolutionary interactivity</h2>
-                    <p>Our course material is built using real code, and instead of a book, we have a series of interactive <em>notebooks</em>. <strong>On our website, you can play with sliders, buttons and images to interact with our simulations.</strong> You can even go further, and modify and run any code on our website!</p>
-                </div>
-                <div class="preview">
-                    <img src="https://user-images.githubusercontent.com/6933510/136196607-16207911-53be-4abb-b90e-d46c946e6aaf.gif">
-                </div>
-            </section>
-            <section>
-                <div class="content">
-                    <h2>Learning Julia</h2>
-                    <p>In literature it’s not enough to just know the technicalities of grammar. In music it’s not enough to learn the scales. The goal is to communicate experiences and emotions. For a computer scientist, it’s not enough to write a working program, the program should be <strong>written with beautiful high level abstractions that speak to your audience</strong>. This class will show you how.</p>
-                </div>
-                <div class="preview">
-                    <img src="https://user-images.githubusercontent.com/6933510/136203632-29ce0a96-5a34-46ad-a996-de55b3bcd380.png">
-                </div>
-            </section>
-        </div>
-    </div>
-    <div class="">
-        <h1>Why is this course different?</h1>
-        <!-- <div class="asdf">
-            <thingy></thingy>
-        </div> -->
-        <p class="twocols contain shadow">We believe many classes cover what we call the vertices — specific topics in computer science, math, or an application.
-            A student is left to figure out the edges, meaning the intellectual connections between the topics on their own as they mature.
-            Some classes have you learn a math topic and you can then for homework implement an algorithm or application. The goal
-            for this class, is to accelerate the process by which a student can participate in the exciting world of software development
-            be it the big open source universe or privately, by seeing how math with CS abstractions can allow for applications that can
-            be part of a big huge ecosystem rather than a one-off homework.
-            <br>
-            … and have more fun in the process!
-        </p>
-    </div>
-    <div class="wide subjectscontainer">
-        <h1>Subjects</h1>
-        <div class="subjects">$(
-            let
-                sidebar_data = Base.include(@__MODULE__, joinpath(@__DIR__, "..", "sidebar data.jl"))
-                sections = sidebar_data["main"]
-            
-                [
-                    @htl("""
-                    $([
-                        let
-                            input = other_page.input
-                            output = other_page.output
-                            
-                            name = get(output.frontmatter, "title", basename(input.relative_path))
-                            desc = get(output.frontmatter, "description", nothing)
-                            active = page.url == other_page.url
-                            
-                            image = get(output.frontmatter, "image", nothing)
-                            
-                            image === nothing || isempty(image) ? nothing : @htl("""<a title=$(desc) class="no-decoration" href=$(root_url * "/" * other_page.url)>
-                                <h3>$(name)</h3>
-                                <img src=$(image)>
-                            </a>""")
-                        end for other_page in pages
-                    ])
-                    """)
-                    for (section_name, pages) in sections
-                ]
-            end
-            )</div>
-    </div>
     <div>
         <h1>Details</h1>
         <blockquote>
-            <p>See also the course repository <a href="https://github.com/mitmath/18S191">github.com/mitmath/18S191</a>.</p>
+            <p>See also the course repository <a href="https://github.com/mitmath/computational-thinking">github.com/mitmath/computational-thinking</a>.</p>
         </blockquote>
         <p></p>
         <blockquote>
@@ -219,8 +219,8 @@ layout: "layout.jlhtml"
     </div>
     <div class="page-foot">
         <div class="copyright">
-            <a href="https://github.com/mitmath/18S191/"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></b></a><br>
-            Website built with <a href="https://github.com/tlienart/Franklin.jl">Franklin.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+            <a href="https://github.com/mitmath/computational-thinking/"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></b></a><br>
+            Website built with <a href="https://plutojl.org/">Pluto.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
         </div>
     </div>
 </main>
