@@ -4,6 +4,7 @@ body {
     background: url("../homepage/bg.svg");
     background-color: hsl(231deg 14% 57%);
     background-size: cover;
+    backdrop-filter: blur(3vw);
 }
 main h1 {
     font-family: "Vollkorn", serif;

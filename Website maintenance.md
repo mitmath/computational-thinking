@@ -15,7 +15,7 @@ Paths correspond to URLs. For example, `src/data_science/pca.jl` will become ava
 
 > **To add something to our website, just create a new file!** Fons will be happy to figure out the technical bits.
 
-You can generate & preview the website locally (more on this later), and we have a github action generating the website when we push to the `Fall22` branch. The result (in the `Fall22-output` branch) is deployed with GitHub Pages.
+You can generate & preview the website locally (more on this later), and we have a github action generating the website when we push to the `Fall23` branch. The result (in the `Fall23-output` branch) is deployed with GitHub Pages.
 
 # Content
 
@@ -34,7 +34,7 @@ Besides small inline values, you can also write big code blocks, with `$(begin .
 
 Pluto notebooks will be rendered to HTML and included in the page. What you see is what you get!
 
-On a separate system, we are running a PlutoSliderServer that is synchronized to the `Fall22` brach. This makes our notebooks interactive!
+On a separate system, we are running a PlutoSliderServer that is synchronized to the `Fall23` brach. This makes our notebooks interactive!
 
 Notebook outputs are **cached** (for a long time) by the file hash. This means that a notebook file will only ever run once, which makes it much faster to work on the website. If you need to re-run your notebook, add a space somewhere in the code :)
 

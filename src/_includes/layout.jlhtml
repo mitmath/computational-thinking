@@ -128,7 +128,7 @@ $(pluto_head)
                 <li><hr></li>
             <li class="sidebar-about">
                 <div class="semester-details">
-                    <a href="$(root_url)/semesters/">Fall 2022</a>
+                    <a href="$(root_url)/semesters/">Fall 2023</a>
                     <div class="course-numbers"><span>18.S191</span> / <span>6.S083</span> / <span>22.S092</span></div>
                 </div>
                 <div class="logos">
