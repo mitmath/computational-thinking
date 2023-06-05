@@ -1,0 +1,45 @@
+.lecture-header {
+    background: #282936;
+    color: white;
+    padding: 1rem;
+    /* min-height: 500px; */
+    /* width: 100%; */
+    display: block;
+    border-radius: 1rem;
+    margin: 1rem;
+}
+
+.lecture-header * {
+    color: white;
+}
+
+.lecture-header,
+.lecture-header h1 {
+    font-family: Vollkorn, serif;
+    font-weight: 700;
+    font-feature-settings: "lnum", "pnum";
+}
+
+.lecture-header .number {
+    font-style: italic;
+    font-size: 1.5rem;
+    opacity: 0.8;
+}
+
+.lecture-header h1 {
+    text-align: center;
+    font-size: 2rem;
+}
+.lecture-header .video > div {
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    max-width: 400px;
+    margin: 0 auto;
+}
+.lecture-header .video iframe,
+.lecture-header .video lite-youtube {
+    /* max-width: 400px; */
+    aspect-ratio: 16/9;
+    flex: 1 1 auto;
+}

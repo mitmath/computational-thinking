@@ -1,0 +1,255 @@
+@import url("https://fonts.googleapis.com/css2?family=PT+Sans+Caption:wght@700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
+
+h1 {
+    border-bottom: 1px solid #999 !important;
+    margin-bottom: 1em !important;
+}
+
+h1,
+h2 {
+    color: #555;
+    font-family: "PT Sans Caption";
+    font-weight: bold;
+}
+
+html,
+body {
+    font-family: "PT Sans", sans-serif;
+    font-size: 18px;
+}
+
+.sidebar {
+    z-index: 2;
+    overflow-y: auto;
+    overflow-x: hidden;
+    background-color: #282936;
+}
+
+.content {
+    padding-top: 0;
+}
+
+.frankin-content {
+    margin-top: 2em;
+}
+.franklin-content pre > code {
+    border: 1px solid #6b8e2340;
+    padding: 1.5em;
+    border-radius: 0;
+}
+pre.code-output {
+    background: #6b8e2340;
+    padding-left: 0.5em;
+}
+
+.code-output code {
+    border-radius: 0;
+    padding-left: 1em !important;
+    background: white;
+}
+
+.docstring {
+    border: 1px solid #f1f1f1;
+    padding: 1em;
+    margin-bottom: 2em;
+}
+
+.franklin-content .docstring h2.doc-header {
+    font-size: 1.25em;
+    color: #008080;
+    margin: 16px 0;
+}
+
+.franklin-content .docstring h1 {
+    font-size: 1.2em;
+}
+.franklin-content .docstring h2 {
+    font-size: 1em;
+}
+
+.docstring .doc-type {
+    font-size: 1em;
+    color: #6b8e2350;
+    float: right;
+}
+
+.franklin-content h1 {
+    margin-bottom: 0;
+    font-size: 1.66em;
+    border: none;
+}
+.franklin-content h2 {
+    border: none;
+    font-size: 1.33em;
+    font-style: normal;
+    font-weight: bold;
+}
+
+.sidebar-about h1 {
+    font-family: "Recursive", sans-serif;
+    border-bottom: none !important;
+    font-size: 1.1em;
+    opacity: 0.95;
+}
+
+.sidebar-about h2 {
+    font-family: "Recursive", sans-serif;
+    border-bottom: none !important;
+    font-size: 0.8em;
+    color: White;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: -1em;
+}
+
+@media (min-width: 768px) {
+    .sidebar-nav {
+    }
+}
+.sidebar .container.sidebar-sticky {
+    top: 1rem;
+}
+.sidebar-nav .sidebar-nav-item.active {
+    box-sizing: border-box;
+    background: #f0f8ff40;
+    margin-right: -1em;
+    margin-left: -0.5em;
+    padding-left: 0.5em;
+    color: white;
+    font-weight: normal !important;
+}
+.sidebar-nav .sidebar-nav-item {
+    color: #cccccc;
+    margin: 0.25em 0;
+}
+
+.sidebar-nav .course-section {
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    color: #d9a200;
+    margin-top: 1em;
+}
+.sidebar-nav .course-section::before,
+.sidebar-nav .course-section::after {
+    content: " ";
+    flex: 1;
+    border-bottom: 1px dashed #d9a200;
+}
+.sidebar-nav .course-section::before {
+    margin-right: 0.25em;
+}
+.sidebar-nav .course-section::after {
+    margin-left: 0.25em;
+}
+
+.sidebar-nav .book-chapter {
+    align-items: center;
+    color: #d93d00;
+    margin-top: 1em;
+}
+.sidebar-nav .book-chapter::before,
+.sidebar-nav .book-chapter::after {
+    content: " ";
+    flex: 1;
+    border-bottom: 1px dashed #d93d00;
+}
+
+h1 {
+    margin-top: 2em;
+}
+h2 {
+    margin-top: 1em;
+}
+
+.page-foot img.github-logo {
+    width: 1em;
+    height: 1em;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    margin-bottom: -2px;
+}
+
+.page-foot {
+    margin-bottom: 0;
+}
+
+/* Extra Styling for Logo bagdes*/
+img[src*="#badge"] {
+    height: 100px;
+    width: auto;
+    display: inline-block;
+    padding: 25px;
+    align-items: center;
+}
+
+/* Extra Styling for student feedback cards*/
+.column {
+    width: 100%;
+    float: left;
+    margin-bottom: 16px;
+    padding: 8px;
+}
+
+@media (min-width: 768px) {
+    .column {
+        float: left;
+        width: 45%;
+        margin-bottom: 16px;
+        padding: 8px;
+    }
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+.card-container {
+    padding: 4px 16px;
+}
+.card-container::after,
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.title {
+    color: black;
+    font-weight: bold;
+    font-size: large;
+}
+.semester {
+    color: grey;
+}
+.feedback {
+    margin-top: 0.5em;
+}
+
+.live-label {
+    font-size: 1.5rem;
+    font-family: monospace;
+    font-weight: 900;
+}
+.live-label::before {
+    content: " ";
+    width: 1em;
+    height: 1em;
+    margin-right: 0.5em;
+    margin-bottom: -0.2em;
+    border-radius: 0.5em;
+    background: rgb(212, 39, 39);
+    display: inline-block;
+    /* animation: pulsered 1.5s ease-in-out infinite; */
+    /* animation: name duration timing-function delay iteration-count alternate fill-mode; */
+    /* animation: pulsered 1.5s ease-in-out 0s infinite alternate; */
+    opacity: 0.8;
+}
+
+@keyframes pulsered {
+    0% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}

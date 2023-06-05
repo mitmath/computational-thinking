@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,500;0,700;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+html {
+    box-sizing: border-box;
+    font-size: 17px;
+    /* color: #3c3c3c; */
+}
+
+body {
+    /* background: #f1e7e7; */
+    font-family: "Open Sans", sans-serif;
+    overflow-wrap: break-word;
+}
+main h1 {
+    font-family: "Vollkorn", serif;
+    font-weight: 800;
+    font-style: italic;
+    margin-block-end: 0.5em;
+    font-size: 2.5rem;
+    margin-block-start: 0;
+    letter-spacing: -0.2px;
+}

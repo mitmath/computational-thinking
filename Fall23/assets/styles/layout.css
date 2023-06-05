@@ -1,0 +1,227 @@
+/* COLOR */
+
+#pages-layout {
+    /* --bg-color: set by pluto */
+    --sidebar-bg: #fafafa;
+    --sidebar-color: rgb(82, 82, 82);
+    --sidebar-li-active-bg: rgb(235, 235, 235);
+    --sidebar-li-hover-bg: rgb(247, 240, 190);
+}
+@media (prefers-color-scheme: dark) {
+    #pages-layout {
+        --sidebar-bg: #303030;
+        --sidebar-color: rgb(255, 255, 255);
+        --sidebar-li-active-bg: rgb(82, 82, 82);
+        --sidebar-li-hover-bg: rgb(108, 94, 70);
+    }
+}
+
+/* LAYOUT */
+
+#pages-layout {
+    display: flex;
+    flex-direction: row;
+    min-height: 100vh;
+    align-items: stretch;
+}
+
+#pages-sidebar {
+    font-family: system-ui, sans-serif;
+    flex: 0 0 auto;
+    width: 15rem;
+    font-weight: 400;
+    z-index: 1900;
+}
+
+#pages-content {
+    display: block;
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+#pages-sidebar > div {
+    margin: 1rem;
+    margin-right: 0;
+    padding: 0.5rem;
+    /* padding-bottom: 2rem; */
+    border-radius: 1rem;
+    background: var(--sidebar-bg);
+    color: var(--sidebar-color);
+}
+
+#toggle-nav {
+    display: none;
+    cursor: pointer;
+}
+
+/* SIDEBAR COLLAPSING */
+
+#pages-content::after {
+    content: "";
+    z-index: 23400;
+    touch-action: none;
+    pointer-events: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: background-color 0.2s ease-out;
+}
+
+@media screen and (max-width: 768px) {
+    #pages-layout {
+        flex-direction: column;
+    }
+    #toggle-nav {
+        display: inline-flex;
+        align-self: start;
+        border: none;
+        background: none;
+    }
+    #toggle-nav::after {
+        --size: 40px;
+        content: " ";
+        display: inline-block;
+        width: var(--size);
+        height: var(--size);
+        background-image: url(https://cdn.jsdelivr.net/gh/ionic-team/ionicons@5.5.1/src/svg/menu-outline.svg);
+        background-size: var(--size) var(--size);
+        filter: var(--image-filters);
+    }
+    #pages-sidebar {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        right: 100%;
+        overflow-y: auto;
+        transition: transform 300ms cubic-bezier(0.18, 0.89, 0.45, 1.12);
+    }
+    @media (prefers-reduced-motion) {
+        #pages-sidebar {
+            transition: none;
+        }
+    }
+
+    .pages_show_sidebar #pages-sidebar {
+        transform: translateX(100%);
+        z-index: 23401;
+    }
+    .pages_show_sidebar #pages-content::after {
+        display: block;
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+}
+
+/* SIDEBAR */
+
+#pages-sidebar {
+    --child-padding: 0.2em 0.6em;
+    --border-radius: 0.5em;
+}
+
+#pages-sidebar > div > ul {
+    margin-block-start: 0px;
+    margin-block-end: 0px;
+}
+
+#pages-sidebar li,
+#pages-sidebar ul {
+    padding: 0px;
+    list-style-type: none;
+}
+
+#pages-sidebar a {
+    color: unset;
+    text-decoration: none;
+}
+
+#pages-sidebar li li a,
+#pages-sidebar li h3 {
+    border-radius: var(--border-radius);
+    padding: var(--child-padding);
+}
+
+#pages-sidebar li h3 {
+    color: var(--sidebar-accent-1);
+    font-variant-caps: all-petite-caps;
+    margin-block-start: 3rem;
+    margin-block-end: 0;
+}
+
+#pages-sidebar li hr {
+    margin: 3rem 1rem;
+    /* border-color: red; */
+    border-style: solid;
+    opacity: 0.2;
+}
+
+#pages-sidebar li:first-of-type h3 {
+    margin-block-start: 0;
+}
+
+#pages-sidebar li,
+#pages-sidebar ul {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#pages-sidebar li li.homework {
+    padding-left: 1ch;
+    /* background: yellow; */
+}
+
+#pages-sidebar li li a {
+    margin: 0.2em 0;
+}
+
+#pages-sidebar li li.homework a {
+    /* background: #ffb60012; */
+    margin: 0.4em 0px;
+    outline: 3px dashed #92929278;
+    outline-offset: -1px;
+}
+
+/* #pages-sidebar li li.homework a::before {
+    content: "👉 ";
+} */
+
+#pages-sidebar li li span.entry-number {
+    opacity: 0.6;
+}
+#pages-sidebar li li.homework span.entry-number {
+    display: block;
+}
+
+#pages-sidebar li li.active a {
+    background-color: var(--sidebar-li-active-bg);
+}
+#pages-sidebar li li:hover a {
+    background-color: var(--sidebar-li-hover-bg);
+}
+
+/* SIDEBAR LOGO */
+
+#pages-sidebar .home_link img {
+    height: 1.2em;
+    width: 1.2em;
+}
+#pages-sidebar a.home_link {
+    font-size: 1.7rem;
+    padding: 0.3em;
+    font-weight: 800;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5ch;
+}
+
+/* Markdown content */
+
+.pages-markdown main {
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5rem;
+}

@@ -1,0 +1,311 @@
+/* a minimalist set of CSS resets */
+
+@import url("https://cdn.jsdelivr.net/npm/normalize.css@8.0.1/normalize.css");
+@import url("lecture_header.css");
+@import url("newdefault.css");
+
+/* @import url('https://cdn.jsdelivr.net/gh/fonsp/Pluto.jl@0.18.0/frontend/vollkorn.css'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&display=swap'); */
+/* @import url('https://fonts.googleapis.com/css2?family=Jaldi:wght@400;700&family=Work+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&family=Yantramanav:wght@400;500;700;900&display=swap'); */
+
+*,
+*:before,
+*:after {
+    box-sizing: inherit;
+}
+
+:root {
+    --system-fonts: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Cantarell, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", system-ui, sans-serif;
+    --system-fonts-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+    --fg: #000;
+    --faded-1: #858585;
+    --faded-2: rgb(161, 161, 161);
+    --sidebar-accent-1: #c89393;
+    --search-bg: hsl(78deg 10% 85%);
+    --search-bg-accent: #f4f4f5;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --fg: #ddd;
+        --faded-1: #b3b3b3;
+        --faded-2: #999999;
+
+        --sidebar-accent-1: #8b736a;
+        --search-bg: #363b33;
+        --search-bg-accent: #4d6542;
+    }
+}
+
+/* adjust typography defaults */
+body {
+    margin: 0;
+    padding: 0;
+    /*   font-family: Noto; */
+    /*   font-family: sans-serif; */
+    /*   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif; */
+    width: 100vw;
+    overflow-x: hidden;
+    background: hsl(235deg 19% 16%);
+    color: var(--pluto-output-color);
+
+    /* background: url(bg.svg); */
+    /* background-color: hsl(231deg 14% 57%); */
+    /* background-size: cover; */
+    word-break: break-word;
+}
+
+.pages-markdown p,
+.pages-markdown ol {
+    line-height: 1.5;
+}
+
+.pages-markdown h1,
+.pages-markdown h2 {
+    font-weight: 800;
+}
+
+.pages-markdown h1,
+.pages-markdown h2,
+.pages-markdown h3,
+.pages-markdown h4,
+.pages-markdown h5,
+.pages-markdown h6 {
+    color: var(--pluto-output-h-color);
+}
+
+pre {
+    tab-size: 4;
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+pre,
+code {
+    font-family: var(--system-fonts-mono);
+}
+
+/* images and videos max out at full width */
+img,
+video {
+    height: auto;
+    max-width: 100%;
+}
+
+a {
+    font-weight: 500;
+    text-decoration: none;
+}
+.pages-markdown a,
+.pages-markdown a:visited {
+    color: #4674bc;
+}
+a:hover {
+    text-decoration: underline;
+}
+h1 a,
+h2 a,
+h3 a {
+    font-weight: inherit;
+}
+
+a.arrow::after {
+    content: " →";
+}
+card-text > a.arrow {
+    margin-top: auto;
+}
+
+/* SIDEBAR LOGO */
+
+a.pluto_home_link img {
+    height: 1.2em;
+    width: 1.2em;
+}
+a.pluto_home_link {
+    font-size: 1.7em;
+    font-weight: 800;
+    color: inherit;
+    padding: 0.3em;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5ch;
+}
+
+.sidebar-about .logos {
+    display: flex;
+    flex-direction: row;
+    gap: 1em;
+    padding: 1em;
+    align-items: center;
+}
+
+.sidebar-about .logos picture {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: auto;
+    object-fit: contain;
+}
+
+.sidebar-about .course-numbers {
+    opacity: 0.6;
+}
+.sidebar-about .course-numbers > span {
+    font-family: var(--system-fonts-mono);
+    font-size: 0.9em;
+}
+.sidebar-about .course-numbers::before {
+    /* content: " | "; */
+}
+
+.semester-details,
+.authors {
+    border-radius: var(--border-radius);
+    padding: var(--child-padding);
+}
+.semester-details > a {
+    font-weight: 700;
+}
+
+#pages-sidebar h1 {
+    font-size: 1.4rem;
+    margin-block-end: 0px;
+    margin: 0; /* line-height: 1; */
+}
+
+#pages-sidebar h2 {
+    font-size: 1rem;
+    font-weight: 500;
+    font-style: italic;
+    opacity: 0.8;
+    margin-block-start: 0.2em;
+}
+
+.authors {
+    color: var(--faded-2);
+}
+.authors {
+    color: var(--faded-2);
+}
+#pages-sidebar .authors > a {
+    color: var(--fg);
+}
+
+.search-result strong {
+    --bg-color: #73731e94;
+    background: var(--bg-color);
+    outline: 0.15em solid var(--bg-color);
+    border-radius: 0.1em;
+}
+
+#pages-sidebar .search-bar form {
+    display: flex;
+    flex-direction: row;
+}
+#pages-sidebar .search-bar input[type="search"] {
+    flex: 1 1 auto;
+    min-width: 0px;
+}
+
+a.search-result,
+a.search-result:visited {
+    color: inherit;
+    display: block;
+    text-decoration: none;
+    background: var(--search-bg);
+    padding: 0.7rem;
+    margin: 2rem 1rem 2rem 0rem;
+    --br: 0.4em;
+    border-radius: var(--br);
+    position: relative;
+}
+
+.search-result h3 {
+    margin-block-start: 0;
+}
+
+.search-result .tags {
+    opacity: 0.6;
+    font-family: var(--system-fonts-mono);
+}
+
+a.search-result::before {
+    content: "";
+    display: block;
+    position: absolute;
+    z-index: -1;
+    --off: -3px;
+    top: var(--off);
+    right: var(--off);
+    left: var(--off);
+    bottom: var(--off);
+    background: var(--search-bg-accent);
+    transform: rotate(356.9deg) translate(0px, 0px);
+    border-radius: var(--br);
+}
+
+.student-feedback .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    margin: 1rem 0rem;
+    border-radius: 0.4rem;
+    padding: 0.2rem 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+    .student-feedback .card {
+        background: #4b4b4b;
+    }
+}
+.student-feedback .card-container {
+    padding: 4px 16px;
+}
+.student-feedback .card-container::after,
+.student-feedback .row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+.student-feedback .semester {
+    opacity: 0.6;
+}
+.student-feedback .feedback {
+    /* margin-top: 0.5em; */
+}
+
+.student-feedback {
+    margin-bottom: 4rem;
+}
+
+blockquote.twitter-tweet {
+    margin: 0rem;
+}
+
+/* modify Pluto's styles to avoid a visual glitch. This will make the header always display fixed at the top. */
+
+body:not(.asdfsdfa) pluto-editor:not(.asdffdas) header#pluto-nav {
+    position: fixed;
+    top: 0;
+    left: 56px;
+    right: 56px;
+    z-index: 1998;
+    width: auto;
+    border-radius: 0 0 10px 10px;
+}
+
+/* Make space for the Pluto header */
+body.binder:not(.offer_binder) {
+    padding-top: 60px;
+}
+
+/* Another strategy: leave the header in place but make the export menu hidden when it is not opened. */
+/* 
+header.show_export aside#export {
+    visibility: initial;
+}
+
+aside#export {
+    visibility: hidden;
+} */
