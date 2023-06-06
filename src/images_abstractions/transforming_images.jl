@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "uZYVjDDZW9A"
 #> description = ""
-#> tags = ["lecture", "module1"]
+#> tags = ["lecture", "module1", "image", "convolution", "track_math", "matrix", "philip"]
 
 using Markdown
 using InteractiveUtils
@@ -44,11 +44,6 @@ md"""
 #### Initializing packages
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
-"""
-
-# ╔═╡ 4d332c7e-74f8-11eb-1f49-a518246d1db8
-md"""
-# Announcement: Lectures will be nearly an hour
 """
 
 # ╔═╡ f7689472-74a8-11eb-32a1-8379ae5c88e1
@@ -1731,7 +1726,6 @@ version = "1.4.1+0"
 # ╟─8d389d80-74a1-11eb-3452-f38eff03483b
 # ╟─9f1a72da-7532-11eb-079c-b7baccc6614a
 # ╠═86f770fe-74a1-11eb-01f7-5b3ecf057124
-# ╟─4d332c7e-74f8-11eb-1f49-a518246d1db8
 # ╟─f7689472-74a8-11eb-32a1-8379ae5c88e1
 # ╟─0f2f9004-74a8-11eb-01a2-973dbe80f166
 # ╠═962143a8-74a7-11eb-26c3-c10548f326ee
@@ -1789,7 +1783,7 @@ version = "1.4.1+0"
 # ╠═d22903d6-7529-11eb-2dcd-132cd27104c2
 # ╟─844ed844-74b3-11eb-2ee1-2de664b26bc6
 # ╟─4ffe927c-74b4-11eb-23a7-a18d7e51c75b
-# ╠═91109e5c-74b3-11eb-1f31-c50e436bc6e0
+# ╟─91109e5c-74b3-11eb-1f31-c50e436bc6e0
 # ╠═34109062-7525-11eb-10b3-d59d3a6dfda6
 # ╟─9ab89a3a-7525-11eb-186d-29e4b61deb7f
 # ╠═50034058-7525-11eb-345b-3334e71ac50e

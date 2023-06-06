@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "KyBXJV1zFlo"
 #> description = ""
-#> tags = ["lecture", "module1"]
+#> tags = ["lecture", "module1", "image", "matrix", "track_julia", "track_climate", "track_data", "optimization", "interactive"]
 
 using Markdown
 using InteractiveUtils
@@ -1874,14 +1874,14 @@ version = "1.4.1+0"
 # ╟─5d6c1d74-8109-11eb-3529-bf2f23554b02
 # ╟─48593d7c-8109-11eb-1b8b-6f15155d6ec9
 # ╟─7038abe4-ef36-11ea-11a5-75e57ab51032
-# ╠═8f523ba8-f52c-4269-90ca-1aa87948bdb9
+# ╟─8f523ba8-f52c-4269-90ca-1aa87948bdb9
 # ╟─abcafa92-f426-4653-a65e-149b41dd91bf
 # ╟─1e0322f9-8737-401b-8b10-74f58d8e97ab
 # ╟─fda2f181-e582-4d61-822c-7ee75e214aaa
 # ╠═268c85cf-28c7-46ea-b343-b1214f75de33
 # ╟─1fd26a60-f089-11ea-1f56-bb6eba7d9651
 # ╟─dbacb273-02dc-4ff0-ac1a-3cc6785d3dac
-# ╠═71b16dbe-f08b-11ea-2343-5f1583074029
+# ╟─71b16dbe-f08b-11ea-2343-5f1583074029
 # ╟─15d1e5dc-ef2f-11ea-093a-417108bcd495
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

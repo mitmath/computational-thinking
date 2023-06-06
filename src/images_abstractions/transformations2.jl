@@ -10,8 +10,8 @@
 #> title = "Transformations II: Composability, Linearity and Nonlinearity"
 #> layout = "layout.jlhtml"
 #> youtube_id = "VDPf3RjoCpY"
-#> description = ""
-#> tags = ["lecture", "module1"]
+#> description = "Let's see what mathematical transformations, inverses, composition and (non-)linearity look like in practice. (i.e. applied to philip.jpg)"
+#> tags = ["lecture", "module1", "transformation", "track_math", "track_julia", "inverse", "composition", "matrix", "linear algebra", "nonlinear", "linear"]
 
 using Markdown
 using InteractiveUtils

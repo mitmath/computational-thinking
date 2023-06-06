@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 using Markdown
 using InteractiveUtils
@@ -25,28 +25,8 @@ end
 # ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
 
 
-# ╔═╡ c0c90fec-0e55-4be3-8ea2-88b8705ee258
-md"""
-### Choose an image:
-
-$(@bind img_source Select(img_sources))
-"""
-
 # ╔═╡ 60532aa0-740c-11eb-0402-af8ff117f042
 md"Show grid lines $(@bind show_grid CheckBox(default=true))"
-
-# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
-[
-	if det_A == 0
-		RGB(1.0, 1.0, 1.0)
-	else
-		in_x, in_y = invA*[out_x, out_y]
-		trygetpixel(img, in_x, in_y)
-	end
-	
-	for out_y in LinRange(2, -2, 300),
-		out_x in LinRange(-2, 2, 300)
-]
 
 # ╔═╡ 35904b8e-7a28-4dbc-bbf9-b45da448452c
 let
@@ -95,18 +75,18 @@ img_sources = [
 	"https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w" => "Alan"
 ]
 
+# ╔═╡ c0c90fec-0e55-4be3-8ea2-88b8705ee258
+md"""
+### Choose an image:
+
+$(@bind img_source Select(img_sources))
+"""
+
 # ╔═╡ 4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
 img_original = load(download(img_source));
 
 # ╔═╡ 52a8009e-761c-11eb-2dc9-dbccdc5e7886
 typeof(img_original)
-
-# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
-img = if show_grid
-	with_gridlines(img_original)
-else
-	img_original
-end;
 
 # ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
 function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
@@ -145,6 +125,26 @@ function with_gridlines(img::Array{<:Any,2}; n=8)
 	
 	return result
 end
+
+# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
+img = if show_grid
+	with_gridlines(img_original)
+else
+	img_original
+end;
+
+# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
+[
+	if det_A == 0
+		RGB(1.0, 1.0, 1.0)
+	else
+		in_x, in_y = invA*[out_x, out_y]
+		trygetpixel(img, in_x, in_y)
+	end
+	
+	for out_y in LinRange(2, -2, 300),
+		out_x in LinRange(-2, 2, 300)
+]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -244,7 +244,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -636,7 +636,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]

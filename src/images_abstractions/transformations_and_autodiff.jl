@@ -10,8 +10,8 @@
 #> title = "Automatic Differentiation"
 #> layout = "layout.jlhtml"
 #> youtube_id = "AAREeuaKCic"
-#> description = ""
-#> tags = ["lecture", "module1"]
+#> description = "We use the package ForwardDiff.jl to automatically differentiate functions, on scalar and vector domains."
+#> tags = ["lecture", "module1", "track_julia", "track_math", "programming", "function", "transformation", "automatic differentiation", "continuous", "derivative"]
 
 using Markdown
 using InteractiveUtils
@@ -55,12 +55,12 @@ In general if we perform both of these operations, we get a linear combination.
 
 # ╔═╡ 2cca0638-7635-11eb-3b60-db3fabe6f536
 md"""
-# 4.1 Functions in Math and Julia
+# Functions in Math and Julia
 """
 
 # ╔═╡ c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
 md"""
-### 4.1.1 Univariate Functions
+### Univariate Functions
 """
 
 # ╔═╡ db56bcda-76aa-11eb-2447-5d9076789244
@@ -101,14 +101,25 @@ f₃(5,2)
 
 # ╔═╡ b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
 md"""
-Keywords
+### Keyword arguments
+
+After the regular (positional) arguments, a function definition can also accept keyword arguments. In the definition, these come after a semicolon `;`
 """
 
 # ╔═╡ 71c074f0-76ac-11eb-2164-c36381212bff
-f₄(x;α) = x^α
+f₄(x; α, β) = (x - β)^α
+
+# ╔═╡ f263f6e6-b6c5-4c82-9a21-d6cdf34f725e
+md"""
+When calling a function with keyword arguments, you use the key:
+"""
 
 # ╔═╡ 87b99c8a-76ac-11eb-1c94-8f1ffe3be593
-f₄(2, α=5)
+f₄(3, α=5, β=1)
+
+# ╔═╡ 142eb253-6294-4426-bde2-7a9e2d6f2df4
+# the order of keyword arguments does not matter:
+f₄(3, β=1, α=5)
 
 # ╔═╡ 504076fc-76ac-11eb-30c3-bfa75c991cb2
 md"""
@@ -117,7 +128,7 @@ See [Julia's function documentation](https://docs.julialang.org/en/v1/manual/fun
 
 # ╔═╡ f1dd24d8-76ac-11eb-1de7-a763a1b95668
 md"""
-### 4.1.2 Automatic Differentiation of Univariates
+### Automatic Differentiation of Univariates
 """
 
 # ╔═╡ fe01da74-76ac-11eb-12e3-8320340b6139
@@ -156,7 +167,7 @@ end
 
 # ╔═╡ f7df6cda-76b1-11eb-11e4-8d0af0349651
 md"""
-### 4.1.3 Scalar Valued Multivariate Functions
+### Scalar Valued Multivariate Functions
 """
 
 # ╔═╡ 63449b54-76b4-11eb-202f-3bda2f4cff4d
@@ -211,7 +222,7 @@ methods(f₅)
 
 # ╔═╡ 6d411cea-76b9-11eb-061b-87d472bc3bdd
 md"""
-### 4.1.4 Automatic Differentiation: Scalar valued multivariate functions
+### Automatic Differentiation: Scalar valued multivariate functions
 """
 
 # ╔═╡ bc2c6afc-76b7-11eb-0631-51f83cd73205
@@ -253,7 +264,7 @@ md"""
 
 # ╔═╡ a0afe3ae-76b9-11eb-2301-cde7260ddd7f
 md"""
-### 4.1.5. Transformations: Vector Valued Multivariate Functions
+### Transformations: Vector Valued Multivariate Functions
 """
 
 # ╔═╡ ac1ab224-76bb-11eb-13cb-0bd44bea1042
@@ -335,7 +346,7 @@ warp₂(1.0)([5.0,6.0])
 
 # ╔═╡ 09ed6d38-76be-11eb-255b-3fbf76c21097
 md"""
-### 4.1.6 Automatic Differentiation of Transformations
+### Automatic Differentiation of Transformations
 """
 
 # ╔═╡ 9786e2be-76be-11eb-3755-b5669c37aa64
@@ -355,7 +366,7 @@ end
 
 # ╔═╡ ad728ee6-7639-11eb-0b23-c37f1366fb4e
 md"""
-## 4.2 But what is a transformation, really? 
+## But what is a transformation, really? 
 You have very likely learned how to multiply matrices times vectors.  I'll bet you think of a matrix as a table of numbers, and a vector as a column of numbers, and if you are well practiced, you know just when to multiply and just when to add.
 Congratulations, you now can do what computers excel at.
 
@@ -446,12 +457,14 @@ md"""
 Computer Science
 Solving 2 equations in 2 unknowns, and higher dimensional analogs.
 
-THe top 500 supercomputers, and how many equations in how many unknowns are being solved today.
+The top 500 supercomputers, and how many equations in how many unknowns are being solved today.
 """
 
 # ╔═╡ a66eb6fe-76b3-11eb-1d50-659ec2bf7c44
 md"""
-### 4.4 Automatic Differentiation in 10 mins(ok 11)
+### Automatic Differentiation in 10 minutes
+
+*(okay, 11)*
 """
 
 # ╔═╡ b9dba026-76b3-11eb-1bfb-ffe9c43ced5d
@@ -1190,7 +1203,9 @@ version = "17.4.0+0"
 # ╠═f4fa8c1a-76ab-11eb-302d-bd410432e3cf
 # ╟─b3faf4d8-76ac-11eb-0be9-7dda3d37aba0
 # ╠═71c074f0-76ac-11eb-2164-c36381212bff
+# ╟─f263f6e6-b6c5-4c82-9a21-d6cdf34f725e
 # ╠═87b99c8a-76ac-11eb-1c94-8f1ffe3be593
+# ╠═142eb253-6294-4426-bde2-7a9e2d6f2df4
 # ╟─504076fc-76ac-11eb-30c3-bfa75c991cb2
 # ╟─f1dd24d8-76ac-11eb-1de7-a763a1b95668
 # ╟─fe01da74-76ac-11eb-12e3-8320340b6139

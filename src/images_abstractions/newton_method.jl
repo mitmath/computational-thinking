@@ -10,8 +10,8 @@
 #> title = "The Newton Method"
 #> layout = "layout.jlhtml"
 #> youtube_id = "Wjcx9sNSLP8"
-#> description = ""
-#> tags = ["lecture", "module1"]
+#> description = "This lecture explains a method for finding the root of a function, but using code an illustrations instead of a chalkboard! We will illustrate the Newton method using the ForwardDiff.jl package to carry out automatic differentiation, but we will also try to understand what's going on \"under the hood\"."
+#> tags = ["lecture", "module1", "track_math", "continuous", "differentiation", "automatic differentiation", "ForwardDiff", "interactive", "Symbolics", "transformation"]
 
 using Markdown
 using InteractiveUtils
