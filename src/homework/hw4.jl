@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -8,7 +8,7 @@
 #> homework_number = 4
 #> title = "Dynamic programming"
 #> layout = "layout.jlhtml"
-#> tags = ["homework", "module1"]
+#> tags = ["homework", "module1", "track_julia", "track_math", "structure", "programming", "dynamic programming", "matrix", "recursion"]
 #> description = ""
 
 using Markdown
@@ -31,14 +31,6 @@ begin
 	using PlutoUI
 	using BenchmarkTools
 end
-
-# ╔═╡ 33e43c7c-f381-11ea-3abc-c942327456b1
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll around the page to see what's up
 
 # ╔═╡ 0f271e1d-ae16-4eeb-a8a8-37951c70ba31
 all_image_urls = [
@@ -145,21 +137,13 @@ end
 # ╔═╡ e6b6760a-f37f-11ea-3ae1-65443ef5a81a
 md"_homework 4, version 5_"
 
-# ╔═╡ ec66314e-f37f-11ea-0af4-31da0584e881
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
-
 # ╔═╡ 85cfbd10-f384-11ea-31dc-b5693630a4c5
 md"""
 
 # **Homework 4**: _Dynamic programming_
-`18.S191`, Spring 2021
+`18.S191`, Fall 2023
 
 This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
-
-_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
 
 Feel free to ask questions!
 """
@@ -627,14 +611,6 @@ begin
 	md"Compute shrunk image: $(@bind shrink_bottomup CheckBox())"
 end
 
-# ╔═╡ 0fbe2af6-f381-11ea-2f41-23cd1cf930d9
-if student.kerberos_id === "jazz"
-	md"""
-!!! danger "Oops!"
-    **Before you submit**, remember to fill in your name and kerberos ID at the top of this notebook!
-	"""
-end
-
 # ╔═╡ 6b4d6584-f3be-11ea-131d-e5bdefcc791b
 md"## Function library
 
@@ -1045,7 +1021,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ComputationalResources]]
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
@@ -1731,7 +1707,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1836,9 +1812,7 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╟─e6b6760a-f37f-11ea-3ae1-65443ef5a81a
-# ╟─ec66314e-f37f-11ea-0af4-31da0584e881
 # ╟─85cfbd10-f384-11ea-31dc-b5693630a4c5
-# ╠═33e43c7c-f381-11ea-3abc-c942327456b1
 # ╟─938185ec-f384-11ea-21dc-b56b7469f798
 # ╠═a4937996-f314-11ea-2ff9-615c888afaa8
 # ╟─0f271e1d-ae16-4eeb-a8a8-37951c70ba31
@@ -1947,7 +1921,6 @@ version = "17.4.0+0"
 # ╟─51e28596-f3c5-11ea-2237-2b72bbfaa001
 # ╟─0a10acd8-f3c6-11ea-3e2f-7530a0af8c7f
 # ╟─946b69a0-f3a2-11ea-2670-819a5dafe891
-# ╟─0fbe2af6-f381-11ea-2f41-23cd1cf930d9
 # ╟─48089a00-f321-11ea-1479-e74ba71df067
 # ╟─6b4d6584-f3be-11ea-131d-e5bdefcc791b
 # ╟─437ba6ce-f37d-11ea-1010-5f6a6e282f9b

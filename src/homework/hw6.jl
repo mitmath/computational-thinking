@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -8,7 +8,7 @@
 #> homework_number = 6
 #> title = "Probability distributions"
 #> layout = "layout.jlhtml"
-#> tags = ["homework", "module2"]
+#> tags = ["homework", "module2", "track_julia", "track_math", "track_data", "structure", "probability", "statistics", "plotting", "interactive"]
 #> description = "Calculate a probability distribution from a dataset, experiment with different statistical models, and learn how to plot your results."
 
 using Markdown
@@ -24,49 +24,30 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 8c8388cf-9891-423c-8db2-d40d870bb38e
+begin
+	using PlutoUI, Plots
+end
+
 # ╔═╡ eadb174e-2c1d-48c8-9de2-99cdc2b38d32
 md"_homework 6, version 5_"
-
-# ╔═╡ 0560cf7b-9986-402a-9c40-779ea7a7292d
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
 
 # ╔═╡ 082542fe-f89d-4774-be20-1e1a78f21291
 md"""
 
 # **Homework 6**: _Probability distributions_
-`18.S191`, Spring 2021
+`18.S191`, Fall 2023
 
 This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
 
-_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
-
 Feel free to ask questions!
 """
-
-# ╔═╡ 6f4274b5-87e2-420d-83d2-83a8408650cd
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll around the page to see what's up
 
 # ╔═╡ aaa41509-a62d-417b-bca7-a120e3a5e5b2
 md"""
 #### Initializing packages
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
-
-# ╔═╡ 8c8388cf-9891-423c-8db2-d40d870bb38e
-begin
-	using PlutoUI, Plots
-end
-
-# ╔═╡ 4ce0e43d-63d6-4cb2-88b8-8ba80e17012a
-bigbreak
 
 # ╔═╡ 6c6e055a-8c4c-11eb-14a7-6d3036e248b9
 md"""
@@ -76,35 +57,6 @@ md"""
 In this exercise we practise using dictionaries in Julia by writing our own version of the `countmap` function. Recall that that function counts the number of times that a given (discrete) value occurs in an input data set.
 
 A suitable data structure for this is a **dictionary**, since it allows us to store data that is very sparse (i.e. for which many input values do not occur).
-"""
-
-# ╔═╡ 17fa9e2e-8c4d-11eb-334c-ad3704b43e95
-md"""
-
-#### Exercise 1.1
-👉 Write a function `counts` that accepts a vector `data` and calculates the number of times each value in `data` occurs.
-
-The input will be an array of integers, **with duplicates**, and the result will be a dictionary that maps each occurred value to its count in the data.
-
-For example,
-```julia
-counts([7, 8, 9, 7])
-```
-should give
-```julia
-Dict(
-	7 => 2, 
-	8 => 1, 
-	9 => 1,
-)
-```
-
-To do so, use a **dictionary** called `counts`. [We can create a local variable with the same name as the function.]
-
-$(hint(md"Do you remember how we worked with dictionaries in Homework 3? You can create an empty dictionary using `Dict()`. You may want to use either the function `haskey` or the function `get` on your dictionary -- check the documentation for how to use these functions.
-"))
-
-The function should return the dictionary.
 """
 
 # ╔═╡ 2bebafd4-8c4d-11eb-14ba-27ab7eb763c1
@@ -129,45 +81,6 @@ test_data = [1, 0, 1, 0, 1000, 1, 1, 1000]
 
 # ╔═╡ 49b9e55c-1179-4bee-844e-62ae36d20a5d
 test_counts = counts(test_data)
-
-# ╔═╡ 645ace88-b8e6-4957-ad6e-49fd82b08fe5
-if !@isdefined(counts)
-	not_defined(:counts)
-else
-	let
-		result = counts([51,-52,-52,53,51])
-
-		if ismissing(result)
-			still_missing()
-		elseif !(result isa Dict)
-			keep_working(md"Make sure that `counts` returns a Dictionary.")
-		elseif result == Dict(
-				51 => 2,
-				-52 => 2,
-				53 => 1,
-			)
-			correct()
-		else
-			keep_working()
-		end
-	end
-end
-
-# ╔═╡ 6a302ce6-a327-449e-b41a-859d502f4df7
-if !@isdefined(test_counts)
-	not_defined(:test_counts)
-else
-	if test_counts != Dict(
-			0 => 2,
-			1000 => 2,
-			1 => 4
-			)
-		
-		keep_working()
-	else
-		correct()
-	end
-end
 
 # ╔═╡ 18031e1e-8c4d-11eb-006b-adaf55d54282
 md"""
@@ -226,28 +139,6 @@ end
 # ╔═╡ 37294d02-8c4f-11eb-141e-0be49ea07611
 counts2(test_data)
 
-# ╔═╡ 2b6a64b9-779b-47d1-9724-ad066f14fbff
-if !@isdefined(counts2)
-	not_defined(:counts2)
-else
-	let
-		result = counts2([51,-52,-52,53,51])
-
-		if ismissing(result)
-			still_missing()
-		elseif !(result isa Tuple{<:AbstractVector,<:AbstractVector})
-			keep_working(md"Make sure that `counts2` returns a Tuple of two vectors.")
-		elseif result == (
-				[-52, 51, 53],
-				[2, 2, 1],
-			)
-			correct()
-		else
-			keep_working()
-		end
-	end
-end
-
 # ╔═╡ 18139dc0-8c4d-11eb-0c31-a75361ed7321
 md"""
 #### Exercise 1.3
@@ -268,29 +159,6 @@ end
 
 # ╔═╡ 6b1dc96a-8c4f-11eb-27ca-ffba02520fec
 probability_distribution(test_data)
-
-# ╔═╡ 26bf2a9c-f42e-4c97-83d2-b9d637a2e8ae
-if !@isdefined(probability_distribution)
-	not_defined(:probability_distribution)
-else
-	let
-		result = probability_distribution([51,-52,-52,53,51])
-
-		if ismissing(result)
-			still_missing()
-		elseif !(result isa Tuple{<:AbstractVector,<:AbstractVector})
-			keep_working(md"Make sure that `counts2` returns a Tuple of two vectors.")
-		elseif result[1] == [-52, 51, 53] &&
-				isapprox(result[2], [2, 2, 1] ./ 5)
-			correct()
-		else
-			keep_working()
-		end
-	end
-end
-
-# ╔═╡ 6f55a612-8c4f-11eb-0f6b-755442c4ed3d
-bigbreak
 
 # ╔═╡ 95145ee9-c826-45e3-ab51-442c8ca70fa3
 md"""
@@ -323,27 +191,12 @@ In our lecture materials, we sometimes use a `let` block in this cell to group m
     returns **one object**: the object `nothing` — try it out!
 """
 
-# ╔═╡ 51801da7-38da-4628-8a7a-119358e60086
-bigbreak
-
 # ╔═╡ c5464196-8ef7-418d-b1aa-fafc3a03c68c
 md"""
 ### Example of a scope problem with `begin`
 
 The following will not work, because `fruits` has multiple definitions:
 """
-
-# ╔═╡ 2962c6da-feda-4d65-918b-d3b178a18fa0
-begin
-	fruits = ["🍒", "🍐", "🍋"]
-	length(fruits)
-end
-
-# ╔═╡ 887a5106-c44a-4437-8c6f-04ad6610738a
-begin
-	fruits = ["🍉"]
-	length(fruits)
-end
 
 # ╔═╡ 409ed7e5-a3b8-4d37-b85d-e5cb4c1e1708
 md"""
@@ -373,9 +226,6 @@ This works, because `vegetables` is only defined as a _local variable inside the
 # ╔═╡ d12229f4-d950-4983-84a4-304a7637ac7b
 vegetables
 
-# ╔═╡ 43966251-c8db-4999-bc4f-0f1fc34e0264
-bigbreak
-
 # ╔═╡ a8241562-8c4c-11eb-2a85-d7502e7fb2cf
 md"""
 ## **Exercise 2:** _Modelling component failure with the geometric distribution_
@@ -401,27 +251,6 @@ function bernoulli(p::Real)
 	return missing
 end
 
-# ╔═╡ 3ea51057-4438-4d4a-b964-630e87a82ce5
-if !@isdefined(bernoulli)
-	not_defined(:bernoulli)
-else
-	let
-		result = bernoulli(0.5)
-		
-		if result isa Missing
-			still_missing()
-		elseif !(result isa Bool)
-			keep_working(md"Make sure that you return either `true` or `false`.")
-		else
-			if bernoulli(0.0) == false && bernoulli(1.0) == true
-				correct()
-			else
-				keep_working()
-			end
-		end
-	end
-end
-
 # ╔═╡ fdb3f1c8-8c4f-11eb-2281-bf01205bb804
 md"""
 #### Exercise 2.2
@@ -439,9 +268,6 @@ end
 # ╔═╡ 2b35dc1c-8c50-11eb-3517-83589f2aa8cc
 geometric(0.25)
 
-# ╔═╡ 7077a0b6-4539-4246-af2d-ab990c34e810
-hint(md"Remember to always re-use work you have done previously: in this case you should re-use the function `bernoulli`.")
-
 # ╔═╡ e125bd7f-1881-4cff-810f-8af86850249d
 md"""
 We should always be aware of special cases (sometimes called "boundary conditions"). Make sure *not* to run the code with $p=0$! What would happen in that case? Your code should check for this and throw an `ArgumentError` as follows:
@@ -453,34 +279,6 @@ throw(ArgumentError("..."))
 with a suitable error message.
     
 """
-
-# ╔═╡ fccff967-e44f-4f89-8995-d822783301c3
-if !@isdefined(geometric)
-	not_defined(:geometric)
-else
-	let
-		result = geometric(1.0)
-		
-		if result isa Missing
-			still_missing()
-		elseif !(result isa Int)
-			keep_working(md"Make sure that you return an integer: the recovery time.")
-		else
-			if result == 1
-				samples = [geometric(0.2) for _ in 1:256]
-				
-				a, b = extrema(samples)
-				if a == 1 && b > 20
-					correct()
-				else
-					keep_working()
-				end
-			else
-				keep_working(md"`p = 1.0` should return `1`: the agent recovers after the first time step.")
-			end
-		end
-	end
-end
 
 # ╔═╡ 6cb36508-836a-4191-b615-45681a1f7443
 md"""
@@ -657,9 +455,6 @@ Based on my observations, it looks like we have the following relationship:
 ```
 """
 
-# ╔═╡ 06412687-b44d-4a69-8d6c-0cf4eb51dfad
-bigbreak
-
 # ╔═╡ a82728c4-8c4c-11eb-31b8-8bc5fcd8afb7
 md"""
 
@@ -758,28 +553,6 @@ end
 # ╔═╡ e4095d34-552e-495d-b318-9afe6839d577
 cumulative_sum([1, 3, 5, 7, 9])
 
-# ╔═╡ 0210b558-80ae-4a15-92c1-60b0fd7924f3
-if !@isdefined(cumulative_sum)
-	not_defined(:cumulative_sum)
-else
-	let
-		result = cumulative_sum([1,2,3,4])
-		if result isa Missing
-			still_missing()
-		elseif !(result isa AbstractVector)
-			keep_working(md"Make sure that you return an Array: the cumulative sum!")
-		elseif length(result) != 4
-			keep_working(md"You should return an array of the same size a `xs`.")
-		else
-			if isapprox(result, [1, 3, 6, 10])
-				correct()
-			else
-				keep_working()
-			end
-		end
-	end
-end
-
 # ╔═╡ fa5843e8-8c52-11eb-2138-dd57b8bf25f7
 md"""
 👉 Plot the resulting values on a horizontal line. Generate a few random points and plot those. Convince yourself that the probability that a point hits a bin is equal to the length of that bin.
@@ -832,31 +605,6 @@ function geometric_bin(u::Real, p::Real)
 	return missing
 end
 
-# ╔═╡ a81516e8-0099-414e-9f2c-ab438764348e
-if !@isdefined(geometric_bin)
-	not_defined(:geometric_bin)
-else
-	let
-		result1 = geometric_bin(0.1, 0.1)
-		result2 = geometric_bin(0.9, 0.1)
-		
-		if result1 isa Missing
-			still_missing()
-		elseif !(result1 isa Real)
-			keep_working(md"Make sure that you return a number.")
-		elseif all(isinteger, [result1, result2])
-			if result1 == 21 || result2 == 21 ||  result1 == 22 || result2 == 22
-
-				correct()
-			else
-				keep_working()
-			end
-		else
-			keep_working(md"You should use the `floor` function to return an integer.")
-		end
-	end
-end
-
 # ╔═╡ adfb343d-beb8-4576-9f2a-d53404cee42b
 md"""
 We can use this to define a **fast** version of the `geomtric` function:
@@ -879,9 +627,6 @@ md"""
 
 # ╔═╡ c37bbb1f-8f5e-4097-9104-43ef65aa1cbd
 
-
-# ╔═╡ 94053b41-4a06-435d-a91a-9dfa9655937c
-bigbreak
 
 # ╔═╡ 79eb5e14-8c54-11eb-3c8c-dfeba16305b2
 md"""
@@ -959,9 +704,6 @@ md"""
 # ╔═╡ fe45b8de-eb3f-43ca-9d63-5c01d0d27671
 
 
-# ╔═╡ a5234680-8b02-11eb-2574-15489d0d49ea
-bigbreak
-
 # ╔═╡ 5aabbec1-a079-4936-9cd1-9c25fe5700e6
 md"## Function library
 
@@ -969,6 +711,38 @@ Just some helper functions used in the notebook."
 
 # ╔═╡ 42d6b87d-b4c3-4ccb-aceb-d1b020135f47
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
+
+# ╔═╡ 17fa9e2e-8c4d-11eb-334c-ad3704b43e95
+md"""
+
+#### Exercise 1.1
+👉 Write a function `counts` that accepts a vector `data` and calculates the number of times each value in `data` occurs.
+
+The input will be an array of integers, **with duplicates**, and the result will be a dictionary that maps each occurred value to its count in the data.
+
+For example,
+```julia
+counts([7, 8, 9, 7])
+```
+should give
+```julia
+Dict(
+	7 => 2, 
+	8 => 1, 
+	9 => 1,
+)
+```
+
+To do so, use a **dictionary** called `counts`. [We can create a local variable with the same name as the function.]
+
+$(hint(md"Do you remember how we worked with dictionaries in Homework 3? You can create an empty dictionary using `Dict()`. You may want to use either the function `haskey` or the function `get` on your dictionary -- check the documentation for how to use these functions.
+"))
+
+The function should return the dictionary.
+"""
+
+# ╔═╡ 7077a0b6-4539-4246-af2d-ab990c34e810
+hint(md"Remember to always re-use work you have done previously: in this case you should re-use the function `bernoulli`.")
 
 # ╔═╡ 8fd9e34c-8f20-4979-8f8a-e3e2ae7d6c65
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
@@ -988,6 +762,183 @@ correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!",
 # ╔═╡ 5dca2bb3-24e6-49ae-a6fc-d3912da4f82a
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
 
+# ╔═╡ 645ace88-b8e6-4957-ad6e-49fd82b08fe5
+if !@isdefined(counts)
+	not_defined(:counts)
+else
+	let
+		result = counts([51,-52,-52,53,51])
+
+		if ismissing(result)
+			still_missing()
+		elseif !(result isa Dict)
+			keep_working(md"Make sure that `counts` returns a Dictionary.")
+		elseif result == Dict(
+				51 => 2,
+				-52 => 2,
+				53 => 1,
+			)
+			correct()
+		else
+			keep_working()
+		end
+	end
+end
+
+# ╔═╡ 6a302ce6-a327-449e-b41a-859d502f4df7
+if !@isdefined(test_counts)
+	not_defined(:test_counts)
+else
+	if test_counts != Dict(
+			0 => 2,
+			1000 => 2,
+			1 => 4
+			)
+		
+		keep_working()
+	else
+		correct()
+	end
+end
+
+# ╔═╡ 2b6a64b9-779b-47d1-9724-ad066f14fbff
+if !@isdefined(counts2)
+	not_defined(:counts2)
+else
+	let
+		result = counts2([51,-52,-52,53,51])
+
+		if ismissing(result)
+			still_missing()
+		elseif !(result isa Tuple{<:AbstractVector,<:AbstractVector})
+			keep_working(md"Make sure that `counts2` returns a Tuple of two vectors.")
+		elseif result == (
+				[-52, 51, 53],
+				[2, 2, 1],
+			)
+			correct()
+		else
+			keep_working()
+		end
+	end
+end
+
+# ╔═╡ 26bf2a9c-f42e-4c97-83d2-b9d637a2e8ae
+if !@isdefined(probability_distribution)
+	not_defined(:probability_distribution)
+else
+	let
+		result = probability_distribution([51,-52,-52,53,51])
+
+		if ismissing(result)
+			still_missing()
+		elseif !(result isa Tuple{<:AbstractVector,<:AbstractVector})
+			keep_working(md"Make sure that `counts2` returns a Tuple of two vectors.")
+		elseif result[1] == [-52, 51, 53] &&
+				isapprox(result[2], [2, 2, 1] ./ 5)
+			correct()
+		else
+			keep_working()
+		end
+	end
+end
+
+# ╔═╡ 3ea51057-4438-4d4a-b964-630e87a82ce5
+if !@isdefined(bernoulli)
+	not_defined(:bernoulli)
+else
+	let
+		result = bernoulli(0.5)
+		
+		if result isa Missing
+			still_missing()
+		elseif !(result isa Bool)
+			keep_working(md"Make sure that you return either `true` or `false`.")
+		else
+			if bernoulli(0.0) == false && bernoulli(1.0) == true
+				correct()
+			else
+				keep_working()
+			end
+		end
+	end
+end
+
+# ╔═╡ fccff967-e44f-4f89-8995-d822783301c3
+if !@isdefined(geometric)
+	not_defined(:geometric)
+else
+	let
+		result = geometric(1.0)
+		
+		if result isa Missing
+			still_missing()
+		elseif !(result isa Int)
+			keep_working(md"Make sure that you return an integer: the recovery time.")
+		else
+			if result == 1
+				samples = [geometric(0.2) for _ in 1:256]
+				
+				a, b = extrema(samples)
+				if a == 1 && b > 20
+					correct()
+				else
+					keep_working()
+				end
+			else
+				keep_working(md"`p = 1.0` should return `1`: the agent recovers after the first time step.")
+			end
+		end
+	end
+end
+
+# ╔═╡ 0210b558-80ae-4a15-92c1-60b0fd7924f3
+if !@isdefined(cumulative_sum)
+	not_defined(:cumulative_sum)
+else
+	let
+		result = cumulative_sum([1,2,3,4])
+		if result isa Missing
+			still_missing()
+		elseif !(result isa AbstractVector)
+			keep_working(md"Make sure that you return an Array: the cumulative sum!")
+		elseif length(result) != 4
+			keep_working(md"You should return an array of the same size a `xs`.")
+		else
+			if isapprox(result, [1, 3, 6, 10])
+				correct()
+			else
+				keep_working()
+			end
+		end
+	end
+end
+
+# ╔═╡ a81516e8-0099-414e-9f2c-ab438764348e
+if !@isdefined(geometric_bin)
+	not_defined(:geometric_bin)
+else
+	let
+		result1 = geometric_bin(0.1, 0.1)
+		result2 = geometric_bin(0.9, 0.1)
+		
+		if result1 isa Missing
+			still_missing()
+		elseif !(result1 isa Real)
+			keep_working(md"Make sure that you return a number.")
+		elseif all(isinteger, [result1, result2])
+			if result1 == 21 || result2 == 21 ||  result1 == 22 || result2 == 22
+
+				correct()
+			else
+				keep_working()
+			end
+		else
+			keep_working(md"You should use the `floor` function to return an integer.")
+		end
+	end
+end
+
 # ╔═╡ ddf2a828-7823-4fc0-b944-72b60b391247
 todo(text) = HTML("""<div
 	style="background: rgb(220, 200, 255); padding: 2em; border-radius: 1em;"
@@ -995,6 +946,39 @@ todo(text) = HTML("""<div
 
 # ╔═╡ a7feaaa4-618b-4afe-8050-4bf7cc609c17
 bigbreak = html"<br><br><br><br><br>";
+
+# ╔═╡ 4ce0e43d-63d6-4cb2-88b8-8ba80e17012a
+bigbreak
+
+# ╔═╡ 6f55a612-8c4f-11eb-0f6b-755442c4ed3d
+bigbreak
+
+# ╔═╡ 51801da7-38da-4628-8a7a-119358e60086
+bigbreak
+
+# ╔═╡ 43966251-c8db-4999-bc4f-0f1fc34e0264
+bigbreak
+
+# ╔═╡ 06412687-b44d-4a69-8d6c-0cf4eb51dfad
+bigbreak
+
+# ╔═╡ 94053b41-4a06-435d-a91a-9dfa9655937c
+bigbreak
+
+# ╔═╡ a5234680-8b02-11eb-2574-15489d0d49ea
+bigbreak
+
+# ╔═╡ 2962c6da-feda-4d65-918b-d3b178a18fa0
+begin
+	fruits = ["🍒", "🍐", "🍋"]
+	length(fruits)
+end
+
+# ╔═╡ 887a5106-c44a-4437-8c6f-04ad6610738a
+begin
+	fruits = ["🍉"]
+	length(fruits)
+end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1040,7 +1024,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -1090,7 +1074,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 deps = ["StaticArrays"]
@@ -1233,9 +1217,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1403,9 +1387,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1589,9 +1573,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1726,7 +1710,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1993,9 +1977,7 @@ version = "1.4.1+0"
 
 # ╔═╡ Cell order:
 # ╟─eadb174e-2c1d-48c8-9de2-99cdc2b38d32
-# ╟─0560cf7b-9986-402a-9c40-779ea7a7292d
 # ╟─082542fe-f89d-4774-be20-1e1a78f21291
-# ╠═6f4274b5-87e2-420d-83d2-83a8408650cd
 # ╟─aaa41509-a62d-417b-bca7-a120e3a5e5b2
 # ╠═8c8388cf-9891-423c-8db2-d40d870bb38e
 # ╟─4ce0e43d-63d6-4cb2-88b8-8ba80e17012a

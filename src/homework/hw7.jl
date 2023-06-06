@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -8,7 +8,7 @@
 #> homework_number = 7
 #> title = "Epidemic modeling I"
 #> layout = "layout.jlhtml"
-#> tags = ["homework", "module2"]
+#> tags = ["homework", "module2", "epidemiology", "track_data", "monte carlo", "statistics", "track_math", "ODE", "agent based model", "differential equation", "type", "structure", "plotting"]
 #> description = "Simulate the spread of an epidemic by creating your own agent-based model from scratch, and find statistics using the Monte Carlo method."
 
 using Markdown
@@ -24,46 +24,28 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 15187690-0403-11eb-2dfd-fd924faa3513
+using Plots, PlutoUI
+
 # ╔═╡ 01341648-0403-11eb-2212-db450c299f35
 md"_homework 7, version 3_"
-
-# ╔═╡ 03a85970-0403-11eb-334a-812b59c0905b
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
 
 # ╔═╡ 06f30b2a-0403-11eb-0f05-8badebe1011d
 md"""
 
 # **Homework 7**: _Epidemic modeling_
-`18.S191`, Spring 2021
+`18.S191`, Fall 2023
 
 This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
-
-_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
 
 Feel free to ask questions!
 """
 
-# ╔═╡ 095cbf46-0403-11eb-0c37-35de9562cebc
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll around the page to see what's up
-
 # ╔═╡ 107e65a4-0403-11eb-0c14-37d8d828b469
-md"_Let's create a package environment:_"
-
-# ╔═╡ 15187690-0403-11eb-2dfd-fd924faa3513
-begin
-    using Plots, PlutoUI
-end
-
-# ╔═╡ 2b26dc42-0403-11eb-205f-cd2c23d8cb03
-bigbreak
+md"""
+#### Initializing packages
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ d8797684-0414-11eb-1869-5b1e2c469011
 function bernoulli(p::Number)
@@ -174,23 +156,6 @@ function set_status!(agent::Agent, new_status::InfectionStatus)
 	# your code here
 end
 
-# ╔═╡ 7c515a7a-04d5-11eb-0f36-4fcebff709d5
-if !@isdefined(set_status!)
-	not_defined(:set_status!)
-else
-	let
-		agent = Agent(I,2)
-		
-		set_status!(agent, R)
-		
-		if agent.status == R
-			correct()
-		else
-			keep_working()
-		end
-	end
-end
-
 # ╔═╡ 866299e8-0403-11eb-085d-2b93459cc141
 md"""
 👉 We will also need functions `is_susceptible` and `is_infected` that check if a given agent is in those respective states.
@@ -209,30 +174,6 @@ function is_infected(agent::Agent)
 	return missing
 end
 
-# ╔═╡ c4a8694a-04d4-11eb-1eef-c9e037e6b21f
-if !@isdefined(is_susceptible)
-	not_defined(:is_susceptible)
-else
-	let
-		result1 = is_susceptible(Agent(I,2))
-		result2 = is_infected(Agent(I,2))
-		
-		if result1 isa Missing || result2 isa Missing
-			still_missing()
-		elseif !(result1 isa Bool) || !(result2 isa Bool)
-			keep_working(md"Make sure that you return either `true` or `false`.")
-		elseif result1 === false && result2 === true
-			if is_susceptible(Agent(S,3)) && !is_infected(Agent(R,9))
-				correct()
-			else
-				keep_working()
-			end
-		else
-			keep_working()
-		end
-	end
-end
-
 # ╔═╡ 8692bf42-0403-11eb-191f-b7d08895274f
 md"""
 #### Exercise 1.4
@@ -248,33 +189,6 @@ end
 
 # ╔═╡ 488771e2-049f-11eb-3b0a-0de260457731
 generate_agents(3)
-
-# ╔═╡ 393041ec-049f-11eb-3089-2faf378445f3
-if !@isdefined(generate_agents)
-	not_defined(:generate_agents)
-else
-	let
-		result = generate_agents(4)
-		
-		if result isa Missing
-			still_missing()
-		elseif result isa Nothing
-			keep_working("The function returned `nothing`. Did you forget to return something?")
-		elseif !(result isa Vector) || !all(x -> x isa Agent, result)
-			keep_working(md"Make sure that you return an array of objects of the type `Agent`.")
-		elseif length(result) != 4
-			almost(md"Make sure that you return `N` agents.")
-		elseif length(Set(result)) != 4
-			almost(md"You returned the **same** agent `N` times. You need to call the `Agent` constructor `N` times, not once.")
-		else
-			if sum(a -> a.status == I, result) != 1
-				almost(md"Exactly one of the agents should be infectious.")
-			else
-				correct()
-			end
-		end
-	end
-end
 
 # ╔═╡ 86d98d0a-0403-11eb-215b-c58ad721a90b
 md"""
@@ -324,97 +238,6 @@ let
 	interact!(agent, source, infection)
 	
 	(agent=agent, source=source)
-end
-
-# ╔═╡ 759bc42e-04ab-11eb-0ab1-b12e008c02a9
-if !@isdefined(interact!)
-	not_defined(:interact!)
-else
-	let
-		agent = Agent(S, 9)
-		source = Agent(I, 0)
-		interact!(agent, source, InfectionRecovery(0.0, 1.0))
-		
-		if source.status != I || source.num_infected != 0
-			keep_working(md"The `source` should not be modified if no infection occured.")
-		elseif agent.status != S
-			keep_working(md"The `agent` should get infected with the right probability.")
-		else
-			agent = Agent(S, 9)
-			source = Agent(S, 0)
-			interact!(agent, source, InfectionRecovery(1.0, 1.0))
-
-			if source.status != S || source.num_infected != 0 || agent.status != S
-				keep_working(md"The `agent` should get infected with the right probability if the source is infectious.")
-			else
-				agent = Agent(S, 9)
-				source = Agent(I, 3)
-				interact!(agent, source, InfectionRecovery(1.0, 1.0))
-
-				if agent.status == R
-					almost(md"The agent should not recover immediately after becoming infectious.")
-				elseif agent.status == S
-					keep_working(md"The `agent` should recover from an infectious state with the right probability.")
-				elseif source.status != I || source.num_infected != 4
-					almost(md"The `source` did not get updated correctly after infecting the `agent`.")
-				else
-					correct(md"Your function treats the **susceptible** agent case correctly!")
-				end
-			end
-		end
-	end
-end
-
-# ╔═╡ 1491a078-04aa-11eb-0106-19a3cf1e94b0
-if !@isdefined(interact!)
-	not_defined(:interact!)
-else
-	let
-		agent = Agent(I, 9)
-		source = Agent(S, 0)
-
-		interact!(agent, source, InfectionRecovery(1.0, 1.0))
-		
-		if source.status != S || source.num_infected != 0
-			keep_working(md"The `source` should not be modified if `agent` is infectious.")
-		elseif agent.status != R
-			keep_working(md"The `agent` should recover from an infectious state with the right probability.")
-		elseif agent.num_infected != 9
-			keep_working(md"`agent.num_infected` should not be modified if `agent` is infectious.")
-		else
-			let
-				agent = Agent(I, 9)
-				source = Agent(R, 0)
-
-				interact!(agent, source, InfectionRecovery(1.0, 0.0))
-				
-				if agent.status == R
-					keep_working(md"The `agent` should recover from an infectious state with the right probability.")
-				else
-					correct(md"Your function treats the **infectious** agent case correctly!")
-				end
-			end
-		end
-	end
-end
-
-# ╔═╡ f8e05d94-04ac-11eb-26d4-6f1d2c5ed272
-if !@isdefined(interact!)
-	not_defined(:interact!)
-else
-	let
-		agent = Agent(R, 9)
-		source = Agent(I, 0)
-		interact!(agent, source, InfectionRecovery(1.0, 1.0))
-		
-		if source.status != I || source.num_infected != 0
-			keep_working(md"The `source` should not be modified if no infection occured.")
-		elseif agent.status != R || agent.num_infected != 9
-			keep_working(md"The `agent` should not be momdified if it is in a recoved state.")
-		else
-			correct(md"Your function treats the **recovered** agent case correctly!")
-		end
-	end
 end
 
 # ╔═╡ 619c8a10-0403-11eb-2e89-8b0974fb01d0
@@ -479,6 +302,9 @@ simulation(3, 20, InfectionRecovery(0.9, 0.2))
 # ╔═╡ 2c62b4ae-04b3-11eb-0080-a1035a7e31a2
 simulation(100, 1000, InfectionRecovery(0.005, 0.2))
 
+# ╔═╡ 28db9d98-04ca-11eb-3606-9fb89fa62f36
+@bind run_basic_sir Button("Run simulation again!")
+
 # ╔═╡ c5156c72-04af-11eb-1106-b13969b036ca
 let
 	run_basic_sir
@@ -491,9 +317,6 @@ let
 	plot!(result, 1:T, sim.I, ylim=(0, N), label="Infectious")
 	plot!(result, 1:T, sim.R, ylim=(0, N), label="Recovered")
 end
-
-# ╔═╡ 28db9d98-04ca-11eb-3606-9fb89fa62f36
-@bind run_basic_sir Button("Run simulation again!")
 
 # ╔═╡ bf6fd176-04cc-11eb-008a-2fb6ff70a9cb
 md"""
@@ -533,15 +356,6 @@ let
 	
 	p
 end
-
-# ╔═╡ 9cf9080a-04b1-11eb-12a0-17013f2d37f5
-md"""
-👉 Calculate the **mean number of infectious agents** of our simulations for each time step. Add it to the plot using a heavier line (`lw=3` for "linewidth") by modifying the cell above. 
-
-Check the answer yourself: does your curve follow the average trend?
-
-$(hint(md"This exercise requires some creative juggling with arrays, anonymous functions, `map`s, or whatever you see fit!"))
-"""
 
 # ╔═╡ 95c598d4-0403-11eb-2328-0175ed564915
 md"""
@@ -663,17 +477,6 @@ md"""
 # ╔═╡ 21c50840-0435-11eb-1307-7138ecde0691
 
 
-# ╔═╡ 5689841e-0414-11eb-0492-63c77ddbd136
-bigbreak
-
-# ╔═╡ 531d13c2-0414-11eb-0acd-4905a684869d
-if student.name == "Jazzy Doe"
-	md"""
-	!!! danger "Before you submit"
-	    Remember to fill in your **name** and **Kerberos ID** at the top of this notebook.
-	"""
-end
-
 # ╔═╡ 4f19e872-0414-11eb-0dfd-e53d2aecc4dc
 md"## Function library
 
@@ -681,6 +484,15 @@ Just some helper functions used in the notebook."
 
 # ╔═╡ 48a16c42-0414-11eb-0e0c-bf52bbb0f618
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
+
+# ╔═╡ 9cf9080a-04b1-11eb-12a0-17013f2d37f5
+md"""
+👉 Calculate the **mean number of infectious agents** of our simulations for each time step. Add it to the plot using a heavier line (`lw=3` for "linewidth") by modifying the cell above. 
+
+Check the answer yourself: does your curve follow the average trend?
+
+$(hint(md"This exercise requires some creative juggling with arrays, anonymous functions, `map`s, or whatever you see fit!"))
+"""
 
 # ╔═╡ 461586dc-0414-11eb-00f3-4984b57bfac5
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
@@ -700,8 +512,173 @@ correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!",
 # ╔═╡ 3c0528a0-0414-11eb-2f68-a5657ab9e73d
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
 
+# ╔═╡ 7c515a7a-04d5-11eb-0f36-4fcebff709d5
+if !@isdefined(set_status!)
+	not_defined(:set_status!)
+else
+	let
+		agent = Agent(I,2)
+		
+		set_status!(agent, R)
+		
+		if agent.status == R
+			correct()
+		else
+			keep_working()
+		end
+	end
+end
+
+# ╔═╡ c4a8694a-04d4-11eb-1eef-c9e037e6b21f
+if !@isdefined(is_susceptible)
+	not_defined(:is_susceptible)
+else
+	let
+		result1 = is_susceptible(Agent(I,2))
+		result2 = is_infected(Agent(I,2))
+		
+		if result1 isa Missing || result2 isa Missing
+			still_missing()
+		elseif !(result1 isa Bool) || !(result2 isa Bool)
+			keep_working(md"Make sure that you return either `true` or `false`.")
+		elseif result1 === false && result2 === true
+			if is_susceptible(Agent(S,3)) && !is_infected(Agent(R,9))
+				correct()
+			else
+				keep_working()
+			end
+		else
+			keep_working()
+		end
+	end
+end
+
+# ╔═╡ 393041ec-049f-11eb-3089-2faf378445f3
+if !@isdefined(generate_agents)
+	not_defined(:generate_agents)
+else
+	let
+		result = generate_agents(4)
+		
+		if result isa Missing
+			still_missing()
+		elseif result isa Nothing
+			keep_working("The function returned `nothing`. Did you forget to return something?")
+		elseif !(result isa Vector) || !all(x -> x isa Agent, result)
+			keep_working(md"Make sure that you return an array of objects of the type `Agent`.")
+		elseif length(result) != 4
+			almost(md"Make sure that you return `N` agents.")
+		elseif length(Set(result)) != 4
+			almost(md"You returned the **same** agent `N` times. You need to call the `Agent` constructor `N` times, not once.")
+		else
+			if sum(a -> a.status == I, result) != 1
+				almost(md"Exactly one of the agents should be infectious.")
+			else
+				correct()
+			end
+		end
+	end
+end
+
+# ╔═╡ 759bc42e-04ab-11eb-0ab1-b12e008c02a9
+if !@isdefined(interact!)
+	not_defined(:interact!)
+else
+	let
+		agent = Agent(S, 9)
+		source = Agent(I, 0)
+		interact!(agent, source, InfectionRecovery(0.0, 1.0))
+		
+		if source.status != I || source.num_infected != 0
+			keep_working(md"The `source` should not be modified if no infection occured.")
+		elseif agent.status != S
+			keep_working(md"The `agent` should get infected with the right probability.")
+		else
+			agent = Agent(S, 9)
+			source = Agent(S, 0)
+			interact!(agent, source, InfectionRecovery(1.0, 1.0))
+
+			if source.status != S || source.num_infected != 0 || agent.status != S
+				keep_working(md"The `agent` should get infected with the right probability if the source is infectious.")
+			else
+				agent = Agent(S, 9)
+				source = Agent(I, 3)
+				interact!(agent, source, InfectionRecovery(1.0, 1.0))
+
+				if agent.status == R
+					almost(md"The agent should not recover immediately after becoming infectious.")
+				elseif agent.status == S
+					keep_working(md"The `agent` should recover from an infectious state with the right probability.")
+				elseif source.status != I || source.num_infected != 4
+					almost(md"The `source` did not get updated correctly after infecting the `agent`.")
+				else
+					correct(md"Your function treats the **susceptible** agent case correctly!")
+				end
+			end
+		end
+	end
+end
+
+# ╔═╡ 1491a078-04aa-11eb-0106-19a3cf1e94b0
+if !@isdefined(interact!)
+	not_defined(:interact!)
+else
+	let
+		agent = Agent(I, 9)
+		source = Agent(S, 0)
+
+		interact!(agent, source, InfectionRecovery(1.0, 1.0))
+		
+		if source.status != S || source.num_infected != 0
+			keep_working(md"The `source` should not be modified if `agent` is infectious.")
+		elseif agent.status != R
+			keep_working(md"The `agent` should recover from an infectious state with the right probability.")
+		elseif agent.num_infected != 9
+			keep_working(md"`agent.num_infected` should not be modified if `agent` is infectious.")
+		else
+			let
+				agent = Agent(I, 9)
+				source = Agent(R, 0)
+
+				interact!(agent, source, InfectionRecovery(1.0, 0.0))
+				
+				if agent.status == R
+					keep_working(md"The `agent` should recover from an infectious state with the right probability.")
+				else
+					correct(md"Your function treats the **infectious** agent case correctly!")
+				end
+			end
+		end
+	end
+end
+
+# ╔═╡ f8e05d94-04ac-11eb-26d4-6f1d2c5ed272
+if !@isdefined(interact!)
+	not_defined(:interact!)
+else
+	let
+		agent = Agent(R, 9)
+		source = Agent(I, 0)
+		interact!(agent, source, InfectionRecovery(1.0, 1.0))
+		
+		if source.status != I || source.num_infected != 0
+			keep_working(md"The `source` should not be modified if no infection occured.")
+		elseif agent.status != R || agent.num_infected != 9
+			keep_working(md"The `agent` should not be momdified if it is in a recoved state.")
+		else
+			correct(md"Your function treats the **recovered** agent case correctly!")
+		end
+	end
+end
+
 # ╔═╡ 39dffa3c-0414-11eb-0197-e72b299e9c63
 bigbreak = html"<br><br><br><br><br>";
+
+# ╔═╡ 2b26dc42-0403-11eb-205f-cd2c23d8cb03
+bigbreak
+
+# ╔═╡ 5689841e-0414-11eb-0492-63c77ddbd136
+bigbreak
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -747,7 +724,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -797,7 +774,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 deps = ["StaticArrays"]
@@ -940,9 +917,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1110,9 +1087,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1296,9 +1273,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1433,7 +1410,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1700,9 +1677,7 @@ version = "1.4.1+0"
 
 # ╔═╡ Cell order:
 # ╟─01341648-0403-11eb-2212-db450c299f35
-# ╟─03a85970-0403-11eb-334a-812b59c0905b
 # ╟─06f30b2a-0403-11eb-0f05-8badebe1011d
-# ╠═095cbf46-0403-11eb-0c37-35de9562cebc
 # ╟─107e65a4-0403-11eb-0c14-37d8d828b469
 # ╠═15187690-0403-11eb-2dfd-fd924faa3513
 # ╟─2b26dc42-0403-11eb-205f-cd2c23d8cb03
@@ -1781,7 +1756,6 @@ version = "1.4.1+0"
 # ╟─9a377b32-0403-11eb-2799-e7e59caa6a45
 # ╠═21c50840-0435-11eb-1307-7138ecde0691
 # ╟─5689841e-0414-11eb-0492-63c77ddbd136
-# ╟─531d13c2-0414-11eb-0acd-4905a684869d
 # ╟─4f19e872-0414-11eb-0dfd-e53d2aecc4dc
 # ╟─48a16c42-0414-11eb-0e0c-bf52bbb0f618
 # ╟─461586dc-0414-11eb-00f3-4984b57bfac5

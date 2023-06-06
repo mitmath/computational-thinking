@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -8,7 +8,7 @@
 #> homework_number = 2
 #> title = "Convolutions"
 #> layout = "layout.jlhtml"
-#> tags = ["homework", "module1"]
+#> tags = ["homework", "module1", "track_data", "track_julia", "track_climate", "track_math", "convolution", "matrix", "interactive", "image", "type", "webcam", "programming"]
 #> description = "Create your own image filters using mathematical convolution!"
 
 using Markdown
@@ -32,43 +32,27 @@ begin
 	using OffsetArrays
 end
 
-# ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
-md"_homework 2, version 3_"
+# ╔═╡ 37e41e9d-aacc-4010-99c8-4e4032ee4da9
+md"""
+_homework 2, version 3_
+"""
 
 # ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
 md"""
 
 # **Homework 2** - _convolutions_
-`18.S191`, Spring 2021
-
-`Due Date`: **Friday Mar 5, 2021 at 11:59pm EST**
+`18.S191`, Fall 2023
 
 This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
-
-_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
 
 Feel free to ask questions!
 """
 
-# ╔═╡ 911ccbce-ed68-11ea-3606-0384e7580d7c
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# press the ▶ button in the bottom right of this cell to run your edits
-# or use Shift+Enter
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll down the page to see what's up
-
-# ╔═╡ 8ef13896-ed68-11ea-160b-3550eeabbd7d
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
-
 # ╔═╡ 5f95e01a-ee0a-11ea-030c-9dba276aba92
-md"_Let's create a package environment:_"
+md"""
+#### Initializing packages
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ e08781fa-ed61-11ea-13ae-91a49b5eb74a
 md"""
@@ -574,14 +558,6 @@ function with_sobel_edge_detect(image)
 	return missing
 end
 
-# ╔═╡ 8ffe16ce-ee20-11ea-18bd-15640f94b839
-if student.kerberos_id === "jazz"
-	md"""
-!!! danger "Oops!"
-    **Before you submit**, remember to fill in your name and kerberos ID at the top of this notebook!
-	"""
-end
-
 # ╔═╡ 2d9f3ae4-9e4c-49ce-aab0-5f87aba85c3e
 md"## Function library
 
@@ -762,9 +738,6 @@ bigbreak
 bigbreak
 
 # ╔═╡ 0001f782-ee0e-11ea-1fb4-2b5ef3d241e2
-bigbreak
-
-# ╔═╡ 5842895a-ee10-11ea-119d-81e4c4c8c53b
 bigbreak
 
 # ╔═╡ dfb7c6be-ee0d-11ea-194e-9758857f7b20
@@ -1149,7 +1122,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ComputationalResources]]
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
@@ -1825,7 +1798,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1923,10 +1896,8 @@ version = "17.4.0+0"
 """
 
 # ╔═╡ Cell order:
-# ╟─83eb9ca0-ed68-11ea-0bc5-99a09c68f867
-# ╟─8ef13896-ed68-11ea-160b-3550eeabbd7d
+# ╟─37e41e9d-aacc-4010-99c8-4e4032ee4da9
 # ╟─ac8ff080-ed61-11ea-3650-d9df06123e1f
-# ╠═911ccbce-ed68-11ea-3606-0384e7580d7c
 # ╟─5f95e01a-ee0a-11ea-030c-9dba276aba92
 # ╠═65780f00-ed6b-11ea-1ecf-8b35523a7ac0
 # ╟─54056a02-ee0a-11ea-101f-47feb6623bec
@@ -2039,8 +2010,6 @@ version = "17.4.0+0"
 # ╠═1bf94c00-ee19-11ea-0e3c-e12bc68d8e28
 # ╟─1ff6b5cc-ee19-11ea-2ca8-7f00c204f587
 # ╟─0001f782-ee0e-11ea-1fb4-2b5ef3d241e2
-# ╟─8ffe16ce-ee20-11ea-18bd-15640f94b839
-# ╟─5842895a-ee10-11ea-119d-81e4c4c8c53b
 # ╟─2d9f3ae4-9e4c-49ce-aab0-5f87aba85c3e
 # ╟─5516c800-edee-11ea-12cf-3f8c082ef0ef
 # ╟─57360a7a-edee-11ea-0c28-91463ece500d

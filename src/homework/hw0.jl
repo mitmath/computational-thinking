@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 using Markdown
 using InteractiveUtils
@@ -14,44 +14,27 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ d6ee91ea-e750-11ea-1260-31ebf3ec6a9b
+using Compose
+
+# ╔═╡ 5acd58e0-e856-11ea-2d3d-8329889fe16f
+using PlutoUI
+
 # ╔═╡ fafae38e-e852-11ea-1208-732b4744e4c2
-md"_Homework 0, version 4 -- Spring 2021_"
-
-# ╔═╡ cdff6730-e785-11ea-2546-4969521b33a7
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
-
-# ╔═╡ 7308bc54-e6cd-11ea-0eab-83f7535edf25
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# press the ▶ button in the bottom right of this cell to run your edits
-# or use Shift+Enter
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll down the page to see what's up
+md"_Homework 0, version 4"
 
 # ╔═╡ a2181260-e6cd-11ea-2a69-8d9d31d1ef0e
 md"""
 # Homework 0: Getting up and running
 
-HW0 release date: Monday, Feb 15, 2021.
-
-**HW0 due date: Thursday, Feb 18, 2021, 11:59pm EST**, _but best completed before Wednesday's lecture if possible_.
-
 First of all, **_welcome to the course!_** We are excited to teach you about real world applications of scientific computing, using the same tools that we work with ourselves.
 
-We'd like everyone to **submit this zeroth homework assignment**. It will not affect your grade, but it will help us get everything running smoothly when the course starts. If you're stuck or don't have much time, just fill in your name and ID and submit 🙂
+This first homework is a little mic-check. We'd like all MIT students to **submit this zeroth homework assignment**. It will not affect your grade, but it will help us get everything running smoothly when the course starts. If you're stuck or don't have much time, just fill in your name and ID and submit 🙂
 """
 
 # ╔═╡ 31a8fbf8-e6ce-11ea-2c66-4b4d02b41995
 md"""## Homework Logistics
-Homeworks are in the form of [Pluto notebooks](https://github.com/fonsp/Pluto.jl). Your must complete them and submit them on [Canvas](https://canvas.mit.edu/courses/5637) (if you are an MIT student.). If you are not an MIT student, we encourage you to [join Discord](https://discord.gg/Z5qnVf8) and find someone to cross-grade.
-
-Homeworks will be released on Thursdays and due on Thursdays 11:59pm Eastern time.
+Homeworks are in the form of [Pluto notebooks](https://plutojl.org). Your must complete them and submit them on Canvas (if you are an MIT student.). If you are not an MIT student, we encourage you to [join Discord](https://discord.gg/Z5qnVf8) and find someone to cross-grade.
 
 HW0 is for you to get your system set up correctly and to test our grading software. You must submit it but it will not count towards your grade.
 """
@@ -114,14 +97,6 @@ end
 md"That's all that's required for this week. Please submit the notebook. We just wanted to make sure that you're up and running.
 
 If you want to explore further, we have included a few optional exercises below."
-
-# ╔═╡ b3c7a050-e855-11ea-3a22-3f514da746a4
-if student.kerberos_id === "jazz"
-	md"""
-!!! danger "Oops!"
-    **Before you submit**, remember to fill in your name and kerberos ID at the top of this notebook!
-	"""
-end
 
 # ╔═╡ 339c2d5c-e6ce-11ea-32f9-714b3628909c
 md"## (Optional) Exercise 1 - _Square root by Newton's method_
@@ -231,27 +206,8 @@ md"To draw Sierpinski's triangle, we are going to use an external package, [_Com
 A package contains a coherent set of functionality that you can often use a black box according to its specification. There are [lots of Julia packages](https://juliahub.com/ui/Home).
 "
 
-# ╔═╡ d6ee91ea-e750-11ea-1260-31ebf3ec6a9b
-using Compose
-
-# ╔═╡ 5acd58e0-e856-11ea-2d3d-8329889fe16f
-using PlutoUI
-
 # ╔═╡ dbc4da6a-e7b4-11ea-3b70-6f2abfcab992
 md"Just like the definition above, our `sierpinksi` function is _recursive_: it calls itself."
-
-# ╔═╡ e2848b9a-e703-11ea-24f9-b9131434a84b
-function sierpinski(n)
-	if n == 0
-		triangle()
-	else
-		t = sierpinski(n - 1) # recursively construct a smaller sierpinski's triangle
-		place_in_3_corners(t) # place it in the 3 corners of a triangle
-	end
-end
-
-# ╔═╡ 9664ac52-e750-11ea-171c-e7d57741a68c
-sierpinski(complexity)
 
 # ╔═╡ 02b9c9d6-e752-11ea-0f32-91b7b6481684
 complexity = 3
@@ -273,9 +229,6 @@ end
 md"### Exercise 2.1
 
 As you can see, the total area covered by triangles is lower when the complexity is higher."
-
-# ╔═╡ df0a4068-e7b2-11ea-2475-81b237d492b3
-sierpinski.(0:6)
 
 # ╔═╡ f22222b4-e7b5-11ea-0ea0-8fa368d2a014
 md"""
@@ -313,17 +266,6 @@ md"**Let's try it out below:**"
 # ╔═╡ 52533e00-e856-11ea-08a7-25e556fb1127
 md"Complexity = $(@bind n Slider(0:6, show_value=true))"
 
-# ╔═╡ 147ed7b0-e856-11ea-0d0e-7ff0d527e352
-md"""
-
-Sierpinski's triangle of complexity $(n)
-
- $(sierpinski(n))
-
-has area **$(area_sierpinski(n))**
-
-"""
-
 # ╔═╡ c1ecad86-e7bc-11ea-1201-23ee380181a1
 md"""
 !!! hint
@@ -351,6 +293,33 @@ function place_in_3_corners(t)
 			(context(1 / 2, 1 / 2, 1 / 2, 1 / 2), t))
 end
 
+# ╔═╡ e2848b9a-e703-11ea-24f9-b9131434a84b
+function sierpinski(n)
+	if n == 0
+		triangle()
+	else
+		t = sierpinski(n - 1) # recursively construct a smaller sierpinski's triangle
+		place_in_3_corners(t) # place it in the 3 corners of a triangle
+	end
+end
+
+# ╔═╡ 9664ac52-e750-11ea-171c-e7d57741a68c
+sierpinski(complexity)
+
+# ╔═╡ df0a4068-e7b2-11ea-2475-81b237d492b3
+sierpinski.(0:6)
+
+# ╔═╡ 147ed7b0-e856-11ea-0d0e-7ff0d527e352
+md"""
+
+Sierpinski's triangle of complexity $(n)
+
+ $(sierpinski(n))
+
+has area **$(area_sierpinski(n))**
+
+"""
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -366,9 +335,9 @@ PlutoUI = "~0.7.48"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "692dd8da3638d93c0a5b632ae68d0a454177fe73"
+project_hash = "580cb1b14c95df0d6df5dd9cf2103a0db1c2a919"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -407,7 +376,7 @@ version = "4.3.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.Compose]]
 deps = ["Base64", "Colors", "DataStructures", "Dates", "IterTools", "JSON", "LinearAlgebra", "Measures", "Printf", "Random", "Requires", "Statistics", "UUIDs"]
@@ -607,7 +576,7 @@ version = "1.0.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.Test]]
 deps = ["InteractiveUtils", "Logging", "Random", "Serialization"]
@@ -653,8 +622,6 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╟─fafae38e-e852-11ea-1208-732b4744e4c2
-# ╟─cdff6730-e785-11ea-2546-4969521b33a7
-# ╠═7308bc54-e6cd-11ea-0eab-83f7535edf25
 # ╟─a2181260-e6cd-11ea-2a69-8d9d31d1ef0e
 # ╟─31a8fbf8-e6ce-11ea-2c66-4b4d02b41995
 # ╟─f9d7250a-706f-11eb-104d-3f07c59f7174
@@ -663,7 +630,6 @@ version = "17.4.0+0"
 # ╠═e02f7ea6-7024-11eb-3672-fd59a6cff79b
 # ╟─6acef56c-7025-11eb-2524-819c30a75d39
 # ╟─348cea34-7025-11eb-3def-41bbc16c7512
-# ╟─b3c7a050-e855-11ea-3a22-3f514da746a4
 # ╟─339c2d5c-e6ce-11ea-32f9-714b3628909c
 # ╟─56866718-e6ce-11ea-0804-d108af4e5653
 # ╠═bccf0e88-e754-11ea-3ab8-0170c2d44628

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -8,7 +8,7 @@
 #> homework_number = 9
 #> title = "Epidemic modeling III"
 #> layout = "layout.jlhtml"
-#> tags = ["homework", "module3"]
+#> tags = ["homework", "module3", "epidemiology", "track_julia", "plotting", "agent based model", "statistics", "random", "modeling", "monte carlo", "track_climate"]
 #> description = "In this problem set, we will look at a simple spatial agent-based epidemic model: agents can interact only with other agents that are nearby."
 
 using Markdown
@@ -24,14 +24,11 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 2dcb18d0-0970-11eb-048a-c1734c6db842
+using Plots, PlutoUI, LinearAlgebra
+
 # ╔═╡ 19fe1ee8-0970-11eb-2a0d-7d25e7d773c6
 md"_homework 9, version 3_"
-
-# ╔═╡ 1bba5552-0970-11eb-1b9a-87eeee0ecc36
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
 
 # ╔═╡ 49567f8e-09a2-11eb-34c1-bb5c0b642fe8
 # hello there
@@ -40,30 +37,15 @@ Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
 md"""
 
 # **Homework 9**: _Epidemic modeling III_
-`18.S191`, Spring 2021
+`18.S191`, Fall 2023
 
 This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
-
-_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
 
 Feel free to ask questions!
 """
 
-# ╔═╡ 1f299cc6-0970-11eb-195b-3f951f92ceeb
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll around the page to see what's up
-
 # ╔═╡ 2848996c-0970-11eb-19eb-c719d797c322
 md"_Let's create a package environment:_"
-
-# ╔═╡ 2dcb18d0-0970-11eb-048a-c1734c6db842
-begin
-    using Plots, PlutoUI, LinearAlgebra
-end
 
 # ╔═╡ 69d12414-0952-11eb-213d-2f9e13e4b418
 md"""
@@ -76,9 +58,6 @@ design the rules of the model to respect this.
 
 We will adapt some functionality from Homework 7. You should copy and paste your code from that homework into this notebook.
 """
-
-# ╔═╡ fcafe15a-0a66-11eb-3ed7-3f8bbb8f5809
-bigbreak
 
 # ╔═╡ 3e54848a-0954-11eb-3948-f9d7f07f5e23
 md"""
@@ -105,25 +84,6 @@ md"""
 # ╔═╡ b2f90634-0a68-11eb-1618-0b42f956b5a7
 origin = missing
 
-# ╔═╡ 66663fcc-0a58-11eb-3568-c1f990c75bf2
-if !@isdefined(origin)
-	not_defined(:origin)
-else
-	let
-		if origin isa Missing
-			still_missing()
-		elseif !(origin isa Coordinate)
-			keep_working(md"Make sure that `origin` is a `Coordinate`.")
-		else
-			if origin == Coordinate(0,0)
-				correct()
-			else
-				keep_working()
-			end
-		end
-	end
-end
-
 # ╔═╡ 3e858990-0954-11eb-3d10-d10175d8ca1c
 md"""
 👉 Write a function `make_tuple` that takes an object of type `Coordinate` and returns the corresponding tuple `(x, y)`. Boring, but useful later!
@@ -133,26 +93,6 @@ md"""
 # function make_tuple(c)
 # 	missing
 # end
-
-# ╔═╡ ad1253f8-0a34-11eb-265e-fffda9b6473f
-if !@isdefined(make_tuple)
-	not_defined(:make_tuple)
-else
-	let
-		result = make_tuple(Coordinate(2,1))
-		if result isa Missing
-			still_missing()
-		elseif !(result isa Tuple)
-			keep_working(md"Make sure that you return a `Tuple`, like so: `return (1, 2)`.")
-		else
-			if result == (2, 1)
-				correct()
-			else
-				keep_working()
-			end
-		end
-	end
-end
 
 # ╔═╡ 73ed1384-0a29-11eb-06bd-d3c441b8a5fc
 md"""
@@ -207,25 +147,6 @@ md"""
 _Pluto has some trouble here, you need to manually re-run the cell above!_
 """
 
-# ╔═╡ ec576da8-0a2c-11eb-1f7b-43dec5f6e4e7
-let
-	# we need to call Base.:+ instead of + to make Pluto understand what's going on
-	# oops
-	if @isdefined(Coordinate)
-		result = Base.:+(Coordinate(3,4), Coordinate(10,10))
-
-		if result isa Missing
-			still_missing()
-		elseif !(result isa Coordinate)
-			keep_working(md"Make sure that your return a `Coordinate`. 🧭")
-		elseif result.x != 13 || result.y != 14
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
 # ╔═╡ 71c358d8-0a2f-11eb-29e1-57ff1915e84a
 md"""
 #### Exercise 1.3
@@ -273,40 +194,6 @@ Possible steps:
 # ╔═╡ 44107808-096c-11eb-013f-7b79a90aaac8
 # test_trajectory = trajectory(Coordinate(4,4), 30) # uncomment to test
 
-# ╔═╡ 87ea0868-0a35-11eb-0ea8-63e27d8eda6e
-try
-	p = plot(ratio=1, size=(650, 200))
-	plot_trajectory!(p, test_trajectory; color="black", showaxis=false, axis=nothing, linewidth=4)
-	p
-catch
-end
-
-# ╔═╡ 058e3f84-0a34-11eb-3f87-7118f14e107b
-if !@isdefined(trajectory)
-	not_defined(:trajectory)
-else
-	let
-		c = Coordinate(8,8)
-		t = trajectory(c, 100)
-		
-		if t isa Missing
-			still_missing()
-		elseif !(t isa Vector)
-			keep_working(md"Make sure that you return a `Vector`.")
-		elseif !(all(x -> isa(x, Coordinate), t))
-			keep_working(md"Make sure that you return a `Vector` of `Coordinate`s.")
-		else
-			if length(t) != 100
-				almost(md"Make sure that you return `n` elements.")
-			elseif 1 < length(Set(t)) < 90
-				correct()
-			else
-				keep_working(md"Are you sure that you chose each step randomly?")
-			end
-		end
-	end
-end
-
 # ╔═╡ 478309f4-0a31-11eb-08ea-ade1755f53e0
 function plot_trajectory!(p::Plots.Plot, trajectory::Vector; kwargs...)
 	plot!(p, make_tuple.(trajectory); 
@@ -314,6 +201,14 @@ function plot_trajectory!(p::Plots.Plot, trajectory::Vector; kwargs...)
 		linewidth=2, 
 		linealpha=LinRange(1.0, 0.2, length(trajectory)),
 		kwargs...)
+end
+
+# ╔═╡ 87ea0868-0a35-11eb-0ea8-63e27d8eda6e
+try
+	p = plot(ratio=1, size=(650, 200))
+	plot_trajectory!(p, test_trajectory; color="black", showaxis=false, axis=nothing, linewidth=4)
+	p
+catch
 end
 
 # ╔═╡ 51788e8e-0a31-11eb-027e-fd9b0dc716b5
@@ -385,9 +280,6 @@ md"""
 # 	return missing
 # end
 
-# ╔═╡ ed2d616c-0a66-11eb-1839-edf8d15cf82a
-bigbreak
-
 # ╔═╡ 3ed06c80-0954-11eb-3aee-69e4ccdc4f9d
 md"""
 ## **Exercise 2:** _Wanderering Agents_
@@ -421,34 +313,6 @@ It returns a `Vector` of `N` randomly generated `Agent`s. Their coordinates are 
 
 # ╔═╡ 1d0f8eb4-0a46-11eb-38e7-63ecbadbfa20
 # initialize(3, 10)
-
-# ╔═╡ 4fac0f36-0a59-11eb-03d0-632dc9db063a
-if !@isdefined(initialize)
-	not_defined(:initialize)
-else
-	let
-		N = 200
-		result = initialize(N, 1)
-		
-		if result isa Missing
-			still_missing()
-		elseif !(result isa Vector) || length(result) != N
-			keep_working(md"Make sure that you return a `Vector` of length `N`.")
-		elseif any(e -> !(e isa Agent), result)
-			keep_working(md"Make sure that you return a `Vector` of `Agent`s.")
-		elseif length(Set(result)) != N
-			keep_working(md"Make sure that you create `N` **new** `Agent`s. Do not repeat the same agent multiple times.")
-		elseif sum(a -> a.status == S, result) == N-1 && sum(a -> a.status == I, result) == 1
-			if 8 <= length(Set(a.position for a in result)) <= 9
-				correct()
-			else
-				keep_working(md"The coordinates are not correctly sampled within the box.")
-			end
-		else
-			keep_working(md"`N-1` agents should be Susceptible, 1 should be Infectious.")
-		end
-	end
-end
 
 # ╔═╡ e0b0880c-0a47-11eb-0db2-f760bbbf9c11
 # Color based on infection status
@@ -486,9 +350,6 @@ let
 	L = 10
 #	visualize(initialize(N, L), L) # uncomment this line!
 end
-
-# ╔═╡ c2633a8b-374c-40a7-a827-b186d423fee5
-bigbreak
 
 # ╔═╡ f953e06e-099f-11eb-3549-73f59fed8132
 md"""
@@ -600,11 +461,6 @@ let
 	# compute k_sweep_max number of sweeps and plot the SIR
 end
 
-# ╔═╡ 8475baf0-0a63-11eb-1207-23f789d00802
-hint(md"""
-After every sweep, count the values $S$, $I$ and $R$ and push! them to 3 arrays. 
-""")
-
 # ╔═╡ 201a3810-0a45-11eb-0ac9-a90419d0b723
 md"""
 #### Exercise 3.4 (optional)
@@ -624,40 +480,6 @@ This an optional exercise, and our solution to 2️⃣ is given below.
 	
 # 	missing
 # end
-
-# ╔═╡ f9b9e242-0a53-11eb-0c6a-4d9985ef1687
-hint(md"""
-```julia
-let
-	N = 50
-	L = 40
-
-	x = initialize(N, L)
-	
-	# initialize to empty arrays
-	Ss, Is, Rs = Int[], Int[], Int[]
-	
-	Tmax = 200
-	
-	@gif for t in 1:Tmax
-		for i in 1:50N
-			step!(x, L, pandemic)
-		end
-
-		#... track S, I, R in Ss Is and Rs
-		
-		left = visualize(x, L)
-	
-		right = plot(xlim=(1,Tmax), ylim=(1,N), size=(600,300))
-		plot!(right, 1:t, Ss, color=color(S), label="S")
-		plot!(right, 1:t, Is, color=color(I), label="I")
-		plot!(right, 1:t, Rs, color=color(R), label="R")
-	
-		plot(left, right)
-	end
-end
-```
-""")
 
 # ╔═╡ 2031246c-0a45-11eb-18d3-573f336044bf
 md"""
@@ -687,9 +509,6 @@ md"""
 need_different_parameters_because = md"""
 i say so
 """
-
-# ╔═╡ e84e0944-0a66-11eb-12d3-e12ae10f39a6
-bigbreak
 
 # ╔═╡ 05c80a0c-09a0-11eb-04dc-f97e306f1603
 md"""
@@ -858,9 +677,6 @@ different densities.
 # ╔═╡ d147f7f0-0a66-11eb-2877-2bc6680e396d
 
 
-# ╔═╡ e0baf75a-0a66-11eb-0562-938b64a473ac
-bigbreak
-
 # ╔═╡ 0e6b60f6-0970-11eb-0485-636624a0f9d7
 if student.name == "Jazzy Doe"
 	md"""
@@ -877,6 +693,45 @@ Just some helper functions used in the notebook."
 # ╔═╡ 0aa666dc-0970-11eb-2568-99a6340c5ebd
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
 
+# ╔═╡ 8475baf0-0a63-11eb-1207-23f789d00802
+hint(md"""
+After every sweep, count the values $S$, $I$ and $R$ and push! them to 3 arrays. 
+""")
+
+# ╔═╡ f9b9e242-0a53-11eb-0c6a-4d9985ef1687
+hint(md"""
+```julia
+let
+	N = 50
+	L = 40
+
+	x = initialize(N, L)
+	
+	# initialize to empty arrays
+	Ss, Is, Rs = Int[], Int[], Int[]
+	
+	Tmax = 200
+	
+	@gif for t in 1:Tmax
+		for i in 1:50N
+			step!(x, L, pandemic)
+		end
+
+		#... track S, I, R in Ss Is and Rs
+		
+		left = visualize(x, L)
+	
+		right = plot(xlim=(1,Tmax), ylim=(1,N), size=(600,300))
+		plot!(right, 1:t, Ss, color=color(S), label="S")
+		plot!(right, 1:t, Is, color=color(I), label="I")
+		plot!(right, 1:t, Rs, color=color(R), label="R")
+	
+		plot(left, right)
+	end
+end
+```
+""")
+
 # ╔═╡ 0acaf3b2-0970-11eb-1d98-bf9a718deaee
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
 
@@ -892,11 +747,138 @@ yays = [md"Fantastic!", md"Splendid!", md"Great!", md"Yay ❤", md"Great! 🎉",
 # ╔═╡ 0b6b27ec-0970-11eb-20c2-89515ee3ab88
 correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
 
+# ╔═╡ ec576da8-0a2c-11eb-1f7b-43dec5f6e4e7
+let
+	# we need to call Base.:+ instead of + to make Pluto understand what's going on
+	# oops
+	if @isdefined(Coordinate)
+		result = Base.:+(Coordinate(3,4), Coordinate(10,10))
+
+		if result isa Missing
+			still_missing()
+		elseif !(result isa Coordinate)
+			keep_working(md"Make sure that your return a `Coordinate`. 🧭")
+		elseif result.x != 13 || result.y != 14
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
 # ╔═╡ 0b901714-0970-11eb-0b6a-ebe739db8037
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
 
+# ╔═╡ 66663fcc-0a58-11eb-3568-c1f990c75bf2
+if !@isdefined(origin)
+	not_defined(:origin)
+else
+	let
+		if origin isa Missing
+			still_missing()
+		elseif !(origin isa Coordinate)
+			keep_working(md"Make sure that `origin` is a `Coordinate`.")
+		else
+			if origin == Coordinate(0,0)
+				correct()
+			else
+				keep_working()
+			end
+		end
+	end
+end
+
+# ╔═╡ ad1253f8-0a34-11eb-265e-fffda9b6473f
+if !@isdefined(make_tuple)
+	not_defined(:make_tuple)
+else
+	let
+		result = make_tuple(Coordinate(2,1))
+		if result isa Missing
+			still_missing()
+		elseif !(result isa Tuple)
+			keep_working(md"Make sure that you return a `Tuple`, like so: `return (1, 2)`.")
+		else
+			if result == (2, 1)
+				correct()
+			else
+				keep_working()
+			end
+		end
+	end
+end
+
+# ╔═╡ 058e3f84-0a34-11eb-3f87-7118f14e107b
+if !@isdefined(trajectory)
+	not_defined(:trajectory)
+else
+	let
+		c = Coordinate(8,8)
+		t = trajectory(c, 100)
+		
+		if t isa Missing
+			still_missing()
+		elseif !(t isa Vector)
+			keep_working(md"Make sure that you return a `Vector`.")
+		elseif !(all(x -> isa(x, Coordinate), t))
+			keep_working(md"Make sure that you return a `Vector` of `Coordinate`s.")
+		else
+			if length(t) != 100
+				almost(md"Make sure that you return `n` elements.")
+			elseif 1 < length(Set(t)) < 90
+				correct()
+			else
+				keep_working(md"Are you sure that you chose each step randomly?")
+			end
+		end
+	end
+end
+
+# ╔═╡ 4fac0f36-0a59-11eb-03d0-632dc9db063a
+if !@isdefined(initialize)
+	not_defined(:initialize)
+else
+	let
+		N = 200
+		result = initialize(N, 1)
+		
+		if result isa Missing
+			still_missing()
+		elseif !(result isa Vector) || length(result) != N
+			keep_working(md"Make sure that you return a `Vector` of length `N`.")
+		elseif any(e -> !(e isa Agent), result)
+			keep_working(md"Make sure that you return a `Vector` of `Agent`s.")
+		elseif length(Set(result)) != N
+			keep_working(md"Make sure that you create `N` **new** `Agent`s. Do not repeat the same agent multiple times.")
+		elseif sum(a -> a.status == S, result) == N-1 && sum(a -> a.status == I, result) == 1
+			if 8 <= length(Set(a.position for a in result)) <= 9
+				correct()
+			else
+				keep_working(md"The coordinates are not correctly sampled within the box.")
+			end
+		else
+			keep_working(md"`N-1` agents should be Susceptible, 1 should be Infectious.")
+		end
+	end
+end
+
 # ╔═╡ d5cb6b2c-0a66-11eb-1aff-41d0e502d5e5
 bigbreak = html"<br><br><br><br>";
+
+# ╔═╡ fcafe15a-0a66-11eb-3ed7-3f8bbb8f5809
+bigbreak
+
+# ╔═╡ ed2d616c-0a66-11eb-1839-edf8d15cf82a
+bigbreak
+
+# ╔═╡ c2633a8b-374c-40a7-a827-b186d423fee5
+bigbreak
+
+# ╔═╡ e84e0944-0a66-11eb-12d3-e12ae10f39a6
+bigbreak
+
+# ╔═╡ e0baf75a-0a66-11eb-0562-938b64a473ac
+bigbreak
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -942,7 +924,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -998,7 +980,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
@@ -1112,9 +1094,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1272,9 +1254,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1470,9 +1452,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1583,7 +1565,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1856,10 +1838,8 @@ version = "1.4.1+0"
 
 # ╔═╡ Cell order:
 # ╟─19fe1ee8-0970-11eb-2a0d-7d25e7d773c6
-# ╟─1bba5552-0970-11eb-1b9a-87eeee0ecc36
 # ╟─49567f8e-09a2-11eb-34c1-bb5c0b642fe8
 # ╟─181e156c-0970-11eb-0b77-49b143cc0fc0
-# ╠═1f299cc6-0970-11eb-195b-3f951f92ceeb
 # ╟─2848996c-0970-11eb-19eb-c719d797c322
 # ╠═2dcb18d0-0970-11eb-048a-c1734c6db842
 # ╟─69d12414-0952-11eb-213d-2f9e13e4b418

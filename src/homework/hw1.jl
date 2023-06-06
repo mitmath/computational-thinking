@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -8,8 +8,8 @@
 #> homework_number = 1
 #> title = "Images and Arrays"
 #> layout = "layout.jlhtml"
+#> tags = ["homework", "module1", "image", "track_julia", "track_math", "track_climate", "track_data", "programming", "interactive", "type", "matrix"]
 #> description = "Practice Julia basics by working with arrays of colors. At the end of this homework, you can see all of your filters applied to your webcam image!"
-#> tags = ["homework", "module1"]
 
 using Markdown
 using InteractiveUtils
@@ -24,45 +24,6 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 8ef13896-ed68-11ea-160b-3550eeabbd7d
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
-
-# ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
-md"""
-
-# **Homework 1** - _images and arrays_
-`18.S191`, Spring 2021
-
-`Due Date`: **Friday Feb 26, 2021 at 11:59pm EST**
-
-This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
-
-_For MIT students:_ there will also be some additional (secret) test cases that will be run as part of the grading process, and we will look at your notebook and write comments.
-
-Feel free to ask questions!
-"""
-
-# ╔═╡ 911ccbce-ed68-11ea-3606-0384e7580d7c
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# press the ▶ button in the bottom right of this cell to run your edits
-# or use Shift+Enter
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll down the page to see what's up
-
-# ╔═╡ 5f95e01a-ee0a-11ea-030c-9dba276aba92
-md"""
-#### Initializing packages
-
-_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
-"""
-
 # ╔═╡ 65780f00-ed6b-11ea-1ecf-8b35523a7ac0
 begin
 	import ImageMagick
@@ -71,8 +32,23 @@ begin
 	using HypertextLiteral
 end
 
-# ╔═╡ 54056a02-ee0a-11ea-101f-47feb6623bec
-bigbreak
+# ╔═╡ ac8ff080-ed61-11ea-3650-d9df06123e1f
+md"""
+
+# **Homework 1** - _images and arrays_
+`18.S191`, Fall 2023
+
+This notebook contains _built-in, live answer checks_! In some exercises you will see a coloured box, which runs a test case on your code, and provides feedback based on the result. Simply edit the code, run it, and the check runs again.
+
+Feel free to ask questions!
+"""
+
+# ╔═╡ 5f95e01a-ee0a-11ea-030c-9dba276aba92
+md"""
+#### Initializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ 540ccfcc-ee0a-11ea-15dc-4f8120063397
 md"""
@@ -85,9 +61,6 @@ A `Vector` is a 1D array. We can think of that as a 1D image.
 # ╔═╡ 467856dc-eded-11ea-0f83-13d939021ef3
 example_vector = [0.5, 0.4, 0.3, 0.2, 0.1, 0.0, 0.7, 0.0, 0.7, 0.9]
 
-# ╔═╡ 56ced344-eded-11ea-3e81-3936e9ad5777
-colored_line(example_vector)
-
 # ╔═╡ ad6a33b0-eded-11ea-324c-cfabfd658b56
 md"""
 $(html"<br>")
@@ -98,55 +71,17 @@ $(html"<br>")
 # ╔═╡ f51333a6-eded-11ea-34e6-bfbb3a69bcb0
 random_vect = missing # replace `missing` with your code!
 
-# ╔═╡ b18e2c54-edf1-11ea-0cbf-85946d64b6a2
-colored_line(random_vect)
-
-# ╔═╡ 397941fc-edee-11ea-33f2-5d46c759fbf7
-if !@isdefined(random_vect)
-	not_defined(:random_vect)
-elseif ismissing(random_vect)
-	still_missing()
-elseif !(random_vect isa Vector)
-	keep_working(md"`random_vect` should be a `Vector`.")
-elseif eltype(random_vect) != Float64
-	almost(md"""
-		You generated a vector of random integers. For the remaining exercises, we want a vector of `Float64` numbers. 
-		
-		The (optional) first argument to `rand` specifies the **type** of elements to generate. For example: `rand(Bool, 10)` generates 10 values that are either `true` or `false`. (Try it!)
-		""")
-elseif length(random_vect) != 10
-	keep_working(md"`random_vect` does not have the correct size.")
-elseif length(Set(random_vect)) != 10
-	keep_working(md"`random_vect` is not 'random enough'")
-else
-	correct(md"Well done! You can run your code again to generate a new vector!")
-end
-
-# ╔═╡ b1d5ca28-edf6-11ea-269e-75a9fb549f1d
-md"""
-You can find out more about any function (like `rand`) by clicking on the Live Docs in the bottom right of this Pluto window, and typing a function name in the top.
-
-![image](https://user-images.githubusercontent.com/6933510/107848812-c934df80-6df6-11eb-8a32-663d802f5d11.png)
-
-
-![image](https://user-images.githubusercontent.com/6933510/107848846-0f8a3e80-6df7-11eb-818a-7271ecb9e127.png)
-
-We recommend that you leave the window open while you work on Julia code. It will continually look up documentation for anything you type!
-
-#### Help, I don't see the Live Docs!
-
-Try the following:
-
-🙋 **Are you viewing a static preview?** The Live Docs only work if you _run_ the notebook. If you are reading this on our course website, then click the button in the top right to run the notebook.
-
-🙋 **Is your screen too small?** Try resizing your window or zooming out.
-""" |> hint
-
 # ╔═╡ 5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 begin
 	colored_line(x::Vector) = hcat(Gray.(Float64.(x)))'
 	colored_line(x::Any) = nothing
 end
+
+# ╔═╡ 56ced344-eded-11ea-3e81-3936e9ad5777
+colored_line(example_vector)
+
+# ╔═╡ b18e2c54-edf1-11ea-0cbf-85946d64b6a2
+colored_line(random_vect)
 
 # ╔═╡ 77adb065-bfd4-4680-9c2a-ad4d92689dbf
 md"#### Exercise 1.2
@@ -161,29 +96,6 @@ end
 # ╔═╡ 6640110a-d171-4b32-8d12-26979a36b718
 my_sum([1,2,3])
 
-# ╔═╡ e0bfc973-2808-4f84-b065-fb3d05401e30
-if !@isdefined(my_sum)
-	not_defined(:my_sum)
-else
-	let
-		result = my_sum([1,2,3])
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != 6
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
-# ╔═╡ 24090306-7395-4f2f-af31-34f7486f3945
-hint(md"""Check out this page for a refresher on basic Julia syntax:
-	
-	[Basic Julia Syntax](https://computationalthinking.mit.edu/Spring21/basic_syntax/)""")
-
 # ╔═╡ cf738088-eded-11ea-2915-61735c2aa990
 md"#### Exercise 1.3
 👉 Use your `my_sum` function to write a function `mean`, which computes the mean/average of a vector of numbers."
@@ -197,42 +109,11 @@ end
 # ╔═╡ 1f104ce4-ee0e-11ea-2029-1d9c817175af
 mean([1, 2, 3])
 
-# ╔═╡ 38dc80a0-edef-11ea-10e9-615255a4588c
-if !@isdefined(mean)
-	not_defined(:mean)
-else
-	let
-		result = mean([1,2,3])
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != 2
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
 # ╔═╡ 1f229ca4-edee-11ea-2c56-bb00cc6ea53c
 md"👉 Define `m` to be the mean of `random_vect`."
 
 # ╔═╡ 2a391708-edee-11ea-124e-d14698171b68
 m = missing # replace `missing` with your code!
-
-# ╔═╡ 2b1ccaca-edee-11ea-34b0-c51659f844d0
-if !@isdefined(m)
-	not_defined(:m)
-elseif ismissing(m)
-	still_missing()
-elseif !(m isa Number)
-	keep_working(md"`m` should be a number.")
-elseif m != mean(random_vect)
-	keep_working()
-else
-	correct()
-end
 
 # ╔═╡ e2863d4c-edef-11ea-1d67-332ddca03cc4
 md"""#### Exercise 1.4
@@ -281,40 +162,11 @@ end
 # ╔═╡ 29e10640-edf0-11ea-0398-17dbf4242de3
 md"To verify our function, let's check that the mean of the `demean(test_vect)` is 0: (_Due to floating-point round-off error it may *not* be *exactly* 0._)"
 
-# ╔═╡ 1267e961-5b75-4b55-8080-d45316a03b9b
-mean(demeaned_test_vect)
-
 # ╔═╡ 38155b5a-edf0-11ea-3e3f-7163da7433fb
 demeaned_test_vect = demean(test_vect)
 
-# ╔═╡ adf476d8-a334-4b35-81e8-cc3b37de1f28
-if !@isdefined(mean)
-	not_defined(:mean)
-else
-	let
-		input = Float64[1,2,3]
-		result = demean(input)
-		
-		if input === result
-			almost(md"""
-			It looks like you **modified** `xs` inside the function.
-			
-			It is preferable to avoid mutation inside functions, because you might want to use the original data again. For example, applying `demean` to a dataset of sensor readings would **modify** the original data, and the rest of your analysis would be erroneous.
-			
-			""")
-		elseif ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result isa AbstractVector) || length(result) != 3
-			keep_working(md"Return a vector of the same size as `xs`.")
-		elseif abs(sum(result) / 3) < 1e-10
-			correct()
-		else
-			keep_working()
-		end
-	end
-end
+# ╔═╡ 1267e961-5b75-4b55-8080-d45316a03b9b
+mean(demeaned_test_vect)
 
 # ╔═╡ a5f8bafe-edf0-11ea-0da3-3330861ae43a
 md"""
@@ -336,43 +188,6 @@ create_bar()
 
 # ╔═╡ d862fb16-edf1-11ea-36ec-615d521e6bc0
 colored_line(create_bar())
-
-# ╔═╡ aa1ff74a-4e78-4ef1-8b8d-3a60a168cf6d
-hint(md"""
-In [Section 1.1](https://computationalthinking.mit.edu/Spring21/week1/), we drew a red square on top of the image Philip with a simple command...
-""")
-
-# ╔═╡ e3394c8a-edf0-11ea-1bb8-619f7abb6881
-if !@isdefined(create_bar)
-	not_defined(:create_bar)
-else
-	let
-		result = create_bar()
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result isa Vector) || length(result) != 100
-			keep_working(md"The result should be a `Vector` with 100 elements.")
-		elseif result[[1,50,100]] != [0,1,0]
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
-# ╔═╡ e083b3e8-ed61-11ea-2ec9-217820b0a1b4
-md"""
- $(bigbreak)
-
-## **Exercise 2** - _Manipulating images_
-
-In this exercise we will get familiar with matrices (2D arrays) in Julia, by manipulating images.
-Recall that in Julia images are matrices of `RGB` color objects.
-
-Let's load a picture of Philip again.
-"""
 
 # ╔═╡ 59414833-a108-4b1e-9a34-0f31dc907c6e
 url = "https://user-images.githubusercontent.com/6933510/107239146-dcc3fd00-6a28-11eb-8c7b-41aaf6618935.png" 
@@ -439,20 +254,6 @@ end
 # ╔═╡ c320b39d-4cea-4fa1-b1ce-053c898a67a6
 get_red(RGB(0.8, 0.1, 0.0))
 
-# ╔═╡ 09102183-f9fb-4d89-b4f9-5d76af7b8e90
-let
-	result = get_red(RGB(0.2, 0.3, 0.4))
-	if ismissing(result)
-		still_missing()
-	elseif isnothing(result)
-		keep_working(md"Did you forget to write `return`?")
-	elseif result == 0.2
-		correct()
-	else
-		keep_working()
-	end
-end
-
 # ╔═╡ d8cf9bd5-dbf7-4841-acf9-eef7e7cabab3
 md"""
 #### Exercise 2.2
@@ -467,40 +268,6 @@ end
 
 # ╔═╡ c427554a-6f6a-43f1-b03b-f83239887cee
 get_reds(philip_head)
-
-# ╔═╡ 63ac142e-6d9d-4109-9286-030a02c900b4
-let
-	test = [RGB(0.2, 0, 0)   RGB(0.6, 0, 0)]
-	result = get_reds(test)
-	
-	if ismissing(result)
-		still_missing()
-	elseif isnothing(result)
-		keep_working(md"Did you forget to write `return`?")
-	elseif result == [ 0.2  0.6 ]
-		correct()
-	else
-		keep_working()
-	end
-end
-
-# ╔═╡ 50e2b0fb-b06d-4ac1-bdfb-eab833466736
-md"""
-This exercise can be quite difficult if you use a `for` loop or list comprehension. 
-
-Instead, you should use the [dot syntax](https://docs.julialang.org/en/v1/manual/functions/#man-vectorized) to apply a function _element-wise_ to an array. For example, this is how you get the square root of `3`:
-
-```
-sqrt(3)
-```
-
-and this is how you get the square roots of 1, 2 and 3:
-
-```
-sqrt.([1, 2, 3])
-```
-
-""" |> hint
 
 # ╔═╡ 4fd07e01-2f8b-4ec9-9f4f-8a9e5ff56fb6
 md"""
@@ -559,69 +326,15 @@ end
 # ╔═╡ 5be9b144-ee0d-11ea-2a8d-8775de265a1d
 mean_color(philip)
 
-# ╔═╡ 4d0158d0-ee0d-11ea-17c3-c169d4284acb
-if !@isdefined(mean_color)
-	not_defined(:mean_color)
-else
-	let
-		input = reshape([RGB(1.0, 1.0, 1.0), RGB(1.0, 1.0, 0.0)], (2, 1))
-		
-		result = mean_color(input)
-		shouldbe = RGB(1.0, 1.0, 0.5)
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif !(result isa AbstractRGB)
-			keep_working(md"You need to return a _color_, i.e. an object of type `RGB`. Use `RGB(r, g, b)` to create a color with channel values `r`, `g` and `b`.")
-		elseif !(result == shouldbe)
-			keep_working()
-		else
-			correct()
-		end
-	end
-end
-
 # ╔═╡ 5f6635b4-63ed-4a62-969c-bd4084a8202f
 md"""
 _At the end of this homework, you can see all of your filters applied to your webcam image!_
-"""
-
-# ╔═╡ f6cc03a0-ee07-11ea-17d8-013991514d42
-md"""
- $(bigbreak)
-
-## Exercise 3 - _More filters_
-
-In the previous exercises, we learned how to use Julia's _dot syntax_ to apply a function _element-wise_ to an array. In this exercise, we will use this to write more image filters, that you can then apply to your own webcam image!
-
-#### Exercise 3.1
-👉 Write a function `invert` that inverts a color, i.e. sends $(r, g, b)$ to $(1 - r, 1-g, 1-b)$.
 """
 
 # ╔═╡ 63e8d636-ee0b-11ea-173d-bd3327347d55
 function invert(color::AbstractRGB)
 	# your code here!
 	return missing
-end
-
-# ╔═╡ 80a4cb23-49c9-4446-a3ec-b2203128dc27
-let
-	result = invert(RGB(1.0, 0.5, 0.25)) # I chose these values because they can be represented exactly by Float64
-	shouldbe = RGB(0.0, 0.5, 0.75)
-	
-	if ismissing(result)
-		still_missing()
-	elseif isnothing(result)
-		keep_working(md"Did you forget to write `return`?")
-	elseif !(result isa AbstractRGB)
-		keep_working(md"You need to return a _color_, i.e. an object of type `RGB`. Use `RGB(r, g, b)` to create a color with channel values `r`, `g` and `b`.")
-	elseif !(result == shouldbe)
-		keep_working()
-	else
-		correct()
-	end
 end
 
 # ╔═╡ 2cc2f84e-ee0d-11ea-373b-e7ad3204bb00
@@ -660,32 +373,6 @@ md"""
 function quantize(x::Number)
 	# your code here!
 	return missing
-end
-
-# ╔═╡ f6a655f8-ee07-11ea-13b6-43ca404ddfc7
-quantize(0.267), quantize(0.91)
-
-# ╔═╡ c905b73e-ee1a-11ea-2e36-23b8e73bfdb6
-if !@isdefined(quantize)
-	not_defined(:quantize)
-else
-	let
-		result = quantize(.3)
-
-		if ismissing(result)
-			still_missing()
-		elseif isnothing(result)
-			keep_working(md"Did you forget to write `return`?")
-		elseif result != .3
-			if quantize(0.35) == .3
-				almost(md"What should quantize(`0.2`) be?")
-			else
-				keep_working()
-			end
-		else
-			correct()
-		end
-	end
 end
 
 # ╔═╡ 7720740e-2d2b-47f7-98fd-500ed3eee479
@@ -743,23 +430,6 @@ function quantize(color::AbstractRGB)
 	return missing
 end
 
-# ╔═╡ a6d9635b-85ed-4590-ad09-ca2903ea8f1d
-let
-	result = quantize(RGB(.297, .1, .0))
-
-	if ismissing(result)
-		still_missing()
-	elseif isnothing(result)
-		keep_working(md"Did you forget to write `return`?")
-	elseif !(result isa AbstractRGB)
-		keep_working(md"You need to return a _color_, i.e. an object of type `RGB`. Use `RGB(r, g, b)` to create a color with channel values `r`, `g` and `b`.")
-	elseif result != RGB(0.2, .1, .0)
-		keep_working()
-	else
-		correct()
-	end
-end
-
 # ╔═╡ f6bf64da-ee07-11ea-3efb-05af01b14f67
 md"""
 #### Exercise 3.4
@@ -771,6 +441,9 @@ function quantize(image::AbstractMatrix)
 	# your code here!
 	return missing
 end
+
+# ╔═╡ f6a655f8-ee07-11ea-13b6-43ca404ddfc7
+quantize(0.267), quantize(0.91)
 
 # ╔═╡ 25dad7ce-ee0b-11ea-3e20-5f3019dd7fa3
 md"Let's apply your method!"
@@ -789,41 +462,6 @@ function noisify(x::Number, s)
 	# your code here!
 	return missing
 end
-
-# ╔═╡ 1ea53f41-b791-40e2-a0f8-04e13d856829
-noisify(0.5, 0.1) # edit this test case!
-
-# ╔═╡ 31ef3710-e4c9-4aa7-bd8f-c69cc9a977ee
-let
-	result = noisify(0.5, 0)
-
-	if ismissing(result)
-		still_missing()
-	elseif isnothing(result)
-		keep_working(md"Did you forget to write `return`?")
-	elseif result == 0.5
-		
-		results = [noisify(0.9, 0.1) for _ in 1:1000]
-		
-		if 0.8 ≤ minimum(results) < 0.81 && 0.99 ≤ maximum(results) ≤ 1
-			result = noisify(5, 3)
-			
-			if result == 1
-				correct()
-			else
-				keep_working(md"The result should be restricted to the range ``[0,1]``.")
-			end
-		else
-			keep_working()
-		end
-	else
-		keep_working(md"What should `noisify(0.5, 0)` be?")
-		correct()
-	end
-end
-
-# ╔═╡ f6ef2c2e-ee07-11ea-13a8-2512e7d94426
-hint(md"`rand()` generates a (uniformly) random floating-point number between $0$ and $1$.")
 
 # ╔═╡ f6fc1312-ee07-11ea-39a0-299b67aee3d8
 md"""
@@ -846,9 +484,6 @@ Noise strength:
 # ╔═╡ 774b4ce6-ee1b-11ea-2b48-e38ee25fc89b
 @bind color_noise Slider(0:0.01:1, show_value=true)
 
-# ╔═╡ 7e4aeb70-ee1b-11ea-100f-1952ba66f80f
-(original=color_red, with_noise=noisify(color_red, color_noise))
-
 # ╔═╡ 48de5bc2-72d3-11eb-3fd9-eff2b686cb75
 md"""
 > ### Note about _array comprehension_
@@ -864,14 +499,6 @@ md"""
 > This creates a new iterable that matches what you iterate through in the second part of the comprehension. Below is an example with `for` loops through two iterables that creates a 2-dimensional `Array`.
 """
 
-# ╔═╡ 8e848279-1b3e-4f32-8c0c-45693d12de96
-[
-	noisify(color_red, strength)
-	for 
-		strength in 0 : 0.05 : 1,
-		row in 1:10
-]'
-
 # ╔═╡ f70823d2-ee07-11ea-2bb3-01425212aaf9
 md"""
 👉 Write the third method `noisify(image::AbstractMatrix, s)` to noisify each pixel of an image. This function should be a single line!
@@ -882,6 +509,20 @@ function noisify(image::AbstractMatrix, s)
 	# your code here!
 	return missing
 end
+
+# ╔═╡ 1ea53f41-b791-40e2-a0f8-04e13d856829
+noisify(0.5, 0.1) # edit this test case!
+
+# ╔═╡ 7e4aeb70-ee1b-11ea-100f-1952ba66f80f
+(original=color_red, with_noise=noisify(color_red, color_noise))
+
+# ╔═╡ 8e848279-1b3e-4f32-8c0c-45693d12de96
+[
+	noisify(color_red, strength)
+	for 
+		strength in 0 : 0.05 : 1,
+		row in 1:10
+]'
 
 # ╔═╡ d896b7fd-20db-4aa9-bbcf-81b1cd44ec46
 md"""
@@ -920,49 +561,10 @@ answer_about_noise_intensity = md"""
 The image is unrecognisable with intensity ...
 """
 
-# ╔═╡ 4139ee66-ee0a-11ea-2282-15d63bcca8b8
-md"""
-$(bigbreak)
-### Camera input
-"""
-
-# ╔═╡ 20402780-426b-4caa-af8f-ff1e7787b7f9
-@bind cam_data camera_input()
-
-# ╔═╡ ed9fb2ac-2680-42b7-9b00-591e45a5e105
-cam_image = process_raw_camera_data(cam_data)
-
 # ╔═╡ e87e0d14-43a5-490d-84d9-b14ece472061
 md"""
 ### Results
 """
-
-# ╔═╡ d38c6958-9300-4f7a-89cf-95ca9e899c13
-mean_color(cam_image)
-
-# ╔═╡ 82f1e006-60fe-4ad1-b9cb-180fafdeb4da
-invert.(cam_image)
-
-# ╔═╡ 54c83589-b8c6-422a-b5e9-d8e0ee72a224
-quantize(cam_image)
-
-# ╔═╡ 18e781f8-66f3-4216-bc84-076a08f9f3fb
-noisify(cam_image, .5)
-
-# ╔═╡ ebf3193d-8c8d-4425-b252-45067a5851d9
-[
-	invert.(cam_image)      quantize(cam_image)
-	noisify(cam_image, .5)  custom_filter(cam_image)
-]
-
-# ╔═╡ 87dabfd2-461e-4769-ad0f-132cb2370b88
-md"""
-$(bigbreak)
-### Write your own filter!
-"""
-
-# ╔═╡ 8917529e-fa7a-412b-8aea-54f92f6270fa
-custom_filter(cam_image)
 
 # ╔═╡ ee5f21fb-1076-42b6-8926-8bbb6ed0ad67
 function custom_filter(pixel::AbstractRGB)
@@ -978,20 +580,6 @@ function custom_filter(image::AbstractMatrix)
 	return custom_filter.(image)
 end
 
-# ╔═╡ 91f4778e-ee20-11ea-1b7e-2b0892bd3c0f
-bigbreak
-
-# ╔═╡ 8ffe16ce-ee20-11ea-18bd-15640f94b839
-if student.kerberos_id === "jazz"
-	md"""
-!!! danger "Oops!"
-    **Before you submit**, remember to fill in your name and kerberos ID at the top of this notebook!
-	"""
-end
-
-# ╔═╡ 5842895a-ee10-11ea-119d-81e4c4c8c53b
-bigbreak
-
 # ╔═╡ 756d150a-b7bf-4bf5-b372-5b0efa80d987
 md"## Function library
 
@@ -999,6 +587,57 @@ Just some helper functions used in the notebook."
 
 # ╔═╡ 4bc94bec-da39-4f8a-82ee-9953ed73b6a4
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
+
+# ╔═╡ b1d5ca28-edf6-11ea-269e-75a9fb549f1d
+md"""
+You can find out more about any function (like `rand`) by clicking on the Live Docs in the bottom right of this Pluto window, and typing a function name in the top.
+
+![image](https://user-images.githubusercontent.com/6933510/107848812-c934df80-6df6-11eb-8a32-663d802f5d11.png)
+
+
+![image](https://user-images.githubusercontent.com/6933510/107848846-0f8a3e80-6df7-11eb-818a-7271ecb9e127.png)
+
+We recommend that you leave the window open while you work on Julia code. It will continually look up documentation for anything you type!
+
+#### Help, I don't see the Live Docs!
+
+Try the following:
+
+🙋 **Are you viewing a static preview?** The Live Docs only work if you _run_ the notebook. If you are reading this on our course website, then click the button in the top right to run the notebook.
+
+🙋 **Is your screen too small?** Try resizing your window or zooming out.
+""" |> hint
+
+# ╔═╡ 24090306-7395-4f2f-af31-34f7486f3945
+hint(md"""Check out this page for a refresher on basic Julia syntax:
+	
+	[Basic Julia Syntax](https://computationalthinking.mit.edu/Spring21/basic_syntax/)""")
+
+# ╔═╡ aa1ff74a-4e78-4ef1-8b8d-3a60a168cf6d
+hint(md"""
+In [Section 1.1](https://computationalthinking.mit.edu/Spring21/week1/), we drew a red square on top of the image Philip with a simple command...
+""")
+
+# ╔═╡ 50e2b0fb-b06d-4ac1-bdfb-eab833466736
+md"""
+This exercise can be quite difficult if you use a `for` loop or list comprehension. 
+
+Instead, you should use the [dot syntax](https://docs.julialang.org/en/v1/manual/functions/#man-vectorized) to apply a function _element-wise_ to an array. For example, this is how you get the square root of `3`:
+
+```
+sqrt(3)
+```
+
+and this is how you get the square roots of 1, 2 and 3:
+
+```
+sqrt.([1, 2, 3])
+```
+
+""" |> hint
+
+# ╔═╡ f6ef2c2e-ee07-11ea-13a8-2512e7d94426
+hint(md"`rand()` generates a (uniformly) random floating-point number between $0$ and $1$.")
 
 # ╔═╡ 8ce6ad06-819c-4af5-bed7-56ecc08c97be
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
@@ -1015,8 +654,268 @@ yays = [md"Fantastic!", md"Splendid!", md"Great!", md"Yay ❤", md"Great! 🎉",
 # ╔═╡ c22f688b-dc04-4a94-b541-fe06266c5446
 correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
 
+# ╔═╡ 09102183-f9fb-4d89-b4f9-5d76af7b8e90
+let
+	result = get_red(RGB(0.2, 0.3, 0.4))
+	if ismissing(result)
+		still_missing()
+	elseif isnothing(result)
+		keep_working(md"Did you forget to write `return`?")
+	elseif result == 0.2
+		correct()
+	else
+		keep_working()
+	end
+end
+
+# ╔═╡ 63ac142e-6d9d-4109-9286-030a02c900b4
+let
+	test = [RGB(0.2, 0, 0)   RGB(0.6, 0, 0)]
+	result = get_reds(test)
+	
+	if ismissing(result)
+		still_missing()
+	elseif isnothing(result)
+		keep_working(md"Did you forget to write `return`?")
+	elseif result == [ 0.2  0.6 ]
+		correct()
+	else
+		keep_working()
+	end
+end
+
+# ╔═╡ 80a4cb23-49c9-4446-a3ec-b2203128dc27
+let
+	result = invert(RGB(1.0, 0.5, 0.25)) # I chose these values because they can be represented exactly by Float64
+	shouldbe = RGB(0.0, 0.5, 0.75)
+	
+	if ismissing(result)
+		still_missing()
+	elseif isnothing(result)
+		keep_working(md"Did you forget to write `return`?")
+	elseif !(result isa AbstractRGB)
+		keep_working(md"You need to return a _color_, i.e. an object of type `RGB`. Use `RGB(r, g, b)` to create a color with channel values `r`, `g` and `b`.")
+	elseif !(result == shouldbe)
+		keep_working()
+	else
+		correct()
+	end
+end
+
+# ╔═╡ a6d9635b-85ed-4590-ad09-ca2903ea8f1d
+let
+	result = quantize(RGB(.297, .1, .0))
+
+	if ismissing(result)
+		still_missing()
+	elseif isnothing(result)
+		keep_working(md"Did you forget to write `return`?")
+	elseif !(result isa AbstractRGB)
+		keep_working(md"You need to return a _color_, i.e. an object of type `RGB`. Use `RGB(r, g, b)` to create a color with channel values `r`, `g` and `b`.")
+	elseif result != RGB(0.2, .1, .0)
+		keep_working()
+	else
+		correct()
+	end
+end
+
+# ╔═╡ 31ef3710-e4c9-4aa7-bd8f-c69cc9a977ee
+let
+	result = noisify(0.5, 0)
+
+	if ismissing(result)
+		still_missing()
+	elseif isnothing(result)
+		keep_working(md"Did you forget to write `return`?")
+	elseif result == 0.5
+		
+		results = [noisify(0.9, 0.1) for _ in 1:1000]
+		
+		if 0.8 ≤ minimum(results) < 0.81 && 0.99 ≤ maximum(results) ≤ 1
+			result = noisify(5, 3)
+			
+			if result == 1
+				correct()
+			else
+				keep_working(md"The result should be restricted to the range ``[0,1]``.")
+			end
+		else
+			keep_working()
+		end
+	else
+		keep_working(md"What should `noisify(0.5, 0)` be?")
+		correct()
+	end
+end
+
 # ╔═╡ ab3d1b70-88e8-4118-8d3e-601a8a68f72d
 not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
+
+# ╔═╡ 397941fc-edee-11ea-33f2-5d46c759fbf7
+if !@isdefined(random_vect)
+	not_defined(:random_vect)
+elseif ismissing(random_vect)
+	still_missing()
+elseif !(random_vect isa Vector)
+	keep_working(md"`random_vect` should be a `Vector`.")
+elseif eltype(random_vect) != Float64
+	almost(md"""
+		You generated a vector of random integers. For the remaining exercises, we want a vector of `Float64` numbers. 
+		
+		The (optional) first argument to `rand` specifies the **type** of elements to generate. For example: `rand(Bool, 10)` generates 10 values that are either `true` or `false`. (Try it!)
+		""")
+elseif length(random_vect) != 10
+	keep_working(md"`random_vect` does not have the correct size.")
+elseif length(Set(random_vect)) != 10
+	keep_working(md"`random_vect` is not 'random enough'")
+else
+	correct(md"Well done! You can run your code again to generate a new vector!")
+end
+
+# ╔═╡ e0bfc973-2808-4f84-b065-fb3d05401e30
+if !@isdefined(my_sum)
+	not_defined(:my_sum)
+else
+	let
+		result = my_sum([1,2,3])
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif result != 6
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
+# ╔═╡ 38dc80a0-edef-11ea-10e9-615255a4588c
+if !@isdefined(mean)
+	not_defined(:mean)
+else
+	let
+		result = mean([1,2,3])
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif result != 2
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
+# ╔═╡ 2b1ccaca-edee-11ea-34b0-c51659f844d0
+if !@isdefined(m)
+	not_defined(:m)
+elseif ismissing(m)
+	still_missing()
+elseif !(m isa Number)
+	keep_working(md"`m` should be a number.")
+elseif m != mean(random_vect)
+	keep_working()
+else
+	correct()
+end
+
+# ╔═╡ adf476d8-a334-4b35-81e8-cc3b37de1f28
+if !@isdefined(mean)
+	not_defined(:mean)
+else
+	let
+		input = Float64[1,2,3]
+		result = demean(input)
+		
+		if input === result
+			almost(md"""
+			It looks like you **modified** `xs` inside the function.
+			
+			It is preferable to avoid mutation inside functions, because you might want to use the original data again. For example, applying `demean` to a dataset of sensor readings would **modify** the original data, and the rest of your analysis would be erroneous.
+			
+			""")
+		elseif ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif !(result isa AbstractVector) || length(result) != 3
+			keep_working(md"Return a vector of the same size as `xs`.")
+		elseif abs(sum(result) / 3) < 1e-10
+			correct()
+		else
+			keep_working()
+		end
+	end
+end
+
+# ╔═╡ e3394c8a-edf0-11ea-1bb8-619f7abb6881
+if !@isdefined(create_bar)
+	not_defined(:create_bar)
+else
+	let
+		result = create_bar()
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif !(result isa Vector) || length(result) != 100
+			keep_working(md"The result should be a `Vector` with 100 elements.")
+		elseif result[[1,50,100]] != [0,1,0]
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
+# ╔═╡ 4d0158d0-ee0d-11ea-17c3-c169d4284acb
+if !@isdefined(mean_color)
+	not_defined(:mean_color)
+else
+	let
+		input = reshape([RGB(1.0, 1.0, 1.0), RGB(1.0, 1.0, 0.0)], (2, 1))
+		
+		result = mean_color(input)
+		shouldbe = RGB(1.0, 1.0, 0.5)
+
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif !(result isa AbstractRGB)
+			keep_working(md"You need to return a _color_, i.e. an object of type `RGB`. Use `RGB(r, g, b)` to create a color with channel values `r`, `g` and `b`.")
+		elseif !(result == shouldbe)
+			keep_working()
+		else
+			correct()
+		end
+	end
+end
+
+# ╔═╡ c905b73e-ee1a-11ea-2e36-23b8e73bfdb6
+if !@isdefined(quantize)
+	not_defined(:quantize)
+else
+	let
+		result = quantize(.3)
+
+		if ismissing(result)
+			still_missing()
+		elseif isnothing(result)
+			keep_working(md"Did you forget to write `return`?")
+		elseif result != .3
+			if quantize(0.35) == .3
+				almost(md"What should quantize(`0.2`) be?")
+			else
+				keep_working()
+			end
+		else
+			correct()
+		end
+	end
+end
 
 # ╔═╡ 8cb0aee8-5774-4490-9b9e-ada93416c089
 todo(text) = HTML("""<div
@@ -1025,6 +924,48 @@ todo(text) = HTML("""<div
 
 # ╔═╡ 115ded8c-ee0a-11ea-3493-89487315feb7
 bigbreak = html"<br><br><br><br><br>";
+
+# ╔═╡ 54056a02-ee0a-11ea-101f-47feb6623bec
+bigbreak
+
+# ╔═╡ e083b3e8-ed61-11ea-2ec9-217820b0a1b4
+md"""
+ $(bigbreak)
+
+## **Exercise 2** - _Manipulating images_
+
+In this exercise we will get familiar with matrices (2D arrays) in Julia, by manipulating images.
+Recall that in Julia images are matrices of `RGB` color objects.
+
+Let's load a picture of Philip again.
+"""
+
+# ╔═╡ f6cc03a0-ee07-11ea-17d8-013991514d42
+md"""
+ $(bigbreak)
+
+## Exercise 3 - _More filters_
+
+In the previous exercises, we learned how to use Julia's _dot syntax_ to apply a function _element-wise_ to an array. In this exercise, we will use this to write more image filters, that you can then apply to your own webcam image!
+
+#### Exercise 3.1
+👉 Write a function `invert` that inverts a color, i.e. sends $(r, g, b)$ to $(1 - r, 1-g, 1-b)$.
+"""
+
+# ╔═╡ 4139ee66-ee0a-11ea-2282-15d63bcca8b8
+md"""
+$(bigbreak)
+### Camera input
+"""
+
+# ╔═╡ 87dabfd2-461e-4769-ad0f-132cb2370b88
+md"""
+$(bigbreak)
+### Write your own filter!
+"""
+
+# ╔═╡ 91f4778e-ee20-11ea-1b7e-2b0892bd3c0f
+bigbreak
 
 # ╔═╡ dfb7c6be-ee0d-11ea-194e-9758857f7b20
 function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.png")
@@ -1230,6 +1171,9 @@ function camera_input(;max_size=200, default_url="https://i.imgur.com/SUmi94P.pn
 """ |> HTML
 end
 
+# ╔═╡ 20402780-426b-4caa-af8f-ff1e7787b7f9
+@bind cam_data camera_input()
+
 # ╔═╡ e15ad330-ee0d-11ea-25b6-1b1b3f3d7888
 
 function process_raw_camera_data(raw_camera_data)
@@ -1264,6 +1208,30 @@ function process_raw_camera_data(raw_camera_data)
 	
 	RGB.(reds, greens, blues)
 end
+
+# ╔═╡ ed9fb2ac-2680-42b7-9b00-591e45a5e105
+cam_image = process_raw_camera_data(cam_data)
+
+# ╔═╡ d38c6958-9300-4f7a-89cf-95ca9e899c13
+mean_color(cam_image)
+
+# ╔═╡ 82f1e006-60fe-4ad1-b9cb-180fafdeb4da
+invert.(cam_image)
+
+# ╔═╡ 54c83589-b8c6-422a-b5e9-d8e0ee72a224
+quantize(cam_image)
+
+# ╔═╡ 18e781f8-66f3-4216-bc84-076a08f9f3fb
+noisify(cam_image, .5)
+
+# ╔═╡ ebf3193d-8c8d-4425-b252-45067a5851d9
+[
+	invert.(cam_image)      quantize(cam_image)
+	noisify(cam_image, .5)  custom_filter(cam_image)
+]
+
+# ╔═╡ 8917529e-fa7a-412b-8aea-54f92f6270fa
+custom_filter(cam_image)
 
 # ╔═╡ 83eb9ca0-ed68-11ea-0bc5-99a09c68f867
 md"_homework 1, version 9_"
@@ -1389,7 +1357,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ComputationalResources]]
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
@@ -2065,7 +2033,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -2163,9 +2131,7 @@ version = "17.4.0+0"
 """
 
 # ╔═╡ Cell order:
-# ╟─8ef13896-ed68-11ea-160b-3550eeabbd7d
 # ╟─ac8ff080-ed61-11ea-3650-d9df06123e1f
-# ╠═911ccbce-ed68-11ea-3606-0384e7580d7c
 # ╟─5f95e01a-ee0a-11ea-030c-9dba276aba92
 # ╠═65780f00-ed6b-11ea-1ecf-8b35523a7ac0
 # ╟─54056a02-ee0a-11ea-101f-47feb6623bec
@@ -2303,8 +2269,6 @@ version = "17.4.0+0"
 # ╠═ee5f21fb-1076-42b6-8926-8bbb6ed0ad67
 # ╠═9e5a08dd-332a-486b-94ab-15c49e72e522
 # ╟─91f4778e-ee20-11ea-1b7e-2b0892bd3c0f
-# ╟─8ffe16ce-ee20-11ea-18bd-15640f94b839
-# ╟─5842895a-ee10-11ea-119d-81e4c4c8c53b
 # ╟─756d150a-b7bf-4bf5-b372-5b0efa80d987
 # ╟─4bc94bec-da39-4f8a-82ee-9953ed73b6a4
 # ╟─8ce6ad06-819c-4af5-bed7-56ecc08c97be

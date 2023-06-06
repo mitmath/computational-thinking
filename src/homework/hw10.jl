@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -8,7 +8,7 @@
 #> homework_number = 10
 #> title = "Climate modeling I"
 #> layout = "layout.jlhtml"
-#> tags = ["homework", "module3"]
+#> tags = ["homework", "module3", "track_climate", "track_julia", "track_data", "track_math", "climate", "plotting", "interactive", "modeling", "climate model", "economics", "bifurcation", "probability"]
 #> description = "Play around with an energy balance model of the climate system, to explore the effect of doubling CO₂, and to examine the 'snowball earth' phenomenon."
 
 using Markdown
@@ -24,33 +24,6 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 169727be-2433-11eb-07ae-ab7976b5be90
-md"_Homework 10 Spring 2021, version 3_"
-
-# ╔═╡ 18be4f7c-2433-11eb-33cb-8d90ca6f124c
-md"""
-
-Submission by: **_$(student.name)_** ($(student.kerberos_id)@mit.edu)
-"""
-
-# ╔═╡ 21524c08-2433-11eb-0c55-47b1bdc9e459
-md"""
-
-# **Homework 10**: _Climate modeling I_
-`18.S191`, spring 2021
-"""
-
-# ╔═╡ 23335418-2433-11eb-05e4-2b35dc6cca0e
-# edit the code below to set your name and kerberos ID (i.e. email without @mit.edu)
-
-student = (name = "Jazzy Doe", kerberos_id = "jazz")
-
-# you might need to wait until all other cells in this notebook have completed running. 
-# scroll around the page to see what's up
-
-# ╔═╡ 253f4da0-2433-11eb-1e48-4906059607d3
-md"_Let's create a package environment:_"
-
 # ╔═╡ 1e06178a-1fbf-11eb-32b3-61769a79b7c0
 begin
 	using LaTeXStrings
@@ -58,6 +31,23 @@ begin
 	using PlutoUI
 	using Random, Distributions
 end
+
+# ╔═╡ 169727be-2433-11eb-07ae-ab7976b5be90
+md"_homework 10, version 3_"
+
+# ╔═╡ 21524c08-2433-11eb-0c55-47b1bdc9e459
+md"""
+
+# **Homework 10**: _Climate modeling I_
+`18.S191`, Fall 2023
+"""
+
+# ╔═╡ 253f4da0-2433-11eb-1e48-4906059607d3
+md"""
+#### Initializing packages
+
+_When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
+"""
 
 # ╔═╡ 87e68a4a-2433-11eb-3e9d-21675850ed71
 html"""
@@ -185,44 +175,11 @@ The result of this subtraction, after rearranging, is our definition of $\text{E
 $\text{ECS} \equiv T_{eq} - T_{0} = -\frac{a\ln(2)}{B}$
 """
 
-# ╔═╡ c4398f9c-1fc4-11eb-0bbb-37f066c6027d
-ECS(; B=B̅, a=Model.a) = -a*log(2.)./B;
-
 # ╔═╡ 7f961bc0-1fc5-11eb-1f18-612aeff0d8df
 md"""The plot below provides an example of an "abrupt 2 × CO₂" experiment, a classic experimental treatment method in climate modelling which is used in practice to estimate ECS for a particular model. (Note: in complicated climate models the values of the parameters $a$ and $B$ are not specified *a priori*, but *emerge* as outputs of the simulation.)
 
 The simulation begins at the preindustrial equilibrium, i.e. a temperature $T_{0} = 14$°C is in balance with the pre-industrial CO₂ concentration of 280 ppm until CO₂ is abruptly doubled from 280 ppm to 560 ppm. The climate responds by warming rapidly, and after a few hundred years approaches the equilibrium climate sensitivity value, by definition.
 """
-
-# ╔═╡ 25f92dec-1fc4-11eb-055d-f34deea81d0e
-let
-	double_CO2(t) = if t >= 0
-		2*Model.CO2_PI
-	else
-		Model.CO2_PI
-	end
-	
-	# the definition of A depends on B, so we recalculate:
-	A = Model.S*(1. - Model.α)/4 + B_slider*Model.T0
-	# create the model
-	ebm_ECS = Model.EBM(14., -100., 1., double_CO2, A=A, B=B_slider);
-	Model.run!(ebm_ECS, 300)
-	
-	ecs = ECS(B=B_slider)
-	
-	p = plot(
-		size=(500, 250), legend=:bottomright, 
-		title="Transient response to instant doubling of CO₂", 
-		ylabel="temperature change [°C]", xlabel="years after doubling",
-		ylim=(-.5, (isfinite(ecs) && ecs < 4) ? 4 : 10),
-	)
-	
-	plot!(p, [ebm_ECS.t[1], ebm_ECS.t[end]], ecs .* [1,1], 
-		ls=:dash, color=:darkred, label="ECS")
-	
-	plot!(p, ebm_ECS.t, ebm_ECS.T .- ebm_ECS.T[1], 
-		label="ΔT(t) = T(t) - T₀")
-end |> as_svg
 
 # ╔═╡ fa7e6f7e-2434-11eb-1e61-1b1858bb0988
 md"""
@@ -283,10 +240,6 @@ Right now, our CO₂ concentration is 415 ppm -- $(round(415 / 280, digits=3)) t
 The CO₂ concentrations in the _future_ depend on human action. There are several models for future concentrations, which are formed by assuming different _policy scenarios_. A baseline model is RCP8.5 - a "worst-case" high-emissions scenario. In our notebook, this model is given as a function of ``t``.
 """
 
-# ╔═╡ e10a9b70-25a0-11eb-2aed-17ed8221c208
-plot(t, Model.CO2_RCP85.(t), 
-	ylim=(0, 1200), ylabel="CO2 concentration [ppm]")
-
 # ╔═╡ 2dfab366-25a1-11eb-15c9-b3dd9cd6b96c
 md"""
 👉 In what year are we expected to have doubled the CO₂ concentration, under policy scenario RCP8.5?
@@ -299,9 +252,6 @@ expected_double_CO2_year = let
 	missing
 end
 
-# ╔═╡ 51e2e742-25a1-11eb-2511-ab3434eacc3e
-hint(md"The function `findfirst` might be helpful.")
-
 # ╔═╡ bade1372-25a1-11eb-35f4-4b43d4e8d156
 md"""
 #### Exercise 1.3 - _Uncertainty in B_
@@ -313,6 +263,39 @@ A value of ``B`` close to zero means that an increase in CO₂ concentrations wi
 
 # ╔═╡ 02232964-2603-11eb-2c4c-c7b7e5fed7d1
 B̅ = -1.3; σ = 0.4
+
+# ╔═╡ c4398f9c-1fc4-11eb-0bbb-37f066c6027d
+ECS(; B=B̅, a=Model.a) = -a*log(2.)./B;
+
+# ╔═╡ 25f92dec-1fc4-11eb-055d-f34deea81d0e
+let
+	double_CO2(t) = if t >= 0
+		2*Model.CO2_PI
+	else
+		Model.CO2_PI
+	end
+	
+	# the definition of A depends on B, so we recalculate:
+	A = Model.S*(1. - Model.α)/4 + B_slider*Model.T0
+	# create the model
+	ebm_ECS = Model.EBM(14., -100., 1., double_CO2, A=A, B=B_slider);
+	Model.run!(ebm_ECS, 300)
+	
+	ecs = ECS(B=B_slider)
+	
+	p = plot(
+		size=(500, 250), legend=:bottomright, 
+		title="Transient response to instant doubling of CO₂", 
+		ylabel="temperature change [°C]", xlabel="years after doubling",
+		ylim=(-.5, (isfinite(ecs) && ecs < 4) ? 4 : 10),
+	)
+	
+	plot!(p, [ebm_ECS.t[1], ebm_ECS.t[end]], ecs .* [1,1], 
+		ls=:dash, color=:darkred, label="ECS")
+	
+	plot!(p, ebm_ECS.t, ebm_ECS.T .- ebm_ECS.T[1], 
+		label="ΔT(t) = T(t) - T₀")
+end |> as_svg
 
 # ╔═╡ 736ed1b6-1fc2-11eb-359e-a1be0a188670
 B_samples = let
@@ -486,14 +469,18 @@ md"""#### Exercise 1.6 - _Application to policy relevant questions_
 We talked about two _emissions scenarios_: RCP2.6 (strong mitigation - controlled CO2 concentrations) and RCP8.5 (no mitigation - high CO2 concentrations). These are given by the following functions:
 """
 
-# ╔═╡ 19957754-252d-11eb-1e0a-930b5208f5ac
-Model.CO2_RCP26(t_scenario_test), Model.CO2_RCP85(t_scenario_test)
+# ╔═╡ ee1be5dc-252b-11eb-0865-291aa823b9e9
+t = 1850:2100
+
+# ╔═╡ e10a9b70-25a0-11eb-2aed-17ed8221c208
+plot(t, Model.CO2_RCP85.(t), 
+	ylim=(0, 1200), ylabel="CO2 concentration [ppm]")
 
 # ╔═╡ 40f1e7d8-252d-11eb-0549-49ca4e806e16
 @bind t_scenario_test Slider(t; show_value=true, default=1850)
 
-# ╔═╡ ee1be5dc-252b-11eb-0865-291aa823b9e9
-t = 1850:2100
+# ╔═╡ 19957754-252d-11eb-1e0a-930b5208f5ac
+Model.CO2_RCP26(t_scenario_test), Model.CO2_RCP85(t_scenario_test)
 
 # ╔═╡ 06c5139e-252d-11eb-2645-8b324b24c405
 md"""
@@ -515,7 +502,10 @@ In lecture 21 (see below), we discovered that increases in the brightness of the
 
 # ╔═╡ a0ef04b0-25e9-11eb-1110-cde93601f712
 html"""
-<iframe width="100%" height="300" src="https://www.youtube-nocookie.com/embed/Y68tnH0FIzc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=Y68tnH0FIzc params="modestbranding=1&rel=0"></lite-youtube>
 """
 
 # ╔═╡ 3e310cf8-25ec-11eb-07da-cb4a2c71ae34
@@ -533,31 +523,6 @@ In the [lecture notebook](https://github.com/hdrake/simplEarth/blob/master/2_ebm
 md"""
 Below we have an empty diagram, which is already set up with a CO₂ vs $T$ diagram, with a logarithmic horizontal axis. Now it's your turn! We have written some pointers below to help you, but feel free to do it your own way.
 """
-
-# ╔═╡ 378aed18-252b-11eb-0b37-a3b511af2cb5
-let
-	p = plot(
-		xlims=(CO2min, CO2max), ylims=(-55, 75), 
-		xaxis=:log,
-		xlabel="CO2 concentration [ppm]", 
-		ylabel="Global temperature T [°C]",
-		title="Earth's CO2 concentration bifurcation diagram",
-		legend=:topleft
-	)
-	
-	add_cold_hot_areas!(p)
-	add_reference_points!(p)
-	
-	# your code here 
-	
-	plot!(p, 
-		[ebm.CO2(ebm.t[end])], [ebm.T[end]],
-		label=nothing,
-		color=:black,
-		shape=:circle,
-	)
-	
-end |> as_svg
 
 # ╔═╡ 3cbc95ba-2685-11eb-3810-3bf38aa33231
 md"""
@@ -615,21 +580,6 @@ md"""
 # ╔═╡ 1d388372-2695-11eb-3068-7b28a2ccb9ac
 
 
-# ╔═╡ 53c2eaf6-268b-11eb-0899-b91c03713da4
-hint(md"
-```julia
-@bind log_CO2 Slider(❓)
-```
-
-```julia
-CO2 = 10^log_CO2
-```
-
-")
-
-# ╔═╡ 06d28052-2531-11eb-39e2-e9613ab0401c
-ebm = Model.EBM(Tneo, 0., 5., Model.CO2_const)
-
 # ╔═╡ 4c9173ac-2685-11eb-2129-99071821ebeb
 md"""
 👉 Write a function `step_model!` that takes an existing `ebm` and `new_CO2`, which performs a step of our interactive process:
@@ -664,6 +614,34 @@ CO2max = 1_000_000
 
 # ╔═╡ de95efae-2675-11eb-0909-73afcd68fd42
 Tneo = -48
+
+# ╔═╡ 06d28052-2531-11eb-39e2-e9613ab0401c
+ebm = Model.EBM(Tneo, 0., 5., Model.CO2_const)
+
+# ╔═╡ 378aed18-252b-11eb-0b37-a3b511af2cb5
+let
+	p = plot(
+		xlims=(CO2min, CO2max), ylims=(-55, 75), 
+		xaxis=:log,
+		xlabel="CO2 concentration [ppm]", 
+		ylabel="Global temperature T [°C]",
+		title="Earth's CO2 concentration bifurcation diagram",
+		legend=:topleft
+	)
+	
+	add_cold_hot_areas!(p)
+	add_reference_points!(p)
+	
+	# your code here 
+	
+	plot!(p, 
+		[ebm.CO2(ebm.t[end])], [ebm.T[end]],
+		label=nothing,
+		color=:black,
+		shape=:circle,
+	)
+	
+end |> as_svg
 
 # ╔═╡ c78e02b4-268a-11eb-0af7-f7c7620fcc34
 md"""
@@ -706,20 +684,6 @@ co2_to_melt_snowball = let
 	missing
 end
 
-# ╔═╡ cb15cd88-25ed-11eb-2be4-f31500a726c8
-hint(md"Use a condition on the albedo or temperature to check whether the Snowball has melted.")
-
-# ╔═╡ 232b9bec-2544-11eb-0401-97a60bb172fc
-hint(md"Start by writing a function `equilibrium_temperature(CO2)` which creates a new `EBM` at the Snowball Earth temperature T = $(Tneo) and returns the final temperature for a given CO2 level.")
-
-# ╔═╡ 36e2dfea-2433-11eb-1c90-bb93ab25b33c
-if student.name == "Jazzy Doe" || student.kerberos_id == "jazz"
-	md"""
-	!!! danger "Before you submit"
-	    Remember to fill in your **name** and **Kerberos ID** at the top of this notebook.
-	"""
-end
-
 # ╔═╡ 36ea4410-2433-11eb-1d98-ab4016245d95
 md"## Function library
 
@@ -727,6 +691,27 @@ Just some helper functions used in the notebook."
 
 # ╔═╡ 36f8c1e8-2433-11eb-1f6e-69dc552a4a07
 hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
+
+# ╔═╡ 51e2e742-25a1-11eb-2511-ab3434eacc3e
+hint(md"The function `findfirst` might be helpful.")
+
+# ╔═╡ 53c2eaf6-268b-11eb-0899-b91c03713da4
+hint(md"
+```julia
+@bind log_CO2 Slider(❓)
+```
+
+```julia
+CO2 = 10^log_CO2
+```
+
+")
+
+# ╔═╡ cb15cd88-25ed-11eb-2be4-f31500a726c8
+hint(md"Use a condition on the albedo or temperature to check whether the Snowball has melted.")
+
+# ╔═╡ 232b9bec-2544-11eb-0401-97a60bb172fc
+hint(md"Start by writing a function `equilibrium_temperature(CO2)` which creates a new `EBM` at the Snowball Earth temperature T = $(Tneo) and returns the final temperature for a given CO2 level.")
 
 # ╔═╡ 37061f1e-2433-11eb-3879-2d31dc70a771
 almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
@@ -797,7 +782,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -859,7 +844,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
@@ -997,9 +982,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1163,9 +1148,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1367,9 +1352,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -1508,7 +1493,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1781,9 +1766,7 @@ version = "1.4.1+0"
 
 # ╔═╡ Cell order:
 # ╟─169727be-2433-11eb-07ae-ab7976b5be90
-# ╟─18be4f7c-2433-11eb-33cb-8d90ca6f124c
 # ╟─21524c08-2433-11eb-0c55-47b1bdc9e459
-# ╠═23335418-2433-11eb-05e4-2b35dc6cca0e
 # ╟─253f4da0-2433-11eb-1e48-4906059607d3
 # ╠═1e06178a-1fbf-11eb-32b3-61769a79b7c0
 # ╟─87e68a4a-2433-11eb-3e9d-21675850ed71
@@ -1868,7 +1851,6 @@ version = "1.4.1+0"
 # ╠═9eb07a6e-2687-11eb-0de3-7bc6aa0eefb0
 # ╟─cb15cd88-25ed-11eb-2be4-f31500a726c8
 # ╟─232b9bec-2544-11eb-0401-97a60bb172fc
-# ╟─36e2dfea-2433-11eb-1c90-bb93ab25b33c
 # ╟─36ea4410-2433-11eb-1d98-ab4016245d95
 # ╟─36f8c1e8-2433-11eb-1f6e-69dc552a4a07
 # ╟─37061f1e-2433-11eb-3879-2d31dc70a771
