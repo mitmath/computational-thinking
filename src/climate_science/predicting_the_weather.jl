@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "M3udLzIHtsc"
 #> description = ""
-#> tags = ["lecture", "module3"]
+#> tags = ["lecture", "module3", "track_climate", "track_math", "bifurcation", "nonlinear", "ODE", "differential equation", "continuous", "plotting", "dynamics", "climate", "modeling", "DifferentialEquations"]
 
 using Markdown
 using InteractiveUtils
@@ -157,9 +157,6 @@ md"""
 Let's simulate this with the Euler method and plot the trajectory $x(t)$ as a function of time $t$:
 """
 
-# ╔═╡ 6e90ea26-220e-11eb-0c65-bf52b3d2e195
-results = euler(logistic, 0.5, 0.01, 20.0)
-
 # ╔═╡ 2d1c6abf-3b15-4638-88c5-89b5d0585c98
 md"""
 Normally we would *not* choose the Euler method to calculate actual trajectories, but it is enough for our purposes of understanding the *qualitative* behaviour of the equations.
@@ -171,13 +168,6 @@ We see that for this particular initial condition, the solution seems to settle 
 
 Such a value is called a **fixed point**, a **stationary point**, or a **steady state** of the ODE.
 """
-
-# ╔═╡ 96e22792-220e-11eb-2729-63964507b5f2
-begin
-	plot(results.ts, results.xs, size=(400, 300), leg=false, xlabel=L"t", ylabel=L"x(t)", lw=3)
-	scatter!([(results.ts[1], results.xs[1])])
-	ylims!(0.4, 1.1)
-end
 
 # ╔═╡ 90ccb392-2216-11eb-1fd8-83b7d7c16b54
 md"""
@@ -201,48 +191,10 @@ md"""
 x₀ = $(@bind x0 Slider(-0.9:0.001:3.0, default=0.5, show_value=true))
 """
 
-# ╔═╡ 2300b29a-22d5-11eb-3c99-bdec0e5a2685
-let
-	p = plot(xlabel=L"t", ylabel=L"x(t)",  leg=false, ylim=(-1, 2))
-
-	results = euler(logistic, x0, 0.01, 5.0)	
-		
-	plot!(results.ts, results.xs, alpha=1, lw=3)
-	scatter!([0.0], [x0])
-	
-	hline!([0.0], ls=:dash)
-	# as_svg(p)
-end
-	
-
 # ╔═╡ ae862e10-22d5-11eb-3d75-1d748cf86944
 md"""
 To get an overview of the behaviour we can draw all the results on a single graph:
 """
-
-# ╔═╡ c5bf15b1-a540-478b-acec-1aa47aad13d1
-let
-	p = plot(xlabel=L"t", ylabel=L"x(t)", leg=false, ylim=(-1, 2))
-
-	# for x0 in -0.5:0.05:2.0
-# for x0 in 0.0:0.1:2.0
-	for x0 in -0.5:0.1:2.0
-	results = euler(logistic, x0, 0.05, 5.0)	
-	
-# 	for x0 in -0.5:0.05:2.0
-# 		results = euler(logistic, x0, 0.01, 10.0)	
-		
-		plot!(p, results.ts, results.xs, alpha=0.8, lw=1, arrow=true)
-	end
-
-	
-	md"""
-	#### Trajectories for $ẋ = x(1-x)$ 
-	
-	$p
-
-	"""
-end
 
 # ╔═╡ 446c564e-220f-11eb-191a-6b419e790f3f
 md"""
@@ -273,9 +225,6 @@ Instead of drawing trajectories $x(t)$ as a function of time $t$, as we did abov
 
 At each possible value of $x$, the ODE gives us information about the rate of change of $x(t)$ at that point. Let's draw an **arrow** at that point, pointing in the direction that a particle placed at that point would move: to the right if $\dot{x} > 0$ and to the left if $\dot{x} < 0$.
 """
-
-# ╔═╡ 9a833edc-2217-11eb-0701-99862b410bfa
-vector_field(logistic)
 
 # ╔═╡ 42c28b16-2218-11eb-304a-e534353fa12b
 md"""
@@ -308,18 +257,10 @@ md"""
 μ = $(@bind λ Slider(-1.0:0.05:1, show_value=true))
 """
 
-# ╔═╡ 25578fa6-2248-11eb-2838-57fbfb928fc4
-begin
-	vector_field(x -> g(λ, x))
-end
-
 # ╔═╡ 49ec803a-22d7-11eb-3f04-db8f8c119a7d
 md"""
 Now let's collect all the vector fields into a single plot. The horizontal axis now represents the different possible values of the parameter $\mu$:
 """
-
-# ╔═╡ b9ee4db4-22d7-11eb-38ef-511e30df16cc
-bifurcation_diagram(g)
 
 # ╔═╡ 27190ac0-230b-11eb-3367-af2bbbf57e5e
 md"""
@@ -346,9 +287,6 @@ md"""
 Let's plot the bifurcation diagram again:
 """
 
-# ╔═╡ f040d1c4-2247-11eb-0bf0-090e90a86a85
-bifurcation_diagram(h)
-
 # ╔═╡ a56ad0bc-22d7-11eb-0418-d36f3ef14109
 md"""
 We see that there is a range of values of $\mu$ for which there are *three coexisting fixed points*, two stable and one unstable. Since there are two stable fixed points in which the system can remain, we say that the system is **bistable**.
@@ -358,9 +296,6 @@ We see that there is a range of values of $\mu$ for which there are *three coexi
 md"""
 Now that we understand what the plots mean and the dynamics, let's plot just the fixed points $x^*(\mu)$ as a function of $\mu$. Such a plot is called a **bifurcation diagram**:
 """
-
-# ╔═╡ 0c3c88fe-2249-11eb-03af-bf9c393fadd4
-fixed_points(h)
 
 # ╔═╡ aa81663c-230b-11eb-3c0e-39759f36deb6
 md"""
@@ -438,6 +373,13 @@ function brusselator(xx, p, t)
 			b * x - x^2 * y]
 end
 
+# ╔═╡ 77e5ff47-1e95-4552-a3d2-2fdf7bbea7cb
+md"""
+a = $(@bind a Slider(0.0:0.1:5.0, show_value=true, default=1.0))
+
+b = $(@bind b Slider(0.0:0.1:5.0, show_value=true, default=1.5))
+"""
+
 # ╔═╡ e2953d11-6880-45cb-8000-3f6903a85c7d
 begin
 	u0 = [1, 1]
@@ -450,13 +392,6 @@ begin
 	prob = ODEProblem(brusselator, u0, tspan, params)
 	soln = solve(prob)
 end;
-
-# ╔═╡ 77e5ff47-1e95-4552-a3d2-2fdf7bbea7cb
-md"""
-a = $(@bind a Slider(0.0:0.1:5.0, show_value=true, default=1.0))
-
-b = $(@bind b Slider(0.0:0.1:5.0, show_value=true, default=1.5))
-"""
 
 # ╔═╡ 92aca04d-376f-4ac7-b4c3-5b0652974157
 gr(dpi=300)
@@ -561,20 +496,20 @@ function lorenz(u, p, t)
 	return [dx, dy, dz]
 end 
 
+# ╔═╡ e068c809-34c6-4723-8ad5-a55918cfed87
+md"""
+ρ = $(@bind ρ Slider(0.0:0.1:100.0, show_value=true, default=10.0))
+"""
+
+# ╔═╡ 58dbd153-09e2-4a38-94c1-9f69acf515ae
+lorenz_params = (σ = 10.0, ρ = ρ, β = 8/3)
+
 # ╔═╡ 2e61c129-7fd8-46b6-8480-40f0244aab47
 begin
 	lorenz_prob = ODEProblem(lorenz, [0.01, 0.01, 0.01], (0.0, 100.0), lorenz_params)
 	
 	lorenz_soln = solve(lorenz_prob)
 end;
-
-# ╔═╡ 58dbd153-09e2-4a38-94c1-9f69acf515ae
-lorenz_params = (σ = 10.0, ρ = ρ, β = 8/3)
-
-# ╔═╡ e068c809-34c6-4723-8ad5-a55918cfed87
-md"""
-ρ = $(@bind ρ Slider(0.0:0.1:100.0, show_value=true, default=10.0))
-"""
 
 # ╔═╡ 5ffeba9b-8487-4be1-bb64-8d2330824ee5
 plot(lorenz_soln, vars=(1, 2, 3), xlabel="x", ylabel="y", zlabel="z", xlims=(-25, 25), ylims=(-25, 25), zlims=(0, 60))
@@ -697,6 +632,54 @@ function euler(f, x0, h, t_final)
 	return (ts=ts, xs=xs)  # a named tuple
 end
 
+# ╔═╡ 6e90ea26-220e-11eb-0c65-bf52b3d2e195
+results = euler(logistic, 0.5, 0.01, 20.0)
+
+# ╔═╡ 96e22792-220e-11eb-2729-63964507b5f2
+begin
+	plot(results.ts, results.xs, size=(400, 300), leg=false, xlabel=L"t", ylabel=L"x(t)", lw=3)
+	scatter!([(results.ts[1], results.xs[1])])
+	ylims!(0.4, 1.1)
+end
+
+# ╔═╡ 2300b29a-22d5-11eb-3c99-bdec0e5a2685
+let
+	p = plot(xlabel=L"t", ylabel=L"x(t)",  leg=false, ylim=(-1, 2))
+
+	results = euler(logistic, x0, 0.01, 5.0)	
+		
+	plot!(results.ts, results.xs, alpha=1, lw=3)
+	scatter!([0.0], [x0])
+	
+	hline!([0.0], ls=:dash)
+	# as_svg(p)
+end
+	
+
+# ╔═╡ c5bf15b1-a540-478b-acec-1aa47aad13d1
+let
+	p = plot(xlabel=L"t", ylabel=L"x(t)", leg=false, ylim=(-1, 2))
+
+	# for x0 in -0.5:0.05:2.0
+# for x0 in 0.0:0.1:2.0
+	for x0 in -0.5:0.1:2.0
+	results = euler(logistic, x0, 0.05, 5.0)	
+	
+# 	for x0 in -0.5:0.05:2.0
+# 		results = euler(logistic, x0, 0.01, 10.0)	
+		
+		plot!(p, results.ts, results.xs, alpha=0.8, lw=1, arrow=true)
+	end
+
+	
+	md"""
+	#### Trajectories for $ẋ = x(1-x)$ 
+	
+	$p
+
+	"""
+end
+
 # ╔═╡ 546168ce-2218-11eb-198b-1da9f8a9a242
 derivative(f, x, h=0.001) = ( f(x + h) - f(x - h) ) / (2h)
 
@@ -783,6 +766,14 @@ function vector_field(f)
 	vector_field!(p, 0, f)
 end
 
+# ╔═╡ 9a833edc-2217-11eb-0701-99862b410bfa
+vector_field(logistic)
+
+# ╔═╡ 25578fa6-2248-11eb-2838-57fbfb928fc4
+begin
+	vector_field(x -> g(λ, x))
+end
+
 # ╔═╡ e55d2780-2247-11eb-01e0-fbdc94bba264
 function bifurcation_diagram(h)
 	p = plot(leg=false, ratio=1)
@@ -796,6 +787,12 @@ function bifurcation_diagram(h)
 	
 	return p
 end
+
+# ╔═╡ b9ee4db4-22d7-11eb-38ef-511e30df16cc
+bifurcation_diagram(g)
+
+# ╔═╡ f040d1c4-2247-11eb-0bf0-090e90a86a85
+bifurcation_diagram(h)
 
 # ╔═╡ e27dace4-2248-11eb-2ae1-953639d8c944
 function fixed_points(f)
@@ -824,6 +821,9 @@ function fixed_points(f)
 	return p
 end
 
+# ╔═╡ 0c3c88fe-2249-11eb-03af-bf9c393fadd4
+fixed_points(h)
+
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
 [deps]
@@ -846,9 +846,9 @@ Roots = "~2.0.8"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "26f0debd1c3e06adb4a4e7ea694669d38fe0c18c"
+project_hash = "e47268e716c8cfd8e079b660a65d03f8a4971c4b"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -961,7 +961,7 @@ uuid = "2a0fbf3d-bb9c-48f3-b0a9-814d99fd7ab9"
 version = "0.1.27"
 
 [[deps.Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -1040,7 +1040,7 @@ version = "4.3.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -1319,9 +1319,9 @@ version = "0.21.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1554,9 +1554,9 @@ version = "1.42.0+0"
 
 [[deps.Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[deps.Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1858,9 +1858,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -2150,7 +2150,7 @@ version = "1.10.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -2463,8 +2463,8 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
+# ╟─f9dbf2e8-574d-4846-af48-f7e5a82a1afc
 # ╠═88b46d2e-220e-11eb-0f7f-b3f523f0214e
-# ╠═f9dbf2e8-574d-4846-af48-f7e5a82a1afc
 # ╟─a2b2eae2-762e-41c3-a546-0caedc79db7d
 # ╟─91b34e59-e4d2-45b7-9e2b-1b95748e5d6a
 # ╟─22bddfca-fd1c-4dc7-85f3-f864c3b53407

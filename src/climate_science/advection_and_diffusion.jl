@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "Xb-iUwXI78A"
 #> description = ""
-#> tags = ["lecture", "module3"]
+#> tags = ["lecture", "module3", "advection–diffusion", "climate", "modelling", "PDE", "differential equation", "track_math", "track_climate", "simulation", "plotting", "fluid simulation", "continuous"]
 
 using Markdown
 using InteractiveUtils
@@ -27,9 +27,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ e0c0dc94-277e-11eb-379e-83d064a93413
-begin
-    using Plots, PlutoUI, LinearAlgebra
-end
+using Plots, PlutoUI, LinearAlgebra
 
 # ╔═╡ 5648fa26-da0b-41d9-b13f-debd4e0485af
 TableOfContents(depth=4)
@@ -79,28 +77,12 @@ md"""
 Here is a visualisation of the physical processes of advection and diffusion in one dimension that we will discuss and build during this notebook.
 """
 
-# ╔═╡ 30006c82-695d-40b1-8ded-22d03c3bff41
-tt, results = evolve(advection_diffusion, xs, δt, (UU, DD))
-
 # ╔═╡ b04a6f81-3ece-4521-b141-a2e416718948
 md"""
 U = $(@bind UU Slider(-1:0.01:1, show_value=true, default=0))
 
 D = $(@bind DD Slider(-0.2:0.001:0.2, show_value=true, default=0))
 """
-
-# ╔═╡ 6b2bfc73-d0a9-4a36-970d-c89149238284
-md"""
-time step = $(@bind n6 Slider(1:length(results), show_value=true))
-"""
-
-# ╔═╡ 21eb19f7-467b-4995-be65-8dede4eb7ac1
-let
-	p1 = plot(xs, results[n6], m=:o, xlim=(0, 1), ylim=(-3.1, 3.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
-	p2 = temperature_heatmap(xs, results[n6])
-
-	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
-end
 
 # ╔═╡ 36328b70-277d-11eb-02c7-2f854c1466cc
 md"""
@@ -153,28 +135,6 @@ It turns out to be a good idea to take the grid points at the *centre* of each i
 md"""
 We call such a function of $x$ at a given time a **temperature profile**. Let's draw it both as a function and as a heatmap:
 """
-
-# ╔═╡ 6de1859c-277f-11eb-1ead-8b4794832d59
-begin
-	p1 = plot(0:0.001:Lₓ, T₀, label="T₀", lw=3)
-	scatter!(xs, T₀.(xs), label="sampled")
-	scatter!(xs, zero.(xs), label="x nodes", alpha=0.5, ms=3)
-	
-	xlabel!("x")
-	ylabel!("T₀")
-	
-	for x in xs
-		plot!([ (x, 0), (x, T₀(x)) ], ls=:dash, c=:black, label="", alpha=0.5)
-	end
-	
-	hline!([0], ls=:dash, lab=false)
-	
-	
-	p2 = temperature_heatmap(xs, T₀.(xs))
-	
-	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]))
-
-end
 
 # ╔═╡ af30a0d0-2781-11eb-0274-ab423205facb
 md"""
@@ -241,20 +201,6 @@ end
 # ╔═╡ 7ae9f5b8-10ea-42a7-aa01-0e04a7287c77
 δ = 0.8
 
-# ╔═╡ addab3e6-f189-41d6-badb-92f0323b6192
-# assign colours to particles:
-
-cs = map(xx) do x
-	if -U * δ < x < 0
-		1
-	elseif 1 - (U * δ) < x < 1
-		2
-	else
-		0
-	end
-end
-	
-
 # ╔═╡ 2f24e0c7-b05c-4f89-835a-081f8e6107e5
 md"""
 show particles entering and leaving in $\delta t$: $(@bind show_particles CheckBox())
@@ -264,28 +210,6 @@ show particles entering and leaving in $\delta t$: $(@bind show_particles CheckB
 md"""
 t = $(@bind t Slider(0:0.001:2, show_value=true, default=0))
 """
-
-# ╔═╡ f684dd94-f1c7-4f79-9776-3a06b8eec39b
-begin
-	plot([0, 1, 1, 0, 0], [0, 0, 1, 1, 0], series=:shape, alpha=0.5, fill=true, ratio=1, label=false, leg=false)
-	
-	new_xx = xx .+ U .* t
-	
-	scatter!(xx .+ U .* t, yy, ms=1.5, alpha=0.1, c=:gray)
-	
-	if show_particles
-		scatter!(new_xx[cs .!= 0], yy[cs .!= 0], ms=1.5, alpha=0.5, c=cs[cs .!= 0])
-	end
-	
-	plot!([-1.5, 2], [0, 0], c=:black)
-	plot!([-1.5, 2], [1, 1], c=:black)
-
-	
-	xlims!(-2, 2)
-	ylims!(-0.1, 1.1)
-	
-	as_svg(plot!(axis=true, yticks=[0, 1]))
-end
 
 # ╔═╡ 3437e53b-9dd0-4afe-a1bd-a556871d1799
 md"""
@@ -430,22 +354,41 @@ Note that this is just like a step of the Euler method for solving ODEs, but whe
 # ╔═╡ dce9e53a-28f4-11eb-070b-17e10779a38b
 U = 0.2;
 
-# ╔═╡ 02a893e4-2852-11eb-358a-371459191da7
-ts, evolution = evolve(advection, xs, δt, U)
+# ╔═╡ addab3e6-f189-41d6-badb-92f0323b6192
+# assign colours to particles:
 
-# ╔═╡ e6ae447e-2851-11eb-3fe1-096459167f2b
-@bind n Slider(1:length(evolution), show_value=true)
-
-# ╔═╡ 014e2530-2852-11eb-103f-1d647cb999b0
-let
-	p1 = plot(xs, evolution[n], m=:o, xlim=(0, 1), ylim=(-1.1, 1.1), title="t = $(round(ts[n], digits=2))", leg=false)
-
-	p2 = temperature_heatmap(xs, evolution[n])
-	
-	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]))
+cs = map(xx) do x
+	if -U * δ < x < 0
+		1
+	elseif 1 - (U * δ) < x < 1
+		2
+	else
+		0
+	end
 end
+	
 
+# ╔═╡ f684dd94-f1c7-4f79-9776-3a06b8eec39b
+begin
+	plot([0, 1, 1, 0, 0], [0, 0, 1, 1, 0], series=:shape, alpha=0.5, fill=true, ratio=1, label=false, leg=false)
+	
+	new_xx = xx .+ U .* t
+	
+	scatter!(xx .+ U .* t, yy, ms=1.5, alpha=0.1, c=:gray)
+	
+	if show_particles
+		scatter!(new_xx[cs .!= 0], yy[cs .!= 0], ms=1.5, alpha=0.5, c=cs[cs .!= 0])
+	end
+	
+	plot!([-1.5, 2], [0, 0], c=:black)
+	plot!([-1.5, 2], [1, 1], c=:black)
 
+	
+	xlims!(-2, 2)
+	ylims!(-0.1, 1.1)
+	
+	as_svg(plot!(axis=true, yticks=[0, 1]))
+end
 
 # ╔═╡ 8c05e3cc-2858-11eb-1e1c-9781c30738c3
 md"""
@@ -473,22 +416,6 @@ function advection2(T, δt, δx, U)
 
 	return T′
 end
-
-# ╔═╡ e42ec13e-285a-11eb-3cc0-7dc41ed5495b
-ts2, evolution2 = evolve(advection2, xs, δt, 0.1)
-
-# ╔═╡ f60a8b5e-285a-11eb-0d35-8daf23cf92ae
-n2_slider = @bind n2 Slider(1:length(evolution2), show_value=true)
-
-# ╔═╡ f1b5d130-285a-11eb-001c-67035925f43d
-let
-	p1 = plot(xs, evolution2[n2], m=:o, xlim=(0, 1), ylim=(-3.1, 3.1), title="t = $(round(ts2[n2], digits=2))", leg=false)
-	
-	p2 = temperature_heatmap(xs, evolution2[n2])
-	
-	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]))
-end
-
 
 # ╔═╡ c59388ea-286e-11eb-0f21-eb18e5ba516f
 md"""
@@ -571,32 +498,8 @@ function diffusion(T, δt, δx, D)
 	return T′
 end
 
-# ╔═╡ 121255d2-288a-11eb-1fa5-9db68af8c232
-ts3, evolution3 = evolve(diffusion, xs, δt, 0.01)
-
-# ╔═╡ 09bc3c40-288a-11eb-0339-59f0b70e03a3
-@bind n3 Slider(1:length(evolution2), show_value=true)
-
-# ╔═╡ 175d9902-288a-11eb-3700-390ccd1caa5b
-let
-	p1 = plot(xs, evolution3[n3], m=:o, xlim=(0, 1), ylim=(-3.1, 3.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
-	p2 = temperature_heatmap(xs, evolution3[n3])
-
-	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
-end
-
-
 # ╔═╡ e74d920a-28fa-11eb-3c91-9133a01effc5
 @bind n4 Slider(1:length(evolution4), show_value=true)
-
-# ╔═╡ dc7b6328-28fa-11eb-38b7-71a6f8d0a751
-let
-	p1 = plot(xs, evolution4[n4], m=:o, xlim=(0, 1), ylim=(-0.1, 1.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
-	p2 = temperature_heatmap(xs, evolution4[n4])
-
-	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
-end
-
 
 # ╔═╡ e63cfa84-2889-11eb-1ea2-51726645ddd9
 md"""
@@ -614,20 +517,6 @@ function advection_diffusion(T, δt, δx, (U, D))
 	return diffusion(temp, δt, δx, D)
 end
 
-# ╔═╡ f6fa3770-288d-11eb-32de-f95e03705791
-ts5, evolution5 = evolve(advection_diffusion, xs, δt, (1.0, 0.01))
-
-# ╔═╡ 6eb00a02-288d-11eb-354b-b56cf5a8380e
-@bind n5 Slider(1:length(evolution5), show_value=true)
-
-# ╔═╡ 65126bfc-288d-11eb-2bfc-493588365164
-let
-	p1 = plot(xs, evolution5[n5], m=:o, xlim=(0, 1), ylim=(-1.1, 1.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
-	p2 = temperature_heatmap(xs, evolution5[n5])
-
-	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
-end
-
 # ╔═╡ 575a5f3c-2780-11eb-2119-27a4114ceac5
 md"""
 # Function library
@@ -640,6 +529,28 @@ function temperature_heatmap(x, T)
 			   clims=(-1., 1.), cbar=false, xticks=nothing, yticks=nothing)
 
 	return p
+end
+
+# ╔═╡ 6de1859c-277f-11eb-1ead-8b4794832d59
+begin
+	p1 = plot(0:0.001:Lₓ, T₀, label="T₀", lw=3)
+	scatter!(xs, T₀.(xs), label="sampled")
+	scatter!(xs, zero.(xs), label="x nodes", alpha=0.5, ms=3)
+	
+	xlabel!("x")
+	ylabel!("T₀")
+	
+	for x in xs
+		plot!([ (x, 0), (x, T₀(x)) ], ls=:dash, c=:black, label="", alpha=0.5)
+	end
+	
+	hline!([0], ls=:dash, lab=false)
+	
+	
+	p2 = temperature_heatmap(xs, T₀.(xs))
+	
+	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]))
+
 end
 
 # ╔═╡ 9187350a-2851-11eb-05f0-d3a6eef190fe
@@ -665,6 +576,93 @@ function evolve(method, xs, δt, U, t_final=10.0, f₀=T₀)
 	end
 	
 	return ts, results
+end
+
+# ╔═╡ 30006c82-695d-40b1-8ded-22d03c3bff41
+tt, results = evolve(advection_diffusion, xs, δt, (UU, DD))
+
+# ╔═╡ 6b2bfc73-d0a9-4a36-970d-c89149238284
+md"""
+time step = $(@bind n6 Slider(1:length(results), show_value=true))
+"""
+
+# ╔═╡ 02a893e4-2852-11eb-358a-371459191da7
+ts, evolution = evolve(advection, xs, δt, U)
+
+# ╔═╡ e6ae447e-2851-11eb-3fe1-096459167f2b
+@bind n Slider(1:length(evolution), show_value=true)
+
+# ╔═╡ 014e2530-2852-11eb-103f-1d647cb999b0
+let
+	p1 = plot(xs, evolution[n], m=:o, xlim=(0, 1), ylim=(-1.1, 1.1), title="t = $(round(ts[n], digits=2))", leg=false)
+
+	p2 = temperature_heatmap(xs, evolution[n])
+	
+	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]))
+end
+
+
+
+# ╔═╡ e42ec13e-285a-11eb-3cc0-7dc41ed5495b
+ts2, evolution2 = evolve(advection2, xs, δt, 0.1)
+
+# ╔═╡ f60a8b5e-285a-11eb-0d35-8daf23cf92ae
+n2_slider = @bind n2 Slider(1:length(evolution2), show_value=true)
+
+# ╔═╡ f1b5d130-285a-11eb-001c-67035925f43d
+let
+	p1 = plot(xs, evolution2[n2], m=:o, xlim=(0, 1), ylim=(-3.1, 3.1), title="t = $(round(ts2[n2], digits=2))", leg=false)
+	
+	p2 = temperature_heatmap(xs, evolution2[n2])
+	
+	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]))
+end
+
+
+# ╔═╡ 09bc3c40-288a-11eb-0339-59f0b70e03a3
+@bind n3 Slider(1:length(evolution2), show_value=true)
+
+# ╔═╡ 121255d2-288a-11eb-1fa5-9db68af8c232
+ts3, evolution3 = evolve(diffusion, xs, δt, 0.01)
+
+# ╔═╡ 21eb19f7-467b-4995-be65-8dede4eb7ac1
+let
+	p1 = plot(xs, results[n6], m=:o, xlim=(0, 1), ylim=(-3.1, 3.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
+	p2 = temperature_heatmap(xs, results[n6])
+
+	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
+end
+
+# ╔═╡ 175d9902-288a-11eb-3700-390ccd1caa5b
+let
+	p1 = plot(xs, evolution3[n3], m=:o, xlim=(0, 1), ylim=(-3.1, 3.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
+	p2 = temperature_heatmap(xs, evolution3[n3])
+
+	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
+end
+
+
+# ╔═╡ dc7b6328-28fa-11eb-38b7-71a6f8d0a751
+let
+	p1 = plot(xs, evolution4[n4], m=:o, xlim=(0, 1), ylim=(-0.1, 1.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
+	p2 = temperature_heatmap(xs, evolution4[n4])
+
+	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
+end
+
+
+# ╔═╡ f6fa3770-288d-11eb-32de-f95e03705791
+ts5, evolution5 = evolve(advection_diffusion, xs, δt, (1.0, 0.01))
+
+# ╔═╡ 6eb00a02-288d-11eb-354b-b56cf5a8380e
+@bind n5 Slider(1:length(evolution5), show_value=true)
+
+# ╔═╡ 65126bfc-288d-11eb-2bfc-493588365164
+let
+	p1 = plot(xs, evolution5[n5], m=:o, xlim=(0, 1), ylim=(-1.1, 1.1), title="t = $(round(ts3[n3], digits=2))", leg=false)
+	p2 = temperature_heatmap(xs, evolution5[n5])
+
+	plot(p1, p2, layout = grid(2, 1, heights=[0.9, 0.1]), clim=(-1, 1))
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -711,7 +709,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -767,7 +765,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
@@ -881,9 +879,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1041,9 +1039,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1239,9 +1237,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1352,7 +1350,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1624,8 +1622,8 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
+# ╟─5648fa26-da0b-41d9-b13f-debd4e0485af
 # ╠═e0c0dc94-277e-11eb-379e-83d064a93413
-# ╠═5648fa26-da0b-41d9-b13f-debd4e0485af
 # ╟─00877a4a-277c-11eb-3ec0-e71e4094b404
 # ╟─1b25b916-277c-11eb-0274-4b4fb946258d
 # ╟─956f5104-277d-11eb-291d-1faef485a5aa

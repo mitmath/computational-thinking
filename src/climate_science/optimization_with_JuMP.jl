@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "nm86_hDwYTU"
 #> description = ""
-#> tags = ["lecture", "module3"]
+#> tags = ["lecture", "module3", "optimization", "JuMP", "track_math", "track_climate", "track_julia", "modeling", "plotting"]
 
 using Markdown
 using InteractiveUtils
@@ -58,6 +58,14 @@ md"""
 ## Unconstrained optimization
 """
 
+# ╔═╡ 3d76efaf-892f-4c51-b9d3-79c7ae47887c
+mm = Model(Ipopt.Optimizer)
+
+# ╔═╡ 3a81aaa1-05c3-4ef4-ab7a-bd913a5dc85e
+md"""
+a = $(@bind a Slider(-3:0.01:3, show_value=true, default=0))
+"""
+
 # ╔═╡ f488fa22-8ff9-4ea1-84c1-deaf966520d1
 f(x) = x^2 - a*x + 2
 
@@ -81,14 +89,6 @@ min_value = let
 	
 	value(x)
 end
-
-# ╔═╡ 3d76efaf-892f-4c51-b9d3-79c7ae47887c
-mm = Model(Ipopt.Optimizer)
-
-# ╔═╡ 3a81aaa1-05c3-4ef4-ab7a-bd913a5dc85e
-md"""
-a = $(@bind a Slider(-3:0.01:3, show_value=true, default=0))
-"""
 
 # ╔═╡ 9b494263-7fb1-4893-aa15-33ad6b839773
 begin
@@ -116,6 +116,9 @@ constraint(x, y) = y - x
 # ╔═╡ 8dc1fe61-ed8d-4f5a-b200-6269cc89c142
 k(x, y) = x^2 + y^2 - 1
 
+# ╔═╡ f58a62aa-f56b-4114-bfef-c57bdbc24e3b
+b_slider = @bind b Slider(-5:0.1:5, show_value=true, default=0)
+
 # ╔═╡ 3ab8f4fe-3842-46ac-8411-37f509c7dfb5
 minx, miny = let
 	
@@ -135,9 +138,6 @@ minx, miny = let
 	
 	(x = value(x), y = value(y))
 end
-
-# ╔═╡ f58a62aa-f56b-4114-bfef-c57bdbc24e3b
-b_slider = @bind b Slider(-5:0.1:5, show_value=true, default=0)
 
 # ╔═╡ 964a440f-e0bf-4cab-a1e7-1976a03127d3
 md"""
@@ -249,7 +249,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -317,7 +317,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 git-tree-sha1 = "d05d9e7b7aedff4e5b51a029dced05cfb6125781"
@@ -449,9 +449,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -627,9 +627,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -859,9 +859,9 @@ uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -983,7 +983,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]

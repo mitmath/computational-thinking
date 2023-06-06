@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "cdIgr_2nUvI"
 #> description = ""
-#> tags = ["lecture", "module3"]
+#> tags = ["lecture", "module3", "dynamics", "track_math", "track_climate", "hysteresis", "equilibrium", "climate", "modeling", "differential equation", "ODE", "plotting", "feedback", "runaway", "nonlinear", "snowball earth"]
 
 using Markdown
 using InteractiveUtils
@@ -97,6 +97,16 @@ md"""
 The graph of `z=f(y,a)`  consists of two parallel half-planes. On the left below we intersect that graph with planes of constant `a`.  On the right, we have the intersection with `z=0`. 
 """
 
+# ╔═╡ 991f14bb-fc4a-4505-a3be-5ced2fb148b6
+
+
+# ╔═╡ 61960e99-2932-4a8f-9e87-f64a7a043489
+md"""
+a = $(@bind a Slider(-5:.1:5, show_value=true, default=0) )
+
+
+"""
+
 # ╔═╡ bd65e7f9-ecf2-43ac-b5a8-99b03866a5c8
 begin
 	plot( y->f(y,a, 0), -9, -eps(), xlabel="y" , ylabel="sign(y)-y+a", lw=3,color=:blue)
@@ -146,16 +156,6 @@ begin
 end
 end
 
-# ╔═╡ 991f14bb-fc4a-4505-a3be-5ced2fb148b6
-
-
-# ╔═╡ 61960e99-2932-4a8f-9e87-f64a7a043489
-md"""
-a = $(@bind a Slider(-5:.1:5, show_value=true, default=0) )
-
-
-"""
-
 # ╔═╡ 9acf9b8a-7fde-46c7-bf0c-c4dedc5a064b
 md"""
 The above are two section views of the surface z=f(y,a). Left: constant a.  Right: z =0.
@@ -177,9 +177,6 @@ The above are two section views of the surface z=f(y,a). Left: constant a.  Righ
 # ╔═╡ 6f61180d-6900-48fa-998d-36110e79d2dc
 gr()
 
-# ╔═╡ a09a0064-c6ab-4912-bc9f-96ab72b8bbca
-sol = solve(  ODEProblem( f, y₀, (0, 10.0), a ));
-
 # ╔═╡ 5027e1f8-8c50-4538-949e-6c95c550016e
 md"""
 ### Solution to y' = f(y,a) 
@@ -191,8 +188,8 @@ md"""
 y₀ = $(@bind y₀ Slider(-6:.1:6, show_value=true, default=2.0) )
 """
 
-# ╔═╡ a4686bca-90d6-4e02-961c-59f08fc37553
-plotit(y₀, a)
+# ╔═╡ a09a0064-c6ab-4912-bc9f-96ab72b8bbca
+sol = solve(  ODEProblem( f, y₀, (0, 10.0), a ));
 
 # ╔═╡ f8ee2373-6af0-4d81-98fb-23bde10198ef
 function plotit(y₀, a)
@@ -232,6 +229,9 @@ function plotit(y₀, a)
     title!("Solution to y'=f(y,a)")
 return(p)
 end
+
+# ╔═╡ a4686bca-90d6-4e02-961c-59f08fc37553
+plotit(y₀, a)
 
 # ╔═╡ a94b5160-f4bf-4ddc-9ee6-581ea20c8b90
 md"""
@@ -355,14 +355,6 @@ html"""
 <img src="https://news.cnrs.fr/sites/default/files/styles/asset_image_full/public/assets/images/frise_earths_glaciations_72dpi.jpg?itok=MgKrHlIV" height=500>
 """
 
-# ╔═╡ 066743eb-c890-40b9-9f6b-9f79b7ebcbd2
-md"""### 1.1) The ice-albedo feedback
-
-In Lecture 20, we used a **constant** value $α =$ $(Model.hist.α) for Earth's planetary albedo, which is a reasonable thing to do for small climate variations relative to the present (such as the difference between the present-day and preindustrial climates). In the case of large variations, however, this approximation is not very reliable.
-
-While oceans are dark and absorbant, $α_{ocean} \approx 0.05$, ice and snow are bright and reflective: $\alpha_{ice,\,snow} \approx 0.5$ to $0.9$. Thus, if much of the ocean's surface freezes over, we expect Earth's albedo to rise dramatically, causing more sunlight to be reflected to space, which in turn causes even more cooling and more of the ocean to freeze, etc. This *non-linear positive feedback effect* is referred to as the **ice-albedo feedback** (see illustration below).
-"""
-
 # ╔═╡ 70ec6ae9-601f-4862-96cb-f251d4b5a7fd
 html"""
 <img src="https://upload.wikimedia.org/wikipedia/commons/d/df/Ice_albedo_feedback.jpg" height=350>
@@ -379,37 +371,12 @@ $\alpha(T) = \begin{cases}
 \end{cases}$
 """
 
-# ╔═╡ 40b5e447-0cfb-4f35-8f95-6aa29793e5ad
-begin
-	T_example = -20.:1.:20.
-	plot(size=(600, 400), ylims=(0.2, 0.6))
-	plot!([-20, -10], [0.2, 0.2], fillrange=[0.6, 0.6], color=:lightblue, alpha=0.2, label=nothing)
-	plot!([10, 20], [0.2, 0.2], fillrange=[0.6, 0.6], color=:red, alpha=0.12, label=nothing)
-	plot!(T_example, α.(T_example), lw=3., label="α(T)", color=:black)
-	plot!(ylabel="albedo α\n(planetary reflectivity)", xlabel="Temperature [°C]")
-	annotate!(-15.5, 0.252, text("completely\nfrozen", 10, :darkblue))
-	annotate!(15.5, 0.252, text("no ice", 10, :darkred))
-	annotate!(-0.3, 0.252, text("partially frozen", 10, :darkgrey))
-	
-end
-
 # ╔═╡ fca6c4ec-4d0c-4f97-b966-ce3a81a18710
 md"""
 ### 1.2) Adding the ice-albedo feedback to our simple climate model
 
 First, we program albedo as a function of temperature.
 """
-
-# ╔═╡ b1fee17b-6522-4cf0-a614-5ff8aa8f8614
-function α(T; α0=Model.α, αi=0.5, ΔT=10.)
-	if T < -ΔT
-		return αi
-	elseif -ΔT <= T < ΔT
-		return αi + (α0-αi)*(T+ΔT)/(2ΔT)
-	elseif T >= ΔT
-		return α0
-	end
-end
 
 # ╔═╡ cfde8137-cfcd-46de-9c26-8abb64b6b3a9
 md"""
@@ -514,6 +481,39 @@ end
 
 end
 
+# ╔═╡ 066743eb-c890-40b9-9f6b-9f79b7ebcbd2
+md"""### 1.1) The ice-albedo feedback
+
+In Lecture 20, we used a **constant** value $α =$ $(Model.hist.α) for Earth's planetary albedo, which is a reasonable thing to do for small climate variations relative to the present (such as the difference between the present-day and preindustrial climates). In the case of large variations, however, this approximation is not very reliable.
+
+While oceans are dark and absorbant, $α_{ocean} \approx 0.05$, ice and snow are bright and reflective: $\alpha_{ice,\,snow} \approx 0.5$ to $0.9$. Thus, if much of the ocean's surface freezes over, we expect Earth's albedo to rise dramatically, causing more sunlight to be reflected to space, which in turn causes even more cooling and more of the ocean to freeze, etc. This *non-linear positive feedback effect* is referred to as the **ice-albedo feedback** (see illustration below).
+"""
+
+# ╔═╡ b1fee17b-6522-4cf0-a614-5ff8aa8f8614
+function α(T; α0=Model.α, αi=0.5, ΔT=10.)
+	if T < -ΔT
+		return αi
+	elseif -ΔT <= T < ΔT
+		return αi + (α0-αi)*(T+ΔT)/(2ΔT)
+	elseif T >= ΔT
+		return α0
+	end
+end
+
+# ╔═╡ 40b5e447-0cfb-4f35-8f95-6aa29793e5ad
+begin
+	T_example = -20.:1.:20.
+	plot(size=(600, 400), ylims=(0.2, 0.6))
+	plot!([-20, -10], [0.2, 0.2], fillrange=[0.6, 0.6], color=:lightblue, alpha=0.2, label=nothing)
+	plot!([10, 20], [0.2, 0.2], fillrange=[0.6, 0.6], color=:red, alpha=0.12, label=nothing)
+	plot!(T_example, α.(T_example), lw=3., label="α(T)", color=:black)
+	plot!(ylabel="albedo α\n(planetary reflectivity)", xlabel="Temperature [°C]")
+	annotate!(-15.5, 0.252, text("completely\nfrozen", 10, :darkblue))
+	annotate!(15.5, 0.252, text("no ice", 10, :darkred))
+	annotate!(-0.3, 0.252, text("partially frozen", 10, :darkgrey))
+	
+end
+
 # ╔═╡ e9942719-93cc-4203-8d37-8f91539104b1
 function Model.timestep!(ebm)
 	ebm.α = α(ebm.T[end]) # Added this line
@@ -552,14 +552,6 @@ begin
 	ebm_interact = Model.EBM(Float64(T0_interact), 0., 1., Model.CO2_const)
 	Model.run!(ebm_interact, 200)
 end
-
-# ╔═╡ 0b6bfab9-96e9-4d7a-a486-4582d7303244
-begin
-	p_interact = plot(ebm_interact.t, ebm_interact.T, label=nothing, lw=3)
-	plot!([0.], [T0_interact], label=nothing, markersize=4, markershape=:circle)
-	
-	add_labels!(p_interact)
-end |> as_svg
 
 # ╔═╡ 9b6edae8-fbf0-4979-9536-c0f782ba70a7
 md"We can get an overview of the behavior by drawing a set of these curves all on the same graph:"
@@ -662,61 +654,6 @@ md"In the Neoproterozoic (~700 million years ago), the Sun was 93% as bright as 
 If we start out in the Neoproterozoic climate and all we do is increase solar insolation to today's value of $S =$ 1368 W/m², can we warm the planet up to the pre-industrial temperature of $T=14$°C?
 "
 
-# ╔═╡ eb0307f1-c828-41f9-bc49-2aedd5b588e1
-begin
-	md"""
-	*Move the slider below to change the brightness of the Sun (solar insolation):* S = $(S) [W/m²]
-	"""
-end
-
-# ╔═╡ ada47602-2cf6-4ef5-b1ba-0b1c6f81ad91
-begin
-	if extend_S
-		solarSlider = @bind S Slider(Smin:2.:Smax, default=Sneo);
-		md""" $(Smin) W/m² $(solarSlider) $(Smax) W/m²"""
-	else
-		solarSlider = @bind S Slider(Smin:2.:Smax_limited, default=Sneo);
-		md""" $(Smin) W/m² $(solarSlider) $(Smax_limited) W/m²"""
-	end
-end
-
-# ╔═╡ 5ebe385f-3542-4674-b419-fb54519aa945
-begin
-	S
-	warming_mask = (1:size(Svec)[1]) .< size(Svec)./2
-	p = plot(xlims=(Smin, Smax_limited), ylims=(-55, 75), title="Earth's solar insolation bifurcation diagram")
-	# plot!([Model.S, Model.S], [-55, 75], color=:yellow, alpha=0.3, lw=8, label="Pre-industrial / present insolation")
-	# if extend_S
-	# 	plot!(p, xlims=(Smin, Smax))
-	# 	if show_cold
-	# 		plot!(Svec[warming_mask], Tvec[warming_mask], color=:blue,lw=3., alpha=0.5, label="cool branch")
-	# 	end
-	# 	if show_warm
-	# 		plot!(Svec[.!warming_mask], Tvec[.!warming_mask], color="red", lw=3., alpha=0.5, label="warm branch")
-	# 	end
-	# 	if show_unstable
-	# 		plot!(S_unstable, T_unstable, color=:darkgray, lw=3., alpha=0.4, ls=:dash, label="unstable branch")
-	# 	end
-	# end
-	# plot!(legend=:topleft)
-	# plot!(xlabel="solar insolation S [W/m²]", ylabel="Global temperature T [°C]")
-	# plot!([Model.S], [Model.T0], markershape=:circle, label="Our preindustrial climate", color=:orange, markersize=8)
-	# plot!([Model.S], [-38.3], markershape=:circle, label="Alternate preindustrial climate", color=:aqua, markersize=8)
-	# plot!([Sneo], [Tneo], markershape=:circle, label="neoproterozoic (700 Mya)", color=:lightblue, markersize=8)
-	plot_trajectory!(p, reverse(Straj), reverse(Ttraj), lw=9)
-	
-	plot!([Smin, Smax], [-60, -60], fillrange=[-10., -10.], fillalpha=0.3, c=:lightblue, label=nothing)
-	annotate!(Smin+12, -19, text("completely\nfrozen", 10, :darkblue, :left))
-	
-	plot!([Smin, Smax], [10, 10], fillrange=[80., 80.], fillalpha=0.09, c=:red, lw=0., label=nothing)
-	annotate!(Smin+12, 15, text("no ice", 10, :darkred, :left))
-end |> as_svg
-
-# ╔═╡ 72e822ef-0256-4612-8b6d-654ba6f6a83f
-md"""
-For insolations $S$ between $(Smin) W/m² and $(Smax_limited) W/m², temperatures always remain below -10°C and the planet remains completely frozen. What if we extend the upper limit on insolation so that the Sun becomes bright enough to start melting ice?
-"""
-
 # ╔═╡ 10815b22-b920-4cb7-a078-4d5ef457ebf2
 md"""*Extend upper-limit of insolation* $(@bind extend_S CheckBox(default=false))"""
 
@@ -784,7 +721,11 @@ In **Homework 10** (2020 class), you will build a simple two-dimensional version
 
 # ╔═╡ e3e0b838-19a9-4f9b-9026-0b546d3c416b
 html"""
-<iframe width="700" height="394" src="https://www.youtube-nocookie.com/embed/lYm_IyBHMUs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=lYm_IyBHMUs params="modestbranding=1&rel=0"></lite-youtube>
 """
 
 # ╔═╡ c2db5c70-b854-48b5-ba20-b64e2c7cf680
@@ -823,32 +764,6 @@ function restart_ebm!(ebm)
 	ebm.t = [ebm.t[1]]
 end
 
-# ╔═╡ 0b654bc2-9f01-42e5-a21d-e047ccbe43e2
-begin
-	ebm = Model.EBM(Tneo, 0., 5., Model.CO2_const)
-	ebm.S = Sneo
-	
-	ntraj = 10
-	Ttraj = repeat([NaN], ntraj)
-	Straj = repeat([NaN], ntraj)
-	
-	md"**Data structures for storing trajectories of recent climates**"
-end
-
-# ╔═╡ 7b21aa83-f4fc-48d2-81ac-c120dd421d73
-begin
-	S
-	restart_ebm!(ebm)
-	ebm.S = S
-	Model.run!(ebm, 500)
-
-	insert!(Straj, 1, copy(S))
-	pop!(Straj)
-
-	insert!(Ttraj, 1, copy(ebm.T[end]))
-	pop!(Ttraj)
-end;
-
 # ╔═╡ 80caaf52-062b-43c5-93c9-3bbdc2d61cec
 function plot_trajectory!(p, x, y; lw=8)
 	n = size(x,1)
@@ -878,6 +793,11 @@ begin
 	md"**Data structures for storing warm & cool branch climates**"
 end
 
+# ╔═╡ 72e822ef-0256-4612-8b6d-654ba6f6a83f
+md"""
+For insolations $S$ between $(Smin) W/m² and $(Smax_limited) W/m², temperatures always remain below -10°C and the planet remains completely frozen. What if we extend the upper limit on insolation so that the Sun becomes bright enough to start melting ice?
+"""
+
 # ╔═╡ ff687478-30a2-4d6e-9a62-859c61db6a34
 begin
 	T_unstable_branch(S, A, B, αi, α0) = (
@@ -901,12 +821,96 @@ function add_labels!(p)
 	annotate!(p, 120, 25, text("no ice", 10, :darkred))
 end
 
+# ╔═╡ 0b6bfab9-96e9-4d7a-a486-4582d7303244
+begin
+	p_interact = plot(ebm_interact.t, ebm_interact.T, label=nothing, lw=3)
+	plot!([0.], [T0_interact], label=nothing, markersize=4, markershape=:circle)
+	
+	add_labels!(p_interact)
+end |> as_svg
+
 # ╔═╡ f5361e48-e613-4fed-8da3-5576feea776d
 begin
 	Sneo = Model.S*0.93
 	Tneo = -48.
 	md"**Initial conditions**"
 end
+
+# ╔═╡ ada47602-2cf6-4ef5-b1ba-0b1c6f81ad91
+begin
+	if extend_S
+		solarSlider = @bind S Slider(Smin:2.:Smax, default=Sneo);
+		md""" $(Smin) W/m² $(solarSlider) $(Smax) W/m²"""
+	else
+		solarSlider = @bind S Slider(Smin:2.:Smax_limited, default=Sneo);
+		md""" $(Smin) W/m² $(solarSlider) $(Smax_limited) W/m²"""
+	end
+end
+
+# ╔═╡ eb0307f1-c828-41f9-bc49-2aedd5b588e1
+begin
+	md"""
+	*Move the slider below to change the brightness of the Sun (solar insolation):* S = $(S) [W/m²]
+	"""
+end
+
+# ╔═╡ 0b654bc2-9f01-42e5-a21d-e047ccbe43e2
+begin
+	ebm = Model.EBM(Tneo, 0., 5., Model.CO2_const)
+	ebm.S = Sneo
+	
+	ntraj = 10
+	Ttraj = repeat([NaN], ntraj)
+	Straj = repeat([NaN], ntraj)
+	
+	md"**Data structures for storing trajectories of recent climates**"
+end
+
+# ╔═╡ 5ebe385f-3542-4674-b419-fb54519aa945
+begin
+	S
+	warming_mask = (1:size(Svec)[1]) .< size(Svec)./2
+	p = plot(xlims=(Smin, Smax_limited), ylims=(-55, 75), title="Earth's solar insolation bifurcation diagram")
+	# plot!([Model.S, Model.S], [-55, 75], color=:yellow, alpha=0.3, lw=8, label="Pre-industrial / present insolation")
+	# if extend_S
+	# 	plot!(p, xlims=(Smin, Smax))
+	# 	if show_cold
+	# 		plot!(Svec[warming_mask], Tvec[warming_mask], color=:blue,lw=3., alpha=0.5, label="cool branch")
+	# 	end
+	# 	if show_warm
+	# 		plot!(Svec[.!warming_mask], Tvec[.!warming_mask], color="red", lw=3., alpha=0.5, label="warm branch")
+	# 	end
+	# 	if show_unstable
+	# 		plot!(S_unstable, T_unstable, color=:darkgray, lw=3., alpha=0.4, ls=:dash, label="unstable branch")
+	# 	end
+	# end
+	# plot!(legend=:topleft)
+	# plot!(xlabel="solar insolation S [W/m²]", ylabel="Global temperature T [°C]")
+	# plot!([Model.S], [Model.T0], markershape=:circle, label="Our preindustrial climate", color=:orange, markersize=8)
+	# plot!([Model.S], [-38.3], markershape=:circle, label="Alternate preindustrial climate", color=:aqua, markersize=8)
+	# plot!([Sneo], [Tneo], markershape=:circle, label="neoproterozoic (700 Mya)", color=:lightblue, markersize=8)
+	plot_trajectory!(p, reverse(Straj), reverse(Ttraj), lw=9)
+	
+	plot!([Smin, Smax], [-60, -60], fillrange=[-10., -10.], fillalpha=0.3, c=:lightblue, label=nothing)
+	annotate!(Smin+12, -19, text("completely\nfrozen", 10, :darkblue, :left))
+	
+	plot!([Smin, Smax], [10, 10], fillrange=[80., 80.], fillalpha=0.09, c=:red, lw=0., label=nothing)
+	annotate!(Smin+12, 15, text("no ice", 10, :darkred, :left))
+end |> as_svg
+
+# ╔═╡ 7b21aa83-f4fc-48d2-81ac-c120dd421d73
+begin
+	S
+	restart_ebm!(ebm)
+	ebm.S = S
+	Model.run!(ebm, 500)
+
+	insert!(Straj, 1, copy(S))
+	pop!(Straj)
+
+	insert!(Ttraj, 1, copy(ebm.T[end]))
+	pop!(Ttraj)
+end;
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -926,9 +930,9 @@ PlutoUI = "~0.7.48"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "e66b92acf8c2b79f1da184625521c7e51dc7301a"
+project_hash = "65f29cc5caf574b71d028732c605e65d9365d956"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -1041,7 +1045,7 @@ uuid = "2a0fbf3d-bb9c-48f3-b0a9-814d99fd7ab9"
 version = "0.1.27"
 
 [[deps.Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -1120,7 +1124,7 @@ version = "4.3.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -1399,9 +1403,9 @@ version = "0.21.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1634,9 +1638,9 @@ version = "1.42.0+0"
 
 [[deps.Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[deps.Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1938,9 +1942,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -2224,7 +2228,7 @@ version = "1.10.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]

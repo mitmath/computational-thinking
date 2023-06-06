@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "S71YIZ8e7MQ"
 #> description = ""
-#> tags = ["lecture", "module3"]
+#> tags = ["lecture", "module3", "epidemiology", "plotting", "ODE", "differential equation", "track_julia", "track_math", "programming", "DifferentialEquations", "type", "structure", "track_climate"]
 
 using Markdown
 using InteractiveUtils
@@ -132,9 +132,6 @@ md"""
 To set up the **problem** instance we use a type `ODEProblem` that is defined in the `DifferentialEquations.jl` package, into which we pass all the information necessary to define the problem. The parameters must go in the following order:
 """
 
-# ╔═╡ 6e7c8e9e-bef0-4bf8-b1b1-d50c82aa203e
-problem = ODEProblem(f, u0, time_span, p)
-
 # ╔═╡ b5379dc2-d97f-47ed-8737-35e3fe59285c
 md"""
 (For more advanced use there are also some additional, optional, keyword arguments.)
@@ -146,9 +143,6 @@ md"""
 To solve the ODE we call the `solve` function:
 """
 
-# ╔═╡ ff91515a-89a4-4423-a186-5572c712493d
-solution = solve(problem)
-
 # ╔═╡ 64b26404-1ca0-4aa4-bea0-3c9075b08298
 md"""
 What happened here? A suitable solver (i.e. an algorithm to calculate the solution) was chosen *automatically*, and it chose certain moments in time at which to output information about the (approximate, but very accurate) solution. 
@@ -157,9 +151,6 @@ In this particular case it chose to output data at only eight points in time bet
 
 Let's try to plot the `solution` object:
 """
-
-# ╔═╡ b07de2ce-640b-42d6-8b60-39fcbcd116e7
-plot(solution, size=(500, 300), label="solution")
 
 # ╔═╡ 0b1855de-a8c9-492e-a249-3238e41fe84c
 md"""
@@ -176,22 +167,10 @@ md"""
 The second surprise is that the output looks like a smooth curve, rather than just 8 points. Let's see those points on top of the curve. We can extract the relevant data from the `solution` object:
 """
 
-# ╔═╡ d65372df-e6ca-4165-8d9b-b21cc5c9f796
-scatter!(solution.t, solution.u, label="discrete output")
-
 # ╔═╡ b274c61b-4fab-4f4a-99df-5d39e0f56aa1
 md"""
 We see that the package in fact gives not only the value at those points, but it is in fact also capable of calculating an (approximate) solution at *any* intermediate point, using **interpolation**. In fact, we can access this by treating `solution` as if it were a function:
 """
-
-# ╔═╡ e3d9e0be-6cf4-4ae1-8c7f-b444a153a9f5
-begin
-	tt = 3.5
-	solution(tt)
-end
-
-# ╔═╡ 180bcdc1-5f51-4b32-8b9c-5000605cdf32
-scatter!([tt], [solution(tt)], label="t = $(tt)", ms=5, m=:square)
 
 # ╔═╡ 13b38f88-2ead-46b3-bc96-eae2ea10204d
 md"""
@@ -202,6 +181,27 @@ For this particular ODE we know the analytical solution. Let's compare them as w
 md"""
 p = $(@bind p Slider(0.0:0.1:2.0, show_value=true))
 """
+
+# ╔═╡ 6e7c8e9e-bef0-4bf8-b1b1-d50c82aa203e
+problem = ODEProblem(f, u0, time_span, p)
+
+# ╔═╡ ff91515a-89a4-4423-a186-5572c712493d
+solution = solve(problem)
+
+# ╔═╡ b07de2ce-640b-42d6-8b60-39fcbcd116e7
+plot(solution, size=(500, 300), label="solution")
+
+# ╔═╡ d65372df-e6ca-4165-8d9b-b21cc5c9f796
+scatter!(solution.t, solution.u, label="discrete output")
+
+# ╔═╡ e3d9e0be-6cf4-4ae1-8c7f-b444a153a9f5
+begin
+	tt = 3.5
+	solution(tt)
+end
+
+# ╔═╡ 180bcdc1-5f51-4b32-8b9c-5000605cdf32
+scatter!([tt], [solution(tt)], label="t = $(tt)", ms=5, m=:square)
 
 # ╔═╡ 0ed6d65c-707d-4666-b203-2ad0ea822687
 let
@@ -270,6 +270,20 @@ function SIR(x, p, t)
 		        
 end
 
+# ╔═╡ 7aa45efe-865d-4e0e-9c71-0c032c72c40d
+md"""
+Now we see that the solverr has recognised that everything is a vector, and it returns a vector at each time stamp.
+
+Again we can plot:
+"""
+
+# ╔═╡ 76cbc37d-54c8-4626-8bfe-58b63a602c38
+md"""
+β = $(@bind β Slider(-0.5:0.01:2.0, default=1.0, show_value=true))
+
+γ = $(@bind γ Slider(-0.5:0.01:2.0, default=0.1, show_value=true))
+"""
+
 # ╔═╡ d0f40681-73df-4cd3-bbd5-3edb8193153e
 params = [β, γ]
 
@@ -279,25 +293,8 @@ SIR_problem = ODEProblem(SIR, x0, (0.0, 50.0), params)
 # ╔═╡ 8ac7da6b-46e0-470b-91b3-1a61c226fa4a
 sol = solve(SIR_problem)
 
-# ╔═╡ 7aa45efe-865d-4e0e-9c71-0c032c72c40d
-md"""
-Now we see that the solverr has recognised that everything is a vector, and it returns a vector at each time stamp.
-
-Again we can plot:
-"""
-
-# ╔═╡ bca8112f-cb61-43dc-ae87-383915c8a89b
-gr()
-
 # ╔═╡ a766a141-5d7b-499f-9e18-48bf926ee7ea
 plot(sol)
-
-# ╔═╡ 76cbc37d-54c8-4626-8bfe-58b63a602c38
-md"""
-β = $(@bind β Slider(-0.5:0.01:2.0, default=1.0, show_value=true))
-
-γ = $(@bind γ Slider(-0.5:0.01:2.0, default=0.1, show_value=true))
-"""
 
 # ╔═╡ c2765282-bcc7-4110-9822-10557326461e
 md"""
@@ -306,22 +303,21 @@ It knows to plot each variable separately.
 We can instead plot combinations of variables in *phase space* or *state space*:
 """
 
-# ╔═╡ 7671506d-d4b7-4792-9571-e003097235e1
-gr()
-
 # ╔═╡ 203e90b0-4d0c-4999-8513-d4eb43f53aac
-plot(sol, vars=(1, 2), xlabel="s", ylabel="i", arrow=true, xlims=(-0.1, 1.0), size=(500, 300))
+plot(sol, idxs=(1, 2), xlabel="s", ylabel="i", arrow=true, xlims=(-0.1, 1.0), size=(500, 300))
 
 # ╔═╡ 326890ae-0675-4779-b5e8-9b3e0412a52b
 md"""
 And even in 3D:
 """
 
-# ╔═╡ d7025d1f-c3b8-461a-94dc-2414fbdfd373
-plotly()
-
 # ╔═╡ 7f5c41f9-96b9-40d6-87f8-3e81c372b48e
-plot(sol, vars=(1, 2, 3), xlabel="s", ylabel="i", zlabel="r")
+let
+	plotly()
+	p = plot(sol, vars=(1, 2, 3), xlabel="s", ylabel="i", zlabel="r")
+	gr()
+	p
+end
 
 # ╔═╡ d8f15e9b-aef1-4795-8522-85ea3564e351
 md"""
@@ -446,11 +442,11 @@ problem.tspan
 
 # ╔═╡ 9ef4aa78-2ecd-4d53-87ae-f0909bb46915
 md"""
-To see everything contained in the object, we can use `Dump` in Pluto, or `dump` if we are not using Pluto:
+To see everything contained in the object, we can use `dump`:
 """
 
 # ╔═╡ 798bc482-7556-4904-8946-0d9898ce2d33
-Dump(problem)
+dump(problem)
 
 # ╔═╡ 32e9f6e5-8df6-4d40-8092-efaf2bce28d3
 md"""
@@ -466,7 +462,7 @@ Similarly we can look inside the solution object:
 fieldnames(typeof(solution))
 
 # ╔═╡ f4c3b174-57ac-461b-a816-869460d8896d
-Dump(solution)
+dump(solution)
 
 # ╔═╡ 500973f5-faa7-4a31-b812-d0b20dbb9d82
 md"""
@@ -615,9 +611,9 @@ PlutoUI = "~0.7.48"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "b48a2ebd54d8ff6b6e42c00d3207d729135a6751"
+project_hash = "487bb43b85ea993e75ee5d27f6f9874e03e8f289"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -730,7 +726,7 @@ uuid = "2a0fbf3d-bb9c-48f3-b0a9-814d99fd7ab9"
 version = "0.1.27"
 
 [[deps.Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -809,7 +805,7 @@ version = "4.3.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -1088,9 +1084,9 @@ version = "0.21.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1323,9 +1319,9 @@ version = "1.42.0+0"
 
 [[deps.Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[deps.Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1632,9 +1628,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -1918,7 +1914,7 @@ version = "1.10.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -2271,14 +2267,11 @@ version = "1.4.1+0"
 # ╠═fd122a25-5655-410b-aa7f-34936fc97b53
 # ╠═8ac7da6b-46e0-470b-91b3-1a61c226fa4a
 # ╟─7aa45efe-865d-4e0e-9c71-0c032c72c40d
-# ╠═bca8112f-cb61-43dc-ae87-383915c8a89b
 # ╠═a766a141-5d7b-499f-9e18-48bf926ee7ea
 # ╟─76cbc37d-54c8-4626-8bfe-58b63a602c38
 # ╟─c2765282-bcc7-4110-9822-10557326461e
-# ╠═7671506d-d4b7-4792-9571-e003097235e1
 # ╠═203e90b0-4d0c-4999-8513-d4eb43f53aac
 # ╟─326890ae-0675-4779-b5e8-9b3e0412a52b
-# ╠═d7025d1f-c3b8-461a-94dc-2414fbdfd373
 # ╠═7f5c41f9-96b9-40d6-87f8-3e81c372b48e
 # ╟─d8f15e9b-aef1-4795-8522-85ea3564e351
 # ╟─e723400e-3f8f-47d6-8944-28355a54c698

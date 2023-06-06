@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 3
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "J1UsMa1cTeE"
 #> description = ""
-#> tags = ["lecture", "module3"]
+#> tags = ["lecture", "module3", "climate", "modeling", "track_climate", "track_math", "plotting", "data", "ODE", "differential equation", "CSV", "dataframe", "track_data"]
 
 using Markdown
 using InteractiveUtils
@@ -28,7 +28,10 @@ end
 
 # ╔═╡ c7d387fa-cd19-458c-a45d-7893e8c21bbf
 begin
-    using DifferentialEquations, Plots, PlutoUI, LinearAlgebra, CSV, DataFrames
+    using DifferentialEquations
+	using Plots, PlutoUI
+	using LinearAlgebra
+	using CSV, DataFrames
 end
 
 # ╔═╡ 14195fc4-40e1-4576-973a-69d649fddc02
@@ -112,17 +115,11 @@ md"""
 3. plot etc
 """
 
-# ╔═╡ 578a80ad-fcf1-4d5c-81e5-205113bbf78d
-sol = solve(  ODEProblem( f, y₀, (0, 10.0), (a, b, forcing(c)) ) );
-
 # ╔═╡ c1d87c42-e1e0-4e52-8023-6cc176266e86
 f(y,(a, b, forcing(c)),t) = a - b*y + forcing(c)(t)
 
 # ╔═╡ adb59adc-b30a-4dc4-bc3f-2804b7e02876
 forcing(c)  =  t->c*t
-
-# ╔═╡ 220420c1-e8cc-4ff6-8b79-ba2ec49c7695
-y₀
 
 # ╔═╡ 7bee45a5-fa62-455b-813a-3e5dcf430289
 md"""
@@ -134,6 +131,12 @@ y₀ = $(@bind y₀ Slider(-5:.1:15, show_value=true, default=2.0) )
 
 c = $(@bind c Slider(0:.1:5, show_value=true, default=0.0) )
 """
+
+# ╔═╡ 578a80ad-fcf1-4d5c-81e5-205113bbf78d
+sol = solve(  ODEProblem( f, y₀, (0, 10.0), (a, b, forcing(c)) ) );
+
+# ╔═╡ 220420c1-e8cc-4ff6-8b79-ba2ec49c7695
+y₀
 
 # ╔═╡ bda41881-75c7-4732-9a66-d7947607b1b6
 begin
@@ -162,16 +165,17 @@ begin
 end
 
 # ╔═╡ aba7fc93-c0ac-4c9e-b975-18145f87707f
-md"""#### 1) Background: climate physics
+md"""#### Background: climate physics
 
 The simplest climate model can be conceptualized as:
+```math
 \begin{align}
 \text{\color{brown}{change in heat content}} = & + \text{\color{orange}{absorbed solar radiation (energy from the Sun's rays)}} \newline
 & - \text{\color{blue}{outgoing thermal radiation (i.e. blackbody cooling to space)}}
 \newline
 & + \text{\color{grey}{human-caused greenhouse effect (trapped outgoing radiation)}}
 \end{align}
-
+```
 where each of these is interpreted as an average over the entire globe (hence "zero-dimensional").
 """
 
@@ -183,6 +187,27 @@ md"""
 ### 1.1 Incoming 🌞: Absorbed solar radiation
 (an example of $\mathrm{temp}$'=constant)
 """
+
+# ╔═╡ 5123525a-3437-4b76-813c-8ad6b158f7f2
+md"""
+##### (Heating the earth nonstop)
+"""
+
+# ╔═╡ 087f47b2-8283-4205-88f2-4d5883a340c2
+md"""
+
+
+At Earth's orbital distance from the Sun, the power of the Sun's rays that intercept the Earth is equal to
+"""
+
+# ╔═╡ 9c89c4e9-65ee-4424-bd74-17168b211797
+S = 1368; # solar insolation [W/m^2]  (energy per unit time per unit area)
+
+# ╔═╡ ca5b41d2-b511-486a-91fe-cceb8f7282c3
+md"A small fraction"
+
+# ╔═╡ 13984c61-4c34-40db-9043-fcff2721522e
+α = 0.3; # albedo, or planetary reflectivity [unitless]
 
 # ╔═╡ d74936e9-b760-4add-b3e7-46d544064c16
 md"""
@@ -201,40 +226,8 @@ In our baking the earth example, we will identify the following quantities:
 
 Earth Baking Formula:
 $(html"<br>")
- `` C\  \mathrm{temp}'(t) = S(1-α)/4 = `` $(S*(1-α)/4)
+ `` C\  \mathrm{temp}'(t) = S(1-α)/4 = `` $(round(S*(1-α)/4; sigdigits=4))
 """
-
-# ╔═╡ 5123525a-3437-4b76-813c-8ad6b158f7f2
-md"""
-##### (Heating the earth nonstop)
-"""
-
-# ╔═╡ 2f19cbac-4f13-4c2b-9b11-fb92e8055527
-begin
-	plot(solve(p1),       legend = false, 
-		 background_color_inside = :black,
-		                  xlabel = "years from $(1850)",
-	                      ylabel = "Temperature °C")
-	hline!( [temp₀,temp₀] ,c=:white,ls=:dash)
-	annotate!( 80, 25+temp₀, text("Preindustrial Temperature = $(temp₀)°C",color=:white))
-	title!("Absorbing Solar Radiation (only)")
-end
-
-# ╔═╡ 087f47b2-8283-4205-88f2-4d5883a340c2
-md"""
-
-
-At Earth's orbital distance from the Sun, the power of the Sun's rays that intercept the Earth is equal to
-"""
-
-# ╔═╡ 9c89c4e9-65ee-4424-bd74-17168b211797
-S = 1368; # solar insolation [W/m^2]  (energy per unit time per unit area)
-
-# ╔═╡ ca5b41d2-b511-486a-91fe-cceb8f7282c3
-md"A small fraction"
-
-# ╔═╡ 13984c61-4c34-40db-9043-fcff2721522e
-α = 0.3; # albedo, or planetary reflectivity [unitless]
 
 # ╔═╡ 868e19f4-d71e-4222-9bdd-470387991c67
 md"""
@@ -259,7 +252,22 @@ begin
 end
 
 # ╔═╡ 7187ae25-239d-4752-898e-6674009b5de6
- p1 = ODEProblem( (temp, p, t)-> (1/C) * absorbed_solar_radiation, temp₀,  (0.0, 170) )
+p1 = ODEProblem(
+	(temp, p, t) -> (1/C) * absorbed_solar_radiation,
+	temp₀,
+	(0.0, 170)
+)
+
+# ╔═╡ 2f19cbac-4f13-4c2b-9b11-fb92e8055527
+begin
+	plot(solve(p1),       legend = false, 
+		 background_color_inside = :black,
+		                  xlabel = "years from $(1850)",
+	                      ylabel = "Temperature °C")
+	hline!( [temp₀,temp₀] ,c=:white,ls=:dash)
+	annotate!( 80, 25+temp₀, text("Preindustrial Temperature = $(temp₀)°C",color=:white))
+	title!("Absorbing Solar Radiation (only)")
+end
 
 # ╔═╡ ad1e294e-ad8a-48f9-b924-2474cce16aaf
 md"""The heat content $C temp$ is determined by the temperature $temp$ (in Kelvin) and the heat capacity of the climate system. While we are interested in the temperature of the atmosphere, which has a very small heat capacity, its heat is closely coupled with that of the upper ocean, which has a much larger heat capacity of 
@@ -347,17 +355,14 @@ CO₂_PreIndust = 280.; # preindustrial CO2 concentration [parts per million; pp
 # ╔═╡ 437faadd-0301-403a-bcd7-18ce279589d0
 greenhouse_effect(CO₂) = forcing_coef * log(CO₂/CO₂_PreIndust)
 
-# ╔═╡ 1a4d21bd-85ad-4935-913a-8992a8996db4
-greenhouse_effect(CO₂(15))
-
 # ╔═╡ ee6414b7-e92d-4055-af17-6b02f05c28cd
 begin
 	CO2_present = 420.
 	CO2_range = 280*(2 .^(range(-1, stop=3,length=100)))
 	plot(CO2_range, greenhouse_effect.(CO2_range), lw=2.5, label=nothing, color=:black)
-	plot!([CO₂_PreIndust], [greenhouse_effect(CO₂_PreIndust)], marker=:., ms=6, linecolor=:white,
+	plot!([CO₂_PreIndust], [greenhouse_effect(CO₂_PreIndust)], marker=:circle, ms=6, linecolor=:white,
 		color=:blue, lw=0, label="pre-industrial (PI)")
-	plot!([CO2_present], [greenhouse_effect(CO2_present)], marker=:., ms=6, color=:red, linecolor=:white, lw=0, label="present day (2020)")
+	plot!([CO2_present], [greenhouse_effect(CO2_present)], marker=:circle, ms=6, color=:red, linecolor=:white, lw=0, label="present day (2020)")
 	plot!(xticks=[280, 280*2, 280*4, 280*8], legend=:bottomright, size=(400, 250))
 	plot!(ylabel="Radiative forcing [W/m²]", xlabel="CO₂ concentration [ppm]")
 end
@@ -368,6 +373,9 @@ begin
 	 # CO₂(t) = CO₂_PreIndust * 1.01^t # test model
 	 CO₂(t) = CO₂_PreIndust * (1+ (t/220)^3 ) 
 end
+
+# ╔═╡ 1a4d21bd-85ad-4935-913a-8992a8996db4
+greenhouse_effect(CO₂(15))
 
 # ╔═╡ 99629ec2-dc70-4253-b191-305bccc9f36b
 p3 = ODEProblem( (temp, p, t)-> (1/C) * ( B*(temp₀-temp)  + greenhouse_effect(CO₂(t))    ) , start_temp,  (0.0, 170) )
@@ -386,43 +394,38 @@ end
 
 # ╔═╡ 0b24f105-0166-4a41-97aa-156417d7203a
 begin
-	years = 1850:2020
+	years = 1850:2030
 	plot( years, CO₂.(years.-1850), lw=3, legend=false)
+	xlabel!("year")
+	ylabel!("CO₂ (ppm)")
 end
 
 # ╔═╡ c6f8dcf6-950d-48ff-b040-55bdd347d74b
 md"""
-### Observations from Mauna Loa Volcano ![Mauna Loa Volcano](https://i.pinimg.com/originals/df/1a/e7/df1ae72cfd5e6d0d535c0ec99e708f6f.jpg)
-"""
+### Observations from Mauna Loa Volcano 
 
-# ╔═╡ cd1dcbc4-2273-4eda-85d9-9af4fd71b3c1
-md"""
+![Mauna Loa Volcano](https://i.pinimg.com/originals/df/1a/e7/df1ae72cfd5e6d0d535c0ec99e708f6f.jpg)
+
 information is available at
 [https://www.ncei.noaa.gov/pub/data/paleo/icecore/antarctica/law/law2006.txt]
 (https://www.ncei.noaa.gov/pub/data/paleo/icecore/antarctica/law/law2006.txt).
 """
 
 # ╔═╡ df4e8359-af8b-4bd5-aca0-7f6dd84859d4
-CO2_historical_data_url = "https://scrippsco2.ucsd.edu/assets/data/atmospheric/stations/in_situ_co2/monthly/monthly_in_situ_co2_mlo.csv"
+CO2_historical_data_url = "https://gml.noaa.gov/webdata/ccgg/trends/co2/co2_mm_mlo.csv"
 
 # ╔═╡ 1cd9366a-99df-48d6-8879-7f0e786f3f34
-CO2_historical_filename = download(CO2_historical_data_url)
-
-# ╔═╡ 734df847-513f-4f12-b3b6-71f1336fabe2
-
-
-# ╔═╡ 602bc054-2a5d-46d1-b76f-7f302ea46b08
-
+CO2_historical_path = download(CO2_historical_data_url)
 
 # ╔═╡ c3b0b7fc-19be-4f04-8787-6349ab9bff7f
 begin
 
-	offset = findfirst(!startswith("\""), readlines(CO2_historical_filename))
+	offset = findfirst(!startswith("#"), readlines(CO2_historical_path))
 
 	CO2_historical_data_raw = CSV.read(
-		CO2_historical_filename, DataFrame; 
+		CO2_historical_path, DataFrame; 
 		header=offset, 
-		skipto=offset + 3,
+		skipto=offset + 1,
 	);
 
 
@@ -431,7 +434,7 @@ end
 
 # ╔═╡ f5c2d0de-f5d2-43f2-bfca-41bd727b3ca9
 md"""
-Data is in the fifth column CO₂
+Data is in the column `"average"`.
 """
 
 # ╔═╡ ef9d9512-cb40-4641-9d6a-5a36f5a4b33d
@@ -440,36 +443,23 @@ Oh no, missing data (-99.99)
 """
 
 # ╔═╡ 2bc4c596-b313-49f6-84b5-5d53f2baf0e9
-validrowsmask = CO2_historical_data_raw[:, "     CO2"] .> 0
+validrowsmask = CO2_historical_data_raw[:, "average"] .> 0
 
 # ╔═╡ 0e267f87-8888-43b8-b1c0-905de7a4e333
 CO2_historical_data = CO2_historical_data_raw[validrowsmask,:];
 
 # ╔═╡ 648dfce3-5363-4539-8f41-f5d27bae4c6f
 begin
-	begin
-		plot( CO2_historical_data[:, "      Date"] , CO2_historical_data[:, "     CO2"], label="Mauna Loa CO₂ data (Keeling curve)")
-		plot!( years, CO₂.(years.-1850), lw=3 , label="Cubic Fit", legend=:topleft)
-		xlabel!("year")
-		ylabel!("CO₂ (ppm)")
-		title!("CO₂ observations and fit")
-		
-	end
+	plot( CO2_historical_data[:, "decimal date"] , CO2_historical_data[:, "average"], label="Mauna Loa CO₂ data (Keeling curve)")
+	plot!( years, CO₂.(years.-1850), lw=3 , label="Cubic Fit", legend=:topleft)
+
+	title!("CO₂ observations and fit")
 end
 
 # ╔═╡ 288bfc6b-6848-40d5-916b-95a8a4248a4f
 md"""
 We will use this fit to compare against historical temperatures.
 """
-
-# ╔═╡ a62ca8d1-321a-435e-a9df-f63d000376c7
-begin
-	plot(years,solp4.(years.-1850),lw=2,label="Predicted Temperature from model", legend=:topleft)
-	xlabel!("year")
-	ylabel!("Temp °C")
-	
-	plot!( parse.(Float64, T_df[:,1]), parse.(Float64, T_df[:,2]) .+ 14.15, color=:black, label="NASA Observations", legend=:topleft)
-end
 
 # ╔═╡ 3304174c-289d-47c5-b5ef-161b11e515eb
 md"""
@@ -507,7 +497,11 @@ md"Although the greenhouse effect due to human-caused CO₂ emissions is the dom
 
 # ╔═╡ 2368f16c-9805-4dd6-a130-d831211f6155
 html"""
-<iframe width="700" height="394" src="https://www.youtube-nocookie.com/embed/E7kMr2OYKSU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=E7kMr2OYKSU params="modestbranding=1&rel=0"></lite-youtube>
 """
 
 
@@ -517,9 +511,18 @@ solp4 = solve(p4)
 # ╔═╡ b38727a9-72ff-499f-9751-ddfeee21959c
 begin
 	T_url = "https://data.giss.nasa.gov/gistemp/graphs/graph_data/Global_Mean_Estimates_based_on_Land_and_Ocean_Data/graph.txt";
-	T_df = CSV.read(download(T_url),DataFrame, header=false, datarow=6,delim="     ");
+	T_df = CSV.read(download(T_url),DataFrame, header=false, skipto=6,delim="     ");
     # T_df = T_df[:,[1,6]]
 	
+end
+
+# ╔═╡ a62ca8d1-321a-435e-a9df-f63d000376c7
+begin
+	plot(years,solp4.(years.-1850),lw=2,label="Predicted Temperature from model", legend=:topleft)
+	xlabel!("year")
+	ylabel!("Temp °C")
+	
+	plot!( parse.(Float64, T_df[:,1]), parse.(Float64, T_df[:,2]) .+ 14.15, color=:black, label="NASA Observations", legend=:topleft)
 end
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -544,9 +547,9 @@ PlutoUI = "~0.7.48"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "675b292a5430144b64b09d99ff93e4edc0c0bc5b"
+project_hash = "0b3097e83fa62e56b083ce43b2c2144f735286cb"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -665,7 +668,7 @@ uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 version = "0.10.7"
 
 [[deps.Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -744,7 +747,7 @@ version = "4.3.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -1040,9 +1043,9 @@ version = "0.21.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1286,9 +1289,9 @@ version = "1.42.0+0"
 
 [[deps.Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[deps.Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1602,9 +1605,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[deps.QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -1894,7 +1897,7 @@ version = "1.10.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -2213,8 +2216,8 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═c7d387fa-cd19-458c-a45d-7893e8c21bbf
 # ╟─14195fc4-40e1-4576-973a-69d649fddc02
+# ╠═c7d387fa-cd19-458c-a45d-7893e8c21bbf
 # ╟─92883ed9-5572-41fd-96c7-190279f90804
 # ╟─340fc7c4-128f-4476-b445-65005ffa9f5a
 # ╟─7673c7b7-0921-4a7e-ae4d-e785c6391a0c
@@ -2232,7 +2235,7 @@ version = "1.4.1+0"
 # ╟─aba7fc93-c0ac-4c9e-b975-18145f87707f
 # ╟─b9eca29e-9028-4fd7-8c62-718a2dcf87d1
 # ╟─dabca25c-e34b-4aed-8729-132d03c5bb45
-# ╟─d74936e9-b760-4add-b3e7-46d544064c16
+# ╠═d74936e9-b760-4add-b3e7-46d544064c16
 # ╟─5123525a-3437-4b76-813c-8ad6b158f7f2
 # ╠═2f19cbac-4f13-4c2b-9b11-fb92e8055527
 # ╟─087f47b2-8283-4205-88f2-4d5883a340c2
@@ -2258,17 +2261,14 @@ version = "1.4.1+0"
 # ╠═35184e6f-ac3e-480b-92e9-ed8baaaa833b
 # ╠═437faadd-0301-403a-bcd7-18ce279589d0
 # ╠═1a4d21bd-85ad-4935-913a-8992a8996db4
-# ╟─ee6414b7-e92d-4055-af17-6b02f05c28cd
+# ╠═ee6414b7-e92d-4055-af17-6b02f05c28cd
 # ╠═fac5012a-960c-473c-bbf0-62c0be87f608
 # ╠═99629ec2-dc70-4253-b191-305bccc9f36b
 # ╠═6b2beeec-6383-42b3-b694-8d77b961c8a1
 # ╠═0b24f105-0166-4a41-97aa-156417d7203a
 # ╟─c6f8dcf6-950d-48ff-b040-55bdd347d74b
-# ╟─cd1dcbc4-2273-4eda-85d9-9af4fd71b3c1
 # ╠═df4e8359-af8b-4bd5-aca0-7f6dd84859d4
 # ╠═1cd9366a-99df-48d6-8879-7f0e786f3f34
-# ╠═734df847-513f-4f12-b3b6-71f1336fabe2
-# ╠═602bc054-2a5d-46d1-b76f-7f302ea46b08
 # ╠═c3b0b7fc-19be-4f04-8787-6349ab9bff7f
 # ╟─f5c2d0de-f5d2-43f2-bfca-41bd727b3ca9
 # ╟─ef9d9512-cb40-4641-9d6a-5a36f5a4b33d
