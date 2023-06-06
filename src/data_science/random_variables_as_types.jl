@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "xKAO38UsXo0"
 #> description = ""
-#> tags = ["lecture", "module2"]
+#> tags = ["lecture", "module2", "track_julia", "type", "programming", "probability", "interactive", "random", "track_math", "Symbolics"]
 
 using Markdown
 using InteractiveUtils
@@ -26,11 +26,11 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ 5d62e16c-8fd9-11eb-1c44-0b0232614011
-TableOfContents(aside=true)
-
 # ╔═╡ 103cd2f4-903c-11eb-1116-a51dc540175c
 using Statistics, Plots, PlutoUI, LinearAlgebra, Symbolics
+
+# ╔═╡ 5d62e16c-8fd9-11eb-1c44-0b0232614011
+TableOfContents(aside=true)
 
 # ╔═╡ 6bbfa37e-8ffe-11eb-3031-19ea76a6a8d2
 md"""
@@ -85,35 +85,11 @@ Let's remind ourselves of a very important type of distribution, namely the **Ga
 We can sample from a Gaussian distribution with mean $0$ and variance $1$ with the `randn` function (short for "random normal"). We can then shift and scale to get the Gaussian distribution that we want:
 """
 
-# ╔═╡ b11d964e-8fd4-11eb-3f6a-43e8d2fa462c
-data = μ .+ σ .* randn(10^5)   # transform standard normal
-
 # ╔═╡ d8b74772-8fd4-11eb-3943-f98c29d02171
 md"""
 μ = $(@bind μ Slider(-3:0.01:3, show_value=true, default=0.0))
 σ = $(@bind σ Slider(0.01:0.01:3, show_value=true, default=1.0))
 """
-
-# ╔═╡ b8c253f8-8fd4-11eb-304a-b1be962687e4
-begin
-	histogram(data, alpha=0.2, norm=true, bins=100, leg=false, title="μ=$(μ), σ=$(σ)", size=(500, 300))
-	xlims!(-6, 6)
-	ylims!(0, 0.7)
-	
-	
-	xs = [μ - σ, μ, μ + σ]
-	
-	plot!(-6:0.01:6, x -> bell_curve(x, μ, σ), lw=2)
-	
-	plot!((μ - σ):0.01:(μ + σ), x -> bell_curve(x, μ, σ), fill=true, alpha=0.5, c=:purple)
-	
-	plot!([μ, μ], [0.05, bell_curve(μ, μ, σ)], ls=:dash, lw=2, c=:white)
-	annotate!(μ, 0.03, text("μ", :white))
-#	annotate!(μ + σ, 0.03, text("μ+σ", :yellow))
-#	annotate!(μ, 0.03, text("μ", :white))
-
-	
-end
 
 # ╔═╡ ad7b3bee-8fd5-11eb-06f6-b39738d4b1fd
 bell_curve(x) = exp(-x^2 / 2) / √(2π)
@@ -133,23 +109,6 @@ md"""
 md"""
 Let's try to *add* two Gaussians. From the empirical (experimental) point of view the sum of two random variables is easy to compute: Just sample both of them and add the resulting values to get the value of the random variable that is their sum:
 """
-
-# ╔═╡ 2be60570-8fd8-11eb-0bdf-951280dc6181
-begin
-	data1 = 4 .+ sqrt(0.3) .* randn(10^5)
-	data2 = 6 .+ sqrt(0.7) .* randn(10^5)
-	
-	total = data1 + data2
-end
-
-# ╔═╡ 5e094b52-8fd8-11eb-2ac4-5797599ab013
-histogram(total, alpha=0.5, leg=false, norm=true, size=(500, 300))
-
-# ╔═╡ bd083794-8fd8-11eb-0155-e59fe27d64f2
-Statistics.mean(total)
-
-# ╔═╡ a32079ea-8fd8-11eb-01c4-81b603033b55
-Statistics.std(total)
 
 # ╔═╡ 79fb368c-8fd9-11eb-1c9c-bd0ceb122b11
 md"""
@@ -307,12 +266,6 @@ begin
 	Statistics.var(X::Gaussian) = X.σ²
 end
 
-# ╔═╡ 4596edec-8fdb-11eb-1369-f3e98cb831cd
-mean(G)
-
-# ╔═╡ 255d51b6-8ff3-11eb-076c-31ba4c5ce10d
-var(G)
-
 # ╔═╡ 43292298-8ff7-11eb-2b9d-017acc9ef185
 md"""
 ### Planning ahead: Standard deviation for *any* random variable, not just Gaussians
@@ -323,16 +276,10 @@ md"""
 Once we have defined the variance, we know how to calculate the standard deviation: it's just the square root of the variance. But, thinking ahead, this is true for *any* random variable, so we can define it to act on any random variable that we will define later!:
 """
 
-# ╔═╡ 11ef1d18-8ff7-11eb-1645-113c1aae6e9b
-Statistics.std(X::RandomVariable) = sqrt(var(X))
-
 # ╔═╡ 592afd96-8ff7-11eb-1200-47eaf6b6a28a
 md"""
 This is an example of good software design.
 """
-
-# ╔═╡ 4ef2153a-8fdb-11eb-1a23-8b1c28381e34
-std(G)
 
 # ╔═╡ 76f4424e-8fdc-11eb-35ee-dd09752b947b
 md"""
@@ -352,12 +299,6 @@ begin
 	G1 = Gaussian(0, 1)
 	G2 = Gaussian(5, 6)
 end
-
-# ╔═╡ 6b50e9e6-8fd3-11eb-0ab3-6fc3efea7e37
-G1 + G2
-
-# ╔═╡ 5300b082-8fdb-11eb-03fe-55f511364ad9
-mean(G1 + G2) == mean(G1) + mean(G2)
 
 # ╔═╡ ac3a7c18-8ff3-11eb-1c1f-17939cff40f9
 md"""
@@ -397,18 +338,18 @@ pdf(G)
 # ╔═╡ b63c02e4-8ff4-11eb-11f6-d760e8760118
 pdf(Gaussian())(0.0)
 
+# ╔═╡ cd9b10f0-8ff5-11eb-1671-99c6738b8074
+md"""
+μ = $(@bind μμ Slider(-3:0.01:3, show_value=true, default=0.0))
+σ = $(@bind σσ Slider(0.01:0.01:3, show_value=true, default=1.0))
+"""
+
 # ╔═╡ a899fc08-8ff5-11eb-1d00-e95b55c3be4b
 begin
 	plot(pdf(Gaussian(μμ, σσ)), leg=false)
 	xlims!(-6, 6)
 	ylims!(0, 0.5)
 end
-
-# ╔═╡ cd9b10f0-8ff5-11eb-1671-99c6738b8074
-md"""
-μ = $(@bind μμ Slider(-3:0.01:3, show_value=true, default=0.0))
-σ = $(@bind σσ Slider(0.01:0.01:3, show_value=true, default=1.0))
-"""
 
 # ╔═╡ 0b901c34-8ff6-11eb-225b-511718412309
 md"""
@@ -419,12 +360,6 @@ md"""
 md"""
 We can also specify how to sample from a Gaussian distribution. We can re-purpose `rand` for this!
 """
-
-# ╔═╡ 180a4746-8ff6-11eb-046f-ddf6bb938a35
-Base.rand(X::Gaussian) = X.μ + √(X.σ²) * randn()
-
-# ╔═╡ 27595716-8ff6-11eb-1d99-7bf13eedddf7
-histogram!([rand(Gaussian(μμ, σσ)) for i in 1:10^4], alpha=0.5, norm=true)
 
 # ╔═╡ bfb62f1a-8ff5-11eb-0f7a-cf725f3269c5
 md"""
@@ -456,9 +391,6 @@ begin
 	Statistics.mean(X::Bernoulli) = X.p
 	Statistics.var(X::Bernoulli) = X.p * (1 - X.p)
 end
-
-# ╔═╡ 52a2cac8-8ff8-11eb-2da4-0b113618c64b
-mean(B), var(B), std(B)
 
 # ╔═╡ 6a06b64e-903f-11eb-0d23-53f223ed1ed3
 md"""
@@ -514,6 +446,23 @@ Now we can define the sum of two random variables of *any* type:
 # ╔═╡ 44a5ef96-8ff9-11eb-06a0-d3a8dcf5c1aa
 Base.:+(X1::RandomVariable, X2::RandomVariable) = SumOfTwoRandomVariables(X1, X2)
 
+# ╔═╡ b11d964e-8fd4-11eb-3f6a-43e8d2fa462c
+data = μ .+ σ .* randn(10^5)   # transform standard normal
+
+# ╔═╡ 2be60570-8fd8-11eb-0bdf-951280dc6181
+begin
+	data1 = 4 .+ sqrt(0.3) .* randn(10^5)
+	data2 = 6 .+ sqrt(0.7) .* randn(10^5)
+	
+	total = data1 + data2
+end
+
+# ╔═╡ 6b50e9e6-8fd3-11eb-0ab3-6fc3efea7e37
+G1 + G2
+
+# ╔═╡ 180a4746-8ff6-11eb-046f-ddf6bb938a35
+Base.rand(X::Gaussian) = X.μ + √(X.σ²) * randn()
+
 # ╔═╡ d8437e6c-903f-11eb-3ac2-5f7c380c0872
 md"""
 For example, let's sum two Bernoullis:
@@ -538,6 +487,15 @@ Now we need to define the various functions on this type representing a sum
 # ╔═╡ 90ee7558-8ff9-11eb-3602-271890987ece
 Statistics.mean(S::SumOfTwoRandomVariables) = mean(S.X1) + mean(S.X2)
 
+# ╔═╡ bd083794-8fd8-11eb-0155-e59fe27d64f2
+Statistics.mean(total)
+
+# ╔═╡ 4596edec-8fdb-11eb-1369-f3e98cb831cd
+mean(G)
+
+# ╔═╡ 5300b082-8fdb-11eb-03fe-55f511364ad9
+mean(G1 + G2) == mean(G1) + mean(G2)
+
 # ╔═╡ a168ace6-8ff9-11eb-393d-45c34fdf577c
 mean(B1 + B2)
 
@@ -548,6 +506,21 @@ To have a simple equation for the variance, we need to assume that the two rando
 
 # ╔═╡ d88c0830-8ff9-11eb-3e71-c1ac327f4e25
 Statistics.var(S::SumOfTwoRandomVariables) = var(S.X1) + var(S.X2)
+
+# ╔═╡ 255d51b6-8ff3-11eb-076c-31ba4c5ce10d
+var(G)
+
+# ╔═╡ 11ef1d18-8ff7-11eb-1645-113c1aae6e9b
+Statistics.std(X::RandomVariable) = sqrt(var(X))
+
+# ╔═╡ a32079ea-8fd8-11eb-01c4-81b603033b55
+Statistics.std(total)
+
+# ╔═╡ 4ef2153a-8fdb-11eb-1a23-8b1c28381e34
+std(G)
+
+# ╔═╡ 52a2cac8-8ff8-11eb-2da4-0b113618c64b
+mean(B), var(B), std(B)
 
 # ╔═╡ dd995120-8ff9-11eb-1a53-2d65f0b5585a
 md"""
@@ -567,15 +540,6 @@ md"""
 Let's extend the `histogram` function to easily draw the histogram of a random variable:
 """
 
-# ╔═╡ 4493ac9e-8ffb-11eb-15c9-a146091d7696
-Plots.histogram(X::RandomVariable; kw...) = histogram([rand(X) for i in 1:10^6], norm=true, leg=false, alpha=0.5, size=(500, 300), kw...)
-
-# ╔═╡ a591ac12-8ffb-11eb-1734-09657f875b1e
-histogram(Bernoulli(0.25) + Bernoulli(0.75))
-
-# ╔═╡ 6c5ef6d4-8ffb-11eb-2fe9-9dd87d92abe4
-histogram(Bernoulli(0.25) + Gaussian(0, 0.1))
-
 # ╔═╡ 1d4e236c-8ffb-11eb-209d-851e1af231d4
 md"""
 Now... What if we sum more random variables?
@@ -583,12 +547,6 @@ Now... What if we sum more random variables?
 
 # ╔═╡ 0c3cfb16-8ffb-11eb-3ef9-33ea9acbb8c0
 mixture = Bernoulli(0.25) + Bernoulli(0.75) + Gaussian(0, 0.1)
-
-# ╔═╡ 325560f4-8ffb-11eb-0e9b-53f6869bdd97
-rand( mixture )
-
-# ╔═╡ 89138e02-8ffb-11eb-2ad2-c32e663f57b0
-histogram( mixture )
 
 # ╔═╡ 71cf1724-9040-11eb-25c3-69ccde4abf0d
 md"""
@@ -608,17 +566,11 @@ md"""
 Note that we do not need the `[...]` in the following expression. There is no need to actually create an array of random variables; instead we are using an **iterator** or **generator expression**:
 """
 
-# ╔═╡ bf9a4722-8ffb-11eb-1652-f1bfb4916d2a
-histogram(S)
-
 # ╔═╡ 611f770c-8ffc-11eb-2c23-0d5750afd7c8
 mean(S)
 
 # ╔═╡ 636b2ce0-8ffc-11eb-2411-571f78fb8a84
 var(S)
-
-# ╔═╡ c7613c44-8ffc-11eb-0a43-dbc8b1f62be9
-rand(S)
 
 # ╔═╡ 656999be-8ffc-11eb-0f51-51d5a162a004
 md"""
@@ -648,6 +600,54 @@ end
 
 # ╔═╡ b5300720-8ffd-11eb-2ca4-ed7a7c9b5516
 Base.rand(X::ChiSquared1) = rand(Gaussian())^2
+
+# ╔═╡ 27595716-8ff6-11eb-1d99-7bf13eedddf7
+histogram!([rand(Gaussian(μμ, σσ)) for i in 1:10^4], alpha=0.5, norm=true)
+
+# ╔═╡ 4493ac9e-8ffb-11eb-15c9-a146091d7696
+Plots.histogram(X::RandomVariable; kw...) = histogram([rand(X) for i in 1:10^6], norm=true, leg=false, alpha=0.5, size=(500, 300), kw...)
+
+# ╔═╡ b8c253f8-8fd4-11eb-304a-b1be962687e4
+begin
+	histogram(data, alpha=0.2, norm=true, bins=100, leg=false, title="μ=$(μ), σ=$(σ)", size=(500, 300))
+	xlims!(-6, 6)
+	ylims!(0, 0.7)
+	
+	
+	xs = [μ - σ, μ, μ + σ]
+	
+	plot!(-6:0.01:6, x -> bell_curve(x, μ, σ), lw=2)
+	
+	plot!((μ - σ):0.01:(μ + σ), x -> bell_curve(x, μ, σ), fill=true, alpha=0.5, c=:purple)
+	
+	plot!([μ, μ], [0.05, bell_curve(μ, μ, σ)], ls=:dash, lw=2, c=:white)
+	annotate!(μ, 0.03, text("μ", :white))
+#	annotate!(μ + σ, 0.03, text("μ+σ", :yellow))
+#	annotate!(μ, 0.03, text("μ", :white))
+
+	
+end
+
+# ╔═╡ 5e094b52-8fd8-11eb-2ac4-5797599ab013
+histogram(total, alpha=0.5, leg=false, norm=true, size=(500, 300))
+
+# ╔═╡ a591ac12-8ffb-11eb-1734-09657f875b1e
+histogram(Bernoulli(0.25) + Bernoulli(0.75))
+
+# ╔═╡ 6c5ef6d4-8ffb-11eb-2fe9-9dd87d92abe4
+histogram(Bernoulli(0.25) + Gaussian(0, 0.1))
+
+# ╔═╡ 89138e02-8ffb-11eb-2ad2-c32e663f57b0
+histogram( mixture )
+
+# ╔═╡ bf9a4722-8ffb-11eb-1652-f1bfb4916d2a
+histogram(S)
+
+# ╔═╡ 325560f4-8ffb-11eb-0e9b-53f6869bdd97
+rand( mixture )
+
+# ╔═╡ c7613c44-8ffc-11eb-0a43-dbc8b1f62be9
+rand(S)
 
 # ╔═╡ eea0c788-8ffd-11eb-06e0-cfb65dbba7f1
 histogram(ChiSquared1())
@@ -782,7 +782,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -848,7 +848,7 @@ version = "3.46.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[CompositeTypes]]
 git-tree-sha1 = "02d2316b7ffceff992f3096ae48c7829a8aa0638"
@@ -1089,9 +1089,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1304,9 +1304,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1532,9 +1532,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -1761,7 +1761,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -2067,7 +2067,7 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╠═5d62e16c-8fd9-11eb-1c44-0b0232614011
+# ╟─5d62e16c-8fd9-11eb-1c44-0b0232614011
 # ╠═103cd2f4-903c-11eb-1116-a51dc540175c
 # ╟─6bbfa37e-8ffe-11eb-3031-19ea76a6a8d2
 # ╟─8a125ca0-8ff5-11eb-0607-45f993fb5ca7

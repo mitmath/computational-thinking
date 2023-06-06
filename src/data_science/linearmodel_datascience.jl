@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "O6NTKsR8TjQ"
 #> description = ""
-#> tags = ["lecture", "module2"]
+#> tags = ["lecture", "module2", "track_julia", "track_data", "csv", "dataframe", "statistics", "plotting", "interactive"]
 
 using Markdown
 using InteractiveUtils
@@ -147,28 +147,6 @@ md"""
 ## Add some random noise to the celsius readings
 """
 
-# ╔═╡ 3c038b68-8676-4877-9720-38da7c4e0e0e
-begin
-	noisy_data = copy(data)  # Noisy DataFrame
-	noisy_data[:, "°C" ] .+= noise * randn(n)
-	yy = noisy_data[:, "°C" ]
-	noisy_data
-end
-
-# ╔═╡ 5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
-begin
-	
-	scatter(x, yy,m=:c,mc=:red, label="noisy data", ylims=(-40, 40))
-	for i=1 : length(data[:,2])
-		plot!([x[i],x[i]], [m*x[i]+b,yy[i]], color=:gray, ls=:dash, label=false)
-	end
-	xlabel!("°F")
-	annotate!(-15,16,text("°C",11))
-	plot!(x, m.*x .+ b,  color=:blue, label="best fit line")
-	plot!(x,y,alpha=.5, color=:red, label="theory") # theoretical 
-	plot!(legend=:top)
-end
-
 # ╔═╡ 83c28c76-2eab-49f9-9999-05df85054520
 md"""
 # The noise slider (so I can find it easily)
@@ -178,6 +156,14 @@ md"""
 md"""
 noise = $(@bind noise Slider(0:.5:1000, show_value = true ))
 """
+
+# ╔═╡ 3c038b68-8676-4877-9720-38da7c4e0e0e
+begin
+	noisy_data = copy(data)  # Noisy DataFrame
+	noisy_data[:, "°C" ] .+= noise * randn(n)
+	yy = noisy_data[:, "°C" ]
+	noisy_data
+end
 
 # ╔═╡ e8683a71-5822-4491-9ccd-20e0fc3bf531
 md"""
@@ -208,6 +194,20 @@ md"""
 
 # ╔═╡ 9eb7caaa-438d-4bcb-9c54-4a0fa72c61de
 b, m = [ one.(x) x]\ yy  # The mysterious linear algebra solution using "least squares"
+
+# ╔═╡ 5a877e40-a101-4f7d-b2a1-ef4cfe5d8807
+begin
+	
+	scatter(x, yy,m=:c,mc=:red, label="noisy data", ylims=(-40, 40))
+	for i=1 : length(data[:,2])
+		plot!([x[i],x[i]], [m*x[i]+b,yy[i]], color=:gray, ls=:dash, label=false)
+	end
+	xlabel!("°F")
+	annotate!(-15,16,text("°C",11))
+	plot!(x, m.*x .+ b,  color=:blue, label="best fit line")
+	plot!(x,y,alpha=.5, color=:red, label="theory") # theoretical 
+	plot!(legend=:top)
+end
 
 # ╔═╡ 0e8fce45-f1c0-41d4-996a-d6093182afee
 function linear_regression(x,y)   # a direct computation from the data
@@ -285,12 +285,6 @@ md"""
 ## Julia: underscore as a digits separator
 """
 
-# ╔═╡ 51a28b67-ad64-4cf2-a0e6-a78fb101eb15
-s = simulate(σ, howmany)
-
-# ╔═╡ d451af49-3139-4329-a885-a210b1760f74
-s[1] # first simulation,  intercept, slope, estimation of noise σ
-
 # ╔═╡ c7455f7a-9c72-42f5-8238-1799cad96f6c
 md"""
 ## Simulated intercepts ($howmany simulations)
@@ -300,6 +294,12 @@ md"""
 md"""
 σ = $(@bind σ Slider(0:.1:3, show_value=true, default=1))
 """
+
+# ╔═╡ 51a28b67-ad64-4cf2-a0e6-a78fb101eb15
+s = simulate(σ, howmany)
+
+# ╔═╡ d451af49-3139-4329-a885-a210b1760f74
+s[1] # first simulation,  intercept, slope, estimation of noise σ
 
 # ╔═╡ e1e8c140-bc4e-400d-beb2-0986e071c3a3
 begin	
@@ -594,7 +594,7 @@ uuid = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
 version = "0.10.7"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -650,7 +650,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 deps = ["StaticArrays"]
@@ -838,9 +838,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1019,9 +1019,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1223,9 +1223,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -1405,7 +1405,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "14hHtGJ4s-g"
 #> description = ""
-#> tags = ["lecture", "module2"]
+#> tags = ["lecture", "module2", "programming", "track_julia", "plotting", "structure", "type", "interactive", "random", "statistics", "track_math", "track_data"]
 
 using Markdown
 using InteractiveUtils
@@ -78,16 +78,6 @@ N = $(@bind N Slider(1:6, show_value=true, default=1))
 md"""
 t = $(@bind t Slider(1:10^N, show_value=true, default=1))
 """
-
-# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
-begin
-	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
-	scatter!([ traj[1], traj[t] ], c=[:red, :green])
-	
-	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
-	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
-	
-end
 
 # ╔═╡ b62c4af8-9232-11eb-2f66-dd27dcb87d20
 md"""
@@ -228,8 +218,23 @@ position(w::Walker) = w.pos
 # ╔═╡ b8f2c508-91d5-11eb-31b5-61810f171270
 step(w::Walker1D) = rand( (-1, +1) )
 
+# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
+struct Walker2D <: Walker
+	x::Int
+	y::Int
+end
+
+# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
+position(w::Walker2D) = (w.x, w.y)
+
 # ╔═╡ 3c3971e2-91da-11eb-384c-01c627318bdc
 update(w::W, step) where {W <: Walker} = W(position(w) + step)
+
+# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
+step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
+
+# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
+update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
 
 # ╔═╡ cb0ef266-91d5-11eb-314b-0545c0c817d0
 function trajectory(w::W, N) where {W}   # W is a type parameter
@@ -248,23 +253,18 @@ end
 # ╔═╡ 048fac02-91da-11eb-0d26-4f258b4cd043
 trajectory(Walker1D(0), 10)
 
-# ╔═╡ 23b84ce2-91da-11eb-01f8-c308ac4d1c7a
-struct Walker2D <: Walker
-	x::Int
-	y::Int
-end
-
-# ╔═╡ 537f952a-91da-11eb-33cf-6be2fd3bc45c
-position(w::Walker2D) = (w.x, w.y)
-
-# ╔═╡ 5b972296-91da-11eb-29b1-074f3926181e
-step(w::Walker2D) = rand( [ [1, 0], [0, 1], [-1, 0], [0, -1] ] )
-
-# ╔═╡ 3ad5a93c-91db-11eb-3227-c96bf8fd2206
-update(w::Walker2D, step::Vector) = Walker2D(w.x + step[1], w.y + step[2])
-
 # ╔═╡ 74182fe0-91da-11eb-219a-01f13b86406d
 traj = trajectory(Walker2D(0, 0), 10^N)
+
+# ╔═╡ 4c8d8294-91db-11eb-353d-c3696c615b3d
+begin
+	plot(traj[1:t], ratio=1, leg=false, alpha=0.5, lw=2)
+	scatter!([ traj[1], traj[t] ], c=[:red, :green])
+	
+	xlims!(minimum(first.(traj)) - 1, maximum(first.(traj)) + 1)
+	ylims!(minimum(last.(traj)) - 1, maximum(last.(traj)) + 1)
+	
+end
 
 # ╔═╡ 57972a32-91e5-11eb-1d62-fbc22c494db9
 md"""
@@ -488,7 +488,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -538,7 +538,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 deps = ["StaticArrays"]
@@ -681,9 +681,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -851,9 +851,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1041,9 +1041,9 @@ uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1178,7 +1178,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]

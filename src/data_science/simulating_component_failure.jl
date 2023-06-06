@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "d8BohH76C7E"
 #> description = ""
-#> tags = ["lecture", "module2"]
+#> tags = ["lecture", "module2", "track_julia", "probability", "statistics", "track_math", "epidemiology", "interactive", "plotting", "programming", "type", "discrete", "continuous", "ODE", "differential equation", "agent based model"]
 
 using Markdown
 using InteractiveUtils
@@ -100,63 +100,8 @@ md"""
 ## Visualizing component failure
 """
 
-# ╔═╡ 178631ec-8cac-11eb-1117-5d872ba7f66e
-function simulate(N, p)
-	v = fill(0, N, N)
-	t = 0 
-	
-	while any( v .== 0 ) && t < 100
-		t += 1
-		
-		for i= 1:N, j=1:N
-			if rand() < p && v[i,j]==0
-				v[i,j] = t
-			end					    
-		end
-		
-	end
-	
-	return v
-end
-
-# ╔═╡ 179a4db2-8cac-11eb-374f-0f24dc81ebeb
-@bindname M Slider(2:20, show_value=true, default=8)
-
-# ╔═╡ 17bbf532-8cac-11eb-1e3f-c54072021208
-simulation = simulate(M, prob)
-
-# ╔═╡ 8c8b5681-eeaa-4087-8b6b-1c72c99ae36b
-@bindname prob Slider(0.01:.01:1, show_value=true, default=.1)
-
-# ╔═╡ 3bfed362-9732-4cb5-86a6-ec50b8429ad5
-@bindname tt Slider(1:100, show_value=true, default=1)
-
 # ╔═╡ a38fe2b2-8cae-11eb-19e8-d563e82855d3
 gr()
-
-# ╔═╡ 17e0d142-8cac-11eb-2d6a-fdf175f5d419
-begin
-	w = .9
-	h = .9
-	c = [RGB(0,1,0), RGB(1,0,0), :purple][1 .+ (simulation .< tt) .+ (simulation .<  (tt.-1))] 
-	
-	plot(ratio=1, legend=false, axis=false, ticks=false)
-	
-	for i=1:M, j=1:M
-		plot!( rectangle(w,h, i, j), c=:black, fill=true, alpha=0.5)
-		plot!( circle(.3,i+.45,j+.45), c = c[i, j], fill=true)
-	end
-	
-	for i=1:M, j=1:M
-		if simulation[i,j] < tt
-	       annotate!(i+.45, j+.5, text("$(simulation[i,j])", font(7), :white))
-		end
-	end
-    
-	
-	plot!(lims=(0.5, M+1.1), title="time = $(tt-1);  failed count: $(sum(simulation.<tt))")
-	
-end
 
 # ╔═╡ 18da7920-8cac-11eb-07f4-e109298fd5f1
 begin
@@ -164,23 +109,6 @@ begin
 	
 	circle(r,x,y) = (θ = LinRange(0, 2π, 30); (x.+r.*cos.(θ), y.+r.*sin.(θ)))
 end
-
-# ╔═╡ 17fe87a0-8cac-11eb-2938-2d9cd19ecc0f
-begin
-	
-	plot(size=(500, 300))
-	cdf= [ count(simulation .≤ i) for i=0:100] 
-	bar!(cdf, c=:purple, legend=false, xlim=(0,tt),alpha=0.8)
-end
-
-# ╔═╡ 1829091c-8cac-11eb-1b77-c5ed7dd1261b
-begin
-	newcdf = [ count(simulation .> i) for i=0:100] 
-	bar!( newcdf, c=RGB(0,1,0), legend=false, xlim=(0,tt),alpha=0.8)
-end
-
-# ╔═╡ 1851dd6a-8cac-11eb-18e4-87dbe1714be0
-bar(countmap(simulation[:]), c=:red, legend=false, xlim=(0, tt+.5), size=(500, 300))
 
 # ╔═╡ a9447530-8cb6-11eb-38f7-ff69a640e3c4
 md"""
@@ -221,9 +149,6 @@ md"""
 Recall that a **Bernoulli random variable** models a weighted coin: it takes the value 1, with probability $p$, and 0, with probability $(1 - p)$:
 """
 
-# ╔═╡ ba7ffe78-0845-11eb-2847-851a407dd2ec
-bernoulli(p) = rand() < p
-
 # ╔═╡ dcd279b0-8bf3-11eb-0cb9-95f351626ed1
 md"""
 Note that `rand() < p` returns a `Bool` (true or false). We are converting to `Int` to get a value 1 or 0.
@@ -234,16 +159,10 @@ md"""
 Let's generate (sample) some Bernoulli random variates:
 """
 
-# ╔═╡ b6786ec8-8bf3-11eb-1347-61f231fd3b4c
-flips = [Int(bernoulli(0.25)) for i in 1:100]
-
 # ╔═╡ ac98f5da-8bf3-11eb-076f-597ce4455e76
 md"""
 It is natural to ask what the **mean**, or **expected value**, is:
 """
-
-# ╔═╡ 0e7a04a4-8bf4-11eb-2e9d-fb48c23b8d8c
-mean(flips)
 
 # ╔═╡ 111eccd2-8bf4-11eb-097c-7582f811d146
 md"""
@@ -292,9 +211,6 @@ The object `B` really represents "a Bernoulli random variable with probability o
 We should use this type any time we need a Bernoulli random variable. If you need this in another notebook you will either need to copy and paste the definition or, better, make your own mini-library. However, note that types like this are already available in the `Distributions.jl` package and the new `MeasureTheory.jl` package.
 """
 
-# ╔═╡ bc5d6fae-8cad-11eb-3351-a734d2366557
-rand(B)
-
 # ╔═╡ 2d9c560e-8bf9-11eb-1ac5-f77f7caf776f
 Statistics.mean(X::Bernoulli) = X.p
 
@@ -311,28 +227,8 @@ md"""
 Let's take the simulation and run it a few times.
 """
 
-# ╔═╡ e2d764d0-0845-11eb-0031-e74d2f5acaf9
-function step!(infectious, p)
-	for i in 1:length(infectious)
-		
-		if infectious[i] && bernoulli(p)
-			infectious[i] = false
-		end
-	end
-	
-	return infectious
-end
-
 # ╔═╡ 9282eca0-08db-11eb-2e36-d761594b427c
 T = 100
-
-# ╔═╡ 58d8542c-08db-11eb-193a-398ce01b8635
-begin
-	infected = [true for i in 1:N]
-		
-	results = [copy(step!(infected, ppp)) for i in 1:T]
-	pushfirst!(results, trues(N))
-end
 
 # ╔═╡ fe0aa72c-8b46-11eb-15aa-49ae570e5858
 md"""
@@ -343,62 +239,8 @@ p = $(@bind ppp Slider(0:0.01:1, show_value=true, default=0.25))
 t = $(@bind t Slider(1:T, show_value=true))
 """
 
-# ╔═╡ 33f9fc36-0846-11eb-18c2-77f92fca3176
-function simulate_recovery(p, T)
-	infectious = trues(N)
-	num_infectious = [N]
-	
-	for t in 1:T
-		step!(infectious, p)
-		push!(num_infectious, count(infectious))
-	end
-	
-	return num_infectious
-end
-
 # ╔═╡ 39a69c2a-0846-11eb-35c1-53c68a9f71e5
 p = 0.1
-
-# ╔═╡ cb278624-08dd-11eb-3375-276bfe8d7b3a
-begin
-	pp = 0.05
-	
-	plot(simulate_recovery(pp, T), label="run 1", alpha=0.5, lw=2, m=:o)
-	plot!(simulate_recovery(pp, T), label="run 2", alpha=0.5, lw=2, m=:o)
-	
-	xlabel!("time t")
-	ylabel!("number infectious")
-end
-
-# ╔═╡ f3c85814-0846-11eb-1266-63f31f351a51
-all_data = [simulate_recovery(pp, T) for i in 1:30];
-
-# ╔═╡ 01dbe272-0847-11eb-1331-4360a575ff14
-begin
-	plot(all_data, alpha=0.1, leg=false, m=:o, ms=1,
-		size=(500, 400), label="")
-	xlabel!("time t")
-	ylabel!("number still functioning")
-end
-
-# ╔═╡ be8e4ac2-08dd-11eb-2f72-a9da5a750d32
-plot!(mean(all_data), leg=true, label="mean",
-		lw=3, c=:red, m=:o, alpha=0.5, 
-		size=(500, 400))
-
-# ╔═╡ 8bc52d58-0848-11eb-3487-ef0d06061042
-begin
-	plot(replace.(all_data, 0.0 => NaN), 
-		yscale=:log10, alpha=0.3, leg=false, m=:o, ms=1,
-		size=(500, 400))
-	
-	plot!(mean(all_data), yscale=:log10, lw=3, c=:red, m=:o, label="mean", alpha=0.5)
-	
-	xlabel!("time t")
-	ylabel!("number still functioning")
-end
-
-
 
 # ╔═╡ caa3faa2-08e5-11eb-33fe-cbbc00cfd459
 md"""
@@ -444,20 +286,6 @@ md"""
 Let's compare the exact and numerical results:
 """
 
-# ╔═╡ 6a545268-0846-11eb-3861-c3d5f52c061b
-exact = [N * (1-pp)^t for t in 0:T]
-
-# ╔═╡ 4c8827b8-0847-11eb-0fd1-cfbdbdcf392e
-begin
-	plot(mean(all_data), m=:o, alpha=0.5, label="mean of stochastic simulations",
-		size=(500, 400))
-	plot!(exact, lw=3, alpha=0.8, label="deterministic model", leg=:right)
-	title!("Experiment vs. theory")
-	xlabel!("time")
-	ylabel!("""number of "greens" """)
-end
-	
-
 # ╔═╡ 3cd1ad48-08ed-11eb-294c-f96b0e7c33bb
 md"""
 They agree well, as they should. The agreement is expected to be better (i.e. the fluctuations smaller) for a larger population.
@@ -499,6 +327,125 @@ Note that does not require (or even allow) methods at first, as some other langu
 
 # ╔═╡ 511892e0-8cb1-11eb-3814-b98e8e0bbe5c
 Base.rand(X::Binomial) = sum(rand(Bernoulli(X.p)) for i in 1:X.N)
+
+# ╔═╡ 178631ec-8cac-11eb-1117-5d872ba7f66e
+function simulate(N, p)
+	v = fill(0, N, N)
+	t = 0 
+	
+	while any( v .== 0 ) && t < 100
+		t += 1
+		
+		for i= 1:N, j=1:N
+			if rand() < p && v[i,j]==0
+				v[i,j] = t
+			end					    
+		end
+		
+	end
+	
+	return v
+end
+
+# ╔═╡ ba7ffe78-0845-11eb-2847-851a407dd2ec
+bernoulli(p) = rand() < p
+
+# ╔═╡ b6786ec8-8bf3-11eb-1347-61f231fd3b4c
+flips = [Int(bernoulli(0.25)) for i in 1:100]
+
+# ╔═╡ 0e7a04a4-8bf4-11eb-2e9d-fb48c23b8d8c
+mean(flips)
+
+# ╔═╡ e2d764d0-0845-11eb-0031-e74d2f5acaf9
+function step!(infectious, p)
+	for i in 1:length(infectious)
+		
+		if infectious[i] && bernoulli(p)
+			infectious[i] = false
+		end
+	end
+	
+	return infectious
+end
+
+# ╔═╡ 58d8542c-08db-11eb-193a-398ce01b8635
+begin
+	infected = [true for i in 1:N]
+		
+	results = [copy(step!(infected, ppp)) for i in 1:T]
+	pushfirst!(results, trues(N))
+end
+
+# ╔═╡ 33f9fc36-0846-11eb-18c2-77f92fca3176
+function simulate_recovery(p, T)
+	infectious = trues(N)
+	num_infectious = [N]
+	
+	for t in 1:T
+		step!(infectious, p)
+		push!(num_infectious, count(infectious))
+	end
+	
+	return num_infectious
+end
+
+# ╔═╡ cb278624-08dd-11eb-3375-276bfe8d7b3a
+begin
+	pp = 0.05
+	
+	plot(simulate_recovery(pp, T), label="run 1", alpha=0.5, lw=2, m=:o)
+	plot!(simulate_recovery(pp, T), label="run 2", alpha=0.5, lw=2, m=:o)
+	
+	xlabel!("time t")
+	ylabel!("number infectious")
+end
+
+# ╔═╡ 6a545268-0846-11eb-3861-c3d5f52c061b
+exact = [N * (1-pp)^t for t in 0:T]
+
+# ╔═╡ f3c85814-0846-11eb-1266-63f31f351a51
+all_data = [simulate_recovery(pp, T) for i in 1:30];
+
+# ╔═╡ 01dbe272-0847-11eb-1331-4360a575ff14
+begin
+	plot(all_data, alpha=0.1, leg=false, m=:o, ms=1,
+		size=(500, 400), label="")
+	xlabel!("time t")
+	ylabel!("number still functioning")
+end
+
+# ╔═╡ be8e4ac2-08dd-11eb-2f72-a9da5a750d32
+plot!(mean(all_data), leg=true, label="mean",
+		lw=3, c=:red, m=:o, alpha=0.5, 
+		size=(500, 400))
+
+# ╔═╡ 8bc52d58-0848-11eb-3487-ef0d06061042
+begin
+	plot(replace.(all_data, 0.0 => NaN), 
+		yscale=:log10, alpha=0.3, leg=false, m=:o, ms=1,
+		size=(500, 400))
+	
+	plot!(mean(all_data), yscale=:log10, lw=3, c=:red, m=:o, label="mean", alpha=0.5)
+	
+	xlabel!("time t")
+	ylabel!("number still functioning")
+end
+
+
+
+# ╔═╡ 4c8827b8-0847-11eb-0fd1-cfbdbdcf392e
+begin
+	plot(mean(all_data), m=:o, alpha=0.5, label="mean of stochastic simulations",
+		size=(500, 400))
+	plot!(exact, lw=3, alpha=0.8, label="deterministic model", leg=:right)
+	title!("Experiment vs. theory")
+	xlabel!("time")
+	ylabel!("""number of "greens" """)
+end
+	
+
+# ╔═╡ bc5d6fae-8cad-11eb-3351-a734d2366557
+rand(B)
 
 # ╔═╡ 1173ebbe-8cb1-11eb-0a21-7d40a2c8a855
 rand(Binomial(10, 0.25))
@@ -733,17 +680,6 @@ md"""
 Below is a simulation of the discrete-time model. Note that the simplest numerical method to solve (approximately) the system of ODEs, the **Euler method**, basically reduces to solving the discrete-time model!  A whole suite of more advanced ODE solvers is provided in the [Julia `DiffEq` ecosystem](https://diffeq.sciml.ai/dev/).
 """
 
-# ╔═╡ 442035a6-0915-11eb-21de-e11cf950f230
-begin
-	ts = 1:length(SIR)
-	discrete_time_SIR_plot = plot(ts, [x.s for x in SIR], 
-		m=:o, label="S", alpha=0.2, linecolor=:blue, leg=:right, size=(400, 300))
-	plot!(ts, [x.i for x in SIR], m=:o, label="I", alpha=0.2)
-	plot!(ts, [x.r for x in SIR], m=:o, label="R", alpha=0.2)
-	
-	xlims!(0, 500)
-end
-
 # ╔═╡ d994e972-090d-11eb-1b77-6d5ddb5daeab
 begin
 	NN = 100
@@ -789,6 +725,17 @@ end
 # ╔═╡ 39c24ef0-0915-11eb-1a0e-c56f7dd01235
 SIR = discrete_SIR(ss, ii, rr)
 
+# ╔═╡ 442035a6-0915-11eb-21de-e11cf950f230
+begin
+	ts = 1:length(SIR)
+	discrete_time_SIR_plot = plot(ts, [x.s for x in SIR], 
+		m=:o, label="S", alpha=0.2, linecolor=:blue, leg=:right, size=(400, 300))
+	plot!(ts, [x.i for x in SIR], m=:o, label="I", alpha=0.2)
+	plot!(ts, [x.r for x in SIR], m=:o, label="R", alpha=0.2)
+	
+	xlims!(0, 500)
+end
+
 # ╔═╡ 84ba80d9-a4b6-4972-968e-b88b6f61cfb9
 macro bindname(name::Symbol, ex::Expr)
     quote
@@ -799,6 +746,59 @@ macro bindname(name::Symbol, ex::Expr)
         """)
     end
 end
+
+# ╔═╡ 179a4db2-8cac-11eb-374f-0f24dc81ebeb
+@bindname M Slider(2:20, show_value=true, default=8)
+
+# ╔═╡ 8c8b5681-eeaa-4087-8b6b-1c72c99ae36b
+@bindname prob Slider(0.01:.01:1, show_value=true, default=.1)
+
+# ╔═╡ 17bbf532-8cac-11eb-1e3f-c54072021208
+simulation = simulate(M, prob)
+
+# ╔═╡ 3bfed362-9732-4cb5-86a6-ec50b8429ad5
+@bindname tt Slider(1:100, show_value=true, default=1)
+
+# ╔═╡ 17e0d142-8cac-11eb-2d6a-fdf175f5d419
+begin
+	w = .9
+	h = .9
+	c = [RGB(0,1,0), RGB(1,0,0), :purple][1 .+ (simulation .< tt) .+ (simulation .<  (tt.-1))] 
+	
+	plot(ratio=1, legend=false, axis=false, ticks=false)
+	
+	for i=1:M, j=1:M
+		plot!( rectangle(w,h, i, j), c=:black, fill=true, alpha=0.5)
+		plot!( circle(.3,i+.45,j+.45), c = c[i, j], fill=true)
+	end
+	
+	for i=1:M, j=1:M
+		if simulation[i,j] < tt
+	       annotate!(i+.45, j+.5, text("$(simulation[i,j])", font(7), :white))
+		end
+	end
+    
+	
+	plot!(lims=(0.5, M+1.1), title="time = $(tt-1);  failed count: $(sum(simulation.<tt))")
+	
+end
+
+# ╔═╡ 17fe87a0-8cac-11eb-2938-2d9cd19ecc0f
+begin
+	
+	plot(size=(500, 300))
+	cdf= [ count(simulation .≤ i) for i=0:100] 
+	bar!(cdf, c=:purple, legend=false, xlim=(0,tt),alpha=0.8)
+end
+
+# ╔═╡ 1829091c-8cac-11eb-1b77-c5ed7dd1261b
+begin
+	newcdf = [ count(simulation .> i) for i=0:100] 
+	bar!( newcdf, c=RGB(0,1,0), legend=false, xlim=(0,tt),alpha=0.8)
+end
+
+# ╔═╡ 1851dd6a-8cac-11eb-18e4-87dbe1714be0
+bar(countmap(simulation[:]), c=:red, legend=false, xlim=(0, tt+.5), size=(500, 300))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -849,7 +849,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -899,7 +899,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[Contour]]
 deps = ["StaticArrays"]
@@ -1042,9 +1042,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1212,9 +1212,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1398,9 +1398,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1535,7 +1535,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]

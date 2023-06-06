@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "7HrpoFZzITI"
 #> description = ""
-#> tags = ["lecture", "module2"]
+#> tags = ["lecture", "module2", "track_data", "track_math", "random", "statistics", "track_julia", "image", "probability", "plotting", "interactive"]
 
 using Markdown
 using InteractiveUtils
@@ -331,15 +331,6 @@ md"""
 An obvious way to find the counts would be to run through the data looking for 1s, then run through again looking for 2s, etc.:
 """
 
-# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
-rolls .== 1
-
-# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
-count(rolls .== 1)
-
-# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
-counts = [count(rolls .== i) for i in 1:6]
-
 # ╔═╡ 9e9d3556-86b5-11eb-3dfb-916e625da235
 md"""
 Note that this is *not* the most efficient algorithm!
@@ -352,6 +343,15 @@ We can plot **categorical data** using a **bar chart**, `bar` in Plots.jl. This 
 
 # ╔═╡ 02d03642-86b4-11eb-365a-63ff61ddd3b5
 rolls = rand(1:6, 100000)   # try modifying 100 by adding more zeros
+
+# ╔═╡ 94688c1a-8747-11eb-13a3-eb36f731674c
+rolls .== 1
+
+# ╔═╡ ad701cdc-8747-11eb-3804-63a0fc881547
+count(rolls .== 1)
+
+# ╔═╡ 2405eb68-86b4-11eb-31b0-dff8e355d88e
+counts = [count(rolls .== i) for i in 1:6]
 
 # ╔═╡ 2d71fa88-86b5-11eb-0e55-35566c2246d7
 begin
@@ -371,29 +371,29 @@ md"""
 # ╔═╡ d0c9814e-86b1-11eb-2f29-1d041bccc649
 roll_dice(n) = sum( rand(1:12, n) )
 
-# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
-experiment() = roll_dice(n) 
-
-# experiment() = sum([randn()^2 for i in 1:n])
-
 # ╔═╡ 7a16b674-86b7-11eb-3aa5-83712cdc8580
 trials = 10^6
-
-# ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
-data = [experiment() for t in 1:trials]
 
 # ╔═╡ 2bfa712a-8738-11eb-3248-6f9bb93154e8
 md"""
 ### Converging shape
 """
 
-# ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
-data
-
 # ╔═╡ 6c133ab6-86b7-11eb-15f6-7780da5afc31
 md"""
 n = $(@bind n Slider(1:50, show_value=true))
 """
+
+# ╔═╡ b81b1090-8735-11eb-3a52-2dca4d4ed472
+experiment() = roll_dice(n) 
+
+# experiment() = sum([randn()^2 for i in 1:n])
+
+# ╔═╡ e8e811de-86b6-11eb-1cbf-6d4aeaee510a
+data = [experiment() for t in 1:trials]
+
+# ╔═╡ e4abcbf4-86b8-11eb-167a-d97c61e07837
+data
 
 # ╔═╡ 514f6be0-86b8-11eb-30c9-d1020f783afe
 histogram(data, alpha=0.5, legend=false, bins=200, c=:lightsalmon1, title="n = $n")  
@@ -604,7 +604,7 @@ uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
 version = "0.4.2"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -678,7 +678,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ComputationalResources]]
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
@@ -866,9 +866,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
@@ -1206,9 +1206,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1499,9 +1499,9 @@ version = "1.0.0"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -1708,7 +1708,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -2009,8 +2009,8 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
+# ╟─0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 # ╠═06d2666a-8723-11eb-1395-0febdf3dc2a4
-# ╠═0a70bca4-8723-11eb-1bcf-e9abb9b1ab75
 # ╟─472a41d2-8724-11eb-31b3-0b81612f0083
 # ╟─aeb99f72-8725-11eb-2efd-d3e44686be03
 # ╟─4f9bd326-8724-11eb-2c9b-db1ac9464f1e

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 2
@@ -11,7 +11,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "H6Dcx3YeTkE"
 #> description = ""
-#> tags = ["lecture", "module2"]
+#> tags = ["lecture", "module2", "track_math", "discrete", "continuous"]
 
 using Markdown
 using InteractiveUtils
@@ -89,31 +89,6 @@ md"""
 ### Heard in the hallways: I only like discrete math.  I only like continuous math.
 """
 
-# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
-md"""
-It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathematics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
-
-$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
-
- 
-"""
-
-# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
-md"""
-$(blue("Continuous math often lets you replace complicated large systems
-		with lots of details with a simpler abstraction that is easier to work with."))
-"""
-
-# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
-md"""
-$(blue("The combination of continuous and discrete is often more useful than either one alone."))
-"""
-
-# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
-md"""
-$(blue("Machine Learning, Pandemics, climate change, etc. show how critical continuous math is these days."))
-"""
-
 # ╔═╡ 5c536430-9188-11eb-229c-e7feba62d257
 md"""
 ### Indexing and Function Evaluation
@@ -166,6 +141,9 @@ md"""
 n = $(@bind sides Slider(3:100, show_value=true, default=6))
 """
 
+# ╔═╡ f20da096-9712-11eb-2a67-cd33f6ab8750
+area(s) = (s/2) * sin(2π/s)
+
 # ╔═╡ 02784976-9566-11eb-125c-a7f1f1bafd6b
 begin
 	θ = (0:.01:1)*2π
@@ -179,9 +157,6 @@ begin
 	end
 	title!("Area = ($sides/2)sin(2π/$sides) ≈  $(area(sides)/π )  π")
 end
-
-# ╔═╡ f20da096-9712-11eb-2a67-cd33f6ab8750
-area(s) = (s/2) * sin(2π/s)
 
 # ╔═╡ 6fd93018-c33b-4682-91c3-7a20a41d9b03
 area0 = area.( 2 .^ (2:10) ) # Area of polygons with # sides  = [4, 8, ..., 1024]
@@ -211,9 +186,6 @@ end
 # ╔═╡ bcfd1585-8161-43a2-8b19-ed654df2e0e1
 colorgoodbad(string(float(π)) , string(22/7))
 
-# ╔═╡ d2d1366b-9b6d-4e54-a0c4-7087f5f063c4
-pyramid( [area0,area1], horizontal = true)
-
 # ╔═╡ a76ac67b-27b9-4e2b-9fca-61480dca5264
 area2 = [16/15 * area1[i+1] .-  1/15 * area1[i] for i = 1:length(area1)-1 ]
 
@@ -221,9 +193,6 @@ area2 = [16/15 * area1[i+1] .-  1/15 * area1[i] for i = 1:length(area1)-1 ]
 md"""
 Another carefully chosen convolution: [-1/15,16/15], do you see the pattern?
 """
-
-# ╔═╡ 6577e546-8f0b-413a-a8bb-b9c12803199d
-pyramid([area0,area1,area2], horizontal = true)
 
 # ╔═╡ 5273fe09-fe38-4c88-b84a-51af17cff906
 big(π)
@@ -233,15 +202,6 @@ area3 = [64/63 * area2[i+1] .-  1/63 * area2[i] for i = 1:length(area2)-1 ]
 
 # ╔═╡ 626242ea-544c-49fc-9884-c70dd6800902
 area4 = [128/127 * area3[i+1] .-  1/127 * area3[i] for i = 1:length(area3)-1 ]
-
-# ╔═╡ 893a56b0-f5d0-4f8d-ba15-1048180a7e53
-pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal = true)
-
-# ╔═╡ fa3a8baf-d86d-45c3-b4ba-85198bd0677d
-string(area1b[end])
-
-# ╔═╡ 8bcd29e2-41db-4969-9932-3cc56edfdc18
-colorgoodbad( (@sprintf "%.30f" big(π)) , (@sprintf "%.30f" big(area1b[end])))
 
 # ╔═╡ dbccc2d5-c2af-48c4-8726-a95c09da78ae
 md"""
@@ -284,6 +244,12 @@ begin
 	area1b = [ 4//3 * area0b[i+1] .-  1//3 * area0b[i] for i = 1:length(area0b)-1 ]
 	colorgoodbad( (@sprintf "%.80f" big(π)) , (@sprintf "%.80f" big(area1b[end])))
 end
+
+# ╔═╡ fa3a8baf-d86d-45c3-b4ba-85198bd0677d
+string(area1b[end])
+
+# ╔═╡ 8bcd29e2-41db-4969-9932-3cc56edfdc18
+colorgoodbad( (@sprintf "%.30f" big(π)) , (@sprintf "%.30f" big(area1b[end])))
 
 # ╔═╡ 453f2585-157d-490a-9d1c-0b02939d0a11
 begin
@@ -509,8 +475,33 @@ end
 
 # ╔═╡ 0e6cab25-70f8-46ab-a5ab-8542e232274e
 function blue(s::String)
-	HTML("<span style='color: hsl(200deg, 60%, 50%);'> $(s)  </span>")
+	@htl("<span style='color: hsl(200deg, 60%, 50%);'> $(s)  </span>")
 end
+
+# ╔═╡ 173b44ea-918c-11eb-116b-0bbaeffc3fe2
+md"""
+It is not unusual for students (and professors) to gravitate towards the discrete or the continuous.  We wish to point out, that the discrete and the continuous are so closely related, that it is worthwhile to be comfortable with both.  Up until fairly recently, much of computer science was often associated with discrete mathematics, while computational science and engineering was associated with physical systems, hence continuous mathematics.
+
+$(blue("That is blurring these days:"))  The popularity of machine learning has brought continuous optimization ideas such as gradient descent into the world of computer science and the impact of the physical world on us all (e.g. climate change, pandemics) is motivating applications in computer science.  The newfound popularity of Data science and statistics is also mixing the discrete with the continuous.
+
+ 
+"""
+
+# ╔═╡ a3f005a8-9617-11eb-1503-75c31ec54f70
+md"""
+$(blue("Continuous math often lets you replace complicated large systems
+		with lots of details with a simpler abstraction that is easier to work with."))
+"""
+
+# ╔═╡ 870cdf5f-f896-4060-9548-5d9c1749d100
+md"""
+$(blue("The combination of continuous and discrete is often more useful than either one alone."))
+"""
+
+# ╔═╡ d9dfe7c5-9211-4707-bb33-a3ff258e10f4
+md"""
+$(blue("Machine Learning, Pandemics, climate change, etc. show how critical continuous math is these days."))
+"""
 
 # ╔═╡ 7edb7c63-c71e-455b-bb78-ddd50475e271
 blue("asdf")
@@ -563,8 +554,17 @@ function pyramid(rows::Vector{<:Vector};
 		""")
 end
 
+# ╔═╡ d2d1366b-9b6d-4e54-a0c4-7087f5f063c4
+pyramid( [area0,area1], horizontal = true)
+
+# ╔═╡ 6577e546-8f0b-413a-a8bb-b9c12803199d
+pyramid([area0,area1,area2], horizontal = true)
+
 # ╔═╡ 43d20d56-d56a-47a8-893e-f726c1a99651
 pp(x) =  colorgoodbad( string(float(π)) , (@sprintf "%.15f" x) )
+
+# ╔═╡ 893a56b0-f5d0-4f8d-ba15-1048180a7e53
+pyramid([pp.(area0), pp.(area1), pp.(area2), pp.(area3), pp.(area4)], horizontal = true)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -590,9 +590,9 @@ SpecialFunctions = "~2.1.7"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "7b0816359398430656803f7159cb23845053f1da"
+project_hash = "7eb898389f6ce55b399a8264a9d23a1650734390"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -629,7 +629,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[deps.Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -679,7 +679,7 @@ version = "3.46.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.Compose]]
 deps = ["Base64", "Colors", "DataStructures", "Dates", "IterTools", "JSON", "LinearAlgebra", "Measures", "Printf", "Random", "Requires", "Statistics", "UUIDs"]
@@ -832,9 +832,9 @@ version = "0.21.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[deps.GraphPlot]]
 deps = ["ArnoldiMethod", "ColorTypes", "Colors", "Compose", "DelimitedFiles", "Graphs", "LinearAlgebra", "Random", "SparseArrays"]
@@ -1019,9 +1019,9 @@ version = "1.42.0+0"
 
 [[deps.Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[deps.Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1205,9 +1205,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[deps.REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1352,7 +1352,7 @@ version = "1.10.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1618,8 +1618,8 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
+# ╟─01506de2-918a-11eb-2a4d-c554a6e54631
 # ╠═d155ea12-9628-11eb-347f-7754a33fd403
-# ╠═01506de2-918a-11eb-2a4d-c554a6e54631
 # ╟─877deb2c-702b-457b-a54b-f27c277928d4
 # ╟─ee349b52-9189-11eb-2b86-b5dc15ebe432
 # ╟─43e39a6c-918a-11eb-2408-93563b4fb8c1
