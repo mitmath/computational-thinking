@@ -1,8 +1,23 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 using Markdown
 using InteractiveUtils
+
+# ╔═╡ 1ccb3a84-88d4-11eb-2499-91af66e78e89
+using Plots
+
+# ╔═╡ 3fa5970e-8d82-11eb-302e-d53a453e984f
+using SpecialFunctions
+
+# ╔═╡ 2e8a0d14-8d6a-11eb-3a36-01676cf20447
+using VegaLite, VegaDatasets
+
+# ╔═╡ a400134c-8dc7-11eb-3a29-f99c5910de8c
+using DataFrames
+
+# ╔═╡ 8d4852d8-88d4-11eb-10e6-51c750d36b54
+using PlutoUI
 
 # ╔═╡ 47452d72-88d6-11eb-27ef-bbc1d061060d
 md"""
@@ -25,9 +40,6 @@ Plots loading time sucks big time.
 This is a known problem.  We know, we know, Julia is fast, just grab some coffee ....
 ☕☕☕☕☕☕☕☕☕
 """
-
-# ╔═╡ 1ccb3a84-88d4-11eb-2499-91af66e78e89
-using Plots
 
 # ╔═╡ 4316799c-88d4-11eb-0e83-a7df319711ad
 md"""
@@ -174,9 +186,6 @@ begin
 	areaplot(1:3, M, seriescolor = [:red :green :blue ], fillalpha = [0.2 0.3 0.4])
 end
 
-# ╔═╡ 3fa5970e-8d82-11eb-302e-d53a453e984f
-using SpecialFunctions
-
 # ╔═╡ b8435896-8d81-11eb-3d44-7db7b987f992
 let
 	f = x->exp(-x^2/2)/√(2π)
@@ -229,9 +238,6 @@ md"""
 ##  VegaLite
 """
 
-# ╔═╡ 2e8a0d14-8d6a-11eb-3a36-01676cf20447
-using VegaLite, VegaDatasets
-
 # ╔═╡ 78f0c7c6-8d6a-11eb-29f4-af99ddf71960
 @vlplot(:point, rand(10), rand(10) )
 
@@ -255,9 +261,6 @@ end
 
 # ╔═╡ c0494eba-8dc7-11eb-3c1a-1f19979a4f4a
 scatter( d[!,:longitude], d[!,:latitude], m=:., ms=1, xlim=(-150,-50), ylim=(20,55))
-
-# ╔═╡ a400134c-8dc7-11eb-3a29-f99c5910de8c
-using DataFrames
 
 # ╔═╡ 3395ee1c-8d81-11eb-3e94-b1373d69dc93
 
@@ -299,9 +302,6 @@ end
 # ╔═╡ 71d1e4f0-8dad-11eb-368c-4b8bf284f5ec
 
 
-# ╔═╡ 8d4852d8-88d4-11eb-10e6-51c750d36b54
-using PlutoUI
-
 # ╔═╡ eb3e721e-88d4-11eb-1f09-cfba69f498d4
 TableOfContents()
 
@@ -328,9 +328,9 @@ VegaLite = "~2.6.0"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "114cb1641be888e704bca00b48344485e91cb389"
+project_hash = "d43b0b24dd1dccc12b1eb4a699a68c8b72f92623"
 
 [[deps.AbstractPlutoDingetjes]]
 deps = ["Pkg"]
@@ -360,7 +360,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[deps.Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -416,7 +416,7 @@ version = "4.3.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -592,9 +592,9 @@ version = "0.21.0+0"
 
 [[deps.Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[deps.Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -780,9 +780,9 @@ version = "1.42.0+0"
 
 [[deps.Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[deps.Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1007,9 +1007,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[deps.Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[deps.Quadmath]]
 deps = ["Printf", "Random", "Requires"]
@@ -1161,7 +1161,7 @@ version = "1.10.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
