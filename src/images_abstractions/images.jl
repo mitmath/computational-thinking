@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -26,6 +26,14 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 74b008f6-ed6b-11ea-291f-b3791d6d1b35
+begin
+	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
+	using PlutoUI
+	using PlutoTeachingTools
+	using HypertextLiteral
+end
+
 # ╔═╡ d07fcdb0-7afc-4a25-b68a-49fd1e3405e7
 PlutoUI.TableOfContents(aside=true)
 
@@ -35,13 +43,6 @@ md"""
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
-
-# ╔═╡ 74b008f6-ed6b-11ea-291f-b3791d6d1b35
-begin
-	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
-	using PlutoUI
-	using HypertextLiteral
-end
 
 # ╔═╡ ca1b507e-6017-11eb-34e6-6b85cd189002
 md"""
@@ -128,9 +129,12 @@ Our goal is to process the data contained in an image in some way, which we will
 Here is the the Fall 2020 version of this lecture (small variations) by 3-Blue-1-Brown (Grant Sanderson) for your reference.
 """
 
-# ╔═╡ 635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
+# ╔═╡ e1bd938e-d067-4854-b5da-9aa71023d8a1
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/DGojI9xcCfg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=DGojI9xcCfg params="modestbranding=1&rel=0"></lite-youtube>
 """
 
 # ╔═╡ 9eb6efd2-6018-11eb-2db8-c3ce41d9e337
@@ -201,8 +205,7 @@ Poor Philip will undergo quite a few transformations as we go along!
 
 # ╔═╡ 11dff4ce-6bca-11eb-1056-c1345c796ed4
 md"""
-- Exercise : change the url.
-- Exercise: download a file that is already on your own computer.
+👉 **Exercise:** change the url to use another image from the web.
 """
 
 # ╔═╡ efef3a32-6bc9-11eb-17e9-dd2171be9c21
@@ -216,11 +219,8 @@ Even more fun is to use your own webcam. Try pressing the enable button below. T
 press the camera to capture an image. Kind of fun to keep pressing the button as you move your hand etc.
 """
 
-# ╔═╡ d6742ea0-1106-4f3c-a5b8-a31a48d33f19
-@bind webcam_data1 camera_input()
-
-# ╔═╡ 1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
-myface1 = process_raw_camera_data(webcam_data1);
+# ╔═╡ bd0e4cfc-72bb-43c1-8178-63872f859fab
+@bind myface1 PlutoUI.WebcamInput(help=false, max_size=150)
 
 # ╔═╡ 6224c74b-8915-4983-abf0-30e6ba04a46d
 [
@@ -287,12 +287,6 @@ md"""
 We can also use variables as indices...
 """
 
-# ╔═╡ 94b77934-713e-11eb-18cf-c5dc5e7afc5b
-row_i,col_i
-
-# ╔═╡ ff762861-b186-4eb0-9582-0ce66ca10f60
-philip[row_i, col_i]
-
 # ╔═╡ 13844ebf-52c4-47e9-bda4-106a02fad9d7
 md"""
 ...and these variables can be controlled by sliders!
@@ -303,6 +297,12 @@ md"""
 
 # ╔═╡ 6511a498-7ac9-445b-9c15-ec02d09783fe
 @bind col_i Slider(1:size(philip)[2], show_value=true)
+
+# ╔═╡ 94b77934-713e-11eb-18cf-c5dc5e7afc5b
+row_i,col_i
+
+# ╔═╡ ff762861-b186-4eb0-9582-0ce66ca10f60
+philip[row_i, col_i]
 
 # ╔═╡ c9ed950c-dcd9-4296-a431-ee0f36d5b557
 md"""
@@ -503,9 +503,6 @@ function create_bar()
 	
 	return missing
 end
-
-# ╔═╡ d862fb16-edf1-11ea-36ec-615d521e6bc0
-colored_line(create_bar())
 
 # ╔═╡ e3394c8a-edf0-11ea-1bb8-619f7abb6881
 if !@isdefined(create_bar)
@@ -730,18 +727,6 @@ md"""
 We can do the same to create different size matrices, by creating two sliders, one for reds and one for greens. Try it out!
 """
 
-# ╔═╡ 2a94a2cf-b697-4b0b-afd0-af2e35af2bb1
-@bind webcam_data camera_input()
-
-# ╔═╡ 3e0ece65-b8a7-4be7-ae44-6d7210c2e15b
-myface = process_raw_camera_data(webcam_data);
-
-# ╔═╡ 4ee18bee-13e6-4478-b2ca-ab66100e57ec
-[
-	myface              myface[   :    , end:-1:1]
-	myface[end:-1:1, :] myface[end:-1:1, end:-1:1]
-]
-
 # ╔═╡ ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 md"""
 # Summary
@@ -755,359 +740,20 @@ Let's summarize the main ideas from this notebook:
 - We can create arrays directly or using **array comprehensions**
 """
 
-# ╔═╡ 9025a5b4-6066-11eb-20e8-099e9b8f859e
-md"""
-----
-"""
-
-# ╔═╡ 45815734-ee0a-11ea-2982-595e1fc0e7b1
-bigbreak
-
 # ╔═╡ 5da8cbe8-eded-11ea-2e43-c5b7cc71e133
 begin
 	colored_line(x::Vector{<:Real}) = Gray.(Float64.((hcat(x)')))
 	colored_line(x::Any) = nothing
 end
 
-# ╔═╡ e074560a-601b-11eb-340e-47acd64f03b2
-hint(text) = Markdown.MD(Markdown.Admonition("hint", "Hint", [text]))
-
-# ╔═╡ e0776548-601b-11eb-2563-57ba2cf1d5d1
-almost(text) = Markdown.MD(Markdown.Admonition("warning", "Almost there!", [text]))
-
-# ╔═╡ e083bef6-601b-11eb-2134-e3063d5c4253
-still_missing(text=md"Replace `missing` with your answer.") = Markdown.MD(Markdown.Admonition("warning", "Here we go!", [text]))
-
-# ╔═╡ e08ecb84-601b-11eb-0e25-152ed3a262f7
-keep_working(text=md"The answer is not quite right.") = Markdown.MD(Markdown.Admonition("danger", "Keep working on it!", [text]))
-
-# ╔═╡ e09036a4-601b-11eb-1a8b-ef70105ab91c
-yays = [md"Great!", md"Yay ❤", md"Great! 🎉", md"Well done!", md"Keep it up!", md"Good job!", md"Awesome!", md"You got the right answer!", md"Let's move on to the next section."]
-
-# ╔═╡ e09af1a2-601b-11eb-14c8-57a46546f6ce
-correct(text=rand(yays)) = Markdown.MD(Markdown.Admonition("correct", "Got it!", [text]))
-
-# ╔═╡ e0a4fc10-601b-11eb-211d-03570aca2726
-not_defined(variable_name) = Markdown.MD(Markdown.Admonition("danger", "Oopsie!", [md"Make sure that you define a variable called **$(Markdown.Code(string(variable_name)))**"]))
+# ╔═╡ d862fb16-edf1-11ea-36ec-615d521e6bc0
+colored_line(create_bar())
 
 # ╔═╡ e0a6031c-601b-11eb-27a5-65140dd92897
 bigbreak = html"<br><br><br><br><br>";
 
-# ╔═╡ e0b15582-601b-11eb-26d6-bbf708933bc8
-function camera_input(;max_size=150, default_url="https://i.imgur.com/SUmi94P.png")
-"""
-<span class="pl-image waiting-for-permission">
-<style>
-	
-	.pl-image.popped-out {
-		position: fixed;
-		top: 0;
-		right: 0;
-		z-index: 5;
-	}
-
-	.pl-image #video-container {
-		width: 250px;
-	}
-
-	.pl-image video {
-		border-radius: 1rem 1rem 0 0;
-	}
-	.pl-image.waiting-for-permission #video-container {
-		display: none;
-	}
-	.pl-image #prompt {
-		display: none;
-	}
-	.pl-image.waiting-for-permission #prompt {
-		width: 250px;
-		height: 200px;
-		display: grid;
-		place-items: center;
-		font-family: monospace;
-		font-weight: bold;
-		text-decoration: underline;
-		cursor: pointer;
-		border: 5px dashed rgba(0,0,0,.5);
-	}
-
-	.pl-image video {
-		display: block;
-	}
-	.pl-image .bar {
-		width: inherit;
-		display: flex;
-		z-index: 6;
-	}
-	.pl-image .bar#top {
-		position: absolute;
-		flex-direction: column;
-	}
-	
-	.pl-image .bar#bottom {
-		background: black;
-		border-radius: 0 0 1rem 1rem;
-	}
-	.pl-image .bar button {
-		flex: 0 0 auto;
-		background: rgba(255,255,255,.8);
-		border: none;
-		width: 2rem;
-		height: 2rem;
-		border-radius: 100%;
-		cursor: pointer;
-		z-index: 7;
-	}
-	.pl-image .bar button#shutter {
-		width: 3rem;
-		height: 3rem;
-		margin: -1.5rem auto .2rem auto;
-	}
-
-	.pl-image video.takepicture {
-		animation: pictureflash 200ms linear;
-	}
-
-	@keyframes pictureflash {
-		0% {
-			filter: grayscale(1.0) contrast(2.0);
-		}
-
-		100% {
-			filter: grayscale(0.0) contrast(1.0);
-		}
-	}
-</style>
-
-	<div id="video-container">
-		<div id="top" class="bar">
-			<button id="stop" title="Stop video">✖</button>
-			<button id="pop-out" title="Pop out/pop in">⏏</button>
-		</div>
-		<video playsinline autoplay></video>
-		<div id="bottom" class="bar">
-		<button id="shutter" title="Click to take a picture">📷</button>
-		</div>
-	</div>
-		
-	<div id="prompt">
-		<span>
-		Enable webcam
-		</span>
-	</div>
-
-<script>
-	// based on https://github.com/fonsp/printi-static (by the same author)
-
-	const span = currentScript.parentElement
-	const video = span.querySelector("video")
-	const popout = span.querySelector("button#pop-out")
-	const stop = span.querySelector("button#stop")
-	const shutter = span.querySelector("button#shutter")
-	const prompt = span.querySelector(".pl-image #prompt")
-
-	const maxsize = $(max_size)
-
-	const send_source = (source, src_width, src_height) => {
-		const scale = Math.min(1.0, maxsize / src_width, maxsize / src_height)
-
-		const width = Math.floor(src_width * scale)
-		const height = Math.floor(src_height * scale)
-
-		const canvas = html`<canvas width=\${width} height=\${height}>`
-		const ctx = canvas.getContext("2d")
-		ctx.drawImage(source, 0, 0, width, height)
-
-		span.value = {
-			width: width,
-			height: height,
-			data: ctx.getImageData(0, 0, width, height).data,
-		}
-		span.dispatchEvent(new CustomEvent("input"))
-	}
-	
-	const clear_camera = () => {
-		window.stream.getTracks().forEach(s => s.stop());
-		video.srcObject = null;
-
-		span.classList.add("waiting-for-permission");
-	}
-
-	prompt.onclick = () => {
-		navigator.mediaDevices.getUserMedia({
-			audio: false,
-			video: {
-				facingMode: "environment",
-			},
-		}).then(function(stream) {
-
-			stream.onend = console.log
-
-			window.stream = stream
-			video.srcObject = stream
-			window.cameraConnected = true
-			video.controls = false
-			video.play()
-			video.controls = false
-
-			span.classList.remove("waiting-for-permission");
-
-		}).catch(function(error) {
-			console.log(error)
-		});
-	}
-	stop.onclick = () => {
-		clear_camera()
-	}
-	popout.onclick = () => {
-		span.classList.toggle("popped-out")
-	}
-
-	shutter.onclick = () => {
-		const cl = video.classList
-		cl.remove("takepicture")
-		void video.offsetHeight
-		cl.add("takepicture")
-		video.play()
-		video.controls = false
-		console.log(video)
-		send_source(video, video.videoWidth, video.videoHeight)
-	}
-	
-	
-	document.addEventListener("visibilitychange", () => {
-		if (document.visibilityState != "visible") {
-			clear_camera()
-		}
-	})
-
-
-	// Set a default image
-
-	const img = html`<img crossOrigin="anonymous">`
-
-	img.onload = () => {
-	console.log("helloo")
-		send_source(img, img.width, img.height)
-	}
-	img.src = "$(default_url)"
-	console.log(img)
-</script>
-</span>
-""" |> HTML
-end
-
-# ╔═╡ e891fce0-601b-11eb-383b-bde5b128822e
-
-function process_raw_camera_data(raw_camera_data)
-	# the raw image data is a long byte array, we need to transform it into something
-	# more "Julian" - something with more _structure_.
-	
-	# The encoding of the raw byte stream is:
-	# every 4 bytes is a single pixel
-	# every pixel has 4 values: Red, Green, Blue, Alpha
-	# (we ignore alpha for this notebook)
-	
-	# So to get the red values for each pixel, we take every 4th value, starting at 
-	# the 1st:
-	reds_flat = UInt8.(raw_camera_data["data"][1:4:end])
-	greens_flat = UInt8.(raw_camera_data["data"][2:4:end])
-	blues_flat = UInt8.(raw_camera_data["data"][3:4:end])
-	
-	# but these are still 1-dimensional arrays, nicknamed 'flat' arrays
-	# We will 'reshape' this into 2D arrays:
-	
-	width = raw_camera_data["width"]
-	height = raw_camera_data["height"]
-	
-	# shuffle and flip to get it in the right shape
-	reds = reshape(reds_flat, (width, height))' / 255.0
-	greens = reshape(greens_flat, (width, height))' / 255.0
-	blues = reshape(blues_flat, (width, height))' / 255.0
-	
-	# we have our 2D array for each color
-	# Let's create a single 2D array, where each value contains the R, G and B value of 
-	# that pixel
-	
-	RGB.(reds, greens, blues)
-end
-
-# ╔═╡ 3ef77236-1867-4d02-8af2-ff4777fcd6d9
-exercise_css = html"""
-<style>
-
-ct-exercise > h4 {
-    background: #73789a;
-    color: white;
-    padding: 0rem 1.5rem;
-    font-size: 1.2rem;
-    border-radius: .6rem .6rem 0rem 0rem;
-	margin-left: .5rem;
-	display: inline-block;
-}
-ct-exercise > section {
-	    background: #31b3ff1a;
-    border-radius: 0rem 1rem 1rem 1rem;
-    padding: .7rem;
-    margin: .5rem;
-    margin-top: 0rem;
-    position: relative;
-}
-
-
-/*ct-exercise > section::before {
-	content: "👉";
-    display: block;
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    background: #ffffff8c;
-    border-radius: 100%;
-    width: 1rem;
-    height: 1rem;
-    padding: .5rem .5rem;
-    font-size: 1rem;
-    line-height: 1rem;
-    left: -1rem;
-}*/
-
-
-ct-answer {
-	display: flex;
-}
-</style>
-
-"""
-
-# ╔═╡ 61b29e7d-5aba-4bc8-870b-c1c43919c236
-exercise(x, number="") = 
-@htl("""
-	<ct-exercise class="exercise">
-	<h4>Exercise <span>$(number)</span></h4>
-	<section>$(x)
-	</section>
-	</ct-exercise>
-	""")
-
-# ╔═╡ a9fef6c9-e911-4d8c-b141-a4832b40a260
-quick_question(x, number, options, correct) = let
-	name = join(rand('a':'z',16))
-@htl("""
-	<ct-exercise class="quick-question">
-	<h4>Quick Question <span>$(number)</span></h4>
-	<section>$(x)
-	<ct-answers>
-	$(map(enumerate(options)) do (i, o)
-		@htl("<ct-answer><input type=radio name=$(name) id=$(i) >$(o)</ct-answer>")
-	end)
-	</ct-answers>
-	</section>
-	</ct-exercise>
-	""")
-end
-
-# ╔═╡ edf900be-601b-11eb-0456-3f7cfc5e876b
-md"_Lecture 1, Spring 2021, version 0_"
+# ╔═╡ 45815734-ee0a-11ea-2982-595e1fc0e7b1
+bigbreak
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1118,6 +764,7 @@ FileIO = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
 HypertextLiteral = "ac1192a8-f4b3-4bfe-ba22-af5b92cd3ab2"
 ImageIO = "82e4d734-157c-48bb-816b-45c225c6df19"
 ImageShow = "4e3cecfd-b093-5904-9786-8bbb286a6a31"
+PlutoTeachingTools = "661c6b06-c737-4d37-b85c-46df65de6f69"
 PlutoUI = "7f904dfe-b85e-4ff6-b463-dae2292396a8"
 
 [compat]
@@ -1127,6 +774,7 @@ FileIO = "~1.15.0"
 HypertextLiteral = "~0.9.4"
 ImageIO = "~0.6.6"
 ImageShow = "~0.3.6"
+PlutoTeachingTools = "~0.2.11"
 PlutoUI = "~0.7.48"
 """
 
@@ -1179,6 +827,12 @@ git-tree-sha1 = "38f7a08f19d8810338d4f5085211c7dfa5d5bdd8"
 uuid = "9e997f8a-9a97-42d5-a9f1-ce6bfc15e2c0"
 version = "0.1.4"
 
+[[CodeTracking]]
+deps = ["InteractiveUtils", "UUIDs"]
+git-tree-sha1 = "d730914ef30a06732bdd9f763f6cc32e92ffbff1"
+uuid = "da1fd8a2-8d9e-5ec2-8556-3022fb5608a2"
+version = "1.3.1"
+
 [[ColorTypes]]
 deps = ["FixedPointNumbers", "Random"]
 git-tree-sha1 = "eb7f0f8307f71fac7c606984ea5fb2817275d6e4"
@@ -1206,7 +860,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -1247,6 +901,12 @@ deps = ["Statistics"]
 git-tree-sha1 = "335bfdceacc84c5cdf16aadc768aa5ddfc5383cc"
 uuid = "53c48c17-4a7d-5ca2-90c5-79b7896eea93"
 version = "0.8.4"
+
+[[Formatting]]
+deps = ["Printf"]
+git-tree-sha1 = "8339d61043228fdd3eb658d86c926cb282ae72a8"
+uuid = "59287772-0a20-5a39-b81b-1366585eb4c0"
+version = "0.4.2"
 
 [[Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
@@ -1351,6 +1011,23 @@ git-tree-sha1 = "b53380851c6e6664204efb2e62cd24fa5c47e4ba"
 uuid = "aacddb02-875f-59d6-b918-886e6ef4fbf8"
 version = "2.1.2+0"
 
+[[JuliaInterpreter]]
+deps = ["CodeTracking", "InteractiveUtils", "Random", "UUIDs"]
+git-tree-sha1 = "6a125e6a4cb391e0b9adbd1afa9e771c2179f8ef"
+uuid = "aa1ae85d-cabe-5617-a682-6adf51b2e16a"
+version = "0.9.23"
+
+[[LaTeXStrings]]
+git-tree-sha1 = "f2355693d6778a178ade15952b7ac47a4ff97996"
+uuid = "b964fa9f-0449-5b57-a5c2-d3ea65f4040f"
+version = "1.3.0"
+
+[[Latexify]]
+deps = ["Formatting", "InteractiveUtils", "LaTeXStrings", "MacroTools", "Markdown", "OrderedCollections", "Printf", "Requires"]
+git-tree-sha1 = "8c57307b5d9bb3be1ff2da469063628631d4d51e"
+uuid = "23fbe1c1-3f47-55db-b15f-69d7ec21a316"
+version = "0.15.21"
+
 [[LazyModules]]
 git-tree-sha1 = "a560dd966b386ac9ae60bdd3a3d3a326062d3c3e"
 uuid = "8cdb02fc-e678-4876-92c5-9defec4f444e"
@@ -1391,10 +1068,22 @@ version = "0.3.18"
 [[Logging]]
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
+[[LoweredCodeUtils]]
+deps = ["JuliaInterpreter"]
+git-tree-sha1 = "60168780555f3e663c536500aa790b6368adc02a"
+uuid = "6f1432cf-f94c-5a45-995e-cdbf5db27b0b"
+version = "2.3.0"
+
 [[MIMEs]]
 git-tree-sha1 = "65f28ad4b594aebe22157d6fac869786a255b7eb"
 uuid = "6c6e2e6c-3030-632d-7369-2d6c69616d65"
 version = "0.1.4"
+
+[[MacroTools]]
+deps = ["Markdown", "Random"]
+git-tree-sha1 = "42324d08725e200c23d4dfb549e0d5d89dede2d2"
+uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
+version = "0.5.10"
 
 [[MappedArrays]]
 git-tree-sha1 = "e8b359ef06ec72e8c030463fe02efe5527ee5142"
@@ -1507,6 +1196,24 @@ git-tree-sha1 = "f6cf8e7944e50901594838951729a1861e668cb8"
 uuid = "eebad327-c553-4316-9ea0-9fa01ccd7688"
 version = "0.3.2"
 
+[[PlutoHooks]]
+deps = ["InteractiveUtils", "Markdown", "UUIDs"]
+git-tree-sha1 = "072cdf20c9b0507fdd977d7d246d90030609674b"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0774"
+version = "0.0.5"
+
+[[PlutoLinks]]
+deps = ["FileWatching", "InteractiveUtils", "Markdown", "PlutoHooks", "Revise", "UUIDs"]
+git-tree-sha1 = "8f5fa7056e6dcfb23ac5211de38e6c03f6367794"
+uuid = "0ff47ea0-7a50-410d-8455-4348d5de0420"
+version = "0.1.6"
+
+[[PlutoTeachingTools]]
+deps = ["Downloads", "HypertextLiteral", "LaTeXStrings", "Latexify", "Markdown", "PlutoLinks", "PlutoUI", "Random"]
+git-tree-sha1 = "88222661708df26242d0bfb9237d023557d11718"
+uuid = "661c6b06-c737-4d37-b85c-46df65de6f69"
+version = "0.2.11"
+
 [[PlutoUI]]
 deps = ["AbstractPlutoDingetjes", "Base64", "ColorTypes", "Dates", "FixedPointNumbers", "Hyperscript", "HypertextLiteral", "IOCapture", "InteractiveUtils", "JSON", "Logging", "MIMEs", "Markdown", "Random", "Reexport", "URIs", "UUIDs"]
 git-tree-sha1 = "efc140104e6d0ae3e7e30d56c98c4a927154d684"
@@ -1554,6 +1261,12 @@ git-tree-sha1 = "838a3a4188e2ded87a4f9f184b4b0d78a1e91cb7"
 uuid = "ae029012-a4dd-5104-9daa-d747884805df"
 version = "1.3.0"
 
+[[Revise]]
+deps = ["CodeTracking", "Distributed", "FileWatching", "JuliaInterpreter", "LibGit2", "LoweredCodeUtils", "OrderedCollections", "Pkg", "REPL", "Requires", "UUIDs", "Unicode"]
+git-tree-sha1 = "feafdc70b2e6684314e188d95fe66d116de834a7"
+uuid = "295af30f-e4ad-537b-8983-00126c2a3abe"
+version = "3.5.2"
+
 [[SHA]]
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 version = "0.7.0"
@@ -1598,7 +1311,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1679,7 +1392,7 @@ version = "17.4.0+0"
 # ╟─546db74c-6d4e-11eb-2e27-f5bed9dbd9ba
 # ╟─6385d174-6d4e-11eb-093b-6f6fafb79f84
 # ╟─132f6596-6bc6-11eb-29f1-1b2478c929af
-# ╟─635a03dd-abd7-49c8-a3d2-e68c7d83cc9b
+# ╟─e1bd938e-d067-4854-b5da-9aa71023d8a1
 # ╟─9eb6efd2-6018-11eb-2db8-c3ce41d9e337
 # ╟─e37e4d40-6018-11eb-3e1d-093266c98507
 # ╟─e1c9742a-6018-11eb-23ba-d974e57f78f9
@@ -1695,8 +1408,7 @@ version = "17.4.0+0"
 # ╟─11dff4ce-6bca-11eb-1056-c1345c796ed4
 # ╟─efef3a32-6bc9-11eb-17e9-dd2171be9c21
 # ╟─e94dcc62-6d4e-11eb-3d53-ff9878f0091e
-# ╟─d6742ea0-1106-4f3c-a5b8-a31a48d33f19
-# ╠═1d7375b7-7ea6-4d67-ab73-1c69d6b8b87f
+# ╠═bd0e4cfc-72bb-43c1-8178-63872f859fab
 # ╠═6224c74b-8915-4983-abf0-30e6ba04a46d
 # ╟─cef1a95a-64c6-11eb-15e7-636a3621d727
 # ╟─f26d9326-64c6-11eb-1166-5d82586422ed
@@ -1790,27 +1502,10 @@ version = "17.4.0+0"
 # ╟─10f6e6da-64d8-11eb-366f-11f16e73043b
 # ╟─82a8314c-64d8-11eb-1acb-e33625381178
 # ╟─576d5e3a-64d8-11eb-10c9-876be31f7830
-# ╠═2a94a2cf-b697-4b0b-afd0-af2e35af2bb1
-# ╠═3e0ece65-b8a7-4be7-ae44-6d7210c2e15b
-# ╠═4ee18bee-13e6-4478-b2ca-ab66100e57ec
 # ╟─ace86c8a-60ee-11eb-34ef-93c54abc7b1a
 # ╟─b08e57e4-60ee-11eb-0e1a-2f49c496668b
-# ╟─9025a5b4-6066-11eb-20e8-099e9b8f859e
 # ╟─45815734-ee0a-11ea-2982-595e1fc0e7b1
 # ╟─5da8cbe8-eded-11ea-2e43-c5b7cc71e133
-# ╟─e074560a-601b-11eb-340e-47acd64f03b2
-# ╟─e0776548-601b-11eb-2563-57ba2cf1d5d1
-# ╟─e083bef6-601b-11eb-2134-e3063d5c4253
-# ╟─e08ecb84-601b-11eb-0e25-152ed3a262f7
-# ╟─e09036a4-601b-11eb-1a8b-ef70105ab91c
-# ╟─e09af1a2-601b-11eb-14c8-57a46546f6ce
-# ╟─e0a4fc10-601b-11eb-211d-03570aca2726
 # ╠═e0a6031c-601b-11eb-27a5-65140dd92897
-# ╟─e0b15582-601b-11eb-26d6-bbf708933bc8
-# ╟─e891fce0-601b-11eb-383b-bde5b128822e
-# ╟─3ef77236-1867-4d02-8af2-ff4777fcd6d9
-# ╟─61b29e7d-5aba-4bc8-870b-c1c43919c236
-# ╟─a9fef6c9-e911-4d8c-b141-a4832b40a260
-# ╟─edf900be-601b-11eb-0456-3f7cfc5e876b
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

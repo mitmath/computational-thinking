@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -26,12 +26,6 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ ca1a1072-81b6-11eb-1fee-e7df687cc314
-PlutoUI.TableOfContents(aside = true)
-
-# ╔═╡ b0ba5b8c-f5d1-11ea-1304-3f0e47f935fe
-md"# Examples of structure"
-
 # ╔═╡ 864e1180-f693-11ea-080e-a7d5aabc9ca5
 begin
 	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
@@ -40,11 +34,29 @@ begin
 	
 	using InteractiveUtils, PlutoUI
 	using LinearAlgebra, SparseArrays, Statistics
-
-	# Small patch to make images look more crisp:
-	# https://github.com/JuliaImages/ImageShow.jl/pull/50
-	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
 end
+
+# ╔═╡ ca1a1072-81b6-11eb-1fee-e7df687cc314
+PlutoUI.TableOfContents(aside = true)
+
+# ╔═╡ fe2028ba-f6dc-11ea-0228-938a81a91ace
+myonehatvector = [0, 1, 0, 0, 0, 0]
+
+# ╔═╡ 0a902426-f6dd-11ea-0ae4-fb0c47863fe7
+# also one "cold"
+1 .- myonehatvector
+
+# ╔═╡ 4624cd26-f5d3-11ea-1cf8-7d6555eae5fa
+struct OneHot <: AbstractVector{Int}
+	n::Int
+	k::Int
+end
+
+# ╔═╡ 397ac764-f5fe-11ea-20cc-8d7cab19d410
+Base.size(x::OneHot) = (x.n,)
+
+# ╔═╡ 82c7046c-f5d3-11ea-04e2-ef7c0f4db5da
+Base.getindex(x::OneHot, i::Int) = Int(x.k == i)
 
 # ╔═╡ 261c4df2-f5d2-11ea-2c72-7d4b09c46098
 md"""
@@ -57,9 +69,6 @@ md"""
 A **one-hot** vector has a single "hot" element, i.e. a single 1 in a sea of zeros. For example:
 """
 
-# ╔═╡ fe2028ba-f6dc-11ea-0228-938a81a91ace
-myonehatvector = [0, 1, 0, 0, 0, 0]
-
 # ╔═╡ 8d2c6910-f5d4-11ea-1928-1baf09815687
 md"""How much "information" (numbers) do you need to represent a one-hot vector? Is it $n$ or is it two?
 """
@@ -68,10 +77,6 @@ md"""How much "information" (numbers) do you need to represent a one-hot vector?
 md"""
 (There are also "1-cold" vectors:)
 """
-
-# ╔═╡ 0a902426-f6dd-11ea-0ae4-fb0c47863fe7
-# also one "cold"
-1 .- myonehatvector
 
 # ╔═╡ 4794e860-81b7-11eb-2c91-8561c20f308a
 md"""
@@ -83,27 +88,15 @@ md"""
 We can create our own new types in Julia. Let's create a new type to represent one-hot vectors. It will be a subtype of `AbstractVector`, meaning that it *behaves like* a vector.
 """
 
-# ╔═╡ 4624cd26-f5d3-11ea-1cf8-7d6555eae5fa
-struct OneHot <: AbstractVector{Int}
-	n::Int
-	k::Int
-end
-
 # ╔═╡ 9bdabef8-81cc-11eb-14a1-67a9a7d968c0
 md"""
 We need to specify how long the vector is:
 """
 
-# ╔═╡ 397ac764-f5fe-11ea-20cc-8d7cab19d410
-Base.size(x::OneHot) = (x.n,)
-
 # ╔═╡ a22dcd2c-81cc-11eb-1252-13ace134192d
 md"""
 and how to extract the $i$th component:
 """
-
-# ╔═╡ 82c7046c-f5d3-11ea-04e2-ef7c0f4db5da
-Base.getindex(x::OneHot, i::Int) = Int(x.k == i)
 
 # ╔═╡ b024c318-81cc-11eb-018c-e1f7830ff51b
 md"""
@@ -127,7 +120,7 @@ This is an example of taking advantage of structure.
 
 # ╔═╡ e2e354a8-81b7-11eb-311a-35151063c2a7
 md"""
-## Julia: dump and Dump
+## Julia: `dump`
 """
 
 # ╔═╡ dc5a96ba-81cc-11eb-3189-25920df48afa
@@ -136,17 +129,12 @@ md"""
 """
 
 # ╔═╡ af0d3c22-f756-11ea-37d6-11b630d2314a
-with_terminal() do
-	dump(myonehotvector)
-end
+dump(myonehotvector)
 
-# ╔═╡ 06e3a842-26b8-4417-9cf5-8a083ccdb264
+# ╔═╡ 868a8cd8-6372-461a-bd99-97e45dcb1487
 md"""
-Since `dump` writes to a terminal, you can't use it directly inside Pluto, which is why we wrap it inside a `with_terminal` block. You can also use the function `Dump` from `PlutoUI`:
+When used inside our code, however, it behaves and looks exactly like a vector. Pluto also displays it as a vector, with its individual elements.
 """
-
-# ╔═╡ 91172a3e-81b7-11eb-0953-9f5e0207f863
-Dump(myonehotvector)
 
 # ╔═╡ 4bbf3f58-f788-11ea-0d24-6b0fb070829e
 myonehotvector
@@ -168,9 +156,6 @@ k=$(@bind kk Slider(1:nn, default=1, show_value=true))
 
 # ╔═╡ f1154df8-f693-11ea-3b16-f32835fcc470
 x = OneHot(nn, kk)
-
-# ╔═╡ 982590d4-f5ff-11ea-3802-73292c75ad6c
-show_image(x)
 
 # ╔═╡ 81c35324-f5d4-11ea-2338-9f982d38732c
 md"# Diagonal matrices"
@@ -203,10 +188,10 @@ Diagonal([5, 6, -10])
 md"How much information is stored for each representation? We can use Julia's `dump` function to find out:"
 
 # ╔═╡ 466901ea-f5d5-11ea-1db5-abf82c96eabf
-Dump(denseD)
+dump(denseD)
 
 # ╔═╡ b38c4aae-f5d5-11ea-39b6-7b0c7d529019
-Dump(D)
+dump(D)
 
 # ╔═╡ 93e04ed8-81cd-11eb-214a-a761ef8c406f
 md"""
@@ -251,7 +236,7 @@ which is generally considered favorable for arithmetic, matrix-vector
 """
 
 # ╔═╡ 3d4a702e-f75a-11ea-031c-333d591fc442
-Dump(sparse(M))
+dump(sparse(M))
 
 # ╔═╡ 80ff4010-81bb-11eb-374e-215a57defb0b
 md"""
@@ -262,9 +247,7 @@ md"""
 M2 = sparse([1, 2, 10^6], [4, 9, 10^6], [7, 8, 9])
 
 # ╔═╡ 8b60629e-f5d6-11ea-27c8-d934460d3a57
-with_terminal() do
-	dump(M2)
-end
+dump(M2)
 
 # ╔═╡ 2fd7e52e-f5d7-11ea-3b5a-1f338e2451e0
 M3 = [1 0 2 0 10; 0 3 4 0 9; 0 0 0 5 8; 0 0 0 0 7] 
@@ -273,7 +256,7 @@ M3 = [1 0 2 0 10; 0 3 4 0 9; 0 0 0 5 8; 0 0 0 0 7]
 M4 = M3 .* 0
 
 # ╔═╡ cde79f38-f5d6-11ea-3297-0b5b240f7b9e
-Dump(sparse(M4))
+dump(sparse(M4))
 
 # ╔═╡ aa09c008-f5d8-11ea-1bdc-b51ee6eb2478
 sparse(M4)
@@ -373,9 +356,6 @@ outer( rand(3), rand(4) )  # but it's just a multiplication table
 md"""
 You might guess by visualizing the matrix that it is a multiplication table:
 """
-
-# ╔═╡ 2f75df7e-f601-11ea-2fc2-aff4f335af33
-show_image( outer( rand(10), rand(10) ))
 
 # ╔═╡ 7ff664f0-f74b-11ea-0d2d-b53f19e4f4bf
 md"We can factor out a multiplication table, if it's there:"
@@ -523,7 +503,7 @@ md"""
 Syntax to be learned:
 
 * A `struct` is a great way to embody structure.
-* `dump` and `Dump`: to see what's inside a data structure.
+* `dump`: to see what's inside a data structure.
 * `Diagonal`, `sparse`
 * `error` (throws an exception)
 * `svd` (Singular Value Decomposition)
@@ -537,6 +517,12 @@ begin
 	show_image(M) = get.([ColorSchemes.rainbow], M ./ maximum(M))
 	show_image(x::AbstractVector) = show_image(x')
 end
+
+# ╔═╡ 982590d4-f5ff-11ea-3802-73292c75ad6c
+show_image(x)
+
+# ╔═╡ 2f75df7e-f601-11ea-2fc2-aff4f335af33
+show_image( outer( rand(10), rand(10) ))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -567,9 +553,9 @@ PlutoUI = "~0.7.48"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.8.0"
+julia_version = "1.8.5"
 manifest_format = "2.0"
-project_hash = "ff367a6bd4a984a06ac260072dafdc671374529f"
+project_hash = "dee909143a164e217bd9bcf617306732c04e7b6c"
 
 [[deps.AbstractFFTs]]
 deps = ["ChainRulesCore", "LinearAlgebra"]
@@ -649,7 +635,7 @@ version = "4.3.0"
 [[deps.CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[deps.DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -1041,7 +1027,7 @@ version = "1.0.0"
 [[deps.Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[deps.TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1111,7 +1097,6 @@ version = "17.4.0+0"
 
 # ╔═╡ Cell order:
 # ╟─ca1a1072-81b6-11eb-1fee-e7df687cc314
-# ╟─b0ba5b8c-f5d1-11ea-1304-3f0e47f935fe
 # ╠═864e1180-f693-11ea-080e-a7d5aabc9ca5
 # ╟─261c4df2-f5d2-11ea-2c72-7d4b09c46098
 # ╟─3cada3a0-81cc-11eb-04c8-bde26d36a84e
@@ -1134,8 +1119,7 @@ version = "17.4.0+0"
 # ╟─e2e354a8-81b7-11eb-311a-35151063c2a7
 # ╟─dc5a96ba-81cc-11eb-3189-25920df48afa
 # ╠═af0d3c22-f756-11ea-37d6-11b630d2314a
-# ╟─06e3a842-26b8-4417-9cf5-8a083ccdb264
-# ╠═91172a3e-81b7-11eb-0953-9f5e0207f863
+# ╟─868a8cd8-6372-461a-bd99-97e45dcb1487
 # ╠═4bbf3f58-f788-11ea-0d24-6b0fb070829e
 # ╟─fe70d104-81b7-11eb-14d0-eb5237d8ea6c
 # ╟─ef8f44b2-f5fc-11ea-1e4d-bd873cd39d6c

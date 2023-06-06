@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -82,13 +82,6 @@ md"""
 x₀ = $(@bind x02 Slider(-10:10, show_value=true, default=6))
 """
 
-# ╔═╡ ecb40aea-7b9c-11eb-1476-e54faf32d91c
-let
-	f(x) = x^2 - 2
-
-	standard_Newton(f, n2, -1:0.01:10, x02, -10, 70)
-end
-
 # ╔═╡ 2445da24-7b9d-11eb-02bd-eb99a3d95a2e
 md"""
 n = $(@bind n Slider(0:10, show_value=true, default=0))
@@ -98,13 +91,6 @@ n = $(@bind n Slider(0:10, show_value=true, default=0))
 md"""
 x₀ = $(@bind x0 Slider(-10:10, show_value=true, default=6))
 """
-
-# ╔═╡ ec6c6328-7b9c-11eb-1c69-dba12ae522ad
-let
-	f(x) = 0.2x^3 - 4x + 1
-	
-	standard_Newton(f, n, -10:0.01:10, x0, -10, 70)
-end
 
 # ╔═╡ c0b4defe-7c2f-11eb-1913-bdb01d28a4a8
 md"""
@@ -121,25 +107,22 @@ Let's see what happens if we perturb a function $f$ around a point $z$ by a smal
 # ╔═╡ 71efd6b0-7c30-11eb-0da7-0d4a5ab8f8ff
 @variables z, η
 
+# ╔═╡ a869e6c6-7c31-11eb-13c8-155d08be02eb
+md"""
+m = $(@bind m Slider(1:6, show_value=true))
+"""
+
 # ╔═╡ 6dc89964-7c30-11eb-0a41-8d97b210ed34
 f(x) = x^m - 2;
 
 # ╔═╡ d35e0cc8-7c30-11eb-28d3-17c9e221ea62
 f′(x) = ForwardDiff.derivative(f, x);
 
-# ╔═╡ a869e6c6-7c31-11eb-13c8-155d08be02eb
-md"""
-m = $(@bind m Slider(1:6, show_value=true))
-"""
-
 # ╔═╡ 63dbf052-7c32-11eb-1062-5b3581d38f70
 f(z)
 
 # ╔═╡ 9371f930-7c30-11eb-1f77-c7f31b97ea26
 f(z + η)
-
-# ╔═╡ 98158a38-7c30-11eb-0796-2335e97ec6d0
-expand( f(z + η) )
 
 # ╔═╡ 9d778e36-7c30-11eb-1f4b-894af86a8f5d
 md"""
@@ -151,9 +134,6 @@ f′(z)
 
 # ╔═╡ ea741018-7c30-11eb-3912-a50475e6ec49
 f(z) + η*f′(z)
-
-# ╔═╡ e18f2470-7c31-11eb-2b74-d59d00d20ba4
-expand( f(z + η) ) - ( f(z) + η*f′(z) )
 
 # ╔═╡ 389e990e-7c40-11eb-37c4-5ba0f59173b3
 md"""
@@ -258,21 +238,6 @@ p = $(@bind p Slider(0:0.01:1, show_value=true))
 
 # ╔═╡ 23536420-7c2d-11eb-20b0-9523f7a5f9d7
 @variables a, b, δ, ϵ
-
-# ╔═╡ 3828b94c-7c2d-11eb-2e01-79038b0f5226
-image = expand.(T(p)( [ (a + δ), (b + ϵ) ] ))
-
-# ╔═╡ 09b97be8-7c2e-11eb-05fd-65bbd097afb8
-jacobian(T(p), [a, b]) .|> Text
-
-# ╔═╡ 18ce2fac-7c2e-11eb-03d2-b3a674621662
-jacobian(T(p), [a, b]) * [δ, ϵ]
-
-# ╔═╡ ed605b90-7c3e-11eb-34e9-776a05a177dd
-image - T(p)([a, b])
-
-# ╔═╡ 35b5c5c6-7c3f-11eb-2723-4b406a809114
-simplify.(expand.(image - T(p)([a, b]) - jacobian(T(p), [a, b]) * [δ, ϵ]))
 
 # ╔═╡ 4dd2322c-7ba0-11eb-2b3b-af7c6c1d60a0
 md"""
@@ -394,8 +359,28 @@ function standard_Newton(f, n, x_range, x0, ymin=-10, ymax=10)
 
 end
 
+# ╔═╡ ecb40aea-7b9c-11eb-1476-e54faf32d91c
+let
+	f(x) = x^2 - 2
+
+	standard_Newton(f, n2, -1:0.01:10, x02, -10, 70)
+end
+
+# ╔═╡ ec6c6328-7b9c-11eb-1c69-dba12ae522ad
+let
+	f(x) = 0.2x^3 - 4x + 1
+	
+	standard_Newton(f, n, -10:0.01:10, x0, -10, 70)
+end
+
 # ╔═╡ 515c23b6-7c2d-11eb-28c9-1b1d92eb4ba0
 T(α) = ((x, y),) -> [x + α*y^2, y + α*x^2]
+
+# ╔═╡ 09b97be8-7c2e-11eb-05fd-65bbd097afb8
+jacobian(T(p), [a, b]) .|> Text
+
+# ╔═╡ 18ce2fac-7c2e-11eb-03d2-b3a674621662
+jacobian(T(p), [a, b]) * [δ, ϵ]
 
 # ╔═╡ 395fd8e2-7c31-11eb-1933-dd719fa0cd22
 md"""
@@ -418,6 +403,21 @@ md"""
 
 # ╔═╡ 786f8e78-7c2d-11eb-1bb8-c5cb2e349f45
 expand(ex) = simplify(ex, polynorm=true)
+
+# ╔═╡ 98158a38-7c30-11eb-0796-2335e97ec6d0
+expand( f(z + η) )
+
+# ╔═╡ e18f2470-7c31-11eb-2b74-d59d00d20ba4
+expand( f(z + η) ) - ( f(z) + η*f′(z) )
+
+# ╔═╡ 3828b94c-7c2d-11eb-2e01-79038b0f5226
+image = expand.(T(p)( [ (a + δ), (b + ϵ) ] ))
+
+# ╔═╡ ed605b90-7c3e-11eb-34e9-776a05a177dd
+image - T(p)([a, b])
+
+# ╔═╡ 35b5c5c6-7c3f-11eb-2723-4b406a809114
+simplify.(expand.(image - T(p)([a, b]) - jacobian(T(p), [a, b]) * [δ, ϵ]))
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -535,7 +535,7 @@ uuid = "6e34b625-4abd-537c-b88f-471c36dfa7a0"
 version = "1.0.8+0"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -613,7 +613,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[CompositeTypes]]
 git-tree-sha1 = "02d2316b7ffceff992f3096ae48c7829a8aa0638"
@@ -842,9 +842,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphite2_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1052,9 +1052,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1298,9 +1298,9 @@ uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -1522,7 +1522,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]

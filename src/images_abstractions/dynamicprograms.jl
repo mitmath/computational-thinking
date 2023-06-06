@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -32,11 +32,6 @@ begin
 	using Plots, PlutoUI, Colors, Images
 end
 
-# ╔═╡ a84fdba4-80db-11eb-13dc-3f440653b2b9
-md"""
-## Intro to Dynamic Programming 
-"""
-
 # ╔═╡ 938107f0-80ee-11eb-18cf-775802c43c2f
 md"""
 What is dynamic programming? The word "programming" here is a rather archaic word (but still in  use) for an **optimization problem**, as used, for example, in the phrase 
@@ -45,82 +40,36 @@ What is dynamic programming? The word "programming" here is a rather archaic wor
 
 # ╔═╡ eb043a90-8102-11eb-3b78-d590a23c83f4
 md"""
-### Summing over paths problem
+## Summing over paths problem
 """
 
 # ╔═╡ 5994117c-8102-11eb-1b05-671b7cf87a7e
 md"""
 Let's start by looking at the following problem. 
-Let's create a random matrix and follow paths on it.
-The paths start at one of the square on the top, and can only go downwards, either South-East, South, or South-West.
 
-We will *add up* the numbers visited along each path. Our goal is to find the path that has the *smallest* sum. So this is indeed an optimization problem: we want to **minimize** the sum along these particular paths.
+> Given a matrix, we follow a path from top to bottom.
+> The paths start at one of the square on the top, and can only go downwards, either **South-East**, **South**, or **South-West**.
+> 
+> We will **add up** the numbers visited along each path. Our goal is to find the path that has the **_smallest_ sum**. 
+
+This is indeed an optimization problem: in the set of all possible paths, we want to find a path that **minimizes** the sum of visited squares.
+"""
+
+# ╔═╡ b2c90407-ca04-4f96-a640-d197be02d155
+md"""
+### Try it yourself!
 """
 
 # ╔═╡ b4558306-804a-11eb-2719-5fd37c6fa281
 md"""
-n = $(@bind n Slider(2:12, show_value = true, default=8))
+Board size:
 """
+
+# ╔═╡ b62854c2-f246-46f1-a118-841b60f0b2eb
+const n = 8
 
 # ╔═╡ bc631086-804a-11eb-216e-c955e2115f55
 M = rand( 0:9, n, n)
-
-# ╔═╡ d1c851ee-80d5-11eb-1ce4-357dfb1e638e
-begin
-	paths = allpaths(n,n)
-	numpaths = length(paths)
-	md"There are $numpaths paths to check."
-end
-
-# ╔═╡ 7191b674-80dc-11eb-24b3-518de83f465a
-md"""
-Our goal is to add the numbers on a path and find the minimal path.
-The winner is number $winnernum.
-"""
-
-# ╔═╡ 5dd22d0e-80d6-11eb-0541-d77668309f6c
-md"""
-Path $( @bind whichpath Slider(1:numpaths, show_value=true) )
-"""
-
-# ╔═╡ a7245c08-803f-11eb-0da9-2bed09872035
-let
-	
-	path = paths[whichpath]
-	values = [ M[i,path[i]] for i=1:n]
-	nv = length(values)
-	thetitle = join([" $(values[i]) +" for i=1:nv-1 ]) * " $(values[end]) = $(sum(values))";
-	
-	
-	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
-	plot()
-	for i=1:n, j=1:n
-	   plot!(rectangle(1,1,i,j), opacity=.2, color=[:red,:white][1+rem(i+j,2) ])
-	   
-	end
-	for i=1:n, j=1:n
-	  annotate!((j+.5),n+2-(i+.5), M[i,j])
-	end
-	
-	# The winning path 
-		for i = 1:n-1
-		plot!([ winner[i+1]+.5, winner[i]+.5  ],[n-i+.5, n-i+1.5], color=RGB(1,.6,.6),  linewidth=4)
-	end
-	
-	
-	for i = 1:n-1
-		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=:black,  linewidth=4)
-	end
-	
-	plot!(xlabel="winner total = $winnertotal", xguidefontcolor=RGB(1,.5,.5))
-
-	
-	for i=1:n,j=1:n
-		plot!(rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=[RGBA(1,.85,.85,.2),:white][1+rem(i+j,2)])
-	end
-	plot!(title=thetitle)
-	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
-end
 
 # ╔═╡ 4e4d333e-8102-11eb-0ba1-0f0183d0d3c2
 md"""
@@ -148,53 +97,6 @@ md"""
 i= $(@bind fixi Scrubbable(1:n))
 j= $(@bind fixj Scrubbable(1:n))
 """
-
-# ╔═╡ 84bb1f5c-80e5-11eb-0e55-83068948870c
-begin
-	fixedpaths = [p for p∈paths  if p[fixi]==fixj]
-	number_of_fixedpaths = length(fixedpaths)
-	md"Number of fixed paths = $number_of_fixedpaths"
-end
-
-# ╔═╡ ee2d787c-80e5-11eb-1930-0fcbe253643f
-@bind whichfixedpath Slider(1:number_of_fixedpaths)
-
-# ╔═╡ e5367534-80e5-11eb-341d-7b3e6ca4f111
-begin
-	
-	path = fixedpaths[whichfixedpath]
-	values = [ M[i,path[i]] for i=1:n]
-	nv = length(values)
-	thetitle = join([" $(values[i]) +" for i=1:nv-1 ]) * " $(values[end]) = $(sum(values))";
-	
-	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
-
-	plot()
-	for i=1:n, j=1:n
-	   plot!(rectangle(1,1,i,j), opacity=.2, color=[:red,:white][1+rem(i+j,2) ])
-	   
-	end
-	for i=1:n, j=1:n
-	  annotate!((j+.5),n+2-(i+.5), M[i,j])
-	end
-	
-	annotate!((fixj+.5),n+2-(fixi+.5), M[fixi,fixj], :red)
-	
-	
-	for i = 1:n-1
-		i ≥ 	fixi ? c=:blue : c=:black
-		plot!([ path[i+1]+.5, path[i]+.5  ],[n-i+.5, n-i+1.5], color=c,  linewidth=4)
-	end
-	
-  xlabel!("")
-
-	
-	for i=1:n,j=1:n
-		plot!(rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=[RGBA(1,.85,.85,.2),:white][1+rem(i+j,2)])
-	end
-	plot!(title=thetitle)
-	plot!(legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
-end
 
 # ╔═╡ 4d81a6f4-8104-11eb-1f06-5bb7a56c8406
 md"""
@@ -224,12 +126,12 @@ begin
 	
 	Base.iterate(p::Paths) = fill(1,p.m), fill(1,p.m) #start the iteration with 1's
 	
-	Base.IteratorSize(::Type{Paths}) = SizeUnknown()
+	Base.IteratorSize(::Type{Paths}) = Base.SizeUnknown()
 	
 	function Base.iterate(p::Paths, state)
 		if state ≠ fill(p.n,p.m) # end when each row has an n
-	      newstate = next(state,p.n)
-	      return newstate, newstate
+			newstate = next(state,p.n)
+			return newstate, newstate
 	    end
 	end
 	
@@ -247,17 +149,40 @@ begin
 	    return(path)
 	end
 	
-
-	
 	function allpaths(m,n)
-     v=Vector{Int}[]
-	 paths = Paths(m,n)
-     for p ∈ paths
-        push!(v,copy(p))
-    end
-    v
+		Vector{Int}[
+			copy(p) for p in Paths(m,n)
+		]
 	end
 end
+
+# ╔═╡ d1c851ee-80d5-11eb-1ce4-357dfb1e638e
+begin
+	paths = allpaths(n,n)
+	numpaths = length(paths)
+	md"There are **$numpaths paths** to check."
+end
+
+# ╔═╡ 5dd22d0e-80d6-11eb-0541-d77668309f6c
+
+md"""
+Path: $( @bind whichpath Slider(1:numpaths; show_value=true) )
+"""
+
+# ╔═╡ 44f8ff4c-6e2b-481e-9fdc-7783a426e40a
+fixedpaths = [p for p∈paths  if p[fixi]==fixj]
+
+# ╔═╡ 84bb1f5c-80e5-11eb-0e55-83068948870c
+begin
+	
+	number_of_fixedpaths = length(fixedpaths)
+	md"Number of fixed paths = $number_of_fixedpaths"
+end
+
+# ╔═╡ d0eb5a08-149b-40e8-9fbe-14ace325e335
+md"""
+Path: $( @bind whichfixedpath Slider(1:number_of_fixedpaths; show_value=true) )
+"""
 
 # ╔═╡ 4e8c8052-8102-11eb-3e9f-01494b525ba0
 md"""
@@ -270,6 +195,116 @@ begin
 	winner = paths[winnernum]
 	winnertotal = sum( M[i,winner[i]] for i=1:n);
 end
+
+# ╔═╡ 7191b674-80dc-11eb-24b3-518de83f465a
+md"""
+Our goal is to add the numbers on a path and find the minimal path.
+The winner is number $winnernum.
+"""
+
+# ╔═╡ 66bfad1b-6a06-40e1-8510-3e41e5000cb7
+
+
+# ╔═╡ b13ae0b4-ae86-477c-b111-d6d26a6fe80d
+md"""
+# Appendix
+"""
+
+# ╔═╡ f30776b8-abe9-4b9d-b60a-65e8c31c8480
+function setup_board(M)
+	n = size(M,1)
+	
+	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
+	p = plot()
+
+	# the board
+	for i=1:n, j=1:n
+		if rem(i+j,2) == 0
+			plot!(p, rectangle(1,1,i,j), opacity=.2, color=:red)
+		end
+	end
+	for i=1:n, j=1:n
+		annotate!(p, (j+.5),n+2-(i+.5), M[i,j])
+	end
+	
+	plot!(p, legend=false, aspectratio=1, xlims=(1,n+1), ylims=(1,n+1), axis=nothing)
+
+	return p
+end
+
+# ╔═╡ e04331b8-8331-4c7e-bf62-83e3b55206df
+rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
+
+# ╔═╡ 59b6694f-e851-42e3-ae53-d826bd6b7792
+function draw_path!(p, path, indices=1:n; kwargs...)
+
+	# draw the line
+	plot!(p,
+		path[indices] .+ .5, 
+		(n + 1 .- indices) .+ .5;
+		linewidth=4, kwargs...
+	)
+
+	
+	# add little squares as background for the number in a square
+	for j in n + 1 .- indices
+		i = path[1+n-j]
+		
+		plot!(p, rectangle(.4,.4,i+.3,j+.3), opacity=1, color=RGB(0,1,0), linewidth=0,fillcolor=ifelse(rem(i+j,2) == 0, RGBA(1,.85,.85,.2), :white))
+	end
+
+	p
+
+end
+
+# ╔═╡ 4f72bfb4-b6b5-4824-81d6-acbf30b44c56
+path_text(values) = "$(join(values, " + ")) = $(sum(values))"
+
+# ╔═╡ e5367534-80e5-11eb-341d-7b3e6ca4f111
+let
+	path = fixedpaths[whichfixedpath]
+	values = [ M[i,path[i]] for i=1:n]
+	
+	p = setup_board(M)
+	
+	annotate!(p, (fixj+.5),n+2-(fixi+.5), M[fixi,fixj], :red)
+
+	draw_path!(p, path, 1:fixi; color=:black)
+	draw_path!(p, path, fixi:n; color=:blue)
+
+	plot!(p; title=path_text(values))
+end
+
+# ╔═╡ b086bb69-7194-4fb3-95fb-2403761468fd
+function viz(whichpath)
+	path = paths[whichpath]
+	
+	values = [ M[i,path[i]] for i=1:n]
+	nv = length(values)
+
+	rectangle(w, h, x, y) = Shape(x .+ [0,w,w,0], y .+ [0,0,h,h])
+	
+	p = setup_board(M)
+	
+	# The winning path 
+	draw_path!(p, winner;
+		color=RGB(1,.6,.6),
+	)
+	
+	# your path
+	draw_path!(p, path;
+		color=:black,
+	)
+
+	# text
+	plot!(p, title=path_text(values))
+	plot!(p, xlabel=path_text([ M[i,winner[i]] for i=1:n]), xguidefontcolor=RGB(1,.5,.5))
+
+	p
+end
+
+# ╔═╡ fdfa9f4f-35ea-4578-8fd1-358aaf3eac23
+viz(whichpath)
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -355,7 +390,7 @@ uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
 version = "0.4.2"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -423,7 +458,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ComputationalResources]]
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
@@ -587,15 +622,15 @@ version = "0.21.0+0"
 
 [[Ghostscript_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "78e2c69783c9753a91cdae88a8d432be85a2ab5e"
+git-tree-sha1 = "43ba3d3c82c18d88471cfd2924931658838c9d8f"
 uuid = "61579ee1-b43e-5ca0-a5da-69d92c66a64b"
-version = "9.55.0+0"
+version = "9.55.0+4"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
@@ -927,9 +962,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1214,9 +1249,9 @@ version = "1.0.0"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[Quaternions]]
 deps = ["LinearAlgebra", "Random"]
@@ -1395,7 +1430,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1697,29 +1732,38 @@ version = "1.4.1+0"
 
 # ╔═╡ Cell order:
 # ╠═71b53b98-8038-11eb-0ea5-d953294e9f35
-# ╟─a84fdba4-80db-11eb-13dc-3f440653b2b9
 # ╟─938107f0-80ee-11eb-18cf-775802c43c2f
 # ╟─eb043a90-8102-11eb-3b78-d590a23c83f4
 # ╟─5994117c-8102-11eb-1b05-671b7cf87a7e
+# ╟─b2c90407-ca04-4f96-a640-d197be02d155
 # ╟─b4558306-804a-11eb-2719-5fd37c6fa281
+# ╠═b62854c2-f246-46f1-a118-841b60f0b2eb
 # ╟─bc631086-804a-11eb-216e-c955e2115f55
 # ╟─d1c851ee-80d5-11eb-1ce4-357dfb1e638e
 # ╟─7191b674-80dc-11eb-24b3-518de83f465a
 # ╟─5dd22d0e-80d6-11eb-0541-d77668309f6c
-# ╟─a7245c08-803f-11eb-0da9-2bed09872035
+# ╟─fdfa9f4f-35ea-4578-8fd1-358aaf3eac23
 # ╟─4e4d333e-8102-11eb-0ba1-0f0183d0d3c2
 # ╟─0f0e7456-8104-11eb-1d90-e9f0009e8789
 # ╟─4f969032-80e9-11eb-1ada-d1aa64960967
 # ╟─28f18aa2-8104-11eb-0c01-dbd14c760ecf
 # ╟─37ebfa3e-80e5-11eb-166c-4ff3471ab12d
 # ╟─84bb1f5c-80e5-11eb-0e55-83068948870c
-# ╟─ee2d787c-80e5-11eb-1930-0fcbe253643f
+# ╟─d0eb5a08-149b-40e8-9fbe-14ace325e335
 # ╟─e5367534-80e5-11eb-341d-7b3e6ca4f111
 # ╟─4d81a6f4-8104-11eb-1f06-5bb7a56c8406
+# ╠═44f8ff4c-6e2b-481e-9fdc-7783a426e40a
 # ╟─d9265982-80ed-11eb-3a5f-27712a23506b
 # ╟─ba4acb08-8104-11eb-1771-15bc5d8076fd
 # ╟─163bf8fe-80d0-11eb-2066-75439a533513
 # ╟─4e8c8052-8102-11eb-3e9f-01494b525ba0
 # ╠═bfa04a82-80d8-11eb-277a-f74429b09870
+# ╟─66bfad1b-6a06-40e1-8510-3e41e5000cb7
+# ╟─b13ae0b4-ae86-477c-b111-d6d26a6fe80d
+# ╟─f30776b8-abe9-4b9d-b60a-65e8c31c8480
+# ╟─59b6694f-e851-42e3-ae53-d826bd6b7792
+# ╟─e04331b8-8331-4c7e-bf62-83e3b55206df
+# ╟─4f72bfb4-b6b5-4824-81d6-acbf30b44c56
+# ╟─b086bb69-7194-4fb3-95fb-2403761468fd
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

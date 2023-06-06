@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -26,6 +26,17 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
+begin
+	using PlutoUI 
+	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
+	using PlutoUI
+	using LinearAlgebra
+	using ForwardDiff
+	using NonlinearSolve
+	using StaticArrays
+end
+
 # ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
 PlutoUI.TableOfContents(aside=true)
 
@@ -36,44 +47,15 @@ md"""
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
 
-# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
-begin
-	using PlutoUI 
-	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
-	using PlutoUI
-	using LinearAlgebra
-	using ForwardDiff
-	using NonlinearSolve
-	using StaticArrays
-	
-	# Small patch to make images look more crisp:
-	# https://github.com/JuliaImages/ImageShow.jl/pull/50
-	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
-end
-
-# ╔═╡ 230cba36-9d0a-4726-9e55-7df2c6743968
-
+# ╔═╡ 890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
+urls = (
+	corgis = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png",
+	longcorgi = "https://user-images.githubusercontent.com/6933510/110868198-713faa80-82c8-11eb-8264-d69df4509f49.png",
+	theteam = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg",
+)
 
 # ╔═╡ 96766502-7a06-11eb-00cc-29849773dbcf
-# img_original = load(download(corgis_url));
-img_original = load(download(longcorgi_url));
-# img_original = load(download(theteam_url));
-
-# ╔═╡ 890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
-corgis_url = "https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png"
-
-# ╔═╡ 85fba8fb-a9ea-444d-831b-ec6489b58b4f
-longcorgi_url = "https://user-images.githubusercontent.com/6933510/110868198-713faa80-82c8-11eb-8264-d69df4509f49.png"
-
-# ╔═╡ 06beabc3-2aa7-4e78-9bae-dc4b37251aa2
-theteam_url = "https://news.mit.edu/sites/default/files/styles/news_article__image_gallery/public/images/202004/edelman%2520philip%2520sanders.png?itok=ZcYu9NFeg"
-
-# ╔═╡ 26dd0e98-7a75-11eb-2196-5d7bda201b19
-md"""
-After you select your image, we suggest moving this line above just above the top of your browser.
-
----------------
-"""
+img_original = load(download(urls.longcorgi));
 
 # ╔═╡ e0b657ce-7a03-11eb-1f9d-f32168cb5394
 md"""
@@ -109,22 +91,6 @@ end
 md"""
 Grab a [linear](#a0afe3ae-76b9-11eb-2301-cde7260ddd7f) or [nonlinear](#a290d5e2-7a02-11eb-37db-41bf86b1f3b3) transform, or make up your own!
 """
-
-# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
-# T⁻¹ = id
-#  T⁻¹ = rotate(α)
-  T⁻¹ = shear(α)
-#   T⁻¹ = lin(A) # uses the scrubbable 
-#   T⁻¹ = shear(α) ∘ shear(-α)
- # T⁻¹ = nonlin_shear(α)  
- #   T⁻¹ =   inverse(nonlin_shear(α))
-#    T⁻¹ =  nonlin_shear(-α)
-#  T⁻¹ =  xy 
-# T⁻¹ = warp(α)
-# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
-
-# T⁻¹ = ((x,y),)-> (x,y^2)  
-# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
 
 # ╔═╡ 2efaa336-7630-11eb-0c17-a7d4a0141dac
 md"""
@@ -163,27 +129,6 @@ md"""
 Circular Frame $(@bind circular CheckBox(default=true))
 radius = $(@bind r Slider(.1:.1:1, show_value=true, default = 1))
 """
-
-# ╔═╡ ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
-begin
-		[			    
-			begin
-			
-			 x, y = transform_ij_to_xy(i,j, pixels)
-			
-			X, Y = ( translate(-panx,-pany)  )([x,y])
-			 X, Y = ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([x,y])
-			 i, j = transform_xy_to_ij(img,X,Y)
-			 getpixel(img,i,j; circular=circular, r=r)
-			end	 
-		
-			for i = 1:pixels, j = 1:pixels
-		]	
-end
-
-# ╔═╡ ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
-transform_xy_to_ij(img,0.0,0.0)
-
 
 # ╔═╡ 55b5fc92-7a76-11eb-3fba-854c65eb87f9
 md"""
@@ -238,13 +183,23 @@ md"""
 Many people find it hard to read 
 
 
-`f(v) = [ v[1]+v[2] , v[1]-v[2] ]  ` or 
-`  f = v ->  [ v[1]+v[2] , v[1]-v[2] ]  `
+```julia
+f(v) = [ v[1]+v[2] , v[1]-v[2] ]
+
+# or
+
+f = v ->  [ v[1]+v[2] , v[1]-v[2] ]
+```
 
 and instead prefer
 
-`f((x,y)) = [ x+y , x-y ] ` or
-` f = ((x,y),) -> [ x+y , x-y ] `.
+```julia
+f((x,y)) = [ x+y , x-y ]
+
+# or
+
+f = ((x,y),) -> [ x+y , x-y ]
+```
 
 All four of these will take a 2-vector to a 2-vector in the same way for the purposes of this lecture, i.e. `f( [1,2] )` can be defined by any of the four forms.
 
@@ -289,6 +244,22 @@ begin
 	 shear(α)  = ((x, y),) -> SA[x + α*y, y]
 end
 
+# ╔═╡ 58a30e54-7a08-11eb-1c57-dfef0000255f
+# T⁻¹ = id
+#  T⁻¹ = rotate(α)
+  T⁻¹ = shear(α)
+#   T⁻¹ = lin(A) # uses the scrubbable 
+#   T⁻¹ = shear(α) ∘ shear(-α)
+ # T⁻¹ = nonlin_shear(α)  
+ #   T⁻¹ =   inverse(nonlin_shear(α))
+#    T⁻¹ =  nonlin_shear(-α)
+#  T⁻¹ =  xy 
+# T⁻¹ = warp(α)
+# T⁻¹ = ((x,y),)-> (x+α*y^2,y+α*x^2) # may be non-invertible
+
+# T⁻¹ = ((x,y),)-> (x,y^2)  
+# T⁻¹  = flipy ∘ ((x,y),) ->  ( (β*x - α*y)/(β - y)  , -h*y/ (β - y)   ) 
+
 # ╔═╡ 080d87e0-7aa2-11eb-18f5-2fb6a7a5bcb4
 md"""
 In fact we can write down the *most general* linear transformation in one of two ways:
@@ -313,19 +284,26 @@ md"""
 # Nonlinear transformations: a collection
 """
 
-# ╔═╡ b4cdd412-7a02-11eb-149a-df1888a0f465
-begin
-  translate(α,β)  = ((x, y),) -> SA[x+α, y+β]   # affine, but not linear
-	
-  nonlin_shear(α) = ((x, y),) -> SA[x, y + α*x^2]
-	
-  warp(α)    = ((x, y),) -> rotate(α*√(x^2+y^2))(SA[x, y])
-  xy((r, θ)) = SA[ r*cos(θ), r*sin(θ) ]
-  rθ(x)      = SA[norm(x), atan(x[2],x[1]) ] 
-  
-  # exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)]
-  # merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ] # (reim(log(complex(y,x)) ))
-end
+# ╔═╡ 50d80844-e8bb-4c84-9bc2-15f547f0e3a9
+translate(α,β)  = ((x, y),) -> SA[x+α, y+β];   # affine, but not linear
+
+# ╔═╡ 5677b510-bd37-4e6c-b20c-0a9d578e3ed0
+nonlin_shear(α) = ((x, y),) -> SA[x, y + α*x^2];
+
+# ╔═╡ 09e961c1-4e25-4589-ad17-04d747053475
+warp(α)    = ((x, y),) -> rotate(α*√(x^2+y^2))(SA[x, y]);
+
+# ╔═╡ a591552b-d0dd-49a5-ad08-7b59d4e0b34d
+xy((r, θ)) = SA[ r*cos(θ), r*sin(θ) ];
+
+# ╔═╡ 58e5bc84-50ad-4ecc-a191-7ccf3fa3a1fd
+rθ(x)      = SA[norm(x), atan(x[2],x[1]) ];
+
+# ╔═╡ 4b097c6e-e22c-451f-acb6-bfbfe9a0110f
+# exponentialish =  ((x,y),) -> [log(x+1.2), log(y+1.2)];
+
+# ╔═╡ a8577554-7997-4f35-bfa2-26f1b58813e4
+# merc = ((x,y),) ->  [ log(x^2+y^2)/2 , atan(y,x) ]; # (reim(log(complex(y,x)) ))
 
 # ╔═╡ 704a87ec-7a1e-11eb-3964-e102357a4d1f
 md"""
@@ -335,8 +313,12 @@ md"""
 # ╔═╡ 4b0e8742-7a70-11eb-1e78-813f6ad005f4
 let
 	x = rand()
-	
-	( sin ∘ cos )(x) ≈ sin(cos(x))
+
+	# these two are the same!
+	a = ( sin ∘ cos )(x)
+	b = sin(cos(x))
+
+	a == b
 end
 
 # ╔═╡ 44792484-7a20-11eb-1c09-95b27b08bd34
@@ -458,40 +440,40 @@ What defines a linear transformation?  There are a few equivalent ways of giving
 
 # ╔═╡ 4b4fe818-7a78-11eb-2986-59e60063d346
 md"""
-**Linear transformation definitions:**
+## Linear transformation definitions:
 """
 
 # ╔═╡ 5d656494-7a78-11eb-12e8-d17856bd8c4d
 md"""
-- The intuitive definition:
-   
-   > The rectangles (gridlines) in the transformed image [above](#e0b657ce-7a03-11eb-1f9d-f32168cb5394) always become a lattice of congruent parallelograms.
+> ### The intuitive definition:
+> 
+> The rectangles (gridlines) in the transformed image [above](#e0b657ce-7a03-11eb-1f9d-f32168cb5394) always become a lattice of congruent parallelograms.
 
-- The easy operational (but devoid of intuition) definition: 
+> ### The easy operational (but devoid of intuition) definition: 
+> 
+> A transformation is linear if it is defined by $v \mapsto A*v$ (matrix times vector) for some fixed matrix $A$.
 
-   > A transformation is linear if it is defined by $v \mapsto A*v$ (matrix times vector) for some fixed matrix $A$.
+> ### The scaling and adding definition:
+> 
+> 1. If you scale and then transform or if you transform and then scale, the result is always the same:
+>
+> $T(cv)=c \, T(v)$ ( $v$ is any vector, and $c$ any number.)
+>
+> 2. If you add and then transform or vice versa the result is the same:
+>
+> $T(v_1+v_2) = T(v_1) + T(v_2).$ ($v_1,v_2$ are any vectors.)
 
-- The scaling and adding definition:
-
-   > 1. If you scale and then transform or if you transform and then scale, the result is always the same:
-   >
-   > $T(cv)=c \, T(v)$ ( $v$ is any vector, and $c$ any number.)
-   >
-   > 2. If you add and then transform or vice versa the result is the same:
-   >
-   > $T(v_1+v_2) = T(v_1) + T(v_2).$ ($v_1,v_2$ are any vectors.)
-
-- The mathematician's definition:
-
-   > (A consolidation of the above definition.) $T$ is linear if
-   >
-   > $T(c_1 v_1 + c_2 v_2) = c_1 T(v_1) + c_2 T(v_2)$ for all numbers $c_1,c_2$ and vectors $v_1,v_2$.  (This can be extended to beyond 2 terms.)
+> ### The mathematician's definition:
+> 
+> (A consolidation of the above definition.) $T$ is linear if
+>
+> $T(c_1 v_1 + c_2 v_2) = c_1 T(v_1) + c_2 T(v_2)$ for all numbers $c_1,c_2$ and vectors $v_1,v_2$.  (This can be extended to beyond 2 terms.)
 
 """
 
 # ╔═╡ b0e6d1ac-7a7d-11eb-0a9e-1310dcb5957f
 md"""
-### The matrix
+## The *Matrix*
 """
 
 # ╔═╡ 7e4ad37c-7a84-11eb-1490-25090e133a7c
@@ -499,7 +481,7 @@ Resource("https://upload.wikimedia.org/wikipedia/en/c/c1/The_Matrix_Poster.jpg")
 
 # ╔═╡ 96f47252-7a84-11eb-3d18-e3ba79dd20c2
 md"""
-No not that matrix!
+*No, not that matrix!*
 """
 
 # ╔═╡ ae5b3a32-7a84-11eb-04c0-337a74105a58
@@ -567,7 +549,7 @@ begin
 end
 
 # ╔═╡ 350f40f7-795f-4f33-89b8-ff9ba4819e1c
-test_img = load(download(corgis_url));
+test_img = load(download(urls.corgis));
 
 # ╔═╡ 313cdcbd-5b11-41c8-9fcd-5aeaca3b8d24
 test_pixels = 300;
@@ -577,52 +559,15 @@ md"""
 `lin(P*Q)`
 """
 
-# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
-begin
-		[			    
-			begin
-			 x, y = transform_ij_to_xy(i,j, test_pixels)
-			 X, Y =  T₁([x,y])
-			 i, j = transform_xy_to_ij(test_img,X,Y)
-			 getpixel(test_img,i,j)
-			end	 
-		
-			for i = 1:test_pixels, j = 1:test_pixels
-		]	
-end
-
 # ╔═╡ 620ee7d8-7a8f-11eb-3888-356c27a2d591
 md"""
 `lin(P)∘lin(Q)`
 """
 
-# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
-begin
-		[			    
-			begin
-			 x, y = transform_ij_to_xy(i,j, test_pixels)
-			 X, Y =  T₂([x,y])
-			 i, j = transform_xy_to_ij(test_img,X,Y)
-			 getpixel(test_img,i,j)
-			end	 
-		
-			for i = 1:test_pixels, j = 1:test_pixels
-		]	
-end
-
 # ╔═╡ 04da7710-7a91-11eb-02a1-0b6e889150a2
 md"""
 # Coordinate transformations vs object transformations
 """
-
-# ╔═╡ c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
-img;
-
-# ╔═╡ c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
-size(img)
-
-# ╔═╡ d0e9a1e8-7c4c-11eb-056c-aff283c49c31
-img[50,56]
 
 # ╔═╡ 155cd218-7a91-11eb-0b4c-bd028507e925
 md"""
@@ -639,63 +584,6 @@ md"""
 The original image has (1,1) in the upper left corner as an array but is thought
 of as existing in the entire plane.
 """
-
-# ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
-Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png") |> white_background
-
-# ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
-begin
-	function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
-	# convert coordinate system xy to ij 
-	# center image, and use "white" when out of the boundary
-		
-		rows, cols = size(img)
-		m = max(cols, rows)	
-		
-	    # function to take xy to ij
-		xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
-		
-		# apply the function and "snap to grid"
-		i, j = floor.(Int, xy_to_ij((x, y))) 
-	
-	end
-	
-	function getpixel(img,i::Int,j::Int; circular::Bool=false, r::Real=200)   
-		#  grab image color or place default
-		rows, cols = size(img)
-		m = max(cols,rows)
-		if circular
-			c = (i-rows/2)^2 + (j-cols/2)^2 ≤ r*m^2/4
-		else
-			c = true
-		end
-		
-		if 1 < i ≤ rows && 1 < j ≤ cols && c
-			img[i, j]
-		else
-			# white(img[1, 1])
-			black(img[1,1])
-		end
-		
-	end
-	
-	
-	# function getpixel(img,x::Float64,y::Float64)
-	# 	i,j = transform_xy_to_ij(img,x,y)
-	# 	getpixel(img,i,j)
-	# end
-	
-	function transform_ij_to_xy(i::Int,j::Int,pixels)
-	
-	   ij_to_xy =  scale(2/pixels) ∘ flipy ∘ swap ∘ translate(-pixels/2,-pixels/2)
-	   ij_to_xy([i,j])
-	end
-
-	    
-end
-
-# ╔═╡ bf1954d6-7e9a-11eb-216d-010bd761e470
-transform_ij_to_xy(1,1,400)
 
 # ╔═╡ c1efc54a-7e9b-11eb-1e76-dbd0a66184a9
 translate(-400,400)([1,1])
@@ -851,9 +739,6 @@ md"""
 ## Collisions
 """
 
-# ╔═╡ 80456168-7c1b-11eb-271c-83ef59a41102
-Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png") |> white_background
-
 # ╔═╡ 62a9201c-7938-11eb-144c-15690c06be94
 begin
 	function inverse(f, y, u0=@SVector[0.0, 0.0])
@@ -894,21 +779,6 @@ md"""
 # ╔═╡ fb509fb4-9608-421d-9c40-a4375f459b3f
 det_A = det(A)
 
-# ╔═╡ 40655bcc-6d1e-4d1e-9726-41eab98d8472
-img_sources = [
-	"https://user-images.githubusercontent.com/6933510/108605549-fb28e180-73b4-11eb-8520-7e29db0cc965.png" => "Corgis",
-	"https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w" => "Long Corgi",
-"https://previews.123rf.com/images/camptoloma/camptoloma2002/camptoloma200200020/140962183-pembroke-welsh-corgi-portrait-sitting-gray-background.jpg"=>"Portrait Corgi",
-	"https://www.eaieducation.com/images/products/506618_L.jpg"=>"Graph Paper"
-]
-
-# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
-img = if show_grid
-	with_gridlines(img_original;n=ngrid)
-else
-	img_original
-end;
-
 # ╔═╡ b754bae2-762f-11eb-1c6a-01251495a9bb
 begin
 	white(c::RGB) = RGB(1,1,1)
@@ -916,6 +786,88 @@ begin
 	black(c::RGB) = RGB(0,0,0)
 	black(c::RGBA) = RGBA(0,0,0,0.75)
 end
+
+# ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
+begin
+	function transform_xy_to_ij(img::AbstractMatrix, x::Float64, y::Float64)
+	# convert coordinate system xy to ij 
+	# center image, and use "white" when out of the boundary
+		
+		rows, cols = size(img)
+		m = max(cols, rows)	
+		
+	    # function to take xy to ij
+		xy_to_ij =  translate(rows/2, cols/2) ∘ swap ∘ flipy ∘ scale(m/2)
+		
+		# apply the function and "snap to grid"
+		i, j = floor.(Int, xy_to_ij((x, y))) 
+	
+	end
+	
+	function getpixel(img,i::Int,j::Int; circular::Bool=false, r::Real=200)   
+		#  grab image color or place default
+		rows, cols = size(img)
+		m = max(cols,rows)
+		if circular
+			c = (i-rows/2)^2 + (j-cols/2)^2 ≤ r*m^2/4
+		else
+			c = true
+		end
+		
+		if 1 < i ≤ rows && 1 < j ≤ cols && c
+			img[i, j]
+		else
+			# white(img[1, 1])
+			black(img[1,1])
+		end
+		
+	end
+	
+	
+	# function getpixel(img,x::Float64,y::Float64)
+	# 	i,j = transform_xy_to_ij(img,x,y)
+	# 	getpixel(img,i,j)
+	# end
+	
+	function transform_ij_to_xy(i::Int,j::Int,pixels)
+	
+	   ij_to_xy =  scale(2/pixels) ∘ flipy ∘ swap ∘ translate(-pixels/2,-pixels/2)
+	   ij_to_xy([i,j])
+	end
+
+	    
+end
+
+# ╔═╡ da73d9f6-7a8d-11eb-2e6f-1b819bbb0185
+begin
+		[			    
+			begin
+			 x, y = transform_ij_to_xy(i,j, test_pixels)
+			 X, Y =  T₁([x,y])
+			 i, j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
+end
+
+# ╔═╡ 30f522a0-7a8e-11eb-2181-8313760778ef
+begin
+		[			    
+			begin
+			 x, y = transform_ij_to_xy(i,j, test_pixels)
+			 X, Y =  T₂([x,y])
+			 i, j = transform_xy_to_ij(test_img,X,Y)
+			 getpixel(test_img,i,j)
+			end	 
+		
+			for i = 1:test_pixels, j = 1:test_pixels
+		]	
+end
+
+# ╔═╡ bf1954d6-7e9a-11eb-216d-010bd761e470
+transform_ij_to_xy(1,1,400)
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
 function with_gridlines(img::Array{<:Any,2}; n = 10)
@@ -940,8 +892,47 @@ function with_gridlines(img::Array{<:Any,2}; n = 10)
 	return result
 end
 
+# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
+img = if show_grid
+	with_gridlines(img_original;n=ngrid)
+else
+	img_original
+end;
+
+# ╔═╡ ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
+[			    
+	let
+		x, y = transform_ij_to_xy(i,j, pixels)
+		
+		X, Y = ( translate(-panx,-pany)  )([x,y])
+		X, Y = ( T⁻¹∘scale(1/z)∘translate(-panx,-pany) )([x,y])
+		i, j = transform_xy_to_ij(img,X,Y)
+		getpixel(img,i,j; circular=circular, r=r)
+	end	 
+
+	for i = 1:pixels, j = 1:pixels
+]
+
+# ╔═╡ ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
+transform_xy_to_ij(img,0.0,0.0)
+
+# ╔═╡ c2e0e032-7c4c-11eb-2b2a-27fe69c42a01
+img
+
+# ╔═╡ c662e3d8-7c4c-11eb-0dcf-f9da2bd14baf
+size(img)
+
+# ╔═╡ d0e9a1e8-7c4c-11eb-056c-aff283c49c31
+img[50,56]
+
 # ╔═╡ 4d0de3d3-f006-4537-a7c8-81c65f16f861
 white_background(x) = PlutoUI.ExperimentalLayout.Div([x]; style="background: white")
+
+# ╔═╡ 7c68c7b6-7a9e-11eb-3f7f-99bb10aedd95
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/coord_transform.png") |> white_background
+
+# ╔═╡ 80456168-7c1b-11eb-271c-83ef59a41102
+Resource("https://raw.githubusercontent.com/mitmath/18S191/Spring21/notebooks/week3/collide.png") |> white_background
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -1104,7 +1095,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ConstructionBase]]
 deps = ["LinearAlgebra"]
@@ -1739,7 +1730,7 @@ version = "1.10.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1840,12 +1831,8 @@ version = "17.4.0+0"
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─230b0118-30b7-4035-ad31-520165a76fcc
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
-# ╟─230cba36-9d0a-4726-9e55-7df2c6743968
-# ╠═96766502-7a06-11eb-00cc-29849773dbcf
 # ╟─890d30b9-2cd0-4d3a-99f6-f7d3d7858fda
-# ╟─85fba8fb-a9ea-444d-831b-ec6489b58b4f
-# ╟─06beabc3-2aa7-4e78-9bae-dc4b37251aa2
-# ╟─26dd0e98-7a75-11eb-2196-5d7bda201b19
+# ╠═96766502-7a06-11eb-00cc-29849773dbcf
 # ╟─e0b657ce-7a03-11eb-1f9d-f32168cb5394
 # ╟─005ca75a-7622-11eb-2ba4-9f450e71df1f
 # ╟─23ade8ee-7a09-11eb-0e40-296c6b831d74
@@ -1860,7 +1847,7 @@ version = "17.4.0+0"
 # ╠═ca28189e-7e9a-11eb-21d6-bd819f3e0d3a
 # ╠═ccea7244-7f2f-11eb-1b7b-b9b8473a8c74
 # ╟─55b5fc92-7a76-11eb-3fba-854c65eb87f9
-# ╟─85686412-7a75-11eb-3d83-9f2f8a3c5509
+# ╠═85686412-7a75-11eb-3d83-9f2f8a3c5509
 # ╟─a7df7346-79f8-11eb-1de6-71f027c46643
 # ╟─044e6128-79fe-11eb-18c1-395ae857dc73
 # ╟─78d61e28-79f9-11eb-0605-e77d206cda84
@@ -1877,7 +1864,13 @@ version = "17.4.0+0"
 # ╠═15283aba-7aa2-11eb-389c-e9f215bd03e2
 # ╟─2612d2c2-7aa2-11eb-085a-1f27b6174995
 # ╟─a290d5e2-7a02-11eb-37db-41bf86b1f3b3
-# ╠═b4cdd412-7a02-11eb-149a-df1888a0f465
+# ╠═50d80844-e8bb-4c84-9bc2-15f547f0e3a9
+# ╠═5677b510-bd37-4e6c-b20c-0a9d578e3ed0
+# ╠═09e961c1-4e25-4589-ad17-04d747053475
+# ╠═a591552b-d0dd-49a5-ad08-7b59d4e0b34d
+# ╠═58e5bc84-50ad-4ecc-a191-7ccf3fa3a1fd
+# ╠═4b097c6e-e22c-451f-acb6-bfbfe9a0110f
+# ╠═a8577554-7997-4f35-bfa2-26f1b58813e4
 # ╟─704a87ec-7a1e-11eb-3964-e102357a4d1f
 # ╠═4b0e8742-7a70-11eb-1e78-813f6ad005f4
 # ╟─44792484-7a20-11eb-1c09-95b27b08bd34
@@ -1950,8 +1943,7 @@ version = "17.4.0+0"
 # ╟─5227afd0-7641-11eb-0065-918cb8538d55
 # ╟─4c93d784-763d-11eb-1f48-81d4d45d5ce0
 # ╟─c536dafb-4206-4689-ad6d-6935385d8fdf
-# ╟─fb509fb4-9608-421d-9c40-a4375f459b3f
-# ╟─40655bcc-6d1e-4d1e-9726-41eab98d8472
+# ╠═fb509fb4-9608-421d-9c40-a4375f459b3f
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
 # ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
 # ╟─83d45d42-7406-11eb-2a9c-e75efe62b12c

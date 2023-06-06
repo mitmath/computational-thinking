@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -26,6 +26,15 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
+begin
+	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
+	using PlutoUI
+	using HypertextLiteral
+	using LinearAlgebra
+	using ForwardDiff
+end
+
 # ╔═╡ b7895bd2-7634-11eb-211e-ef876d23bd88
 PlutoUI.TableOfContents(aside=true)
 
@@ -35,22 +44,6 @@ md"""
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
-
-# ╔═╡ 6b473b2d-4326-46b4-af38-07b61de287fc
-begin
-	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
-	using PlutoUI
-	using HypertextLiteral
-	using LinearAlgebra
-	using ForwardDiff
-
-	# Small patch to make images look more crisp:
-	# https://github.com/JuliaImages/ImageShow.jl/pull/50
-	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
-end
-
-# ╔═╡ d49682ff-d529-4283-871b-f8ee50a4e6ee
-
 
 # ╔═╡ 58a520ca-763b-11eb-21f4-3f27aafbc498
 md"""
@@ -376,13 +369,6 @@ Matrices are often thought of as containers of numbers in a rectangular array, a
 # ╔═╡ 2e8c4a48-d535-44ac-a1f1-4cb26c4aece6
 
 
-# ╔═╡ c0c90fec-0e55-4be3-8ea2-88b8705ee258
-md"""
-#### Choose an image:
-
-$(@bind img_source Select(img_sources))
-"""
-
 # ╔═╡ ce55beee-7643-11eb-04bc-b517703facff
 md"""
 α= $(@bind α Slider(.1:.1:3, show_value=true))
@@ -425,22 +411,6 @@ top left zoom =	$(@bind f Slider(.1:1:3, show_value=true, default=1))
 
 # ╔═╡ 60532aa0-740c-11eb-0402-af8ff117f042
 md"Show grid lines $(@bind show_grid CheckBox(default=true))"
-
-# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
-[
-	if det_A == 0
-		RGB(1.0, 1.0, 1.0)
-	else
-		
-		 # in_x, in_y = A \ [out_x, out_y]
-         # in_x, in_y = xy( [out_x, out_y] )
-		in_x, in_y =  T([out_x, out_y])
-		trygetpixel(img, in_x, in_y)
-	end
-	
-	for out_y in LinRange(f, -f, 500),
-		out_x in LinRange(-f, f, 500)
-]
 
 # ╔═╡ f085296d-48b1-4db6-bb87-db863bb54049
 A = [
@@ -486,7 +456,10 @@ md"""
 
 # ╔═╡ b9dba026-76b3-11eb-1bfb-ffe9c43ced5d
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/vAp6nUMrKYg" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=vAp6nUMrKYg params="modestbranding=1&rel=0"></lite-youtube>
 """
 
 # ╔═╡ 62b28c02-763a-11eb-1418-c1e30555b1fa
@@ -516,18 +489,24 @@ img_sources = [
 	"https://images.squarespace-cdn.com/content/v1/5cb62a904d546e33119fa495/1589302981165-HHQ2A4JI07C43294HVPD/ke17ZwdGBToddI8pDm48kA7bHnZXCqgRu4g0_U7hbNpZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZamWLI2zvYWH8K3-s_4yszcp2ryTI0HqTOaaUohrI8PISCdr-3EAHMyS8K84wLA7X0UZoBreocI4zSJRMe1GOxcKMshLAGzx4R3EDFOm1kBS/fluffy+corgi?format=2500w" => "Long Corgi"
 ]
 
+# ╔═╡ c0c90fec-0e55-4be3-8ea2-88b8705ee258
+md"""
+#### Choose an image:
+
+$(@bind img_source Select(img_sources))
+"""
+
 # ╔═╡ 4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
 img_original = load(download(img_source));
 
 # ╔═╡ 52a8009e-761c-11eb-2dc9-dbccdc5e7886
 typeof(img_original)
 
-# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
-img = if show_grid
-	with_gridlines(img_original)
-else
-	img_original
-end;
+# ╔═╡ b754bae2-762f-11eb-1c6a-01251495a9bb
+begin
+	white(c::RGB) = RGB(1,1,1)
+	white(c::RGBA) = RGBA(1,1,1,0.75)
+end
 
 # ╔═╡ 7d0096ad-d89a-4ade-9679-6ee95f7d2044
 function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
@@ -545,12 +524,6 @@ function trygetpixel(img::AbstractMatrix, x::Float64, y::Float64)
 		white(img[1,1])
 
 	end
-end
-
-# ╔═╡ b754bae2-762f-11eb-1c6a-01251495a9bb
-begin
-	white(c::RGB) = RGB(1,1,1)
-	white(c::RGBA) = RGBA(1,1,1,0.75)
 end
 
 # ╔═╡ 83d45d42-7406-11eb-2a9c-e75efe62b12c
@@ -575,6 +548,29 @@ function with_gridlines(img::Array{<:Any,2}; n=16)
 	result[ : ,  sep_j * (n ÷2) .+ [1,2]    ,] .= RGBA(1,0,0,1)
 	return result
 end
+
+# ╔═╡ 55898e88-36a0-4f49-897f-e0850bd2b0df
+img = if show_grid
+	with_gridlines(img_original)
+else
+	img_original
+end;
+
+# ╔═╡ 8e0505be-359b-4459-9de3-f87ec7b60c23
+[
+	if det_A == 0
+		RGB(1.0, 1.0, 1.0)
+	else
+		
+		 # in_x, in_y = A \ [out_x, out_y]
+         # in_x, in_y = xy( [out_x, out_y] )
+		in_x, in_y =  T([out_x, out_y])
+		trygetpixel(img, in_x, in_y)
+	end
+	
+	for out_y in LinRange(f, -f, 500),
+		out_x in LinRange(-f, f, 500)
+]
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
 PLUTO_PROJECT_TOML_CONTENTS = """
@@ -682,7 +678,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[DataStructures]]
 deps = ["Compat", "InteractiveUtils", "OrderedCollections"]
@@ -1109,7 +1105,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1181,7 +1177,6 @@ version = "17.4.0+0"
 # ╟─b7895bd2-7634-11eb-211e-ef876d23bd88
 # ╟─e6a09409-f262-453b-a434-bfd935306719
 # ╠═6b473b2d-4326-46b4-af38-07b61de287fc
-# ╟─d49682ff-d529-4283-871b-f8ee50a4e6ee
 # ╟─58a520ca-763b-11eb-21f4-3f27aafbc498
 # ╟─2cca0638-7635-11eb-3b60-db3fabe6f536
 # ╟─c8a3b5b4-76ac-11eb-14f0-abb7a33b104d
@@ -1270,8 +1265,8 @@ version = "17.4.0+0"
 # ╠═4fcb4ac1-1ad1-406e-8776-4675c0fdbb43
 # ╠═52a8009e-761c-11eb-2dc9-dbccdc5e7886
 # ╠═55898e88-36a0-4f49-897f-e0850bd2b0df
-# ╠═7d0096ad-d89a-4ade-9679-6ee95f7d2044
-# ╠═b754bae2-762f-11eb-1c6a-01251495a9bb
-# ╠═83d45d42-7406-11eb-2a9c-e75efe62b12c
+# ╟─7d0096ad-d89a-4ade-9679-6ee95f7d2044
+# ╟─b754bae2-762f-11eb-1c6a-01251495a9bb
+# ╟─83d45d42-7406-11eb-2a9c-e75efe62b12c
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -26,10 +26,16 @@ macro bind(def, element)
     end
 end
 
-# ╔═╡ e7a77e52-8104-11eb-1b51-a9f8312e9d95
-md"""
-# Seam carving on images
-"""
+# ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
+begin
+	using ImageMagick
+	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
+	using ImageFiltering
+	using Plots, PlutoUI
+
+	# Standard libraries
+	using Statistics, LinearAlgebra
+end
 
 # ╔═╡ fb6b8564-8104-11eb-2e10-1f28be9a6ce7
 md"""
@@ -50,23 +56,11 @@ Here is Grant Sanderson (3Blue1Brown) explaining seam carving using this noteboo
 
 # ╔═╡ 1e132972-80fc-11eb-387a-9b251ee572f8
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/rpB6zQNsbQU" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=rpB6zQNsbQU params="modestbranding=1&rel=0"></lite-youtube>
 """
-
-# ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
-begin
-	using ImageMagick
-	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
-	using ImageFiltering
-	using Plots, PlutoUI
-
-	# Standard libraries
-	using Statistics, LinearAlgebra
-
-	# Small patch to make images look more crisp:
-	# https://github.com/JuliaImages/ImageShow.jl/pull/50
-	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
-end
 
 # ╔═╡ cb335074-eef7-11ea-24e8-c39a325166a1
 md"""
@@ -160,19 +154,8 @@ Here are the Sobel kernels for the derivatives in each direction:
 # ╔═╡ da726954-eff0-11ea-21d4-a7f4ae4a6b09
 Sy, Sx = Kernel.sobel()
 
-# ╔═╡ a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
-hbox(show_colored_array(Sx).parent, show_colored_array(Sy).parent ,10)
-
 # ╔═╡ abf6944e-f066-11ea-18e2-0b92606dab85
 (collect(Int.(8 .* Sx)), collect(Int.(8 .* Sy)))
-
-# ╔═╡ 44192a40-eff2-11ea-0ec7-05cdadb0c29a
-begin
-	img_brightness = brightness.(img)
-	∇x = convolve(img_brightness, Sx)
-	∇y = convolve(img_brightness, Sy)
-	hbox(show_colored_array(∇x), show_colored_array(∇y))
-end
 
 # ╔═╡ 42f2105a-810b-11eb-0e47-2dbb5ea2f566
 plotly()
@@ -184,37 +167,7 @@ surface(brightness.(img))
 md"""
 - blue shows positive values
 - red shows negative values
- $G_x \hspace{180pt} G_y$
 """
-
-# ╔═╡ ddac52ea-f148-11ea-2860-21cff4c867e6
-let
-	∇y = convolve(brightness.(img), Sy)
-	∇x = convolve(brightness.(img), Sx)
-	# zoom in on the clock
-	vbox(
-		hbox(img[300:end, 1:300], img[300:end, 1:300]), 
-	 	hbox(show_colored_array.((∇x[300:end,  1:300], ∇y[300:end, 1:300]))...)
-	)
-end
-
-# ╔═╡ 6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
-function edgeness(img)
-	Sy, Sx = Kernel.sobel()
-	b = brightness.(img)
-
-	∇y = convolve(b, Sy)
-	∇x = convolve(b, Sx)
-
-	sqrt.(∇x.^2 + ∇y.^2)
-end
-
-# ╔═╡ d6a268c0-eff4-11ea-2c9e-bfef19c7f540
-begin
-	edged = edgeness(img)
-	# hbox(img, pencil(edged))
-	hbox(img, Gray.(edgeness(img)) / maximum(abs.(edged)))
-end
 
 # ╔═╡ 172c7612-efee-11ea-077a-5d5c6e2505a4
 function shrink_image(image, ratio=5)
@@ -274,6 +227,17 @@ function convolve(M, kernel)
     return new_image
 end
 
+# ╔═╡ 6f7bd064-eff4-11ea-0260-f71aa7f4f0e5
+function edgeness(img)
+	Sy, Sx = Kernel.sobel()
+	b = brightness.(img)
+
+	∇y = convolve(b, Sy)
+	∇x = convolve(b, Sx)
+
+	sqrt.(∇x.^2 + ∇y.^2)
+end
+
 # ╔═╡ dec62538-efee-11ea-1e03-0b801e61e91c
 	function show_colored_array(array)
 		pos_color = RGB(0.36, 0.82, 0.8)
@@ -281,6 +245,28 @@ end
 		to_rgb(x) = max(x, 0) * pos_color + max(-x, 0) * neg_color
 		to_rgb.(array) / maximum(abs.(array))
 	end
+
+# ╔═╡ a21a886e-80eb-11eb-35ab-3dd3fb0a8a2c
+show_colored_array(Sx), show_colored_array(Sy)
+
+# ╔═╡ ddac52ea-f148-11ea-2860-21cff4c867e6
+let
+	∇y = convolve(brightness.(img), Sy)
+	∇x = convolve(brightness.(img), Sx)
+
+	data = [
+		md"``G_x``",            md"``G_y``", 
+		
+		# zoom in on the clock
+		img[300:end, 1:300],    img[300:end, 1:300],
+		show_colored_array.((∇x[300:end,  1:300], ∇y[300:end, 1:300]))...
+	]
+
+	# avoid collating the images into one big matrix
+	todisplay =  permutedims(reshape(data, (2,3)), (2,1))
+	@assert length(todisplay) < 10
+	PlutoUI.ExperimentalLayout.grid(todisplay)
+end
 
 # ╔═╡ f8283a0e-eff4-11ea-23d3-9f1ced1bafb4
 md"""
@@ -378,9 +364,6 @@ end
 # ╔═╡ 9abbb158-ef03-11ea-39df-a3e8aa792c50
 get_seam_at(dirs, 2)
 
-# ╔═╡ 772a4d68-ef04-11ea-366a-f7ae9e1634f6
-path = get_seam_at(dirs, start_column)
-
 # ╔═╡ 14f72976-ef05-11ea-2ad5-9f0914f9cf58
 function mark_path(img, path)
 	img′ = copy(img)
@@ -407,8 +390,8 @@ In the visualization below, the slider specifies which column we start with at t
 # ╔═╡ cf9a9124-ef04-11ea-14a4-abf930edc7cc
 @bind start_column Slider(1:size(img, 2), show_value=true)
 
-# ╔═╡ 552fb92e-ef05-11ea-0a79-dd7a6760089a
-hbox(mark_path(img, path), mark_path(show_colored_array(least_e), path))
+# ╔═╡ 772a4d68-ef04-11ea-366a-f7ae9e1634f6
+path = get_seam_at(dirs, start_column)
 
 # ╔═╡ 081a98cc-f06e-11ea-3664-7ba51d4fd153
 function pencil(X)
@@ -419,21 +402,12 @@ end
 # ╔═╡ 237647e8-f06d-11ea-3c7e-2da57e08bebc
 e = edgeness(img);
 
-# ╔═╡ dfd03c4e-f06c-11ea-1e2a-89233a675138
-let
-	hbox(mark_path(img, path), mark_path(pencil(e), path));
-end
+# ╔═╡ e7eb3490-3248-4d36-98e8-4040d8dae768
+md"""
+#### Lowest energy path
 
-# ╔═╡ ca4a87e8-eff8-11ea-3d57-01dfa34ff723
-let
-	# least energy path of them all:
-	_, k = findmin(least_e[1, :])
-	path = get_seam_at(dirs, k)
-	hbox(
-		mark_path(img, path),
-		mark_path(show_colored_array(least_e), path)
-	)
-end
+We can use `findmin` to find the path with the least energy:
+"""
 
 # ╔═╡ 4f23bc54-ef0f-11ea-06a9-35ca3ece421e
 function rm_path(img, path)
@@ -489,27 +463,102 @@ Here is the algorithm in action. Now the slider tells us on which step of the al
 """
 
 # ╔═╡ 7038abe4-ef36-11ea-11a5-75e57ab51032
-@bind n Slider(1:length(carved))
+md"""
+Shrink by: $(@bind n Slider(1:length(carved); show_value=true))
+"""
 
-# ╔═╡ 2d6c6820-ef2d-11ea-1704-49bb5188cfcc
-md"shrunk by $n:"
+# ╔═╡ abcafa92-f426-4653-a65e-149b41dd91bf
 
-# ╔═╡ fa6a2152-ef0f-11ea-0e67-0d1a6599e779
-hbox(img, marked_carved[n], sy=size(img))
 
-# ╔═╡ 71b16dbe-f08b-11ea-2343-5f1583074029
-vbox(x,y, gap=16) = hbox(x', y')'
+# ╔═╡ 1e0322f9-8737-401b-8b10-74f58d8e97ab
+md"""
+# Appendix
+"""
+
+# ╔═╡ fda2f181-e582-4d61-822c-7ee75e214aaa
+function downsample(img; maxheight=100)
+	h,w = size(img)
+	if h <= maxheight
+		img
+	else
+		img[
+			floor.(Int,LinRange(1,h,maxheight)),
+			floor.(Int,LinRange(1,w,floor(Int, maxheight * w / h)))
+		]
+	end
+end
+
+# ╔═╡ 268c85cf-28c7-46ea-b343-b1214f75de33
+downsample(img; maxheight=40)
 
 # ╔═╡ 1fd26a60-f089-11ea-1f56-bb6eba7d9651
-function hbox(x, y, gap=16; sy=size(y), sx=size(x))
-	w, h = (max(sx[1], sy[1]),
-		   gap + sx[2] + sy[2])
+# function hbox(x, y, gap=16; sy=size(y), sx=size(x))
+# 	w, h = (max(sx[1], sy[1]),
+# 		   gap + sx[2] + sy[2])
 	
-	slate = fill(RGB(1,1,1), w,h)
-	slate[1:size(x,1), 1:size(x,2)] .= RGB.(x)
-	slate[1:size(y,1), size(x,2) + gap .+ (1:size(y,2))] .= RGB.(y)
-	slate
+# 	slate = fill(RGB(1,1,1), w,h)
+# 	slate[1:size(x,1), 1:size(x,2)] .= RGB.(x)
+# 	slate[1:size(y,1), size(x,2) + gap .+ (1:size(y,2))] .= RGB.(y)
+# 	slate
+# end
+
+# ╔═╡ dbacb273-02dc-4ff0-ac1a-3cc6785d3dac
+function hbox(imgs...; maxheight=200)
+	g(x) = PlutoUI.ExperimentalLayout.Div(
+		downsample(x; maxheight); 
+		style=Dict("display" => "flex", "flex" => "1 0 auto")
+	)
+	
+	PlutoUI.ExperimentalLayout.Div(
+		collect(map(g, imgs)); 
+		style=Dict(
+			"display" => "flex", 
+			"flex-direction" => "row", 
+			"aspect-ratio" => length(imgs) * size(imgs[1],2) / size(imgs[2],1)
+		)
+	)
 end
+
+# ╔═╡ 44192a40-eff2-11ea-0ec7-05cdadb0c29a
+begin
+	img_brightness = brightness.(img)
+	∇x = convolve(img_brightness, Sx)
+	∇y = convolve(img_brightness, Sy)
+	hbox(show_colored_array(∇x), show_colored_array(∇y))
+end
+
+# ╔═╡ d6a268c0-eff4-11ea-2c9e-bfef19c7f540
+begin
+	edged = edgeness(img)
+	# hbox(img, pencil(edged))
+	hbox(img, Gray.(edgeness(img)) / maximum(abs.(edged)))
+end
+
+# ╔═╡ 552fb92e-ef05-11ea-0a79-dd7a6760089a
+hbox(mark_path(img, path), mark_path(show_colored_array(least_e), path))
+
+# ╔═╡ dfd03c4e-f06c-11ea-1e2a-89233a675138
+hbox(
+	mark_path(img, path), 
+	mark_path(pencil(e), path)
+)
+
+# ╔═╡ ca4a87e8-eff8-11ea-3d57-01dfa34ff723
+let
+	# least energy path of them all:
+	_, k = findmin(least_e[1, :])
+	path = get_seam_at(dirs, k)
+	hbox(
+		mark_path(img, path),
+		mark_path(show_colored_array(least_e), path)
+	)
+end
+
+# ╔═╡ 8f523ba8-f52c-4269-90ca-1aa87948bdb9
+hbox(img, marked_carved[n])
+
+# ╔═╡ 71b16dbe-f08b-11ea-2343-5f1583074029
+vbox(x...) = PlutoUI.ExperimentalLayout.vbox(collect(x))
 
 # ╔═╡ 15d1e5dc-ef2f-11ea-093a-417108bcd495
 [size(img) size(carved[n])]
@@ -602,7 +651,7 @@ uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
 version = "0.4.2"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -664,7 +713,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ComputationalResources]]
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
@@ -816,9 +865,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
@@ -1066,9 +1115,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1335,9 +1384,9 @@ version = "1.0.0"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1481,7 +1530,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1771,7 +1820,6 @@ version = "1.4.1+0"
 """
 
 # ╔═╡ Cell order:
-# ╟─e7a77e52-8104-11eb-1b51-a9f8312e9d95
 # ╟─fb6b8564-8104-11eb-2e10-1f28be9a6ce7
 # ╟─bb44122a-80fb-11eb-0593-8d2a6f1e816e
 # ╟─1e132972-80fc-11eb-387a-9b251ee572f8
@@ -1817,18 +1865,23 @@ version = "1.4.1+0"
 # ╠═081a98cc-f06e-11ea-3664-7ba51d4fd153
 # ╠═237647e8-f06d-11ea-3c7e-2da57e08bebc
 # ╠═dfd03c4e-f06c-11ea-1e2a-89233a675138
+# ╟─e7eb3490-3248-4d36-98e8-4040d8dae768
 # ╠═ca4a87e8-eff8-11ea-3d57-01dfa34ff723
-# ╠═4f23bc54-ef0f-11ea-06a9-35ca3ece421e
-# ╠═b401f398-ef0f-11ea-38fe-012b7bc8a4fa
+# ╟─4f23bc54-ef0f-11ea-06a9-35ca3ece421e
+# ╟─b401f398-ef0f-11ea-38fe-012b7bc8a4fa
 # ╠═b1b6b7fc-f153-11ea-224a-2578e8298775
 # ╠═2eb459d4-ef36-11ea-1f74-b53ffec7a1ed
 # ╟─5d6c1d74-8109-11eb-3529-bf2f23554b02
 # ╟─48593d7c-8109-11eb-1b8b-6f15155d6ec9
-# ╠═7038abe4-ef36-11ea-11a5-75e57ab51032
-# ╟─2d6c6820-ef2d-11ea-1704-49bb5188cfcc
-# ╠═fa6a2152-ef0f-11ea-0e67-0d1a6599e779
-# ╟─71b16dbe-f08b-11ea-2343-5f1583074029
+# ╟─7038abe4-ef36-11ea-11a5-75e57ab51032
+# ╠═8f523ba8-f52c-4269-90ca-1aa87948bdb9
+# ╟─abcafa92-f426-4653-a65e-149b41dd91bf
+# ╟─1e0322f9-8737-401b-8b10-74f58d8e97ab
+# ╟─fda2f181-e582-4d61-822c-7ee75e214aaa
+# ╠═268c85cf-28c7-46ea-b343-b1214f75de33
 # ╟─1fd26a60-f089-11ea-1f56-bb6eba7d9651
+# ╟─dbacb273-02dc-4ff0-ac1a-3cc6785d3dac
+# ╠═71b16dbe-f08b-11ea-2343-5f1583074029
 # ╟─15d1e5dc-ef2f-11ea-093a-417108bcd495
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002

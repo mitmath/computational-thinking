@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.14
+# v0.19.25
 
 #> [frontmatter]
 #> chapter = 1
@@ -26,6 +26,16 @@ macro bind(def, element)
     end
 end
 
+# ╔═╡ 86f770fe-74a1-11eb-01f7-5b3ecf057124
+begin
+	using PlutoUI 
+	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
+	using Unitful 
+	using ImageFiltering
+	using OffsetArrays
+	using Plots
+end
+
 # ╔═╡ 8d389d80-74a1-11eb-3452-f38eff03483b
 PlutoUI.TableOfContents(aside=true)
 
@@ -35,20 +45,6 @@ md"""
 
 _When running this notebook for the first time, this could take up to 15 minutes. Hang in there!_
 """
-
-# ╔═╡ 86f770fe-74a1-11eb-01f7-5b3ecf057124
-begin
-	using PlutoUI 
-	using Colors, ColorVectorSpace, ImageShow, FileIO, ImageIO
-	using Unitful 
-	using ImageFiltering
-	using OffsetArrays
-	using Plots
-
-	# Small patch to make images look more crisp:
-	# https://github.com/JuliaImages/ImageShow.jl/pull/50
-	Base.showable(::MIME"text/html", ::AbstractMatrix{<:Colorant}) = false
-end
 
 # ╔═╡ 4d332c7e-74f8-11eb-1f49-a518246d1db8
 md"""
@@ -102,9 +98,9 @@ Adding units to numbers **just works** in Julia, and furthermore, does not slow 
 
 # ╔═╡ 2f7cde78-74a2-11eb-1e2f-81b5b2465819
 md"""
-# Reminder
-
-**Try your own pictures everywhere!**
+!!! info "Reminder"
+	
+	Try your own pictures everywhere!
 """
 
 # ╔═╡ e099815e-74a1-11eb-1541-033f6abe9f8e
@@ -287,7 +283,10 @@ watch the whole video.)
 
 # ╔═╡ 5864294a-74a5-11eb-23ef-f38a582f2c2d
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=64&end=168" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=8rrHTtUzyZA params="modestbranding=1&rel=0&start=64&end=168"></lite-youtube>
 """
 
 # ╔═╡ fa9c465e-74b2-11eb-2f3c-4be0e7f93bb5
@@ -358,7 +357,11 @@ convolving images with a Gaussian kernel.
 
 # ╔═╡ 91109e5c-74b3-11eb-1f31-c50e436bc6e0
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=275&end=420" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=8rrHTtUzyZA params="modestbranding=1&rel=0&start=275&end=420"></lite-youtube>
 """
 
 # ╔═╡ 34109062-7525-11eb-10b3-d59d3a6dfda6
@@ -461,7 +464,11 @@ Applying the convolution on a boundary requires special thought because it is li
 
 # ╔═╡ b9d636da-7506-11eb-37a6-3116d47b2787
 html"""
-<div notthestyle="position: relative; right: 0; top: 0; z-index: 300;"><iframe src="https://www.youtube.com/embed/8rrHTtUzyZA?start=173&end=259" width=400 height=250  frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>
+
+<script src="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.js" integrity="sha256-wwYlfEzWnCf2nFlIQptfFKdUmBeH5d3G7C2352FdpWE=" crossorigin="anonymous" defer></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lite-youtube-embed@0.2.0/src/lite-yt-embed.css" integrity="sha256-99PgDZnzzjO63EyMRZfwIIA+i+OS2wDx6k+9Eo7JDKo=" crossorigin="anonymous">
+
+<lite-youtube videoid=8rrHTtUzyZA params="modestbranding=1&rel=0&start=173&end=259"></lite-youtube>
 """
 
 # ╔═╡ 00000000-0000-0000-0000-000000000001
@@ -552,7 +559,7 @@ uuid = "fa961155-64e5-5f13-b03f-caf6b980ea82"
 version = "0.4.2"
 
 [[Cairo_jll]]
-deps = ["Artifacts", "Bzip2_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
+deps = ["Artifacts", "Bzip2_jll", "CompilerSupportLibraries_jll", "Fontconfig_jll", "FreeType2_jll", "Glib_jll", "JLLWrappers", "LZO_jll", "Libdl", "Pixman_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libXrender_jll", "Zlib_jll", "libpng_jll"]
 git-tree-sha1 = "4b859a208b2397a7a623a03449e4636bdb17bcf2"
 uuid = "83423d85-b0ee-5818-9007-b63ccbeb887a"
 version = "1.16.1+1"
@@ -614,7 +621,7 @@ version = "4.3.0"
 [[CompilerSupportLibraries_jll]]
 deps = ["Artifacts", "Libdl"]
 uuid = "e66e0078-7015-5450-92f7-15fbd957f2ae"
-version = "0.5.2+0"
+version = "1.0.1+0"
 
 [[ComputationalResources]]
 git-tree-sha1 = "52cb3ec90e8a8bea0e62e275ba577ad0f74821f7"
@@ -772,9 +779,9 @@ version = "0.21.0+0"
 
 [[Glib_jll]]
 deps = ["Artifacts", "Gettext_jll", "JLLWrappers", "Libdl", "Libffi_jll", "Libiconv_jll", "Libmount_jll", "PCRE2_jll", "Pkg", "Zlib_jll"]
-git-tree-sha1 = "fb83fbe02fe57f2c068013aa94bcdf6760d3a7a7"
+git-tree-sha1 = "d3b3624125c1474292d0d8ed0f65554ac37ddb23"
 uuid = "7746bdde-850d-59dc-9ae8-88ece973131d"
-version = "2.74.0+1"
+version = "2.74.0+2"
 
 [[Graphics]]
 deps = ["Colors", "LinearAlgebra", "NaNMath"]
@@ -1010,9 +1017,9 @@ version = "1.42.0+0"
 
 [[Libiconv_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+git-tree-sha1 = "c7cb1f5d892775ba13767a87c7ada0b980ea0a71"
 uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
-version = "1.16.1+1"
+version = "1.16.1+2"
 
 [[Libmount_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -1279,9 +1286,9 @@ version = "1.0.0"
 
 [[Qt5Base_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "Fontconfig_jll", "Glib_jll", "JLLWrappers", "Libdl", "Libglvnd_jll", "OpenSSL_jll", "Pkg", "Xorg_libXext_jll", "Xorg_libxcb_jll", "Xorg_xcb_util_image_jll", "Xorg_xcb_util_keysyms_jll", "Xorg_xcb_util_renderutil_jll", "Xorg_xcb_util_wm_jll", "Zlib_jll", "xkbcommon_jll"]
-git-tree-sha1 = "c6c0f690d0cc7caddb74cef7aa847b824a16b256"
+git-tree-sha1 = "0c03844e2231e12fda4d0086fd7cbe4098ee8dc5"
 uuid = "ea2cea3b-5b76-57ae-a6ef-0a8af62496e1"
-version = "5.15.3+1"
+version = "5.15.3+2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets", "Unicode"]
@@ -1425,7 +1432,7 @@ version = "1.0.0"
 [[Tar]]
 deps = ["ArgTools", "SHA"]
 uuid = "a4e569a6-e804-4fa4-b0f3-eef7a1d5b13e"
-version = "1.10.0"
+version = "1.10.1"
 
 [[TensorCore]]
 deps = ["LinearAlgebra"]
@@ -1782,7 +1789,7 @@ version = "1.4.1+0"
 # ╠═d22903d6-7529-11eb-2dcd-132cd27104c2
 # ╟─844ed844-74b3-11eb-2ee1-2de664b26bc6
 # ╟─4ffe927c-74b4-11eb-23a7-a18d7e51c75b
-# ╟─91109e5c-74b3-11eb-1f31-c50e436bc6e0
+# ╠═91109e5c-74b3-11eb-1f31-c50e436bc6e0
 # ╠═34109062-7525-11eb-10b3-d59d3a6dfda6
 # ╟─9ab89a3a-7525-11eb-186d-29e4b61deb7f
 # ╠═50034058-7525-11eb-345b-3334e71ac50e
