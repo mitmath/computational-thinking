@@ -200,6 +200,40 @@
 #pages-sidebar li li:hover a {
     background-color: var(--sidebar-li-hover-bg);
 }
+#pages-sidebar li li.not_in_track {
+    opacity: 0.4;
+}
+
+/* TRACK CHOOSER */
+
+.track-chooser {
+    margin-top: 3em;
+    padding: 0.5em;
+    border: 3px solid var(--track-bg-accent);
+    background: var(--track-bg);
+    color: var(--fg);
+    border-radius: 0.3em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.track-chooser h2:not(#asdf) {
+    font-weight: 900;
+    font-family: sans-serif;
+    font-style: normal;
+    font-size: 1.2rem;
+    margin-block-end: 0.3em;
+    margin-block-start: 0;
+}
+
+.track-chooser label {
+    display: contents;
+}
+
+.track-chooser select {
+    max-width: 100%;
+}
 
 /* SIDEBAR LOGO */
 

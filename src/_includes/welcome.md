@@ -87,11 +87,16 @@ layout: "layout.jlhtml"
                             
                             name = get(output.frontmatter, "title", basename(input.relative_path))
                             desc = get(output.frontmatter, "description", nothing)
-                            active = page.url == other_page.url
+                            tags = get(output.frontmatter, "tags", String[])
                             
                             image = get(output.frontmatter, "image", nothing)
                             
-                            image === nothing || isempty(image) ? nothing : @htl("""<a title=$(desc) class="no-decoration" href=$(root_url * "/" * other_page.url)>
+                            class = [
+                                "no-decoration",
+                                ("tag_$(replace(x, " "=>"_"))" for x in tags)...,
+                            ]
+                            
+                            image === nothing || isempty(image) ? nothing : @htl("""<a title=$(desc) class=$(class) href=$(root_url * "/" * other_page.url)>
                                 <h3>$(name)</h3>
                                 <img src=$(image)>
                             </a>""")
