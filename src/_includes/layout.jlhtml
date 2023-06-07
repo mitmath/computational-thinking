@@ -82,6 +82,20 @@ $(pluto_head)
                     </form>
                 </div>
             </li>
+            <li>
+                <div class="track-chooser">
+                    <label>
+                    <h2>Choose your track:</h2>
+                    <select>
+                        <option value="">Choose...</option>
+                        <option value="julia">💻 Julia programming</option>
+                        <option value="math">🎨 Mathematics</option>
+                        <option value="climate">🌎 Climate science</option>
+                        <option value="data">📊 Data science</option>
+                    </select>
+                    </label>
+                </div>
+            </li>
         $(let
             sidebar_data = Base.include(@__MODULE__, joinpath(@__DIR__, "..", "sidebar data.jl"))
             sections = sidebar_data["main"]
@@ -100,22 +114,23 @@ $(pluto_head)
                         
                         name = get(output.frontmatter, "title", basename(input.relative_path))
                         desc = get(output.frontmatter, "description", nothing)
+                        tags = get(output.frontmatter, "tags", String[])
                         active = page.url == other_page.url
                         
                         homework_number = get(output.frontmatter, "homework_number", nothing)
                         
                         href = root_url * "/" * other_page.url
+
+                        class = [
+                            active ? "active" : nothing,
+                            homework_number === nothing ? "lecture" : "homework",
+                            ("tag_$(replace(x, " "=>"_"))" for x in tags)...,
+                        ]
                         
                         if homework_number === nothing
-                            @htl("""<li class=$([
-                                active ? "active" : nothing,
-                                "lecture",
-                            ])><a href=$(href) title=$(desc)><span class="entry-number">$(number)</span> $(name)</a></li>""")
+                            @htl("""<li class=$(class)><a href=$(href) title=$(desc)><span class="entry-number">$(number)</span> $(name)</a></li>""")
                         else
-                            @htl("""<li class=$([
-                                active ? "active" : nothing,
-                                "homework",
-                            ])><a href=$(href) title=$(desc)><span class="entry-number">Homework $(homework_number):</span> $(name)</a></li>""")
+                            @htl("""<li class=$(class)><a href=$(href) title=$(desc)><span class="entry-number">Homework $(homework_number):</span> $(name)</a></li>""")
                         end
                     end for other_page in pages
                 ])
