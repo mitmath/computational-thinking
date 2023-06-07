@@ -25,6 +25,9 @@
     --sidebar-accent-1: #c89393;
     --search-bg: hsl(78deg 10% 85%);
     --search-bg-accent: #f4f4f5;
+
+    --track-bg: hsl(56 50% 94% / 1);
+    --track-bg-accent: #a3987c;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -33,9 +36,12 @@
         --faded-1: #b3b3b3;
         --faded-2: #999999;
 
-        --sidebar-accent-1: #8b736a;
+        --sidebar-accent-1: #d0a493;
         --search-bg: #363b33;
         --search-bg-accent: #4d6542;
+
+        --track-bg: #545346;
+        --track-bg-accent: #dad1b9;
     }
 }
 
