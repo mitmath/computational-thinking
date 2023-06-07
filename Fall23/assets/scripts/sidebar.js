@@ -14,11 +14,7 @@ window.addEventListener("click", function (e) {
     }
 })
 
-console.info("zzzz")
-console.info(layout)
-
 document.querySelectorAll(".track-chooser select").forEach((trackSelect) => {
-    console.log(trackSelect)
     const ontrack = () => {
         let track = trackSelect.value
 
