@@ -43,7 +43,7 @@ end)
 
 <link rel="stylesheet" href="$(root_url)/assets/styles/index.css" type="text/css" />
 <link rel="stylesheet" href="$(root_url)/assets/styles/layout.css" type="text/css" />
-<script src="$(root_url)/assets/scripts/sidebar.js" type="module" defer></script>
+<script src="$(root_url)/assets/scripts/sidebar.js" type="module"></script>
 
 <link rel="pp-search-data" href="$(root_url)/pp_search_data.json" />
 <script src="https://cdn.jsdelivr.net/npm/lunr@2.3.9/lunr.min.js" integrity="sha256-DFDZACuFeAqEKv/7Vnu1Tt5ALa58bcWZegGGFNgET8g=" crossorigin="anonymous" defer></script>
