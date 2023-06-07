@@ -25,9 +25,7 @@ macro bind(def, element)
 end
 
 # ╔═╡ 8c8388cf-9891-423c-8db2-d40d870bb38e
-begin
-	using PlutoUI, Plots
-end
+using PlutoUI, Plots
 
 # ╔═╡ eadb174e-2c1d-48c8-9de2-99cdc2b38d32
 md"_homework 6, version 5_"
@@ -968,15 +966,15 @@ bigbreak
 # ╔═╡ a5234680-8b02-11eb-2574-15489d0d49ea
 bigbreak
 
-# ╔═╡ 2962c6da-feda-4d65-918b-d3b178a18fa0
-begin
-	fruits = ["🍒", "🍐", "🍋"]
-	length(fruits)
-end
-
 # ╔═╡ 887a5106-c44a-4437-8c6f-04ad6610738a
 begin
 	fruits = ["🍉"]
+	length(fruits)
+end
+
+# ╔═╡ 2962c6da-feda-4d65-918b-d3b178a18fa0
+begin
+	fruits = ["🍒", "🍐", "🍋"]
 	length(fruits)
 end
 
