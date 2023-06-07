@@ -20,7 +20,7 @@ exclude = [
 ]
 
 [SliderServer]
-port = 80
+port = 8080
 host = "0.0.0.0"
 exclude=[
     # these are in the repo but not used on the website
