@@ -29,7 +29,7 @@ $(begin
 end)<html lang="en">
 <head>
 
-<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — Interactive Computational Thinking — MIT</title>
+<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — FIXME: page title </title>
 $(let d = f("description", nothing)
     if d !== nothing
         @htl("""<meta name="description" content=$(d) />""")
@@ -67,11 +67,11 @@ $(pluto_head)
         <ul>
             <li class="sidebar-about">
                 <div class="course-title">
-                    <h1><a href="$(root_url)"><span>Introduction to</span> <span>Computational Thinking</span></a></h1>
-                    <h2><span>Make mathematics your playground!</span></h2>
+                    <h1><a href="$(root_url)"><span>FIXME: SIDEBAR TITLE</span></a></h1>
+                    <h2><span>FIXME: SIDEBAR SUBTITLE</span></h2>
                 </div>
                 <div class="authors">
-                    by <a href="http://math.mit.edu/~edelman">Alan Edelman</a>, <a href="http://sistemas.fciencias.unam.mx/~dsanders/">David P. Sanders</a> &amp; <a href="https://people.csail.mit.edu/cel/">Charles E. Leiserson</a>
+                    by <a href="#">FIXME: author name (and homepage link)</a>
                 </div>
             </li>
             <li>
@@ -88,9 +88,10 @@ $(pluto_head)
                     <h2>Choose your track:</h2>
                     <select>
                         <option value="">Choose...</option>
+                        <!-- FIXME: define your tracks -->
                         <option value="julia">💻 Julia programming</option>
                         <option value="math">🎨 Mathematics</option>
-                        <option value="climate">🌎 Climate science</option>
+                        <option value="example">Example track</option>
                         <option value="data">📊 Data science</option>
                     </select>
                     </label>
@@ -143,12 +144,12 @@ $(pluto_head)
                 <li><hr></li>
             <li class="sidebar-about">
                 <div class="semester-details">
-                    <a href="$(root_url)/semesters/">Fall 2023</a>
-                    <div class="course-numbers"><span>18.S191</span> / <span>6.S083</span> / <span>22.S092</span></div>
+                    <a href="$(root_url)/semesters/">FIXME: course semester</a>
+                    <div class="course-numbers"><span>FIXME: course code</span></div>
                 </div>
                 <div class="logos">
-                    <picture title="Massachusetts Institute of Technology">
-                        <img src="$(root_url)/assets/MIT_logo.svg">
+                    <picture title="FIXME: university name">
+                        <img src="$(root_url)/assets/FIXME_UNIVERSITY_LOGO.svg">
                     </picture>
                     <picture title="Julia Programming Language">
                         <source srcset="$(root_url)/assets/julia-logo-dark.svg" media="(prefers-color-scheme: dark)" />

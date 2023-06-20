@@ -3,7 +3,6 @@
 
 #> [frontmatter]
 #> chapter = 1
-#> video = "https://www.youtube.com/watch?v=AAREeuaKCic"
 #> image = "https://user-images.githubusercontent.com/6933510/136196632-ad67cb84-a4c9-410e-ab72-f4fcfc26f69a.png"
 #> section = 3
 #> order = 3

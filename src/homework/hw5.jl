@@ -4,7 +4,7 @@
 #> [frontmatter]
 #> chapter = 2
 #> section = 2.5
-#> order = 2.5
+#> order = 1.5
 #> homework_number = 5
 #> title = "Structure"
 #> layout = "layout.jlhtml"

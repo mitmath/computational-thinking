@@ -1,8 +1,8 @@
-name: Fall 23 - Export Pluto notebooks & Deploy
+name: Export Pluto notebooks & Deploy
 on:
     push:
         branches:
-            - Fall23
+            - main
     workflow_dispatch:
 concurrency:
     group: export
@@ -12,7 +12,7 @@ jobs:
     build-and-deploy:
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout Fall 23 source
+            - name: Checkout source
               uses: actions/checkout@v2
 
             - name: 🙌 Install Julia
@@ -36,12 +36,6 @@ jobs:
                 restore-keys: |
                     ${{ runner.os }}-dotjulia-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
 
-            - name: 📅 Checkout Fall20, Spring21, Fall22 output
-              uses: actions/checkout@v2
-              with:
-                  path: Fall22-output
-                  ref: Fall22-output
-
             - name: 🪴 Generate site
               run: julia --project=pluto-deployment-environment -e '
                   import Pkg;
@@ -56,18 +50,9 @@ jobs:
               with:
                 path: generation_report.html
 
-            - name: 🔀 Combine semesters into single site
-              run: |
-                mkdir www
-                mv Fall22-output/Fall20/ www/Fall20
-                mv Fall22-output/Spring21/ www/Spring21
-                mv Fall22-output/Fall22/ www/Fall22
-                mv _site www/Fall23
-                mv extra_outputs/* www
-
             - name: 🚀 Deploy to GitHub Pages
               uses: JamesIves/github-pages-deploy-action@releases/v3
               with:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  BRANCH: Fall23-output
-                  FOLDER: www
+                  BRANCH: gh-pages
+                  FOLDER: _site

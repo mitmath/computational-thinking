@@ -2,19 +2,12 @@
 baked_state = false
 baked_notebookfile = false
 offer_binder = true
-slider_server_url="https://computationalthinking-sliderserver-droplet.plutojl.org"
 ignore_cache = [
     "index.jl",
 ]
 create_index = false
 exclude = [
     # these are in the repo but not used on the website
-    "*/linear_transformation.jl",
-    "*/OLD_linear_transformation.jl",
-    "*/simulating_component_failure_live.jl",
-    "*/discrete_and_continuous_old.jl",
-    "*/pascal.jl",
-    "*/snowballearth_original.jl", 
     "tools/*",
     "PlutoPages.jl",
 ]
@@ -24,20 +17,11 @@ port = 8080
 host = "0.0.0.0"
 exclude=[
     # these are in the repo but not used on the website
-    "*/linear_transformation.jl",
-    "*/OLD_linear_transformation.jl",
-    "*/simulating_component_failure_live.jl",
-    "*/discrete_and_continuous_old.jl",
-    "*/pascal.jl",
-    "*/snowballearth_original.jl", 
     "tools/*",
     "PlutoPages.jl",
     
-    # not interactive
-    "*/basic_syntax.jl",
-    "*/structure.jl",
-    "*/how_to_collaborate_on_software.jl",
-    
+    # notebooks not interactive
+
     # don't run homeworks
     "*/hw*.jl",
 ]

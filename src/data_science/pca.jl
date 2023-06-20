@@ -3,7 +3,6 @@
 
 #> [frontmatter]
 #> chapter = 2
-#> video = "https://www.youtube.com/watch?v=iuKrM_NzxCk"
 #> image = "https://user-images.githubusercontent.com/6933510/136196577-512cee99-aebf-48a9-97b8-358d5ca561ca.png"
 #> section = 1
 #> order = 1
@@ -11,7 +10,7 @@
 #> layout = "layout.jlhtml"
 #> youtube_id = "iuKrM_NzxCk"
 #> description = "In this notebook we will start looking at more general kinds of data, not only images, and we'll try to extract some information from the image using statistical methods, namely principal component analysis.  This method tries to answer the questions \"which 'directions' are the most important in the data\" and \"can we reduce the dimensionality (number of useful variables) of the data\"?"
-#> tags = ["lecture", "module2", "track_data", "data", "statistics", "matrix", "linear algebra", "track_math"]
+#> tags = ["lecture", "module2", "track_data", "data", "statistics", "matrix", "linear algebra", "track_math", "track_example"]
 
 using Markdown
 using InteractiveUtils
