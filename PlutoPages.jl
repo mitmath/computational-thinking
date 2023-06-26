@@ -812,6 +812,12 @@ function process_layouts(page::Page)::Page
 		else
 			output.contents
 		end
+
+		metadata = Dict()
+	    for data_file in readdir(joinpath(dir, "_data"); join=true)
+		  key = splitext(basename(data_file))[1]
+		  metadata[key] = include(data_file)
+	    end
 		
 		input = TemplateInput(;
 			contents=read(layout_file),
@@ -823,6 +829,7 @@ function process_layouts(page::Page)::Page
 					"page" => page,
 					"collections" => collections,
 					"root_url" => root_url,
+					"metadata" => metadata
 				),
 			)
 		)

@@ -13,7 +13,7 @@ This repository is a template to build a website like the [Computational thinkin
 
 ### Setup course basic informations
 
-Open the files `src/_includes/layout.jlhtml` and `src/_includes/welcome.md` and fill them with your course information. You can search for the word `FIXME` to help you find what to fill and how.
+Open the file `src/_data/course_info.jl` and fill it with your course data.
 
 ### Fill notebooks metadata
 
@@ -29,6 +29,24 @@ For each notebook, include the following metadata
 - `homework_number`: for homeworks, the number of the homework
 - `tags`: see below
 
+### Sidebar
+
+You can group your lectures in modules (e.g. weeks). To do so open `src/_data/sidebar.jl` and add a line
+
+```julia
+module_id => module_title
+```
+
+for each module. You can then include notebooks to this module by simply including `module_id` as tag.
+
+For example, if your first module is about image processing, add
+
+```julia
+"module1" => "Module 1: Images, Transformations, Abstractions",
+```
+
+To include a notebook under this module in the sidebar, include "module1" among the notebook tags.
+
 #### Tags
 
 For each notebook, include the following tags
@@ -42,28 +60,18 @@ For each notebook, include the following tags
 
 You can group your lecture material by tracks. When selecting a track, only the notebooks associated with that track will be highlighted (notebooks with the tag "welcome" are always highlighted, regardless of the track selection). To create tracks
 
-1. In teh `layout.jlhtml` file, find the track sections
+1. Open the file `src/_data/tracks.jl` and for each track add an entry like
 
-```html
-<div class="track-chooser">
-    <label>
-    <h2>Choose your track:</h2>
-    <select>
-        <option value="">Choose...</option>
-        <!-- FIXME: define your tracks -->
-        <option value="julia">💻 Julia programming</option>
-        <option value="math">🎨 Mathematics</option>
-        <option value="example">Example track</option>
-        <option value="data">📊 Data science</option>
-    </select>
-    </label>
-</div>
-```
-
-For each track define a line
-
-```html
-<option value="trackid">Text displayed for the track in the menu</option>
+```julia
+track_id => track_name
 ```
 
 To associate a notebook with a track with identifier `"trackid"`, add `"track_trackid"` (that is, the track identifier prefixed with `track_`) to the notebook tags.
+
+For example, to create a track related to Julia, add the following line to `tracks.jl`.
+
+```julia
+"julia" => "💻 Julia programming"
+```
+
+You can now associate notebooks to this track by simply including "track_julia" among the notebooks track.

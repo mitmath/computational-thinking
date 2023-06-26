@@ -29,7 +29,7 @@ $(begin
 end)<html lang="en">
 <head>
 
-<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — FIXME: page title </title>
+<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — $(metadata["course_info"]["course_name"]) </title>
 $(let d = f("description", nothing)
     if d !== nothing
         @htl("""<meta name="description" content=$(d) />""")
@@ -67,11 +67,18 @@ $(pluto_head)
         <ul>
             <li class="sidebar-about">
                 <div class="course-title">
-                    <h1><a href="$(root_url)"><span>FIXME: SIDEBAR TITLE</span></a></h1>
-                    <h2><span>FIXME: SIDEBAR SUBTITLE</span></h2>
+                    <h1><a href="$(root_url)"><span>$(metadata["course_info"]["course_name"])</span></a></h1>
+                    <h2><span>$(metadata["course_info"]["course_subtitle"])</span></h2>
                 </div>
                 <div class="authors">
-                    by <a href="#">FIXME: author name (and homepage link)</a>
+                    by $(let
+                        authors = metadata["course_info"]["authors"]
+                        nauthors = length(authors)
+                        map(enumerate(authors)) do (i, author)
+                            sep = i == nauthors ? "" : ", "
+                            @htl("""<a href="$(author["homepage"])">$(author["name"])</a>$(sep)""")
+                        end
+                    end)
                 </div>
             </li>
             <li>
@@ -89,18 +96,16 @@ $(pluto_head)
                     <select>
                         <option value="">Choose...</option>
                         <!-- FIXME: define your tracks -->
-                        <option value="julia">💻 Julia programming</option>
-                        <option value="math">🎨 Mathematics</option>
-                        <option value="example">Example track</option>
-                        <option value="data">📊 Data science</option>
+                        $([
+                            @htl("""<option value="$track_id">$track_name</option> """)
+                            for (track_id, track_name) in metadata["tracks"]
+                        ])
                     </select>
                     </label>
                 </div>
             </li>
         $(let
-            sidebar_data = Base.include(@__MODULE__, joinpath(@__DIR__, "..", "sidebar data.jl"))
-            sections = sidebar_data["main"]
-        
+            sections = metadata["sidebar"]
             [
                 @htl("""
                 <li>
@@ -133,23 +138,23 @@ $(pluto_head)
                         else
                             @htl("""<li class=$(class)><a href=$(href) title=$(desc)><span class="entry-number">Homework $(homework_number):</span> $(name)</a></li>""")
                         end
-                    end for other_page in pages
+                    end for other_page in collections[section_id].pages
                 ])
                 </ul>
                 </li>
                 """)
-                for (section_name, pages) in sections
+                for (section_id, section_name) in sections
             ]
         end)
                 <li><hr></li>
             <li class="sidebar-about">
                 <div class="semester-details">
-                    <a href="$(root_url)/semesters/">FIXME: course semester</a>
-                    <div class="course-numbers"><span>FIXME: course code</span></div>
+                    <a href="$(root_url)/semesters/">$(metadata["course_info"]["semester"])</a>
+                    <div class="course-numbers"><span>$(metadata["course_info"]["code"])</span></div>
                 </div>
                 <div class="logos">
-                    <picture title="FIXME: university name">
-                        <img src="$(root_url)/assets/FIXME_UNIVERSITY_LOGO.svg">
+                    <picture title="$(metadata["course_info"]["institution"])">
+                        <img src="$(root_url)/assets/$(metadata["course_info"]["institution_logo"])">
                     </picture>
                     <picture title="Julia Programming Language">
                         <source srcset="$(root_url)/assets/julia-logo-dark.svg" media="(prefers-color-scheme: dark)" />

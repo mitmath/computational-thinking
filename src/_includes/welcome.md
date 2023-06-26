@@ -42,8 +42,7 @@ layout: "layout.jlhtml"
         <h1>Subjects</h1>
         <div class="subjects">$(
             let
-                sidebar_data = Base.include(@__MODULE__, joinpath(@__DIR__, "..", "sidebar data.jl"))
-                sections = sidebar_data["main"]
+                sections = metadata["sidebar"]
             
                 [
                     @htl("""
@@ -67,10 +66,10 @@ layout: "layout.jlhtml"
                                 <h3>$(name)</h3>
                                 <img src=$(image)>
                             </a>""")
-                        end for other_page in pages
+                        end for other_page in collections[section_id].pages
                     ])
                     """)
-                    for (section_name, pages) in sections
+                    for (section_id, section_name) in sections
                 ]
             end
             )</div>
@@ -78,18 +77,18 @@ layout: "layout.jlhtml"
     <div>
         <h1>Details</h1>
         <blockquote>
-            <p>See also the course repository <a href="#">FIXME: course repository link</a>.</p>
+            <p>See also the course repository <a href="$(metadata["course_info"]["repo"])">$(metadata["course_info"]["repo"])</a>.</p>
         </blockquote>
         <p></p>
         <h2 id="meet_our_staff">Meet our staff</h2>
-        <p><strong>Lecturers:</strong> FIXME</p>
-        <p><strong>Teaching Assistants:</strong> FIXME</p>
-        <p><strong>Guest lecturers:</strong> FIXME</p>
+        <p><strong>Lecturers:</strong> ...</p>
+        <p><strong>Teaching Assistants:</strong> ...</p>
+        <p><strong>Guest lecturers:</strong> ...</p>
     </div>
     <div class="page-foot">
         <div class="copyright">
-            <a href=""><b>Edit this page on FIXME: repository link<img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></b></a><br>
-            Website based on the MIT course <a href="computationalthinking.mit.edu"><em><b>Computational Thinking</b>, a live online Julia/Pluto textbook</em></a> and built with <a href="https://plutojl.org/">Pluto.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
+            <a href="$(metadata["course_info"]["repo"])"><b>Edit this page on <img class="github-logo" src="https://unpkg.com/ionicons@5.1.2/dist/svg/logo-github.svg"></b></a><br>
+            Website based on the MIT course <a href="https://computationalthinking.mit.edu"><em><b>Computational Thinking</b>, a live online Julia/Pluto textbook</em></a> and built with <a href="https://plutojl.org/">Pluto.jl</a> and the <a href="https://julialang.org">Julia programming language</a>.
         </div>
     </div>
 </main>
