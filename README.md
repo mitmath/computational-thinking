@@ -19,4 +19,4 @@ Topics include:
 -   Network theory
 -   Climate modeling
 
-# Go to [computationalthinking.mit.edu](https://computationalthinking.mit.edu/Spring21/) to learn more!
+# Go to [computationalthinking.mit.edu](https://computationalthinking.mit.edu/) to learn more!
