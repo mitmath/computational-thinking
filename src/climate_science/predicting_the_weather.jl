@@ -521,7 +521,7 @@ As $\rho$ increases we see a sequence of bifurcations. Above a critical value, t
 
 # ╔═╡ cc7ee950-6b86-4d43-8524-86254978bd1b
 md"""
-Deterministic chaos occurs when nearby initial conditions separate exponentially fast in state space. This has been given the name **butterly effect**: the perturbation to the atmosphere's state caused by a butterfly flapping its wings could end up being magnified to modify the direction in which a tornado moves. 
+Deterministic chaos occurs when nearby initial conditions separate exponentially fast in state space. This has been given the name **butterfly effect**: the perturbation to the atmosphere's state caused by a butterfly flapping its wings could end up being magnified to modify the direction in which a tornado moves. 
 
 We can see this in a simple way by perturbing the initial condition slightly and calculating the distance between the two systems as a function of $t$:
 """
