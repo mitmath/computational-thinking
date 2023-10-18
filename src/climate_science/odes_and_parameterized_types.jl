@@ -391,7 +391,7 @@ end
 md"""
 The definition of the function makes it callable.
 
-This says that "the way to call an object called `soln`, of type `EulerOutput`, is the following:". Note that inside the function you will need too access the `times` and `values` from *inside* the `soln` object, using `soln.times` and `soln.values`.
+This says that "the way to call an object called `soln`, of type `EulerOutput`, is the following:". Note that inside the function you will need to access the `times` and `values` from *inside* the `soln` object, using `soln.times` and `soln.values`.
 
 Note that at the time of writing, Pluto requires that you put this call definition in the same cell as the type definition.
 """
