@@ -9,8 +9,8 @@ $(
     begin
         # these special elements will automatically update to read the latest Julia version. See the JavaScript snippet at the bottom of this page to see how it works!
         
-        version = html"<auto-julia-version>1.8.2</auto-julia-version>"
-        pkg_version = html"<auto-julia-version short>1.8</auto-julia-version>"
+        version = html"<auto-julia-version>1.9.0</auto-julia-version>"
+        pkg_version = html"<auto-julia-version short>1.9</auto-julia-version>"
     
         nothing
     end

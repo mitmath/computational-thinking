@@ -8,8 +8,8 @@ if !isdir("pluto-deployment-environment") || length(ARGS) != 1
     """)
 end
 
-if VERSION < v"1.6.0-aaa"
-    @error "Our website needs to be generated with Julia 1.6. Go to julialang.org/downloads to install it."
+if VERSION < v"1.9.0-aaa"
+    @error "Our website needs to be generated with Julia 1.9. Go to julialang.org/downloads to install it."
 end
 
 import Pkg
