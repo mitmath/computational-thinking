@@ -9,8 +9,8 @@ $(
     begin
         # these special elements will automatically update to read the latest Julia version. See the JavaScript snippet at the bottom of this page to see how it works!
         
-        version = html"<auto-julia-version>1.8.2</auto-julia-version>"
-        pkg_version = html"<auto-julia-version short>1.8</auto-julia-version>"
+        version = html"<auto-julia-version>1.10.0</auto-julia-version>"
+        pkg_version = html"<auto-julia-version short>1.10</auto-julia-version>"
     
         nothing
     end
@@ -145,7 +145,8 @@ After working on your notebook (your code is autosaved when you run it), you wil
 const run = f => f();
 run(async () => {
 const versions = await (await fetch(`https://julialang-s3.julialang.org/bin/versions.json`)).json()
-const version_names = Object.keys(versions).sort().reverse()
+const sortby = v => v.split("-")[0].split(".").map(parseFloat).reduce((a,b) => a*10000 + b)
+const version_names = Object.keys(versions).sort((a,b) => sortby(a) - sortby(b)).reverse()
 const stable = version_names.find(v => versions[v].stable)
 console.log({stable})
 const pkg_stable = /\\d+\\.\\d+/.exec(stable)[0]
