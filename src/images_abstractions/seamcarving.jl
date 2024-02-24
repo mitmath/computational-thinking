@@ -273,7 +273,7 @@ md"""
 
 ## Seam carving idea
 
-The idea of seam carving is to find a path from the top of the image to the bottom of the image where the path minimizes the edgness. 
+The idea of seam carving is to find a path from the top of the image to the bottom of the image where the path minimizes the edgeness. 
 In other words, this path **minimizes the number of edges in the image that it crosses**.
 
 We will call the edgeness the **energy**.
