@@ -52,6 +52,8 @@ jobs:
                   PlutoPages.generate("."; html_report_path="generation_report.html")
                   
                   cp("./netlify.toml", "./_site/netlify.toml")'
+              env:
+                JULIA_PKG_SERVER: ""
 
             
             - name: 📰 Upload site generation report

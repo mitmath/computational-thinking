@@ -218,7 +218,6 @@ import Colors, ColorSchemes
 # ╔═╡ b95ed7a3-97bd-491b-a6ff-228fb65e663f
 # you can pick a color scheme from the catalogue:
 # http://juliagraphics.github.io/ColorSchemes.jl/stable/catalogue/
-
 const fav_scheme = ColorSchemes.solar
 
 # ╔═╡ 0c79d2db-d85e-4252-b8e1-f74487b909e5
