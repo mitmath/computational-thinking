@@ -239,7 +239,7 @@ Removing the seam `[1,1,1,1]` is equivalent to removing the first column:
 
 # ╔═╡ 6aeb2d1c-8585-4397-a05f-0b1e91baaf67
 md"""
-If we remove the same seam twice, we remove the first two rows:
+If we remove the same seam twice, we remove the first two columns:
 """
 
 # ╔═╡ 318a2256-f369-11ea-23a9-2f74c566549b
