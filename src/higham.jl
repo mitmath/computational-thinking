@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.46
+# v0.19.42
 
 #> [frontmatter]
 #> image = "https://github.com/user-attachments/assets/73ed934a-7877-4772-860e-3733987f16c4"
@@ -325,7 +325,7 @@ PlutoUI = "~0.7.60"
 PLUTO_MANIFEST_TOML_CONTENTS = """
 # This file is machine-generated - editing it directly is not advised
 
-julia_version = "1.10.3"
+julia_version = "1.10.4"
 manifest_format = "2.0"
 project_hash = "0a1b1c0c7b270e04dd07be34e5f588a039e2de7e"
 
