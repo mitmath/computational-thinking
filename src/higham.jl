@@ -254,9 +254,10 @@ end
 	min-width: max-content;
 	min-height: max-content;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+	white-space: nowrap;
 	background: white;
-	border-radius: .3em;
 	color: black;
+	border-radius: .3em;
 }
 
 .papercell {
@@ -265,7 +266,7 @@ end
 }
 
 .year {
-	font-size: .7rem;
+	font-size: .7em;
 	text-align: center;
 }
 
