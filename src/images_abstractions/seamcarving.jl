@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.45
+# v0.20.5
 
 #> [frontmatter]
 #> chapter = 1
@@ -18,12 +18,14 @@ using InteractiveUtils
 
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
-    quote
+    #! format: off
+    return quote
         local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
+    #! format: on
 end
 
 # ╔═╡ 405a4f82-8116-11eb-1b35-2563b06b02a7
@@ -82,7 +84,11 @@ md"""
 
 # ╔═╡ 3721e7f9-83fa-48cd-a1f5-e72e07b0f7a2
 image_urls = [
-"https://www.singulart.com/blog/wp-content/uploads/2023/12/The-Persistence-of-Memory.jpg",
+	# it will try to get one of these images, top to bottom.
+	# Comment out lines from the top to get another image
+	"https://github.com/user-attachments/assets/605b1894-2e18-48a0-b02b-4fb2741ddc02",
+	"https://www.singulart.com/blog/wp-content/uploads/2023/12/The-Persistence-of-Memory.jpg",
+	"https://upload.wikimedia.org/wikipedia/en/d/dd/The_Persistence_of_Memory.jpg",
 
 "https://upload.wikimedia.org/wikipedia/commons/thumb/1/17/Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg/1014px-Gustave_Caillebotte_-_Paris_Street%3B_Rainy_Day_-_Google_Art_Project.jpg",
 
@@ -97,11 +103,13 @@ image_urls = [
 		"https://web.mit.edu/facilities/photos/construction/Projects/stata/1_large.jpg",
 	]
 
-# ╔═╡ 90f44be8-f35c-11ea-2fc6-c361fd4966af
-image_url = image_urls[1]
-
 # ╔═╡ d2ae6dd2-eef9-11ea-02df-255ec3b46a36
-img = load(download(image_url))
+img = (() -> for u in image_urls
+	try
+		return load(download(u))
+	catch
+	end
+end)()
 
 # ╔═╡ 0b6010a8-eef6-11ea-3ad6-c1f10e30a413
 # arbitrarily choose the brightness of a pixel as mean of rgb
@@ -254,12 +262,15 @@ let
 	∇y = convolve(brightness.(img), Sy)
 	∇x = convolve(brightness.(img), Sx)
 
+	# clock coordinate
+	cc = round(Int, size(img, 1) * 0.45)
+
 	data = [
 		md"``G_x``",            md"``G_y``", 
 		
 		# zoom in on the clock
-		img[300:end, 1:300],    img[300:end, 1:300],
-		show_colored_array.((∇x[300:end,  1:300], ∇y[300:end, 1:300]))...
+		img[cc:end, 1:cc],    img[cc:end, 1:cc],
+		show_colored_array.((∇x[cc:end,  1:cc], ∇y[cc:end, 1:cc]))...
 	]
 
 	# avoid collating the images into one big matrix
