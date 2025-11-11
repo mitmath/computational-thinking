@@ -13,7 +13,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Fall 24 source
-              uses: actions/checkout@v4
+              uses: actions/checkout@v5
 
             - name: 🙌 Install Julia
               uses: julia-actions/setup-julia@v2
