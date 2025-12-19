@@ -4,25 +4,6 @@ layout: "layout.jlhtml"
 
 <link rel="stylesheet" href="$(root_url)/assets/styles/homepage.css" type="text/css" />
 
-<div style="
-    background: white;
-    padding: 0.3em 1em;
-    border: 3px solid #b97777;
-    box-shadow: 0px 0px 10px #00000036;
-    z-index: 99999999;
-    position: relative;
-    font-size: 1.3rem;
-    color: black;
-">
-    <p><strong>MIT students:</strong> Sign up for the Fall 2024 edition of this class!</p><p>Register for <strong><code>18C25</code></strong>, <strong><code>6C25</code></strong>, etc: <br><em>"Julia: Solving Real-World Problems with Computation"</em> (<a href="https://student.mit.edu/catalog/search.cgi?search=computation+with+Julia&amp;style=verbatim&amp;when=C&amp;termleng=4&amp;days_offered=*&amp;start_time=*&amp;duration=*&amp;total_units=*" class="" style="
-    color: #6c6cca;
-    font-weight: bold;
-    text-decoration: underline;
-">catalog link</a>)</p>
-<p style="
-    opacity: .7;
-">Counts for course 6 and course 18 majors, etc.</p><p></p></div>
-
 <div id="title" class="banner">
     <h1>Julia: <strong>A Fresh Approach to Computing</strong></h1>
 </div>

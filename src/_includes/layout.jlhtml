@@ -3,12 +3,12 @@ $(begin
     "The contents of `<head>` from a Pluto HTML export."
     const pluto_head = let
         default = Pluto.generate_html(; 
-            pluto_cdn_root=Pluto.PLUTO_VERSION < v"0.19" ? "https://cdn.jsdelivr.net/gh/fonsp/Pluto.jl@9ca70c36/frontend/" : nothing)
+            version=PlutoSliderServer.try_get_exact_pluto_version(),
+        )
         m = match(r"<head.*?>(.*)</head>"s, default)
         reduce([
             # r"<script[^\n]data-pluto-file=[\"']?launch-parameters.*?/script>"s
             r"<title.*?/title>"
-            r"<meta name=[\"']?description.*?>"
             r"<meta name=[\"']?description.*?>"
             r"<link rel=[\"']?icon.*?>"
         ]; init=m[1]) do s,r
@@ -29,12 +29,7 @@ $(begin
 end)<html lang="en">
 <head>
 
-<title>$(f("title", splitext(basename(page.input.relative_path))[1])) — Interactive Computational Thinking — MIT</title>
-$(let d = f("description", nothing)
-    if d !== nothing
-        @htl("""<meta name="description" content=$(d) />""")
-    end
-end)
+$(Pluto.frontmatter_html(page.output.frontmatter) |> HTML)
 
 <link rel="root" href="$(root_url)" />
 
