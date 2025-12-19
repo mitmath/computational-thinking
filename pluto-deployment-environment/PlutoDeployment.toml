@@ -18,6 +18,7 @@ exclude = [
     "tools/*",
     "PlutoPages.jl",
 ]
+number_of_parallel_tasks=4
 
 [SliderServer]
 port = 8080
