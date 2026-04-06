@@ -329,21 +329,21 @@ Note that does not require (or even allow) methods at first, as some other langu
 Base.rand(X::Binomial) = sum(rand(Bernoulli(X.p)) for i in 1:X.N)
 
 # ╔═╡ 178631ec-8cac-11eb-1117-5d872ba7f66e
-function simulate(N, p)
-	v = fill(0, N, N)
-	t = 0 
-	
-	while any( v .== 0 ) && t < 100
+function simulate(N, p, max_steps=100)
+	v = fill(max_steps, N, N)
+	t = 0
+
+	while any( v .== max_steps ) && t < max_steps
 		t += 1
-		
+
 		for i= 1:N, j=1:N
-			if rand() < p && v[i,j]==0
+			if rand() < p && v[i,j]==max_steps
 				v[i,j] = t
-			end					    
+			end
 		end
-		
+
 	end
-	
+
 	return v
 end
 
