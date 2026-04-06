@@ -290,9 +290,9 @@ function newton2D_step(T, x)
 	
 	J = ForwardDiff.jacobian(T, x)   # should use StaticVectors
 	
-	δ = J \ T(x)   # J^(-1) * T(x)
-	
-	return x - δ
+	δ = J \ -T(x)   # J^(-1) * (-T(x))
+
+	return x + δ
 end
 
 # ╔═╡ 923bde64-7ba4-11eb-21e9-a11993aaab2e
