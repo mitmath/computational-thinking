@@ -6,7 +6,7 @@ Welcome to **MIT 18.C25 aka 6.C25**, **Fall 2024** edition!
 _For older semesters, see:
 - Fall 2023: [source code](https://github.com/mitmath/18S191/tree/Fall23) and [website](https://computationalthinking.mit.edu/Fall24/semesters/)
 - Fall 2022: [source code](https://github.com/mitmath/18S191/tree/Fall22) and [website](https://computationalthinking.mit.edu/Fall24/semesters/)
-- Spring 2021: [source code](https://github.com/mitmath/18S191/tree/Fall24) and [website](https://computationalthinking.mit.edu/Fall24/semesters/)
+- Spring 2021: [source code](https://github.com/mitmath/18S191/tree/Spring21) and [website](https://computationalthinking.mit.edu/Fall24/semesters/)
 - Fall 2020: [source code](https://github.com/mitmath/18S191/tree/Fall20) and [website](https://computationalthinking.mit.edu/Fall24/semesters/)
 - Spring 2020: [website](https://computationalthinking.mit.edu/Fall24/semesters/)
 - Fall 2019: [source code](https://github.com/dpsanders/6.S083_fall_2019/tree/fall_2019)
