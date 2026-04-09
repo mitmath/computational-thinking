@@ -1,5 +1,5 @@
 ### A Pluto.jl notebook ###
-# v0.19.45
+# v0.20.24
 
 #> [frontmatter]
 #> chapter = 2
@@ -18,12 +18,14 @@ using InteractiveUtils
 
 # This Pluto notebook uses @bind for interactivity. When running this notebook outside of Pluto, the following 'mock version' of @bind gives bound variables a default value (instead of an error).
 macro bind(def, element)
-    quote
+    #! format: off
+    return quote
         local iv = try Base.loaded_modules[Base.PkgId(Base.UUID("6e696c72-6542-2067-7265-42206c756150"), "AbstractPlutoDingetjes")].Bonds.initial_value catch; b -> missing; end
         local el = $(esc(element))
         global $(esc(def)) = Core.applicable(Base.get, el) ? Base.get(el) : iv(el)
         el
     end
+    #! format: on
 end
 
 # ╔═╡ 9a0cec14-08db-11eb-3cfa-4d1c327c63f1
@@ -126,7 +128,7 @@ Then we convert the string to HTML with the `HTML(...)` constructor:
 @bind bernoulliwidth Slider(10:10:500, show_value=true)
 
 # ╔═╡ f947a976-8cb6-11eb-2ae7-59eba4c6f40f
-url = "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/ETH-BIB-Bernoulli%2C_Daniel_%281700-1782%29-Portrait-Portr_10971.tif_%28cropped%29.jpg/440px-ETH-BIB-Bernoulli%2C_Daniel_%281700-1782%29-Portrait-Portr_10971.tif_%28cropped%29.jpg"
+url = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/ETH-BIB-Bernoulli%2C_Daniel_%281700-1782%29-Portrait-Portr_10971.jpg/500px-ETH-BIB-Bernoulli%2C_Daniel_%281700-1782%29-Portrait-Portr_10971.jpg"
 
 # ╔═╡ 5a0b407e-8cb7-11eb-0c0d-c7767a6b0a1d
 s = "<img src=$(url) width=$(bernoulliwidth) >"
@@ -329,15 +331,15 @@ Note that does not require (or even allow) methods at first, as some other langu
 Base.rand(X::Binomial) = sum(rand(Bernoulli(X.p)) for i in 1:X.N)
 
 # ╔═╡ 178631ec-8cac-11eb-1117-5d872ba7f66e
-function simulate(N, p)
-	v = fill(0, N, N)
+function simulate(N, p; max_time=100)
+	v = fill(-1, N, N) # -1 means that it did not fail before `max_time` steps.
 	t = 0 
 	
-	while any( v .== 0 ) && t < 100
+	while any( v .== -1 ) && t < max_time
 		t += 1
 		
 		for i= 1:N, j=1:N
-			if rand() < p && v[i,j]==0
+			if rand() < p && v[i,j] == -1
 				v[i,j] = t
 			end					    
 		end
@@ -552,9 +554,6 @@ function plot_cumulative!(p, N, δ=1; kw...)
     scatter!([n*δ for n in 1:N], cumulative; kw...)
 end
 
-# ╔═╡ f1f0529a-8c39-11eb-372b-95d591a573e2
-plotly()
-
 # ╔═╡ 9572eda8-8c38-11eb-258c-739b511de833
 begin
 	plot(size=(500, 300), leg=false)
@@ -563,7 +562,6 @@ begin
 	plot_cumulative!(0.05, 60, 0.5; label="", ms=2, c=:lightgreen, alpha=1)
 	plot_cumulative!(0.025, 120, 0.25; label="", ms=1, c=:lightgreen, alpha=1)
 	plot_cumulative!(0.0125, 240, 0.125; label="", ms=1, c=:lightgreen, alpha=1)
-	
 end
 
 # ╔═╡ 7850b114-8c3b-11eb-276a-df5c332bf6d3
@@ -575,8 +573,6 @@ begin
 	
 	plot!(0:0.01:20, t -> 1 - exp(-λ*t), lw=1)
 	plot!(0:0.01:20, t -> 1 - exp(-0.1*t), lw=1)
-
-	
 end
 
 # ╔═╡ 148f486c-8c3d-11eb-069f-cd595c5f7177
@@ -763,7 +759,16 @@ simulation = simulate(M, prob)
 begin
 	w = .9
 	h = .9
-	c = [RGB(0,1,0), RGB(1,0,0), :purple][1 .+ (simulation .< tt) .+ (simulation .<  (tt.-1))] 
+	c = map(simulation) do s
+		if s == tt
+			RGB(1,0,0)
+		elseif s == -1 || s > tt
+			RGB(0,1,0)
+		else
+			RGB(.5,0,.5)
+		end
+	end
+	
 	
 	plot(ratio=1, legend=false, axis=false, ticks=false)
 	
@@ -773,7 +778,7 @@ begin
 	end
 	
 	for i=1:M, j=1:M
-		if simulation[i,j] < tt
+		if simulation[i,j] < tt && simulation[i,j] != -1
 	       annotate!(i+.45, j+.5, text("$(simulation[i,j])", font(7), :white))
 		end
 	end
@@ -1922,12 +1927,12 @@ version = "1.4.1+1"
 # ╟─f9a75ac4-08d9-11eb-3167-011eb698a32c
 # ╟─17812c7c-8cac-11eb-1d0a-6512415f6938
 # ╠═178631ec-8cac-11eb-1117-5d872ba7f66e
-# ╠═179a4db2-8cac-11eb-374f-0f24dc81ebeb
+# ╟─179a4db2-8cac-11eb-374f-0f24dc81ebeb
 # ╠═17bbf532-8cac-11eb-1e3f-c54072021208
-# ╠═8c8b5681-eeaa-4087-8b6b-1c72c99ae36b
-# ╠═3bfed362-9732-4cb5-86a6-ec50b8429ad5
-# ╠═a38fe2b2-8cae-11eb-19e8-d563e82855d3
-# ╠═17e0d142-8cac-11eb-2d6a-fdf175f5d419
+# ╟─8c8b5681-eeaa-4087-8b6b-1c72c99ae36b
+# ╟─3bfed362-9732-4cb5-86a6-ec50b8429ad5
+# ╟─a38fe2b2-8cae-11eb-19e8-d563e82855d3
+# ╟─17e0d142-8cac-11eb-2d6a-fdf175f5d419
 # ╠═18da7920-8cac-11eb-07f4-e109298fd5f1
 # ╟─17fe87a0-8cac-11eb-2938-2d9cd19ecc0f
 # ╟─1829091c-8cac-11eb-1b77-c5ed7dd1261b
@@ -1997,10 +2002,9 @@ version = "1.4.1+1"
 # ╟─cb99fe22-0848-11eb-1f61-5953be879f92
 # ╟─8d2858a4-8c38-11eb-0b3b-61a913eed928
 # ╠═93da8b36-8c38-11eb-122a-85314d6e1921
-# ╟─f1f0529a-8c39-11eb-372b-95d591a573e2
-# ╟─9572eda8-8c38-11eb-258c-739b511de833
+# ╠═9572eda8-8c38-11eb-258c-739b511de833
 # ╟─7850b114-8c3b-11eb-276a-df5c332bf6d3
-# ╟─9f41d4f2-8c38-11eb-3eae-a1ec0d86d64c
+# ╠═9f41d4f2-8c38-11eb-3eae-a1ec0d86d64c
 # ╟─148f486c-8c3d-11eb-069f-cd595c5f7177
 # ╟─4d61636e-8c3d-11eb-2726-6dc51e8a4f84
 # ╟─3ae9fc0a-8c3d-11eb-09d5-13cefa2d9da5
