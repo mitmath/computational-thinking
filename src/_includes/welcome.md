@@ -51,7 +51,7 @@ layout: "layout.jlhtml"
                     <p>In literature it’s not enough to just know the technicalities of grammar. In music it’s not enough to learn the scales. The goal is to communicate experiences and emotions. For a computer scientist, it’s not enough to write a working program, the program should be <strong>written with beautiful high level abstractions that speak to your audience</strong>. This class will show you how.</p>
                 </div>
                 <div class="preview">
-                    <img src="https://user-images.githubusercontent.com/6933510/136203632-29ce0a96-5a34-46ad-a996-de55b3bcd380.png" alt="A snippet of Julia code defining a new type called Sphere, with fields 'position', 'radius' and 'index of refration'.">
+                    <img src="https://user-images.githubusercontent.com/6933510/136203632-29ce0a96-5a34-46ad-a996-de55b3bcd380.png" alt="A snippet of Julia code defining a new type called Sphere, with fields 'position', 'radius' and 'index of refraction'.">
                 </div>
             </section>
         </div>
