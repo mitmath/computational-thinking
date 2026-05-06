@@ -13,10 +13,10 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Fall 24 source
-              uses: actions/checkout@v5
+              uses: actions/checkout@v6
 
             - name: 🙌 Install Julia
-              uses: julia-actions/setup-julia@v2
+              uses: julia-actions/setup-julia@v3
               with:
                   version: "1.10.4"
 
@@ -37,7 +37,7 @@ jobs:
                     ${{ runner.os }}-dotjulia-v1-${{ hashFiles('**/Project.toml', '**/Manifest.toml') }}
 
             - name: 📅 Checkout Fall20, Spring21, Fall22, Fall23 output
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
               with:
                   path: Fall23-output
                   ref: Fall23-output

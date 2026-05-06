@@ -11,7 +11,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout Fall 24 source
-              uses: actions/checkout@v4
+              uses: actions/checkout@v6
 
             - name: ⏱ Cache notebook states
               uses: actions/cache@v4
