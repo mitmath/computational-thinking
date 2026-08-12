@@ -201,7 +201,7 @@ big(π)
 area3 = [64/63 * area2[i+1] .-  1/63 * area2[i] for i = 1:length(area2)-1 ]
 
 # ╔═╡ 626242ea-544c-49fc-9884-c70dd6800902
-area4 = [128/127 * area3[i+1] .-  1/127 * area3[i] for i = 1:length(area3)-1 ]
+area4 = [256/255 * area3[i+1] .-  1/255 * area3[i] for i = 1:length(area3)-1 ]
 
 # ╔═╡ dbccc2d5-c2af-48c4-8726-a95c09da78ae
 md"""
